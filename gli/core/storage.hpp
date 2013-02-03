@@ -69,18 +69,19 @@ namespace gli
 	public:
 		storage();
 
-		explicit storage(
+		storage(
 			size_type const & Layers, 
 			size_type const & Faces,
 			size_type const & Levels,
 			format_type const & Format,
 			dimensions_type const & Dimensions);
 
-		explicit storage(
+		storage(
 			size_type const & Layers, 
 			size_type const & Faces,
 			size_type const & Levels,
 			dimensions_type const & Dimensions,
+			format_type const & Format,
 			size_type const & BlockSize,
 			dimensions_type const & BlockDimensions);
 

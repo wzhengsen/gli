@@ -428,6 +428,7 @@ inline format_desc const getFormatInfo(format const & Format)
 		size_type const & Faces,
 		size_type const & Levels,
 		dimensions_type const & Dimensions,
+		format_type const & Format,
 		size_type const & BlockSize,
 		dimensions_type const & BlockDimensions
 	) : 
@@ -435,7 +436,7 @@ inline format_desc const getFormatInfo(format const & Format)
 			Layers, 
 			Faces, 
 			Levels, 
-			FORMAT_NULL, 
+			Format, 
 			Dimensions, 
 			BlockSize, 
 			BlockDimensions))

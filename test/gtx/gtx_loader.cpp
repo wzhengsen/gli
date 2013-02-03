@@ -8,7 +8,7 @@
 #include <gli/gtx/gradient.hpp>
 
 #include <vector>
-
+ 
 //#include <boost/format.hpp>
 
 int test_image_wip()

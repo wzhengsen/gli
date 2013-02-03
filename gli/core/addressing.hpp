@@ -59,6 +59,77 @@ namespace detail
 		storage::dimensions3_type const & TexCoord);
 
 }//namespace detail
+/*
+	template <typename texture>
+	class sampler
+	{
+		enum wrap
+		{
+			MIRROR,
+			CLAMP_TO_EDGE
+		};
+
+		enum filter
+		{
+			NEAREST,
+			LINEAR,
+			CUBIC
+		};
+
+	public:
+		sampler(texture const & Texture)
+		{
+			switch(Texture.format())
+			{
+			default:
+				break;
+			case RGB_DXT1:
+				Impl.reset(new impl_fetch_dxt1());
+				break;
+			}
+		}
+
+		template <typename genType>
+		genType operator() (texture::dimension_type const & Dimensions) const
+
+	private:
+		struct impl
+		{
+			virtual ~impl(){}
+
+			template <typename genType>
+			virtual genType operator() (texture::dimension_type const & Dimensions) const = 0;
+		};
+
+		class impl_fetch_color : public impl
+		{
+		public: 
+			impl_fetch_color(){}
+
+			template <typename genType>
+			virtual genType operator() (
+				texture const & Texture,
+				texture::texcoord_type const & Texcoord) const;
+
+		private:
+
+		};
+
+		class impl_fetch_dxt1 : public impl
+		{
+		public:
+			impl_fetch_dxt1(){}
+
+			template <typename genType>
+			virtual genType operator() (texture::dimension_type const & Dimensions) const;
+
+		private:
+
+		};
+
+		shared_ptr<impl> Impl;
+	};
+*/
 }//namespace gli
 
 #include "addressing.inl"

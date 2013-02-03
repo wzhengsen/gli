@@ -41,6 +41,7 @@ namespace gli
 		Storage(
 			1, 1, 1, 
 			storage::dimensions_type(Dimensions), 
+			FORMAT_NULL,
 			BlockSize, 
 			storage::dimensions_type(BlockDimensions)),
 		View(0, 0, 0, 0, 0, 0)
@@ -54,6 +55,7 @@ namespace gli
 		Storage(
 			1, 1, 1, 
 			storage::dimensions_type(Dimensions),
+			Format,
 			block_size(Format),
 			block_dimensions(Format)),
 		View(0, 0, 0, 0, 0, 0)
