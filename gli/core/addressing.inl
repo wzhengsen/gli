@@ -29,7 +29,7 @@
 namespace gli{
 namespace detail
 {
-	inline storage::size_type linearAddressing
+	inline storage::size_type imageAddressing
 	(
 		storage const & Storage,
 		storage::size_type const & LayerOffset, 
@@ -49,14 +49,4 @@ namespace detail
 		return BaseOffset;
 	}
 }//namespace detail
-
-inline storage::size_type linearAddressing::operator() (
-	storage const & Storage,
-	storage::size_type const & LayerOffset, 
-	storage::size_type const & FaceOffset, 
-	storage::size_type const & LevelOffset) const
-{
-	return detail::linearAddressing(Storage, LayerOffset, FaceOffset, LevelOffset);
-}
-
 }//namespace gli

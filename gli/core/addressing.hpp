@@ -34,33 +34,31 @@
 namespace gli{
 namespace detail
 {
-	storage::size_type linearAddressing(
+	storage::size_type imageAddressing(
 		storage const & Storage,
 		storage::size_type const & LayerOffset, 
 		storage::size_type const & FaceOffset, 
 		storage::size_type const & LevelOffset);
 
+	storage::size_type texelLinearAdressing1D(
+		storage::dimensions1_type const & TexCoord);
+
+	storage::size_type texelLinearAdressing2D(
+		storage::dimensions2_type const & TexCoord);
+
+	storage::size_type texelLinearAdressing3D(
+		storage::dimensions3_type const & TexCoord);
+
+	storage::size_type texelMortonAdressing1D(
+		storage::dimensions1_type const & TexCoord);
+
+	storage::size_type texelMortonAdressing2D(
+		storage::dimensions2_type const & TexCoord);
+
+	storage::size_type texelMortonAdressing3D(
+		storage::dimensions3_type const & TexCoord);
+
 }//namespace detail
-
-	struct addressing
-	{
-		virtual storage::size_type operator() (
-			storage const & Storage,
-			storage::size_type const & LayerOffset, 
-			storage::size_type const & FaceOffset, 
-			storage::size_type const & LevelOffset) const = 0;
-	};
-
-	class linearAddressing : public addressing
-	{
-	public:
-		virtual storage::size_type operator() (
-			storage const & Storage,
-			storage::size_type const & LayerOffset, 
-			storage::size_type const & FaceOffset, 
-			storage::size_type const & LevelOffset) const;
-	};
-
 }//namespace gli
 
 #include "addressing.inl"

@@ -565,7 +565,7 @@ inline format_desc const getFormatInfo(format const & Format)
 
 		memcpy(
 			SubStorage.data(), 
-			Storage.data() + Storage.linearAddressing(Offset, 0, 0), 
+			Storage.data() + Storage.imageAddressing(Offset, 0, 0), 
 			Storage.layerSize() * Size);
 
 		return SubStorage;
@@ -590,7 +590,7 @@ inline format_desc const getFormatInfo(format const & Format)
 
 		memcpy(
 			SubStorage.data(), 
-			Storage.data() + Storage.linearAddressing(0, storage::size_type(Face), 0), 
+			Storage.data() + Storage.imageAddressing(0, storage::size_type(Face), 0), 
 			Storage.faceSize());
 
 		return SubStorage;
@@ -616,7 +616,7 @@ inline format_desc const getFormatInfo(format const & Format)
 
 		memcpy(
 			SubStorage.data(), 
-			Storage.data() + Storage.linearAddressing(0, 0, Level), 
+			Storage.data() + Storage.imageAddressing(0, 0, Level), 
 			Storage.levelSize(Level));
 
 		return SubStorage;
@@ -637,8 +637,8 @@ inline format_desc const getFormatInfo(format const & Format)
 		assert(SourceStorage.layers() <= SourceLayerOffset + SourceLayerSize);
 		assert(DestinationStorage.layers() <= DestinationLayerOffset + SourceLayerSize);
 
-		std::size_t OffsetSrc = SourceStorage.linearAddressing(SourceLayerOffset, 0, 0);
-		std::size_t OffsetDst = DestinationStorage.linearAddressing(DestinationLayerOffset, 0, 0);
+		std::size_t OffsetSrc = SourceStorage.imageAddressing(SourceLayerOffset, 0, 0);
+		std::size_t OffsetDst = DestinationStorage.imageAddressing(DestinationLayerOffset, 0, 0);
 
 		memcpy(
 			DestinationStorage.data() + OffsetDst * DestinationStorage.blockSize(), 

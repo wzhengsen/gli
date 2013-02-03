@@ -145,7 +145,7 @@ namespace gli
 	{
 		assert(!this->empty());
 
-		size_type const offset = detail::linearAddressing(
+		size_type const offset = detail::imageAddressing(
 			this->Storage, this->View.BaseLayer, this->View.BaseFace, this->View.BaseLevel);
 
 		return this->Storage.data() + offset;
@@ -155,7 +155,7 @@ namespace gli
 	{
 		assert(!this->empty());
 		
-		size_type const offset = detail::linearAddressing(
+		size_type const offset = detail::imageAddressing(
 			this->Storage, this->View.BaseLayer, this->View.BaseFace, this->View.BaseLevel);
 
 		return this->Storage.data() + offset;

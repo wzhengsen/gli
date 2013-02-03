@@ -53,7 +53,7 @@ int test_addressing_layers()
 			gli::block_size(Tests[i].Format),
 			gli::block_dimensions(Tests[i].Format));
 
-		gli::storage::size_type Offset = gli::detail::linearAddressing(Storage, 1, 0, 0);
+		gli::storage::size_type Offset = gli::detail::imageAddressing(Storage, 1, 0, 0);
 		gli::storage::size_type Size = Storage.size();
 
 		Error += Offset == Tests[i].Offset ? 0 : 1;
@@ -109,7 +109,7 @@ int test_addressing_faces()
 			gli::block_size(Tests[i].Format),
 			gli::block_dimensions(Tests[i].Format));
 
-		gli::storage::size_type Offset = gli::detail::linearAddressing(Storage, 0, 0, Tests[i].Level);
+		gli::storage::size_type Offset = gli::detail::imageAddressing(Storage, 0, 0, Tests[i].Level);
 		gli::storage::size_type Size = Storage.size();
 
 		Error += Offset == Tests[i].Offset ? 0 : 1;
@@ -163,7 +163,7 @@ int test_addressing_levels()
 			gli::block_size(Tests[i].Format),
 			gli::block_dimensions(Tests[i].Format));
 
-		gli::storage::size_type Offset = gli::detail::linearAddressing(Storage, 0, 0, Tests[i].Level);
+		gli::storage::size_type Offset = gli::detail::imageAddressing(Storage, 0, 0, Tests[i].Level);
 		gli::storage::size_type Size = Storage.size();
 
 		Error += Offset == Tests[i].Offset ? 0 : 1;

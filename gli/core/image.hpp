@@ -40,7 +40,6 @@
 
 namespace gli
 {
-	//template <typename addressing = linearAddressing>
 	class image
 	{
 	public:

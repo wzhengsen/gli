@@ -30,6 +30,7 @@
 #define GLI_CORE_TEXTURE3D_INCLUDED
 
 #include "image.hpp"
+#include "addressing.hpp"
 
 namespace gli
 {
