@@ -57,9 +57,9 @@ namespace gli
 
 		/// Reference a subset of an exiting storage constructor
 		explicit texture2D(
-			format_type const & Format,
 			storage const & Storage,
-			detail::view const & View);
+			format_type const & Format,
+			view const & View);
 
 		operator storage() const;
 		image operator[] (size_type const & Level) const;
@@ -74,6 +74,7 @@ namespace gli
 		size_type layers() const;
 		size_type faces() const;
 		size_type levels() const;
+		view const & view() const;
 
 		void * data();
 		void const * data() const;
@@ -85,7 +86,7 @@ namespace gli
 
 	private: 
 		storage Storage;
-		detail::view View;
+		view View;
 		format_type Format;
 	};
 }//namespace gli

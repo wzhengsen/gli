@@ -63,9 +63,9 @@ namespace gli
 
 	inline texture2D::texture2D
 	(
-		format_type const & Format,
 		storage const & Storage,
-		detail::view const & View
+		format_type const & Format,
+		view const & View
 	) :
 		Storage(Storage),
 		View(View),
@@ -86,7 +86,7 @@ namespace gli
 
 		return image(
 			this->Storage,
-			detail::view(
+			view(
 				this->View.BaseLayer, 
 				this->View.MaxLayer, 
 				this->View.BaseFace,
@@ -140,6 +140,11 @@ namespace gli
 	inline texture2D::size_type texture2D::levels() const
 	{
 		return this->View.MaxLevel - this->View.BaseLevel + 1;
+	}
+
+	inline view const & texture2D::view() const
+	{
+		return this->View;
 	}
 
 	inline void * texture2D::data()

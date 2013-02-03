@@ -31,8 +31,7 @@
 
 #include <cstddef>
 
-namespace gli{
-namespace detail
+namespace gli
 {
 	struct view
 	{
@@ -55,7 +54,6 @@ namespace detail
 		size_type BaseLevel;
 		size_type MaxLevel;
 	};
-}//namespace detail
 }//namespace gli
 
 #include "header.inl"
