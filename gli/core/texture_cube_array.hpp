@@ -58,9 +58,9 @@ namespace gli
 
 		/// Reference a subset of an exiting storage constructor
 		explicit textureCubeArray(
-			format_type const & Format,
 			storage const & Storage,
-			detail::view const & View);
+			format_type const & Format,
+			view const & View);
 
 		operator storage() const;
 		textureCube operator[] (size_type const & Layer) const;
@@ -86,7 +86,7 @@ namespace gli
 
 	private:
 		storage Storage;
-		detail::view View;
+		gli::view View;
 		format_type Format;
 	};
 }//namespace gli

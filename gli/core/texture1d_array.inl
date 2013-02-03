@@ -64,9 +64,9 @@ namespace gli
 
 	inline texture1DArray::texture1DArray
 	(
-		format_type const & Format,
 		storage const & Storage,
-		detail::view const & View
+		format_type const & Format,
+		gli::view const & View
 	) :
 		Storage(Storage),
 		View(View),
@@ -87,9 +87,9 @@ namespace gli
 		assert(Layer < this->layers());
 
 		return texture1D(
-			this->format(),
 			this->Storage,
-			detail::view(
+			this->format(),
+			view(
 				Layer, 
 				Layer, 
 				this->View.BaseFace,

@@ -35,6 +35,7 @@ int test_storage_layer_size()
 	gli::storage Storage(
 		2, 1, 1,
 		gli::storage::dimensions3_type(2, 2, 1),
+		gli::FORMAT_NULL,
 		sizeof(glm::u8vec4),
 		gli::storage::dimensions3_type(1));
 
@@ -58,28 +59,29 @@ int test_storage_layer_size()
 int test_storage_face_size()
 {
 	int Error(0);
-    
+
 	gli::storage Storage(
-        1, 6, 1,
-        gli::storage::dimensions3_type(2, 2, 1),
-        sizeof(glm::u8vec4),
-        gli::storage::dimensions3_type(1));
-    
-    gli::storage::size_type BlockSize = Storage.blockSize();
+		1, 6, 1,
+		gli::storage::dimensions3_type(2, 2, 1),
+		gli::FORMAT_NULL,
+		sizeof(glm::u8vec4),
+		gli::storage::dimensions3_type(1));
+
+	gli::storage::size_type BlockSize = Storage.blockSize();
 	Error += BlockSize == sizeof(glm::u8vec4) ? 0 : 1;
-    
-    gli::storage::size_type LevelSize = Storage.levelSize(0);
+
+	gli::storage::size_type LevelSize = Storage.levelSize(0);
 	Error += LevelSize == sizeof(glm::u8vec4) * 2 * 2 ? 0 : 1;
-    
-    gli::storage::size_type FaceSize = Storage.faceSize();
+
+	gli::storage::size_type FaceSize = Storage.faceSize();
 	Error += FaceSize == sizeof(glm::u8vec4) * 2 * 2 ? 0 : 1;
-    
-    gli::storage::size_type LayerSize = Storage.layerSize();
+
+	gli::storage::size_type LayerSize = Storage.layerSize();
 	Error += LayerSize == sizeof(glm::u8vec4) * 2 * 2 * 6 ? 0 : 1;
-    
-    gli::storage::size_type Size = Storage.size();
+
+	gli::storage::size_type Size = Storage.size();
 	Error += Size == sizeof(glm::u8vec4) * 2 * 2 * 6 ? 0 : 1;
-    
+
 	return Error;
 }
 

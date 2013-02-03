@@ -62,7 +62,7 @@ namespace gli
 		/// Reference an exiting storage constructor
 		explicit image(
 			storage const & Storage,
-			detail::view const & View);
+			view const & View);
 
 		/// Cast an image into a storage
 		//operator storage
@@ -83,7 +83,7 @@ namespace gli
 
 	private:
 		storage Storage;
-		detail::view View;
+		gli::view View;
 	};
 
 	bool operator== (image const & ImageA, image const & ImageB);

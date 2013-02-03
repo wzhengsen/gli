@@ -86,7 +86,7 @@ namespace gli
 
 	private: 
 		storage Storage;
-		view View;
+		gli::view View;
 		format_type Format;
 	};
 }//namespace gli

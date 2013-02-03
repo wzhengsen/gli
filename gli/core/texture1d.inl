@@ -63,9 +63,9 @@ namespace gli
 
 	inline texture1D::texture1D
 	(
-		format_type const & Format,
 		storage const & Storage,
-		detail::view const & View
+		format_type const & Format,
+		gli::view const & View
 	) :
 		Storage(Storage),
 		View(View),
@@ -86,7 +86,7 @@ namespace gli
 
 		return image(
 			this->Storage,
-			detail::view(
+			view(
 				this->View.BaseLayer, 
 				this->View.MaxLayer, 
 				this->View.BaseFace,

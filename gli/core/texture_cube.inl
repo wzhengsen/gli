@@ -61,9 +61,9 @@ namespace gli
 
 	inline textureCube::textureCube
 	(
-		format_type const & Format,
 		storage const & Storage,
-		detail::view const & View
+		format_type const & Format,
+		gli::view const & View
 	) :
 		Storage(Storage),
 		View(View),
@@ -80,9 +80,9 @@ namespace gli
 		assert(Face < this->faces());
 
 		return texture2D(
-			this->format(),
 			this->Storage,
-			detail::view(
+			this->format(),
+			gli::view(
 				this->View.BaseLayer,
 				this->View.MaxLayer,
 				Face,

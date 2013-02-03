@@ -68,9 +68,9 @@ namespace gli
 
 	inline textureCubeArray::textureCubeArray
 	(
-		format_type const & Format,
 		storage const & Storage,
-		detail::view const & View
+		format_type const & Format,
+		gli::view const & View
 	) :
 		Storage(Storage),
 		View(View),
@@ -90,9 +90,9 @@ namespace gli
 		assert(Layer < this->layers());
 
 		return textureCube(
-			this->format(),
 			this->Storage,
-			detail::view(
+			this->format(),
+			view(
 				Layer, 
 				Layer, 
 				this->View.BaseFace,

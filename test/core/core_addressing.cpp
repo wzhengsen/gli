@@ -50,6 +50,7 @@ int test_addressing_layers()
 			1,
 			1, 
 			Tests[i].Dimensions, 
+			gli::FORMAT_NULL,
 			gli::block_size(Tests[i].Format),
 			gli::block_dimensions(Tests[i].Format));
 
@@ -106,6 +107,7 @@ int test_addressing_faces()
 			1,
 			4,
 			gli::storage::dimensions3_type(8, 8, 1),
+			gli::FORMAT_NULL,
 			gli::block_size(Tests[i].Format),
 			gli::block_dimensions(Tests[i].Format));
 
@@ -160,6 +162,7 @@ int test_addressing_levels()
 			1,
 			4,
 			gli::storage::dimensions3_type(8, 8, 1),
+			gli::FORMAT_NULL,
 			gli::block_size(Tests[i].Format),
 			gli::block_dimensions(Tests[i].Format));
 

@@ -49,6 +49,7 @@ int test_image_data()
 	gli::storage Storage(
 		2, 1, 1, 
 		gli::storage::dimensions3_type(1), 
+		gli::FORMAT_NULL,
 		sizeof(glm::u8vec4),
 		gli::storage::dimensions3_type(1));
 
@@ -58,7 +59,7 @@ int test_image_data()
 
 	memcpy(Storage.data(), &Data[0][0], Data.size() * sizeof(glm::u8vec4));
 
-	gli::image ImageC(Storage, gli::detail::view(0, 0, 0, 0, 0, 1));
+	gli::image ImageC(Storage, gli::view(0, 0, 0, 0, 0, 1));
 	Error += !ImageC.empty() ? 0 : 1;
 	assert(!Error);
 

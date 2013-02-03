@@ -65,7 +65,7 @@ namespace gli
 	(
 		storage const & Storage,
 		format_type const & Format,
-		view const & View
+		gli::view const & View
 	) :
 		Storage(Storage),
 		View(View),
@@ -86,7 +86,7 @@ namespace gli
 
 		return image(
 			this->Storage,
-			view(
+			gli::view(
 				this->View.BaseLayer, 
 				this->View.MaxLayer, 
 				this->View.BaseFace,

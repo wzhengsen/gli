@@ -26,8 +26,7 @@
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
-namespace gli{
-namespace detail
+namespace gli
 {
 	view::view
 	(
@@ -56,6 +55,4 @@ namespace detail
 		this->MaxLevel = View.MaxLevel;
 		return *this;
 	}
-
-}//namespace detail
 }//namespace gli

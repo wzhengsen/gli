@@ -64,7 +64,7 @@ namespace gli
 	inline image::image
 	(
 		storage const & Storage,
-		detail::view const & View
+		view const & View
 	) :
 		Storage(Storage),
 		View(View)
