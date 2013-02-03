@@ -33,9 +33,9 @@
 #ifndef GLI_INCLUDED
 #define GLI_INCLUDED
 
-#define GLI_VERSION					40
+#define GLI_VERSION					50
 #define GLI_VERSION_MAJOR			0
-#define GLI_VERSION_MINOR			4
+#define GLI_VERSION_MINOR			5
 #define GLI_VERSION_PATCH			0
 #define GLI_VERSION_REVISION		0
 
