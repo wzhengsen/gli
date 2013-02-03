@@ -21,15 +21,14 @@
 /// THE SOFTWARE.
 ///
 /// @ref core
-/// @file gli/core/fetch.hpp
-/// @date 2013-02-01 / 2013-02-01
+/// @file gli/core/copy.hpp
+/// @date 2013-02-01 / 2013-02-03
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
 #ifndef GLI_CORE_COPY_INCLUDED
 #define GLI_CORE_COPY_INCLUDED
 
-#include "image.hpp"
 #include "texture1d.hpp"
 #include "texture1d_array.hpp"
 #include "texture2d.hpp"
@@ -40,32 +39,28 @@
 
 namespace gli
 {
-	void copy(
-		image const & srcImage,
-		image::dimentions_type const & srcPosition,
-		image & dstImage,
-		image::dimentions_type const & dstPosition,
-		image::dimentions_type const & dimentions);
+	image copy(image const & Image);
 
+	template <typename texture>
+	texture copy(texture const & Texture);
+
+/*
 	void copy(
-		texture2d const & srcTexture,
-		texture2d::size_type const & srcLevel,
-		texture2d::dimentions_type const & srcPosition,
-		texture2d & dstTexture,
-		texture2d::size_type const & dstLevel,
-		texture2d::dimentions_type const & dstPosition,
-		texture2d::dimentions_type const & dimentions);
-	
-	
+		texture2D const & srcTexture,
+		texture2D::size_type const & srcLevel,
+		texture2D::dimensions_type const & srcPosition,
+		texture2D & dstTexture,
+		texture2D::size_type const & dstLevel,
+		texture2D::dimensions_type const & dstPosition,
+		texture2D::dimensions_type const & dimentions);
+*/
 }//namespace gli
 
-#include "clone.inl"
+#include "copy.inl"
 
 #endif//GLI_CORE_COPY_INCLUDED
 
-
-
-
+/*
 void glCopyImageSubData(	GLuint  	srcName,
 						GLenum  	srcTarget,
 						GLint  	srcLevel,
@@ -81,3 +76,4 @@ void glCopyImageSubData(	GLuint  	srcName,
 						GLsizei  	srcWidth,
 						GLsizei  	srcHeight,
 						GLsizei  	srcDepth);
+*/

@@ -42,70 +42,70 @@ namespace gli
 	template <typename texture>
 	texture1D view1D(
 		texture const & Texture,
-		texture::format_type const & Format,
-		texture::size_type const & BaseLayer,
-		texture::size_type const & BaseFace,
-		texture::size_type const & BaseLevel,
-		texture::size_type const & MaxLevel);
+		typename texture::format_type const & Format,
+		typename texture::size_type const & BaseLayer,
+		typename texture::size_type const & BaseFace,
+		typename texture::size_type const & BaseLevel,
+		typename texture::size_type const & MaxLevel);
 
 	template <typename texture>
 	texture1DArray view1DArray(
 		texture const & Texture,
-		texture::format_type const & Format,
-		texture::size_type const & BaseLayer,
-		texture::size_type const & MaxLayer,
-		texture::size_type const & BaseFace,
-		texture::size_type const & BaseLevel,
-		texture::size_type const & MaxLevel);
+		typename texture::format_type const & Format,
+		typename texture::size_type const & BaseLayer,
+		typename texture::size_type const & MaxLayer,
+		typename texture::size_type const & BaseFace,
+		typename texture::size_type const & BaseLevel,
+		typename texture::size_type const & MaxLevel);
 
 	template <typename texture>
 	texture2D view2D(
 		texture const & Texture,
-		texture::format_type const & Format,
-		texture::size_type const & BaseLayer,
-		texture::size_type const & BaseFace,
-		texture::size_type const & BaseLevel,
-		texture::size_type const & MaxLevel);
+		typename texture::format_type const & Format,
+		typename texture::size_type const & BaseLayer,
+		typename texture::size_type const & BaseFace,
+		typename texture::size_type const & BaseLevel,
+		typename texture::size_type const & MaxLevel);
 
 	template <typename texture>
 	texture2DArray view2DArray(
 		texture const & Texture,
-		texture::format_type const & Format,
-		texture::size_type const & BaseLayer,
-		texture::size_type const & MaxLayer,
-		texture::size_type const & BaseFace,
-		texture::size_type const & BaseLevel,
-		texture::size_type const & MaxLevel);
+		typename texture::format_type const & Format,
+		typename texture::size_type const & BaseLayer,
+		typename texture::size_type const & MaxLayer,
+		typename texture::size_type const & BaseFace,
+		typename texture::size_type const & BaseLevel,
+		typename texture::size_type const & MaxLevel);
 
 	template <typename texture>
 	texture3D view3D(
 		texture const & Texture,
-		texture::format_type const & Format,
-		texture::size_type const & BaseLayer,
-		texture::size_type const & BaseFace,
-		texture::size_type const & BaseLevel,
-		texture::size_type const & MaxLevel);
+		typename texture::format_type const & Format,
+		typename texture::size_type const & BaseLayer,
+		typename texture::size_type const & BaseFace,
+		typename texture::size_type const & BaseLevel,
+		typename texture::size_type const & MaxLevel);
 
 	template <typename texture>
 	textureCube viewCube(
 		texture const & Texture,
-		texture::format_type const & Format,
-		texture::size_type const & BaseLayer,
-		texture::size_type const & BaseFace,
-		texture::size_type const & MaxFace,
-		texture::size_type const & BaseLevel,
-		texture::size_type const & MaxLevel);
+		typename texture::format_type const & Format,
+		typename texture::size_type const & BaseLayer,
+		typename texture::size_type const & BaseFace,
+		typename texture::size_type const & MaxFace,
+		typename texture::size_type const & BaseLevel,
+		typename texture::size_type const & MaxLevel);
 
 	template <typename texture>
 	textureCubeArray viewCubeArray(
 		texture const & Texture,
-		texture::format_type const & Format,
-		texture::size_type const & BaseLayer,
-		texture::size_type const & MaxLayer,
-		texture::size_type const & BaseFace,
-		texture::size_type const & MaxFace,
-		texture::size_type const & BaseLevel,
-		texture::size_type const & MaxLevel);
+		typename texture::format_type const & Format,
+		typename texture::size_type const & BaseLayer,
+		typename texture::size_type const & MaxLayer,
+		typename texture::size_type const & BaseFace,
+		typename texture::size_type const & MaxFace,
+		typename texture::size_type const & BaseLevel,
+		typename texture::size_type const & MaxLevel);
 }//namespace
 
 #include "view.inl"

@@ -8,10 +8,10 @@
 /// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 /// copies of the Software, and to permit persons to whom the Software is
 /// furnished to do so, subject to the following conditions:
-///
+/// 
 /// The above copyright notice and this permission notice shall be included in
 /// all copies or substantial portions of the Software.
-///
+/// 
 /// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 /// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 /// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -21,23 +21,94 @@
 /// THE SOFTWARE.
 ///
 /// @ref core
-/// @file gli/core/clear.hpp
-/// @date 2013-01-12 / 2013-01-12
+/// @file gli/core/core_view.cpp
+/// @date 2013-02-03 / 2013-02-03
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
-#ifndef GLI_CORE_CLEAR
-#define GLI_CORE_CLEAR
+#include <gli/gli.hpp>
 
-#include "texture2d.hpp"
-
-namespace gli
+int test_view1D()
 {
-	template <typename genType>
-	image clear(image const & Image, genType const & Texel);
+	int Error(0);
 
-}//namespace gli
+	return Error;
+}
 
-#include "clear.inl"
+int test_view1DArray()
+{
+	int Error(0);
 
-#endif//GLI_CORE_CLEAR
+	return Error;
+}
+
+int test_view2D()
+{
+	int Error(0);
+
+	gli::texture2D Texture2D(
+		glm::log2(8), 
+		gli::RGBA8_UNORM, 
+		gli::texture2D::dimensions_type(8));
+
+	gli::texture2D TextureViewA = gli::view2D(
+		Texture2D, 
+		Texture2D.format(), 
+		Texture2D.view().BaseLayer, 
+		Texture2D.view().BaseFace, 
+		Texture2D.view().BaseLevel, 
+		Texture2D.view().MaxLevel);
+
+	gli::texture2D TextureViewB = gli::view2D(
+		Texture2D, 
+		Texture2D.format(), 
+		Texture2D.view().BaseLayer, 
+		Texture2D.view().BaseFace, 
+		Texture2D.view().BaseLevel + 1, 
+		Texture2D.view().MaxLevel);
+
+	return Error;
+}
+
+int test_view2DArray()
+{
+	int Error(0);
+
+	return Error;
+}
+
+int test_view3D()
+{
+	int Error(0);
+
+	return Error;
+}
+
+int test_viewCube()
+{
+	int Error(0);
+
+	return Error;
+}
+
+int test_viewCubeArray()
+{
+	int Error(0);
+
+	return Error;
+}
+
+int main()
+{
+	int Error(0);
+
+	Error += test_view1D();
+	Error += test_view1DArray();
+	Error += test_view2D();
+	Error += test_view2DArray();
+	Error += test_view3D();
+	Error += test_viewCube();
+	Error += test_viewCubeArray();
+		
+	return Error;
+}

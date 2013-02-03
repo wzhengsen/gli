@@ -32,14 +32,14 @@ namespace gli
 	inline texture1D view1D
 	(
 		texture const & Texture,
-		texture::format_type const & Format,
-		texture::size_type const & BaseLayer,
-		texture::size_type const & BaseFace,
-		texture::size_type const & BaseLevel,
-		texture::size_type const & MaxLevel
+		typename texture::format_type const & Format,
+		typename texture::size_type const & BaseLayer,
+		typename texture::size_type const & BaseFace,
+		typename texture::size_type const & BaseLevel,
+		typename texture::size_type const & MaxLevel
 	)
 	{
-		assert(getFormatInfo(Format).BlockSize == getFormatInfo(Texture.format()).BlockSize);
+		assert(detail::getFormatInfo(Format).BlockSize == detail::getFormatInfo(Texture.format()).BlockSize);
 		
 		view const & View = Texture.view();
 
@@ -59,15 +59,15 @@ namespace gli
 	inline texture1DArray view1DArray
 	(
 		texture const & Texture,
-		texture::format_type const & Format,
-		texture::size_type const & BaseLayer,
-		texture::size_type const & MaxLayer,
-		texture::size_type const & BaseFace,
-		texture::size_type const & BaseLevel,
-		texture::size_type const & MaxLevel
+		typename texture::format_type const & Format,
+		typename texture::size_type const & BaseLayer,
+		typename texture::size_type const & MaxLayer,
+		typename texture::size_type const & BaseFace,
+		typename texture::size_type const & BaseLevel,
+		typename texture::size_type const & MaxLevel
 	)
 	{
-		assert(getFormatInfo(Format).BlockSize == getFormatInfo(Texture.format()).BlockSize);
+		assert(detail::getFormatInfo(Format).BlockSize == detail::getFormatInfo(Texture.format()).BlockSize);
 
 		view const & View = Texture.view();
 
@@ -87,14 +87,14 @@ namespace gli
 	inline texture2D view2D
 	(
 		texture const & Texture,
-		texture::format_type const & Format,
-		texture::size_type const & BaseLayer,
-		texture::size_type const & BaseFace,
-		texture::size_type const & BaseLevel,
-		texture::size_type const & MaxLevel
+		typename texture::format_type const & Format,
+		typename texture::size_type const & BaseLayer,
+		typename texture::size_type const & BaseFace,
+		typename texture::size_type const & BaseLevel,
+		typename texture::size_type const & MaxLevel
 	)
 	{
-		assert(getFormatInfo(Format).BlockSize == getFormatInfo(Texture.format()).BlockSize);
+		assert(detail::getFormatInfo(Format).BlockSize == detail::getFormatInfo(Texture.format()).BlockSize);
 
 		view const & View = Texture.view();
 
@@ -114,15 +114,15 @@ namespace gli
 	inline texture2DArray view2DArray
 	(
 		texture const & Texture,
-		texture::format_type const & Format,
-		texture::size_type const & BaseLayer,
-		texture::size_type const & MaxLayer,
-		texture::size_type const & BaseFace,
-		texture::size_type const & BaseLevel,
-		texture::size_type const & MaxLevel
+		typename texture::format_type const & Format,
+		typename texture::size_type const & BaseLayer,
+		typename texture::size_type const & MaxLayer,
+		typename texture::size_type const & BaseFace,
+		typename texture::size_type const & BaseLevel,
+		typename texture::size_type const & MaxLevel
 	)
 	{
-		assert(getFormatInfo(Format).BlockSize == getFormatInfo(Texture.format()).BlockSize);
+		assert(detail::getFormatInfo(Format).BlockSize == detail::getFormatInfo(Texture.format()).BlockSize);
 
 		view const & View = Texture.view();
 
@@ -142,14 +142,14 @@ namespace gli
 	inline texture3D view3D
 	(
 		texture const & Texture,
-		texture::format_type const & Format,
-		texture::size_type const & BaseLayer,
-		texture::size_type const & BaseFace,
-		texture::size_type const & BaseLevel,
-		texture::size_type const & MaxLevel
+		typename texture::format_type const & Format,
+		typename texture::size_type const & BaseLayer,
+		typename texture::size_type const & BaseFace,
+		typename texture::size_type const & BaseLevel,
+		typename texture::size_type const & MaxLevel
 	)
 	{
-		assert(getFormatInfo(Format).BlockSize == getFormatInfo(Texture.format()).BlockSize);
+		assert(detail::getFormatInfo(Format).BlockSize == detail::getFormatInfo(Texture.format()).BlockSize);
 
 		view const & View = Texture.view();
 
@@ -169,15 +169,15 @@ namespace gli
 	inline textureCube viewCube
 	(
 		texture const & Texture,
-		texture::format_type const & Format,
-		texture::size_type const & BaseLayer,
-		texture::size_type const & BaseFace,
-		texture::size_type const & MaxFace,
-		texture::size_type const & BaseLevel,
-		texture::size_type const & MaxLevel
+		typename texture::format_type const & Format,
+		typename texture::size_type const & BaseLayer,
+		typename texture::size_type const & BaseFace,
+		typename texture::size_type const & MaxFace,
+		typename texture::size_type const & BaseLevel,
+		typename texture::size_type const & MaxLevel
 	)
 	{
-		assert(getFormatInfo(Format).BlockSize == getFormatInfo(Texture.format()).BlockSize);
+		assert(detail::getFormatInfo(Format).BlockSize == detail::getFormatInfo(Texture.format()).BlockSize);
 
 		view const & View = Texture.view();
 
@@ -197,16 +197,16 @@ namespace gli
 	inline textureCubeArray viewCubeArray
 	(
 		texture const & Texture,
-		texture::format_type const & Format,
-		texture::size_type const & BaseLayer,
-		texture::size_type const & MaxLayer,
-		texture::size_type const & BaseFace,
-		texture::size_type const & MaxFace,
-		texture::size_type const & BaseLevel,
-		texture::size_type const & MaxLevel
+		typename texture::format_type const & Format,
+		typename texture::size_type const & BaseLayer,
+		typename texture::size_type const & MaxLayer,
+		typename texture::size_type const & BaseFace,
+		typename texture::size_type const & MaxFace,
+		typename texture::size_type const & BaseLevel,
+		typename texture::size_type const & MaxLevel
 	)
 	{
-		assert(getFormatInfo(Format).BlockSize == getFormatInfo(Texture.format()).BlockSize);
+		assert(detail::getFormatInfo(Format).BlockSize == detail::getFormatInfo(Texture.format()).BlockSize);
 
 		view const & View = Texture.view();
 

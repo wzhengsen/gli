@@ -246,8 +246,8 @@ int test_texture2DArray()
 		memcpy(Texture[0].data(), TextureA.data(), TextureA.size());
 		memcpy(Texture[1].data(), TextureB.data(), TextureB.size());
 
-		gli::texture2D Texture0 = gli::clone(Texture[0]);
-		gli::texture2D Texture1 = gli::clone(Texture[1]);
+		gli::texture2D Texture0 = gli::copy(Texture[0]);
+		gli::texture2D Texture1 = gli::copy(Texture[1]);
 
 		gli::saveStorageDDS(Texture0, "../../data/test-rgb8-256-layer0-saved.dds");
 		gli::saveStorageDDS(Texture1, "../../data/test-rgb8-256-layer1-saved.dds");
