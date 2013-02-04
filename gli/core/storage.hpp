@@ -99,9 +99,16 @@ namespace gli
 		glm::byte * data();
 		glm::byte const * data() const;
 
-		size_type levelSize(size_type const & Level) const;
-		size_type faceSize() const;
-		size_type layerSize() const;
+		size_type levelSize(
+			size_type const & Level) const;
+		size_type faceSize(
+			size_type const & BaseLevel,
+			size_type const & MaxLevel) const;
+		size_type layerSize(
+			size_type const & BaseFace,
+			size_type const & MaxFace,
+			size_type const & BaseLevel,
+			size_type const & MaxLevel) const;
 
 	private:
 		struct impl

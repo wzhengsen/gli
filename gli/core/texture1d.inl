@@ -102,7 +102,7 @@ namespace gli
 
 	inline texture1D::size_type texture1D::size() const
 	{
-		return this->Storage.faceSize();
+		return this->Storage.faceSize(this->View.BaseLevel, this->View.MaxLevel);
 	}
 
 	template <typename genType>

@@ -107,7 +107,9 @@ namespace gli
 	{
 		assert(!this->empty());
 
-		return this->Storage.layerSize() * this->layers();
+		return this->Storage.layerSize(
+			this->View.BaseFace, this->View.MaxFace,
+			this->View.BaseLevel, this->View.MaxLevel) * this->layers();
 	}
 
 	template <typename genType>

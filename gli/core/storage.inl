@@ -419,7 +419,7 @@ inline format_desc const getFormatInfo(format const & Format)
 			gli::block_size(Format), 
 			gli::block_dimensions(Format)))
 	{
-		Impl->Data.resize(this->layerSize() * Layers);
+		Impl->Data.resize(this->layerSize(0, Faces - 1, 0, Levels - 1) * Layers);
 	}
 
 	inline storage::storage
@@ -441,7 +441,7 @@ inline format_desc const getFormatInfo(format const & Format)
 			BlockSize, 
 			BlockDimensions))
 	{
-		Impl->Data.resize(this->layerSize() * Layers);	
+		Impl->Data.resize(this->layerSize(0, Faces - 1, 0, Levels - 1) * Layers);
 	}
 
 	inline bool storage::empty() const
@@ -519,29 +519,40 @@ inline format_desc const getFormatInfo(format const & Format)
 		storage::size_type const & Level
 	) const
 	{
-		assert(Level < this->Impl->Levels);
+		assert(Level < this->levels());
 
 		return this->blockSize() * glm::compMul(glm::higherMultiple(
 			this->dimensions(Level), 
 			this->blockDimensions()) / this->blockDimensions()); 
 	}
 
-	inline storage::size_type storage::faceSize() const
+	inline storage::size_type storage::faceSize(
+		size_type const & BaseLevel,
+		size_type const & MaxLevel) const
 	{
+		assert(MaxLevel < this->levels());
+		
 		size_type FaceSize(0);
 
 		// The size of a face is the sum of the size of each level.
-		for(storage::size_type Level(0); Level < this->levels(); ++Level)
+		for(storage::size_type Level(BaseLevel); Level <= MaxLevel; ++Level)
 			FaceSize += this->levelSize(Level);
 
 		return FaceSize;// * TexelSize;
 	}
 
-	inline storage::size_type storage::layerSize() const
+	inline storage::size_type storage::layerSize(
+		size_type const & BaseFace,
+		size_type const & MaxFace,
+		size_type const & BaseLevel,
+		size_type const & MaxLevel) const
 	{
+		assert(MaxFace < this->faces());
+		assert(MaxLevel < this->levels());
+
 		// The size of a layer is the sum of the size of each face.
 		// All the faces have the same size.
-		return this->faceSize() * this->faces();
+		return this->faceSize(BaseLevel, MaxLevel) * (MaxFace - BaseFace + 1);
 	}
 
 /*

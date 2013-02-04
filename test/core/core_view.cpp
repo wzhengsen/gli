@@ -47,9 +47,11 @@ int test_view2D()
 	int Error(0);
 
 	gli::texture2D Texture2D(
-		glm::log2(8), 
+		glm::log2(8) + 1, 
 		gli::RGBA8_UNORM, 
 		gli::texture2D::dimensions_type(8));
+
+	gli::texture2D::size_type const Texture2DSize = Texture2D.size();
 
 	gli::texture2D TextureViewA = gli::view2D(
 		Texture2D, 
@@ -59,6 +61,10 @@ int test_view2D()
 		Texture2D.view().BaseLevel, 
 		Texture2D.view().MaxLevel);
 
+	gli::texture2D::size_type const TextureViewASize = TextureViewA.size();
+
+	Error += Texture2DSize == TextureViewASize ? 0 : 1;
+
 	gli::texture2D TextureViewB = gli::view2D(
 		Texture2D, 
 		Texture2D.format(), 
@@ -66,6 +72,10 @@ int test_view2D()
 		Texture2D.view().BaseFace, 
 		Texture2D.view().BaseLevel + 1, 
 		Texture2D.view().MaxLevel);
+
+	gli::texture2D::size_type const TextureViewBSize = TextureViewB.size();
+
+	Error += Texture2DSize > TextureViewBSize ? 0 : 1;
 
 	return Error;
 }

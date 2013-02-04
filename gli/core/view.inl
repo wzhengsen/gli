@@ -68,6 +68,8 @@ namespace gli
 	)
 	{
 		assert(detail::getFormatInfo(Format).BlockSize == detail::getFormatInfo(Texture.format()).BlockSize);
+		assert(MaxLayer < Texture.layers());
+		assert(MaxLevel < Texture.levels());
 
 		view const & View = Texture.view();
 
@@ -76,11 +78,11 @@ namespace gli
 			Format,
 			view(
 				View.BaseLayer + BaseLayer,
-				View.MaxLayer + MaxLayer,
+				MaxLayer,
 				View.BaseFace + BaseFace,
 				View.BaseFace + BaseFace,
 				View.BaseLevel + BaseLevel,
-				View.MaxLevel + MaxLevel));
+				MaxLevel));
 	}
 
 	template <typename texture>
@@ -95,6 +97,7 @@ namespace gli
 	)
 	{
 		assert(detail::getFormatInfo(Format).BlockSize == detail::getFormatInfo(Texture.format()).BlockSize);
+		assert(MaxLevel < Texture.levels());
 
 		view const & View = Texture.view();
 
@@ -107,7 +110,7 @@ namespace gli
 				View.BaseFace + BaseFace,
 				View.BaseFace + BaseFace,
 				View.BaseLevel + BaseLevel,
-				View.MaxLevel + MaxLevel));
+				MaxLevel));
 	}
 
 	template <typename texture>
@@ -123,6 +126,8 @@ namespace gli
 	)
 	{
 		assert(detail::getFormatInfo(Format).BlockSize == detail::getFormatInfo(Texture.format()).BlockSize);
+		assert(MaxLayer < Texture.layers());
+		assert(MaxLevel < Texture.levels());
 
 		view const & View = Texture.view();
 
@@ -131,11 +136,11 @@ namespace gli
 			Format,
 			view(
 				View.BaseLayer + BaseLayer,
-				View.MaxLayer + MaxLayer,
+				MaxLayer,
 				View.BaseFace + BaseFace,
 				View.BaseFace + BaseFace,
 				View.BaseLevel + BaseLevel,
-				View.MaxLevel + MaxLevel));
+				MaxLevel));
 	}
 
 	template <typename texture>
@@ -150,6 +155,7 @@ namespace gli
 	)
 	{
 		assert(detail::getFormatInfo(Format).BlockSize == detail::getFormatInfo(Texture.format()).BlockSize);
+		assert(MaxLevel < Texture.levels());
 
 		view const & View = Texture.view();
 
@@ -162,7 +168,7 @@ namespace gli
 				View.BaseFace + BaseFace,
 				View.BaseFace + BaseFace,
 				View.BaseLevel + BaseLevel,
-				View.MaxLevel + MaxLevel));
+				MaxLevel));
 	}
 
 	template <typename texture>
@@ -178,6 +184,8 @@ namespace gli
 	)
 	{
 		assert(detail::getFormatInfo(Format).BlockSize == detail::getFormatInfo(Texture.format()).BlockSize);
+		assert(MaxFace < Texture.faces());
+		assert(MaxLevel < Texture.levels());
 
 		view const & View = Texture.view();
 
@@ -188,9 +196,9 @@ namespace gli
 				View.BaseLayer + BaseLayer,
 				View.BaseLayer + BaseLayer,
 				View.BaseFace + BaseFace,
-				View.MaxFace + MaxFace,
+				MaxFace,
 				View.BaseLevel + BaseLevel,
-				View.MaxLevel + MaxLevel));
+				MaxLevel));
 	}
 
 	template <typename texture>
@@ -207,6 +215,9 @@ namespace gli
 	)
 	{
 		assert(detail::getFormatInfo(Format).BlockSize == detail::getFormatInfo(Texture.format()).BlockSize);
+		assert(MaxLayer < Texture.layers());
+		assert(MaxFace < Texture.faces());
+		assert(MaxLevel < Texture.levels());
 
 		view const & View = Texture.view();
 
@@ -215,10 +226,10 @@ namespace gli
 			Format,
 			view(
 				View.BaseLayer + BaseLayer,
-				View.MaxLayer + MaxLayer,
+				MaxLayer,
 				View.BaseFace + BaseFace,
-				View.MaxFace + MaxFace,
+				MaxFace,
 				View.BaseLevel + BaseLevel,
-				View.MaxLevel + MaxLevel));
+				MaxLevel));
 	}
 }//namespace gli

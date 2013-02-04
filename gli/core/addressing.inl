@@ -41,7 +41,9 @@ namespace detail
 		assert(FaceOffset < Storage.faces());
 		assert(LevelOffset < Storage.levels());
 
-		storage::size_type BaseOffset = Storage.layerSize() * LayerOffset + Storage.faceSize() * FaceOffset; 
+		storage::size_type LayerSize = Storage.layerSize(0, Storage.faces() - 1, 0, Storage.levels() - 1);
+		storage::size_type FaceSize = Storage.faceSize(0, Storage.levels() - 1);
+		storage::size_type BaseOffset = LayerSize * LayerOffset + FaceSize * FaceOffset; 
 
 		for(storage::size_type Level(0); Level < LevelOffset; ++Level)
 			BaseOffset += Storage.levelSize(Level);
