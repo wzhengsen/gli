@@ -91,8 +91,8 @@ namespace gli
 				this->View.MaxLayer, 
 				this->View.BaseFace,
 				this->View.MaxFace,
-				Level,
-				Level));
+				this->View.BaseLevel + Level,
+				this->View.BaseLevel + Level));
 	}
 
 	inline bool texture3D::empty() const

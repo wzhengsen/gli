@@ -93,8 +93,8 @@ namespace gli
 			this->Storage,
 			this->format(),
 			gli::view(
-				Layer, 
-				Layer, 
+				this->View.BaseLayer + Layer, 
+				this->View.BaseLayer + Layer, 
 				this->View.BaseFace,
 				this->View.MaxFace,
 				this->View.BaseLevel,

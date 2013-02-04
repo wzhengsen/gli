@@ -419,7 +419,7 @@ inline format_desc const getFormatInfo(format const & Format)
 			gli::block_size(Format), 
 			gli::block_dimensions(Format)))
 	{
-		Impl->Data.resize(this->layerSize(0, Faces - 1, 0, Levels - 1) * Layers);
+		Impl->Data.resize(this->layerSize(0, Faces - 1, 0, Levels - 1) * Layers, 0);
 	}
 
 	inline storage::storage
@@ -441,7 +441,7 @@ inline format_desc const getFormatInfo(format const & Format)
 			BlockSize, 
 			BlockDimensions))
 	{
-		Impl->Data.resize(this->layerSize(0, Faces - 1, 0, Levels - 1) * Layers);
+		Impl->Data.resize(this->layerSize(0, Faces - 1, 0, Levels - 1) * Layers, 0);
 	}
 
 	inline bool storage::empty() const

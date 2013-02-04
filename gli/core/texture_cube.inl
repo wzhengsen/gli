@@ -85,8 +85,8 @@ namespace gli
 			gli::view(
 				this->View.BaseLayer,
 				this->View.MaxLayer,
-				Face,
-				Face,
+				this->View.BaseFace + Face,
+				this->View.BaseFace + Face,
 				this->View.BaseLevel,
 				this->View.MaxLevel));
 	}
