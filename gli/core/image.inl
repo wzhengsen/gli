@@ -82,6 +82,14 @@ namespace gli
 		return this->Storage.levelSize(this->View.BaseLevel);
 	}
 
+	template <typename genType>
+	inline image::size_type image::size() const
+	{
+		assert(sizeof(genType) <= this->Storage.blockSize());
+
+		return this->size() / sizeof(genType);
+	}
+
 	inline image::dimensions_type image::dimensions() const
 	{
 		return image::dimensions_type(this->Storage.dimensions(this->View.BaseLevel));
@@ -123,30 +131,5 @@ namespace gli
 		assert(this->Storage.blockSize() >= sizeof(genType));
 
 		return reinterpret_cast<genType const *>(this->data());
-	}
-
-	inline bool operator== (image const & ImageA, image const & ImageB)
-	{
-		if(!glm::all(glm::equal(ImageA.dimensions(), ImageB.dimensions())))
-			return false;
-
-		if(ImageA.size() != ImageB.size())
-			return false;
-
-		if(ImageA.data() == ImageB.data())
-			return true;
-
-		for(image::size_type i(0); i < ImageA.size(); ++i)
-		{
-			if(*(ImageA.data<glm::byte>() + i) != *(ImageB.data<glm::byte>() + i))
-				return false;
-		}
-
-		return true;
-	}
-
-	inline bool operator!= (image const & ImageA, image const & ImageB)
-	{
-		return !(ImageA == ImageB);
 	}
 }//namespace gli

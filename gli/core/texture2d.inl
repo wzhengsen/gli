@@ -100,21 +100,6 @@ namespace gli
 		return this->Storage.empty();
 	}
 
-	inline texture2D::size_type texture2D::size() const
-	{
-		assert(!this->empty());
-
-		return this->Storage.faceSize(this->View.BaseLevel, this->View.MaxLevel);
-	}
-
-	template <typename genType>
-	inline texture2D::size_type texture2D::size() const
-	{
-		assert(sizeof(genType) <= this->Storage.blockSize());
-
-		return this->size() / sizeof(genType);
-	}
-
 	inline texture2D::dimensions_type texture2D::dimensions() const
 	{
 		assert(!this->empty());
@@ -147,6 +132,13 @@ namespace gli
 		return this->View;
 	}
 
+	inline texture2D::size_type texture2D::size() const
+	{
+		assert(!this->empty());
+
+		return this->Storage.faceSize(this->View.BaseLevel, this->View.MaxLevel);
+	}
+
 	inline void * texture2D::data()
 	{
 		assert(!this->empty());
@@ -165,6 +157,14 @@ namespace gli
 			this->Storage, this->View.BaseLayer, this->View.BaseFace, this->View.BaseLevel);
 
 		return this->Storage.data() + offset;
+	}
+
+	template <typename genType>
+	inline texture2D::size_type texture2D::size() const
+	{
+		assert(sizeof(genType) <= this->Storage.blockSize());
+
+		return this->size() / sizeof(genType);
 	}
 
 	template <typename genType>

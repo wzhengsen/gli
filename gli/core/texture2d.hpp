@@ -65,10 +65,6 @@ namespace gli
 		image operator[] (size_type const & Level) const;
 
 		bool empty() const;
-		size_type size() const;
-		template <typename genType>
-		size_type size() const;
-
 		format_type format() const;
 		dimensions_type dimensions() const;
 		size_type layers() const;
@@ -76,9 +72,12 @@ namespace gli
 		size_type levels() const;
 		view const & view() const;
 
+		size_type size() const;
 		void * data();
 		void const * data() const;
 
+		template <typename genType>
+		size_type size() const;
 		template <typename genType>
 		genType * data();
 		template <typename genType>

@@ -1,17 +1,17 @@
 ///////////////////////////////////////////////////////////////////////////////////
-/// OpenGL Image (gli.g-truc.net)
+/// OpenGL Mathematics (glm.g-truc.net)
 ///
-/// Copyright (c) 2008 - 2013 G-Truc Creation (www.g-truc.net)
+/// Copyright (c) 2005 - 2012 G-Truc Creation (www.g-truc.net)
 /// Permission is hereby granted, free of charge, to any person obtaining a copy
 /// of this software and associated documentation files (the "Software"), to deal
 /// in the Software without restriction, including without limitation the rights
 /// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 /// copies of the Software, and to permit persons to whom the Software is
 /// furnished to do so, subject to the following conditions:
-///
+/// 
 /// The above copyright notice and this permission notice shall be included in
 /// all copies or substantial portions of the Software.
-///
+/// 
 /// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 /// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 /// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -20,37 +20,41 @@
 /// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 /// THE SOFTWARE.
 ///
-/// @ref core
-/// @file gli/gli.hpp
-/// @date 2008-12-19 / 2013-01-11
+/// @ref gtx_scalar_relational
+/// @file glm/gtx/scalar_relational.hpp
+/// @date 2013-02-04 / 2013-02-04
 /// @author Christophe Riccio
+///
+/// @see core (dependence)
+///
+/// @defgroup gtx_extend GLM_GTX_scalar_relational
+/// @ingroup gtx
+/// 
+/// @brief Extend a position from a source to a position at a defined length.
+/// 
+/// <glm/gtx/scalar_relational.hpp> need to be included to use these functionalities.
 ///////////////////////////////////////////////////////////////////////////////////
 
-/*! @mainpage OpenGL Image
- *
- */
+#ifndef GLM_GTX_scalar_relational
+#define GLM_GTX_scalar_relational GLM_VERSION
 
-#ifndef GLI_INCLUDED
-#define GLI_INCLUDED
+// Dependency:
+#include "../glm.hpp"
 
-#define GLI_VERSION					50
-#define GLI_VERSION_MAJOR			0
-#define GLI_VERSION_MINOR			5
-#define GLI_VERSION_PATCH			0
-#define GLI_VERSION_REVISION		0
+#if(defined(GLM_MESSAGES) && !defined(glm_ext))
+#	pragma message("GLM: GLM_GTX_extend extension included")
+#endif
 
-#include "./core/storage.hpp"
-#include "./core/texture1d.hpp"
-#include "./core/texture1d_array.hpp"
-#include "./core/texture2d.hpp"
-#include "./core/texture2d_array.hpp"
-#include "./core/texture3d.hpp"
-#include "./core/texture_cube.hpp"
-#include "./core/texture_cube_array.hpp"
-#include "./core/clear.hpp"
-#include "./core/comparison.hpp"
-#include "./core/copy.hpp"
-#include "./core/view.hpp"
-#include "./core/load_dds.hpp"
+namespace glm
+{
+	/// @addtogroup gtx_scalar_relational
+	/// @{
 
-#endif//GLI_INCLUDED
+
+
+	/// @}
+}//namespace glm
+
+#include "scalar_relational.inl"
+
+#endif//GLM_GTX_scalar_relational

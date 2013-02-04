@@ -86,7 +86,7 @@ namespace gli
 
 		return image(
 			this->Storage,
-			view(
+			gli::view(
 				this->View.BaseLayer, 
 				this->View.MaxLayer, 
 				this->View.BaseFace,
@@ -98,18 +98,6 @@ namespace gli
 	inline bool texture1D::empty() const
 	{
 		return this->Storage.empty();
-	}
-
-	inline texture1D::size_type texture1D::size() const
-	{
-		return this->Storage.faceSize(this->View.BaseLevel, this->View.MaxLevel);
-	}
-
-	template <typename genType>
-	inline texture1D::size_type texture1D::size() const
-	{
-		assert(sizeof(genType) <= this->Storage.blockSize());
-		return this->size() / sizeof(genType);
 	}
 
 	inline texture1D::dimensions_type texture1D::dimensions() const
@@ -137,6 +125,16 @@ namespace gli
 		return this->View.MaxLevel - this->View.BaseLevel + 1;
 	}
 
+	inline view const & texture1D::view() const
+	{
+		return this->View;
+	}
+
+	inline texture1D::size_type texture1D::size() const
+	{
+		return this->Storage.faceSize(this->View.BaseLevel, this->View.MaxLevel);
+	}
+
 	inline void * texture1D::data()
 	{
 		assert(!this->empty());
@@ -155,6 +153,13 @@ namespace gli
 			this->Storage, this->View.BaseLayer, this->View.BaseFace, this->View.BaseLevel);
 
 		return this->Storage.data() + offset;
+	}
+
+	template <typename genType>
+	inline texture1D::size_type texture1D::size() const
+	{
+		assert(sizeof(genType) <= this->Storage.blockSize());
+		return this->size() / sizeof(genType);
 	}
 
 	template <typename genType>

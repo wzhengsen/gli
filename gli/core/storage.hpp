@@ -38,12 +38,13 @@
 
 // GLM
 #include <glm/glm.hpp>
-#include <glm/gtx/number_precision.hpp>
-#include <glm/gtx/raw_data.hpp>
-#include <glm/gtx/gradient_paint.hpp>
 #include <glm/gtx/component_wise.hpp>
+#include <glm/gtx/gradient_paint.hpp>
 #include <glm/gtx/integer.hpp>
 #include <glm/gtx/multiple.hpp>
+#include <glm/gtx/number_precision.hpp>
+#include <glm/gtx/raw_data.hpp>
+#include <glm/gtx/scalar_relational.hpp>
 
 #include "shared_ptr.hpp"
 #include "header.hpp"

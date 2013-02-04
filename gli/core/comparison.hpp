@@ -8,10 +8,10 @@
 /// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 /// copies of the Software, and to permit persons to whom the Software is
 /// furnished to do so, subject to the following conditions:
-///
+/// 
 /// The above copyright notice and this permission notice shall be included in
 /// all copies or substantial portions of the Software.
-///
+/// 
 /// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 /// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 /// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -21,13 +21,13 @@
 /// THE SOFTWARE.
 ///
 /// @ref core
-/// @file gli/core/copy.hpp
-/// @date 2013-02-01 / 2013-02-03
+/// @file gli/core/comparison.hpp
+/// @date 2013-02-04 / 2013-02-04
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
-#ifndef GLI_CORE_COPY_INCLUDED
-#define GLI_CORE_COPY_INCLUDED
+#ifndef GLI_CORE_COMPARISON_INCLUDED
+#define GLI_CORE_COMPARISON_INCLUDED
 
 #include "image.hpp"
 #include "texture1d.hpp"
@@ -40,41 +40,15 @@
 
 namespace gli
 {
-	image copy(image const & Image);
+	bool operator==(image const & ImageA, image const & ImageB);
+	bool operator!=(image const & ImageA, image const & ImageB);
 
 	template <typename texture>
-	texture copy(texture const & Texture);
-
-/*
-	void copy(
-		texture2D const & srcTexture,
-		texture2D::size_type const & srcLevel,
-		texture2D::dimensions_type const & srcPosition,
-		texture2D & dstTexture,
-		texture2D::size_type const & dstLevel,
-		texture2D::dimensions_type const & dstPosition,
-		texture2D::dimensions_type const & dimentions);
-*/
+	bool operator==(texture const & TextureA, texture const & TextureB);
+	template <typename texture>
+	bool operator!=(texture const & TextureA, texture const & TextureB);
 }//namespace gli
 
-#include "copy.inl"
+#include "comparison.inl"
 
-#endif//GLI_CORE_COPY_INCLUDED
-
-/*
-void glCopyImageSubData(	GLuint  	srcName,
-						GLenum  	srcTarget,
-						GLint  	srcLevel,
-						GLint  	srcX,
-						GLint  	srcY,
-						GLint  	srcZ,
-						GLuint  	dstName,
-						GLenum  	dstTarget,
-						GLint  	dstLevel,
-						GLint  	dstX,
-						GLint  	dstY,
-						GLint  	dstZ,
-						GLsizei  	srcWidth,
-						GLsizei  	srcHeight,
-						GLsizei  	srcDepth);
-*/
+#endif//GLI_CORE_COMPARISON_INCLUDED

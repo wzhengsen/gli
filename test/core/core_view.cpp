@@ -46,36 +46,60 @@ int test_view2D()
 {
 	int Error(0);
 
-	gli::texture2D Texture2D(
-		glm::log2(8) + 1, 
-		gli::RGBA8_UNORM, 
-		gli::texture2D::dimensions_type(8));
+	std::vector<glm::u8vec4> Color(6);
+	Color.push_back(glm::u8vec4(255,   0,   0, 255));
+	Color.push_back(glm::u8vec4(255, 127,   0, 255));
+	Color.push_back(glm::u8vec4(255, 255,   0, 255));
+	Color.push_back(glm::u8vec4(  0, 255,   0, 255));
+	Color.push_back(glm::u8vec4(  0, 255, 255, 255));
+	Color.push_back(glm::u8vec4(  0,   0, 255, 255));
 
-	gli::texture2D::size_type const Texture2DSize = Texture2D.size();
+	gli::texture2D TextureA(
+		glm::log2(32) + 1, 
+		gli::RGBA8_UNORM, 
+		gli::texture2D::dimensions_type(32));
+
+	for(gli::texture2D::size_type Level = 0; Level < TextureA.levels(); ++Level)
+	for(gli::texture2D::size_type Texel = 0; Texel < TextureA[Level].size<glm::u8vec4>(); ++Texel)
+		*(TextureA[Level].data<glm::u8vec4>() + Texel) = Color[Level];
+
+	gli::texture2D::size_type const TextureASize = TextureA.size();
 
 	gli::texture2D TextureViewA = gli::view2D(
-		Texture2D, 
-		Texture2D.format(), 
-		Texture2D.view().BaseLayer, 
-		Texture2D.view().BaseFace, 
-		Texture2D.view().BaseLevel, 
-		Texture2D.view().MaxLevel);
+		TextureA, 
+		TextureA.format(), 
+		TextureA.view().BaseLayer, 
+		TextureA.view().BaseFace, 
+		TextureA.view().BaseLevel, 
+		TextureA.view().MaxLevel);
 
 	gli::texture2D::size_type const TextureViewASize = TextureViewA.size();
 
-	Error += Texture2DSize == TextureViewASize ? 0 : 1;
+	Error += TextureASize == TextureViewASize ? 0 : 1;
+
+	gli::texture2D TextureB(
+		glm::log2(16) + 1, 
+		gli::RGBA8_UNORM, 
+		gli::texture2D::dimensions_type(16));
+
+	for(gli::texture2D::size_type Level = 0; Level < TextureB.levels(); ++Level)
+	for(gli::texture2D::size_type Texel = 0; Texel < TextureB[Level].size<glm::u8vec4>(); ++Texel)
+		*(TextureB[Level].data<glm::u8vec4>() + Texel) = Color[Level + 1];
+
+	gli::texture2D::size_type const TextureBSize = TextureB.size();
 
 	gli::texture2D TextureViewB = gli::view2D(
-		Texture2D, 
-		Texture2D.format(), 
-		Texture2D.view().BaseLayer, 
-		Texture2D.view().BaseFace, 
-		Texture2D.view().BaseLevel + 1, 
-		Texture2D.view().MaxLevel);
+		TextureA, 
+		TextureA.format(), 
+		TextureA.view().BaseLayer, 
+		TextureA.view().BaseFace, 
+		TextureA.view().BaseLevel + 1, 
+		TextureA.view().MaxLevel);
 
 	gli::texture2D::size_type const TextureViewBSize = TextureViewB.size();
 
-	Error += Texture2DSize > TextureViewBSize ? 0 : 1;
+	Error += TextureASize > TextureViewBSize ? 0 : 1;
+	Error += TextureBSize == TextureViewBSize ? 0 : 1;
 
 	return Error;
 }

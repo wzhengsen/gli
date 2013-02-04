@@ -65,19 +65,19 @@ namespace gli
 		texture2D operator[] (size_type const & Face) const;
 
 		bool empty() const;
-		size_type size() const;
-		template <typename genType>
-		size_type size() const;
-
 		format_type format() const;
 		dimensions_type dimensions() const;
 		size_type layers() const;
 		size_type faces() const;
 		size_type levels() const;
+		view const & view() const;
 
+		size_type size() const;
 		void * data();
 		void const * data() const;
 
+		template <typename genType>
+		size_type size() const;
 		template <typename genType>
 		genType * data();
 		template <typename genType>
@@ -88,7 +88,6 @@ namespace gli
 		gli::view View;
 		format_type Format;
 	};
-
 }//namespace gli
 
 #include "texture_cube.inl"

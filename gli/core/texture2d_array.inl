@@ -102,24 +102,6 @@ namespace gli
 		return this->Storage.empty();
 	}
 
-	inline texture2DArray::size_type texture2DArray::size() const
-	{
-		assert(!this->empty());
-
-		return this->Storage.layerSize(
-			this->View.BaseFace, this->View.MaxFace,
-			this->View.BaseLevel, this->View.MaxLevel) * this->layers();
-	}
-
-	template <typename genType>
-	inline texture2DArray::size_type texture2DArray::size() const
-	{
-		assert(!this->empty());
-		assert(sizeof(genType) <= this->Storage.blockSize());
-
-		return this->size() / sizeof(genType);
-	}
-
 	inline texture2DArray::dimensions_type texture2DArray::dimensions() const
 	{
 		assert(!this->empty());
@@ -147,6 +129,20 @@ namespace gli
 		return this->View.MaxLevel - this->View.BaseLevel + 1;
 	}
 
+	inline view const & texture2DArray::view() const
+	{
+		return this->View;
+	}
+
+	inline texture2DArray::size_type texture2DArray::size() const
+	{
+		assert(!this->empty());
+
+		return this->Storage.layerSize(
+			this->View.BaseFace, this->View.MaxFace,
+			this->View.BaseLevel, this->View.MaxLevel) * this->layers();
+	}
+
 	inline void * texture2DArray::data()
 	{
 		assert(!this->empty());
@@ -165,6 +161,15 @@ namespace gli
 			this->Storage, this->View.BaseLayer, this->View.BaseFace, this->View.BaseLevel);
 
 		return this->Storage.data() + offset;
+	}
+
+	template <typename genType>
+	inline texture2DArray::size_type texture2DArray::size() const
+	{
+		assert(!this->empty());
+		assert(sizeof(genType) <= this->Storage.blockSize());
+
+		return this->size() / sizeof(genType);
 	}
 
 	template <typename genType>

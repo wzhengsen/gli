@@ -100,22 +100,6 @@ namespace gli
 		return this->Storage.empty();
 	}
 
-	inline texture3D::size_type texture3D::size() const
-	{
-		assert(!this->empty());
-
-		return this->Storage.faceSize(this->View.BaseLevel, this->View.MaxLevel);
-	}
-
-	template <typename genType>
-	inline texture3D::size_type texture3D::size() const
-	{
-		assert(!this->empty());
-		assert(sizeof(genType) <= this->Storage.blockSize());
-
-		return this->size() / sizeof(genType);
-	}
-
 	inline texture3D::dimensions_type texture3D::dimensions() const
 	{
 		return texture3D::dimensions_type(this->Storage.dimensions(this->View.BaseLevel));
@@ -141,6 +125,18 @@ namespace gli
 		return this->View.MaxLevel - this->View.BaseLevel + 1;
 	}
 
+	inline view const & texture3D::view() const
+	{
+		return this->View;
+	}
+
+	inline texture3D::size_type texture3D::size() const
+	{
+		assert(!this->empty());
+
+		return this->Storage.faceSize(this->View.BaseLevel, this->View.MaxLevel);
+	}
+
 	inline void * texture3D::data()
 	{
 		assert(!this->empty());
@@ -159,6 +155,15 @@ namespace gli
 			this->Storage, this->View.BaseLayer, this->View.BaseFace, this->View.BaseLevel);
 
 		return this->Storage.data() + offset;
+	}
+
+	template <typename genType>
+	inline texture3D::size_type texture3D::size() const
+	{
+		assert(!this->empty());
+		assert(sizeof(genType) <= this->Storage.blockSize());
+
+		return this->size() / sizeof(genType);
 	}
 
 	template <typename genType>

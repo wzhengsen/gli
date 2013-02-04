@@ -52,7 +52,7 @@ namespace gli
 				View.BaseFace + BaseFace,
 				View.BaseFace + BaseFace,
 				View.BaseLevel + BaseLevel,
-				View.MaxLevel + MaxLevel));
+				MaxLevel));
 	}
 
 	template <typename texture>

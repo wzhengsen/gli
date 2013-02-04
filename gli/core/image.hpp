@@ -68,27 +68,23 @@ namespace gli
 		//operator storage
 
 		bool empty() const;
-		size_type size() const;
 		dimensions_type dimensions() const;
 
+		size_type size() const;
 		void * data();
 		void const * data() const;
 
+		template <typename genType>
+		size_type size() const;
 		template <typename genType>
 		genType * data();
 		template <typename genType>
 		genType const * data() const;
 
-		bool isReference() const;
-
 	private:
 		storage Storage;
 		gli::view View;
 	};
-
-	bool operator== (image const & ImageA, image const & ImageB);
-
-	bool operator!= (image const & ImageA, image const & ImageB);
 }//namespace gli
 
 #include "image.inl"
