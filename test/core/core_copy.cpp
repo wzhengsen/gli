@@ -28,9 +28,7 @@ int test_texture1D
 
 		Error += TextureA == TextureB ? 0 : 1;
 
-		gli::texture1D TextureC = gli::view1D(
-			TextureA, TextureA.format(), 
-			TextureA.view().BaseLayer, TextureA.view().BaseFace,
+		gli::texture1D TextureC(TextureA, 
 			gli::texture1D::size_type(1), gli::texture1D::size_type(2));
 
 		Error += TextureA[1] == TextureC[0] ? 0 : 1;
@@ -63,9 +61,7 @@ int test_texture2D
 
 		Error += TextureA == TextureB ? 0 : 1;
 
-		gli::texture2D TextureC = gli::view2D(
-			TextureA, TextureA.format(), 
-			TextureA.view().BaseLayer, TextureA.view().BaseFace,
+		gli::texture2D TextureC(TextureA, 
 			gli::texture2D::size_type(1), gli::texture2D::size_type(2));
 
 		Error += TextureA[1] == TextureC[0] ? 0 : 1;
@@ -98,9 +94,7 @@ int test_texture3D
 
 		Error += TextureA == TextureB ? 0 : 1;
 
-		gli::texture3D TextureC = gli::view3D(
-			TextureA, TextureA.format(), 
-			TextureA.view().BaseLayer, TextureA.view().BaseFace,
+		gli::texture3D TextureC(TextureA, 
 			gli::texture3D::size_type(1), gli::texture3D::size_type(2));
 
 		Error += TextureA[1] == TextureC[0] ? 0 : 1;

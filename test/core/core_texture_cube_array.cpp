@@ -7,7 +7,7 @@
 // File    : test/core/texture_cube_array.cpp
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-#include <gli/core/texture_cube_array.hpp>
+#include <gli/gli.hpp>
 
 int test_textureCubeArray_query()
 {
@@ -17,9 +17,9 @@ int test_textureCubeArray_query()
 		gli::textureCubeArray Texture(
 			1,
 			6,
-			gli::textureCube::size_type(2),
+			gli::textureCubeArray::size_type(2),
 			gli::RGBA8U,
-			gli::textureCube::dimensions_type(2));
+			gli::textureCubeArray::dimensions_type(2));
 
 		Error += Texture.size() == sizeof(glm::u8vec4) * 5 * 6 ? 0 : 1;
 		Error += Texture.format() == gli::RGBA8U ? 0 : 1;
@@ -33,9 +33,9 @@ int test_textureCubeArray_query()
 		gli::textureCubeArray Texture(
 			4,
 			6,
-			gli::textureCube::size_type(2),
+			gli::textureCubeArray::size_type(2),
 			gli::RGBA8U,
-			gli::textureCube::dimensions_type(2));
+			gli::textureCubeArray::dimensions_type(2));
 
 		Error += Texture.size() == sizeof(glm::u8vec4) * 5 * 6 * 4 ? 0 : 1;
 		Error += Texture.format() == gli::RGBA8U ? 0 : 1;

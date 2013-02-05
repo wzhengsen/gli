@@ -7,7 +7,7 @@
 // File    : test/core/texture_cube.cpp
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-#include <gli/core/texture_cube.hpp>
+#include <gli/gli.hpp>
 
 int test_textureCube_query()
 {

@@ -92,6 +92,23 @@ namespace gli
 		Format(Texture.format())
 	{}
 
+	inline texture2DArray::texture2DArray
+	(
+		texture2D const & Texture,
+		size_type const & BaseLevel,
+		size_type const & MaxLevel
+	) :
+		Storage(Texture),
+		View(
+			Texture.view().BaseLayer,
+			Texture.view().MaxLayer,
+			Texture.view().BaseFace,
+			Texture.view().MaxFace,
+			Texture.view().BaseLevel + BaseLevel,
+			Texture.view().BaseLevel + MaxLevel),
+		Format(Texture.format())
+	{}
+
 	inline texture2DArray::operator storage() const
 	{
 		return this->Storage;

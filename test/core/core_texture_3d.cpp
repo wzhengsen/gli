@@ -26,7 +26,7 @@
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
-#include <gli/core/texture3d.hpp>
+#include <gli/gli.hpp>
 
 int test_texture3d_clear()
 {

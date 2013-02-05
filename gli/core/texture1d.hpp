@@ -30,7 +30,6 @@
 #define GLI_CORE_TEXTURE1D_INCLUDED
 
 #include "image.hpp"
-#include "addressing.hpp"
 
 namespace gli
 {
@@ -95,7 +94,5 @@ namespace gli
 		format_type Format;
 	};
 }//namespace gli
-
-#include "texture1d.inl"
 
 #endif//GLI_CORE_TEXTURE1D_INCLUDED

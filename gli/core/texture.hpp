@@ -8,10 +8,10 @@
 /// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 /// copies of the Software, and to permit persons to whom the Software is
 /// furnished to do so, subject to the following conditions:
-///
+/// 
 /// The above copyright notice and this permission notice shall be included in
 /// all copies or substantial portions of the Software.
-///
+/// 
 /// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 /// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 /// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -21,29 +21,32 @@
 /// THE SOFTWARE.
 ///
 /// @ref core
-/// @file gli/gli.hpp
-/// @date 2008-12-19 / 2013-01-11
+/// @file gli/core/texture.hpp
+/// @date 2013-02-05 / 2013-02-05
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
-/*! @mainpage OpenGL Image
- *
- */
+#ifndef GLI_CORE_TEXTURE_INCLUDED
+#define GLI_CORE_TEXTURE_INCLUDED
 
-#ifndef GLI_INCLUDED
-#define GLI_INCLUDED
+#include "image.hpp"
 
-#define GLI_VERSION					50
-#define GLI_VERSION_MAJOR			0
-#define GLI_VERSION_MINOR			5
-#define GLI_VERSION_PATCH			0
-#define GLI_VERSION_REVISION		0
+#include "texture1d.hpp"
+#include "texture1d_array.hpp"
+#include "texture2d.hpp"
+#include "texture2d_array.hpp"
+#include "texture3d.hpp"
+#include "texture_cube.hpp"
+#include "texture_cube_array.hpp"
 
-#include "./core/storage.hpp"
-#include "./core/texture.hpp"
-#include "./core/clear.hpp"
-#include "./core/comparison.hpp"
-#include "./core/copy.hpp"
-#include "./core/load_dds.hpp"
+#include "addressing.hpp"
 
-#endif//GLI_INCLUDED
+#include "texture1d.inl"
+#include "texture1d_array.inl"
+#include "texture2d.inl"
+#include "texture2d_array.inl"
+#include "texture3d.inl"
+#include "texture_cube.inl"
+#include "texture_cube_array.inl"
+
+#endif//GLI_CORE_TEXTURE_INCLUDED

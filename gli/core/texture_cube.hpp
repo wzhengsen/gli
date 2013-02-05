@@ -29,10 +29,13 @@
 #ifndef GLI_CORE_TEXTURE_CUBE_INCLUDED
 #define GLI_CORE_TEXTURE_CUBE_INCLUDED
 
-#include "texture2d.hpp"
+#include "image.hpp"
 
 namespace gli
 {
+	class texture2D;
+	class textureCubeArray;
+
 	class textureCube
 	{
 	public:
@@ -61,11 +64,26 @@ namespace gli
 			format_type const & Format,
 			view const & View);
 
-		/// Create a texture view, reference a subset of an exiting storage
+		/// Create a texture view, reference a subset of an exiting textureCube instance
 		explicit textureCube(
 			textureCube const & Texture,
 			size_type const & BaseFace,
 			size_type const & MaxFace,
+			size_type const & BaseLevel,
+			size_type const & MaxLevel);
+
+		/// Create a texture view, reference a subset of an exiting textureCubeArray instance
+		explicit textureCube(
+			textureCubeArray const & Texture,
+			size_type const & BaseLayer,
+			size_type const & BaseFace,
+			size_type const & MaxFace,
+			size_type const & BaseLevel,
+			size_type const & MaxLevel);
+
+		/// Create a texture view, reference a subset of an exiting texture2D instance
+		explicit textureCube(
+			texture2D const & Texture,
 			size_type const & BaseLevel,
 			size_type const & MaxLevel);
 
@@ -97,7 +115,5 @@ namespace gli
 		format_type Format;
 	};
 }//namespace gli
-
-#include "texture_cube.inl"
 
 #endif//GLI_CORE_TEXTURE_CUBE_INCLUDED

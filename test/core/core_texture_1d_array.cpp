@@ -26,7 +26,7 @@
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
-#include <gli/core/texture1d_array.hpp>
+#include <gli/gli.hpp>
 
 int test_texture1DArray_clear()
 {

@@ -30,10 +30,13 @@
 #define GLI_CORE_TEXTURE2D_INCLUDED
 
 #include "image.hpp"
-#include "addressing.hpp"
 
 namespace gli
 {
+	class texture2DArray;
+	class textureCube;
+	class textureCubeArray;
+
 	class texture2D
 	{
 	public:
@@ -66,9 +69,31 @@ namespace gli
 			format_type const & Format,
 			view const & View);
 
-		/// Create a texture view, reference a subset of an exiting storage
+		/// Create a texture view, reference a subset of an exiting texture2D instance
 		explicit texture2D(
 			texture2D const & Texture,
+			size_type const & BaseLevel,
+			size_type const & MaxLevel);
+
+		/// Create a texture view, reference a subset of an exiting texture2DArray instance
+		explicit texture2D(
+			texture2DArray const & Texture,
+			size_type const & BaseLayer,
+			size_type const & BaseLevel,
+			size_type const & MaxLevel);
+
+		/// Create a texture view, reference a subset of an exiting textureCube instance
+		explicit texture2D(
+			textureCube const & Texture,
+			size_type const & BaseFace,
+			size_type const & BaseLevel,
+			size_type const & MaxLevel);
+
+		/// Create a texture view, reference a subset of an exiting textureCubeArray instance
+		explicit texture2D(
+			textureCubeArray const & Texture,
+			size_type const & BaseLayer,
+			size_type const & BaseFace,
 			size_type const & BaseLevel,
 			size_type const & MaxLevel);
 
@@ -100,7 +125,5 @@ namespace gli
 		format_type Format;
 	};
 }//namespace gli
-
-#include "texture2d.inl"
 
 #endif//GLI_CORE_TEXTURE2D_INCLUDED

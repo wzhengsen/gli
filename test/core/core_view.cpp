@@ -43,39 +43,20 @@ int test_view1D
 			Formats[i], 
 			gli::texture1D::dimensions_type(TextureSize));
 
-		gli::texture1D::size_type const TextureASize = TextureA.size();
+		gli::texture1D TextureViewA(TextureA, 
+			TextureA.view().BaseLevel, TextureA.view().MaxLevel);
 
-		gli::texture1D TextureViewA = gli::view1D(
-			TextureA, 
-			TextureA.format(), 
-			TextureA.view().BaseLayer, 
-			TextureA.view().BaseFace, 
-			TextureA.view().BaseLevel, 
-			TextureA.view().MaxLevel);
-
-		gli::texture1D::size_type const TextureViewASize = TextureViewA.size();
-
-		Error += TextureASize == TextureViewASize ? 0 : 1;
+		Error += TextureA == TextureViewA ? 0 : 1;
 
 		gli::texture1D TextureB(
 			gli::texture1D::size_type(glm::log2(int(TextureSize / 2)) + 1),
 			Formats[i], 
 			gli::texture1D::dimensions_type(TextureSize / 2));
 
-		gli::texture1D::size_type const TextureBSize = TextureB.size();
+		gli::texture1D TextureViewB(TextureA, 
+			TextureA.view().BaseLevel + 1, TextureA.view().MaxLevel);
 
-		gli::texture1D TextureViewB = gli::view1D(
-			TextureA, 
-			TextureA.format(), 
-			TextureA.view().BaseLayer, 
-			TextureA.view().BaseFace, 
-			TextureA.view().BaseLevel + 1, 
-			TextureA.view().MaxLevel);
-
-		gli::texture1D::size_type const TextureViewBSize = TextureViewB.size();
-
-		Error += TextureASize > TextureViewBSize ? 0 : 1;
-		Error += TextureBSize == TextureViewBSize ? 0 : 1;
+		Error += TextureB == TextureViewB ? 0 : 1;
 
 		gli::texture1D TextureD(TextureA, 1, 3);
 
@@ -107,20 +88,11 @@ int test_view1DArray
 			Formats[i], 
 			gli::texture1DArray::dimensions_type(TextureSize));
 
-		gli::texture1DArray::size_type const TextureASize = TextureA.size();
+		gli::texture1DArray TextureViewA(TextureA, 
+			TextureA.view().BaseLayer, TextureA.view().MaxLayer, 
+			TextureA.view().BaseLevel, TextureA.view().MaxLevel);
 
-		gli::texture1DArray TextureViewA = gli::view1DArray(
-			TextureA, 
-			TextureA.format(), 
-			TextureA.view().BaseLayer, 
-			TextureA.view().MaxLayer, 
-			TextureA.view().BaseFace, 
-			TextureA.view().BaseLevel, 
-			TextureA.view().MaxLevel);
-
-		gli::texture1DArray::size_type const TextureViewASize = TextureViewA.size();
-
-		Error += TextureASize == TextureViewASize ? 0 : 1;
+		Error += TextureA == TextureViewA ? 0 : 1;
 
 		gli::texture1DArray TextureB(
 			gli::texture1DArray::size_type(4),
@@ -128,21 +100,14 @@ int test_view1DArray
 			Formats[i], 
 			gli::texture1DArray::dimensions_type(TextureSize / 2));
 
-		gli::texture1DArray::size_type const TextureBSize = TextureB.size();
+		Error += TextureA != TextureB ? 0 : 1;
 
-		gli::texture1DArray TextureViewB = gli::view1DArray(
-			TextureA, 
-			TextureA.format(), 
-			TextureA.view().BaseLayer, 
-			TextureA.view().MaxLayer, 
-			TextureA.view().BaseFace, 
-			TextureA.view().BaseLevel + 1, 
-			TextureA.view().MaxLevel);
+		gli::texture1DArray TextureViewB(TextureA, 
+			TextureA.view().BaseLayer, TextureA.view().MaxLayer, 
+			TextureA.view().BaseLevel + 1, TextureA.view().MaxLevel);
 
-		gli::texture1DArray::size_type const TextureViewBSize = TextureViewB.size();
-
-		Error += TextureASize > TextureViewBSize ? 0 : 1;
-		Error += TextureBSize == TextureViewBSize ? 0 : 1;
+		Error += TextureA != TextureViewB ? 0 : 1;
+		Error += TextureB == TextureViewB ? 0 : 1;
 
 		gli::texture1DArray TextureD(TextureA, 0, TextureA.layers() -1, 1, 3);
 
@@ -178,39 +143,20 @@ int test_view2D
 			Formats[i], 
 			gli::texture2D::dimensions_type(TextureSize));
 
-		gli::texture2D::size_type const TextureASize = TextureA.size();
+		gli::texture2D TextureViewA(TextureA, 
+			TextureA.view().BaseLevel, TextureA.view().MaxLevel);
 
-		gli::texture2D TextureViewA = gli::view2D(
-			TextureA, 
-			TextureA.format(), 
-			TextureA.view().BaseLayer, 
-			TextureA.view().BaseFace, 
-			TextureA.view().BaseLevel, 
-			TextureA.view().MaxLevel);
-
-		gli::texture2D::size_type const TextureViewASize = TextureViewA.size();
-
-		Error += TextureASize == TextureViewASize ? 0 : 1;
+		Error += TextureA == TextureViewA ? 0 : 1;
 
 		gli::texture2D TextureB(
 			gli::texture2D::size_type(glm::log2(int(TextureSize / 2)) + 1),
 			Formats[i], 
 			gli::texture2D::dimensions_type(TextureSize / 2));
 
-		gli::texture2D::size_type const TextureBSize = TextureB.size();
+		gli::texture2D TextureViewB(TextureA, 
+			TextureA.view().BaseLevel + 1, TextureA.view().MaxLevel);
 
-		gli::texture2D TextureViewB = gli::view2D(
-			TextureA, 
-			TextureA.format(), 
-			TextureA.view().BaseLayer, 
-			TextureA.view().BaseFace, 
-			TextureA.view().BaseLevel + 1, 
-			TextureA.view().MaxLevel);
-
-		gli::texture2D::size_type const TextureViewBSize = TextureViewB.size();
-
-		Error += TextureASize > TextureViewBSize ? 0 : 1;
-		Error += TextureBSize == TextureViewBSize ? 0 : 1;
+		Error += TextureB == TextureViewB ? 0 : 1;
 
 		gli::texture2D TextureD(TextureA, 1, 3);
 
@@ -242,20 +188,11 @@ int test_view2DArray
 			Formats[i], 
 			gli::texture2DArray::dimensions_type(TextureSize));
 
-		gli::texture2DArray::size_type const TextureASize = TextureA.size();
+		gli::texture2DArray TextureViewA(TextureA, 
+			TextureA.view().BaseLayer, TextureA.view().MaxLayer, 
+			TextureA.view().BaseLevel, TextureA.view().MaxLevel);
 
-		gli::texture2DArray TextureViewA = gli::view2DArray(
-			TextureA, 
-			TextureA.format(), 
-			TextureA.view().BaseLayer, 
-			TextureA.view().MaxLayer, 
-			TextureA.view().BaseFace, 
-			TextureA.view().BaseLevel, 
-			TextureA.view().MaxLevel);
-
-		gli::texture2DArray::size_type const TextureViewASize = TextureViewA.size();
-
-		Error += TextureASize == TextureViewASize ? 0 : 1;
+		Error += TextureA == TextureViewA ? 0 : 1;
 
 		gli::texture2DArray TextureB(
 			gli::texture2DArray::size_type(4),
@@ -263,21 +200,11 @@ int test_view2DArray
 			Formats[i], 
 			gli::texture2DArray::dimensions_type(TextureSize / 2));
 
-		gli::texture2DArray::size_type const TextureBSize = TextureB.size();
+		gli::texture2DArray TextureViewB(TextureA, 
+			TextureA.view().BaseLayer, TextureA.view().MaxLayer, 
+			TextureA.view().BaseLevel + 1, TextureA.view().MaxLevel);
 
-		gli::texture2DArray TextureViewB = gli::view2DArray(
-			TextureA, 
-			TextureA.format(), 
-			TextureA.view().BaseLayer, 
-			TextureA.view().MaxLayer, 
-			TextureA.view().BaseFace, 
-			TextureA.view().BaseLevel + 1, 
-			TextureA.view().MaxLevel);
-
-		gli::texture2DArray::size_type const TextureViewBSize = TextureViewB.size();
-
-		Error += TextureASize > TextureViewBSize ? 0 : 1;
-		Error += TextureBSize == TextureViewBSize ? 0 : 1;
+		Error += TextureB == TextureViewB ? 0 : 1;
 
 		gli::texture2DArray TextureD(TextureA, 0, TextureA.layers() -1, 1, 3);
 
@@ -313,39 +240,20 @@ int test_view3D
 			Formats[i], 
 			gli::texture3D::dimensions_type(TextureSize));
 
-		gli::texture3D::size_type const TextureASize = TextureA.size();
+		gli::texture3D TextureViewA(TextureA, 
+			TextureA.view().BaseLevel, TextureA.view().MaxLevel);
 
-		gli::texture3D TextureViewA = gli::view3D(
-			TextureA, 
-			TextureA.format(), 
-			TextureA.view().BaseLayer, 
-			TextureA.view().BaseFace, 
-			TextureA.view().BaseLevel, 
-			TextureA.view().MaxLevel);
-
-		gli::texture3D::size_type const TextureViewASize = TextureViewA.size();
-
-		Error += TextureASize == TextureViewASize ? 0 : 1;
+		Error += TextureA == TextureViewA ? 0 : 1;
 
 		gli::texture3D TextureB(
 			gli::texture3D::size_type(glm::log2(int(TextureSize / 2)) + 1),
 			Formats[i], 
 			gli::texture3D::dimensions_type(TextureSize / 2));
 
-		gli::texture3D::size_type const TextureBSize = TextureB.size();
+		gli::texture3D TextureViewB(TextureA, 
+			TextureA.view().BaseLevel + 1, TextureA.view().MaxLevel);
 
-		gli::texture3D TextureViewB = gli::view3D(
-			TextureA, 
-			TextureA.format(), 
-			TextureA.view().BaseLayer, 
-			TextureA.view().BaseFace, 
-			TextureA.view().BaseLevel + 1, 
-			TextureA.view().MaxLevel);
-
-		gli::texture3D::size_type const TextureViewBSize = TextureViewB.size();
-
-		Error += TextureASize > TextureViewBSize ? 0 : 1;
-		Error += TextureBSize == TextureViewBSize ? 0 : 1;
+		Error += TextureB == TextureViewB ? 0 : 1;
 
 		gli::texture3D TextureD(TextureA, 1, 3);
 
@@ -377,20 +285,11 @@ int test_viewCube
 			Formats[i], 
 			gli::textureCube::dimensions_type(TextureSize));
 
-		gli::textureCube::size_type const TextureASize = TextureA.size();
+		gli::textureCube TextureViewA(TextureA, 
+			TextureA.view().BaseFace, TextureA.view().MaxFace, 
+			TextureA.view().BaseLevel, TextureA.view().MaxLevel);
 
-		gli::textureCube TextureViewA = gli::viewCube(
-			TextureA, 
-			TextureA.format(), 
-			TextureA.view().BaseLayer, 
-			TextureA.view().BaseFace, 
-			TextureA.view().MaxFace, 
-			TextureA.view().BaseLevel, 
-			TextureA.view().MaxLevel);
-
-		gli::textureCube::size_type const TextureViewASize = TextureViewA.size();
-
-		Error += TextureASize == TextureViewASize ? 0 : 1;
+		Error += TextureA == TextureViewA ? 0 : 1;
 
 		gli::textureCube TextureB(
 			gli::textureCube::size_type(6),
@@ -398,21 +297,11 @@ int test_viewCube
 			Formats[i], 
 			gli::textureCube::dimensions_type(TextureSize / 2));
 
-		gli::textureCube::size_type const TextureBSize = TextureB.size();
+		gli::textureCube TextureViewB(TextureA, 
+			TextureA.view().BaseFace, TextureA.view().MaxFace, 
+			TextureA.view().BaseLevel + 1, TextureA.view().MaxLevel);
 
-		gli::textureCube TextureViewB = gli::viewCube(
-			TextureA, 
-			TextureA.format(), 
-			TextureA.view().BaseLayer, 
-			TextureA.view().BaseFace, 
-			TextureA.view().MaxFace, 
-			TextureA.view().BaseLevel + 1, 
-			TextureA.view().MaxLevel);
-
-		gli::textureCube::size_type const TextureViewBSize = TextureViewB.size();
-
-		Error += TextureASize > TextureViewBSize ? 0 : 1;
-		Error += TextureBSize == TextureViewBSize ? 0 : 1;
+		Error += TextureB == TextureViewB ? 0 : 1;
 
 		gli::textureCube TextureD(TextureA, 0, TextureA.faces() -1, 1, 3);
 
@@ -450,21 +339,12 @@ int test_viewCubeArray
 			Formats[i], 
 			gli::textureCubeArray::dimensions_type(TextureSize));
 
-		gli::textureCubeArray::size_type const TextureASize = TextureA.size();
+		gli::textureCubeArray TextureViewA(TextureA, 
+			TextureA.view().BaseLayer, TextureA.view().MaxLayer, 
+			TextureA.view().BaseFace, TextureA.view().MaxFace, 
+			TextureA.view().BaseLevel, TextureA.view().MaxLevel);
 
-		gli::textureCubeArray TextureViewA = gli::viewCubeArray(
-			TextureA, 
-			TextureA.format(), 
-			TextureA.view().BaseLayer, 
-			TextureA.view().MaxLayer, 
-			TextureA.view().BaseFace, 
-			TextureA.view().MaxFace, 
-			TextureA.view().BaseLevel, 
-			TextureA.view().MaxLevel);
-
-		gli::textureCubeArray::size_type const TextureViewASize = TextureViewA.size();
-
-		Error += TextureASize == TextureViewASize ? 0 : 1;
+		Error += TextureA == TextureViewA ? 0 : 1;
 
 		gli::textureCubeArray TextureB(
 			gli::textureCubeArray::size_type(4),
@@ -473,22 +353,12 @@ int test_viewCubeArray
 			Formats[i], 
 			gli::textureCubeArray::dimensions_type(TextureSize / 2));
 
-		gli::textureCubeArray::size_type const TextureBSize = TextureB.size();
+		gli::textureCubeArray TextureViewB(TextureA, 
+			TextureA.view().BaseLayer, TextureA.view().MaxLayer,
+			TextureA.view().BaseFace, TextureA.view().MaxFace, 
+			TextureA.view().BaseLevel + 1, TextureA.view().MaxLevel);
 
-		gli::textureCubeArray TextureViewB = gli::viewCubeArray(
-			TextureA, 
-			TextureA.format(), 
-			TextureA.view().BaseLayer, 
-			TextureA.view().MaxLayer,
-			TextureA.view().BaseFace, 
-			TextureA.view().MaxFace, 
-			TextureA.view().BaseLevel + 1, 
-			TextureA.view().MaxLevel);
-
-		gli::textureCubeArray::size_type const TextureViewBSize = TextureViewB.size();
-
-		Error += TextureASize > TextureViewBSize ? 0 : 1;
-		Error += TextureBSize == TextureViewBSize ? 0 : 1;
+		Error += TextureB == TextureViewB ? 0 : 1;
 
 		gli::textureCubeArray TextureD(TextureA, 0, TextureA.layers() -1, 0, TextureA.faces() -1, 1, 3);
 
@@ -532,6 +402,6 @@ int main()
 	Error += test_view3D(Formats, TextureSize);
 	Error += test_viewCube(Formats, TextureSize);
 	Error += test_viewCubeArray(Formats, TextureSize);
-		
+
 	return Error;
 }

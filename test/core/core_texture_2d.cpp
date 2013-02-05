@@ -7,7 +7,7 @@
 // File    : test/core/texture_2d.cpp
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-#include <gli/core/texture2d.hpp>
+#include <gli/gli.hpp>
 /*
 inline GLuint createTexture2D(std::string const & Filename)
 {

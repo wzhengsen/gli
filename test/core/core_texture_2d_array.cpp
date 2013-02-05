@@ -7,7 +7,7 @@
 // File    : test/core/core_texture_2d_array.cpp
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-#include <gli/core/texture2d_array.hpp>
+#include <gli/gli.hpp>
 
 int test_texture2DArray_clear()
 {
