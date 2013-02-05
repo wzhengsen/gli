@@ -77,6 +77,27 @@ namespace gli
 		Format(Format)
 	{}
 
+	inline textureCubeArray::textureCubeArray
+	(
+		textureCubeArray const & Texture,
+		size_type const & BaseLayer,
+		size_type const & MaxLayer,
+		size_type const & BaseFace,
+		size_type const & MaxFace,
+		size_type const & BaseLevel,
+		size_type const & MaxLevel
+	) :
+		Storage(Texture.Storage),
+		View(
+			Texture.view().BaseLayer + BaseLayer,
+			Texture.view().BaseLayer + MaxLayer,
+			Texture.view().BaseFace + BaseFace,
+			Texture.view().BaseFace + MaxFace,
+			Texture.view().BaseLevel + BaseLevel,
+			Texture.view().BaseLevel + MaxLevel),
+		Format(Texture.format())
+	{}
+
 	inline textureCubeArray::operator storage() const
 	{
 		return this->Storage;

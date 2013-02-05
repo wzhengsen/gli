@@ -62,6 +62,16 @@ namespace gli
 			format_type const & Format,
 			view const & View);
 
+		/// Create a texture view, reference a subset of an exiting storage
+		explicit textureCubeArray(
+			textureCubeArray const & Texture,
+			size_type const & BaseLayer,
+			size_type const & MaxLayer,
+			size_type const & BaseFace,
+			size_type const & MaxFace,
+			size_type const & BaseLevel,
+			size_type const & MaxLevel);
+
 		operator storage() const;
 		textureCube operator[] (size_type const & Layer) const;
 

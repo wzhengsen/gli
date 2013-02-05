@@ -37,7 +37,6 @@ namespace gli
 		typename texture::size_type const & MaxLevel
 	)
 	{
-		assert(detail::getFormatInfo(Format).BlockSize == detail::getFormatInfo(Texture.format()).BlockSize);
 		assert(BaseLevel <= MaxLevel);
 		assert(Texture.view().BaseFace <= BaseLevel);
 		assert(Texture.view().MaxFace >= MaxLevel);

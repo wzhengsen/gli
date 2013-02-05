@@ -72,6 +72,23 @@ namespace gli
 		Format(Format)
 	{}
  
+	inline texture1D::texture1D
+	(
+		texture1D const & Texture,
+		size_type const & BaseLevel,
+		size_type const & MaxLevel
+	) :
+		Storage(Texture.Storage),
+		View(
+			Texture.view().BaseLayer,
+			Texture.view().MaxLayer,
+			Texture.view().BaseFace,
+			Texture.view().MaxFace,
+			Texture.view().BaseLevel + BaseLevel,
+			Texture.view().BaseLevel + MaxLevel),
+		Format(Texture.format())
+	{}
+
 	inline texture1D::operator storage() const
 	{
 		return this->Storage;

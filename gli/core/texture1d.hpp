@@ -61,6 +61,12 @@ namespace gli
 			format_type const & Format,
 			view const & View);
 
+		/// Create a texture view, reference a subset of an exiting storage
+		explicit texture1D(
+			texture1D const & Texture,
+			size_type const & BaseLevel,
+			size_type const & MaxLevel);
+
 		operator storage() const;
 		image operator[] (size_type const & Level) const;
 
