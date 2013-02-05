@@ -45,6 +45,38 @@ namespace gli
 	template <typename texture>
 	texture copy(texture const & Texture);
 
+	// texture can be texture1D, texture2D, texture3D
+	template <typename texture>
+	texture copy(
+		texture const & Texture,
+		typename texture::size_type const & BaseLevel,
+		typename texture::size_type const & MaxLevel);
+
+	// texture can be texture1DArray, texture2DArray
+	template <typename texture>
+	texture copy(
+		texture const & Texture,
+		typename texture::size_type const & BaseLayer,
+		typename texture::size_type const & MaxLayer,
+		typename texture::size_type const & BaseLevel,
+		typename texture::size_type const & MaxLevel);
+
+	textureCube copy(
+		textureCube const & Texture,
+		textureCube::size_type const & BaseFace,
+		textureCube::size_type const & MaxFace,
+		textureCube::size_type const & BaseLevel,
+		textureCube::size_type const & MaxLevel);
+
+	textureCubeArray copy(
+		textureCubeArray const & Texture,
+		textureCubeArray::size_type const & BaseLayer,
+		textureCubeArray::size_type const & MaxLayer,
+		textureCubeArray::size_type const & BaseFace,
+		textureCubeArray::size_type const & MaxFace,
+		textureCubeArray::size_type const & BaseLevel,
+		textureCubeArray::size_type const & MaxLevel);
+
 /*
 	void copy(
 		texture2D const & srcTexture,

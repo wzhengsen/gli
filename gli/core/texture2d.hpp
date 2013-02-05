@@ -51,6 +51,11 @@ namespace gli
 			format_type const & Format,
 			dimensions_type const & Dimensions);
 
+		/// Allocate a new storage constructor for a complete mipmaps chain
+		explicit texture2D(
+			format_type const & Format,
+			dimensions_type const & Dimensions);
+
 		/// Reference an exiting storage constructor
 		explicit texture2D(
 			storage const & Storage);

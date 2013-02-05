@@ -22,12 +22,105 @@
 ///
 /// @ref core
 /// @file gli/core/view.inl
-/// @date 2013-02-03 / 2013-02-03
+/// @date 2013-02-03 / 2013-02-05
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
 namespace gli
 {
+	// texture can be texture1D, texture2D, texture3D
+	template <typename texture>
+	inline texture reference
+	(
+		texture const & Texture,
+		typename texture::size_type const & BaseLevel,
+		typename texture::size_type const & MaxLevel
+	)
+	{
+		assert(detail::getFormatInfo(Format).BlockSize == detail::getFormatInfo(Texture.format()).BlockSize);
+		assert(BaseLevel <= MaxLevel);
+		assert(Texture.view().BaseFace <= BaseLevel);
+		assert(Texture.view().MaxFace >= MaxLevel);
+
+		return texture(
+			Texture,
+			Texture.format(),
+			view(
+				Texture.view().BaseLayer,
+				Texture.view().MaxLayer,
+				Texture.view().BaseFace,
+				Texture.view().MaxFace,
+				Texture.view().BaseLevel + BaseLevel,
+				Texture.view().BaseLevel + MaxLevel));
+	}
+
+	// texture can be texture1DArray, texture2DArray
+	template <typename texture>
+	inline texture reference
+	(
+		texture const & Texture,
+		typename texture::size_type const & BaseLayer,
+		typename texture::size_type const & MaxLayer,
+		typename texture::size_type const & BaseLevel,
+		typename texture::size_type const & MaxLevel
+	)
+	{
+		return texture(
+			Texture,
+			Texture.format(),
+			view(
+				Texture.view().BaseLayer + BaseLayer,
+				Texture.view().BaseLayer + MaxLayer,
+				Texture.view().BaseFace,
+				Texture.view().MaxFace,
+				Texture.view().BaseLevel + BaseLevel,
+				Texture.view().BaseLevel + MaxLevel));
+	}
+
+	inline textureCube reference
+	(
+		textureCube const & Texture,
+		textureCube::size_type const & BaseFace,
+		textureCube::size_type const & MaxFace,
+		textureCube::size_type const & BaseLevel,
+		textureCube::size_type const & MaxLevel
+	)
+	{
+		return textureCube(
+			Texture,
+			Texture.format(),
+			view(
+				Texture.view().BaseLayer,
+				Texture.view().MaxLayer,
+				Texture.view().BaseFace + BaseFace,
+				Texture.view().BaseFace + MaxFace,
+				Texture.view().BaseLevel + BaseLevel,
+				Texture.view().BaseLevel + MaxLevel));
+	}
+
+	inline textureCubeArray reference
+	(
+		textureCubeArray const & Texture,
+		textureCubeArray::size_type const & BaseLayer,
+		textureCubeArray::size_type const & MaxLayer,
+		textureCubeArray::size_type const & BaseFace,
+		textureCubeArray::size_type const & MaxFace,
+		textureCubeArray::size_type const & BaseLevel,
+		textureCubeArray::size_type const & MaxLevel
+	)
+	{
+		return textureCubeArray(
+			Texture,
+			Texture.format(),
+			view(
+				Texture.view().BaseLayer + BaseLayer,
+				Texture.view().BaseLayer + MaxLayer,
+				Texture.view().BaseFace + BaseFace,
+				Texture.view().BaseFace + MaxFace,
+				Texture.view().BaseLevel + BaseLevel,
+				Texture.view().BaseLevel + MaxLevel));
+	}
+
 	template <typename texture>
 	inline texture1D view1D
 	(
@@ -52,7 +145,7 @@ namespace gli
 				View.BaseFace + BaseFace,
 				View.BaseFace + BaseFace,
 				View.BaseLevel + BaseLevel,
-				MaxLevel));
+				View.BaseLevel + MaxLevel));
 	}
 
 	template <typename texture>
@@ -78,11 +171,11 @@ namespace gli
 			Format,
 			view(
 				View.BaseLayer + BaseLayer,
-				MaxLayer,
+				View.BaseLayer + MaxLayer,
 				View.BaseFace + BaseFace,
 				View.BaseFace + BaseFace,
 				View.BaseLevel + BaseLevel,
-				MaxLevel));
+				View.BaseLevel + MaxLevel));
 	}
 
 	template <typename texture>
@@ -110,7 +203,7 @@ namespace gli
 				View.BaseFace + BaseFace,
 				View.BaseFace + BaseFace,
 				View.BaseLevel + BaseLevel,
-				MaxLevel));
+				View.BaseLevel + MaxLevel));
 	}
 
 	template <typename texture>
@@ -136,11 +229,11 @@ namespace gli
 			Format,
 			view(
 				View.BaseLayer + BaseLayer,
-				MaxLayer,
+				View.BaseLayer + MaxLayer,
 				View.BaseFace + BaseFace,
 				View.BaseFace + BaseFace,
 				View.BaseLevel + BaseLevel,
-				MaxLevel));
+				View.BaseLevel + MaxLevel));
 	}
 
 	template <typename texture>
@@ -168,7 +261,7 @@ namespace gli
 				View.BaseFace + BaseFace,
 				View.BaseFace + BaseFace,
 				View.BaseLevel + BaseLevel,
-				MaxLevel));
+				View.BaseLevel + MaxLevel));
 	}
 
 	template <typename texture>
@@ -196,9 +289,9 @@ namespace gli
 				View.BaseLayer + BaseLayer,
 				View.BaseLayer + BaseLayer,
 				View.BaseFace + BaseFace,
-				MaxFace,
+				View.BaseFace + MaxFace,
 				View.BaseLevel + BaseLevel,
-				MaxLevel));
+				View.BaseLevel + MaxLevel));
 	}
 
 	template <typename texture>
@@ -226,10 +319,10 @@ namespace gli
 			Format,
 			view(
 				View.BaseLayer + BaseLayer,
-				MaxLayer,
+				View.BaseLayer + MaxLayer,
 				View.BaseFace + BaseFace,
-				MaxFace,
+				View.BaseFace + MaxFace,
 				View.BaseLevel + BaseLevel,
-				MaxLevel));
+				View.BaseLevel + MaxLevel));
 	}
 }//namespace gli

@@ -52,6 +52,8 @@
 
 namespace gli
 {
+	struct mipmaps{}
+
 	class storage
 	{
 	public:

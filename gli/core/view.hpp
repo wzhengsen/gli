@@ -22,7 +22,7 @@
 ///
 /// @ref core
 /// @file gli/core/view.hpp
-/// @date 2013-02-03 / 2013-02-03
+/// @date 2013-02-03 / 2013-02-05
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
@@ -39,6 +39,38 @@
 
 namespace gli
 {
+	// texture can be texture1D, texture2D, texture3D
+	template <typename texture>
+	texture reference(
+		texture const & Texture,
+		typename texture::size_type const & BaseLevel,
+		typename texture::size_type const & MaxLevel);
+
+	// texture can be texture1DArray, texture2DArray
+	template <typename texture>
+	texture reference(
+		texture const & Texture,
+		typename texture::size_type const & BaseLayer,
+		typename texture::size_type const & MaxLayer,
+		typename texture::size_type const & BaseLevel,
+		typename texture::size_type const & MaxLevel);
+
+	textureCube reference(
+		textureCube const & Texture,
+		textureCube::size_type const & BaseFace,
+		textureCube::size_type const & MaxFace,
+		textureCube::size_type const & BaseLevel,
+		textureCube::size_type const & MaxLevel);
+
+	textureCubeArray reference(
+		textureCubeArray const & Texture,
+		textureCubeArray::size_type const & BaseLayer,
+		textureCubeArray::size_type const & MaxLayer,
+		textureCubeArray::size_type const & BaseFace,
+		textureCubeArray::size_type const & MaxFace,
+		textureCubeArray::size_type const & BaseLevel,
+		textureCubeArray::size_type const & MaxLevel);
+
 	template <typename texture>
 	texture1D view1D(
 		texture const & Texture,
