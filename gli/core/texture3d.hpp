@@ -44,23 +44,28 @@ namespace gli
 	public:
 		texture3D();
 
-		/// Allocate a new storage constructor
+		/// Create a texture3D and allocate a new storage
 		explicit texture3D(
 			size_type const & Levels,
 			format_type const & Format,
 			dimensions_type const & Dimensions);
 
-		/// Reference an exiting storage constructor
+		/// Create a texture3D and allocate a new storage with a complete mipmap chain
+		explicit texture3D(
+			format_type const & Format,
+			dimensions_type const & Dimensions);
+
+		/// Create a texture3D view with an existing storage
 		explicit texture3D(
 			storage const & Storage);
 
-		/// Reference a subset of an exiting storage constructor
+		/// Create a texture3D view with an existing storage
 		explicit texture3D(
 			storage const & Storage,
 			format_type const & Format,
 			view const & View);
 
-		/// Create a texture view, reference a subset of an exiting storage
+		/// Create a texture3D view, reference a subset of an existing texture3D instance
 		explicit texture3D(
 			texture3D const & Texture,
 			size_type const & BaseLevel,

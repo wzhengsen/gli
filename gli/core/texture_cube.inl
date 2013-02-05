@@ -52,6 +52,25 @@ namespace gli
 
 	inline textureCube::textureCube
 	(
+		size_type const & Faces,
+		format_type const & Format,
+		dimensions_type const & Dimensions
+	) :
+		Storage(
+			1,
+			Faces,
+			size_type(glm::log2(int(glm::max(Dimensions.x, Dimensions.y))) + 1),
+			Format,
+			storage::dimensions_type(Dimensions, 1)),
+		View(
+			0, 0, 
+			0, Faces - 1, 
+			0, size_type(glm::log2(int(glm::max(Dimensions.x, Dimensions.y))))),
+		Format(Format)
+	{}
+
+	inline textureCube::textureCube
+	(
 		storage const & Storage
 	) :
 		Storage(Storage),

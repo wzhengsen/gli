@@ -54,6 +54,24 @@ namespace gli
 
 	inline texture2D::texture2D
 	(
+		format_type const & Format,
+		dimensions_type const & Dimensions
+	) :
+		Storage(
+			1,
+			1,
+			size_type(glm::log2(int(glm::max(Dimensions.x, Dimensions.y))) + 1),
+			Format,
+			storage::dimensions_type(Dimensions, 1)),
+		View(
+			0, 0,
+			0, 0,
+			0, size_type(glm::log2(int(glm::max(Dimensions.x, Dimensions.y))))),
+		Format(Format)
+	{}
+
+	inline texture2D::texture2D
+	(
 		storage const & Storage
 	) :
 		Storage(Storage),
@@ -84,6 +102,61 @@ namespace gli
 			Texture.view().MaxLayer,
 			Texture.view().BaseFace,
 			Texture.view().MaxFace,
+			Texture.view().BaseLevel + BaseLevel,
+			Texture.view().BaseLevel + MaxLevel),
+		Format(Texture.format())
+	{}
+
+	inline texture2D::texture2D
+	(
+		texture2DArray const & Texture,
+		size_type const & BaseLayer,
+		size_type const & BaseLevel,
+		size_type const & MaxLevel
+	) :
+		Storage(Texture),
+		View(
+			Texture.view().BaseLayer + BaseLayer,
+			Texture.view().BaseLayer + BaseLayer,
+			Texture.view().BaseFace,
+			Texture.view().MaxFace,
+			Texture.view().BaseLevel + BaseLevel,
+			Texture.view().BaseLevel + MaxLevel),
+		Format(Texture.format())
+	{}
+
+	inline texture2D::texture2D
+	(
+		textureCube const & Texture,
+		size_type const & BaseFace,
+		size_type const & BaseLevel,
+		size_type const & MaxLevel
+	) :
+		Storage(Texture),
+		View(
+			Texture.view().BaseLayer,
+			Texture.view().MaxLayer,
+			Texture.view().BaseFace + BaseFace,
+			Texture.view().BaseFace + BaseFace,
+			Texture.view().BaseLevel + BaseLevel,
+			Texture.view().BaseLevel + MaxLevel),
+		Format(Texture.format())
+	{}
+
+	inline texture2D::texture2D
+	(
+		textureCubeArray const & Texture,
+		size_type const & BaseLayer,
+		size_type const & BaseFace,
+		size_type const & BaseLevel,
+		size_type const & MaxLevel
+	) :
+		Storage(Texture),
+		View(
+			Texture.view().BaseLayer + BaseLayer,
+			Texture.view().BaseLayer + BaseLayer,
+			Texture.view().BaseFace + BaseFace,
+			Texture.view().BaseFace + BaseFace,
 			Texture.view().BaseLevel + BaseLevel,
 			Texture.view().BaseLevel + MaxLevel),
 		Format(Texture.format())

@@ -46,18 +46,24 @@ namespace gli
 	public:
 		texture1DArray();
 
-		/// Allocate a new storage constructor
+		/// Create a texture1DArray and allocate a new storage
 		explicit texture1DArray(
 			size_type const & Layers,
 			size_type const & Levels,
 			format_type const & Format,
 			dimensions_type const & Dimensions);
 
-		/// Reference an exiting storage constructor
+		/// Create a texture1DArray and allocate a new storage with a complete mipmap chain
+		explicit texture1DArray(
+			size_type const & Layers,
+			format_type const & Format,
+			dimensions_type const & Dimensions);
+
+		/// Create a texture1DArray view with an existing storage
 		explicit texture1DArray(
 			storage const & Storage);
 
-		/// Reference a subset of an exiting storage constructor
+		/// Create a texture1DArray view with an existing storage
 		explicit texture1DArray(
 			storage const & Storage,
 			format_type const & Format,

@@ -48,48 +48,48 @@ namespace gli
 	public:
 		texture2D();
 
-		/// Allocate a new storage constructor
+		/// Create a texture2D and allocate a new storage
 		explicit texture2D(
 			size_type const & Levels,
 			format_type const & Format,
 			dimensions_type const & Dimensions);
 
-		/// Allocate a new storage constructor for a complete mipmaps chain
+		/// Create a texture2D and allocate a new storage with a complete mipmap chain
 		explicit texture2D(
 			format_type const & Format,
 			dimensions_type const & Dimensions);
 
-		/// Reference an exiting storage constructor
+		/// Create a texture2D view with an existing storage
 		explicit texture2D(
 			storage const & Storage);
 
-		/// Reference a subset of an exiting storage constructor
+		/// Create a texture2D view with an existing storage
 		explicit texture2D(
 			storage const & Storage,
 			format_type const & Format,
 			view const & View);
 
-		/// Create a texture view, reference a subset of an exiting texture2D instance
+		/// Create a texture2D view, reference a subset of an existing texture2D instance
 		explicit texture2D(
 			texture2D const & Texture,
 			size_type const & BaseLevel,
 			size_type const & MaxLevel);
 
-		/// Create a texture view, reference a subset of an exiting texture2DArray instance
+		/// Create a texture2D view, reference a subset of an existing texture2DArray instance
 		explicit texture2D(
 			texture2DArray const & Texture,
 			size_type const & BaseLayer,
 			size_type const & BaseLevel,
 			size_type const & MaxLevel);
 
-		/// Create a texture view, reference a subset of an exiting textureCube instance
+		/// Create a texture view, reference a subset of an existing textureCube instance
 		explicit texture2D(
 			textureCube const & Texture,
 			size_type const & BaseFace,
 			size_type const & BaseLevel,
 			size_type const & MaxLevel);
 
-		/// Create a texture view, reference a subset of an exiting textureCubeArray instance
+		/// Create a texture view, reference a subset of an existing textureCubeArray instance
 		explicit texture2D(
 			textureCubeArray const & Texture,
 			size_type const & BaseLayer,

@@ -54,6 +54,24 @@ namespace gli
 
 	inline texture3D::texture3D
 	(
+		format_type const & Format,
+		dimensions_type const & Dimensions
+	) :
+		Storage(
+			1,
+			1,
+			size_type(glm::log2(int(glm::max(glm::max(Dimensions.x, Dimensions.y), Dimensions.z))) + 1),
+			Format,
+			storage::dimensions_type(Dimensions)),
+		View(
+			0, 0,
+			0, 0,
+			0, size_type(glm::log2(int(glm::max(glm::max(Dimensions.x, Dimensions.y), Dimensions.z))))),
+		Format(Format)
+	{}
+
+	inline texture3D::texture3D
+	(
 		storage const & Storage
 	) :
 		Storage(Storage),

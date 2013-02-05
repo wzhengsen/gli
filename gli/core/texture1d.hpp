@@ -33,6 +33,8 @@
 
 namespace gli
 {
+	class texture1DArray;
+
 	class texture1D
 	{
 	public:
@@ -44,25 +46,37 @@ namespace gli
 	public:
 		texture1D();
 
-		/// Allocate a new storage constructor
+		/// Create a texture1D and allocate a new storage
 		explicit texture1D(
 			size_type const & Levels,
 			format_type const & Format,
 			dimensions_type const & Dimensions);
 
-		/// Reference an exiting storage constructor
+		/// Create a texture1D and allocate a new storage with a complete mipmap chain
+		explicit texture1D(
+			format_type const & Format,
+			dimensions_type const & Dimensions);
+
+		/// Create a texture1D view with an existing storage
 		explicit texture1D(
 			storage const & Storage);
 
-		/// Reference a subset of an exiting storage constructor
+		/// Create a texture1D view with an existing storage
 		explicit texture1D(
 			storage const & Storage,
 			format_type const & Format,
 			view const & View);
 
-		/// Create a texture view, reference a subset of an exiting storage
+		/// Create a texture1D view, reference a subset of an existing texture1D instance
 		explicit texture1D(
 			texture1D const & Texture,
+			size_type const & BaseLevel,
+			size_type const & MaxLevel);
+
+		/// Create a texture1D view, reference a subset of an existing texture1DArray instance
+		explicit texture1D(
+			texture1DArray const & Texture,
+			size_type const & BaseLayer,
 			size_type const & BaseLevel,
 			size_type const & MaxLevel);
 

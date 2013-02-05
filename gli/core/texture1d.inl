@@ -54,6 +54,24 @@ namespace gli
 
 	inline texture1D::texture1D
 	(
+		format_type const & Format,
+		dimensions_type const & Dimensions
+	) :
+		Storage(
+			1,
+			1,
+			size_type(glm::log2(int(Dimensions)) + 1),
+			Format,
+			storage::dimensions_type(Dimensions, 1, 1)),
+		View(
+			0, 0,
+			0, 0,
+			0, size_type(glm::log2(int(Dimensions)))),
+		Format(Format)
+	{}
+
+	inline texture1D::texture1D
+	(
 		storage const & Storage
 	) :
 		Storage(Storage),
@@ -82,6 +100,24 @@ namespace gli
 		View(
 			Texture.view().BaseLayer,
 			Texture.view().MaxLayer,
+			Texture.view().BaseFace,
+			Texture.view().MaxFace,
+			Texture.view().BaseLevel + BaseLevel,
+			Texture.view().BaseLevel + MaxLevel),
+		Format(Texture.format())
+	{}
+
+	inline texture1D::texture1D
+	(
+		texture1DArray const & Texture,
+		size_type const & BaseLayer,
+		size_type const & BaseLevel,
+		size_type const & MaxLevel
+	) :
+		Storage(Texture),
+		View(
+			Texture.view().BaseLayer + BaseLayer,
+			Texture.view().BaseLayer + BaseLayer,
 			Texture.view().BaseFace,
 			Texture.view().MaxFace,
 			Texture.view().BaseLevel + BaseLevel,

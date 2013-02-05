@@ -47,24 +47,30 @@ namespace gli
 	public:
 		textureCube();
 
-		/// Allocate a new storage constructor
+		/// Create a textureCube and allocate a new storage
 		explicit textureCube(
 			size_type const & Faces,
 			size_type const & Levels,
 			format_type const & Format,
 			dimensions_type const & Dimensions);
 
-		/// Reference an exiting storage constructor
+		/// Create a textureCube and allocate a new storage with a complete mipmap chain
+		explicit textureCube(
+			size_type const & Faces,
+			format_type const & Format,
+			dimensions_type const & Dimensions);
+
+		/// Create a texture2D view with an existing storage
 		explicit textureCube(
 			storage const & Storage);
 
-		/// Reference a subset of an exiting storage constructor
+		/// Create a texture2D view with an existing storage
 		explicit textureCube(
 			storage const & Storage,
 			format_type const & Format,
 			view const & View);
 
-		/// Create a texture view, reference a subset of an exiting textureCube instance
+		/// Create a textureCube view, reference a subset of an existing textureCube instance
 		explicit textureCube(
 			textureCube const & Texture,
 			size_type const & BaseFace,
@@ -72,7 +78,7 @@ namespace gli
 			size_type const & BaseLevel,
 			size_type const & MaxLevel);
 
-		/// Create a texture view, reference a subset of an exiting textureCubeArray instance
+		/// Create a textureCube view, reference a subset of an existing textureCubeArray instance
 		explicit textureCube(
 			textureCubeArray const & Texture,
 			size_type const & BaseLayer,
@@ -81,7 +87,7 @@ namespace gli
 			size_type const & BaseLevel,
 			size_type const & MaxLevel);
 
-		/// Create a texture view, reference a subset of an exiting texture2D instance
+		/// Create a textureCube view, reference a subset of an existing texture2D instance
 		explicit textureCube(
 			texture2D const & Texture,
 			size_type const & BaseLevel,

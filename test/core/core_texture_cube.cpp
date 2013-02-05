@@ -9,6 +9,45 @@
 
 #include <gli/gli.hpp>
 
+int test_alloc()
+{
+	int Error(0);
+
+	std::vector<gli::format> Formats;
+	Formats.push_back(gli::RGBA8_UNORM);
+	Formats.push_back(gli::RGB8_UNORM);
+	Formats.push_back(gli::R8_SNORM);
+	Formats.push_back(gli::RGB_DXT1);
+	Formats.push_back(gli::RGB_BP_UNORM);
+	Formats.push_back(gli::RGBA32F);
+
+	std::vector<std::size_t> Sizes;
+	Sizes.push_back(16);
+	Sizes.push_back(32);
+	Sizes.push_back(15);
+	Sizes.push_back(17);
+	Sizes.push_back(1);
+
+	for(std::size_t FormatIndex = 0; FormatIndex < Formats.size(); ++FormatIndex)
+	for(std::size_t SizeIndex = 0; SizeIndex < Sizes.size(); ++SizeIndex)
+	{
+		gli::textureCube TextureA(
+			6,
+			gli::textureCube::size_type(glm::log2(int(Sizes[SizeIndex])) + 1),
+			Formats[FormatIndex],
+			gli::textureCube::dimensions_type(Sizes[SizeIndex]));
+
+		gli::textureCube TextureB(
+			6,
+			Formats[FormatIndex],
+			gli::textureCube::dimensions_type(Sizes[SizeIndex]));
+
+		Error += TextureA == TextureB ? 0 : 1;
+	}
+
+	return Error;
+}
+
 int test_textureCube_query()
 {
 	int Error(0);
@@ -203,6 +242,7 @@ int main()
 {
 	int Error(0);
 
+	Error += test_alloc();
 	Error += test_textureCube_texture2D_size();
 	Error += test_textureCube_query();
 	Error += test_textureCube_texture2D_access();

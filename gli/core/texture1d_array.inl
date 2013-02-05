@@ -55,6 +55,25 @@ namespace gli
 
 	inline texture1DArray::texture1DArray
 	(
+		size_type const & Layers,
+		format_type const & Format,
+		dimensions_type const & Dimensions
+	) :
+		Storage(
+			Layers,
+			1,
+			size_type(glm::log2(int(Dimensions)) + 1),
+			Format,
+			storage::dimensions_type(Dimensions, 1, 1)),
+		View(
+			0, Layers - 1,
+			0, 0,
+			0, size_type(glm::log2(int(Dimensions)))),
+		Format(Format)
+	{}
+
+	inline texture1DArray::texture1DArray
+	(
 		storage const & Storage
 	) :
 		Storage(Storage),

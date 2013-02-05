@@ -55,6 +55,25 @@ namespace gli
 
 	inline texture2DArray::texture2DArray
 	(
+		size_type const & Layers,
+		format_type const & Format,
+		dimensions_type const & Dimensions
+	) :
+		Storage(
+			Layers,
+			1,
+			size_type(glm::log2(int(glm::max(Dimensions.x, Dimensions.y))) + 1),
+			Format,
+			storage::dimensions_type(Dimensions, 1)),
+		View(
+			0, Layers - 1,
+			0, 0,
+			0, size_type(glm::log2(int(glm::max(Dimensions.x, Dimensions.y))))),
+		Format(Format)
+	{}
+
+	inline texture2DArray::texture2DArray
+	(
 		storage const & Storage
 	) :
 		Storage(Storage),

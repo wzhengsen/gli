@@ -8,65 +8,44 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 #include <gli/gli.hpp>
-/*
-inline GLuint createTexture2D(std::string const & Filename)
+
+int test_alloc()
 {
-	gli::texture2D Texture = gli::load(Filename);
-	if(Texture.empty())
-		return 0;
+	int Error(0);
 
-	detail::texture_desc TextureDesc = detail::gli2ogl_cast(Texture.format());
+	std::vector<gli::format> Formats;
+	Formats.push_back(gli::RGBA8_UNORM);
+	Formats.push_back(gli::RGB8_UNORM);
+	Formats.push_back(gli::R8_SNORM);
+	Formats.push_back(gli::RGB_DXT1);
+	Formats.push_back(gli::RGB_BP_UNORM);
+	Formats.push_back(gli::RGBA32F);
 
-	GLint Alignment = 0;
-	glGetIntegerv(GL_UNPACK_ALIGNMENT, &Alignment);
+	std::vector<std::size_t> Sizes;
+	Sizes.push_back(16);
+	Sizes.push_back(32);
+	Sizes.push_back(15);
+	Sizes.push_back(17);
+	Sizes.push_back(1);
 
-	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-
-	GLuint Name = 0;
-	glGenTextures(1, &Name);
-	glBindTexture(GL_TEXTURE_2D, Name);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, Texture.levels() > 1 ? GL_NEAREST_MIPMAP_NEAREST : GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-
-	if(size(Texture, BIT_PER_PIXEL) == size(Texture, BLOCK_SIZE) << 3)
+	for(std::size_t FormatIndex = 0; FormatIndex < Formats.size(); ++FormatIndex)
+	for(std::size_t SizeIndex = 0; SizeIndex < Sizes.size(); ++SizeIndex)
 	{
-		for(gli::texture2D::level_type Level = 0; Level < Texture.levels(); ++Level)
-		{
-			glTexImage2D(
-				GL_TEXTURE_2D, 
-				GLint(Level), 
-				TextureDesc.InternalFormat,
-				GLsizei(Texture[Level].dimensions().x), 
-				GLsizei(Texture[Level].dimensions().y), 
-				0,  
-				TextureDesc.ExternalFormatRev, 
-				TextureDesc.Type, 
-				Texture[Level].data());
-		}
-	}
-	else
-	{
-		for(gli::texture2D::level_type Level = 0; Level < Texture.levels(); ++Level)
-		{
-			glCompressedTexImage2D(
-				GL_TEXTURE_2D,
-				GLint(Level),
-				TextureDesc.InternalFormat,
-				GLsizei(Texture[Level].dimensions().x), 
-				GLsizei(Texture[Level].dimensions().y), 
-				0, 
-				GLsizei(Texture[Level].capacity()), 
-				Texture[Level].data());
-		}
+		gli::texture2D TextureA(
+			gli::texture2D::size_type(glm::log2(int(Sizes[SizeIndex])) + 1),
+			Formats[FormatIndex],
+			gli::texture2D::dimensions_type(Sizes[SizeIndex]));
+
+		gli::texture2D TextureB(
+			Formats[FormatIndex],
+			gli::texture2D::dimensions_type(Sizes[SizeIndex]));
+
+		Error += TextureA == TextureB ? 0 : 1;
 	}
 
-	glBindTexture(GL_TEXTURE_2D, 0);
-
-	glPixelStorei(GL_UNPACK_ALIGNMENT, Alignment);
-
-	return Name;
+	return Error;
 }
-*/
+
 int test_texture2d_clear()
 {
 	int Error(0);
@@ -255,6 +234,7 @@ int main()
 {
 	int Error(0);
 
+	Error += test_alloc();
 	Error += test_texture2d_image_size();
 	Error += test_texture2d_query();
 	Error += test_texture2d_clear();

@@ -56,6 +56,26 @@ namespace gli
 
 	inline textureCubeArray::textureCubeArray
 	(
+		size_type const & Layers,
+		size_type const & Faces,
+		format_type const & Format,
+		dimensions_type const & Dimensions
+	) :
+		Storage(
+			Layers,
+			Faces,
+			size_type(glm::log2(int(glm::max(Dimensions.x, Dimensions.y))) + 1),
+			Format,
+			storage::dimensions_type(Dimensions, 1)),
+		View(
+			0, Layers - 1,
+			0, Faces - 1,
+			0, size_type(glm::log2(int(glm::max(Dimensions.x, Dimensions.y))))),
+		Format(Format)
+	{}
+
+	inline textureCubeArray::textureCubeArray
+	(
 		storage const & Storage
 	) :
 		Storage(Storage),
