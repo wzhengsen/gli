@@ -53,6 +53,30 @@ inline texture1D copy(texture1D const & Texture)
 	return Copy;
 }
 
+inline texture1D copy
+(
+	texture1D const & Texture,
+	texture1D::size_type const & BaseLevel,
+	texture1D::size_type const & MaxLevel
+)
+{
+	assert(BaseLevel <= MaxLevel);
+	assert(BaseLevel < Texture.levels());
+	assert(MaxLevel < Texture.levels());
+	
+	texture1D Copy(
+		MaxLevel - BaseLevel + 1, 
+		Texture.format(), 
+		texture1D::dimensions_type(Texture[BaseLevel].dimensions().x));
+
+	memcpy(
+		Copy.data<glm::byte>(), 
+		Texture[BaseLevel].data<glm::byte>(), 
+		Copy.size<glm::byte>());
+		
+	return Copy;
+}
+
 template <>
 inline texture1DArray copy(texture1DArray const & Texture)
 {
@@ -89,6 +113,30 @@ inline texture2D copy(texture2D const & Texture)
 	return Copy;
 }
 
+inline texture2D copy
+(
+	texture2D const & Texture,
+	texture2D::size_type const & BaseLevel,
+	texture2D::size_type const & MaxLevel
+)
+{
+	assert(BaseLevel <= MaxLevel);
+	assert(BaseLevel < Texture.levels());
+	assert(MaxLevel < Texture.levels());
+	
+	texture2D Copy(
+		MaxLevel - BaseLevel + 1, 
+		Texture.format(), 
+		texture2D::dimensions_type(Texture[BaseLevel].dimensions().x));
+
+	memcpy(
+		Copy.data<glm::byte>(), 
+		Texture[BaseLevel].data<glm::byte>(), 
+		Copy.size<glm::byte>());
+		
+	return Copy;
+}
+
 template <>
 inline texture2DArray copy(texture2DArray const & Texture)
 {
@@ -121,6 +169,30 @@ inline texture3D copy(texture3D const & Texture)
 		Copy.data<glm::byte>(), 
 		Texture.data<glm::byte>(), 
 		Texture.size<glm::byte>());
+		
+	return Copy;
+}
+
+inline texture3D copy
+(
+	texture3D const & Texture,
+	texture3D::size_type const & BaseLevel,
+	texture3D::size_type const & MaxLevel
+)
+{
+	assert(BaseLevel <= MaxLevel);
+	assert(BaseLevel < Texture.levels());
+	assert(MaxLevel < Texture.levels());
+	
+	texture3D Copy(
+		MaxLevel - BaseLevel + 1, 
+		Texture.format(), 
+		texture3D::dimensions_type(Texture[BaseLevel].dimensions().x));
+
+	memcpy(
+		Copy.data<glm::byte>(), 
+		Texture[BaseLevel].data<glm::byte>(), 
+		Copy.size<glm::byte>());
 		
 	return Copy;
 }
