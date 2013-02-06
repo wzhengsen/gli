@@ -52,6 +52,62 @@ int test_texture1D
 	return Error;
 }
 
+int test_texture1DArray
+(
+	std::vector<gli::format> const & Formats, 
+	gli::texture1D::size_type const & TextureSize
+)
+{
+	int Error(0);
+
+	for(std::size_t i = 0; i < Formats.size(); ++i)
+	{
+		gli::texture1DArray TextureA(
+			gli::texture1DArray::size_type(4),
+			gli::texture1DArray::size_type(glm::log2(float(TextureSize))) + 1,
+			Formats[i],
+			gli::texture1DArray::dimensions_type(TextureSize));
+
+		gli::texture1DArray TextureB = gli::copy(TextureA);
+
+		Error += TextureA == TextureB ? 0 : 1;
+
+		gli::texture1DArray TextureC(TextureA, 
+			gli::texture1DArray::size_type(0), TextureA.layers() - 1,
+			gli::texture1DArray::size_type(1), gli::texture1DArray::size_type(2));
+
+		Error += TextureA[0][1] == TextureC[0][0] ? 0 : 1;
+		Error += TextureA[0][2] == TextureC[0][1] ? 0 : 1;
+		Error += TextureA[1][1] == TextureC[1][0] ? 0 : 1;
+		Error += TextureA[1][2] == TextureC[1][1] ? 0 : 1;
+
+		gli::texture1DArray TextureD = gli::copy(TextureC);
+
+		Error += TextureC == TextureD ? 0 : 1;
+
+		gli::texture1DArray TextureG = gli::copy(
+			TextureA, 
+			0, TextureA.layers() - 1, 
+			0, TextureA.levels() - 1);
+		Error += TextureA == TextureG ? 0 : 1;
+
+		gli::texture1DArray TextureE = gli::copy(
+			TextureA, 
+			1, TextureA.layers() - 1, 
+			0, TextureA.levels() - 1);
+		Error += TextureA[1] == TextureE[0] ? 0 : 1;
+
+		gli::texture1DArray TextureF(
+			TextureA, 
+			1, TextureA.layers() - 1, 
+			0, TextureA.levels() - 1); 
+
+		Error += TextureE == TextureF ? 0 : 1;
+	}
+
+	return Error;
+}
+
 int test_texture2D
 (
 	std::vector<gli::format> const & Formats, 
@@ -150,6 +206,7 @@ int main()
 	std::size_t const TextureSize = 32;
 
 	Error += test_texture1D(Formats, TextureSize);
+	Error += test_texture1DArray(Formats, TextureSize);
 	Error += test_texture2D(Formats, TextureSize);
 	Error += test_texture3D(Formats, TextureSize);
 		
