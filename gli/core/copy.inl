@@ -48,7 +48,7 @@ inline texture1D copy(texture1D const & Texture)
 	memcpy(
 		Copy.data<glm::byte>(), 
 		Texture.data<glm::byte>(), 
-		Texture.size<glm::byte>());
+		Copy.size<glm::byte>());
 		
 	return Copy;
 }
@@ -86,14 +86,47 @@ inline texture1DArray copy(texture1DArray const & Texture)
 		Texture.format(), 
 		Texture.dimensions());
 
-	for(texture1DArray::size_type Layer = 0; Layer < Texture.layers(); ++Layer)
+	for(texture1DArray::size_type Layer = 0; Layer < Copy.layers(); ++Layer)
 	{
 		memcpy(
 			Copy[Layer].data<glm::byte>(), 
 			Texture[Layer].data<glm::byte>(), 
-			Texture[Layer].size<glm::byte>());
+			Copy[Layer].size<glm::byte>());
 	}
 		
+	return Copy;
+}
+
+inline texture1DArray copy
+(
+	texture1DArray const & Texture,
+	texture1DArray::size_type const & BaseLayer,
+	texture1DArray::size_type const & MaxMayer,
+	texture1DArray::size_type const & BaseLevel,
+	texture1DArray::size_type const & MaxLevel
+)
+{
+	assert(BaseLevel <= MaxLevel);
+	assert(BaseLevel < Texture.levels());
+	assert(MaxLevel < Texture.levels());
+	assert(BaseLayer <= MaxMayer);
+	assert(BaseLayer < Texture.layers());
+	assert(MaxMayer < Texture.layers());
+
+	texture1DArray Copy(
+		MaxMayer - BaseLayer + 1, 
+		MaxLevel - BaseLevel + 1, 
+		Texture.format(), 
+		texture1DArray::dimensions_type(Texture[BaseLayer][BaseLevel].dimensions().x));
+
+	for(texture1DArray::size_type Layer = 0; Layer < Copy.layers(); ++Layer)
+	{
+		memcpy(
+			Copy[Layer].data<glm::byte>(), 
+			Texture[Layer + BaseLayer][BaseLevel].data<glm::byte>(), 
+			Copy[Layer].size<glm::byte>());
+	}
+
 	return Copy;
 }
 
@@ -108,7 +141,7 @@ inline texture2D copy(texture2D const & Texture)
 	memcpy(
 		Copy.data<glm::byte>(), 
 		Texture.data<glm::byte>(), 
-		Texture.size<glm::byte>());
+		Copy.size<glm::byte>());
 		
 	return Copy;
 }
@@ -146,12 +179,45 @@ inline texture2DArray copy(texture2DArray const & Texture)
 		Texture.format(), 
 		Texture.dimensions());
 
-	for(texture2DArray::size_type Layer = 0; Layer < Texture.layers(); ++Layer)
+	for(texture2DArray::size_type Layer = 0; Layer < Copy.layers(); ++Layer)
 	{
 		memcpy(
 			Copy[Layer].data<glm::byte>(), 
 			Texture[Layer].data<glm::byte>(), 
-			Texture[Layer].size<glm::byte>());
+			Copy[Layer].size<glm::byte>());
+	}
+		
+	return Copy;
+}
+
+inline texture2DArray copy
+(
+	texture2DArray const & Texture,
+	texture2DArray::size_type const & BaseLayer,
+	texture2DArray::size_type const & MaxMayer,
+	texture2DArray::size_type const & BaseLevel,
+	texture2DArray::size_type const & MaxLevel
+)
+{
+	assert(BaseLevel <= MaxLevel);
+	assert(BaseLevel < Texture.levels());
+	assert(MaxLevel < Texture.levels());
+	assert(BaseLayer <= MaxMayer);
+	assert(BaseLayer < Texture.layers());
+	assert(MaxMayer < Texture.layers());
+
+	texture2DArray Copy(
+		MaxMayer - BaseLayer + 1, 
+		MaxLevel - BaseLevel + 1, 
+		Texture.format(), 
+		texture2DArray::dimensions_type(Texture[BaseLayer][BaseLevel].dimensions()));
+
+	for(texture2DArray::size_type Layer = 0; Layer < Copy.layers(); ++Layer)
+	{
+		memcpy(
+			Copy[Layer].data<glm::byte>(), 
+			Texture[Layer + BaseLayer][BaseLevel].data<glm::byte>(), 
+			Copy[Layer].size<glm::byte>());
 	}
 		
 	return Copy;
@@ -187,7 +253,7 @@ inline texture3D copy
 	texture3D Copy(
 		MaxLevel - BaseLevel + 1, 
 		Texture.format(), 
-		texture3D::dimensions_type(Texture[BaseLevel].dimensions().x));
+		texture3D::dimensions_type(Texture[BaseLevel].dimensions()));
 
 	memcpy(
 		Copy.data<glm::byte>(), 
@@ -206,12 +272,45 @@ inline textureCube copy(textureCube const & Texture)
 		Texture.format(), 
 		Texture.dimensions());
 
-	for(textureCube::size_type Face = 0; Face < Texture.faces(); ++Face)
+	for(textureCube::size_type Face = 0; Face < Copy.faces(); ++Face)
 	{
 		memcpy(
 			Copy[Face].data<glm::byte>(), 
 			Texture[Face].data<glm::byte>(), 
 			Texture[Face].size<glm::byte>());
+	}
+		
+	return Copy;
+}
+
+inline textureCube copy
+(
+	textureCube const & Texture,
+	textureCube::size_type const & BaseFace,
+	textureCube::size_type const & MaxFace,
+	textureCube::size_type const & BaseLevel,
+	textureCube::size_type const & MaxLevel
+)
+{
+	assert(BaseLevel <= MaxLevel);
+	assert(BaseLevel < Texture.levels());
+	assert(MaxLevel < Texture.levels());
+	assert(BaseFace <= MaxFace);
+	assert(BaseFace < Texture.faces());
+	assert(MaxFace < Texture.faces());
+
+	textureCube Copy(
+		MaxFace - BaseFace + 1, 
+		MaxLevel - BaseLevel + 1, 
+		Texture.format(), 
+		textureCube::dimensions_type(Texture[BaseFace][BaseLevel].dimensions()));
+
+	for(textureCube::size_type Face = 0; Face < Copy.faces(); ++Face)
+	{
+		memcpy(
+			Copy[Face].data<glm::byte>(), 
+			Texture[Face + BaseFace][BaseLevel].data<glm::byte>(), 
+			Copy[Face].size<glm::byte>());
 	}
 		
 	return Copy;
@@ -227,15 +326,54 @@ inline textureCubeArray copy(textureCubeArray const & Texture)
 		Texture.format(), 
 		Texture.dimensions());
 
-	for(textureCubeArray::size_type Layer = 0; Layer < Texture.layers(); ++Layer)
-	for(textureCube::size_type Face = 0; Face < Texture[Layer].faces(); ++Face)
+	for(textureCubeArray::size_type Layer = 0; Layer < Copy.layers(); ++Layer)
+	for(textureCubeArray::size_type Face = 0; Face < Copy[Layer].faces(); ++Face)
 	{
 		memcpy(
 			Copy[Layer][Face].data<glm::byte>(), 
 			Texture[Layer][Face].data<glm::byte>(), 
-			Texture[Layer][Face].size<glm::byte>());
+			Copy[Layer][Face].size<glm::byte>());
 	}
-		
+
+	return Copy;
+}
+
+inline textureCubeArray copy
+(
+	textureCubeArray const & Texture,
+	textureCubeArray::size_type const & BaseLayer,
+	textureCubeArray::size_type const & MaxLayer,
+	textureCubeArray::size_type const & BaseFace,
+	textureCubeArray::size_type const & MaxFace,
+	textureCubeArray::size_type const & BaseLevel,
+	textureCubeArray::size_type const & MaxLevel
+)
+{
+	assert(BaseLevel <= MaxLevel);
+	assert(BaseLevel < Texture.levels());
+	assert(MaxLevel < Texture.levels());
+	assert(BaseFace <= MaxFace);
+	assert(BaseFace < Texture.faces());
+	assert(MaxFace < Texture.faces());
+	assert(BaseLayer <= MaxLayer);
+	assert(BaseLayer < Texture.layers());
+	assert(MaxLayer < Texture.layers());
+
+	textureCubeArray Copy(
+		MaxFace - BaseFace + 1, 
+		MaxLevel - BaseLevel + 1, 
+		Texture.format(), 
+		textureCube::dimensions_type(Texture[BaseFace][BaseLevel].dimensions()));
+
+	for(textureCubeArray::size_type Layer = 0; Layer < Copy.layers(); ++Layer)
+	for(textureCubeArray::size_type Face = 0; Face < Copy[Layer].faces(); ++Face)
+	{
+		memcpy(
+			Copy[Layer][Face].data<glm::byte>(), 
+			Texture[Layer + BaseLayer][Face + BaseFace][BaseLevel].data<glm::byte>(), 
+			Copy[Layer][Face].size<glm::byte>());
+	}
+
 	return Copy;
 }
 
