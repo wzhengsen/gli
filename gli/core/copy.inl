@@ -360,10 +360,11 @@ inline textureCubeArray copy
 	assert(MaxLayer < Texture.layers());
 
 	textureCubeArray Copy(
+		MaxLayer - BaseLayer + 1, 
 		MaxFace - BaseFace + 1, 
 		MaxLevel - BaseLevel + 1, 
 		Texture.format(), 
-		textureCube::dimensions_type(Texture[BaseFace][BaseLevel].dimensions()));
+		textureCube::dimensions_type(Texture[BaseLayer][BaseFace][BaseLevel].dimensions()));
 
 	for(textureCubeArray::size_type Layer = 0; Layer < Copy.layers(); ++Layer)
 	for(textureCubeArray::size_type Face = 0; Face < Copy[Layer].faces(); ++Face)
