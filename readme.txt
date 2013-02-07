@@ -39,6 +39,7 @@ GLI 0.5.0.0: 2013-0X-XX
 - Added texture views
 - Added texture copies
 - Added comparison operators
+- Added clear
 
 ================================================================================
 GLI 0.4.0.0: 2013-01-28
