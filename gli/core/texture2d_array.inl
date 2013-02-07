@@ -29,7 +29,12 @@
 namespace gli
 {
 	inline texture2DArray::texture2DArray() :
-		View(0, 0, 0, 0, 0, 0),
+		BaseLayer(0),
+		MaxLayer(0),
+		BaseFace(0),
+		MaxFace(0),
+		BaseLevel(0),
+		MaxLevel(0),
 		Format(FORMAT_NULL)
 	{}
 
@@ -46,10 +51,12 @@ namespace gli
 			Levels,
 			Format,
 			storage::dimensions_type(Dimensions, 1)),
-		View(
-			0, Layers - 1,
-			0, 0,
-			0, Levels - 1),
+		BaseLayer(0), 
+		MaxLayer(Layers - 1), 
+		BaseFace(0), 
+		MaxFace(0), 
+		BaseLevel(0), 
+		MaxLevel(Levels - 1),
 		Format(Format)
 	{}
 
@@ -65,10 +72,12 @@ namespace gli
 			size_type(glm::log2(int(glm::max(Dimensions.x, Dimensions.y))) + 1),
 			Format,
 			storage::dimensions_type(Dimensions, 1)),
-		View(
-			0, Layers - 1,
-			0, 0,
-			0, size_type(glm::log2(int(glm::max(Dimensions.x, Dimensions.y))))),
+		BaseLayer(0), 
+		MaxLayer(Layers - 1), 
+		BaseFace(0), 
+		MaxFace(0), 
+		BaseLevel(0), 
+		MaxLevel(glm::log2(int(glm::max(Dimensions.x, Dimensions.y)))),
 		Format(Format)
 	{}
 
@@ -77,7 +86,12 @@ namespace gli
 		storage const & Storage
 	) :
 		Storage(Storage),
-		View(0, Storage.layers() - 1, 0, 0, 0, Storage.levels() - 1),
+		BaseLayer(0), 
+		MaxLayer(Storage.layers() - 1), 
+		BaseFace(0), 
+		MaxFace(0), 
+		BaseLevel(0), 
+		MaxLevel(Storage.levels() - 1),
 		Format(Storage.format())
 	{}
 
@@ -85,10 +99,20 @@ namespace gli
 	(
 		storage const & Storage,
 		format_type const & Format,
-		gli::view const & View
+		size_type BaseLayer,
+		size_type MaxLayer,
+		size_type BaseFace,
+		size_type MaxFace,
+		size_type BaseLevel,
+		size_type MaxLevel
 	) :
 		Storage(Storage),
-		View(View),
+		BaseLayer(BaseLayer),
+		MaxLayer(MaxLayer),
+		BaseFace(BaseFace),
+		MaxFace(MaxFace),
+		BaseLevel(BaseLevel),
+		MaxLevel(MaxLevel),
 		Format(Format)
 	{}
 
@@ -101,13 +125,12 @@ namespace gli
 		size_type const & MaxLevel
 	) :
 		Storage(Texture.Storage),
-		View(
-			Texture.view().BaseLayer + BaseLayer,
-			Texture.view().BaseLayer + MaxLayer,
-			Texture.view().BaseFace,
-			Texture.view().MaxFace,
-			Texture.view().BaseLevel + BaseLevel,
-			Texture.view().BaseLevel + MaxLevel),
+		BaseLayer(Texture.baseLayer() + BaseLayer),
+		MaxLayer(Texture.baseLayer() + MaxLayer),
+		BaseFace(Texture.baseFace()),
+		MaxFace(Texture.maxFace()),
+		BaseLevel(Texture.baseLevel() + BaseLevel),
+		MaxLevel(Texture.baseLevel() + MaxLevel),
 		Format(Texture.format())
 	{}
 
@@ -118,13 +141,12 @@ namespace gli
 		size_type const & MaxLevel
 	) :
 		Storage(Texture),
-		View(
-			Texture.view().BaseLayer,
-			Texture.view().MaxLayer,
-			Texture.view().BaseFace,
-			Texture.view().MaxFace,
-			Texture.view().BaseLevel + BaseLevel,
-			Texture.view().BaseLevel + MaxLevel),
+		BaseLayer(Texture.baseLayer()),
+		MaxLayer(Texture.maxLayer()),
+		BaseFace(Texture.baseFace()),
+		MaxFace(Texture.maxFace()),
+		BaseLevel(Texture.baseLevel() + BaseLevel),
+		MaxLevel(Texture.baseLevel() + MaxLevel),
 		Format(Texture.format())
 	{}
 
@@ -141,15 +163,10 @@ namespace gli
 		assert(Layer < this->layers());
 
 		return texture2D(
-			this->Storage,
-			this->format(),
-			gli::view(
-				this->View.BaseLayer + Layer, 
-				this->View.BaseLayer + Layer, 
-				this->View.BaseFace,
-				this->View.MaxFace,
-				this->View.BaseLevel,
-				this->View.MaxLevel));
+			this->Storage, this->format(),
+			this->baseLayer() + Layer, this->baseLayer() + Layer, 
+			this->baseFace(), 	this->maxFace(),
+			this->baseLevel(), this->maxLevel());
 	}
 
 	inline bool texture2DArray::empty() const
@@ -161,7 +178,7 @@ namespace gli
 	{
 		assert(!this->empty());
 
-		return texture2DArray::dimensions_type(this->Storage.dimensions(this->View.BaseLevel));
+		return texture2DArray::dimensions_type(this->Storage.dimensions(this->baseLevel()));
 	}
 
 	inline texture2DArray::format_type texture2DArray::format() const
@@ -171,31 +188,27 @@ namespace gli
 
 	inline texture2DArray::size_type texture2DArray::layers() const
 	{
-		return this->View.MaxLayer - this->View.BaseLayer + 1;
+		return this->maxLayer() - this->baseLayer() + 1;
 	}
 
 	inline texture2DArray::size_type texture2DArray::faces() const
 	{
-		return this->View.MaxFace - this->View.BaseFace + 1;
+		assert(this->maxFace() - this->baseFace() + 1 == 1);
+		return 1;
 	}
 
 	inline texture2DArray::size_type texture2DArray::levels() const
 	{
-		return this->View.MaxLevel - this->View.BaseLevel + 1;
+		return this->maxLevel() - this->baseLevel() + 1;
 	}
-
-	inline view const & texture2DArray::view() const
-	{
-		return this->View;
-	}
-
+	
 	inline texture2DArray::size_type texture2DArray::size() const
 	{
 		assert(!this->empty());
 
 		return this->Storage.layerSize(
-			this->View.BaseFace, this->View.MaxFace,
-			this->View.BaseLevel, this->View.MaxLevel) * this->layers();
+			this->baseFace(), this->maxFace(),
+			this->baseLevel(), this->maxLevel()) * this->layers();
 	}
 
 	inline void * texture2DArray::data()
@@ -203,7 +216,7 @@ namespace gli
 		assert(!this->empty());
 
 		size_type const offset = detail::imageAddressing(
-			this->Storage, this->View.BaseLayer, this->View.BaseFace, this->View.BaseLevel);
+			this->Storage, this->baseLayer(), this->baseFace(), this->baseLevel());
 
 		return this->Storage.data() + offset;
 	}
@@ -213,7 +226,7 @@ namespace gli
 		assert(!this->empty());
 
 		size_type const offset = detail::imageAddressing(
-			this->Storage, this->View.BaseLayer, this->View.BaseFace, this->View.BaseLevel);
+			this->Storage, this->baseLayer(), this->baseFace(), this->baseLevel());
 
 		return this->Storage.data() + offset;
 	}
@@ -258,5 +271,35 @@ namespace gli
 
 		for(size_type Layer = 0; Layer < this->layers(); ++Layer)
 			(*this)[Layer].clear<genType>(Texel);
+	}
+
+	inline texture2DArray::size_type texture2DArray::baseLayer() const
+	{
+		return this->BaseLayer;
+	}
+
+	inline texture2DArray::size_type texture2DArray::maxLayer() const
+	{
+		return this->MaxLayer;
+	}
+
+	inline texture2DArray::size_type texture2DArray::baseFace() const
+	{
+		return this->BaseFace;
+	}
+
+	inline texture2DArray::size_type texture2DArray::maxFace() const
+	{
+		return this->MaxFace;
+	}
+
+	inline texture2DArray::size_type texture2DArray::baseLevel() const
+	{
+		return this->BaseLevel;
+	}
+
+	inline texture2DArray::size_type texture2DArray::maxLevel() const
+	{
+		return this->MaxLevel;
 	}
 }//namespace gli

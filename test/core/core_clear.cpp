@@ -53,6 +53,15 @@ int main()
 {
 	int Error(0);
 
+	std::vector<glm::u64> ColorDXT1;
+	ColorDXT1.push_back(255);
+	ColorDXT1.push_back(127);
+	ColorDXT1.push_back(64);
+	ColorDXT1.push_back(32);
+	ColorDXT1.push_back(16);
+	ColorDXT1.push_back(8);
+	ColorDXT1.push_back(4);
+
 	std::vector<glm::u8> ColorR8_UNORM;
 	ColorR8_UNORM.push_back(255);
 	ColorR8_UNORM.push_back(127);
@@ -99,6 +108,9 @@ int main()
 
 	for(std::size_t i = 0; i < Sizes.size(); ++i)
 	{
+		Error += test_texture<gli::texture1D>(Sizes[i], gli::RGB_DXT1, ColorDXT1);
+		Error += test_texture<gli::texture2D>(Sizes[i], gli::RGB_DXT1, ColorDXT1);
+		Error += test_texture<gli::texture3D>(Sizes[i], gli::RGB_DXT1, ColorDXT1);
 		Error += test_texture<gli::texture1D>(Sizes[i], gli::R8_UNORM, ColorR8_UNORM);
 		Error += test_texture<gli::texture2D>(Sizes[i], gli::R8_UNORM, ColorR8_UNORM);
 		Error += test_texture<gli::texture3D>(Sizes[i], gli::R8_UNORM, ColorR8_UNORM);

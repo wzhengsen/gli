@@ -67,7 +67,12 @@ namespace gli
 		explicit texture1DArray(
 			storage const & Storage,
 			format_type const & Format,
-			view const & View);
+			size_type BaseLayer,
+			size_type MaxLayer,
+			size_type BaseFace,
+			size_type MaxFace,
+			size_type BaseLevel,
+			size_type MaxLevel);
 
 		/// Create a texture view, reference a subset of an exiting storage
 		explicit texture1DArray(
@@ -92,7 +97,6 @@ namespace gli
 		size_type layers() const;
 		size_type faces() const;
 		size_type levels() const;
-		view const & view() const;
 
 		size_type size() const;
 		void * data();
@@ -109,9 +113,21 @@ namespace gli
 		template <typename genType>
 		void clear(genType const & Texel);
 
+		size_type baseLayer() const;
+		size_type maxLayer() const;
+		size_type baseFace() const;
+		size_type maxFace() const;
+		size_type baseLevel() const;
+		size_type maxLevel() const;
+
 	private:
 		storage Storage;
-		gli::view View;
+		size_type BaseLayer; 
+		size_type MaxLayer; 
+		size_type BaseFace;
+		size_type MaxFace;
+		size_type BaseLevel;
+		size_type MaxLevel;
 		format_type Format;
 	};
 }//namespace gli

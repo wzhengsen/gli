@@ -29,7 +29,12 @@
 namespace gli
 {
 	inline textureCubeArray::textureCubeArray() :
-		View(0, 0, 0, 0, 0, 0),
+		BaseLayer(0),
+		MaxLayer(0),
+		BaseFace(0),
+		MaxFace(0),
+		BaseLevel(0),
+		MaxLevel(0),
 		Format(FORMAT_NULL)
 	{}
 
@@ -47,10 +52,12 @@ namespace gli
 			Levels,
 			Format,
 			storage::dimensions_type(Dimensions, 1)),
-		View(
-			0, Layers - 1,
-			0, Faces - 1,
-			0, Levels - 1),
+		BaseLayer(0), 
+		MaxLayer(Layers - 1), 
+		BaseFace(0), 
+		MaxFace(Faces - 1), 
+		BaseLevel(0), 
+		MaxLevel(Levels - 1),
 		Format(Format)
 	{}
 
@@ -67,10 +74,12 @@ namespace gli
 			size_type(glm::log2(int(glm::max(Dimensions.x, Dimensions.y))) + 1),
 			Format,
 			storage::dimensions_type(Dimensions, 1)),
-		View(
-			0, Layers - 1,
-			0, Faces - 1,
-			0, size_type(glm::log2(int(glm::max(Dimensions.x, Dimensions.y))))),
+		BaseLayer(0), 
+		MaxLayer(Layers - 1), 
+		BaseFace(0), 
+		MaxFace(Faces - 1), 
+		BaseLevel(0), 
+		MaxLevel(glm::log2(int(glm::max(Dimensions.x, Dimensions.y)))),
 		Format(Format)
 	{}
 
@@ -79,10 +88,12 @@ namespace gli
 		storage const & Storage
 	) :
 		Storage(Storage),
-		View(
-			0, Storage.layers() - 1,
-			0, Storage.faces() - 1,
-			0, Storage.levels() - 1),
+		BaseLayer(0), 
+		MaxLayer(Storage.layers() - 1), 
+		BaseFace(0), 
+		MaxFace(Storage.faces() - 1), 
+		BaseLevel(0), 
+		MaxLevel(Storage.levels() - 1),
 		Format(Storage.format())
 	{}
 
@@ -90,10 +101,20 @@ namespace gli
 	(
 		storage const & Storage,
 		format_type const & Format,
-		gli::view const & View
+		size_type BaseLayer,
+		size_type MaxLayer,
+		size_type BaseFace,
+		size_type MaxFace,
+		size_type BaseLevel,
+		size_type MaxLevel
 	) :
 		Storage(Storage),
-		View(View),
+		BaseLayer(BaseLayer),
+		MaxLayer(MaxLayer),
+		BaseFace(BaseFace),
+		MaxFace(MaxFace),
+		BaseLevel(BaseLevel),
+		MaxLevel(MaxLevel),
 		Format(Format)
 	{}
 
@@ -108,13 +129,12 @@ namespace gli
 		size_type const & MaxLevel
 	) :
 		Storage(Texture.Storage),
-		View(
-			Texture.view().BaseLayer + BaseLayer,
-			Texture.view().BaseLayer + MaxLayer,
-			Texture.view().BaseFace + BaseFace,
-			Texture.view().BaseFace + MaxFace,
-			Texture.view().BaseLevel + BaseLevel,
-			Texture.view().BaseLevel + MaxLevel),
+		BaseLayer(Texture.baseLayer() + BaseLayer),
+		MaxLayer(Texture.baseLayer() + MaxLayer),
+		BaseFace(Texture.baseFace() + BaseFace),
+		MaxFace(Texture.baseFace() + MaxFace),
+		BaseLevel(Texture.baseLevel() + BaseLevel),
+		MaxLevel(Texture.baseLevel() + MaxLevel),
 		Format(Texture.format())
 	{}
 
@@ -127,13 +147,12 @@ namespace gli
 		size_type const & MaxLevel
 	) :
 		Storage(Texture),
-		View(
-			Texture.view().BaseLayer,
-			Texture.view().MaxLayer,
-			Texture.view().BaseFace + BaseFace,
-			Texture.view().BaseFace + MaxFace,
-			Texture.view().BaseLevel + BaseLevel,
-			Texture.view().BaseLevel + MaxLevel),
+		BaseLayer(Texture.baseLayer()),
+		MaxLayer(Texture.maxLayer()),
+		BaseFace(Texture.baseFace() + BaseFace),
+		MaxFace(Texture.baseFace() + MaxFace),
+		BaseLevel(Texture.baseLevel() + BaseLevel),
+		MaxLevel(Texture.baseLevel() + MaxLevel),
 		Format(Texture.format())
 	{}
 
@@ -144,13 +163,12 @@ namespace gli
 		size_type const & MaxLevel
 	) :
 		Storage(Texture),
-		View(
-			Texture.view().BaseLayer,
-			Texture.view().MaxLayer,
-			Texture.view().BaseFace,
-			Texture.view().MaxFace,
-			Texture.view().BaseLevel + BaseLevel,
-			Texture.view().BaseLevel + MaxLevel),
+		BaseLayer(Texture.baseLayer()),
+		MaxLayer(Texture.maxLayer()),
+		BaseFace(Texture.baseFace()),
+		MaxFace(Texture.maxFace()),
+		BaseLevel(Texture.baseLevel() + BaseLevel),
+		MaxLevel(Texture.baseLevel() + MaxLevel),
 		Format(Texture.format())
 	{}
 
@@ -167,15 +185,10 @@ namespace gli
 		assert(Layer < this->layers());
 
 		return textureCube(
-			this->Storage,
-			this->format(),
-			gli::view(
-				this->View.BaseLayer + Layer, 
-				this->View.BaseLayer + Layer, 
-				this->View.BaseFace,
-				this->View.MaxFace,
-				this->View.BaseLevel,
-				this->View.MaxLevel));
+			this->Storage, this->format(),
+			this->baseLayer() + Layer, this->baseLayer() + Layer, 
+			this->baseFace(), this->maxFace(),
+			this->baseLevel(), this->maxLevel());
 	}
 
 	inline bool textureCubeArray::empty() const
@@ -185,7 +198,7 @@ namespace gli
 
 	inline textureCubeArray::dimensions_type textureCubeArray::dimensions() const
 	{
-		return textureCubeArray::dimensions_type(this->Storage.dimensions(this->View.BaseLevel));
+		return textureCubeArray::dimensions_type(this->Storage.dimensions(this->baseLevel()));
 	}
 
 	inline textureCube::format_type textureCubeArray::format() const
@@ -195,29 +208,26 @@ namespace gli
 
 	inline textureCubeArray::size_type textureCubeArray::layers() const
 	{
-		return this->View.MaxLayer - this->View.BaseLayer + 1;
+		return this->maxLayer() - this->baseLayer() + 1;
 	}
-
+	
 	inline textureCubeArray::size_type textureCubeArray::faces() const
 	{
-		return this->View.MaxFace - this->View.BaseFace + 1;
+		return this->maxFace() - this->baseFace() + 1;
 	}
-
+	
 	inline textureCubeArray::size_type textureCubeArray::levels() const
 	{
-		return this->View.MaxLevel - this->View.BaseLevel + 1;
-	}
-
-	inline view const & textureCubeArray::view() const
-	{
-		return this->View;
+		return this->maxLevel() - this->baseLevel() + 1;
 	}
 
 	inline textureCubeArray::size_type textureCubeArray::size() const
 	{
+		assert(!this->empty());
+
 		return this->Storage.layerSize(
-			this->View.BaseFace, this->View.MaxFace,
-			this->View.BaseLevel, this->View.MaxLevel) * this->layers();
+			this->baseFace(), this->maxFace(),
+			this->baseLevel(), this->maxLevel()) * this->layers();
 	}
 
 	inline void * textureCubeArray::data()
@@ -225,7 +235,7 @@ namespace gli
 		assert(!this->empty());
 
 		size_type const offset = detail::imageAddressing(
-			this->Storage, this->View.BaseLayer, this->View.BaseFace, this->View.BaseLevel);
+			this->Storage, this->baseLayer(), this->baseFace(), this->baseLevel());
 
 		return this->Storage.data() + offset;
 	}
@@ -235,7 +245,7 @@ namespace gli
 		assert(!this->empty());
 		
 		size_type const offset = detail::imageAddressing(
-			this->Storage, this->View.BaseLayer, this->View.BaseFace, this->View.BaseLevel);
+			this->Storage, this->baseLayer(), this->baseFace(), this->baseLevel());
 
 		return this->Storage.data() + offset;
 	}
@@ -280,5 +290,35 @@ namespace gli
 		for(size_type Layer = 0; Layer < this->layers(); ++Layer)
 		for(size_type Face = 0; Face < this->faces(); ++Face)
 			(*this)[Layer][Face].clear<genType>(Texel);
+	}
+
+	inline textureCubeArray::size_type textureCubeArray::baseLayer() const
+	{
+		return this->BaseLayer;
+	}
+
+	inline textureCubeArray::size_type textureCubeArray::maxLayer() const
+	{
+		return this->MaxLayer;
+	}
+
+	inline textureCubeArray::size_type textureCubeArray::baseFace() const
+	{
+		return this->BaseFace;
+	}
+
+	inline textureCubeArray::size_type textureCubeArray::maxFace() const
+	{
+		return this->MaxFace;
+	}
+
+	inline textureCubeArray::size_type textureCubeArray::baseLevel() const
+	{
+		return this->BaseLevel;
+	}
+
+	inline textureCubeArray::size_type textureCubeArray::maxLevel() const
+	{
+		return this->MaxLevel;
 	}
 }//namespace gli

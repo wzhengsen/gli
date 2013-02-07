@@ -33,6 +33,7 @@
 
 namespace gli
 {
+/*
 	struct view
 	{
 		typedef std::size_t size_type;
@@ -54,6 +55,7 @@ namespace gli
 		size_type BaseLevel;
 		size_type MaxLevel;
 	};
+*/
 }//namespace gli
 
 #include "header.inl"

@@ -28,6 +28,7 @@
 
 namespace gli
 {
+/*
 	view::view
 	(
 		size_type const & BaseLayer,
@@ -55,4 +56,5 @@ namespace gli
 		this->MaxLevel = View.MaxLevel;
 		return *this;
 	}
+*/
 }//namespace gli

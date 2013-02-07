@@ -68,7 +68,7 @@ int test_texture1D()
 
 	{
 		gli::texture1D TextureD(TextureA, 
-			TextureA.view().BaseLevel, TextureA.view().MaxLevel);
+			TextureA.baseLevel(), TextureA.maxLevel());
 
 		Error += TextureA == TextureD ? 0 : 1;
 		assert(!Error);
@@ -125,7 +125,7 @@ int test_texture1D()
 			gli::texture1D::dimensions_type(64));
 
 		gli::texture1D TextureC(TextureB, 
-			TextureB.view().BaseLevel + 1, TextureB.view().MaxLevel);
+			TextureB.baseLevel() + 1, TextureB.maxLevel());
 
 		Error += TextureA == TextureC ? 0 : 1;
 		assert(!Error);
@@ -174,10 +174,10 @@ int test_texture1DArray()
 
 	{
 		gli::texture1DArray TextureD(TextureA, 
-			TextureA.view().BaseLayer,
-			TextureA.view().MaxLayer,
-			TextureA.view().BaseLevel,
-			TextureA.view().MaxLevel);
+			TextureA.baseLayer(),
+			TextureA.maxLayer(),
+			TextureA.baseLevel(),
+			TextureA.maxLevel());
 
 		Error += TextureA == TextureD ? 0 : 1;
 		Error += TextureA != TextureD ? 1 : 0;
@@ -230,8 +230,8 @@ int test_texture1DArray()
 			gli::texture1DArray::dimensions_type(64));
 
 		gli::texture1DArray TextureC(TextureB, 
-			TextureB.view().BaseLayer, TextureB.view().MaxLayer,
-			TextureB.view().BaseLevel + 1, TextureB.view().MaxLevel);
+			TextureB.baseLayer(), TextureB.maxLayer(),
+			TextureB.baseLevel() + 1, TextureB.maxLevel());
 
 		Error += TextureA == TextureC ? 0 : 1;
 		Error += TextureA != TextureC ? 1 : 0;
@@ -276,7 +276,7 @@ int test_texture2D()
 
 	{
 		gli::texture2D TextureD(TextureA, 
-			TextureA.view().BaseLevel, TextureA.view().MaxLevel);
+			TextureA.baseLevel(), TextureA.maxLevel());
 
 		Error += TextureA == TextureD ? 0 : 1;
 		Error += TextureA != TextureD ? 1 : 0;
@@ -325,7 +325,7 @@ int test_texture2D()
 			gli::texture2D::dimensions_type(64));
 
 		gli::texture2D TextureC(TextureB, 
-			TextureB.view().BaseLevel + 1, TextureB.view().MaxLevel);
+			TextureB.baseLevel() + 1, TextureB.maxLevel());
 
 		Error += TextureA == TextureC ? 0 : 1;
 		Error += TextureA != TextureC ? 1 : 0;
@@ -372,8 +372,8 @@ int test_texture2DArray()
 
 	{
 		gli::texture2DArray TextureD(TextureA, 
-			TextureA.view().BaseLayer, TextureA.view().MaxLayer,
-			TextureA.view().BaseLevel, TextureA.view().MaxLevel);
+			TextureA.baseLayer(), TextureA.maxLayer(),
+			TextureA.baseLevel(), TextureA.maxLevel());
 
 		Error += TextureA == TextureD ? 0 : 1;
 		Error += TextureA != TextureD ? 1 : 0;
@@ -426,8 +426,8 @@ int test_texture2DArray()
 			gli::texture2DArray::dimensions_type(64));
 
 		gli::texture2DArray TextureC(TextureB, 
-			TextureB.view().BaseLayer, TextureB.view().MaxLayer,
-			TextureB.view().BaseLevel + 1, TextureB.view().MaxLevel);
+			TextureB.baseLayer(), TextureB.maxLayer(),
+			TextureB.baseLevel() + 1, TextureB.maxLevel());
 
 		Error += TextureA == TextureC ? 0 : 1;
 		Error += TextureA != TextureC ? 1 : 0;
@@ -472,7 +472,7 @@ int test_texture3D()
 
 	{
 		gli::texture3D TextureD(TextureA, 
-			TextureA.view().BaseLevel, TextureA.view().MaxLevel);
+			TextureA.baseLevel(), TextureA.maxLevel());
 
 		Error += TextureA == TextureD ? 0 : 1;
 		Error += TextureA != TextureD ? 1 : 0;
@@ -521,7 +521,7 @@ int test_texture3D()
 			gli::texture3D::dimensions_type(64));
 
 		gli::texture3D TextureC(TextureB, 
-			TextureB.view().BaseLevel + 1, TextureB.view().MaxLevel);
+			TextureB.baseLevel() + 1, TextureB.maxLevel());
 
 		Error += TextureA == TextureC ? 0 : 1;
 		Error += TextureA != TextureC ? 1 : 0;
@@ -568,8 +568,8 @@ int test_textureCube()
 
 	{
 		gli::textureCube TextureD(TextureA, 
-			TextureA.view().BaseFace, TextureA.view().MaxFace,
-			TextureA.view().BaseLevel, TextureA.view().MaxLevel);
+			TextureA.baseFace(), TextureA.maxFace(),
+			TextureA.baseLevel(), TextureA.maxLevel());
 
 		Error += TextureA == TextureD ? 0 : 1;
 		Error += TextureA != TextureD ? 1 : 0;
@@ -622,8 +622,8 @@ int test_textureCube()
 			gli::textureCube::dimensions_type(64));
 
 		gli::textureCube TextureC(TextureB, 
-			TextureB.view().BaseFace, TextureB.view().MaxFace,
-			TextureB.view().BaseLevel + 1, TextureB.view().MaxLevel);
+			TextureB.baseFace(), TextureB.maxFace(),
+			TextureB.baseLevel() + 1, TextureB.maxLevel());
 
 		Error += TextureA == TextureC ? 0 : 1;
 		Error += TextureA != TextureC ? 1 : 0;
@@ -672,9 +672,9 @@ int test_textureCubeArray()
 
 	{
 		gli::textureCubeArray TextureD(TextureA, 
-			TextureA.view().BaseLayer, TextureA.view().MaxLayer,
-			TextureA.view().BaseFace, TextureA.view().MaxFace,
-			TextureA.view().BaseLevel, TextureA.view().MaxLevel);
+			TextureA.baseLayer(), TextureA.maxLayer(),
+			TextureA.baseFace(), TextureA.maxFace(),
+			TextureA.baseLevel(), TextureA.maxLevel());
 
 		Error += TextureA == TextureD ? 0 : 1;
 		Error += TextureA != TextureD ? 1 : 0;
@@ -731,9 +731,9 @@ int test_textureCubeArray()
 			gli::textureCubeArray::dimensions_type(64));
 
 		gli::textureCubeArray TextureC(TextureB, 
-			TextureB.view().BaseLayer, TextureB.view().MaxLayer,
-			TextureB.view().BaseFace, TextureB.view().MaxFace,
-			TextureB.view().BaseLevel + 1, TextureB.view().MaxLevel);
+			TextureB.baseLayer(), TextureB.maxLayer(),
+			TextureB.baseFace(), TextureB.maxFace(),
+			TextureB.baseLevel() + 1, TextureB.maxLevel());
 
 		Error += TextureA == TextureC ? 0 : 1;
 		Error += TextureA != TextureC ? 1 : 0;

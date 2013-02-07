@@ -29,7 +29,12 @@
 namespace gli
 {
 	inline image::image() :
-		View(0, 0, 0, 0, 0, 0)
+		BaseLayer(0), 
+		MaxLayer(0), 
+		BaseFace(0), 
+		MaxFace(0), 
+		BaseLevel(0), 
+		MaxLevel(0)
 	{}
 
 	inline image::image
@@ -44,7 +49,12 @@ namespace gli
 			FORMAT_NULL,
 			BlockSize, 
 			storage::dimensions_type(BlockDimensions)),
-		View(0, 0, 0, 0, 0, 0)
+		BaseLayer(0), 
+		MaxLayer(0), 
+		BaseFace(0), 
+		MaxFace(0), 
+		BaseLevel(0), 
+		MaxLevel(0)
 	{}
 
 	inline image::image
@@ -58,16 +68,31 @@ namespace gli
 			Format,
 			block_size(Format),
 			block_dimensions(Format)),
-		View(0, 0, 0, 0, 0, 0)
+		BaseLayer(0), 
+		MaxLayer(0), 
+		BaseFace(0), 
+		MaxFace(0), 
+		BaseLevel(0), 
+		MaxLevel(0)
 	{}
 
 	inline image::image
 	(
 		storage const & Storage,
-		view const & View
+		size_type BaseLayer,
+		size_type MaxLayer,
+		size_type BaseFace,
+		size_type MaxFace,
+		size_type BaseLevel,
+		size_type MaxLevel
 	) :
 		Storage(Storage),
-		View(View)
+		BaseLayer(BaseLayer), 
+		MaxLayer(MaxLayer), 
+		BaseFace(BaseFace), 
+		MaxFace(MaxFace), 
+		BaseLevel(BaseLevel), 
+		MaxLevel(MaxLevel)
 	{}
 
 	inline bool image::empty() const
@@ -79,7 +104,7 @@ namespace gli
 	{
 		assert(!this->empty());
 
-		return this->Storage.levelSize(this->View.BaseLevel);
+		return this->Storage.levelSize(this->BaseLevel);
 	}
 
 	template <typename genType>
@@ -92,7 +117,7 @@ namespace gli
 
 	inline image::dimensions_type image::dimensions() const
 	{
-		return image::dimensions_type(this->Storage.dimensions(this->View.BaseLevel));
+		return image::dimensions_type(this->Storage.dimensions(this->BaseLevel));
 	}
 
 	inline void * image::data()
@@ -100,7 +125,7 @@ namespace gli
 		assert(!this->empty());
 
 		size_type const offset = detail::imageAddressing(
-			this->Storage, this->View.BaseLayer, this->View.BaseFace, this->View.BaseLevel);
+			this->Storage, this->BaseLayer, this->BaseFace, this->BaseLevel);
 
 		return this->Storage.data() + offset;
 	}
@@ -110,7 +135,7 @@ namespace gli
 		assert(!this->empty());
 		
 		size_type const offset = detail::imageAddressing(
-			this->Storage, this->View.BaseLayer, this->View.BaseFace, this->View.BaseLevel);
+			this->Storage, this->BaseLayer, this->BaseFace, this->BaseLevel);
 
 		return this->Storage.data() + offset;
 	}

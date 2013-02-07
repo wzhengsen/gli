@@ -62,7 +62,12 @@ namespace gli
 		/// Reference an exiting storage constructor
 		explicit image(
 			storage const & Storage,
-			view const & View);
+			size_type BaseLayer,
+			size_type MaxLayer,
+			size_type BaseFace,
+			size_type MaxFace,
+			size_type BaseLevel,
+			size_type MaxLevel);
 
 		/// Cast an image into a storage
 		//operator storage
@@ -87,7 +92,12 @@ namespace gli
 
 	private:
 		storage Storage;
-		gli::view View;
+		size_type BaseLayer; 
+		size_type MaxLayer; 
+		size_type BaseFace;
+		size_type MaxFace;
+		size_type BaseLevel;
+		size_type MaxLevel;
 	};
 }//namespace gli
 
