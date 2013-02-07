@@ -62,15 +62,12 @@ namespace gli
 		/// Reference an exiting storage constructor
 		explicit image(
 			storage const & Storage,
-			size_type BaseLayer,
-			size_type MaxLayer,
-			size_type BaseFace,
-			size_type MaxFace,
-			size_type BaseLevel,
-			size_type MaxLevel);
+			size_type BaseLayer, size_type MaxLayer,
+			size_type BaseFace, size_type MaxFace,
+			size_type BaseLevel, size_type MaxLevel);
 
 		/// Cast an image into a storage
-		//operator storage
+		operator storage() const;
 
 		bool empty() const;
 		dimensions_type dimensions() const;
@@ -89,6 +86,13 @@ namespace gli
 		void clear();
 		template <typename genType>
 		void clear(genType const & Texel);
+
+		size_type baseLayer() const;
+		size_type maxLayer() const;
+		size_type baseFace() const;
+		size_type maxFace() const;
+		size_type baseLevel() const;
+		size_type maxLevel() const;
 
 	private:
 		storage Storage;

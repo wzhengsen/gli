@@ -292,5 +292,4 @@ namespace gli
 	{
 		return this->MaxLevel;
 	}
-
 }//namespace gli

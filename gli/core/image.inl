@@ -95,6 +95,11 @@ namespace gli
 		MaxLevel(MaxLevel)
 	{}
 
+	inline image::operator storage() const
+	{
+		return this->Storage;
+	}
+
 	inline bool image::empty() const
 	{
 		return this->Storage.empty();
@@ -170,5 +175,35 @@ namespace gli
 
 		for(size_type TexelIndex = 0; TexelIndex < this->size<genType>(); ++TexelIndex)
 			*(this->data<genType>() + TexelIndex) = Texel;
+	}
+
+	inline image::size_type image::baseLayer() const
+	{
+		return this->BaseLayer;
+	}
+
+	inline image::size_type image::maxLayer() const
+	{
+		return this->MaxLayer;
+	}
+
+	inline image::size_type image::baseFace() const
+	{
+		return this->BaseFace;
+	}
+
+	inline image::size_type image::maxFace() const
+	{
+		return this->MaxFace;
+	}
+
+	inline image::size_type image::baseLevel() const
+	{
+		return this->BaseLevel;
+	}
+
+	inline image::size_type image::maxLevel() const
+	{
+		return this->MaxLevel;
 	}
 }//namespace gli

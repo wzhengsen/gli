@@ -45,5 +45,6 @@
 #include "./core/comparison.hpp"
 #include "./core/copy.hpp"
 #include "./core/load_dds.hpp"
+#include "./core/view.hpp"
 
 #endif//GLI_INCLUDED
