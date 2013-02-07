@@ -244,4 +244,19 @@ namespace gli
 
 		return reinterpret_cast<genType const *>(this->data());
 	}
+
+	inline void texture2DArray::clear()
+	{
+		for(size_type Layer = 0; Layer < this->layers(); ++Layer)
+			(*this)[Layer].clear();
+	}
+
+	template <typename genType>
+	inline void texture2DArray::clear(genType const & Texel)
+	{
+		assert(this->Storage.blockSize() == sizeof(genType));
+
+		for(size_type Layer = 0; Layer < this->layers(); ++Layer)
+			(*this)[Layer].clear<genType>(Texel);
+	}
 }//namespace gli

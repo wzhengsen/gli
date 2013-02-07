@@ -256,4 +256,19 @@ namespace gli
 
 		return reinterpret_cast<genType const *>(this->data());
 	}
+
+	inline void textureCube::clear()
+	{
+		for(size_type Face = 0; Face < this->faces(); ++Face)
+			(*this)[Face].clear();
+	}
+
+	template <typename genType>
+	inline void textureCube::clear(genType const & Texel)
+	{
+		assert(this->Storage.blockSize() == sizeof(genType));
+
+		for(size_type Face = 0; Face < this->faces(); ++Face)
+			(*this)[Face].clear<genType>(Texel);
+	}
 }//namespace gli

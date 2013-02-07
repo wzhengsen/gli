@@ -219,4 +219,17 @@ namespace gli
 		return reinterpret_cast<genType const *>(this->data());
 	}
 
+	inline void texture3D::clear()
+	{
+		memset(this->data<glm::byte>(), 0, this->size<glm::byte>());
+	}
+
+	template <typename genType>
+	inline void texture3D::clear(genType const & Texel)
+	{
+		assert(this->Storage.blockSize() == sizeof(genType));
+
+		for(size_type TexelIndex = 0; TexelIndex < this->size<genType>(); ++TexelIndex)
+			*(this->data<genType>() + TexelIndex) = Texel;
+	}
 }//namespace gli

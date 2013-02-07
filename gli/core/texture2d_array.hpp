@@ -103,6 +103,10 @@ namespace gli
 		template <typename genType>
 		genType const * data() const;
 
+		void clear();
+		template <typename genType>
+		void clear(genType const & Texel);
+
 	private:
 		storage Storage;
 		gli::view View;
