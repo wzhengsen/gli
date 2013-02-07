@@ -40,7 +40,7 @@ int test_reset_memset_zero()
 
 	std::clock_t LastTime = std::clock();
 
-	for(std::size_t j = 0; j < (1 << 8); ++j)
+	for(std::size_t j = 0; j < (1 << 4); ++j)
 		memset(&Data[0], 0, Data.size());
 
 	std::clock_t Time = std::clock();
@@ -57,7 +57,7 @@ int test_reset_memset_ff()
 
 	std::clock_t LastTime = std::clock();
 
-	for(std::size_t j = 0; j < (1 << 8); ++j)
+	for(std::size_t j = 0; j < (1 << 4); ++j)
 		memset(&Data[0], 0x12345678, Data.size());
 
 	std::clock_t Time = std::clock();
@@ -74,7 +74,7 @@ int test_reset_loop_zero()
 
 	std::clock_t LastTime = std::clock();
 
-	for(std::size_t j = 0; j < (1 << 8); ++j)
+	for(std::size_t j = 0; j < (1 << 4); ++j)
 	for(std::size_t i = 0; i < Data.size(); ++i)
 		Data[i] = 0;
 
@@ -92,7 +92,7 @@ int test_reset_loop_ff()
 
 	std::clock_t LastTime = std::clock();
 
-	for(std::size_t j = 0; j < (1 << 8); ++j)
+	for(std::size_t j = 0; j < (1 << 4); ++j)
 	for(std::size_t i = 0; i < Data.size(); ++i)
 		Data[i] = 0xFFFFFFFF;
 
@@ -118,7 +118,5 @@ int main()
 	Error += test_reset_loop_ff();
 	Error += test_create_texture_storage();
 	
-	while(true);
-
 	return Error;
 }
