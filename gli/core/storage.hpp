@@ -66,20 +66,20 @@ namespace gli
 		typedef glm::vec3 texcoord3_type;
 		typedef glm::vec4 texcoord4_type;
 		typedef std::size_t size_type;
-        typedef gli::format format_type;
+		typedef gli::format format_type;
 
 	public:
 		storage();
 
 		storage(
-			size_type const & Layers, 
+			size_type const & Layers,
 			size_type const & Faces,
 			size_type const & Levels,
 			format_type const & Format,
 			dimensions_type const & Dimensions);
 
 		storage(
-			size_type const & Layers, 
+			size_type const & Layers,
 			size_type const & Faces,
 			size_type const & Levels,
 			dimensions_type const & Dimensions,

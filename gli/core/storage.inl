@@ -404,19 +404,19 @@ inline format_desc const getFormatInfo(format const & Format)
 
 	inline storage::storage
 	(
-		size_type const & Layers, 
+		size_type const & Layers,
 		size_type const & Faces,
 		size_type const & Levels,
 		format_type const & Format,
 		dimensions_type const & Dimensions
 	) :
 		Impl(new impl(
-			Layers, 
-			Faces, 
-			Levels, 
-			Format, 
-			Dimensions, 
-			gli::block_size(Format), 
+			Layers,
+			Faces,
+			Levels,
+			Format,
+			Dimensions,
+			gli::block_size(Format),
 			gli::block_dimensions(Format)))
 	{
 		Impl->Data.resize(this->layerSize(0, Faces - 1, 0, Levels - 1) * Layers, 0);
@@ -424,21 +424,21 @@ inline format_desc const getFormatInfo(format const & Format)
 
 	inline storage::storage
 	(
-		size_type const & Layers, 
+		size_type const & Layers,
 		size_type const & Faces,
 		size_type const & Levels,
 		dimensions_type const & Dimensions,
 		format_type const & Format,
 		size_type const & BlockSize,
 		dimensions_type const & BlockDimensions
-	) : 
+	) :
 		Impl(new impl(
-			Layers, 
-			Faces, 
-			Levels, 
-			Format, 
-			Dimensions, 
-			BlockSize, 
+			Layers,
+			Faces,
+			Levels,
+			Format,
+			Dimensions,
+			BlockSize,
 			BlockDimensions))
 	{
 		Impl->Data.resize(this->layerSize(0, Faces - 1, 0, Levels - 1) * Layers, 0);
@@ -522,8 +522,8 @@ inline format_desc const getFormatInfo(format const & Format)
 		assert(Level < this->levels());
 
 		return this->blockSize() * glm::compMul(glm::higherMultiple(
-			this->dimensions(Level), 
-			this->blockDimensions()) / this->blockDimensions()); 
+			this->dimensions(Level),
+			this->blockDimensions()) / this->blockDimensions());
 	}
 
 	inline storage::size_type storage::faceSize(

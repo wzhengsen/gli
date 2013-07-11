@@ -177,18 +177,18 @@ int test_texture2d_image_access()
 
 struct test
 {
-    test(
-        gli::format const & Format,
-        gli::texture2D::dimensions_type const & Dimensions,
-        gli::texture2D::size_type const & Size) :
-        Format(Format),
-        Dimensions(Dimensions),
-        Size(Size)
-    {}
+	test(
+		gli::format const & Format,
+		gli::texture2D::dimensions_type const & Dimensions,
+		gli::texture2D::size_type const & Size) :
+		Format(Format),
+		Dimensions(Dimensions),
+		Size(Size)
+	{}
 
-    gli::format Format;
-    gli::texture2D::dimensions_type Dimensions;
-    gli::texture2D::size_type Size;
+	gli::format Format;
+	gli::texture2D::dimensions_type Dimensions;
+	gli::texture2D::size_type Size;
 };
 
 int test_texture2d_image_size()

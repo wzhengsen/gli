@@ -84,11 +84,11 @@ namespace gli
 		storage const & Storage
 	) :
 		Storage(Storage),
-		BaseLayer(0), 
-		MaxLayer(0), 
-		BaseFace(0), 
-		MaxFace(0), 
-		BaseLevel(0), 
+		BaseLayer(0),
+		MaxLayer(0),
+		BaseFace(0),
+		MaxFace(0),
+		BaseLevel(0),
 		MaxLevel(Storage.levels() - 1),
 		Format(Storage.format())
 	{}
