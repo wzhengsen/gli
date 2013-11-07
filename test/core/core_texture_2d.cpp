@@ -101,7 +101,7 @@ int test_texture2d_image_access()
 			gli::RGBA8U,
 			gli::texture2D::dimensions_type(2));
 
-        /// TODO copy function
+		/// TODO copy function
 		/// Texture[0] = Image0;
 		/// Texture[1] = Image1;
 

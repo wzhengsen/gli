@@ -113,7 +113,7 @@ int test_textureCube_texture2D_access()
 
 		for(std::size_t ColorIndex = 0; ColorIndex < Colors.size(); ++ColorIndex)
 		{
-            gli::texture2D Texture2D = TextureCube[ColorIndex];
+			gli::texture2D Texture2D = TextureCube[ColorIndex];
 			for(std::size_t PixelIndex = 0; PixelIndex < 4; ++PixelIndex)
 			{
 				glm::u8vec4 Color = Colors[ColorIndex];
