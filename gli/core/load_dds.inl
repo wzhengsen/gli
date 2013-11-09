@@ -149,8 +149,10 @@ namespace detail
 		case D3DFMT_DXT4:
 		case D3DFMT_DXT5:
 			return RGBA_DXT5;
+		case D3DFMT_ATI1:
 		case D3DFMT_AT1N:
 			return R_ATI1N_UNORM;
+		case D3DFMT_ATI2:
 		case D3DFMT_AT2N:
 			return RG_ATI2N_UNORM;
 		case D3DFMT_R16F:
