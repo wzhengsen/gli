@@ -185,7 +185,7 @@ namespace detail
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, Texture.levels() > 1 ? GL_NEAREST_MIPMAP_NEAREST : GL_NEAREST);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
-		if(gli::bits_per_pixel(Texture.format()) == gli::block_size(Texture.format()))
+		if(!gli::is_compressed(Texture.format()))
 		{
 			for(gli::texture2D::size_type Level = 0; Level < Texture.levels(); ++Level)
 			{

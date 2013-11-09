@@ -21,31 +21,24 @@
 /// THE SOFTWARE.
 ///
 /// @ref core
-/// @file gli/gli.hpp
-/// @date 2008-12-19 / 2013-01-11
+/// @file gli/core/gl.hpp
+/// @date 2013-11-09 / 2013-11-09
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
-/*! @mainpage OpenGL Image
- *
- */
+#ifndef GLI_GL_INCLUDED
+#define GLI_GL_INCLUDED
 
-#ifndef GLI_INCLUDED
-#define GLI_INCLUDED
+#include "storage.hpp"
 
-#define GLI_VERSION					50
-#define GLI_VERSION_MAJOR			0
-#define GLI_VERSION_MINOR			5
-#define GLI_VERSION_PATCH			0
-#define GLI_VERSION_REVISION		0
+namespace gli
+{
+	internalFormat internal_format(format const & Format);
+	externalFormat external_format(format const & Format);
+	typeFormat type_format(format const & Format);
 
-#include "./core/storage.hpp"
-#include "./core/texture.hpp"
-#include "./core/clear.hpp"
-#include "./core/comparison.hpp"
-#include "./core/copy.hpp"
-#include "./core/load_dds.hpp"
-#include "./core/view.hpp"
-#include "./core/gl.hpp"
+}//namespace gli
 
-#endif//GLI_INCLUDED
+#include "gl.inl"
+
+#endif//GLI_GL_INCLUDED
