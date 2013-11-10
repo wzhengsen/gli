@@ -37,7 +37,7 @@
 
 namespace gli
 {
-	GLuint createTexture2D(std::string const & Filename);
+	GLuint createTexture2D(char const * Filename);
 }//namespace gli
 
 #include "gl_texture2d.inl"

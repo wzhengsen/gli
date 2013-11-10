@@ -303,12 +303,12 @@ namespace detail
 	}
 }//namespace detail
 
-inline storage loadStorageDDS
+inline storage load_dds
 (
-	std::string const & Filename
+	char const * Filename
 )
 {
-	std::ifstream FileIn(Filename.c_str(), std::ios::in | std::ios::binary);
+	std::ifstream FileIn(Filename, std::ios::in | std::ios::binary);
 	assert(!FileIn.fail());
 
 	if(FileIn.fail())
