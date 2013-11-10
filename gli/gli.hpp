@@ -47,5 +47,6 @@
 #include "./core/load_dds.hpp"
 #include "./core/view.hpp"
 #include "./core/gl.hpp"
+#include "./core/dx.hpp"
 
 #endif//GLI_INCLUDED
