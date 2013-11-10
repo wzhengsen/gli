@@ -81,16 +81,16 @@ namespace detail
 
 }//namespace detail
 
-	inline void saveStorageDDS
+	inline void save_dds
 	(
 		storage const & Storage, 
-		std::string const & Filename
+		char const * Filename
 	)
 	{
 		if(Storage.empty())
 			return;
 
-		std::ofstream File(Filename.c_str(), std::ios::out | std::ios::binary);
+		std::ofstream File(Filename, std::ios::out | std::ios::binary);
 		if (!File)
 			return;
 
@@ -151,7 +151,7 @@ namespace detail
 			HeaderDesc10.arraySize = glm::uint32(Storage.layers());
 			HeaderDesc10.resourceDimension = detail::D3D10_RESOURCE_DIMENSION_TEXTURE2D;
 			HeaderDesc10.miscFlag = 0;//Storage.levels() > 0 ? detail::D3D10_RESOURCE_MISC_GENERATE_MIPS : 0;
-			HeaderDesc10.dxgiFormat = detail::DXGI_FORMAT(Desc.Format);
+			HeaderDesc10.Format = static_cast<dxgiFormat>(Desc.Format);
 			HeaderDesc10.reserved = 0;
 			File.write((char*)&HeaderDesc10, sizeof(HeaderDesc10));
 		}

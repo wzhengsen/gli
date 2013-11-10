@@ -9,6 +9,75 @@
 
 #include <gli/gli.hpp>
 
+inline gli::texture2D radial
+(
+	gli::texture2D::dimensions_type const & Size, 
+	gli::texture2D::texcoord_type const & Center,
+	float const & Radius,
+	gli::texture2D::texcoord_type const & Focal
+)
+{
+	gli::texture2D Result(1, gli::RGB8U, gli::texture2D::dimensions_type(Size));
+	glm::u8vec3 * DstData = (glm::u8vec3*)Result.data();
+
+	for(std::size_t y = 0; y < Result.dimensions().y; ++y)
+	for(std::size_t x = 0; x < Result.dimensions().x; ++x)
+	{
+		float Value = glm::radialGradient(
+			Center * glm::vec2(Size), 
+			Radius, 
+			Focal * glm::vec2(Size),
+			glm::vec2(x, y));
+
+		std::size_t Index = x + y * Result.dimensions().x;
+
+		*(DstData + Index) = glm::u8vec3(glm::u8(glm::clamp(Value * 255.f, 0.f, 255.f)));
+	}
+
+	return Result;
+}
+
+inline gli::texture2D linear
+(
+	gli::texture2D::dimensions_type const & Size, 
+	gli::texture2D::texcoord_type const & Point0, 
+	gli::texture2D::texcoord_type const & Point1
+)
+{
+	gli::texture2D Result(1, gli::RGB8U, gli::texture2D::dimensions_type(Size));
+	glm::u8vec3 * DstData = (glm::u8vec3*)Result.data();
+
+	for(std::size_t y = 0; y < Result.dimensions().y; ++y)
+	for(std::size_t x = 0; x < Result.dimensions().x; ++x)
+	{
+		float Value = glm::linearGradient(
+			Point0 * glm::vec2(Size), 
+			Point1 * glm::vec2(Size),
+			gli::texture2D::texcoord_type(x, y));
+
+		std::size_t Index = x + y * Result.dimensions().x;
+
+		*(DstData + Index) = glm::u8vec3(glm::u8(glm::clamp(Value * 255.f, 0.f, 255.f)));
+	}
+
+	return Result;
+}
+
+int test_create()
+{
+	int Error(0);
+
+	gli::texture2D TextureA = radial(
+		gli::texture2D::dimensions_type(128), gli::texture2D::texcoord_type(0.5), 16.f, gli::texture2D::texcoord_type(0.7));
+
+	gli::texture2D TextureB = linear(
+		gli::texture2D::dimensions_type(128), gli::texture2D::texcoord_type(0.5), gli::texture2D::texcoord_type(0.7));
+
+	Error += TextureA != TextureB ? 0 : 1;
+
+	return Error;
+}
+
 int test_alloc()
 {
 	int Error(0);
@@ -239,6 +308,7 @@ int main()
 	Error += test_texture2d_query();
 	Error += test_texture2d_clear();
 	Error += test_texture2d_image_access();
+	Error += test_create();
 
 	return Error;
 }

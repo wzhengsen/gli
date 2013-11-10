@@ -4,8 +4,7 @@
 
 #include <gli/gli.hpp>
 #include <gli/core/save_dds.hpp>
-#include <gli/gtx/fetch.hpp>
-#include <gli/gtx/gradient.hpp>
+#include <gli/core/fetch.hpp>
 
 #include <vector>
  
@@ -46,24 +45,24 @@ int test_image_export_dds()
 	int Error(0);
 
 	{
-		gli::texture2D Texture(gli::loadStorageDDS("../../data/test_rgb8.dds"));
+		gli::texture2D Texture(gli::load_dds("../../data/test_rgb8.dds"));
 		assert(!Texture.empty());
-		gli::saveStorageDDS(Texture, "../../data/test_rgb8_saved.dds");
+		gli::save_dds(Texture, "../../data/test_rgb8_saved.dds");
 	}
 	{
-		gli::texture2D Texture(gli::loadStorageDDS("../../data/test_rgb8_saved.dds"));
+		gli::texture2D Texture(gli::load_dds("../../data/test_rgb8_saved.dds"));
 		assert(!Texture.empty());
-		gli::saveStorageDDS(Texture, "../../data/test_rgb8_reloaded.dds");
+		gli::save_dds(Texture, "../../data/test_rgb8_reloaded.dds");
 	}
 	{
-		gli::texture2D Texture(gli::loadStorageDDS("../../data/test_dxt1.dds"));
+		gli::texture2D Texture(gli::load_dds("../../data/test_dxt1.dds"));
 		assert(!Texture.empty());
-		gli::saveStorageDDS(Texture, "../../data/test_dxt1_saved.dds");
+		gli::save_dds(Texture, "../../data/test_dxt1_saved.dds");
 	}
 	{
-		gli::texture2D Texture(gli::loadStorageDDS("../../data/test_bc1.dds"));
+		gli::texture2D Texture(gli::load_dds("../../data/test_bc1.dds"));
 		assert(!Texture.empty());
-		gli::saveStorageDDS(Texture, "../../data/test_bc1_saved.dds");
+		gli::save_dds(Texture, "../../data/test_bc1_saved.dds");
 	}
 
 	return Error;
@@ -73,7 +72,7 @@ int test_image_fetch()
 {
 	int Error(0);
 
-	gli::texture2D Texture(gli::loadStorageDDS("../../data/test_rgb8.dds"));
+	gli::texture2D Texture(gli::load_dds("../../data/test_rgb8.dds"));
 	if(!Texture.empty())
 	{
 		gli::texture2D::dimensions_type Size = Texture.dimensions();
@@ -87,23 +86,6 @@ int test_image_fetch()
 	}
 
 	return Error;
-}
-
-int test_image_gradient()
-{
-	int Error(0);
-
-	{
-		gli::texture2D Texture = gli::radial(glm::uvec2(256), glm::vec2(0.25f), 128.0f, glm::vec2(0.5f));
-		gli::saveStorageDDS(Texture, "../../data/gradient_radial.dds");
-	}
-
-	{
-		gli::texture2D Texture = gli::linear(glm::uvec2(256), glm::vec2(0.25f), glm::vec2(0.75f));
-		gli::saveStorageDDS(Texture, "../../data/gradient_linear.dds");
-	}
-
-	return 0;
 }
 
 /*
@@ -144,7 +126,7 @@ int test_texture2d_load()
 	int Error(0);
 
 	{
-		gli::texture2D Texture(gli::loadStorageDDS("../../data/test_rgb8.dds"));
+		gli::texture2D Texture(gli::load_dds("../../data/test_rgb8.dds"));
 
 		gli::texture2D::format_type Format = Texture.format();
 
@@ -166,7 +148,7 @@ int test_texture2d()
 		for(gli::texture2D::size_type TexelIndex = 0; TexelIndex < Texture.size<glm::u8vec4>(); ++TexelIndex)
 			*(Texture.data<glm::u8vec4>() + TexelIndex) = glm::u8vec4(255, 128, 0, 255);
 
-		gli::saveStorageDDS(Texture, "../../data/texture2D_1level_rgba8_unorm_256.dds");
+		gli::save_dds(Texture, "../../data/texture2D_1level_rgba8_unorm_256.dds");
 	}
 
 	{
@@ -178,7 +160,7 @@ int test_texture2d()
 		for(gli::texture2D::size_type TexelIndex = 0; TexelIndex < Texture.size<glm::u16vec4>(); ++TexelIndex)
 			*(Texture.data<glm::u16vec4>() + TexelIndex) = glm::u16vec4(65535, 32768, 0, 65535);
 
-		gli::saveStorageDDS(Texture, "../../data/texture2D_1level_rgba16_unorm_256.dds");
+		gli::save_dds(Texture, "../../data/texture2D_1level_rgba16_unorm_256.dds");
 	}
 
 	{
@@ -190,7 +172,7 @@ int test_texture2d()
 		for(gli::texture2D::size_type TexelIndex = 0; TexelIndex < Texture.size<glm::u8vec4>(); ++TexelIndex)
 			*(Texture.data<glm::u8vec4>() + TexelIndex) = glm::u8vec4(255, 128, 0, 255);
 
-		gli::saveStorageDDS(Texture, "../../data/texture2D_mipmaps_rgba8_unorm_256.dds");
+		gli::save_dds(Texture, "../../data/texture2D_mipmaps_rgba8_unorm_256.dds");
 	}
 
 	{
@@ -202,7 +184,7 @@ int test_texture2d()
 		for(gli::texture2D::size_type TexelIndex = 0; TexelIndex < Texture.size<glm::u16vec4>(); ++TexelIndex)
 			*(Texture.data<glm::u16vec4>() + TexelIndex) = glm::u16vec4(65535, 32768, 0, 65535);
 
-		gli::saveStorageDDS(Texture, "../../data/texture2D_mipmaps_rgba16_unorm_256.dds");
+		gli::save_dds(Texture, "../../data/texture2D_mipmaps_rgba16_unorm_256.dds");
 	}
 
 	return 0;
@@ -227,12 +209,12 @@ int test_texture2DArray()
 		for(gli::texture2D::size_type TexelIndex = 0; TexelIndex < Texture[LayerIndex].size<glm::u8vec4>(); ++TexelIndex)
 			*(Texture[LayerIndex].data<glm::u8vec4>() + TexelIndex) = Color[LayerIndex];
 
-		gli::saveStorageDDS(Texture, "../../data/texture2DArray_rgba8u_256.dds");
+		gli::save_dds(Texture, "../../data/texture2DArray_rgba8u_256.dds");
 	}
 
 	{
-		gli::texture2D TextureA(gli::loadStorageDDS("../../data/test-rgb8-256a.dds"));
-		gli::texture2D TextureB(gli::loadStorageDDS("../../data/test-rgb8-256b.dds"));
+		gli::texture2D TextureA(gli::load_dds("../../data/test-rgb8-256a.dds"));
+		gli::texture2D TextureB(gli::load_dds("../../data/test-rgb8-256b.dds"));
 
 		assert(TextureA.format() == TextureB.format());
 		assert(glm::all(glm::equal(TextureA.dimensions(), TextureB.dimensions())));
@@ -249,13 +231,13 @@ int test_texture2DArray()
 		gli::texture2D Texture0 = gli::copy(Texture[0]);
 		gli::texture2D Texture1 = gli::copy(Texture[1]);
 
-		gli::saveStorageDDS(Texture0, "../../data/test-rgb8-256-layer0-saved.dds");
-		gli::saveStorageDDS(Texture1, "../../data/test-rgb8-256-layer1-saved.dds");
-		gli::saveStorageDDS(Texture, "../../data/test-rgb8-256-array-saved.dds");
+		gli::save_dds(Texture0, "../../data/test-rgb8-256-layer0-saved.dds");
+		gli::save_dds(Texture1, "../../data/test-rgb8-256-layer1-saved.dds");
+		gli::save_dds(Texture, "../../data/test-rgb8-256-array-saved.dds");
 	}
 
 	{
-		gli::texture2DArray Texture(gli::loadStorageDDS("../../data/test-rgb8-256-array-saved.dds"));
+		gli::texture2DArray Texture(gli::load_dds("../../data/test-rgb8-256-array-saved.dds"));
 		assert(!Texture.empty());
 	}
 
@@ -285,16 +267,16 @@ int test_textureCube()
 		for(gli::texture2D::size_type TexelIndex = 0; TexelIndex < Texture[FaceIndex].size<glm::u8vec4>(); ++TexelIndex)
 			*(Texture[FaceIndex].data<glm::u8vec4>() + TexelIndex) = Color[FaceIndex];
 
-		gli::saveStorageDDS(Texture, "../../data/textureCube_rgba8u_256.dds");
+		gli::save_dds(Texture, "../../data/textureCube_rgba8u_256.dds");
 	}
 
 	{
-		gli::textureCube Texture(gli::loadStorageDDS("../../data/cube.dds"));
-		gli::saveStorageDDS(Texture, "../../data/cube_saved.dds");
+		gli::textureCube Texture(gli::load_dds("../../data/cube.dds"));
+		gli::save_dds(Texture, "../../data/cube_saved.dds");
 	}
 
 	{
-		gli::textureCube Texture(gli::loadStorageDDS("../../data/cube_saved.dds"));
+		gli::textureCube Texture(gli::load_dds("../../data/cube_saved.dds"));
 	}
 
 	return 0;
@@ -310,7 +292,6 @@ int main()
 	Error += test_texture2d();
 	Error += test_image_wip();
 	Error += test_image_fetch();
-	Error += test_image_gradient();
 	Error += test_image_export_dds();
 
 	return Error;
