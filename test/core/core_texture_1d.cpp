@@ -67,21 +67,21 @@ int test_alloc()
 
 namespace clear
 {
-    int run()
-    {
-        int Error(0);
+	int run()
+	{
+		int Error(0);
 
-        glm::u8vec4 const Orange(255, 127, 0, 255);
+		glm::u8vec4 const Orange(255, 127, 0, 255);
 
-        gli::texture1D Texture(
-            gli::texture1D::size_type(glm::log2(16u) + 1),
-            gli::RGBA8U,
-            gli::texture1D::dimensions_type(16));
+		gli::texture1D Texture(
+			gli::texture1D::size_type(glm::log2(16u) + 1),
+			gli::RGBA8U,
+			gli::texture1D::dimensions_type(16));
 
-        //Texture.clear<glm::u8vec4>(Cyan);
+		Texture.clear<glm::u8vec4>(Orange);
 
-        return Error;
-    }
+		return Error;
+	}
 }//namespace
 
 namespace query

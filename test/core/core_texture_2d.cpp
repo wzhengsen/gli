@@ -126,7 +126,7 @@ int test_texture2d_clear()
 		gli::RGBA8U,
 		gli::texture2D::dimensions_type(16));
 
-	//Texture.clear<glm::u8vec4>(Cyan);
+	Texture.clear<glm::u8vec4>(Orange);
 
 	return Error;
 }

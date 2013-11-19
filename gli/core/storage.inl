@@ -151,7 +151,7 @@ struct format_desc
 	typeFormat Type;
 	glm::uint Flags;
 	glm::uint32 FourCC;
-	glm::uint32 Format; //http://msdn.microsoft.com/en-us/library/windows/desktop/bb173059(v=vs.85).aspx
+	dxgiFormat Format; //http://msdn.microsoft.com/en-us/library/windows/desktop/bb173059(v=vs.85).aspx
 /*
 	glm::uint32 RBitMask;
 	glm::uint32 GBitMask;
