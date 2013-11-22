@@ -60,7 +60,7 @@ int test_texture2DArray_clear()
 		gli::RGBA8U,
 		gli::texture2DArray::dimensions_type(16));
 
-	//Texture.clear<glm::u8vec4>(Cyan);
+	Texture.clear<glm::u8vec4>(Orange);
 
 	return Error;
 }
@@ -142,18 +142,18 @@ int test_texture2DArray_access()
 
 struct test
 {
-    test(
-        gli::format const & Format,
-        gli::texture2DArray::dimensions_type const & Dimensions,
-        gli::texture2DArray::size_type const & Size) :
-        Format(Format),
-        Dimensions(Dimensions),
-        Size(Size)
-    {}
+	test(
+		gli::format const & Format,
+		gli::texture2DArray::dimensions_type const & Dimensions,
+		gli::texture2DArray::size_type const & Size) :
+		Format(Format),
+		Dimensions(Dimensions),
+		Size(Size)
+	{}
 
-    gli::format Format;
-    gli::texture2DArray::dimensions_type Dimensions;
-    gli::texture2DArray::size_type Size;
+	gli::format Format;
+	gli::texture2DArray::dimensions_type Dimensions;
+	gli::texture2DArray::size_type Size;
 };
 
 int test_texture2DArray_size()

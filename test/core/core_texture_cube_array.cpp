@@ -183,18 +183,18 @@ int test_textureCubeArray_textureCube_access()
 
 struct test
 {
-    test(
-        gli::format const & Format,
-        gli::textureCube::dimensions_type const & Dimensions,
-        gli::textureCube::size_type const & Size) :
-        Format(Format),
-        Dimensions(Dimensions),
-        Size(Size)
-    {}
+	test(
+		gli::format const & Format,
+		gli::textureCube::dimensions_type const & Dimensions,
+		gli::textureCube::size_type const & Size) :
+		Format(Format),
+		Dimensions(Dimensions),
+		Size(Size)
+	{}
 
-    gli::format Format;
-    gli::textureCube::dimensions_type Dimensions;
-    gli::textureCube::size_type Size;
+	gli::format Format;
+	gli::textureCube::dimensions_type Dimensions;
+	gli::textureCube::size_type Size;
 };
 
 int test_textureCubeArray_textureCube_size()
@@ -226,6 +226,27 @@ int test_textureCubeArray_textureCube_size()
 	return Error;
 }
 
+namespace clear
+{
+	int run()
+	{
+		int Error(0);
+
+		glm::u8vec4 const Orange(255, 127, 0, 255);
+
+		gli::textureCubeArray Texture(
+			4,
+			6,
+			gli::textureCubeArray::size_type(1),
+			gli::RGBA8U,
+			gli::textureCubeArray::dimensions_type(4));
+
+		Texture.clear<glm::u8vec4>(Orange);
+
+		return Error;
+	}
+}//namespace
+
 int main()
 {
 	int Error(0);
@@ -234,6 +255,7 @@ int main()
 	Error += test_textureCubeArray_textureCube_size();
 	Error += test_textureCubeArray_query();
 	Error += test_textureCubeArray_textureCube_access();
+	Error += clear::run();
 
 	return Error;
 }
