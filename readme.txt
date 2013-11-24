@@ -34,8 +34,11 @@ GLI is a header only library, there is nothing to build, just include it.
 #include <gli/gli.hpp>
 
 ================================================================================
-GLI 0.5.0.0: 2013-0X-XX
+GLI 0.5.0.0: 2013-11-24
 --------------------------------------------------------------------------------
+- Essencially a rewrite of the library
+- Added explicit copies
+- Added single memory allocation per texture storage
 - Added texture views
 - Added texture copies
 - Added comparison operators

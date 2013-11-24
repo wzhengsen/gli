@@ -33,6 +33,7 @@
 
 namespace gli
 {
+	/// Loading a texture storage to file
 	storage load_dds(
 		char const * Filename);
 

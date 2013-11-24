@@ -27,8 +27,6 @@
 ///
 /// @defgroup core_image Image 
 /// @ingroup core
-/// 
-/// Image1D 
 ///////////////////////////////////////////////////////////////////////////////////
 
 #ifndef GLI_CORE_IMAGE_INCLUDED
@@ -40,6 +38,7 @@
 
 namespace gli
 {
+	/// Image
 	class image
 	{
 	public:

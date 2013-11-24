@@ -37,6 +37,7 @@ namespace gli
 	class textureCube;
 	class textureCubeArray;
 
+	/// texture2D
 	class texture2D
 	{
 	public:
