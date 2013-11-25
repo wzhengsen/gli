@@ -21,7 +21,7 @@
 /// THE SOFTWARE.
 ///
 /// @ref core
-/// @file test/core/texture_2d.cpp
+/// @file test/core/texture_3d.cpp
 /// @date 2013-01-13 / 2013-01-13
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////

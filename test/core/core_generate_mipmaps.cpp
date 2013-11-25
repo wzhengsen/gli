@@ -1,4 +1,4 @@
-//////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////
 /// OpenGL Image (gli.g-truc.net)
 ///
 /// Copyright (c) 2008 - 2013 G-Truc Creation (www.g-truc.net)
@@ -21,20 +21,26 @@
 /// THE SOFTWARE.
 ///
 /// @ref core
-/// @file gli/core/bug.cpp
-/// @date 2009-11-14 / 2013-11-25
+/// @file gli/core/generate_mipmaps.cpp
+/// @date 2013-11-25 / 2013-11-25
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
 #include <gli/gli.hpp>
 
+namespace test
+{
+	int test()
+	{
+		int Error(0);
+
+		return Error;
+	}
+}//namespace test
+
 int main()
 {
-	int Error = 0;
-
-	{
-
-	}
+	int Error(0);
 		
 	return Error;
 }

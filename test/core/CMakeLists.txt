@@ -1,6 +1,9 @@
 glmCreateTestGTC(core)
 glmCreateTestGTC(core_addressing)
 glmCreateTestGTC(core_comparison)
+glmCreateTestGTC(core_fetch)
+glmCreateTestGTC(core_generate_mipmaps)
+glmCreateTestGTC(core_sample)
 glmCreateTestGTC(core_storage)
 glmCreateTestGTC(core_image)
 glmCreateTestGTC(core_shared_ptr)
@@ -15,6 +18,4 @@ glmCreateTestGTC(core_texture_cube_array)
 glmCreateTestGTC(core_clear)
 glmCreateTestGTC(core_copy)
 glmCreateTestGTC(core_view)
-
-
 
