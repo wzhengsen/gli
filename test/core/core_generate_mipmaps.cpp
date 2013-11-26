@@ -27,12 +27,16 @@
 ///////////////////////////////////////////////////////////////////////////////////
 
 #include <gli/gli.hpp>
+#include <gli/core/generate_mipmaps.hpp>
 
-namespace test
+namespace texture2d
 {
 	int test()
 	{
 		int Error(0);
+
+		gli::texture2D TextureLoaded(gli::load_dds("../../data/test_rgb8.dds"));
+		gli::texture2D TextureMipmaps = gli::generateMipmaps(TextureLoaded, 0);
 
 		return Error;
 	}

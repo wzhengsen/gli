@@ -53,8 +53,6 @@ namespace gli
 			texture2D::dimensions_type LevelDimensions = texture2D::dimensions_type(Result[Level + 0].dimensions()) >> texture2D::dimensions_type(1);
 			LevelDimensions = glm::max(LevelDimensions, texture2D::dimensions_type(1));
 
-			std::vector<detail::storage::data_type> DataDst(detail::storage::size_type(glm::compMul(LevelDimensions)) * Components);
-
 			for(std::size_t j = 0; j < LevelDimensions.y; ++j)
 			for(std::size_t i = 0; i < LevelDimensions.x;  ++i)
 			for(std::size_t c = 0; c < Components; ++c)
@@ -72,13 +70,11 @@ namespace gli
 				glm::u32 Data11 = reinterpret_cast<glm::byte *>(DataSrc)[Index11];
 				glm::u32 Data10 = reinterpret_cast<glm::byte *>(DataSrc)[Index10];
 
-				glm::byte Result = (Data00 + Data01 + Data11 + Data10) >> 2;
-				glm::byte * Data = &DataDst[0];
+				glm::byte Average = (Data00 + Data01 + Data11 + Data10) >> 2;
+				glm::byte * Data = Result[Level].data<glm::byte>();
 
-				*(Data + ((i + j * LevelDimensions.x) * Components + c)) = Result;
+				*(Data + ((i + j * LevelDimensions.x) * Components + c)) = Average;
 			}
-
-			memcpy(Result[Level + 1].data(), &DataDst[0], DataDst.size());
 		}
 
 		return Result;
