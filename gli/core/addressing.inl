@@ -29,26 +29,98 @@
 namespace gli{
 namespace detail
 {
-	inline storage::size_type imageAddressing
+	inline size_type imageAddressing
 	(
 		storage const & Storage,
-		storage::size_type const & LayerOffset, 
-		storage::size_type const & FaceOffset, 
-		storage::size_type const & LevelOffset
+		size_type const & LayerOffset, 
+		size_type const & FaceOffset, 
+		size_type const & LevelOffset
 	)
 	{
 		assert(LayerOffset < Storage.layers());
 		assert(FaceOffset < Storage.faces());
 		assert(LevelOffset < Storage.levels());
 
-		storage::size_type LayerSize = Storage.layerSize(0, Storage.faces() - 1, 0, Storage.levels() - 1);
-		storage::size_type FaceSize = Storage.faceSize(0, Storage.levels() - 1);
-		storage::size_type BaseOffset = LayerSize * LayerOffset + FaceSize * FaceOffset; 
+		size_type LayerSize = Storage.layerSize(0, Storage.faces() - 1, 0, Storage.levels() - 1);
+		size_type FaceSize = Storage.faceSize(0, Storage.levels() - 1);
+		size_type BaseOffset = LayerSize * LayerOffset + FaceSize * FaceOffset; 
 
-		for(storage::size_type Level(0); Level < LevelOffset; ++Level)
+		for(size_type Level(0); Level < LevelOffset; ++Level)
 			BaseOffset += Storage.levelSize(Level);
 
 		return BaseOffset;
+	}
+
+	size_type texelLinearAdressing
+	(
+		dimensions1_type const & Dimensions,
+		dimensions1_type const & TexelCoord
+	)
+	{
+		assert(TexelCoord < Dimensions);
+
+		return TexelCoord;
+	}
+
+	size_type texelLinearAdressing
+	(
+		dimensions2_type const & Dimensions,
+		dimensions2_type const & TexelCoord
+	)
+	{
+		assert(TexelCoord.x < Dimensions.x);
+		assert(TexelCoord.y < Dimensions.y);
+
+		return TexelCoord.x + Dimensions.x * TexelCoord.y;
+	}
+
+	size_type texelLinearAdressing
+	(
+		dimensions3_type const & Dimensions,
+		dimensions3_type const & TexelCoord
+	)
+	{
+		assert(TexelCoord.x < Dimensions.x);
+		assert(TexelCoord.y < Dimensions.y);
+		assert(TexelCoord.z < Dimensions.z);
+
+		return TexelCoord.x + Dimensions.x * (TexelCoord.y + Dimensions.y * TexelCoord.z);
+	}
+
+	size_type texelMortonAdressing
+	(
+		dimensions1_type const & Dimensions,
+		dimensions1_type const & TexelCoord
+	)
+	{
+		assert(TexelCoord < Dimensions);
+
+		return TexelCoord;
+	}
+
+	size_type texelMortonAdressing
+	(
+		dimensions2_type const & Dimensions,
+		dimensions2_type const & TexelCoord
+	)
+	{
+		assert(TexelCoord.x < Dimensions.x);
+		assert(TexelCoord.y < Dimensions.y);
+
+		return glm::bitfieldInterleave(TexelCoord.x, TexelCoord.y);
+	}
+
+	size_type texelMortonAdressing
+	(
+		dimensions3_type const & Dimensions,
+		dimensions3_type const & TexelCoord
+	)
+	{
+		assert(TexelCoord.x < Dimensions.x);
+		assert(TexelCoord.y < Dimensions.y);
+		assert(TexelCoord.z < Dimensions.z);
+
+		return glm::bitfieldInterleave(TexelCoord.x, TexelCoord.y, TexelCoord.z);
 	}
 }//namespace detail
 }//namespace gli

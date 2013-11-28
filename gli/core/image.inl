@@ -26,8 +26,40 @@
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
-namespace gli
+namespace gli{
+namespace detail
 {
+	storage::size_type imageAddressing(
+		storage const & Storage,
+		storage::size_type const & LayerOffset, 
+		storage::size_type const & FaceOffset, 
+		storage::size_type const & LevelOffset);
+
+	image::size_type texelLinearAdressing(
+		image::dimensions1_type const & Dimensions,
+		image::dimensions1_type const & TexelCoord);
+
+	image::size_type texelLinearAdressing(
+		image::dimensions2_type const & Dimensions,
+		image::dimensions2_type const & TexelCoord);
+
+	image::size_type texelLinearAdressing(
+		image::dimensions3_type const & Dimensions,
+		image::dimensions3_type const & TexelCoord);
+
+	image::size_type texelMortonAdressing(
+		image::dimensions1_type const & Dimensions,
+		image::dimensions1_type const & TexelCoord);
+
+	image::size_type texelMortonAdressing(
+		image::dimensions2_type const & Dimensions,
+		image::dimensions2_type const & TexelCoord);
+
+	image::size_type texelMortonAdressing(
+		image::dimensions3_type const & Dimensions,
+		image::dimensions3_type const & TexelCoord);
+}//namespace detail
+
 	inline image::image() :
 		BaseLayer(0), 
 		MaxLayer(0), 
@@ -165,16 +197,37 @@ namespace gli
 
 	inline void image::clear()
 	{
+		assert(!this->empty());
+
 		memset(this->data<glm::byte>(), 0, this->size<glm::byte>());
 	}
 
 	template <typename genType>
 	inline void image::clear(genType const & Texel)
 	{
+		assert(!this->empty());
 		assert(this->Storage.blockSize() == sizeof(genType));
 
 		for(size_type TexelIndex = 0; TexelIndex < this->size<genType>(); ++TexelIndex)
 			*(this->data<genType>() + TexelIndex) = Texel;
+	}
+
+	template <typename genType>
+	genType image::load(dimensions_type const & TexelCoord)
+	{
+		assert(!this->empty());
+		assert(this->Storage.blockSize() == sizeof(genType));
+
+		return *(this->data<genType>() + detail::texelLinearAdressing(this->dimensions(), TexelCoord));
+	}
+
+	template <typename genType>
+	void image::store(dimensions_type const & TexelCoord, genType const & Data)
+	{
+		assert(!this->empty());
+		assert(this->Storage.blockSize() == sizeof(genType));
+
+		*(this->data<genType>() + detail::texelLinearAdressing(this->dimensions(), TexelCoord)) = Data;
 	}
 
 	inline image::size_type image::baseLayer() const

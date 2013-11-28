@@ -42,6 +42,9 @@ namespace gli
 	class image
 	{
 	public:
+		typedef storage::dimensions1_type dimensions1_type;
+		typedef storage::dimensions2_type dimensions2_type;
+		typedef storage::dimensions3_type dimensions3_type;
 		typedef storage::dimensions3_type dimensions_type;
 		typedef storage::size_type size_type;
 
@@ -85,6 +88,10 @@ namespace gli
 		void clear();
 		template <typename genType>
 		void clear(genType const & Texel);
+		template <typename genType>
+		genType load(dimensions_type const & TexelCoord);
+		template <typename genType>
+		void store(dimensions_type const & TexelCoord, genType const & Data);
 
 		size_type baseLayer() const;
 		size_type maxLayer() const;

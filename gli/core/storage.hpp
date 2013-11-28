@@ -42,6 +42,7 @@
 #include <glm/gtx/component_wise.hpp>
 #include <glm/gtx/gradient_paint.hpp>
 #include <glm/gtx/integer.hpp>
+#include <glm/gtx/bit.hpp>
 #include <glm/gtx/multiple.hpp>
 #include <glm/gtx/number_precision.hpp>
 #include <glm/gtx/raw_data.hpp>
@@ -51,8 +52,16 @@
 #include "header.hpp"
 #include "format.hpp"
 
-namespace gli
+namespace gli{
+namespace detail
 {
+	typedef std::size_t size_type;
+	typedef glm::uint dimensions1_type;
+	typedef glm::uvec2 dimensions2_type;
+	typedef glm::uvec3 dimensions3_type;
+	typedef glm::uvec4 dimensions4_type;
+}//namespace detail
+
 	class storage
 	{
 	public:

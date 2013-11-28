@@ -297,10 +297,28 @@ namespace gli
 	template <typename genType>
 	inline void texture2D::clear(genType const & Texel)
 	{
+		assert(!this->empty());
 		assert(this->Storage.blockSize() == sizeof(genType));
 
 		for(size_type TexelIndex = 0; TexelIndex < this->size<genType>(); ++TexelIndex)
 			*(this->data<genType>() + TexelIndex) = Texel;
+	}
+
+	template <typename genType>
+	inline genType texture2D::fetch
+	(
+		dimensions_type const & TexelCoord,
+		size_type const & Level
+	)
+	{
+		assert(!this->empty());
+		assert(!is_compressed(this->format()));
+		assert(this->Storage.blockSize() == sizeof(genType));
+
+		dimensions_type const Dimensions(this->dimensions());
+		size_type const Address = TexelCoord.x + TexelCoord.y * Dimensions.x;
+
+		return *(this->data<genType>() + Address);
 	}
 
 	inline texture2D::size_type texture2D::baseLayer() const

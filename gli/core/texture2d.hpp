@@ -127,6 +127,8 @@ namespace gli
 		void clear();
 		template <typename genType>
 		void clear(genType const & Texel);
+		template <typename genType>
+		genType fetch(dimensions_type const & TexelCoord, size_type const & Level);
 
 		size_type baseLayer() const;
 		size_type maxLayer() const;

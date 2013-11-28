@@ -36,12 +36,31 @@ namespace gli
 		texture2D::size_type const & Level
 	)
 	{
-		//assert(Texture.format() == R8U || Texture.format() == RG8U || Texture.format() == RGB8U || Texture.format() == RGBA8U);
+		assert(Texture.empty());
+		assert(!is_compressed(Texture.format()));
 
 		image::dimensions_type Dimensions = Texture[Level].dimensions();
 		genType const * const Data = reinterpret_cast<genType const * const >(Texture[Level].data());
 
 		return reinterpret_cast<genType const * const>(Data)[TexCoord.x + TexCoord.y * Dimensions.x];
+	}
+
+	template <typename genType>
+	void texelWrite
+	(
+		texture2D & Image,
+		texture2D::dimensions_type const & Texcoord,
+		texture2D::size_type const & Level,
+		genType const & Color
+	)
+	{
+		genType * Data = Image[Level].data<genType>();
+		std::size_t Index = Texcoord.x + Texcoord.y * Image[Level].dimensions().x;
+		
+		std::size_t Capacity = Image[Level].size();
+		assert(Index < Capacity);
+
+		*(Data + Index) = Color;
 	}
 
 	template <typename genType>
@@ -83,24 +102,6 @@ namespace gli
 		genType ValueB(glm::mix(Value4, Value3, BlendB));
 
 		return genType(glm::mix(ValueA, ValueB, BlendC));
-	}
-
-	template <typename genType>
-	void texelWrite
-	(
-		texture2D & Image,
-		texture2D::dimensions_type const & Texcoord,
-		texture2D::size_type const & Level,
-		genType const & Color
-	)
-	{
-		genType * Data = Image[Level].data<genType>();
-		std::size_t Index = Texcoord.x + Texcoord.y * Image[Level].dimensions().x;
-		
-		std::size_t Capacity = Image[Level].size();
-		assert(Index < Capacity);
-
-		*(Data + Index) = Color;
 	}
 
 }//namespace gli

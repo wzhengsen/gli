@@ -107,6 +107,44 @@ int test_image_query()
 	return Error;
 }
 
+namespace fetch
+{
+	int test()
+	{
+		int Error(0);
+
+		gli::image Image(gli::RGBA8U, gli::image::dimensions_type(4, 2, 1));
+		*(Image.data<glm::u8vec4>() + 0) = glm::u8vec4(255,   0,   0, 255);
+		*(Image.data<glm::u8vec4>() + 1) = glm::u8vec4(255, 128,   0, 255);
+		*(Image.data<glm::u8vec4>() + 2) = glm::u8vec4(255, 255,   0, 255);
+		*(Image.data<glm::u8vec4>() + 3) = glm::u8vec4(128, 255,   0, 255);
+		*(Image.data<glm::u8vec4>() + 4) = glm::u8vec4(  0, 255,   0, 255);
+		*(Image.data<glm::u8vec4>() + 5) = glm::u8vec4(  0, 255, 255, 255);
+		*(Image.data<glm::u8vec4>() + 6) = glm::u8vec4(  0,   0, 255, 255);
+		*(Image.data<glm::u8vec4>() + 7) = glm::u8vec4(255,   0, 255, 255);
+
+		glm::u8vec4 Data0 = Image.load<glm::u8vec4>(gli::image::dimensions_type(0, 0, 0));
+		glm::u8vec4 Data1 = Image.load<glm::u8vec4>(gli::image::dimensions_type(1, 0, 0));
+		glm::u8vec4 Data2 = Image.load<glm::u8vec4>(gli::image::dimensions_type(2, 0, 0));
+		glm::u8vec4 Data3 = Image.load<glm::u8vec4>(gli::image::dimensions_type(3, 0, 0));
+		glm::u8vec4 Data4 = Image.load<glm::u8vec4>(gli::image::dimensions_type(0, 1, 0));
+		glm::u8vec4 Data5 = Image.load<glm::u8vec4>(gli::image::dimensions_type(1, 1, 0));
+		glm::u8vec4 Data6 = Image.load<glm::u8vec4>(gli::image::dimensions_type(2, 1, 0));
+		glm::u8vec4 Data7 = Image.load<glm::u8vec4>(gli::image::dimensions_type(3, 1, 0));
+
+		Error += glm::all(glm::equal(Data0, glm::u8vec4(255,   0,   0, 255))) ? 0 : 1;
+		Error += glm::all(glm::equal(Data1, glm::u8vec4(255, 128,   0, 255))) ? 0 : 1;
+		Error += glm::all(glm::equal(Data2, glm::u8vec4(255, 255,   0, 255))) ? 0 : 1;
+		Error += glm::all(glm::equal(Data3, glm::u8vec4(128, 255,   0, 255))) ? 0 : 1;
+		Error += glm::all(glm::equal(Data4, glm::u8vec4(  0, 255,   0, 255))) ? 0 : 1;
+		Error += glm::all(glm::equal(Data5, glm::u8vec4(  0, 255, 255, 255))) ? 0 : 1;
+		Error += glm::all(glm::equal(Data6, glm::u8vec4(  0,   0, 255, 255))) ? 0 : 1;
+		Error += glm::all(glm::equal(Data7, glm::u8vec4(255,   0, 255, 255))) ? 0 : 1;
+
+		return Error;
+	}
+}//namespace fetch
+
 int main()
 {
 	int Error(0);
@@ -114,6 +152,7 @@ int main()
 	Error += test_image_ctor();
 	Error += test_image_data();
 	Error += test_image_query();
+	Error += fetch::test();
 		
 	return Error;
 }

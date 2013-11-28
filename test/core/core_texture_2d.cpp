@@ -319,6 +319,35 @@ int test_texture2d_image_size()
 	return Error;
 }
 
+namespace fetch
+{
+	int test()
+	{
+		int Error(0);
+
+		gli::texture2D Texture(1, gli::RGBA8U, gli::texture2D::dimensions_type(4, 2));
+		*(Texture.data<glm::u8vec4>() + 0) = glm::u8vec4(255,   0,   0, 255);
+		*(Texture.data<glm::u8vec4>() + 1) = glm::u8vec4(255, 128,   0, 255);
+		*(Texture.data<glm::u8vec4>() + 2) = glm::u8vec4(255, 255,   0, 255);
+		*(Texture.data<glm::u8vec4>() + 3) = glm::u8vec4(128, 255,   0, 255);
+		*(Texture.data<glm::u8vec4>() + 4) = glm::u8vec4(  0, 255,   0, 255);
+		*(Texture.data<glm::u8vec4>() + 5) = glm::u8vec4(  0, 255, 255, 255);
+		*(Texture.data<glm::u8vec4>() + 6) = glm::u8vec4(  0,   0, 255, 255);
+		*(Texture.data<glm::u8vec4>() + 7) = glm::u8vec4(255,   0, 255, 255);
+
+		glm::u8vec4 Data0 = Texture.fetch<glm::u8vec4>(gli::texture2D::dimensions_type(0, 0), 0);
+		glm::u8vec4 Data1 = Texture.fetch<glm::u8vec4>(gli::texture2D::dimensions_type(1, 0), 0);
+		glm::u8vec4 Data2 = Texture.fetch<glm::u8vec4>(gli::texture2D::dimensions_type(2, 0), 0);
+		glm::u8vec4 Data3 = Texture.fetch<glm::u8vec4>(gli::texture2D::dimensions_type(3, 0), 0);
+		glm::u8vec4 Data4 = Texture.fetch<glm::u8vec4>(gli::texture2D::dimensions_type(0, 1), 0);
+		glm::u8vec4 Data5 = Texture.fetch<glm::u8vec4>(gli::texture2D::dimensions_type(1, 1), 0);
+		glm::u8vec4 Data6 = Texture.fetch<glm::u8vec4>(gli::texture2D::dimensions_type(2, 1), 0);
+		glm::u8vec4 Data7 = Texture.fetch<glm::u8vec4>(gli::texture2D::dimensions_type(3, 1), 0);
+
+		return Error;
+	}
+}//namespace fetch
+
 int main()
 {
 	int Error(0);
@@ -329,6 +358,7 @@ int main()
 	Error += test_texture2d_clear();
 	Error += test_texture2d_image_access();
 	Error += test_create();
+	Error += fetch::test();
 
 	return Error;
 }
