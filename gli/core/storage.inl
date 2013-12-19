@@ -310,7 +310,7 @@ inline format_desc const getFormatInfo(format const & Format)
 	};
 
 	std::size_t const Count = sizeof(Desc) / sizeof(format_desc);
-	static_assert(Count == gli::FORMAT_MAX, "GLI error: format descriptor list doesn't match number of supported formats");
+	GLM_STATIC_ASSERT(Count == gli::FORMAT_MAX, "GLI error: format descriptor list doesn't match number of supported formats");
 
 	return Desc[Format];
 };
