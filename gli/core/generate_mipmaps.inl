@@ -35,24 +35,25 @@ namespace detail
 	template <>
 	inline texture2D generateMipmaps
 	(
-		texture2D const & Texture, 
+		texture2D const & Texture,
 		texture2D::size_type const & BaseLevel
 	)
 	{
 		assert(BaseLevel < Texture.levels());
-		texture2D::format_type const Format = Texture.format();
-		texture2D::size_type const ValueSize = gli::block_size(Format);
-		texture2D::size_type const Components = gli::component_count(Format);
 
-		texture2D Result(level_count(Texture.dimensions()), Format, Texture.dimensions());
+		texture2D Result(level_count(Texture.dimensions()), Texture.format(), Texture.dimensions());
+		texture2D::size_type const Components(gli::component_count(Result.format()));
 
 		for(texture2D::size_type Level = BaseLevel; Level < Result.levels() - 1; ++Level)
 		{
-			std::size_t BaseWidth = Result[Level + 0].dimensions().x;
-			glm::byte * DataSrc = reinterpret_cast<glm::byte *>(Result[Level + 0].data());
+			// Src
+			std::size_t BaseWidth = Result[Level].dimensions().x;
+			void * DataSrc = Result[Level + 0].data();
 
-			texture2D::dimensions_type LevelDimensions = texture2D::dimensions_type(Result[Level + 0].dimensions()) >> texture2D::dimensions_type(1);
+			// Dst
+			texture2D::dimensions_type LevelDimensions = texture2D::dimensions_type(Result[Level].dimensions()) >> texture2D::dimensions_type(1);
 			LevelDimensions = glm::max(LevelDimensions, texture2D::dimensions_type(1));
+			void * DataDst = Result[Level + 1].data();
 
 			for(std::size_t j = 0; j < LevelDimensions.y; ++j)
 			for(std::size_t i = 0; i < LevelDimensions.x;  ++i)
@@ -71,10 +72,9 @@ namespace detail
 				glm::u32 Data11 = reinterpret_cast<glm::byte *>(DataSrc)[Index11];
 				glm::u32 Data10 = reinterpret_cast<glm::byte *>(DataSrc)[Index10];
 
-				glm::byte Average = (Data00 + Data01 + Data11 + Data10) >> 2;
-				glm::byte * Data = Result[Level].data<glm::byte>();
+				std::size_t IndexDst = (x + y * LevelDimensions.x) * Components + c;
 
-				*(Data + ((i + j * LevelDimensions.x) * Components + c)) = Average;
+				*(reinterpret_cast<glm::byte *>(DataDst) + IndexDst) = (Data00 + Data01 + Data11 + Data10) >> 2;
 			}
 		}
 
