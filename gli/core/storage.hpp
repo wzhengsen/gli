@@ -198,6 +198,11 @@ namespace detail
 	glm::uvec3 block_dimensions(format const & Format);
 	std::size_t component_count(format const & Format);
 	bool is_compressed(format const & Format);
+
+	std::size_t level_count(storage::dimensions1_type const & Dimensions);
+	std::size_t level_count(storage::dimensions2_type const & Dimensions);
+	std::size_t level_count(storage::dimensions3_type const & Dimensions);
+
 }//namespace gli
 
 #include "storage.inl"

@@ -624,4 +624,20 @@ inline format_desc const getFormatInfo(format const & Format)
 	{
 		return detail::getFormatInfo(Format).Compressed;
 	}
+
+	inline std::size_t level_count(storage::dimensions1_type const & Size)
+	{
+		return glm::log2(Size) + 1;
+	}
+
+	inline std::size_t level_count(storage::dimensions2_type const & Size)
+	{
+		return glm::log2(glm::compMax(Size)) + 1;
+	}
+
+	inline std::size_t level_count(storage::dimensions3_type const & Size)
+	{
+		return glm::log2(glm::compMax(Size)) + 1;
+	}
+
 }//namespace gli
