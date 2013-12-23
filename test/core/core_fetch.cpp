@@ -26,14 +26,19 @@
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
-#include <gli/gli.hpp>
+#include <gli/core/fetch.hpp>
 
-namespace test
+namespace texture2d
 {
 	int test()
 	{
 		int Error(0);
 
+		gli::texture2D Texture(3, gli::RGBA8_UNORM, gli::texture2D::dimensions_type(32));
+		
+		
+		glm::u8vec4 Texel = gli::texelFetch<glm::u8vec4>(Texture, gli::texture2D::dimensions_type(1, 1), gli::texture2D::size_type(0));
+		
 		return Error;
 	}
 }//namespace test

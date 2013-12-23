@@ -127,7 +127,7 @@ namespace detail
 			impl();
 
 			explicit impl(
-				size_type const & Layers, 
+				size_type const & Layers,
 				size_type const & Faces,
 				size_type const & Levels,
 				format_type const & Format,

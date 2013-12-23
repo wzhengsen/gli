@@ -35,7 +35,7 @@ namespace gli
 {
 	template <typename genType>
 	genType texelFetch(
-		texture2D const & Texture, 
+		texture2D const & Texture,
 		texture2D::dimensions_type const & Texcoord,
 		texture2D::size_type const & Level);
 
