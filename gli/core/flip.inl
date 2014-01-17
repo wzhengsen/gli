@@ -82,6 +82,8 @@ inline texture2DArray flip(texture2DArray const & Texture)
 	for(std::size_t Layer = 0; Layer < Flip.layers(); ++Layer)
 	for(std::size_t Level = 0; Level < Flip.levels(); ++Level)
 		detail::flip(Flip[Layer][Level], Texture[Layer][Level], Desc.BlockSize);
+
+	return Flip;
 }
 
 }//namespace gli

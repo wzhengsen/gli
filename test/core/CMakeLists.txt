@@ -16,6 +16,7 @@ glmCreateTestGTC(core_texture_3d)
 glmCreateTestGTC(core_texture_cube)
 glmCreateTestGTC(core_texture_cube_array)
 glmCreateTestGTC(core_clear)
+glmCreateTestGTC(core_flip)
 glmCreateTestGTC(core_copy)
 glmCreateTestGTC(core_view)
 

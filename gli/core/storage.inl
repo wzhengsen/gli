@@ -366,6 +366,11 @@ inline format_desc const getFormatInfo(format const & Format)
 			gli::block_size(Format),
 			gli::block_dimensions(Format)))
 	{
+		assert(Layers > 0);
+		assert(Faces > 0);
+		assert(Levels > 0);
+		assert(glm::all(glm::greaterThan(Dimensions, dimensions_type(0))));
+
 		Impl->Data.resize(this->layerSize(0, Faces - 1, 0, Levels - 1) * Layers, 0);
 	}
 
@@ -388,6 +393,11 @@ inline format_desc const getFormatInfo(format const & Format)
 			BlockSize,
 			BlockDimensions))
 	{
+		assert(Layers > 0);
+		assert(Faces > 0);
+		assert(Levels > 0);
+		assert(glm::all(glm::greaterThan(Dimensions, dimensions_type(0))));
+
 		Impl->Data.resize(this->layerSize(0, Faces - 1, 0, Levels - 1) * Layers, 0);
 	}
 
