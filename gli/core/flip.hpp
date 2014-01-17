@@ -21,39 +21,24 @@
 /// THE SOFTWARE.
 ///
 /// @ref core
-/// @file gli/gtx/fetch.hpp
-/// @date 2008-12-19 / 2013-01-13
+/// @file gli/core/flip.hpp
+/// @date 2014-01-17 / 2014-01-17
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
-#ifndef GLI_GTX_FETCH_INCLUDED
-#define GLI_GTX_FETCH_INCLUDED
+#ifndef GLI_CORE_FLIP_INCLUDED
+#define GLI_CORE_FLIP_INCLUDED
 
-#include "../gli.hpp"
+#include "texture2d.hpp"
+#include "texture2d_array.hpp"
 
 namespace gli
 {
-	template <typename genType>
-	genType texelFetch(
-		texture2D const & Texture, 
-		texture2D::dimensions_type const & Texcoord,
-		texture2D::size_type const & Level);
-
-	template <typename genType>
-	void texelWrite(
-		texture2D & Texture,
-		texture2D::dimensions_type const & Texcoord,
-		texture2D::size_type const & Level,
-		genType const & Color);
-
-	template <typename genType>
-	genType textureLod(
-		texture2D const & Texture, 
-		texture2D::texcoord_type const & Texcoord,
-		texture2D::size_type const & Level);
+	template <typename texture>
+	texture flip(texture const & Texture);
 
 }//namespace gli
 
-#include "fetch.inl"
+#include "flip.inl"
 
-#endif//GLI_GTX_FETCH_INCLUDED
+#endif//GLI_CORE_FLIP_INCLUDED

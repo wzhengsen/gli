@@ -28,6 +28,21 @@
 
 namespace gli{
 
+inline storage copy(storage const & Storage)
+{
+	storage Result(
+		Storage.layers(),
+		Storage.faces(),
+		Storage.levels(),
+		Storage.format(),
+		Storage.dimensions(0));
+
+	memcpy(Result.data(), Storage.data(), Storage.size());
+		
+	return Result;
+}
+
+/*
 inline image copy(image const & Image)
 {
 	image Result;
@@ -36,6 +51,7 @@ inline image copy(image const & Image)
 		
 	return Result;
 }
+*/
 
 template <>
 inline texture1D copy(texture1D const & Texture)

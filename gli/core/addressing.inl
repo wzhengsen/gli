@@ -51,7 +51,7 @@ namespace detail
 		return BaseOffset;
 	}
 
-	size_type texelLinearAdressing
+	inline size_type texelLinearAdressing
 	(
 		dimensions1_type const & Dimensions,
 		dimensions1_type const & TexelCoord
@@ -62,7 +62,7 @@ namespace detail
 		return TexelCoord;
 	}
 
-	size_type texelLinearAdressing
+	inline size_type texelLinearAdressing
 	(
 		dimensions2_type const & Dimensions,
 		dimensions2_type const & TexelCoord
@@ -74,7 +74,7 @@ namespace detail
 		return TexelCoord.x + Dimensions.x * TexelCoord.y;
 	}
 
-	size_type texelLinearAdressing
+	inline size_type texelLinearAdressing
 	(
 		dimensions3_type const & Dimensions,
 		dimensions3_type const & TexelCoord
@@ -87,7 +87,7 @@ namespace detail
 		return TexelCoord.x + Dimensions.x * (TexelCoord.y + Dimensions.y * TexelCoord.z);
 	}
 
-	size_type texelMortonAdressing
+	inline size_type texelMortonAdressing
 	(
 		dimensions1_type const & Dimensions,
 		dimensions1_type const & TexelCoord
@@ -98,7 +98,7 @@ namespace detail
 		return TexelCoord;
 	}
 
-	size_type texelMortonAdressing
+	inline size_type texelMortonAdressing
 	(
 		dimensions2_type const & Dimensions,
 		dimensions2_type const & TexelCoord
@@ -110,7 +110,7 @@ namespace detail
 		return glm::bitfieldInterleave(TexelCoord.x, TexelCoord.y);
 	}
 
-	size_type texelMortonAdressing
+	inline size_type texelMortonAdressing
 	(
 		dimensions3_type const & Dimensions,
 		dimensions3_type const & TexelCoord

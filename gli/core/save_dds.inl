@@ -156,8 +156,39 @@ namespace detail
 			File.write((char*)&HeaderDesc10, sizeof(HeaderDesc10));
 		}
 
-		std::size_t Size = Storage.size();
-		File.write((char*)(Storage.data()), Size);
+		if(HeaderDesc.format.fourCC != detail::D3DFMT_DX10 && !Desc.Compressed && Desc.Component >= 3)
+		{
+			storage Copy = gli::copy(Storage);
+
+			switch(Desc.Component)
+			{
+			default:
+				assert(0);
+				break;
+			case 3:
+				for(std::size_t Offset = 0; Offset < Copy.size() / 3; ++Offset)
+				{
+					glm::u8vec3 Src = *(reinterpret_cast<glm::u8vec3 const *>(Storage.data()) + Offset);
+					*(reinterpret_cast<glm::u8vec3*>(Copy.data()) + Offset) = glm::u8vec3(Src.z, Src.y, Src.x);
+				}
+				break;
+			case 4:
+				for(std::size_t Offset = 0; Offset < Copy.size() / 4; ++Offset)
+				{
+					glm::u8vec4 Src = *(reinterpret_cast<glm::u8vec4 const *>(Storage.data()) + Offset);
+					*(reinterpret_cast<glm::u8vec4*>(Copy.data()) + Offset) = glm::u8vec4(Src.z, Src.y, Src.x, Src.w);
+				}
+				break;
+			}
+
+			std::size_t Size = Copy.size();
+			File.write((char*)(Copy.data()), Size);
+		}
+		else
+		{
+			std::size_t Size = Storage.size();
+			File.write((char*)(Storage.data()), Size);
+		}
 
 		assert(!File.fail() && !File.bad());
 	}
