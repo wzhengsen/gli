@@ -157,6 +157,8 @@ namespace gli
 			BaseLayer, MaxLayer,
 			BaseFace, MaxFace,
 			BaseLevel, MaxLevel);
+
+		return View;
 	}
 
 }//namespace gli
