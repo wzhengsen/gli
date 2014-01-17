@@ -28,33 +28,5 @@
 
 namespace gli
 {
-/*
-	view::view
-	(
-		size_type const & BaseLayer,
-		size_type const & MaxLayer,
-		size_type const & BaseFace,
-		size_type const & MaxFace,
-		size_type const & BaseLevel,
-		size_type const & MaxLevel
-	) :
-		BaseLayer(BaseLayer),
-		MaxLayer(MaxLayer),
-		BaseFace(BaseFace),
-		MaxFace(MaxFace),
-		BaseLevel(BaseLevel),
-		MaxLevel(MaxLevel)
-	{}
 
-	view & view::operator=(view const & View)
-	{
-		this->BaseLayer = View.BaseLayer;
-		this->MaxLayer = View.MaxLayer;
-		this->BaseFace = View.BaseFace;
-		this->MaxFace = View.MaxFace;
-		this->BaseLevel = View.BaseLevel;
-		this->MaxLevel = View.MaxLevel;
-		return *this;
-	}
-*/
 }//namespace gli

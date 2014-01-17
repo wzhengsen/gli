@@ -43,10 +43,20 @@ namespace gli
 	bool operator==(image const & ImageA, image const & ImageB);
 	bool operator!=(image const & ImageA, image const & ImageB);
 
-	template <typename texture>
-	bool operator==(texture const & TextureA, texture const & TextureB);
-	template <typename texture>
-	bool operator!=(texture const & TextureA, texture const & TextureB);
+	bool operator==(gli::texture1D const & A, gli::texture1D const & B);
+	bool operator==(gli::texture1DArray const & A, gli::texture1DArray const & B);
+	bool operator==(gli::texture2D const & A, gli::texture2D const & B);
+	bool operator==(gli::texture2DArray const & A, gli::texture2DArray const & B);
+	bool operator==(gli::texture3D const & A, gli::texture3D const & B);
+	bool operator==(gli::textureCube const & A, gli::textureCube const & B);
+	bool operator==(gli::textureCubeArray const & A, gli::textureCubeArray const & B);
+	bool operator!=(gli::texture1D const & A, gli::texture1D const & B);
+	bool operator!=(gli::texture1DArray const & A, gli::texture1DArray const & B);
+	bool operator!=(gli::texture2D const & A, gli::texture2D const & B);
+	bool operator!=(gli::texture2DArray const & A, gli::texture2DArray const & B);
+	bool operator!=(gli::texture3D const & A, gli::texture3D const & B);
+	bool operator!=(gli::textureCube const & A, gli::textureCube const & B);
+	bool operator!=(gli::textureCubeArray const & A, gli::textureCubeArray const & B);
 }//namespace gli
 
 #include "comparison.inl"

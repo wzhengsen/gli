@@ -198,41 +198,6 @@ namespace detail
 		return detail::equalData(TextureA, TextureB);
 	}
 
-	inline bool operator==(texture1D const & A, texture1D const & B)
-	{
-		return equal(A, B);
-	}
-
-	inline bool operator==(texture1DArray const & A, texture1DArray const & B)
-	{
-		return equal(A, B);
-	}
-
-	inline bool operator==(texture2D const & A, texture2D const & B)
-	{
-		return equal(A, B);
-	}
-
-	inline bool operator==(texture2DArray const & A, texture2DArray const & B)
-	{
-		return equal(A, B);
-	}
-
-	inline bool operator==(texture3D const & A, texture3D const & B)
-	{
-		return equal(A, B);
-	}
-
-	inline bool operator==(textureCube const & A, textureCube const & B)
-	{
-		return equal(A, B);
-	}
-
-	inline bool operator==(textureCubeArray const & A, textureCubeArray const & B)
-	{
-		return equal(A, B);
-	}
-
 	template <typename texture>
 	inline bool notEqual(texture const & TextureA, texture const & TextureB)
 	{
@@ -256,40 +221,73 @@ namespace detail
 		return detail::notEqualData(TextureA, TextureB);
 	}
 
-	inline bool operator!=(texture1D const & A, texture1D const & B)
+	inline bool operator==(gli::texture1D const & A, gli::texture1D const & B)
 	{
-		return notEqual(A, B);
+		return gli::equal(A, B);
 	}
 
-	inline bool operator!=(texture1DArray const & A, texture1DArray const & B)
+	inline bool operator==(gli::texture1DArray const & A, gli::texture1DArray const & B)
 	{
-		return notEqual(A, B);
+		return gli::equal(A, B);
 	}
 
-	inline bool operator!=(texture2D const & A, texture2D const & B)
+	inline bool operator==(gli::texture2D const & A, gli::texture2D const & B)
 	{
-		return notEqual(A, B);
+		return gli::equal(A, B);
 	}
 
-	inline bool operator!=(texture2DArray const & A, texture2DArray const & B)
+	inline bool operator==(gli::texture2DArray const & A, gli::texture2DArray const & B)
 	{
-		return notEqual(A, B);
+		return gli::equal(A, B);
 	}
 
-	inline bool operator!=(texture3D const & A, texture3D const & B)
+	inline bool operator==(gli::texture3D const & A, gli::texture3D const & B)
 	{
-		return notEqual(A, B);
+		return gli::equal(A, B);
 	}
 
-	inline bool operator!=(textureCube const & A, textureCube const & B)
+	inline bool operator==(gli::textureCube const & A, gli::textureCube const & B)
 	{
-		return notEqual(A, B);
+		return gli::equal(A, B);
 	}
 
-	inline bool operator!=(textureCubeArray const & A, textureCubeArray const & B)
+	inline bool operator==(gli::textureCubeArray const & A, gli::textureCubeArray const & B)
 	{
-		return notEqual(A, B);
+		return gli::equal(A, B);
 	}
 
+	inline bool operator!=(gli::texture1D const & A, gli::texture1D const & B)
+	{
+		return gli::notEqual(A, B);
+	}
+
+	inline bool operator!=(gli::texture1DArray const & A, gli::texture1DArray const & B)
+	{
+		return gli::notEqual(A, B);
+	}
+
+	inline bool operator!=(gli::texture2D const & A, gli::texture2D const & B)
+	{
+		return gli::notEqual(A, B);
+	}
+
+	inline bool operator!=(gli::texture2DArray const & A, gli::texture2DArray const & B)
+	{
+		return gli::notEqual(A, B);
+	}
+
+	inline bool operator!=(gli::texture3D const & A, gli::texture3D const & B)
+	{
+		return gli::notEqual(A, B);
+	}
+
+	inline bool operator!=(gli::textureCube const & A, gli::textureCube const & B)
+	{
+		return gli::notEqual(A, B);
+	}
+
+	inline bool operator!=(gli::textureCubeArray const & A, gli::textureCubeArray const & B)
+	{
+		return gli::notEqual(A, B);
+	}
 }//namespace gli
-

@@ -755,10 +755,19 @@ int test_map()
 		gli::RGBA8_UNORM, 
 		gli::texture2D::dimensions_type(64));
 
+	
 	std::map<int, gli::texture2D> Map;
 
 	Map.insert(std::make_pair(0, TextureA));
 	Map.insert(std::make_pair(0, TextureB));
+	
+	class C
+	{};
+
+	std::map<int, C> MapC;
+
+	MapC.insert(std::make_pair(0, C()));
+	MapC.insert(std::make_pair(0, C()));
 
 	return Error;
 }
