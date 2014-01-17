@@ -176,7 +176,7 @@ namespace detail
 	}
 
 	template <typename texture>
-	inline bool operator==(texture const & TextureA, texture const & TextureB)
+	inline bool equal(texture const & TextureA, texture const & TextureB)
 	{
 		if(TextureA.empty() && TextureB.empty())
 			return true;
@@ -198,8 +198,43 @@ namespace detail
 		return detail::equalData(TextureA, TextureB);
 	}
 
+	inline bool operator==(texture1D const & A, texture1D const & B)
+	{
+		return equal(A, B);
+	}
+
+	inline bool operator==(texture1DArray const & A, texture1DArray const & B)
+	{
+		return equal(A, B);
+	}
+
+	inline bool operator==(texture2D const & A, texture2D const & B)
+	{
+		return equal(A, B);
+	}
+
+	inline bool operator==(texture2DArray const & A, texture2DArray const & B)
+	{
+		return equal(A, B);
+	}
+
+	inline bool operator==(texture3D const & A, texture3D const & B)
+	{
+		return equal(A, B);
+	}
+
+	inline bool operator==(textureCube const & A, textureCube const & B)
+	{
+		return equal(A, B);
+	}
+
+	inline bool operator==(textureCubeArray const & A, textureCubeArray const & B)
+	{
+		return equal(A, B);
+	}
+
 	template <typename texture>
-	inline bool operator!=(texture const & TextureA, texture const & TextureB)
+	inline bool notEqual(texture const & TextureA, texture const & TextureB)
 	{
 		if(TextureA.empty() && TextureB.empty())
 			return false;
@@ -221,4 +256,40 @@ namespace detail
 		return detail::notEqualData(TextureA, TextureB);
 	}
 
+	inline bool operator!=(texture1D const & A, texture1D const & B)
+	{
+		return notEqual(A, B);
+	}
+
+	inline bool operator!=(texture1DArray const & A, texture1DArray const & B)
+	{
+		return notEqual(A, B);
+	}
+
+	inline bool operator!=(texture2D const & A, texture2D const & B)
+	{
+		return notEqual(A, B);
+	}
+
+	inline bool operator!=(texture2DArray const & A, texture2DArray const & B)
+	{
+		return notEqual(A, B);
+	}
+
+	inline bool operator!=(texture3D const & A, texture3D const & B)
+	{
+		return notEqual(A, B);
+	}
+
+	inline bool operator!=(textureCube const & A, textureCube const & B)
+	{
+		return notEqual(A, B);
+	}
+
+	inline bool operator!=(textureCubeArray const & A, textureCubeArray const & B)
+	{
+		return notEqual(A, B);
+	}
+
 }//namespace gli
+

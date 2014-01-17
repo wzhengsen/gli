@@ -27,6 +27,7 @@
 ///////////////////////////////////////////////////////////////////////////////////
 
 #include <gli/gli.hpp>
+#include <map>
 
 int test_texture1D()
 {
@@ -742,6 +743,26 @@ int test_textureCubeArray()
 	return Error;
 }
 
+int test_map()
+{
+	int Error(0);
+
+	gli::texture2D TextureA(
+		gli::RGBA8_UNORM, 
+		gli::texture2D::dimensions_type(32));
+
+	gli::texture2D TextureB(
+		gli::RGBA8_UNORM, 
+		gli::texture2D::dimensions_type(64));
+
+	std::map<int, gli::texture2D> Map;
+
+	Map.insert(std::make_pair(0, TextureA));
+	Map.insert(std::make_pair(0, TextureB));
+
+	return Error;
+}
+
 int main()
 {
 	int Error(0);
@@ -753,6 +774,7 @@ int main()
 	Error += test_texture3D();
 	Error += test_textureCube();
 	Error += test_textureCubeArray();
+	Error += test_map();
 		
 	return Error;
 }

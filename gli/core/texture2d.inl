@@ -67,7 +67,7 @@ namespace gli
 		Storage(
 			1,
 			1,
-			size_type(glm::log2(int(glm::max(Dimensions.x, Dimensions.y))) + 1),
+			size_type(level_count(Dimensions)),
 			Format,
 			storage::dimensions_type(Dimensions, 1)),
 		BaseLayer(0),
