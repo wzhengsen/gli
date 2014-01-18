@@ -39,8 +39,8 @@ int test_texture
 	int Error(0);
 
 	texture TextureA = gli::copy(Texture);
-	TextureA.clear<genType>(ClearColor);
-	*TextureA.data<genType>() = FirstColor;
+	TextureA.template clear<genType>(ClearColor);
+	*TextureA.template data<genType>() = FirstColor;
 
 	texture TextureB = gli::flip(TextureA);
 	Error += TextureA != TextureB ? 0 : 1;

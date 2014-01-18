@@ -38,6 +38,7 @@
 #include <cstring>
 
 // GLM
+#define GLM_FORCE_RADIANS
 #include <glm/glm.hpp>
 #include <glm/gtx/component_wise.hpp>
 #include <glm/gtx/gradient_paint.hpp>

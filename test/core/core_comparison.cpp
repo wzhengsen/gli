@@ -743,6 +743,9 @@ int test_textureCubeArray()
 	return Error;
 }
 
+class C
+{};
+
 int test_map()
 {
 	int Error(0);
@@ -761,11 +764,7 @@ int test_map()
 	Map.insert(std::make_pair(0, TextureA));
 	Map.insert(std::make_pair(0, TextureB));
 	
-	class C
-	{};
-
 	std::map<int, C> MapC;
-
 	MapC.insert(std::make_pair(0, C()));
 	MapC.insert(std::make_pair(0, C()));
 
