@@ -34,7 +34,7 @@ GLI is a header only library, there is nothing to build, just include it.
 #include <gli/gli.hpp>
 
 ================================================================================
-GLI 0.5.1.0: 2014-XX-XX
+GLI 0.5.1.0: 2014-01-18
 --------------------------------------------------------------------------------
 - Added flip function
 - Added level_count function
