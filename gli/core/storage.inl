@@ -447,7 +447,7 @@ inline format_desc const getFormatInfo(format const & Format)
 	{
 		assert(Level < this->Impl->Levels);
 
-		return glm::max(this->Impl->Dimensions >> storage::dimensions_type(Level), storage::dimensions_type(1));
+		return glm::max(this->Impl->Dimensions >> storage::dimensions_type(static_cast<glm::uint>(Level)), storage::dimensions_type(static_cast<glm::uint>(1)));
 	}
 
 	inline storage::size_type storage::size() const

@@ -36,7 +36,7 @@ namespace gli
 		texture2D::size_type const & Level
 	)
 	{
-		assert(Texture.empty());
+		assert(!Texture.empty());
 		assert(!is_compressed(Texture.format()));
 
 		image::dimensions_type Dimensions = Texture[Level].dimensions();
@@ -48,16 +48,19 @@ namespace gli
 	template <typename genType>
 	void texelWrite
 	(
-		texture2D & Image,
+		texture2D & Texture,
 		texture2D::dimensions_type const & Texcoord,
 		texture2D::size_type const & Level,
 		genType const & Color
 	)
 	{
-		genType * Data = Image[Level].data<genType>();
-		std::size_t Index = Texcoord.x + Texcoord.y * Image[Level].dimensions().x;
+		assert(!Texture.empty());
+		assert(!is_compressed(Texture.format()));
+
+		genType * Data = Texture[Level].data<genType>();
+		std::size_t Index = Texcoord.x + Texcoord.y * Texture[Level].dimensions().x;
 		
-		std::size_t Capacity = Image[Level].size();
+		std::size_t Capacity = Texture[Level].size();
 		assert(Index < Capacity);
 
 		*(Data + Index) = Color;

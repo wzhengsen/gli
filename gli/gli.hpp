@@ -45,6 +45,7 @@
 #include "./core/comparison.hpp"
 #include "./core/copy.hpp"
 #include "./core/flip.hpp"
+#include "./core/fetch.hpp"
 #include "./core/load_dds.hpp"
 #include "./core/save_dds.hpp"
 #include "./core/view.hpp"

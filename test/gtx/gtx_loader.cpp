@@ -96,26 +96,6 @@ int test_image_export_dds()
 	return Error;
 }
 
-int test_image_fetch()
-{
-	int Error(0);
-
-	gli::texture2D Texture(gli::load_dds("../../data/test_rgb8.dds"));
-	if(!Texture.empty())
-	{
-		gli::texture2D::dimensions_type Size = Texture.dimensions();
-
-		glm::u8vec3 TexelA = gli::textureLod<glm::u8vec3>(Texture, gli::texture2D::texcoord_type(0.0f, 0.0f), 0);
-		//glm::u8vec3 TexelB = gli::textureLod<glm::u8vec3>(Texture, gli::texture2D::texcoord_type(0.5f, 0.5f), 0);
-
-		glm::u8vec3 TexelC = gli::texelFetch<glm::u8vec3>(Texture, gli::texture2D::dimensions_type(7, 7), 0);
-		glm::u8vec3 TexelD = gli::texelFetch<glm::u8vec3>(Texture, gli::texture2D::dimensions_type(7, 0), 0);
-		glm::u8vec3 TexelE = gli::texelFetch<glm::u8vec3>(Texture, gli::texture2D::dimensions_type(0, 7), 0);
-	}
-
-	return Error;
-}
-
 /*
 int test_texture1d()
 {
@@ -319,7 +299,6 @@ int main()
 	Error += test_texture2d_load();
 	Error += test_texture2d();
 	Error += test_image_wip();
-	Error += test_image_fetch();
 	Error += test_image_export_dds();
 
 	return Error;

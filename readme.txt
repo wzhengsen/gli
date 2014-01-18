@@ -39,6 +39,7 @@ GLI 0.5.1.0: 2014-XX-XX
 - Added flip function
 - Added level_count function
 - Fixed interaction with std::map (#33)
+- Added texelFetch and texelWrite functions
 
 ================================================================================
 GLI 0.5.0.0: 2013-11-24
