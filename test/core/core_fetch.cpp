@@ -35,8 +35,8 @@ namespace textureLod
 	{
 		int Error(0);
 
-		gli::texture2D Texture(gli::load_dds("rgba4.dds"));
-		glm::u8vec3 TexelA = gli::textureLod<glm::u8vec3>(Texture, gli::texture2D::texcoord_type(0.0f, 0.0f), 0);
+		//gli::texture2D Texture(gli::load_dds("rgba4.dds"));
+		//glm::u8vec3 TexelA = gli::textureLod<glm::u8vec3>(Texture, gli::texture2D::texcoord_type(0.0f, 0.0f), 0);
 
 		return Error;
 	}
@@ -61,15 +61,15 @@ namespace fetch_rgba8_unorm
 		{
 			gli::texture2D Texture(gli::load_dds("rgba8_unorm_4pixels.dds"));
 			glm::u8vec4 A = gli::texelFetch<glm::u8vec4>(Texture, gli::texture2D::dimensions_type(0, 0), 0);
-			Error += glm::all(glm::equal(A, glm::u8vec4(255, 0, 0, 255)));
+			Error += glm::all(glm::equal(A, glm::u8vec4(255, 0, 0, 255))) ? 0 : 1;
 			glm::u8vec4 B = gli::texelFetch<glm::u8vec4>(Texture, gli::texture2D::dimensions_type(1, 0), 0);
-			Error += glm::all(glm::equal(B, glm::u8vec4(255, 255, 0, 255)));
+			Error += glm::all(glm::equal(B, glm::u8vec4(255, 255, 0, 255))) ? 0 : 1;
 			glm::u8vec4 C = gli::texelFetch<glm::u8vec4>(Texture, gli::texture2D::dimensions_type(1, 1), 0);
-			Error += glm::all(glm::equal(C, glm::u8vec4(0, 255, 0, 255)));
+			Error += glm::all(glm::equal(C, glm::u8vec4(0, 255, 0, 255))) ? 0 : 1;
 			glm::u8vec4 D = gli::texelFetch<glm::u8vec4>(Texture, gli::texture2D::dimensions_type(0, 1), 0);
-			Error += glm::all(glm::equal(D, glm::u8vec4(0, 0, 255, 255)));
+			Error += glm::all(glm::equal(D, glm::u8vec4(0, 0, 255, 255))) ? 0 : 1;
 			glm::u8vec4 E = gli::texelFetch<glm::u8vec4>(Texture, gli::texture2D::dimensions_type(0, 0), 1);
-			Error += glm::all(glm::equal(E, glm::u8vec4(255, 128, 0, 255)));
+			Error += glm::all(glm::equal(E, glm::u8vec4(255, 128, 0, 255))) ? 0 : 1;
 		}
 
 		return Error;

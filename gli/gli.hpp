@@ -37,7 +37,7 @@
 #define GLI_VERSION_MAJOR			0
 #define GLI_VERSION_MINOR			5
 #define GLI_VERSION_PATCH			1
-#define GLI_VERSION_REVISION		0
+#define GLI_VERSION_REVISION		1
 
 #include "./core/storage.hpp"
 #include "./core/texture.hpp"
