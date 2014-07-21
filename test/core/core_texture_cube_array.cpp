@@ -40,7 +40,7 @@ int test_alloc()
 	Formats.push_back(gli::RGB_BP_UNORM);
 	Formats.push_back(gli::RGBA32F);
 
-	std::vector<std::size_t> Sizes;
+	std::vector<gli::textureCubeArray::dimensions_type::value_type> Sizes;
 	Sizes.push_back(16);
 	Sizes.push_back(32);
 	Sizes.push_back(15);
@@ -50,18 +50,10 @@ int test_alloc()
 	for(std::size_t FormatIndex = 0; FormatIndex < Formats.size(); ++FormatIndex)
 	for(std::size_t SizeIndex = 0; SizeIndex < Sizes.size(); ++SizeIndex)
 	{
-		gli::textureCubeArray TextureA(
-			2,
-			6,
-			gli::textureCubeArray::size_type(glm::log2(int(Sizes[SizeIndex])) + 1),
-			Formats[FormatIndex],
-			gli::textureCubeArray::dimensions_type(Sizes[SizeIndex]));
+		gli::textureCubeArray::dimensions_type Size(Sizes[SizeIndex]);
 
-		gli::textureCubeArray TextureB(
-			2,
-			6,
-			Formats[FormatIndex],
-			gli::textureCubeArray::dimensions_type(Sizes[SizeIndex]));
+		gli::textureCubeArray TextureA(2, 6, gli::level_count(Size), Formats[FormatIndex], Size);
+		gli::textureCubeArray TextureB(2, 6, Formats[FormatIndex], Size);
 
 		Error += TextureA == TextureB ? 0 : 1;
 	}
@@ -74,12 +66,7 @@ int test_textureCubeArray_query()
 	int Error(0);
 
 	{
-		gli::textureCubeArray Texture(
-			1,
-			6,
-			gli::textureCubeArray::size_type(2),
-			gli::RGBA8U,
-			gli::textureCubeArray::dimensions_type(2));
+		gli::textureCubeArray Texture(1, 6, gli::textureCubeArray::size_type(2), gli::RGBA8U, gli::textureCubeArray::dimensions_type(2));
 
 		Error += Texture.size() == sizeof(glm::u8vec4) * 5 * 6 ? 0 : 1;
 		Error += Texture.format() == gli::RGBA8U ? 0 : 1;

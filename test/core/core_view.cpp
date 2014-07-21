@@ -156,23 +156,19 @@ int test_view1DArray
 int test_view2D
 (
 	std::vector<gli::format> const & Formats, 
-	std::size_t const & TextureSize
+	gli::texture2D::dimensions_type const & TextureSize
 )
 {
 	int Error(0);
 
 	for(std::size_t i = 0; i < Formats.size(); ++i)
 	{
-		gli::texture2D TextureA(
-			gli::texture2D::size_type(glm::log2(int(TextureSize)) + 1),
-			Formats[i], 
-			gli::texture2D::dimensions_type(TextureSize));
+		gli::texture2D TextureA(gli::level_count(TextureSize), Formats[i], TextureSize);
 
 		for(std::size_t Index = 0; Index < TextureA.size<glm::byte>(); ++Index)
 			*(TextureA.data<glm::byte>() + Index) = glm::byte(Index);
 
-		gli::texture2D TextureViewA(TextureA, 
-			TextureA.baseLevel(), TextureA.maxLevel());
+		gli::texture2D TextureViewA(TextureA, TextureA.baseLevel(), TextureA.maxLevel());
 
 		Error += TextureA == TextureViewA ? 0 : 1;
 
@@ -201,18 +197,14 @@ int test_view2D
 int test_view2DArray
 (
 	std::vector<gli::format> const & Formats, 
-	std::size_t const & TextureSize
+	gli::texture2DArray::dimensions_type const & TextureSize
 )
 {
 	int Error(0);
 
 	for(std::size_t i = 0; i < Formats.size(); ++i)
 	{
-		gli::texture2DArray TextureA(
-			gli::texture2DArray::size_type(4),
-			gli::texture2DArray::size_type(glm::log2(int(TextureSize)) + 1),
-			Formats[i], 
-			gli::texture2DArray::dimensions_type(TextureSize));
+		gli::texture2DArray TextureA(gli::texture2DArray::size_type(4), gli::level_count(TextureSize), Formats[i], TextureSize);
 
 		gli::texture2DArray TextureViewA(TextureA, 
 			TextureA.baseLayer(), TextureA.maxLayer(), 
@@ -222,9 +214,9 @@ int test_view2DArray
 
 		gli::texture2DArray TextureB(
 			gli::texture2DArray::size_type(4),
-			gli::texture2DArray::size_type(glm::log2(int(TextureSize / 2)) + 1),
+			gli::level_count(TextureSize / gli::texture2DArray::dimensions_type(2)),
 			Formats[i], 
-			gli::texture2DArray::dimensions_type(TextureSize / 2));
+			TextureSize / gli::texture2DArray::dimensions_type(2));
 
 		gli::texture2DArray TextureViewB(TextureA, 
 			TextureA.baseLayer(), TextureA.maxLayer(), 
@@ -259,27 +251,20 @@ int test_view2DArray
 int test_view3D
 (
 	std::vector<gli::format> const & Formats, 
-	std::size_t const & TextureSize
+	gli::texture3D::dimensions_type const & TextureSize
 )
 {
 	int Error(0);
 
 	for(std::size_t i = 0; i < Formats.size(); ++i)
 	{
-		gli::texture3D TextureA(
-			gli::texture3D::size_type(glm::log2(int(TextureSize)) + 1),
-			Formats[i], 
-			gli::texture3D::dimensions_type(TextureSize));
-
-		gli::texture3D TextureViewA(TextureA, 
-			TextureA.baseLevel(), TextureA.maxLevel());
+		gli::texture3D TextureA(gli::level_count(TextureSize), Formats[i], TextureSize);
+		gli::texture3D TextureViewA(TextureA, TextureA.baseLevel(), TextureA.maxLevel());
 
 		Error += TextureA == TextureViewA ? 0 : 1;
 
-		gli::texture3D TextureB(
-			gli::texture3D::size_type(glm::log2(int(TextureSize / 2)) + 1),
-			Formats[i], 
-			gli::texture3D::dimensions_type(TextureSize / 2));
+		gli::texture3D::dimensions_type SizeB(TextureSize / gli::texture3D::dimensions_type(2));
+		gli::texture3D TextureB(gli::level_count(SizeB), Formats[i], SizeB);
 
 		gli::texture3D TextureViewB(TextureA, 
 			TextureA.baseLevel() + 1, TextureA.maxLevel());
@@ -308,40 +293,29 @@ int test_view3D
 int test_viewCube
 (
 	std::vector<gli::format> const & Formats, 
-	std::size_t const & TextureSize
+	gli::textureCube::dimensions_type const & TextureSize
 )
 {
 	int Error(0);
 
 	for(std::size_t i = 0; i < Formats.size(); ++i)
 	{
-		gli::textureCube TextureA(
-			gli::textureCube::size_type(6),
-			gli::textureCube::size_type(glm::log2(int(TextureSize)) + 1),
-			Formats[i], 
-			gli::textureCube::dimensions_type(TextureSize));
+		gli::textureCube TextureA(gli::textureCube::size_type(6), gli::level_count(TextureSize), Formats[i], TextureSize);
 
-		gli::textureCube TextureViewA(TextureA, 
-			TextureA.baseFace(), TextureA.maxFace(), 
+		gli::textureCube TextureViewA(TextureA,
+			TextureA.baseFace(), TextureA.maxFace(),
 			TextureA.baseLevel(), TextureA.maxLevel());
 
 		Error += TextureA == TextureViewA ? 0 : 1;
 
-		gli::textureCube TextureB(
-			gli::textureCube::size_type(6),
-			gli::textureCube::size_type(glm::log2(int(TextureSize / 2)) + 1),
-			Formats[i], 
-			gli::textureCube::dimensions_type(TextureSize / 2));
+		gli::textureCube::dimensions_type SizeB(TextureSize / gli::textureCube::dimensions_type(2));
+		gli::textureCube TextureB(gli::textureCube::size_type(6), gli::level_count(SizeB), Formats[i], SizeB);
 
-		gli::textureCube TextureViewB(TextureA, 
-			TextureA.baseFace(), TextureA.maxFace(), 
-			TextureA.baseLevel() + 1, TextureA.maxLevel());
+		gli::textureCube TextureViewB(TextureA, TextureA.baseFace(), TextureA.maxFace(), TextureA.baseLevel() + 1, TextureA.maxLevel());
 
 		Error += TextureB == TextureViewB ? 0 : 1;
 
-		gli::textureCube TextureViewD = gli::view(TextureA, 
-			TextureA.baseFace(), TextureA.maxFace(), 
-			TextureA.baseLevel() + 1, TextureA.maxLevel());
+		gli::textureCube TextureViewD = gli::view(TextureA, TextureA.baseFace(), TextureA.maxFace(), TextureA.baseLevel() + 1, TextureA.maxLevel());
 
 		Error += TextureViewD == TextureViewB ? 0 : 1;
 
@@ -367,7 +341,7 @@ int test_viewCube
 int test_viewCubeArray
 (
 	std::vector<gli::format> const & Formats, 
-	std::size_t const & TextureSize
+	gli::textureCubeArray::dimensions_type const & TextureSize
 )
 {
 	int Error(0);
@@ -377,9 +351,9 @@ int test_viewCubeArray
 		gli::textureCubeArray TextureA(
 			gli::textureCubeArray::size_type(4),
 			gli::textureCubeArray::size_type(6),
-			gli::textureCubeArray::size_type(glm::log2(int(TextureSize)) + 1),
-			Formats[i], 
-			gli::textureCubeArray::dimensions_type(TextureSize));
+			gli::level_count(TextureSize),
+			Formats[i],
+			TextureSize);
 
 		gli::textureCubeArray TextureViewA(TextureA, 
 			TextureA.baseLayer(), TextureA.maxLayer(), 
@@ -388,23 +362,21 @@ int test_viewCubeArray
 
 		Error += TextureA == TextureViewA ? 0 : 1;
 
+		gli::textureCubeArray::dimensions_type SizeB(TextureSize / gli::textureCubeArray::dimensions_type(2));
 		gli::textureCubeArray TextureB(
-			gli::textureCubeArray::size_type(4),
-			gli::textureCubeArray::size_type(6),
-			gli::textureCubeArray::size_type(glm::log2(int(TextureSize / 2)) + 1),
-			Formats[i], 
-			gli::textureCubeArray::dimensions_type(TextureSize / 2));
+			gli::textureCubeArray::size_type(4), gli::textureCubeArray::size_type(6),
+			gli::level_count(TextureSize), Formats[i], SizeB);
 
-		gli::textureCubeArray TextureViewB(TextureA, 
+		gli::textureCubeArray TextureViewB(TextureA,
 			TextureA.baseLayer(), TextureA.maxLayer(),
-			TextureA.baseFace(), TextureA.maxFace(), 
+			TextureA.baseFace(), TextureA.maxFace(),
 			TextureA.baseLevel() + 1, TextureA.maxLevel());
 
 		Error += TextureB == TextureViewB ? 0 : 1;
 
-		gli::textureCubeArray TextureViewD(TextureA, 
+		gli::textureCubeArray TextureViewD(TextureA,
 			TextureA.baseLayer(), TextureA.maxLayer(),
-			TextureA.baseFace(), TextureA.maxFace(), 
+			TextureA.baseFace(), TextureA.maxFace(),
 			TextureA.baseLevel() + 1, TextureA.maxLevel());
 
 		Error += TextureViewD == TextureViewB ? 0 : 1;
@@ -444,13 +416,13 @@ int main()
 	Formats.push_back(gli::RGBA32F);
 	std::size_t const TextureSize = 32;
 
-	Error += test_view1D(Formats, TextureSize);
-	Error += test_view1DArray(Formats, TextureSize);
-	Error += test_view2D(Formats, TextureSize);
-	Error += test_view2DArray(Formats, TextureSize);
-	Error += test_view3D(Formats, TextureSize);
-	Error += test_viewCube(Formats, TextureSize);
-	Error += test_viewCubeArray(Formats, TextureSize);
+	Error += test_view1D(Formats, gli::texture1D::dimensions_type(TextureSize));
+	Error += test_view1DArray(Formats, gli::texture1DArray::dimensions_type(TextureSize));
+	Error += test_view2D(Formats, gli::texture2D::dimensions_type(TextureSize));
+	Error += test_view2DArray(Formats, gli::texture2DArray::dimensions_type(TextureSize));
+	Error += test_view3D(Formats, gli::texture3D::dimensions_type(TextureSize));
+	Error += test_viewCube(Formats, gli::textureCube::dimensions_type(TextureSize));
+	Error += test_viewCubeArray(Formats, gli::textureCube::dimensions_type(TextureSize));
 
 	return Error;
 }

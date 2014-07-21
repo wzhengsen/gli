@@ -109,7 +109,7 @@ int test_alloc()
 	Formats.push_back(gli::RGB_BP_UNORM);
 	Formats.push_back(gli::RGBA32F);
 
-	std::vector<gli::texture2D::size_type> Sizes;
+	std::vector<gli::texture2D::dimensions_type::value_type> Sizes;
 	Sizes.push_back(16);
 	Sizes.push_back(32);
 	Sizes.push_back(15);
@@ -119,14 +119,10 @@ int test_alloc()
 	for(std::size_t FormatIndex = 0; FormatIndex < Formats.size(); ++FormatIndex)
 	for(std::size_t SizeIndex = 0; SizeIndex < Sizes.size(); ++SizeIndex)
 	{
-		gli::texture2D TextureA(
-			gli::level_count(Sizes[SizeIndex]),
-			Formats[FormatIndex],
-			gli::texture2D::dimensions_type(Sizes[SizeIndex]));
+		gli::texture2D::dimensions_type Size(Sizes[SizeIndex]);
 
-		gli::texture2D TextureB(
-			Formats[FormatIndex],
-			gli::texture2D::dimensions_type(Sizes[SizeIndex]));
+		gli::texture2D TextureA(gli::level_count(Size), Formats[FormatIndex], Size);
+		gli::texture2D TextureB(Formats[FormatIndex], Size);
 
 		Error += TextureA == TextureB ? 0 : 1;
 	}

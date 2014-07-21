@@ -40,7 +40,7 @@ int test_alloc()
 	Formats.push_back(gli::RGB_BP_UNORM);
 	Formats.push_back(gli::RGBA32F);
 
-	std::vector<std::size_t> Sizes;
+	std::vector<gli::texture2DArray::dimensions_type::value_type> Sizes;
 	Sizes.push_back(16);
 	Sizes.push_back(32);
 	Sizes.push_back(15);
@@ -50,16 +50,10 @@ int test_alloc()
 	for(std::size_t FormatIndex = 0; FormatIndex < Formats.size(); ++FormatIndex)
 	for(std::size_t SizeIndex = 0; SizeIndex < Sizes.size(); ++SizeIndex)
 	{
-		gli::texture2DArray TextureA(
-			1,
-			gli::texture2DArray::size_type(glm::log2(int(Sizes[SizeIndex])) + 1),
-			Formats[FormatIndex],
-			gli::texture2DArray::dimensions_type(Sizes[SizeIndex]));
+		gli::texture2DArray::dimensions_type Size(Sizes[SizeIndex]);
 
-		gli::texture2DArray TextureB(
-			1,
-			Formats[FormatIndex],
-			gli::texture2DArray::dimensions_type(Sizes[SizeIndex]));
+		gli::texture2DArray TextureA(1, gli::level_count(Size), Formats[FormatIndex], Size);
+		gli::texture2DArray TextureB(1, Formats[FormatIndex], Size);
 
 		Error += TextureA == TextureB ? 0 : 1;
 	}
@@ -73,11 +67,8 @@ int test_texture2DArray_clear()
 
 	glm::u8vec4 const Orange(255, 127, 0, 255);
 
-	gli::texture2DArray Texture(
-		2,
-		gli::texture2DArray::size_type(glm::log2(16u) + 1),
-		gli::RGBA8U,
-		gli::texture2DArray::dimensions_type(16));
+	gli::texture2DArray::dimensions_type Size(16u);
+	gli::texture2DArray Texture(2, gli::level_count(Size), gli::RGBA8U, Size);
 
 	Texture.clear<glm::u8vec4>(Orange);
 
@@ -92,7 +83,7 @@ int test_texture2DArray_query()
 	gli::texture2DArray::size_type Levels(2);
 
 	gli::texture2DArray Texture(
-		Layers, 
+		Layers,
 		Levels,
 		gli::RGBA8U,
 		gli::texture2DArray::dimensions_type(2));
