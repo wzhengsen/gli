@@ -30,14 +30,13 @@
  *
  */
 
-#ifndef GLI_INCLUDED
-#define GLI_INCLUDED
+#pragma once
 
-#define GLI_VERSION					51
+#define GLI_VERSION					52
 #define GLI_VERSION_MAJOR			0
 #define GLI_VERSION_MINOR			5
-#define GLI_VERSION_PATCH			1
-#define GLI_VERSION_REVISION		1
+#define GLI_VERSION_PATCH			2
+#define GLI_VERSION_REVISION		0
 
 #include "./core/storage.hpp"
 #include "./core/texture.hpp"
@@ -51,5 +50,3 @@
 #include "./core/view.hpp"
 #include "./core/gl.hpp"
 #include "./core/dx.hpp"
-
-#endif//GLI_INCLUDED

@@ -26,8 +26,7 @@
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
-#ifndef GLI_COW_PTR_INCLUDED
-#define GLI_COW_PTR_INCLUDED
+#pragma once
 
 #include "shared_ptr.hpp"
 
@@ -90,5 +89,3 @@ namespace gli
 		shared_ptr<T> SharedPtr;
 	};
 }//namespace gli
-
-#endif//GLI_COW_PTR_INCLUDED

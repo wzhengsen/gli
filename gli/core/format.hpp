@@ -26,8 +26,7 @@
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
-#ifndef GLI_CORE_FORMAT_INCLUDED
-#define GLI_CORE_FORMAT_INCLUDED
+#pragma once
 
 namespace gli
 {
@@ -513,5 +512,3 @@ namespace gli
 }//namespace gli
 
 #include "format.inl"
-
-#endif//GLI_CORE_FORMAT_INCLUDED

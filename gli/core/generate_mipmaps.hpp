@@ -26,8 +26,7 @@
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
-#ifndef GLI_GENERATE_MIPMAPS_INCLUDED
-#define GLI_GENERATE_MIPMAPS_INCLUDED
+#pragma once
 
 #include "texture2d.hpp"
 
@@ -41,5 +40,3 @@ namespace gli
 }//namespace gli
 
 #include "generate_mipmaps.inl"
-
-#endif//GLI_GENERATE_MIPMAPS_INCLUDED

@@ -26,8 +26,7 @@
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
-#ifndef GLI_GTX_FETCH_INCLUDED
-#define GLI_GTX_FETCH_INCLUDED
+#pragma once
 
 #include "../gli.hpp"
 
@@ -55,5 +54,3 @@ namespace gli
 }//namespace gli
 
 #include "fetch.inl"
-
-#endif//GLI_GTX_FETCH_INCLUDED

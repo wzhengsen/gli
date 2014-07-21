@@ -26,8 +26,7 @@
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
-#ifndef GLI_CORE_CLEAR_INCLUDED
-#define GLI_CORE_CLEAR_INCLUDED
+#pragma once
 
 #include "texture1d.hpp"
 #include "texture1d_array.hpp"
@@ -45,5 +44,3 @@ namespace gli
 }//namespace gli
 
 #include "clear.inl"
-
-#endif//GLI_CORE_CLEAR_INCLUDED

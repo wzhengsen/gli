@@ -26,8 +26,7 @@
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
-#ifndef GLI_CORE_FLIP_INCLUDED
-#define GLI_CORE_FLIP_INCLUDED
+#pragma once
 
 #include "texture2d.hpp"
 #include "texture2d_array.hpp"
@@ -40,5 +39,3 @@ namespace gli
 }//namespace gli
 
 #include "flip.inl"
-
-#endif//GLI_CORE_FLIP_INCLUDED

@@ -153,7 +153,7 @@ int test_texture2D
 	for(std::size_t i = 0; i < Formats.size(); ++i)
 	{
 		gli::texture2D TextureA(
-			gli::texture2D::size_type(glm::log2(float(TextureSize))) + 1,
+			gli::texture2D::size_type(glm::log2(float(TextureSize))) + 1u,
 			Formats[i],
 			gli::texture2D::dimensions_type(TextureSize));
 

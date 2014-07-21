@@ -26,8 +26,7 @@
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
-#ifndef GLI_CORE_TEXTURE3D_INCLUDED
-#define GLI_CORE_TEXTURE3D_INCLUDED
+#pragma once
 
 #include "image.hpp"
 
@@ -119,5 +118,3 @@ namespace gli
 		format_type Format;
 	};
 }//namespace gli
-
-#endif//GLI_CORE_TEXTURE2D_INCLUDED

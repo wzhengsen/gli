@@ -26,8 +26,7 @@
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
-#ifndef GLI_SHARED_PTR_INCLUDED
-#define GLI_SHARED_PTR_INCLUDED
+#pragma once
 
 #include <cassert>
 
@@ -73,5 +72,3 @@ namespace gli
 }//namespace gli
 
 #include "shared_ptr.inl"
-
-#endif //GLI_SHARED_PTR_INCLUDED

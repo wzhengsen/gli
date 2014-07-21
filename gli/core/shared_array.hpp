@@ -26,8 +26,7 @@
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
-#ifndef GLI_SHARED_ARRAY_INCLUDED
-#define GLI_SHARED_ARRAY_INCLUDED
+#pragma once
 
 namespace gli
 {
@@ -62,5 +61,3 @@ namespace gli
 }//namespace gli
 
 #include "shared_array.inl"
-
-#endif //GLI_SHARED_ARRAY_INCLUDED

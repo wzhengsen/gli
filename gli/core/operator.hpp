@@ -26,8 +26,7 @@
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
-#ifndef GLI_OPERATOR_INCLUDED
-#define GLI_OPERATOR_INCLUDED
+#pragma once
 
 #include "texture2d.hpp"
 
@@ -43,5 +42,3 @@ namespace detail
 }//namespace gli
 
 #include "operator.inl"
-
-#endif//GLI_OPERATOR_INCLUDED

@@ -26,8 +26,7 @@
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
-#ifndef GLI_SAVE_DDS_INCLUDED
-#define GLI_SAVE_DDS_INCLUDED
+#pragma once
 
 #include "load_dds.hpp"
 
@@ -41,5 +40,3 @@ namespace gli
 }//namespace gli
 
 #include "save_dds.inl"
-
-#endif//GLI_SAVE_DDS_INCLUDED

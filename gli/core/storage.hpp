@@ -26,8 +26,7 @@
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
-#ifndef GLI_CORE_STORAGE_INCLUDED
-#define GLI_CORE_STORAGE_INCLUDED
+#pragma once
 
 // STD
 #include <vector>
@@ -207,5 +206,3 @@ namespace detail
 }//namespace gli
 
 #include "storage.inl"
-
-#endif//GLI_CORE_STORAGE_INCLUDED

@@ -26,8 +26,7 @@
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
-#ifndef GLI_CORE_TEXTURE_INCLUDED
-#define GLI_CORE_TEXTURE_INCLUDED
+#pragma once
 
 #include "image.hpp"
 
@@ -48,5 +47,3 @@
 #include "texture3d.inl"
 #include "texture_cube.inl"
 #include "texture_cube_array.inl"
-
-#endif//GLI_CORE_TEXTURE_INCLUDED

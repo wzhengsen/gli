@@ -26,8 +26,7 @@
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
-#ifndef GLI_GTX_LOAD_DDS_INCLUDED
-#define GLI_GTX_LOAD_DDS_INCLUDED
+#pragma once
 
 #include "storage.hpp"
 
@@ -40,5 +39,3 @@ namespace gli
 }//namespace gli
 
 #include "load_dds.inl"
-
-#endif//GLI_GTX_LOAD_DDS_INCLUDED

@@ -26,8 +26,7 @@
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
-#ifndef GLI_CORE_ADDRESSING_INCLUDED
-#define GLI_CORE_ADDRESSING_INCLUDED
+#pragma once
 
 #include "storage.hpp"
 
@@ -139,5 +138,3 @@ namespace detail
 }//namespace gli
 
 #include "addressing.inl"
-
-#endif//GLI_CORE_ADDRESSING_INCLUDED

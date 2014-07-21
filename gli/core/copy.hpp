@@ -26,8 +26,7 @@
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
-#ifndef GLI_CORE_COPY_INCLUDED
-#define GLI_CORE_COPY_INCLUDED
+#pragma once
 
 #include "image.hpp"
 #include "texture1d.hpp"
@@ -87,5 +86,3 @@ namespace gli
 }//namespace gli
 
 #include "copy.inl"
-
-#endif//GLI_CORE_COPY_INCLUDED

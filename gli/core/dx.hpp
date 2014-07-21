@@ -26,8 +26,7 @@
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
-#ifndef GLI_DX_INCLUDED
-#define GLI_DX_INCLUDED
+#pragma once
 
 #include "storage.hpp"
 
@@ -38,5 +37,3 @@ namespace gli
 }//namespace gli
 
 #include "dx.inl"
-
-#endif//GLI_DX_INCLUDED

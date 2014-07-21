@@ -29,8 +29,7 @@
 /// @ingroup core
 ///////////////////////////////////////////////////////////////////////////////////
 
-#ifndef GLI_CORE_IMAGE_INCLUDED
-#define GLI_CORE_IMAGE_INCLUDED
+#pragma once
 
 #include "storage.hpp"
 #include "addressing.hpp"
@@ -112,5 +111,3 @@ namespace gli
 }//namespace gli
 
 #include "image.inl"
-
-#endif//GLI_CORE_IMAGE_INCLUDED

@@ -26,8 +26,7 @@
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
-#ifndef GLI_CORE_TEXTURE2D_ARRAY_INCLUDED
-#define GLI_CORE_TEXTURE2D_ARRAY_INCLUDED
+#pragma once
 
 #include "texture2d.hpp"
 
@@ -129,6 +128,3 @@ namespace gli
 		format_type Format;
 	};
 }//namespace gli
-
-#endif//GLI_CORE_TEXTURE2D_ARRAY_INCLUDED
-
