@@ -43,20 +43,12 @@ namespace gli
 		size_type const & Layers,
 		size_type const & Levels,
 		format_type const & Format,
-		dimensions_type const & Dimensions
+		dim_type const & Dimensions
 	) :
-		Storage(
-			Layers,
-			1,
-			Levels,
-			Format,
-			storage::dimensions_type(Dimensions, 1)),
-		BaseLayer(0), 
-		MaxLayer(Layers - 1), 
-		BaseFace(0), 
-		MaxFace(0), 
-		BaseLevel(0), 
-		MaxLevel(Levels - 1),
+		Storage(Layers, 1, Levels, Format, storage::dim_type(Dimensions, 1)),
+		BaseLayer(0), MaxLayer(Layers - 1),
+		BaseFace(0), MaxFace(0),
+		BaseLevel(0), MaxLevel(Levels - 1),
 		Format(Format)
 	{}
 
@@ -64,20 +56,12 @@ namespace gli
 	(
 		size_type const & Layers,
 		format_type const & Format,
-		dimensions_type const & Dimensions
+		dim_type const & Dimensions
 	) :
-		Storage(
-			Layers,
-			1,
-			size_type(glm::log2(int(glm::max(Dimensions.x, Dimensions.y))) + 1),
-			Format,
-			storage::dimensions_type(Dimensions, 1)),
-		BaseLayer(0), 
-		MaxLayer(Layers - 1), 
-		BaseFace(0), 
-		MaxFace(0), 
-		BaseLevel(0), 
-		MaxLevel(glm::log2(int(glm::max(Dimensions.x, Dimensions.y)))),
+		Storage(Layers, 1, level_count(Dimensions), Format, storage::dim_type(Dimensions, 1)),
+		BaseLayer(0), MaxLayer(this->Storage.layers() - 1),
+		BaseFace(0), MaxFace(0),
+		BaseLevel(0), MaxLevel(this->Storage.levels() - 1),
 		Format(Format)
 	{}
 
@@ -86,12 +70,9 @@ namespace gli
 		storage const & Storage
 	) :
 		Storage(Storage),
-		BaseLayer(0), 
-		MaxLayer(Storage.layers() - 1), 
-		BaseFace(0), 
-		MaxFace(0), 
-		BaseLevel(0), 
-		MaxLevel(Storage.levels() - 1),
+		BaseLayer(0), MaxLayer(Storage.layers() - 1),
+		BaseFace(0), MaxFace(0),
+		BaseLevel(0), MaxLevel(Storage.levels() - 1),
 		Format(Storage.format())
 	{}
 
@@ -174,11 +155,11 @@ namespace gli
 		return this->Storage.empty();
 	}
 
-	inline texture2DArray::dimensions_type texture2DArray::dimensions() const
+	inline texture2DArray::dim_type texture2DArray::dimensions() const
 	{
 		assert(!this->empty());
 
-		return texture2DArray::dimensions_type(this->Storage.dimensions(this->baseLevel()));
+		return texture2DArray::dim_type(this->Storage.dimensions(this->baseLevel()));
 	}
 
 	inline texture2DArray::format_type texture2DArray::format() const

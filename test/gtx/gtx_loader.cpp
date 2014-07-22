@@ -151,7 +151,7 @@ int test_texture2d()
 		gli::texture2D Texture(
 			gli::texture2D::size_type(1), 
 			gli::RGBA8_UNORM, 
-			gli::texture2D::dimensions_type(256));
+			gli::texture2D::dim_type(256));
 
 		for(gli::texture2D::size_type TexelIndex = 0; TexelIndex < Texture.size<glm::u8vec4>(); ++TexelIndex)
 			*(Texture.data<glm::u8vec4>() + TexelIndex) = glm::u8vec4(255, 128, 0, 255);
@@ -163,7 +163,7 @@ int test_texture2d()
 		gli::texture2D Texture(
 			gli::texture2D::size_type(1), 
 			gli::RGBA16_UNORM, 
-			gli::texture2D::dimensions_type(256));
+			gli::texture2D::dim_type(256));
 
 		for(gli::texture2D::size_type TexelIndex = 0; TexelIndex < Texture.size<glm::u16vec4>(); ++TexelIndex)
 			*(Texture.data<glm::u16vec4>() + TexelIndex) = glm::u16vec4(65535, 32768, 0, 65535);
@@ -175,7 +175,7 @@ int test_texture2d()
 		gli::texture2D Texture(
 			gli::texture2D::size_type(glm::log2(256.f)), 
 			gli::RGBA8_UNORM, 
-			gli::texture2D::dimensions_type(256));
+			gli::texture2D::dim_type(256));
 
 		for(gli::texture2D::size_type TexelIndex = 0; TexelIndex < Texture.size<glm::u8vec4>(); ++TexelIndex)
 			*(Texture.data<glm::u8vec4>() + TexelIndex) = glm::u8vec4(255, 128, 0, 255);
@@ -187,7 +187,7 @@ int test_texture2d()
 		gli::texture2D Texture(
 			gli::texture2D::size_type(glm::log2(256.f)), 
 			gli::RGBA16_UNORM, 
-			gli::texture2D::dimensions_type(256));
+			gli::texture2D::dim_type(256));
 
 		for(gli::texture2D::size_type TexelIndex = 0; TexelIndex < Texture.size<glm::u16vec4>(); ++TexelIndex)
 			*(Texture.data<glm::u16vec4>() + TexelIndex) = glm::u16vec4(65535, 32768, 0, 65535);
@@ -207,7 +207,7 @@ int test_texture2DArray()
 			gli::texture2D::size_type(2), 
 			gli::texture2D::size_type(1), 
 			gli::RGBA8_UNORM, 
-			gli::texture2D::dimensions_type(8));
+			gli::texture2D::dim_type(8));
 
 		std::vector<glm::u8vec4> Color;
 		Color.push_back(glm::u8vec4(255, 128,   0, 255));
@@ -261,7 +261,7 @@ int test_textureCube()
 			gli::textureCube::size_type(6),
 			gli::textureCube::size_type(1), 
 			gli::RGBA8_UNORM, 
-			gli::textureCube::dimensions_type(256));
+			gli::textureCube::dim_type(256));
 
 		std::vector<glm::u8vec4> Color;
 		Color.push_back(glm::u8vec4(255,   0,   0, 255));

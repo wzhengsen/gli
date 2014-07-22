@@ -42,14 +42,14 @@ namespace gli
 	(
 		size_type const & Levels,
 		format_type const & Format,
-		dimensions_type const & Dimensions
+		dim_type const & Dimensions
 	) :
 		Storage(
 			1,
 			1,
 			Levels,
 			Format,
-			storage::dimensions_type(Dimensions, 1)),
+			storage::dim_type(Dimensions, 1)),
 		BaseLayer(0), 
 		MaxLayer(0), 
 		BaseFace(0), 
@@ -62,14 +62,14 @@ namespace gli
 	inline texture2D::texture2D
 	(
 		format_type const & Format,
-		dimensions_type const & Dimensions
+		dim_type const & Dimensions
 	) :
 		Storage(
 			1,
 			1,
-			size_type(level_count(Dimensions)),
+			level_count(Dimensions),
 			Format,
-			storage::dimensions_type(Dimensions, 1)),
+			storage::dim_type(Dimensions, 1)),
 		BaseLayer(0),
 		MaxLayer(0),
 		BaseFace(0),
@@ -209,11 +209,11 @@ namespace gli
 		return this->Storage.empty();
 	}
 
-	inline texture2D::dimensions_type texture2D::dimensions() const
+	inline texture2D::dim_type texture2D::dimensions() const
 	{
 		assert(!this->empty());
 
-		return texture2D::dimensions_type(this->Storage.dimensions(this->baseLevel()));
+		return texture2D::dim_type(this->Storage.dimensions(this->baseLevel()));
 	}
 
 	inline texture2D::format_type texture2D::format() const
@@ -307,7 +307,7 @@ namespace gli
 	template <typename genType>
 	inline genType texture2D::fetch
 	(
-		dimensions_type const & TexelCoord,
+		dim_type const & TexelCoord,
 		size_type const & Level
 	)
 	{
@@ -315,7 +315,7 @@ namespace gli
 		assert(!is_compressed(this->format()));
 		assert(this->Storage.blockSize() == sizeof(genType));
 
-		dimensions_type const Dimensions(this->dimensions());
+		dim_type const Dimensions(this->dimensions());
 		size_type const Address = TexelCoord.x + TexelCoord.y * Dimensions.x;
 
 		return *(this->data<genType>() + Address);

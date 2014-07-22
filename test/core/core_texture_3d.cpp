@@ -40,7 +40,7 @@ int test_alloc()
 	Formats.push_back(gli::RGB_BP_UNORM);
 	Formats.push_back(gli::RGBA32F);
 
-	std::vector<gli::texture3D::dimensions_type::value_type> Sizes;
+	std::vector<gli::texture3D::dim_type::value_type> Sizes;
 	Sizes.push_back(16);
 	Sizes.push_back(32);
 	Sizes.push_back(15);
@@ -50,7 +50,7 @@ int test_alloc()
 	for(auto FormatIndex = 0; FormatIndex < Formats.size(); ++FormatIndex)
 	for(auto SizeIndex = 0; SizeIndex < Sizes.size(); ++SizeIndex)
 	{
-		gli::texture3D::dimensions_type Size(Sizes[SizeIndex]);
+		gli::texture3D::dim_type Size(Sizes[SizeIndex]);
 
 		gli::texture3D TextureA(gli::level_count(Size), Formats[FormatIndex], Size);
 		gli::texture3D TextureB(Formats[FormatIndex], Size);
@@ -67,7 +67,7 @@ int test_texture3d_clear()
 
 	glm::u8vec4 const Orange(255, 127, 0, 255);
 
-	gli::texture3D::dimensions_type Size(16);
+	gli::texture3D::dim_type Size(16);
 
 	gli::texture3D Texture(gli::level_count(Size), gli::RGBA8U, Size);
 
@@ -80,7 +80,7 @@ int test_texture3d_query()
 {
 	int Error(0);
 
-	gli::texture3D::dimensions_type Size(2);
+	gli::texture3D::dim_type Size(2);
 
 	gli::texture3D Texture(gli::level_count(Size), gli::RGBA8U, Size);
 
@@ -102,9 +102,9 @@ int test_texture3d_access()
 	{
 		glm::u8vec4 const Orange(255, 127, 0, 255);
 
-		gli::image Image(gli::RGBA8U, gli::image::dimensions_type(2));
+		gli::image Image(gli::RGBA8U, gli::image::dim_type(2));
 
-		gli::texture3D Texture(gli::texture3D::size_type(1), gli::RGBA8U, gli::texture3D::dimensions_type(2));
+		gli::texture3D Texture(gli::texture3D::size_type(1), gli::RGBA8U, gli::texture3D::dim_type(2));
 
 		Error += Image.size() == Texture.size() ? 0 : 1;
 	}
@@ -113,7 +113,7 @@ int test_texture3d_access()
 		gli::texture3D Texture(
 			gli::texture3D::size_type(2),
 			gli::RGBA8U,
-			gli::texture3D::dimensions_type(2));
+			gli::texture3D::dim_type(2));
 		assert(!Texture.empty());
 
 		gli::image Image0 = Texture[0];
@@ -152,18 +152,18 @@ int test_texture3d_access()
 
 struct test
 {
-    test(
-        gli::format const & Format,
-        gli::texture3D::dimensions_type const & Dimensions,
-        gli::texture3D::size_type const & Size) :
-        Format(Format),
-        Dimensions(Dimensions),
-        Size(Size)
-    {}
+	test(
+		gli::format const & Format,
+		gli::texture3D::dim_type const & Dimensions,
+		gli::texture3D::size_type const & Size) :
+		Format(Format),
+		Dimensions(Dimensions),
+		Size(Size)
+	{}
 
-    gli::format Format;
-    gli::texture3D::dimensions_type Dimensions;
-    gli::texture3D::size_type Size;
+	gli::format Format;
+	gli::texture3D::dim_type Dimensions;
+	gli::texture3D::size_type Size;
 };
 
 int test_texture3d_size()
@@ -171,19 +171,19 @@ int test_texture3d_size()
 	int Error(0);
 
 	std::vector<test> Tests;
-	Tests.push_back(test(gli::RGBA8U, gli::texture3D::dimensions_type(4), 256));
-	Tests.push_back(test(gli::R8U, gli::texture3D::dimensions_type(4), 64));
-	Tests.push_back(test(gli::RGBA_DXT1, gli::texture3D::dimensions_type(4), 32));
-	Tests.push_back(test(gli::RGBA_DXT1, gli::texture3D::dimensions_type(2), 32));
-	Tests.push_back(test(gli::RGBA_DXT1, gli::texture3D::dimensions_type(1), 32));
-	Tests.push_back(test(gli::RGBA_DXT5, gli::texture3D::dimensions_type(4), 64));
+	Tests.push_back(test(gli::RGBA8U, gli::texture3D::dim_type(4), 256));
+	Tests.push_back(test(gli::R8U, gli::texture3D::dim_type(4), 64));
+	Tests.push_back(test(gli::RGBA_DXT1, gli::texture3D::dim_type(4), 32));
+	Tests.push_back(test(gli::RGBA_DXT1, gli::texture3D::dim_type(2), 32));
+	Tests.push_back(test(gli::RGBA_DXT1, gli::texture3D::dim_type(1), 32));
+	Tests.push_back(test(gli::RGBA_DXT5, gli::texture3D::dim_type(4), 64));
 
 	for(std::size_t i = 0; i < Tests.size(); ++i)
 	{
 		gli::texture3D Texture(
 			gli::texture3D::size_type(1),
 			Tests[i].Format,
-			gli::texture3D::dimensions_type(4));
+			gli::texture3D::dim_type(4));
 
 		Error += Texture.size() == Tests[i].Size ? 0 : 1;
 		assert(!Error);
@@ -194,7 +194,7 @@ int test_texture3d_size()
 		gli::texture3D Texture(
 			gli::texture3D::size_type(1),
 			Tests[i].Format,
-			gli::texture3D::dimensions_type(4));
+			gli::texture3D::dim_type(4));
 
 		gli::image Image = Texture[0];
 

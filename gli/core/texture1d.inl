@@ -42,14 +42,14 @@ namespace gli
 	(
 		size_type const & Levels,
 		format_type const & Format,
-		dimensions_type const & Dimensions
+		dim_type const & Dimensions
 	) :
 		Storage(
 			1, 
 			1, 
 			Levels,
 			Format,
-			storage::dimensions_type(Dimensions, 1, 1)),
+			storage::dim_type(Dimensions, 1, 1)),
 		BaseLayer(0), 
 		MaxLayer(0), 
 		BaseFace(0), 
@@ -62,14 +62,14 @@ namespace gli
 	inline texture1D::texture1D
 	(
 		format_type const & Format,
-		dimensions_type const & Dimensions
+		dim_type const & Dimensions
 	) :
 		Storage(
 			1,
 			1,
-			size_type(glm::log2(int(Dimensions)) + 1),
+			level_count(Dimensions),
 			Format,
-			storage::dimensions_type(Dimensions, 1, 1)),
+			storage::dim_type(Dimensions, 1, 1)),
 		BaseLayer(0),
 		MaxLayer(0),
 		BaseFace(0),
@@ -174,9 +174,9 @@ namespace gli
 		return this->Storage.empty();
 	}
 
-	inline texture1D::dimensions_type texture1D::dimensions() const
+	inline texture1D::dim_type texture1D::dimensions() const
 	{
-		return texture1D::dimensions_type(this->Storage.dimensions(this->baseLevel()).x);
+		return this->Storage.dimensions(this->baseLevel()).x;
 	}
 
 	inline texture1D::format_type texture1D::format() const

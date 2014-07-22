@@ -51,8 +51,8 @@ namespace detail
 			void * DataSrc = Result[Level + 0].data();
 
 			// Dst
-			texture2D::dimensions_type LevelDimensions = texture2D::dimensions_type(Result[Level].dimensions()) >> texture2D::dimensions_type(1);
-			LevelDimensions = glm::max(LevelDimensions, texture2D::dimensions_type(1));
+			texture2D::dim_type LevelDimensions = texture2D::dim_type(Result[Level].dimensions()) >> texture2D::dim_type(1);
+			LevelDimensions = glm::max(LevelDimensions, texture2D::dim_type(1));
 			void * DataDst = Result[Level + 1].data();
 
 			for(std::size_t j = 0; j < LevelDimensions.y; ++j)

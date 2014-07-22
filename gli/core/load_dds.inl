@@ -371,11 +371,11 @@ inline storage load_dds
 			DepthCount = HeaderDesc.depth;
 
 	storage Storage(
-		HeaderDesc10.arraySize, 
+		HeaderDesc10.arraySize,
 		FaceCount,
 		MipMapCount,
 		Format,
-		storage::dimensions_type(HeaderDesc.width, HeaderDesc.height, DepthCount));
+		storage::dim_type(HeaderDesc.width, HeaderDesc.height, DepthCount));
 
 	FileIn.read((char*)Storage.data(), std::size_t(End - Curr));
 

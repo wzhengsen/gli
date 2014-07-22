@@ -333,9 +333,9 @@ inline format_desc const getFormatInfo(format const & Format)
 		size_type const & Faces,
 		size_type const & Levels,
 		format_type const & Format,
-		dimensions_type const & Dimensions,
+		dim_type const & Dimensions,
 		size_type const & BlockSize,
-		dimensions_type const & BlockDimensions
+		dim_type const & BlockDimensions
 	) :
 		Layers(Layers),
 		Faces(Faces),
@@ -355,7 +355,7 @@ inline format_desc const getFormatInfo(format const & Format)
 		size_type const & Faces,
 		size_type const & Levels,
 		format_type const & Format,
-		dimensions_type const & Dimensions
+		dim_type const & Dimensions
 	) :
 		Impl(new impl(
 			Layers,
@@ -369,7 +369,7 @@ inline format_desc const getFormatInfo(format const & Format)
 		assert(Layers > 0);
 		assert(Faces > 0);
 		assert(Levels > 0);
-		assert(glm::all(glm::greaterThan(Dimensions, dimensions_type(0))));
+		assert(glm::all(glm::greaterThan(Dimensions, dim_type(0))));
 
 		Impl->Data.resize(this->layerSize(0, Faces - 1, 0, Levels - 1) * Layers, 0);
 	}
@@ -379,10 +379,10 @@ inline format_desc const getFormatInfo(format const & Format)
 		size_type const & Layers,
 		size_type const & Faces,
 		size_type const & Levels,
-		dimensions_type const & Dimensions,
+		dim_type const & Dimensions,
 		format_type const & Format,
 		size_type const & BlockSize,
-		dimensions_type const & BlockDimensions
+		dim_type const & BlockDimensions
 	) :
 		Impl(new impl(
 			Layers,
@@ -396,7 +396,7 @@ inline format_desc const getFormatInfo(format const & Format)
 		assert(Layers > 0);
 		assert(Faces > 0);
 		assert(Levels > 0);
-		assert(glm::all(glm::greaterThan(Dimensions, dimensions_type(0))));
+		assert(glm::all(glm::greaterThan(Dimensions, dim_type(0))));
 
 		Impl->Data.resize(this->layerSize(0, Faces - 1, 0, Levels - 1) * Layers, 0);
 	}
@@ -435,19 +435,19 @@ inline format_desc const getFormatInfo(format const & Format)
 		return this->Impl->BlockSize;
 	}
 
-	inline storage::dimensions_type storage::blockDimensions() const
+	inline storage::dim_type storage::blockDimensions() const
 	{
 		return this->Impl->BlockDimensions;
 	}
 
-	inline storage::dimensions_type storage::dimensions
+	inline storage::dim_type storage::dimensions
 	(
 		size_type const & Level
 	) const
 	{
 		assert(Level < this->Impl->Levels);
 
-		return glm::max(this->Impl->Dimensions >> storage::dimensions_type(static_cast<glm::uint>(Level)), storage::dimensions_type(static_cast<glm::uint>(1)));
+		return glm::max(this->Impl->Dimensions >> storage::dim_type(static_cast<glm::uint>(Level)), storage::dim_type(static_cast<glm::uint>(1)));
 	}
 
 	inline storage::size_type storage::size() const
@@ -457,14 +457,14 @@ inline format_desc const getFormatInfo(format const & Format)
 		return this->Impl->Data.size();
 	}
 
-	inline glm::byte const * storage::data() const
+	inline storage::data_type const * storage::data() const
 	{
 		assert(!this->empty());
 
 		return &this->Impl->Data[0];
 	}
 
-	inline glm::byte * storage::data()
+	inline storage::data_type * storage::data()
 	{
 		assert(!this->empty());
 
@@ -473,7 +473,7 @@ inline format_desc const getFormatInfo(format const & Format)
 
 	inline storage::size_type storage::levelSize
 	(
-		storage::size_type const & Level
+		level_type const & Level
 	) const
 	{
 		assert(Level < this->levels());
@@ -484,8 +484,8 @@ inline format_desc const getFormatInfo(format const & Format)
 	}
 
 	inline storage::size_type storage::faceSize(
-		size_type const & BaseLevel,
-		size_type const & MaxLevel) const
+		level_type const & BaseLevel,
+		level_type const & MaxLevel) const
 	{
 		assert(MaxLevel < this->levels());
 		
@@ -499,10 +499,10 @@ inline format_desc const getFormatInfo(format const & Format)
 	}
 
 	inline storage::size_type storage::layerSize(
-		size_type const & BaseFace,
-		size_type const & MaxFace,
-		size_type const & BaseLevel,
-		size_type const & MaxLevel) const
+		face_type const & BaseFace,
+		face_type const & MaxFace,
+		level_type const & BaseLevel,
+		level_type const & MaxLevel) const
 	{
 		assert(MaxFace < this->faces());
 		assert(MaxLevel < this->levels());
@@ -615,17 +615,17 @@ inline format_desc const getFormatInfo(format const & Format)
 			SourceStorage.layerSize() * SourceLayerSize * SourceStorage.blockSize());
 	}
 */
-	inline std::size_t block_size(format const & Format)
+	inline storage::size_type block_size(format const & Format)
 	{
 		return detail::getFormatInfo(Format).BlockSize;
 	}
 
-	inline glm::uvec3 block_dimensions(format const & Format)
+	inline storage::dim3_type block_dimensions(format const & Format)
 	{
 		return detail::getFormatInfo(Format).BlockDimensions;
 	}
 
-	inline std::size_t component_count(format const & Format)
+	inline storage::size_type component_count(format const & Format)
 	{
 		return detail::getFormatInfo(Format).Component;
 	}
@@ -635,19 +635,19 @@ inline format_desc const getFormatInfo(format const & Format)
 		return detail::getFormatInfo(Format).Compressed;
 	}
 
-	inline storage::size_type level_count(storage::dimensions1_type const & Size)
+	inline storage::size_type level_count(storage::dim1_type const & Dimensions)
 	{
-		return glm::log2(Size) + 1;
+		return glm::log2(Dimensions) + 1;
 	}
 
-	inline storage::size_type level_count(storage::dimensions2_type const & Size)
+	inline storage::size_type level_count(storage::dim2_type const & Dimensions)
 	{
-		return glm::log2(glm::compMax(Size)) + 1;
+		return glm::log2(glm::compMax(Dimensions)) + 1;
 	}
 
-	inline storage::size_type level_count(storage::dimensions3_type const & Size)
+	inline storage::size_type level_count(storage::dim3_type const & Dimensions)
 	{
-		return glm::log2(glm::compMax(Size)) + 1;
+		return glm::log2(glm::compMax(Dimensions)) + 1;
 	}
 
 }//namespace gli

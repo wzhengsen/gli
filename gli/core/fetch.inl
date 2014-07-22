@@ -32,14 +32,14 @@ namespace gli
 	inline genType texelFetch
 	(
 		texture2D const & Texture, 
-		texture2D::dimensions_type const & TexCoord,
+		texture2D::dim_type const & TexCoord,
 		texture2D::size_type const & Level
 	)
 	{
 		assert(!Texture.empty());
 		assert(!is_compressed(Texture.format()));
 
-		image::dimensions_type Dimensions = Texture[Level].dimensions();
+		image::dim_type Dimensions = Texture[Level].dimensions();
 		genType const * const Data = reinterpret_cast<genType const * const >(Texture[Level].data());
 
 		return reinterpret_cast<genType const * const>(Data)[TexCoord.x + TexCoord.y * Dimensions.x];
@@ -49,7 +49,7 @@ namespace gli
 	void texelWrite
 	(
 		texture2D & Texture,
-		texture2D::dimensions_type const & Texcoord,
+		texture2D::dim_type const & Texcoord,
 		texture2D::size_type const & Level,
 		genType const & Color
 	)
@@ -76,7 +76,7 @@ namespace gli
 	{
 		//assert(Texture.format() == R8U || Texture.format() == RG8U || Texture.format() == RGB8U || Texture.format() == RGBA8U);
 
-		image::dimensions_type Dimensions = Texture[Level].dimensions(); 
+		image::dim_type Dimensions = Texture[Level].dimensions(); 
 		genType const * const Data = reinterpret_cast<genType const * const>(Texture[Level].data());
 
 		std::size_t s_below = std::size_t(glm::floor(TexCoord.s * float(Dimensions.x - 1)));

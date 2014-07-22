@@ -29,7 +29,7 @@
 #include <gli/gli.hpp>
 
 template <typename texture, typename genType>
-int test_texture(typename texture::dimensions_type Size, gli::format const & Format, std::vector<genType> const & Colors)
+int test_texture(typename texture::dim_type Size, gli::format const & Format, std::vector<genType> const & Colors)
 {
 	int Error(0);
 
@@ -115,7 +115,7 @@ int main()
 	ColorRGBA32F.push_back(glm::vec4(  0,   0, 1.0, 1.0));
 	ColorRGBA32F.push_back(glm::vec4(1.0,   0, 1.0, 1.0));
 
-	std::vector<glm::uint32> Sizes;
+	std::vector<gli::texture1D::dim_type> Sizes;
 	Sizes.push_back(32);
 	Sizes.push_back(16);
 	Sizes.push_back(17);
@@ -125,21 +125,21 @@ int main()
 
 	for(std::size_t i = 0; i < Sizes.size(); ++i)
 	{
-		Error += test_texture<gli::texture1D>(gli::texture1D::dimensions_type(Sizes[i]), gli::RGB_DXT1, ColorDXT1);
-		Error += test_texture<gli::texture2D>(gli::texture2D::dimensions_type(Sizes[i]), gli::RGB_DXT1, ColorDXT1);
-		Error += test_texture<gli::texture3D>(gli::texture3D::dimensions_type(Sizes[i]), gli::RGB_DXT1, ColorDXT1);
-		Error += test_texture<gli::texture1D>(gli::texture1D::dimensions_type(Sizes[i]), gli::R8_UNORM, ColorR8_UNORM);
-		Error += test_texture<gli::texture2D>(gli::texture2D::dimensions_type(Sizes[i]), gli::R8_UNORM, ColorR8_UNORM);
-		Error += test_texture<gli::texture3D>(gli::texture3D::dimensions_type(Sizes[i]), gli::R8_UNORM, ColorR8_UNORM);
-		Error += test_texture<gli::texture1D>(gli::texture1D::dimensions_type(Sizes[i]), gli::RGB8_UNORM, ColorRGB8_UNORM);
-		Error += test_texture<gli::texture2D>(gli::texture2D::dimensions_type(Sizes[i]), gli::RGB8_UNORM, ColorRGB8_UNORM);
-		Error += test_texture<gli::texture3D>(gli::texture3D::dimensions_type(Sizes[i]), gli::RGB8_UNORM, ColorRGB8_UNORM);
-		Error += test_texture<gli::texture1D>(gli::texture1D::dimensions_type(Sizes[i]), gli::RGBA8_UNORM, ColorRGBA8_UNORM);
-		Error += test_texture<gli::texture2D>(gli::texture2D::dimensions_type(Sizes[i]), gli::RGBA8_UNORM, ColorRGBA8_UNORM);
-		Error += test_texture<gli::texture3D>(gli::texture3D::dimensions_type(Sizes[i]), gli::RGBA8_UNORM, ColorRGBA8_UNORM);
-		Error += test_texture<gli::texture1D>(gli::texture1D::dimensions_type(Sizes[i]), gli::RGBA32F, ColorRGBA32F);
-		Error += test_texture<gli::texture2D>(gli::texture2D::dimensions_type(Sizes[i]), gli::RGBA32F, ColorRGBA32F);
-		Error += test_texture<gli::texture3D>(gli::texture3D::dimensions_type(Sizes[i]), gli::RGBA32F, ColorRGBA32F);
+		Error += test_texture<gli::texture1D>(gli::texture1D::dim_type(Sizes[i]), gli::RGB_DXT1, ColorDXT1);
+		Error += test_texture<gli::texture2D>(gli::texture2D::dim_type(Sizes[i]), gli::RGB_DXT1, ColorDXT1);
+		Error += test_texture<gli::texture3D>(gli::texture3D::dim_type(Sizes[i]), gli::RGB_DXT1, ColorDXT1);
+		Error += test_texture<gli::texture1D>(gli::texture1D::dim_type(Sizes[i]), gli::R8_UNORM, ColorR8_UNORM);
+		Error += test_texture<gli::texture2D>(gli::texture2D::dim_type(Sizes[i]), gli::R8_UNORM, ColorR8_UNORM);
+		Error += test_texture<gli::texture3D>(gli::texture3D::dim_type(Sizes[i]), gli::R8_UNORM, ColorR8_UNORM);
+		Error += test_texture<gli::texture1D>(gli::texture1D::dim_type(Sizes[i]), gli::RGB8_UNORM, ColorRGB8_UNORM);
+		Error += test_texture<gli::texture2D>(gli::texture2D::dim_type(Sizes[i]), gli::RGB8_UNORM, ColorRGB8_UNORM);
+		Error += test_texture<gli::texture3D>(gli::texture3D::dim_type(Sizes[i]), gli::RGB8_UNORM, ColorRGB8_UNORM);
+		Error += test_texture<gli::texture1D>(gli::texture1D::dim_type(Sizes[i]), gli::RGBA8_UNORM, ColorRGBA8_UNORM);
+		Error += test_texture<gli::texture2D>(gli::texture2D::dim_type(Sizes[i]), gli::RGBA8_UNORM, ColorRGBA8_UNORM);
+		Error += test_texture<gli::texture3D>(gli::texture3D::dim_type(Sizes[i]), gli::RGBA8_UNORM, ColorRGBA8_UNORM);
+		Error += test_texture<gli::texture1D>(gli::texture1D::dim_type(Sizes[i]), gli::RGBA32F, ColorRGBA32F);
+		Error += test_texture<gli::texture2D>(gli::texture2D::dim_type(Sizes[i]), gli::RGBA32F, ColorRGBA32F);
+		Error += test_texture<gli::texture3D>(gli::texture3D::dim_type(Sizes[i]), gli::RGBA32F, ColorRGBA32F);
 	}
 		
 	return Error;

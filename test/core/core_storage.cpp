@@ -34,10 +34,10 @@ int test_storage_layer_size()
 
 	gli::storage Storage(
 		2, 1, 1,
-		gli::storage::dimensions3_type(2, 2, 1),
+		gli::storage::dim3_type(2, 2, 1),
 		gli::FORMAT_NULL,
 		sizeof(glm::u8vec4),
-		gli::storage::dimensions3_type(1));
+		gli::storage::dim3_type(1));
 
 	std::vector<glm::u8vec4> Data(8, glm::u8vec4(0));
 	for(std::size_t i = 0; i < 4; ++i)
@@ -62,10 +62,10 @@ int test_storage_face_size()
 
 	gli::storage Storage(
 		1, 6, 1,
-		gli::storage::dimensions3_type(2, 2, 1),
+		gli::storage::dim3_type(2, 2, 1),
 		gli::FORMAT_NULL,
 		sizeof(glm::u8vec4),
-		gli::storage::dimensions3_type(1));
+		gli::storage::dim3_type(1));
 
 	gli::storage::size_type BlockSize = Storage.blockSize();
 	Error += BlockSize == sizeof(glm::u8vec4) ? 0 : 1;

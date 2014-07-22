@@ -59,27 +59,27 @@ int main()
 	std::size_t const Levels = gli::level_count(TextureSize);
 
 	Error += test_texture(
-		gli::texture2D(Levels, gli::R8_UNORM, gli::texture2D::dimensions_type(TextureSize)),
+		gli::texture2D(Levels, gli::R8_UNORM, gli::texture2D::dim_type(TextureSize)),
 		glm::uint8(255), glm::uint8(0));
 
 	Error += test_texture(
-		gli::texture2D(Levels, gli::RGB8_UNORM, gli::texture2D::dimensions_type(TextureSize)),
+		gli::texture2D(Levels, gli::RGB8_UNORM, gli::texture2D::dim_type(TextureSize)),
 		glm::u8vec3(255, 128, 0), glm::u8vec3(0, 128, 255));
 
 	Error += test_texture(
-		gli::texture2D(Levels, gli::RGBA8_UNORM, gli::texture2D::dimensions_type(TextureSize)),
+		gli::texture2D(Levels, gli::RGBA8_UNORM, gli::texture2D::dim_type(TextureSize)),
 		glm::u8vec4(255, 128, 0, 255), glm::u8vec4(0, 128, 255, 255));
 
 	Error += test_texture(
-		gli::texture2D(Levels, gli::RGBA32F, gli::texture2D::dimensions_type(TextureSize)),
+		gli::texture2D(Levels, gli::RGBA32F, gli::texture2D::dim_type(TextureSize)),
 		glm::f32vec4(1.0, 0.5, 0.0, 1.0), glm::f32vec4(0.0, 0.5, 1.0, 1.0));
 
 	Error += test_texture(
-		gli::texture2DArray(4, Levels, gli::RGBA8_UNORM, gli::texture2DArray::dimensions_type(TextureSize)),
+		gli::texture2DArray(4, Levels, gli::RGBA8_UNORM, gli::texture2DArray::dim_type(TextureSize)),
 		glm::u8vec4(255, 128, 0, 255), glm::u8vec4(0, 128, 255, 255));
 
 	Error += test_texture(
-		gli::texture2DArray(4, Levels, gli::RGBA32F, gli::texture2DArray::dimensions_type(TextureSize)),
+		gli::texture2DArray(4, Levels, gli::RGBA32F, gli::texture2DArray::dim_type(TextureSize)),
 		glm::f32vec4(1.0, 0.5, 0.0, 1.0), glm::f32vec4(0.0, 0.5, 1.0, 1.0));
 
 	return Error;

@@ -50,14 +50,10 @@ int test_alloc()
 	for(std::size_t FormatIndex = 0; FormatIndex < Formats.size(); ++FormatIndex)
 	for(std::size_t SizeIndex = 0; SizeIndex < Sizes.size(); ++SizeIndex)
 	{
-		gli::texture1D TextureA(
-			gli::texture1D::size_type(glm::log2(int(Sizes[SizeIndex])) + 1),
-			Formats[FormatIndex],
-			gli::texture1D::dimensions_type(Sizes[SizeIndex]));
+		gli::texture1D::dim_type Size(Sizes[SizeIndex]);
 
-		gli::texture1D TextureB(
-			Formats[FormatIndex],
-			gli::texture1D::dimensions_type(Sizes[SizeIndex]));
+		gli::texture1D TextureA(gli::level_count(Size), Formats[FormatIndex], Size);
+		gli::texture1D TextureB(Formats[FormatIndex], Size);
 
 		Error += TextureA == TextureB ? 0 : 1;
 	}
@@ -73,10 +69,8 @@ namespace clear
 
 		glm::u8vec4 const Orange(255, 127, 0, 255);
 
-		gli::texture1D Texture(
-			gli::texture1D::size_type(glm::log2(16u) + 1),
-			gli::RGBA8U,
-			gli::texture1D::dimensions_type(16));
+		gli::texture1D::dim_type Size(16u);
+		gli::texture1D Texture(gli::level_count(Size), gli::RGBA8U, Size);
 
 		Texture.clear<glm::u8vec4>(Orange);
 
@@ -93,7 +87,7 @@ namespace query
 		gli::texture1D Texture(
 			gli::texture1D::size_type(2),
 			gli::RGBA8U,
-			gli::texture1D::dimensions_type(2));
+			gli::texture1D::dim_type(2));
 
 		Error += Texture.size() == sizeof(glm::u8vec4) * 3 ? 0 : 1;
 		Error += Texture.format() == gli::RGBA8U ? 0 : 1;
@@ -115,7 +109,7 @@ namespace tex_access
 			gli::texture1D Texture(
 				gli::texture1D::size_type(2),
 				gli::RGBA8U,
-				gli::texture1D::dimensions_type(2));
+				gli::texture1D::dim_type(2));
 			assert(!Texture.empty());
 
 			gli::image Image0 = Texture[0];
@@ -153,7 +147,7 @@ namespace tex_access
 			gli::texture1D Texture(
 				gli::texture1D::size_type(1),
 				gli::RGBA8U,
-				gli::texture1D::dimensions_type(2));
+				gli::texture1D::dim_type(2));
 
 			std::size_t SizeA = Texture.size();
 			Error += SizeA == sizeof(glm::u8vec4) * 2 ? 0 : 1;
@@ -184,7 +178,7 @@ namespace size
 	{
 		test(
 			gli::format const & Format,
-			gli::texture1D::dimensions_type const & Dimensions,
+			gli::texture1D::dim_type const & Dimensions,
 			gli::texture1D::size_type const & Size) :
 			Format(Format),
 			Dimensions(Dimensions),
@@ -192,7 +186,7 @@ namespace size
 		{}
 
 		gli::format Format;
-		gli::texture1D::dimensions_type Dimensions;
+		gli::texture1D::dim_type Dimensions;
 		gli::texture1D::size_type Size;
 	};
 
@@ -201,15 +195,15 @@ namespace size
 		int Error(0);
 
 		std::vector<test> Tests;
-		Tests.push_back(test(gli::RGBA8U, gli::texture1D::dimensions_type(4), 16));
-		Tests.push_back(test(gli::R8U, gli::texture1D::dimensions_type(4), 4));
+		Tests.push_back(test(gli::RGBA8U, gli::texture1D::dim_type(4), 16));
+		Tests.push_back(test(gli::R8U, gli::texture1D::dim_type(4), 4));
 
 		for(std::size_t i = 0; i < Tests.size(); ++i)
 		{
 			gli::texture1D Texture(
 				gli::texture1D::size_type(1),
 				Tests[i].Format,
-				gli::texture1D::dimensions_type(4));
+				gli::texture1D::dim_type(4));
 
 			gli::image Image = Texture[0];
 

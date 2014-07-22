@@ -42,14 +42,9 @@ namespace gli
 	(
 		size_type const & Levels,
 		format_type const & Format,
-		dimensions_type const & Dimensions
+		dim_type const & Dimensions
 	) :
-		Storage(
-			1,
-			1,
-			Levels,
-			Format,
-			storage::dimensions_type(Dimensions)),
+		Storage(1, 1, Levels, Format, storage::dim_type(Dimensions)),
 		BaseLayer(0), 
 		MaxLayer(0), 
 		BaseFace(0), 
@@ -62,20 +57,15 @@ namespace gli
 	inline texture3D::texture3D
 	(
 		format_type const & Format,
-		dimensions_type const & Dimensions
+		dim_type const & Dimensions
 	) :
-		Storage(
-			1,
-			1,
-			size_type(glm::log2(int(glm::max(glm::max(Dimensions.x, Dimensions.y), Dimensions.z))) + 1),
-			Format,
-			storage::dimensions_type(Dimensions)),
+		Storage(1, 1, level_count(Dimensions), Format, storage::dim_type(Dimensions)),
 		BaseLayer(0),
-		MaxLayer(0),
+		MaxLayer(this->Storage.layers() - 1),
 		BaseFace(0),
-		MaxFace(0),
+		MaxFace(this->Storage.faces() - 1),
 		BaseLevel(0),
-		MaxLevel(glm::log2(int(glm::max(glm::max(Dimensions.x, Dimensions.y), Dimensions.z)))),
+		MaxLevel(this->Storage.levels() - 1),
 		Format(Format)
 	{}
 
@@ -157,9 +147,9 @@ namespace gli
 		return this->Storage.empty();
 	}
 
-	inline texture3D::dimensions_type texture3D::dimensions() const
+	inline texture3D::dim_type texture3D::dimensions() const
 	{
-		return texture3D::dimensions_type(this->Storage.dimensions(this->baseLevel()));
+		return texture3D::dim_type(this->Storage.dimensions(this->baseLevel()));
 	}
 
 	inline texture3D::format_type texture3D::format() const

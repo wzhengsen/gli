@@ -44,14 +44,9 @@ namespace gli
 		size_type const & Faces,
 		size_type const & Levels,
 		format_type const & Format,
-		dimensions_type const & Dimensions
+		dim_type const & Dimensions
 	) :
-		Storage(
-			Layers,
-			Faces,
-			Levels,
-			Format,
-			storage::dimensions_type(Dimensions, 1)),
+		Storage(Layers, Faces, Levels, Format, storage::dim_type(Dimensions, 1)),
 		BaseLayer(0), 
 		MaxLayer(Layers - 1), 
 		BaseFace(0), 
@@ -66,19 +61,14 @@ namespace gli
 		size_type const & Layers,
 		size_type const & Faces,
 		format_type const & Format,
-		dimensions_type const & Dimensions
+		dim_type const & Dimensions
 	) :
-		Storage(
-			Layers,
-			Faces,
-			size_type(glm::log2(int(glm::max(Dimensions.x, Dimensions.y))) + 1),
-			Format,
-			storage::dimensions_type(Dimensions, 1)),
-		BaseLayer(0), 
-		MaxLayer(Layers - 1), 
-		BaseFace(0), 
-		MaxFace(Faces - 1), 
-		BaseLevel(0), 
+		Storage(Layers, Faces, level_count(Dimensions), Format, storage::dim_type(Dimensions, 1)),
+		BaseLayer(0),
+		MaxLayer(Layers - 1),
+		BaseFace(0),
+		MaxFace(Faces - 1),
+		BaseLevel(0),
 		MaxLevel(glm::log2(int(glm::max(Dimensions.x, Dimensions.y)))),
 		Format(Format)
 	{}
@@ -88,11 +78,11 @@ namespace gli
 		storage const & Storage
 	) :
 		Storage(Storage),
-		BaseLayer(0), 
-		MaxLayer(Storage.layers() - 1), 
-		BaseFace(0), 
-		MaxFace(Storage.faces() - 1), 
-		BaseLevel(0), 
+		BaseLayer(0),
+		MaxLayer(Storage.layers() - 1),
+		BaseFace(0),
+		MaxFace(Storage.faces() - 1),
+		BaseLevel(0),
 		MaxLevel(Storage.levels() - 1),
 		Format(Storage.format())
 	{}
@@ -186,7 +176,7 @@ namespace gli
 
 		return textureCube(
 			this->Storage, this->format(),
-			this->baseLayer() + Layer, this->baseLayer() + Layer, 
+			this->baseLayer() + Layer, this->baseLayer() + Layer,
 			this->baseFace(), this->maxFace(),
 			this->baseLevel(), this->maxLevel());
 	}
@@ -196,9 +186,9 @@ namespace gli
 		return this->Storage.empty();
 	}
 
-	inline textureCubeArray::dimensions_type textureCubeArray::dimensions() const
+	inline textureCubeArray::dim_type textureCubeArray::dimensions() const
 	{
-		return textureCubeArray::dimensions_type(this->Storage.dimensions(this->baseLevel()));
+		return textureCubeArray::dim_type(this->Storage.dimensions(this->baseLevel()));
 	}
 
 	inline textureCube::format_type textureCubeArray::format() const

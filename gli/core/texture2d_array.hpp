@@ -35,10 +35,13 @@ namespace gli
 	class texture2DArray
 	{
 	public:
-		typedef storage::dimensions2_type dimensions_type;
+		typedef storage::dim2_type dim_type;
 		typedef storage::texcoord3_type texcoord_type;
 		typedef storage::size_type size_type;
-		typedef gli::format format_type;
+		typedef storage::format_type format_type;
+		typedef storage::size_type layer_type;
+		typedef storage::size_type level_type;
+		typedef storage::size_type face_type;
 
 	public:
 		texture2DArray();
@@ -48,13 +51,13 @@ namespace gli
 			size_type const & Layers,
 			size_type const & Levels,
 			format_type const & Format,
-			dimensions_type const & Dimensions);
+			dim_type const & Dimensions);
 
 		/// Create a texture2DArray and allocate a new storage with a complete mipmap chain
 		explicit texture2DArray(
 			size_type const & Layers,
 			format_type const & Format,
-			dimensions_type const & Dimensions);
+			dim_type const & Dimensions);
 
 		/// Create a texture2DArray view with an existing storage
 		explicit texture2DArray(
@@ -90,7 +93,7 @@ namespace gli
 
 		bool empty() const;
 		format_type format() const;
-		dimensions_type dimensions() const;
+		dim_type dimensions() const;
 		size_type layers() const;
 		size_type faces() const;
 		size_type levels() const;

@@ -41,24 +41,27 @@ namespace gli
 	class image
 	{
 	public:
-		typedef storage::dimensions1_type dimensions1_type;
-		typedef storage::dimensions2_type dimensions2_type;
-		typedef storage::dimensions3_type dimensions3_type;
-		typedef storage::dimensions3_type dimensions_type;
+		typedef storage::dim1_type dim1_type;
+		typedef storage::dim2_type dim2_type;
+		typedef storage::dim3_type dim3_type;
+		typedef storage::dim3_type dim_type;
 		typedef storage::size_type size_type;
+		typedef storage::size_type layer_type;
+		typedef storage::size_type level_type;
+		typedef storage::size_type face_type;
 
 		image();
 
 		/// Allocate a new storage constructor
 		explicit image(
-			dimensions_type const & Dimensions,
+			dim_type const & Dimensions,
 			size_type const & BlockSize,
-			dimensions_type const & BlockDimensions);
+			dim_type const & BlockDimensions);
 
 		/// Allocate a new storage constructor
 		explicit image(
 			format const & Format,
-			dimensions_type const & Dimensions);
+			dim_type const & Dimensions);
 
 		/// Reference an exiting storage constructor
 		explicit image(
@@ -71,7 +74,7 @@ namespace gli
 		operator storage() const;
 
 		bool empty() const;
-		dimensions_type dimensions() const;
+		dim_type dimensions() const;
 
 		size_type size() const;
 		void * data();
@@ -88,9 +91,9 @@ namespace gli
 		template <typename genType>
 		void clear(genType const & Texel);
 		template <typename genType>
-		genType load(dimensions_type const & TexelCoord);
+		genType load(dim_type const & TexelCoord);
 		template <typename genType>
-		void store(dimensions_type const & TexelCoord, genType const & Data);
+		void store(dim_type const & TexelCoord, genType const & Data);
 
 		size_type baseLayer() const;
 		size_type maxLayer() const;

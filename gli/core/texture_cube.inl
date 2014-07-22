@@ -43,14 +43,9 @@ namespace gli
 		size_type const & Faces,
 		size_type const & Levels,
 		format_type const & Format,
-		dimensions_type const & Dimensions
+		dim_type const & Dimensions
 	) :
-		Storage(
-			1,
-			Faces,
-			Levels,
-			Format,
-			storage::dimensions_type(Dimensions, 1)),
+		Storage(1, Faces, Levels, Format, storage::dim_type(Dimensions, 1)),
 		BaseLayer(0), 
 		MaxLayer(0), 
 		BaseFace(0), 
@@ -64,20 +59,15 @@ namespace gli
 	(
 		size_type const & Faces,
 		format_type const & Format,
-		dimensions_type const & Dimensions
+		dim_type const & Dimensions
 	) :
-		Storage(
-			1,
-			Faces,
-			size_type(glm::log2(int(glm::max(Dimensions.x, Dimensions.y))) + 1),
-			Format,
-			storage::dimensions_type(Dimensions, 1)),
+		Storage(1, Faces, level_count(Dimensions), Format, storage::dim_type(Dimensions, 1)),
 		BaseLayer(0), 
 		MaxLayer(0), 
 		BaseFace(0), 
 		MaxFace(Faces - 1), 
 		BaseLevel(0), 
-		MaxLevel(glm::log2(int(glm::max(Dimensions.x, Dimensions.y)))),
+		MaxLevel(this->Storage.levels() - 1),
 		Format(Format)
 	{}
 
@@ -190,9 +180,9 @@ namespace gli
 		return this->Storage.empty();
 	}
 
-	inline textureCube::dimensions_type textureCube::dimensions() const
+	inline textureCube::dim_type textureCube::dimensions() const
 	{
-		return textureCube::dimensions_type(this->Storage.dimensions(this->baseLevel()));
+		return textureCube::dim_type(this->Storage.dimensions(this->baseLevel()));
 	}
 
 	inline textureCube::format_type textureCube::format() const

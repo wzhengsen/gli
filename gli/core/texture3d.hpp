@@ -35,10 +35,13 @@ namespace gli
 	class texture3D
 	{
 	public:
-		typedef storage::dimensions3_type dimensions_type;
+		typedef storage::dim3_type dim_type;
 		typedef storage::texcoord3_type texcoord_type;
 		typedef storage::size_type size_type;
-		typedef gli::format format_type;
+		typedef storage::format_type format_type;
+		typedef storage::size_type layer_type;
+		typedef storage::size_type level_type;
+		typedef storage::size_type face_type;
 
 	public:
 		texture3D();
@@ -47,12 +50,12 @@ namespace gli
 		explicit texture3D(
 			size_type const & Levels,
 			format_type const & Format,
-			dimensions_type const & Dimensions);
+			dim_type const & Dimensions);
 
 		/// Create a texture3D and allocate a new storage with a complete mipmap chain
 		explicit texture3D(
 			format_type const & Format,
-			dimensions_type const & Dimensions);
+			dim_type const & Dimensions);
 
 		/// Create a texture3D view with an existing storage
 		explicit texture3D(
@@ -80,7 +83,7 @@ namespace gli
 
 		bool empty() const;
 		format_type format() const;
-		dimensions_type dimensions() const;
+		dim_type dimensions() const;
 		size_type layers() const;
 		size_type faces() const;
 		size_type levels() const;

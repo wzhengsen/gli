@@ -31,7 +31,7 @@
 int test_texture1D
 (
 	std::vector<gli::format> const & Formats, 
-	gli::texture1D::dimensions_type const & TextureSize
+	gli::texture1D::dim_type const & TextureSize
 )
 {
 	int Error(0);
@@ -74,7 +74,7 @@ int test_texture1D
 int test_texture1DArray
 (
 	std::vector<gli::format> const & Formats, 
-	gli::texture1D::dimensions_type const & TextureSize
+	gli::texture1D::dim_type const & TextureSize
 )
 {
 	int Error(0);
@@ -145,17 +145,14 @@ int test_texture1DArray
 int test_texture2D
 (
 	std::vector<gli::format> const & Formats, 
-	gli::texture2D::dimensions_type const & TextureSize
+	gli::texture2D::dim_type const & TextureSize
 )
 {
 	int Error(0);
 
 	for(auto i = 0; i < Formats.size(); ++i)
 	{
-		gli::texture2D TextureA(
-			gli::level_count(TextureSize),
-			Formats[i],
-			TextureSize);
+		gli::texture2D TextureA(Formats[i], TextureSize);
 
 		gli::texture2D TextureB = gli::copy(TextureA);
 		Error += TextureA == TextureB ? 0 : 1;
@@ -186,7 +183,7 @@ int test_texture2D
 int test_texture2DArray
 (
 	std::vector<gli::format> const & Formats, 
-	gli::texture2DArray::dimensions_type const & TextureSize
+	gli::texture2DArray::dim_type const & TextureSize
 )
 {
 	int Error(0);
@@ -257,24 +254,20 @@ int test_texture2DArray
 int test_texture3D
 (
 	std::vector<gli::format> const & Formats, 
-	gli::texture3D::dimensions_type const & TextureSize
+	gli::texture3D::dim_type const & TextureSize
 )
 {
 	int Error(0);
 
 	for(std::size_t i = 0; i < Formats.size(); ++i)
 	{
-		gli::texture3D TextureA(
-			gli::level_count(TextureSize),
-			Formats[i],
-			TextureSize);
+		gli::texture3D TextureA(Formats[i], TextureSize);
 
 		gli::texture3D TextureB = gli::copy(TextureA);
 
 		Error += TextureA == TextureB ? 0 : 1;
 
-		gli::texture3D TextureC(TextureA, 
-			gli::texture3D::size_type(1), gli::texture3D::size_type(2));
+		gli::texture3D TextureC(TextureA, gli::texture3D::size_type(1), gli::texture3D::size_type(2));
 
 		Error += TextureA[1] == TextureC[0] ? 0 : 1;
 		Error += TextureA[2] == TextureC[1] ? 0 : 1;
@@ -300,7 +293,7 @@ int test_texture3D
 int test_textureCube
 (
 	std::vector<gli::format> const & Formats, 
-	gli::textureCube::dimensions_type const & TextureSize
+	gli::textureCube::dim_type const & TextureSize
 )
 {
 	int Error(0);
@@ -311,7 +304,7 @@ int test_textureCube
 			gli::textureCube::size_type(6),
 			gli::level_count(TextureSize),
 			Formats[i],
-			gli::textureCube::dimensions_type(TextureSize));
+			gli::textureCube::dim_type(TextureSize));
 
 		gli::textureCube TextureB = gli::copy(TextureA);
 
@@ -371,7 +364,7 @@ int test_textureCube
 int test_textureCubeArray
 (
 	std::vector<gli::format> const & Formats, 
-	gli::textureCubeArray::dimensions_type const & TextureSize
+	gli::textureCubeArray::dim_type const & TextureSize
 )
 {
 	int Error(0);
@@ -457,13 +450,13 @@ int main()
 	Formats.push_back(gli::RGBA32F);
 	std::size_t const TextureSize = 32;
 
-	Error += test_textureCubeArray(Formats, gli::textureCubeArray::dimensions_type(TextureSize));
-	Error += test_texture1D(Formats, gli::texture1D::dimensions_type(TextureSize));
-	Error += test_texture1DArray(Formats, gli::texture1DArray::dimensions_type(TextureSize));
-	Error += test_texture2D(Formats, gli::texture2D::dimensions_type(TextureSize));
-	Error += test_texture2DArray(Formats, gli::texture2DArray::dimensions_type(TextureSize));
-	Error += test_texture3D(Formats, gli::texture3D::dimensions_type(TextureSize));
-	Error += test_textureCube(Formats, gli::textureCube::dimensions_type(TextureSize));
+	Error += test_textureCubeArray(Formats, gli::textureCubeArray::dim_type(TextureSize));
+	Error += test_texture1D(Formats, gli::texture1D::dim_type(TextureSize));
+	Error += test_texture1DArray(Formats, gli::texture1DArray::dim_type(TextureSize));
+	Error += test_texture2D(Formats, gli::texture2D::dim_type(TextureSize));
+	Error += test_texture2DArray(Formats, gli::texture2DArray::dim_type(TextureSize));
+	Error += test_texture3D(Formats, gli::texture3D::dim_type(TextureSize));
+	Error += test_textureCube(Formats, gli::textureCube::dim_type(TextureSize));
 
 	return Error;
 }

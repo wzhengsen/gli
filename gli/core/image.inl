@@ -36,28 +36,28 @@ namespace detail
 		storage::size_type const & LevelOffset);
 
 	image::size_type texelLinearAdressing(
-		image::dimensions1_type const & Dimensions,
-		image::dimensions1_type const & TexelCoord);
+		image::dim1_type const & Dimensions,
+		image::dim1_type const & TexelCoord);
 
 	image::size_type texelLinearAdressing(
-		image::dimensions2_type const & Dimensions,
-		image::dimensions2_type const & TexelCoord);
+		image::dim2_type const & Dimensions,
+		image::dim2_type const & TexelCoord);
 
 	image::size_type texelLinearAdressing(
-		image::dimensions3_type const & Dimensions,
-		image::dimensions3_type const & TexelCoord);
+		image::dim3_type const & Dimensions,
+		image::dim3_type const & TexelCoord);
 
 	image::size_type texelMortonAdressing(
-		image::dimensions1_type const & Dimensions,
-		image::dimensions1_type const & TexelCoord);
+		image::dim1_type const & Dimensions,
+		image::dim1_type const & TexelCoord);
 
 	image::size_type texelMortonAdressing(
-		image::dimensions2_type const & Dimensions,
-		image::dimensions2_type const & TexelCoord);
+		image::dim2_type const & Dimensions,
+		image::dim2_type const & TexelCoord);
 
 	image::size_type texelMortonAdressing(
-		image::dimensions3_type const & Dimensions,
-		image::dimensions3_type const & TexelCoord);
+		image::dim3_type const & Dimensions,
+		image::dim3_type const & TexelCoord);
 }//namespace detail
 
 	inline image::image() :
@@ -71,16 +71,16 @@ namespace detail
 
 	inline image::image
 	(
-		dimensions_type const & Dimensions,
+		dim_type const & Dimensions,
 		size_type const & BlockSize,
-		dimensions_type const & BlockDimensions
+		dim_type const & BlockDimensions
 	) :
 		Storage(
 			1, 1, 1, 
-			storage::dimensions_type(Dimensions), 
+			storage::dim_type(Dimensions), 
 			FORMAT_NULL,
 			BlockSize, 
-			storage::dimensions_type(BlockDimensions)),
+			storage::dim_type(BlockDimensions)),
 		BaseLayer(0), 
 		MaxLayer(0), 
 		BaseFace(0), 
@@ -92,11 +92,11 @@ namespace detail
 	inline image::image
 	(
 		format const & Format,
-		dimensions_type const & Dimensions
+		dim_type const & Dimensions
 	) :
 		Storage(
 			1, 1, 1, 
-			storage::dimensions_type(Dimensions),
+			storage::dim_type(Dimensions),
 			Format,
 			block_size(Format),
 			block_dimensions(Format)),
@@ -152,9 +152,9 @@ namespace detail
 		return this->size() / sizeof(genType);
 	}
 
-	inline image::dimensions_type image::dimensions() const
+	inline image::dim_type image::dimensions() const
 	{
-		return image::dimensions_type(this->Storage.dimensions(this->BaseLevel));
+		return image::dim_type(this->Storage.dimensions(this->BaseLevel));
 	}
 
 	inline void * image::data()
@@ -213,7 +213,7 @@ namespace detail
 	}
 
 	template <typename genType>
-	genType image::load(dimensions_type const & TexelCoord)
+	genType image::load(dim_type const & TexelCoord)
 	{
 		assert(!this->empty());
 		assert(this->Storage.blockSize() == sizeof(genType));
@@ -222,7 +222,7 @@ namespace detail
 	}
 
 	template <typename genType>
-	void image::store(dimensions_type const & TexelCoord, genType const & Data)
+	void image::store(dim_type const & TexelCoord, genType const & Data)
 	{
 		assert(!this->empty());
 		assert(this->Storage.blockSize() == sizeof(genType));
