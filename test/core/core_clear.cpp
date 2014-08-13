@@ -35,7 +35,7 @@ int test_texture(typename texture::dim_type Size, gli::format const & Format, st
 
 	texture TextureA(Format, Size);
 
-	for(auto Level = 0; Level < TextureA.levels(); ++Level)
+	for(std::size_t Level = 0; Level < TextureA.levels(); ++Level)
 		TextureA[Level].clear(Colors[Level]);
 
 	texture TextureB = TextureA;
