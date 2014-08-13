@@ -303,10 +303,39 @@ namespace detail
 	}
 }//namespace detail
 
-inline storage load_dds
-(
-	char const * Filename
-)
+
+/* Taken from http://stackoverflow.com/a/13059195 */
+struct membuf : std::streambuf 
+{
+    membuf(char const* base, size_t size)
+	{
+        char* p(const_cast<char*>(base));
+        this->setg(p, p, p + size);
+    }
+};
+
+struct imemstream : virtual membuf, std::istream
+{
+    imemstream(char const* base, size_t size) : 
+		membuf(base, size),
+		std::istream(static_cast<std::streambuf*>(this))
+	{
+
+    }
+};
+
+
+inline storage load_dds(const char* pBuffer, size_t size)
+{
+	assert(pBuffer != NULL && size > 0);
+
+	imemstream memstream(pBuffer, size);
+
+	return load_dds(memstream);
+}
+
+
+inline storage load_dds(char const * Filename)
 {
 	std::ifstream FileIn(Filename, std::ios::in | std::ios::binary);
 	assert(!FileIn.fail());
@@ -314,6 +343,12 @@ inline storage load_dds
 	if(FileIn.fail())
 		return storage();
 
+	return load_dds(FileIn);
+}
+
+
+inline storage load_dds(std::istream& FileIn)
+{
 	detail::ddsHeader HeaderDesc;
 	detail::ddsHeader10 HeaderDesc10;
 	char Magic[4]; 

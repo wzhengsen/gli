@@ -110,6 +110,47 @@ namespace fetch_rgb32f
 	}
 }//namespace fetch
 
+
+namespace fetch_memory
+{
+	int test()
+	{
+		int Error(0);
+
+		
+		std::ifstream file("test_rgb8.dds", std::ios::binary);
+
+		assert(file.is_open());
+
+		file.seekg(0, std::ios::end);
+
+		std::streamsize size = file.tellg();
+
+
+
+		file.seekg(0, std::ios::beg);
+
+		char* buffer = (char*)malloc(size);
+
+
+		if (file.read(buffer, size))
+		{
+			gli::texture2D Texture(gli::load_dds(buffer, size));
+		}
+		else
+		{
+			Error++;
+		}
+
+		free(buffer);
+
+		return Error;
+	}
+}//namespace fetch_memory
+
+
+
+
 int main()
 {
 	int Error(0);
@@ -117,6 +158,7 @@ int main()
 	Error += fetch_rgba8_unorm::test();
 	Error += fetch_rgb32f::test();
 	Error += textureLod::test();
+	Error += fetch_memory::test();
 
 	return Error;
 }

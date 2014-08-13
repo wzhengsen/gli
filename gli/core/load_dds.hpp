@@ -32,9 +32,17 @@
 
 namespace gli
 {
-	/// Loading a texture storage to file
-	storage load_dds(
-		char const * Filename);
+	//Loads a texture storage from file
+	storage load_dds(char const * Filename);
+
+
+	//Loads a texture storage from memory
+	storage load_dds(const char* pBuffer, size_t size);
+
+
+	//Loads a texture storage from a std::istream
+	storage load_dds(std::istream& streamIn);
+
 
 }//namespace gli
 
