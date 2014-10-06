@@ -57,9 +57,9 @@ namespace detail
 		storage::dim1_type const & TexelCoord
 	)
 	{
-		assert(TexelCoord < Dimensions);
+		assert(glm::all(glm::lessThan(TexelCoord, Dimensions)));
 
-		return TexelCoord;
+		return TexelCoord.x;
 	}
 
 	inline storage::size_type texelLinearAdressing
@@ -93,9 +93,9 @@ namespace detail
 		storage::dim1_type const & TexelCoord
 	)
 	{
-		assert(TexelCoord < Dimensions);
+		assert(TexelCoord.x < Dimensions.x);
 
-		return TexelCoord;
+		return TexelCoord.x;
 	}
 
 	inline storage::size_type texelMortonAdressing
@@ -104,10 +104,12 @@ namespace detail
 		storage::dim2_type const & TexelCoord
 	)
 	{
-		assert(TexelCoord.x < Dimensions.x);
-		assert(TexelCoord.y < Dimensions.y);
+		assert(TexelCoord.x < Dimensions.x && TexelCoord.x < std::numeric_limits<std::uint32_t>::max());
+		assert(TexelCoord.y < Dimensions.y && TexelCoord.y < std::numeric_limits<std::uint32_t>::max());
 
-		return glm::bitfieldInterleave(TexelCoord.x, TexelCoord.y);
+		glm::u32vec2 const Input(TexelCoord);
+
+		return glm::bitfieldInterleave(Input.x, Input.y);
 	}
 
 	inline storage::size_type texelMortonAdressing
@@ -120,7 +122,9 @@ namespace detail
 		assert(TexelCoord.y < Dimensions.y);
 		assert(TexelCoord.z < Dimensions.z);
 
-		return glm::bitfieldInterleave(TexelCoord.x, TexelCoord.y, TexelCoord.z);
+		glm::u32vec3 const Input(TexelCoord);
+
+		return glm::bitfieldInterleave(Input.x, Input.y, Input.z);
 	}
 }//namespace detail
 }//namespace gli

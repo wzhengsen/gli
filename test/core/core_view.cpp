@@ -30,32 +30,33 @@
 
 int test_view1D
 (
-	std::vector<gli::format> const & Formats, 
-	std::size_t const & TextureSize
+	std::vector<gli::format> const & Formats,
+	gli::texture1D::dim_type const & TextureSize
 )
 {
 	int Error(0);
 
 	for(std::size_t i = 0; i < Formats.size(); ++i)
 	{
-		gli::texture1D TextureA(Formats[i], gli::texture1D::dim_type(TextureSize));
-		gli::texture1D TextureViewA(TextureA, TextureA.baseLevel(), TextureA.maxLevel());
+		gli::texture1D TextureA(Formats[i], TextureSize);
+		gli::texture1D TextureViewA(TextureA,
+			TextureA.baseLevel(), TextureA.maxLevel());
 
 		Error += TextureA == TextureViewA ? 0 : 1;
 
-		gli::texture1D TextureViewC = gli::view(TextureA, TextureA.baseLevel(), TextureA.maxLevel());
+		gli::texture1D TextureViewC = gli::view(TextureA,
+			TextureA.baseLevel(), TextureA.maxLevel());
 
 		Error += TextureA == TextureViewC ? 0 : 1;
 		Error += TextureViewA == TextureViewC ? 0 : 1;
 
-		gli::texture1D TextureB(Formats[i], gli::texture1D::dim_type(TextureSize / 2));
-
-		gli::texture1D TextureViewB(TextureA, 
+		gli::texture1D TextureB(Formats[i], TextureSize / gli::texture1D::dim_type(2));
+		gli::texture1D TextureViewB(TextureA,
 			TextureA.baseLevel() + 1, TextureA.maxLevel());
 
 		Error += TextureB == TextureViewB ? 0 : 1;
 
-		gli::texture1D TextureViewD = gli::view(TextureA, 
+		gli::texture1D TextureViewD = gli::view(TextureA,
 			TextureA.baseLevel() + 1, TextureA.maxLevel());
 
 		Error += TextureB == TextureViewD ? 0 : 1;
@@ -77,15 +78,15 @@ int test_view1D
 
 int test_view1DArray
 (
-	std::vector<gli::format> const & Formats, 
-	std::size_t const & TextureSize
+	std::vector<gli::format> const & Formats,
+	gli::texture1DArray::dim_type const & TextureSize
 )
 {
 	int Error(0);
 
 	for(std::size_t i = 0; i < Formats.size(); ++i)
 	{
-		gli::texture1DArray TextureA(gli::texture1DArray::size_type(4), Formats[i], gli::texture1DArray::dim_type(TextureSize));
+		gli::texture1DArray TextureA(gli::texture1DArray::size_type(4), Formats[i], TextureSize);
 
 		gli::texture1DArray TextureViewA(TextureA, 
 			TextureA.baseLayer(), TextureA.maxLayer(), 
@@ -100,12 +101,12 @@ int test_view1DArray
 		Error += TextureA == TextureViewC ? 0 : 1;
 		Error += TextureViewC == TextureViewA ? 0 : 1;
 
-		gli::texture1DArray TextureB(gli::texture1DArray::size_type(4), Formats[i], gli::texture1DArray::dim_type(TextureSize / 2));
+		gli::texture1DArray TextureB(gli::texture1DArray::size_type(4), Formats[i], TextureSize / gli::texture1DArray::dim_type(2));
 
 		Error += TextureA != TextureB ? 0 : 1;
 
-		gli::texture1DArray TextureViewB(TextureA, 
-			TextureA.baseLayer(), TextureA.maxLayer(), 
+		gli::texture1DArray TextureViewB(TextureA,
+			TextureA.baseLayer(), TextureA.maxLayer(),
 			TextureA.baseLevel() + 1, TextureA.maxLevel());
 
 		Error += TextureA != TextureViewB ? 0 : 1;
@@ -138,7 +139,7 @@ int test_view1DArray
 
 int test_view2D
 (
-	std::vector<gli::format> const & Formats, 
+	std::vector<gli::format> const & Formats,
 	gli::texture2D::dim_type const & TextureSize
 )
 {
@@ -393,7 +394,7 @@ int main()
 	Formats.push_back(gli::RGB_DXT1);
 	Formats.push_back(gli::RGB_BP_UNORM);
 	Formats.push_back(gli::RGBA32F);
-	std::size_t const TextureSize = 32;
+	std::size_t const TextureSize(32);
 
 	Error += test_view1D(Formats, gli::texture1D::dim_type(TextureSize));
 	Error += test_view1DArray(Formats, gli::texture1DArray::dim_type(TextureSize));

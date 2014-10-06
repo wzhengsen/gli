@@ -115,7 +115,7 @@ int main()
 	ColorRGBA32F.push_back(glm::vec4(  0,   0, 1.0, 1.0));
 	ColorRGBA32F.push_back(glm::vec4(1.0,   0, 1.0, 1.0));
 
-	std::vector<gli::texture1D::dim_type> Sizes;
+	std::vector<gli::size_t> Sizes;
 	Sizes.push_back(32);
 	Sizes.push_back(16);
 	Sizes.push_back(17);

@@ -46,17 +46,12 @@ namespace gli
 		dim_type const & Dimensions
 	) :
 		Storage(
-			Layers, 
-			1, 
-			Levels,
+			Layers, 1, Levels,
 			Format,
-			storage::dim_type(Dimensions, 1, 1)),
-		BaseLayer(0), 
-		MaxLayer(Layers - 1), 
-		BaseFace(0), 
-		MaxFace(0), 
-		BaseLevel(0), 
-		MaxLevel(Levels - 1),
+			storage::dim_type(Dimensions.x, 1, 1)),
+		BaseLayer(0), MaxLayer(Layers - 1),
+		BaseFace(0), MaxFace(0),
+		BaseLevel(0), MaxLevel(Levels - 1),
 		Format(Format)
 	{}
 
@@ -67,17 +62,12 @@ namespace gli
 		dim_type const & Dimensions
 	) :
 		Storage(
-			Layers,
-			1,
-			level_count(Dimensions),
+			Layers, 1, level_count(Dimensions),
 			Format,
-			storage::dim_type(Dimensions, 1, 1)),
-		BaseLayer(0), 
-		MaxLayer(Layers - 1), 
-		BaseFace(0), 
-		MaxFace(0), 
-		BaseLevel(0), 
-		MaxLevel(glm::log2(int(Dimensions))),
+			storage::dim_type(Dimensions.x, 1, 1)),
+		BaseLayer(0), MaxLayer(Layers - 1),
+		BaseFace(0), MaxFace(0),
+		BaseLevel(0), MaxLevel(Storage.levels() - 1),
 		Format(Format)
 	{}
 
@@ -86,11 +76,8 @@ namespace gli
 		storage const & Storage
 	) :
 		Storage(Storage),
-		BaseLayer(0), 
-		MaxLayer(Storage.layers() - 1), 
-		BaseFace(0), 
-		MaxFace(0), 
-		BaseLevel(0), 
+		BaseLayer(0), MaxLayer(Storage.layers() - 1),
+		BaseFace(0), MaxFace(0), BaseLevel(0),
 		MaxLevel(Storage.levels() - 1),
 		Format(Storage.format())
 	{}
@@ -107,12 +94,9 @@ namespace gli
 		size_type MaxLevel
 	) :
 		Storage(Storage),
-		BaseLayer(BaseLayer),
-		MaxLayer(MaxLayer),
-		BaseFace(BaseFace),
-		MaxFace(MaxFace),
-		BaseLevel(BaseLevel),
-		MaxLevel(MaxLevel),
+		BaseLayer(BaseLayer), MaxLayer(MaxLayer),
+		BaseFace(BaseFace), MaxFace(MaxFace),
+		BaseLevel(BaseLevel), MaxLevel(MaxLevel),
 		Format(Format)
 	{}
 
@@ -179,7 +163,7 @@ namespace gli
 	{
 		assert(!this->empty());
 
-		return this->Storage.dimensions(this->baseLevel()).x;
+		return texture1DArray::dim_type(this->Storage.dimensions(this->baseLevel()).x);
 	}
 
 	inline texture1DArray::format_type texture1DArray::format() const

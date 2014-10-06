@@ -40,12 +40,12 @@ int test_alloc()
 	Formats.push_back(gli::RGB_BP_UNORM);
 	Formats.push_back(gli::RGBA32F);
 
-	std::vector<std::size_t> Sizes;
-	Sizes.push_back(16);
-	Sizes.push_back(32);
-	Sizes.push_back(15);
-	Sizes.push_back(17);
-	Sizes.push_back(1);
+	std::vector<gli::texture1DArray::dim_type> Sizes;
+	Sizes.push_back(gli::texture1DArray::dim_type(16));
+	Sizes.push_back(gli::texture1DArray::dim_type(32));
+	Sizes.push_back(gli::texture1DArray::dim_type(15));
+	Sizes.push_back(gli::texture1DArray::dim_type(17));
+	Sizes.push_back(gli::texture1DArray::dim_type(1));
 
 	for(std::size_t FormatIndex = 0; FormatIndex < Formats.size(); ++FormatIndex)
 	for(std::size_t SizeIndex = 0; SizeIndex < Sizes.size(); ++SizeIndex)
@@ -96,7 +96,7 @@ int test_texture1DArray_query()
 	Error += Texture.layers() == Layers ? 0 : 1;
 	Error += Texture.levels() == Levels ? 0 : 1;
 	Error += !Texture.empty() ? 0 : 1;
-	Error += Texture.dimensions() == 2 ? 0 : 1;
+	Error += Texture.dimensions() == static_cast<gli::dim1_t>(2) ? 0 : 1;
 
 	return Error;
 }

@@ -50,7 +50,11 @@ namespace glm
 {
 	/// @addtogroup gtx_std_based_type
 	/// @{
-	
+
+	/// Vector type based of one std::size_t component.
+	/// @see GLM_GTX_std_based_type
+	typedef detail::tvec1<std::size_t, defaultp>		size1;
+
 	/// Vector type based of two std::size_t components.
 	/// @see GLM_GTX_std_based_type
 	typedef detail::tvec2<std::size_t, defaultp>		size2;
@@ -62,6 +66,10 @@ namespace glm
 	/// Vector type based of four std::size_t components.
 	/// @see GLM_GTX_std_based_type
 	typedef detail::tvec4<std::size_t, defaultp>		size4;
+
+	/// Vector type based of one std::size_t component.
+	/// @see GLM_GTX_std_based_type
+	typedef detail::tvec1<std::size_t, defaultp>		size1_t;
 
 	/// Vector type based of two std::size_t components.
 	/// @see GLM_GTX_std_based_type

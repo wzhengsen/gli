@@ -110,10 +110,13 @@ namespace detail
 		memset(HeaderDesc.reserved2, 0, sizeof(HeaderDesc.reserved2));
 		HeaderDesc.size = sizeof(detail::ddsHeader);
 		HeaderDesc.flags = Caps;
-		HeaderDesc.width = Storage.dimensions(0).x;
-		HeaderDesc.height = Storage.dimensions(0).y;
+		assert(Storage.dimensions(0).x < std::numeric_limits<glm::uint32>::max());
+		HeaderDesc.width = static_cast<glm::uint32>(Storage.dimensions(0).x);
+		assert(Storage.dimensions(0).y < std::numeric_limits<glm::uint32>::max());
+		HeaderDesc.height = static_cast<glm::uint32>(Storage.dimensions(0).y);
 		HeaderDesc.pitch = glm::uint32(Desc.Compressed ? Storage.size() / Storage.faces() : 32);
-		HeaderDesc.depth = Storage.dimensions(0).z > 1 ? Storage.dimensions(0).z : 0;
+		assert(Storage.dimensions(0).z < std::numeric_limits<glm::uint32>::max());
+		HeaderDesc.depth = static_cast<glm::uint32>(Storage.dimensions(0).z > 1 ? Storage.dimensions(0).z : 0);
 		HeaderDesc.mipMapLevels = glm::uint32(Storage.levels());
 		HeaderDesc.format.size = sizeof(detail::ddsPixelFormat);
 		HeaderDesc.format.flags = Storage.layers() > 1 ? detail::DDPF_FOURCC : Desc.Flags;

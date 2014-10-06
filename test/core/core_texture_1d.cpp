@@ -93,7 +93,7 @@ namespace query
 		Error += Texture.format() == gli::RGBA8U ? 0 : 1;
 		Error += Texture.levels() == 2 ? 0 : 1;
 		Error += !Texture.empty() ? 0 : 1;
-		Error += Texture.dimensions() == 2 ? 0 : 1;
+		Error += Texture.dimensions() == static_cast<gli::dim1_t>(2) ? 0 : 1;
 
 		return Error;
 	}

@@ -160,9 +160,14 @@ namespace detail
 
 #if(GLM_COMPILER & (GLM_COMPILER_VC | GLM_COMPILER_GCC))
 
-	GLM_FUNC_QUALIFIER unsigned int nlz(unsigned int x) 
+	GLM_FUNC_QUALIFIER uint32 nlz(uint32 x) 
 	{
 		return 31u - findMSB(x);
+	}
+
+	GLM_FUNC_QUALIFIER uint64 nlz(uint64 x) 
+	{
+		return 63u - findMSB(x);
 	}
 
 #else

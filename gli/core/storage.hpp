@@ -36,40 +36,36 @@
 #include <cmath>
 #include <cstring>
 
+#include "shared_ptr.hpp"
+#include "header.hpp"
+#include "type.hpp"
+
 // GLM
-#define GLM_FORCE_RADIANS
-#include <glm/glm.hpp>
 #include <glm/gtx/component_wise.hpp>
 #include <glm/gtx/gradient_paint.hpp>
 #include <glm/gtx/integer.hpp>
 #include <glm/gtx/bit.hpp>
 #include <glm/gtx/multiple.hpp>
-#include <glm/gtx/number_precision.hpp>
 #include <glm/gtx/raw_data.hpp>
-#include <glm/gtx/scalar_relational.hpp>
-
-#include "shared_ptr.hpp"
-#include "header.hpp"
-#include "format.hpp"
 
 namespace gli
 {
 	class storage
 	{
 	public:
-		typedef glm::uint dim1_type;
-		typedef glm::uvec2 dim2_type;
-		typedef glm::uvec3 dim3_type;
-		typedef glm::uvec4 dim4_type;
+		typedef dim1_t dim1_type;
+		typedef dim2_t dim2_type;
+		typedef dim3_t dim3_type;
+		typedef dim4_t dim4_type;
 		typedef dim3_type dim_type;
-		typedef float texcoord1_type;
-		typedef glm::vec2 texcoord2_type;
-		typedef glm::vec3 texcoord3_type;
-		typedef glm::vec4 texcoord4_type;
-		typedef std::size_t size_type;
-		typedef size_type layer_type;
-		typedef size_type level_type;
-		typedef size_type face_type;
+		typedef texcoord1_t texcoord1_type;
+		typedef texcoord2_t texcoord2_type;
+		typedef texcoord3_t texcoord3_type;
+		typedef texcoord4_t texcoord4_type;
+		typedef size_t size_type;
+		typedef size_t layer_type;
+		typedef size_t level_type;
+		typedef size_t face_type;
 		typedef gli::format format_type;
 		typedef glm::byte data_type;
 
