@@ -1,7 +1,7 @@
 ///////////////////////////////////////////////////////////////////////////////////
-/// OpenGL Image (gli.g-truc.net)
+/// OpenGL Mathematics (glm.g-truc.net)
 ///
-/// Copyright (c) 2008 - 2014 G-Truc Creation (www.g-truc.net)
+/// Copyright (c) 2005 - 2014 G-Truc Creation (www.g-truc.net)
 /// Permission is hereby granted, free of charge, to any person obtaining a copy
 /// of this software and associated documentation files (the "Software"), to deal
 /// in the Software without restriction, including without limitation the rights
@@ -20,38 +20,50 @@
 /// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 /// THE SOFTWARE.
 ///
-/// @ref core
-/// @file gli/core/type.hpp
-/// @date 2014-07-28 / 2014-07-28
+/// @ref gtx_log_base
+/// @file glm/gtx/log_base.hpp
+/// @date 2008-10-24 / 2011-06-07
 /// @author Christophe Riccio
+///
+/// @see core (dependence)
+///
+/// @defgroup gtx_log_base GLM_GTX_log_base
+/// @ingroup gtx
+/// 
+/// @brief Logarithm for any base. base can be a vector or a scalar.
+/// 
+/// <glm/gtx/log_base.hpp> need to be included to use these functionalities.
 ///////////////////////////////////////////////////////////////////////////////////
 
 #pragma once
 
-// STD
-#include <cstddef>
+// Dependency:
+#include "../glm.hpp"
 
-// GLM
-#define GLM_FORCE_RADIANS
-#include <glm/glm.hpp>
-#include <glm/gtc/vec1.hpp>
-#include <glm/gtx/std_based_type.hpp>
+#if(defined(GLM_MESSAGES) && !defined(GLM_EXT_INCLUDED))
+#	pragma message("GLM: GLM_GTX_log_base extension included")
+#endif
 
-// GLI
-#include "format.hpp"
-
-namespace gli
+namespace glm
 {
-	typedef glm::size1_t dim1_t;
-	typedef glm::size2_t dim2_t;
-	typedef glm::size3_t dim3_t;
-	typedef glm::size4_t dim4_t;
-	typedef glm::vec1 texcoord1_t;
-	typedef glm::vec2 texcoord2_t;
-	typedef glm::vec3 texcoord3_t;
-	typedef glm::vec4 texcoord4_t;
-	typedef std::size_t size_t;
-	typedef std::size_t layer_t;
-	typedef std::size_t level_t;
-	typedef std::size_t face_t;
-}//namespace gli
+	/// @addtogroup gtx_log_base
+	/// @{
+
+	//! Logarithm for any base.
+	//! From GLM_GTX_log_base.
+	template <typename genType>
+	GLM_FUNC_DECL genType log(
+		genType x,
+		genType base);
+
+	//! Logarithm for any base.
+	//! From GLM_GTX_log_base.
+	template <typename T, precision P, template <typename, precision> class vecType>
+	GLM_FUNC_DECL vecType<T, P> sign(
+		vecType<T, P> const & x,
+		vecType<T, P> const & base);
+
+	/// @}
+}//namespace glm
+
+#include "log_base.inl"

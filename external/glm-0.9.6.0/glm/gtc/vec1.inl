@@ -1,7 +1,7 @@
 ///////////////////////////////////////////////////////////////////////////////////
-/// OpenGL Image (gli.g-truc.net)
+/// OpenGL Mathematics (glm.g-truc.net)
 ///
-/// Copyright (c) 2008 - 2014 G-Truc Creation (www.g-truc.net)
+/// Copyright (c) 2005 - 2014 G-Truc Creation (www.g-truc.net)
 /// Permission is hereby granted, free of charge, to any person obtaining a copy
 /// of this software and associated documentation files (the "Software"), to deal
 /// in the Software without restriction, including without limitation the rights
@@ -20,38 +20,8 @@
 /// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 /// THE SOFTWARE.
 ///
-/// @ref core
-/// @file gli/core/type.hpp
-/// @date 2014-07-28 / 2014-07-28
+/// @ref gtc_vec1
+/// @file glm/gtc/vec1.inl
+/// @date 2013-03-16 / 2013-03-16
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
-
-#pragma once
-
-// STD
-#include <cstddef>
-
-// GLM
-#define GLM_FORCE_RADIANS
-#include <glm/glm.hpp>
-#include <glm/gtc/vec1.hpp>
-#include <glm/gtx/std_based_type.hpp>
-
-// GLI
-#include "format.hpp"
-
-namespace gli
-{
-	typedef glm::size1_t dim1_t;
-	typedef glm::size2_t dim2_t;
-	typedef glm::size3_t dim3_t;
-	typedef glm::size4_t dim4_t;
-	typedef glm::vec1 texcoord1_t;
-	typedef glm::vec2 texcoord2_t;
-	typedef glm::vec3 texcoord3_t;
-	typedef glm::vec4 texcoord4_t;
-	typedef std::size_t size_t;
-	typedef std::size_t layer_t;
-	typedef std::size_t level_t;
-	typedef std::size_t face_t;
-}//namespace gli

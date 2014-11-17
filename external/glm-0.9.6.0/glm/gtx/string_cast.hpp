@@ -1,7 +1,7 @@
 ///////////////////////////////////////////////////////////////////////////////////
-/// OpenGL Image (gli.g-truc.net)
+/// OpenGL Mathematics (glm.g-truc.net)
 ///
-/// Copyright (c) 2008 - 2014 G-Truc Creation (www.g-truc.net)
+/// Copyright (c) 2005 - 2014 G-Truc Creation (www.g-truc.net)
 /// Permission is hereby granted, free of charge, to any person obtaining a copy
 /// of this software and associated documentation files (the "Software"), to deal
 /// in the Software without restriction, including without limitation the rights
@@ -20,38 +20,51 @@
 /// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 /// THE SOFTWARE.
 ///
-/// @ref core
-/// @file gli/core/type.hpp
-/// @date 2014-07-28 / 2014-07-28
+/// @ref gtx_string_cast
+/// @file glm/gtx/string_cast.hpp
+/// @date 2008-04-26 / 2014-05-10
 /// @author Christophe Riccio
+///
+/// @see core (dependence)
+/// @see gtc_half_float (dependence)
+/// @see gtx_integer (dependence)
+/// @see gtx_quaternion (dependence)
+///
+/// @defgroup gtx_string_cast GLM_GTX_string_cast
+/// @ingroup gtx
+/// 
+/// @brief Setup strings for GLM type values
+/// 
+/// <glm/gtx/string_cast.hpp> need to be included to use these functionalities.
+/// This extension is not supported with CUDA
 ///////////////////////////////////////////////////////////////////////////////////
 
 #pragma once
 
-// STD
-#include <cstddef>
+// Dependency:
+#include "../glm.hpp"
+#include "../gtc/type_precision.hpp"
+#include <string>
 
-// GLM
-#define GLM_FORCE_RADIANS
-#include <glm/glm.hpp>
-#include <glm/gtc/vec1.hpp>
-#include <glm/gtx/std_based_type.hpp>
+#if(GLM_COMPILER & GLM_COMPILER_CUDA)
+#	error "GLM_GTX_string_cast is not supported on CUDA compiler"
+#endif
 
-// GLI
-#include "format.hpp"
+#if(defined(GLM_MESSAGES) && !defined(GLM_EXT_INCLUDED))
+#	pragma message("GLM: GLM_GTX_string_cast extension included")
+#endif
 
-namespace gli
+namespace glm
 {
-	typedef glm::size1_t dim1_t;
-	typedef glm::size2_t dim2_t;
-	typedef glm::size3_t dim3_t;
-	typedef glm::size4_t dim4_t;
-	typedef glm::vec1 texcoord1_t;
-	typedef glm::vec2 texcoord2_t;
-	typedef glm::vec3 texcoord3_t;
-	typedef glm::vec4 texcoord4_t;
-	typedef std::size_t size_t;
-	typedef std::size_t layer_t;
-	typedef std::size_t level_t;
-	typedef std::size_t face_t;
-}//namespace gli
+	/// @addtogroup gtx_string_cast
+	/// @{
+
+	/// Create a string from a GLM vector or matrix typed variable.
+	/// @see gtx_string_cast extension.
+	template <template <typename, precision> class matType, typename T, precision P>
+	GLM_FUNC_DECL std::string to_string(matType<T, P> const & x);
+
+	/// @}
+}//namespace glm
+
+#include "string_cast.inl"
