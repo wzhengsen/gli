@@ -47,8 +47,8 @@ int test_alloc()
 	Sizes.push_back(17);
 	Sizes.push_back(1);
 
-	for(auto FormatIndex = 0; FormatIndex < Formats.size(); ++FormatIndex)
-	for(auto SizeIndex = 0; SizeIndex < Sizes.size(); ++SizeIndex)
+	for(std::size_t FormatIndex = 0; FormatIndex < Formats.size(); ++FormatIndex)
+	for(std::size_t SizeIndex = 0; SizeIndex < Sizes.size(); ++SizeIndex)
 	{
 		gli::texture3D::dim_type Size(Sizes[SizeIndex]);
 

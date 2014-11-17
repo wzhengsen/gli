@@ -36,7 +36,7 @@ int test_texture1D
 {
 	int Error(0);
 
-	for(auto i = 0; i < Formats.size(); ++i)
+	for(std::size_t i = 0; i < Formats.size(); ++i)
 	{
 		gli::texture1D TextureA(
 			gli::level_count(TextureSize),
@@ -79,7 +79,7 @@ int test_texture1DArray
 {
 	int Error(0);
 
-	for(auto i = 0; i < Formats.size(); ++i)
+	for(std::size_t i = 0; i < Formats.size(); ++i)
 	{
 		gli::texture1DArray TextureA(
 			gli::texture1DArray::size_type(4),
@@ -150,7 +150,7 @@ int test_texture2D
 {
 	int Error(0);
 
-	for(auto i = 0; i < Formats.size(); ++i)
+	for(std::size_t i = 0; i < Formats.size(); ++i)
 	{
 		gli::texture2D TextureA(Formats[i], TextureSize);
 
