@@ -32,7 +32,7 @@
 #include <cstddef>
 
 // GLM
-#define GLM_FORCE_RADIANS
+#define GLM_FORCE_EXPLICIT_CTOR
 #include <glm/glm.hpp>
 #include <glm/gtc/vec1.hpp>
 #include <glm/gtx/std_based_type.hpp>
