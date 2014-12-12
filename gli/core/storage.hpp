@@ -36,7 +36,6 @@
 #include <cmath>
 #include <cstring>
 
-#include "shared_ptr.hpp"
 #include "header.hpp"
 #include "type.hpp"
 
@@ -137,7 +136,7 @@ namespace gli
 			std::vector<data_type> Data;
 		};
 
-		shared_ptr<impl> Impl;
+		std::shared_ptr<impl> Impl;
 	};
 
 /*
