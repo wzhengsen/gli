@@ -35,6 +35,7 @@
 #include <cassert>
 #include <cmath>
 #include <cstring>
+#include <memory>
 
 #include "header.hpp"
 #include "type.hpp"

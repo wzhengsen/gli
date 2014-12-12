@@ -42,10 +42,10 @@
 
 namespace gli
 {
-	typedef glm::size1_t dim1_t;
-	typedef glm::size2_t dim2_t;
-	typedef glm::size3_t dim3_t;
-	typedef glm::size4_t dim4_t;
+	typedef glm::tvec1<size_t> dim1_t;
+	typedef glm::tvec2<size_t> dim2_t;
+	typedef glm::tvec3<size_t> dim3_t;
+	typedef glm::tvec4<size_t> dim4_t;
 	typedef glm::vec1 texcoord1_t;
 	typedef glm::vec2 texcoord2_t;
 	typedef glm::vec3 texcoord3_t;

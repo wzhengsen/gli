@@ -89,11 +89,11 @@ namespace fetch_rgb32f
 			gli::texelWrite<glm::vec3>(Texture, gli::texture2D::dim_type(1, 1), 0, glm::vec3(0.0f, 1.0f, 0.0f));
 			gli::texelWrite<glm::vec3>(Texture, gli::texture2D::dim_type(0, 1), 0, glm::vec3(0.0f, 0.0f, 1.0f));
 			gli::texelWrite<glm::vec3>(Texture, gli::texture2D::dim_type(0, 0), 1, glm::vec3(1.0f, 0.5f, 0.0f));
-			gli::save_dds(Texture, "rgba32f_4pixels.dds");
+			gli::save_dds(Texture, "rgb32f_4pixels.dds");
 		}
 
 		{
-			gli::texture2D Texture(gli::load_dds("rgba32f_4pixels.dds"));
+			gli::texture2D Texture(gli::load_dds("rgb32f_4pixels.dds"));
 			glm::vec3 A = gli::texelFetch<glm::vec3>(Texture, gli::texture2D::dim_type(0, 0), 0);
 			Error += glm::all(glm::epsilonEqual(A, glm::vec3(1.0f, 0.0f, 0.0f), 0.001f)) ? 0 : 1;
 			glm::vec3 B = gli::texelFetch<glm::vec3>(Texture, gli::texture2D::dim_type(1, 0), 0);
@@ -110,46 +110,58 @@ namespace fetch_rgb32f
 	}
 }//namespace fetch
 
-
 namespace fetch_memory
 {
 	int test()
 	{
 		int Error(0);
 
+		gli::texture2D TextureRef(gli::RGB8_UNORM, gli::texture2D::dim_type(2, 2));
+		{
+			gli::texelWrite<glm::u8vec3>(TextureRef, gli::texture2D::dim_type(0, 0), 0, glm::u8vec3(255,   0,   0));
+			gli::texelWrite<glm::u8vec3>(TextureRef, gli::texture2D::dim_type(1, 0), 0, glm::u8vec3(255, 255,   0));
+			gli::texelWrite<glm::u8vec3>(TextureRef, gli::texture2D::dim_type(1, 1), 0, glm::u8vec3(  0, 255,   0));
+			gli::texelWrite<glm::u8vec3>(TextureRef, gli::texture2D::dim_type(0, 1), 0, glm::u8vec3(  0,   0, 255));
+			gli::texelWrite<glm::u8vec3>(TextureRef, gli::texture2D::dim_type(0, 0), 1, glm::u8vec3(255, 127,   0));
+			gli::save_dds(TextureRef, "rgb8_4pixels.dds");
+		}
 		
-		std::ifstream file("test_rgb8.dds", std::ios::binary);
-
-		assert(file.is_open());
-
-		file.seekg(0, std::ios::end);
-
-		std::streamsize size = file.tellg();
-
-
-
-		file.seekg(0, std::ios::beg);
-
-		char* buffer = (char*)malloc(size);
-
-
-		if (file.read(buffer, size))
 		{
-			gli::texture2D Texture(gli::load_dds(buffer, size));
+			gli::texture2D Texture(gli::load_dds("rgb8_4pixels.dds"));
+
+			Error += (Texture == TextureRef) ? 0 : 1;
 		}
-		else
+		
 		{
-			Error++;
+			std::ifstream File("rgb8_4pixels.dds", std::ios::binary);
+
+			assert(File.is_open());
+
+			File.seekg(0, std::ios::end);
+			std::streamsize Size = File.tellg();
+			File.seekg(0, std::ios::beg);
+
+			char* Buffer = (char*)malloc(Size);
+
+			//std::vector<char> Buffer(Size);
+
+			if(File.read(Buffer, Size))
+			{
+				gli::texture2D Texture(gli::load_dds(Buffer, Size));
+
+				Error += (Texture == TextureRef) ? 0 : 1;
+			}
+			else
+			{
+				++Error;
+			}
+
+			free(Buffer);
 		}
-
-		free(buffer);
-
+		
 		return Error;
 	}
 }//namespace fetch_memory
-
-
-
 
 int main()
 {
