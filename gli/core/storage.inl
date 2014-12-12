@@ -478,7 +478,7 @@ inline format_desc const getFormatInfo(format const & Format)
 	{
 		assert(Level < this->levels());
 
-		return this->blockSize() * glm::compMul(glm::higherMultiple(
+		return this->blockSize() * glm::compMul(glm::ceilMultiple(
 			this->dimensions(Level),
 			this->blockDimensions()) / this->blockDimensions());
 	}

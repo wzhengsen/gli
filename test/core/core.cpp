@@ -61,7 +61,7 @@ int test_reset_memset_zero()
 
 	std::clock_t Time = std::clock();
 
-	printf("test_reset_memset_zero: %d\n", Time - LastTime);
+	printf("test_reset_memset_zero: %lu\n", Time - LastTime);
 
 	return 0;
 }
@@ -78,7 +78,7 @@ int test_reset_memset_ff()
 
 	std::clock_t Time = std::clock();
 
-	printf("test_reset_memset_zero: %d\n", Time - LastTime);
+	printf("test_reset_memset_zero: %lu\n", Time - LastTime);
 
 	return 0;
 }
@@ -96,7 +96,7 @@ int test_reset_loop_zero()
 
 	std::clock_t Time = std::clock();
 
-	printf("test_reset_loop_zero: %d\n", Time - LastTime);
+	printf("test_reset_loop_zero: %lu\n", Time - LastTime);
 
 	return 0;
 }
@@ -114,7 +114,7 @@ int test_reset_loop_ff()
 
 	std::clock_t Time = std::clock();
 
-	printf("test_reset_loop_ff: %d\n", Time - LastTime);
+	printf("test_reset_loop_ff: %lu\n", Time - LastTime);
 
 	return 0;
 }
@@ -123,10 +123,10 @@ int main()
 {
 	int Error(0);
 
-	int A = glm::lowerMultiple(3, 4);
-	int B = glm::lowerMultiple(6, 4);
-	int C = glm::lowerMultiple(8, 4);
-	int D = glm::lowerMultiple(9, 4);
+	int A = glm::floorMultiple(3, 4);
+	int B = glm::floorMultiple(6, 4);
+	int C = glm::floorMultiple(8, 4);
+	int D = glm::floorMultiple(9, 4);
 
 	Error += test_reset_memset_zero();
 	Error += test_reset_memset_ff();
