@@ -39,7 +39,7 @@ int test_texture1D
 	for(std::size_t i = 0; i < Formats.size(); ++i)
 	{
 		gli::texture1D TextureA(
-			gli::level_count(TextureSize),
+			gli::levels(TextureSize),
 			Formats[i],
 			TextureSize);
 
@@ -83,7 +83,7 @@ int test_texture1DArray
 	{
 		gli::texture1DArray TextureA(
 			gli::texture1DArray::size_type(4),
-			gli::level_count(TextureSize),
+			gli::levels(TextureSize),
 			Formats[i],
 			TextureSize);
 
@@ -125,7 +125,7 @@ int test_texture1DArray
 
 		gli::texture1DArray TextureK(
 			gli::texture1DArray::size_type(4),
-			gli::level_count(TextureSize),
+			gli::levels(TextureSize),
 			Formats[i],
 			TextureSize);
 
@@ -192,7 +192,7 @@ int test_texture2DArray
 	{
 		gli::texture2DArray TextureA(
 			gli::texture2DArray::size_type(4),
-			gli::level_count(TextureSize),
+			gli::levels(TextureSize),
 			Formats[i],
 			TextureSize);
 
@@ -234,7 +234,7 @@ int test_texture2DArray
 
 		gli::texture2DArray TextureK(
 			gli::texture2DArray::size_type(4),
-			gli::level_count(TextureSize),
+			gli::levels(TextureSize),
 			Formats[i],
 			TextureSize);
 
@@ -302,7 +302,7 @@ int test_textureCube
 	{
 		gli::textureCube TextureA(
 			gli::textureCube::size_type(6),
-			gli::level_count(TextureSize),
+			gli::levels(TextureSize),
 			Formats[i],
 			gli::textureCube::dim_type(TextureSize));
 
@@ -344,7 +344,7 @@ int test_textureCube
 
 		gli::textureCube TextureK(
 			gli::textureCube::size_type(6),
-			gli::level_count(TextureSize),
+			gli::levels(TextureSize),
 			Formats[i],
 			TextureSize);
 
@@ -374,7 +374,7 @@ int test_textureCubeArray
 		gli::textureCubeArray TextureA(
 			gli::textureCubeArray::size_type(4),
 			gli::textureCubeArray::size_type(6),
-			gli::level_count(TextureSize),
+			gli::levels(TextureSize),
 			Formats[i],
 			TextureSize);
 
@@ -421,7 +421,7 @@ int test_textureCubeArray
 		gli::textureCubeArray TextureK(
 			gli::textureCubeArray::size_type(4),
 			gli::textureCubeArray::size_type(6),
-			gli::level_count(TextureSize),
+			gli::levels(TextureSize),
 			Formats[i],
 			TextureSize);
 

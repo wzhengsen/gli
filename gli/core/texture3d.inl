@@ -26,6 +26,8 @@
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
+#include "levels.hpp"
+
 namespace gli
 {
 	inline texture3D::texture3D() :
@@ -59,7 +61,7 @@ namespace gli
 		format_type const & Format,
 		dim_type const & Dimensions
 	) :
-		Storage(1, 1, level_count(Dimensions), Format, storage::dim_type(Dimensions)),
+		Storage(1, 1, gli::levels(Dimensions), Format, storage::dim_type(Dimensions)),
 		BaseLayer(0),
 		MaxLayer(this->Storage.layers() - 1),
 		BaseFace(0),

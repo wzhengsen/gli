@@ -52,7 +52,7 @@ int test_alloc()
 	{
 		gli::texture1D::dim_type Size(Sizes[SizeIndex]);
 
-		gli::texture1D TextureA(gli::level_count(Size), Formats[FormatIndex], Size);
+		gli::texture1D TextureA(gli::levels(Size), Formats[FormatIndex], Size);
 		gli::texture1D TextureB(Formats[FormatIndex], Size);
 
 		Error += TextureA == TextureB ? 0 : 1;
@@ -70,7 +70,7 @@ namespace clear
 		glm::u8vec4 const Orange(255, 127, 0, 255);
 
 		gli::texture1D::dim_type Size(16u);
-		gli::texture1D Texture(gli::level_count(Size), gli::RGBA8U, Size);
+		gli::texture1D Texture(gli::levels(Size), gli::RGBA8U, Size);
 
 		Texture.clear<glm::u8vec4>(Orange);
 

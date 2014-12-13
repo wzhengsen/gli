@@ -26,6 +26,8 @@
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
+#include "levels.hpp"
+
 namespace gli
 {
 	inline texture1DArray::texture1DArray() :
@@ -62,7 +64,7 @@ namespace gli
 		dim_type const & Dimensions
 	) :
 		Storage(
-			Layers, 1, level_count(Dimensions),
+			Layers, 1, gli::levels(Dimensions),
 			Format,
 			storage::dim_type(Dimensions.x, 1, 1)),
 		BaseLayer(0), MaxLayer(Layers - 1),

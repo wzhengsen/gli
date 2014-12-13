@@ -56,7 +56,7 @@ int main()
 	int Error(0);
 
 	gli::texture2D::dim_type const TextureSize(32);
-	std::size_t const Levels = gli::level_count(TextureSize);
+	std::size_t const Levels = gli::levels(TextureSize);
 
 	Error += test_texture(
 		gli::texture2D(Levels, gli::R8_UNORM, TextureSize),

@@ -21,38 +21,33 @@
 /// THE SOFTWARE.
 ///
 /// @ref core
-/// @file gli/core/type.hpp
-/// @date 2014-07-28 / 2014-07-28
+/// @file gli/core/levels.hpp
+/// @date 2014-12-12 / 2014-12-12
 /// @author Christophe Riccio
+///
+/// @defgroup core_image Image 
+/// @ingroup core
 ///////////////////////////////////////////////////////////////////////////////////
 
 #pragma once
 
-// STD
-#include <cstddef>
-
-// GLM
-#define GLM_FORCE_EXPLICIT_CTOR
-#include <glm/glm.hpp>
-#include <glm/gtc/vec1.hpp>
-#include <glm/gtx/std_based_type.hpp>
-
-// GLI
-#include "format.hpp"
+#include "type.hpp"
 
 namespace gli
 {
-	typedef glm::tvec1<size_t> dim1_t;
-	typedef glm::tvec2<size_t> dim2_t;
-	typedef glm::tvec3<size_t> dim3_t;
-	typedef glm::tvec4<size_t> dim4_t;
-	typedef glm::vec1 texcoord1_t;
-	typedef glm::vec2 texcoord2_t;
-	typedef glm::vec3 texcoord3_t;
-	typedef glm::vec4 texcoord4_t;
-
-	using std::size_t;
-	typedef std::size_t layer_t;
-	typedef std::size_t level_t;
-	typedef std::size_t face_t;
+	/// Compute the number of mipmaps levels necessary to create a mipmap complete texture
+	/// 
+	/// @param Dimensions Dimensions of the texture base level mipmap
+	/// @tparam dimType Vector type used to express the dimentions of a texture of any kind.
+	/// @code
+	/// #include <gli/gli.hpp>
+	/// #include <gli/levels.hpp>
+	/// ...
+	/// gli::size2_t Dimensions(32, 10);
+	/// gli::texture2D Texture(gli::levels(Dimensions));
+	/// @endcode
+	template <template <typename, glm::precision> class dimType>
+	size_t levels(dimType<size_t, glm::defaultp> const & Dimensions);
 }//namespace gli
+
+#include "levels.inl"

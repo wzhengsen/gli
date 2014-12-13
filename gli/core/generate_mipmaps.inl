@@ -41,7 +41,7 @@ namespace detail
 	{
 		assert(BaseLevel < Texture.levels());
 
-		texture2D Result(level_count(Texture.dimensions()), Texture.format(), Texture.dimensions());
+		texture2D Result(levels(Texture.dimensions()), Texture.format(), Texture.dimensions());
 		texture2D::size_type const Components(gli::component_count(Result.format()));
 
 		for(texture2D::size_type Level = BaseLevel; Level < Result.levels() - 1; ++Level)

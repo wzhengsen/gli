@@ -52,7 +52,7 @@ int test_alloc()
 	{
 		gli::texture3D::dim_type Size(Sizes[SizeIndex]);
 
-		gli::texture3D TextureA(gli::level_count(Size), Formats[FormatIndex], Size);
+		gli::texture3D TextureA(gli::levels(Size), Formats[FormatIndex], Size);
 		gli::texture3D TextureB(Formats[FormatIndex], Size);
 
 		Error += TextureA == TextureB ? 0 : 1;
@@ -69,7 +69,7 @@ int test_texture3d_clear()
 
 	gli::texture3D::dim_type Size(16);
 
-	gli::texture3D Texture(gli::level_count(Size), gli::RGBA8U, Size);
+	gli::texture3D Texture(gli::levels(Size), gli::RGBA8U, Size);
 
 	Texture.clear<glm::u8vec4>(Orange);
 
@@ -82,7 +82,7 @@ int test_texture3d_query()
 
 	gli::texture3D::dim_type Size(2);
 
-	gli::texture3D Texture(gli::level_count(Size), gli::RGBA8U, Size);
+	gli::texture3D Texture(gli::levels(Size), gli::RGBA8U, Size);
 
 	Error += Texture.size() == sizeof(glm::u8vec4) * 9 ? 0 : 1;
 	Error += Texture.format() == gli::RGBA8U ? 0 : 1;

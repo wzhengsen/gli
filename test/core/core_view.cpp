@@ -27,6 +27,7 @@
 ///////////////////////////////////////////////////////////////////////////////////
 
 #include <gli/gli.hpp>
+#include <gli/core/levels.hpp>
 
 int test_view1D
 (
@@ -147,7 +148,7 @@ int test_view2D
 
 	for(std::size_t i = 0; i < Formats.size(); ++i)
 	{
-		gli::texture2D TextureA(gli::level_count(TextureSize), Formats[i], TextureSize);
+		gli::texture2D TextureA(gli::levels(TextureSize), Formats[i], TextureSize);
 
 		for(std::size_t Index = 0; Index < TextureA.size<glm::byte>(); ++Index)
 			*(TextureA.data<glm::byte>() + Index) = glm::byte(Index);
@@ -188,7 +189,7 @@ int test_view2DArray
 
 	for(std::size_t i = 0; i < Formats.size(); ++i)
 	{
-		gli::texture2DArray TextureA(gli::texture2DArray::size_type(4), gli::level_count(TextureSize), Formats[i], TextureSize);
+		gli::texture2DArray TextureA(gli::texture2DArray::size_type(4), gli::levels(TextureSize), Formats[i], TextureSize);
 
 		gli::texture2DArray TextureViewA(TextureA, 
 			TextureA.baseLayer(), TextureA.maxLayer(), 
@@ -238,13 +239,13 @@ int test_view3D
 
 	for(std::size_t i = 0; i < Formats.size(); ++i)
 	{
-		gli::texture3D TextureA(gli::level_count(TextureSize), Formats[i], TextureSize);
+		gli::texture3D TextureA(gli::levels(TextureSize), Formats[i], TextureSize);
 		gli::texture3D TextureViewA(TextureA, TextureA.baseLevel(), TextureA.maxLevel());
 
 		Error += TextureA == TextureViewA ? 0 : 1;
 
 		gli::texture3D::dim_type SizeB(TextureSize / gli::texture3D::dim_type(2));
-		gli::texture3D TextureB(gli::level_count(SizeB), Formats[i], SizeB);
+		gli::texture3D TextureB(gli::levels(SizeB), Formats[i], SizeB);
 
 		gli::texture3D TextureViewB(TextureA, 
 			TextureA.baseLevel() + 1, TextureA.maxLevel());
@@ -280,7 +281,7 @@ int test_viewCube
 
 	for(std::size_t i = 0; i < Formats.size(); ++i)
 	{
-		gli::textureCube TextureA(gli::textureCube::size_type(6), gli::level_count(TextureSize), Formats[i], TextureSize);
+		gli::textureCube TextureA(gli::textureCube::size_type(6), gli::levels(TextureSize), Formats[i], TextureSize);
 
 		gli::textureCube TextureViewA(TextureA,
 			TextureA.baseFace(), TextureA.maxFace(),
@@ -289,7 +290,7 @@ int test_viewCube
 		Error += TextureA == TextureViewA ? 0 : 1;
 
 		gli::textureCube::dim_type SizeB(TextureSize / gli::textureCube::dim_type(2));
-		gli::textureCube TextureB(gli::textureCube::size_type(6), gli::level_count(SizeB), Formats[i], SizeB);
+		gli::textureCube TextureB(gli::textureCube::size_type(6), gli::levels(SizeB), Formats[i], SizeB);
 
 		gli::textureCube TextureViewB(TextureA, TextureA.baseFace(), TextureA.maxFace(), TextureA.baseLevel() + 1, TextureA.maxLevel());
 
@@ -331,7 +332,7 @@ int test_viewCubeArray
 		gli::textureCubeArray TextureA(
 			gli::textureCubeArray::size_type(4),
 			gli::textureCubeArray::size_type(6),
-			gli::level_count(TextureSize),
+			gli::levels(TextureSize),
 			Formats[i],
 			TextureSize);
 
@@ -346,7 +347,7 @@ int test_viewCubeArray
 		gli::textureCubeArray TextureB(
 			gli::textureCubeArray::size_type(4),
 			gli::textureCubeArray::size_type(6),
-			gli::level_count(SizeB),
+			gli::levels(SizeB),
 			Formats[i],
 			SizeB);
 

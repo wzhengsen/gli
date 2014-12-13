@@ -26,6 +26,8 @@
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
+#include "levels.hpp"
+
 namespace gli
 {
 	inline texture2D::texture2D() :
@@ -67,7 +69,7 @@ namespace gli
 		Storage(
 			1,
 			1,
-			level_count(Dimensions),
+			gli::levels(Dimensions),
 			Format,
 			storage::dim_type(Dimensions, 1)),
 		BaseLayer(0),

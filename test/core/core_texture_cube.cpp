@@ -52,7 +52,7 @@ int test_alloc()
 	{
 		gli::textureCube::dim_type Size(Sizes[SizeIndex]);
 
-		gli::textureCube TextureA(6, gli::level_count(Size), Formats[FormatIndex], Size);
+		gli::textureCube TextureA(6, gli::levels(Size), Formats[FormatIndex], Size);
 
 		gli::textureCube TextureB(6, Formats[FormatIndex], Size);
 

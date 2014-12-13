@@ -191,10 +191,6 @@ namespace gli
 	storage::size_type component_count(format const & Format);
 	bool is_compressed(format const & Format);
 
-	storage::size_type level_count(storage::dim1_type const & Dimensions);
-	storage::size_type level_count(storage::dim2_type const & Dimensions);
-	storage::size_type level_count(storage::dim3_type const & Dimensions);
-
 }//namespace gli
 
 #include "storage.inl"

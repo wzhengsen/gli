@@ -21,38 +21,16 @@
 /// THE SOFTWARE.
 ///
 /// @ref core
-/// @file gli/core/type.hpp
-/// @date 2014-07-28 / 2014-07-28
+/// @file gli/core/levels.inl
+/// @date 2014-12-12 / 2014-12-12
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
-#pragma once
-
-// STD
-#include <cstddef>
-
-// GLM
-#define GLM_FORCE_EXPLICIT_CTOR
-#include <glm/glm.hpp>
-#include <glm/gtc/vec1.hpp>
-#include <glm/gtx/std_based_type.hpp>
-
-// GLI
-#include "format.hpp"
-
 namespace gli
 {
-	typedef glm::tvec1<size_t> dim1_t;
-	typedef glm::tvec2<size_t> dim2_t;
-	typedef glm::tvec3<size_t> dim3_t;
-	typedef glm::tvec4<size_t> dim4_t;
-	typedef glm::vec1 texcoord1_t;
-	typedef glm::vec2 texcoord2_t;
-	typedef glm::vec3 texcoord3_t;
-	typedef glm::vec4 texcoord4_t;
-
-	using std::size_t;
-	typedef std::size_t layer_t;
-	typedef std::size_t level_t;
-	typedef std::size_t face_t;
+	template <template <typename, glm::precision> class dimType>
+	inline size_t levels(dimType<size_t, glm::defaultp> const & Dimensions)
+	{
+		return glm::log2(glm::compMax(Dimensions)) + static_cast<size_t>(1);
+	}
 }//namespace gli

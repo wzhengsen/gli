@@ -63,7 +63,7 @@ namespace gli
 		format_type const & Format,
 		dim_type const & Dimensions
 	) :
-		Storage(Layers, Faces, level_count(Dimensions), Format, storage::dim_type(Dimensions, 1)),
+		Storage(Layers, Faces, gli::levels(Dimensions), Format, storage::dim_type(Dimensions, 1)),
 		BaseLayer(0),
 		MaxLayer(Layers - 1),
 		BaseFace(0),

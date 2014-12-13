@@ -52,7 +52,7 @@ int test_alloc()
 	{
 		gli::textureCubeArray::dim_type Size(Sizes[SizeIndex]);
 
-		gli::textureCubeArray TextureA(2, 6, gli::level_count(Size), Formats[FormatIndex], Size);
+		gli::textureCubeArray TextureA(2, 6, gli::levels(Size), Formats[FormatIndex], Size);
 		gli::textureCubeArray TextureB(2, 6, Formats[FormatIndex], Size);
 
 		Error += TextureA == TextureB ? 0 : 1;

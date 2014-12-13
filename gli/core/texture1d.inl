@@ -26,6 +26,8 @@
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
+#include "levels.hpp"
+
 namespace gli
 {
 	inline texture1D::texture1D() :
@@ -60,7 +62,7 @@ namespace gli
 		dim_type const & Dimensions
 	) :
 		Storage(
-			1, 1, level_count(Dimensions),
+			1, 1, gli::levels(Dimensions),
 			Format,
 			storage::dim_type(Dimensions.x, 1, 1)),
 		BaseLayer(0), MaxLayer(0),
@@ -136,10 +138,7 @@ namespace gli
 		return this->Storage;
 	}
 
-	inline image texture1D::operator[]
-	(
-		texture1D::size_type const & Level
-	) const
+	inline image texture1D::operator[](texture1D::size_type const & Level) const
 	{
 		assert(Level < this->levels());
 

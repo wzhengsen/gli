@@ -121,7 +121,7 @@ int test_alloc()
 	{
 		gli::texture2D::dim_type Size(Sizes[SizeIndex]);
 
-		gli::texture2D TextureA(gli::level_count(Size), Formats[FormatIndex], Size);
+		gli::texture2D TextureA(gli::levels(Size), Formats[FormatIndex], Size);
 		gli::texture2D TextureB(Formats[FormatIndex], Size);
 
 		Error += TextureA == TextureB ? 0 : 1;
