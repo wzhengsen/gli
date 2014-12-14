@@ -141,13 +141,13 @@ namespace detail
 	{
 		assert(!this->empty());
 
-		return this->Storage.levelSize(this->BaseLevel);
+		return this->Storage.level_size(this->BaseLevel);
 	}
 
 	template <typename genType>
 	inline image::size_type image::size() const
 	{
-		assert(sizeof(genType) <= this->Storage.blockSize());
+		assert(sizeof(genType) <= this->Storage.block_size());
 
 		return this->size() / sizeof(genType);
 	}
@@ -181,7 +181,7 @@ namespace detail
 	inline genType * image::data()
 	{
 		assert(!this->empty());
-		assert(this->Storage.blockSize() >= sizeof(genType));
+		assert(this->Storage.block_size() >= sizeof(genType));
 
 		return reinterpret_cast<genType *>(this->data());
 	}
@@ -190,7 +190,7 @@ namespace detail
 	inline genType const * image::data() const
 	{
 		assert(!this->empty());
-		assert(this->Storage.blockSize() >= sizeof(genType));
+		assert(this->Storage.block_size() >= sizeof(genType));
 
 		return reinterpret_cast<genType const *>(this->data());
 	}
@@ -206,7 +206,7 @@ namespace detail
 	inline void image::clear(genType const & Texel)
 	{
 		assert(!this->empty());
-		assert(this->Storage.blockSize() == sizeof(genType));
+		assert(this->Storage.block_size() == sizeof(genType));
 
 		for(size_type TexelIndex = 0; TexelIndex < this->size<genType>(); ++TexelIndex)
 			*(this->data<genType>() + TexelIndex) = Texel;
@@ -216,7 +216,7 @@ namespace detail
 	genType image::load(dim_type const & TexelCoord)
 	{
 		assert(!this->empty());
-		assert(this->Storage.blockSize() == sizeof(genType));
+		assert(this->Storage.block_size() == sizeof(genType));
 
 		return *(this->data<genType>() + detail::texelLinearAdressing(this->dimensions(), TexelCoord));
 	}
@@ -225,7 +225,7 @@ namespace detail
 	void image::store(dim_type const & TexelCoord, genType const & Data)
 	{
 		assert(!this->empty());
-		assert(this->Storage.blockSize() == sizeof(genType));
+		assert(this->Storage.block_size() == sizeof(genType));
 
 		*(this->data<genType>() + detail::texelLinearAdressing(this->dimensions(), TexelCoord)) = Data;
 	}

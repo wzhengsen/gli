@@ -95,19 +95,19 @@ namespace gli
 		level_type levels() const;
 		face_type faces() const;
 
-		size_type blockSize() const; // Express is bytes
-		dim_type blockDimensions() const; // Express is bytes
+		size_type block_size() const; // Express is bytes
+		dim_type block_dimensions() const; // Express is bytes
 		dim_type dimensions(size_type const & Level) const;
 
 		data_type * data();
 		data_type const * data() const;
 
-		size_type levelSize(
+		size_type level_size(
 			level_type const & Level) const;
-		size_type faceSize(
+		size_type face_size(
 			level_type const & BaseLevel,
 			level_type const & MaxLevel) const;
-		size_type layerSize(
+		size_type layer_size(
 			face_type const & BaseFace,
 			face_type const & MaxFace,
 			level_type const & BaseLevel,

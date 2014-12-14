@@ -41,12 +41,12 @@ namespace detail
 		assert(FaceOffset < Storage.faces());
 		assert(LevelOffset < Storage.levels());
 
-		storage::size_type LayerSize = Storage.layerSize(0, Storage.faces() - 1, 0, Storage.levels() - 1);
-		storage::size_type FaceSize = Storage.faceSize(0, Storage.levels() - 1);
+		storage::size_type LayerSize = Storage.layer_size(0, Storage.faces() - 1, 0, Storage.levels() - 1);
+		storage::size_type FaceSize = Storage.face_size(0, Storage.levels() - 1);
 		storage::size_type BaseOffset = LayerSize * LayerOffset + FaceSize * FaceOffset; 
 
 		for(storage::size_type Level(0); Level < LevelOffset; ++Level)
-			BaseOffset += Storage.levelSize(Level);
+			BaseOffset += Storage.level_size(Level);
 
 		return BaseOffset;
 	}

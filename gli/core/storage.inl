@@ -371,7 +371,7 @@ inline format_desc const getFormatInfo(format const & Format)
 		assert(Levels > 0);
 		assert(glm::all(glm::greaterThan(Dimensions, dim_type(0))));
 
-		Impl->Data.resize(this->layerSize(0, Faces - 1, 0, Levels - 1) * Layers, 0);
+		Impl->Data.resize(this->layer_size(0, Faces - 1, 0, Levels - 1) * Layers, 0);
 	}
 
 	inline storage::storage
@@ -398,7 +398,7 @@ inline format_desc const getFormatInfo(format const & Format)
 		assert(Levels > 0);
 		assert(glm::all(glm::greaterThan(Dimensions, dim_type(0))));
 
-		Impl->Data.resize(this->layerSize(0, Faces - 1, 0, Levels - 1) * Layers, 0);
+		Impl->Data.resize(this->layer_size(0, Faces - 1, 0, Levels - 1) * Layers, 0);
 	}
 
 	inline bool storage::empty() const
@@ -430,20 +430,17 @@ inline format_desc const getFormatInfo(format const & Format)
 		return this->Impl->Levels;
 	}
 
-	inline storage::size_type storage::blockSize() const
+	inline storage::size_type storage::block_size() const
 	{
 		return this->Impl->BlockSize;
 	}
 
-	inline storage::dim_type storage::blockDimensions() const
+	inline storage::dim_type storage::block_dimensions() const
 	{
 		return this->Impl->BlockDimensions;
 	}
 
-	inline storage::dim_type storage::dimensions
-	(
-		size_type const & Level
-	) const
+	inline storage::dim_type storage::dimensions(size_type const & Level) const
 	{
 		assert(Level < this->Impl->Levels);
 
@@ -471,19 +468,16 @@ inline format_desc const getFormatInfo(format const & Format)
 		return &this->Impl->Data[0];
 	}
 
-	inline storage::size_type storage::levelSize
-	(
-		level_type const & Level
-	) const
+	inline storage::size_type storage::level_size(level_type const & Level) const
 	{
 		assert(Level < this->levels());
 
-		return this->blockSize() * glm::compMul(glm::ceilMultiple(
+		return this->block_size() * glm::compMul(glm::ceilMultiple(
 			this->dimensions(Level),
-			this->blockDimensions()) / this->blockDimensions());
+			this->block_dimensions()) / this->block_dimensions());
 	}
 
-	inline storage::size_type storage::faceSize(
+	inline storage::size_type storage::face_size(
 		level_type const & BaseLevel,
 		level_type const & MaxLevel) const
 	{
@@ -493,12 +487,12 @@ inline format_desc const getFormatInfo(format const & Format)
 
 		// The size of a face is the sum of the size of each level.
 		for(storage::size_type Level(BaseLevel); Level <= MaxLevel; ++Level)
-			FaceSize += this->levelSize(Level);
+			FaceSize += this->level_size(Level);
 
 		return FaceSize;// * TexelSize;
 	}
 
-	inline storage::size_type storage::layerSize(
+	inline storage::size_type storage::layer_size(
 		face_type const & BaseFace,
 		face_type const & MaxFace,
 		level_type const & BaseLevel,
@@ -509,7 +503,7 @@ inline format_desc const getFormatInfo(format const & Format)
 
 		// The size of a layer is the sum of the size of each face.
 		// All the faces have the same size.
-		return this->faceSize(BaseLevel, MaxLevel) * (MaxFace - BaseFace + 1);
+		return this->face_size(BaseLevel, MaxLevel) * (MaxFace - BaseFace + 1);
 	}
 
 /*

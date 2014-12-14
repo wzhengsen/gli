@@ -184,7 +184,7 @@ namespace gli
 
 	inline texture1D::size_type texture1D::size() const
 	{
-		return this->Storage.faceSize(this->baseLevel(), this->maxLevel());
+		return this->Storage.face_size(this->baseLevel(), this->maxLevel());
 	}
 
 	inline void * texture1D::data()
@@ -210,7 +210,7 @@ namespace gli
 	template <typename genType>
 	inline texture1D::size_type texture1D::size() const
 	{
-		assert(sizeof(genType) <= this->Storage.blockSize());
+		assert(sizeof(genType) <= this->Storage.block_size());
 		return this->size() / sizeof(genType);
 	}
 
@@ -218,7 +218,7 @@ namespace gli
 	inline genType * texture1D::data()
 	{
 		assert(!this->empty());
-		assert(this->Storage.blockSize() >= sizeof(genType));
+		assert(this->Storage.block_size() >= sizeof(genType));
 
 		return reinterpret_cast<genType *>(this->data());
 	}
@@ -227,7 +227,7 @@ namespace gli
 	inline genType const * texture1D::data() const
 	{
 		assert(!this->empty());
-		assert(this->Storage.blockSize() >= sizeof(genType));
+		assert(this->Storage.block_size() >= sizeof(genType));
 
 		return reinterpret_cast<genType const *>(this->data());
 	}
@@ -240,7 +240,7 @@ namespace gli
 	template <typename genType>
 	inline void texture1D::clear(genType const & Texel)
 	{
-		assert(this->Storage.blockSize() == sizeof(genType));
+		assert(this->Storage.block_size() == sizeof(genType));
 
 		for(size_type TexelIndex = 0; TexelIndex < this->size<genType>(); ++TexelIndex)
 			*(this->data<genType>() + TexelIndex) = Texel;
