@@ -107,12 +107,12 @@ namespace gli
 		size_type const & MaxLevel
 	) :
 		Storage(Texture.Storage),
-		BaseLayer(Texture.baseLayer()),
-		MaxLayer(Texture.maxLayer()),
-		BaseFace(Texture.baseFace()),
-		MaxFace(Texture.maxFace()),
-		BaseLevel(Texture.baseLevel() + BaseLevel),
-		MaxLevel(Texture.baseLevel() + MaxLevel),
+		BaseLayer(Texture.base_layer()),
+		MaxLayer(Texture.max_layer()),
+		BaseFace(Texture.base_face()),
+		MaxFace(Texture.max_face()),
+		BaseLevel(Texture.base_level() + BaseLevel),
+		MaxLevel(Texture.base_level() + MaxLevel),
 		Format(Texture.format())
 	{}
 
@@ -144,12 +144,12 @@ namespace gli
 
 		return image(
 			this->Storage,
-			this->baseLayer(),
-			this->maxLayer(),
-			this->baseFace(),
-			this->maxFace(),
-			this->baseLevel() + Level,
-			this->baseLevel() + Level);
+			this->base_layer(),
+			this->max_layer(),
+			this->base_face(),
+			this->max_face(),
+			this->base_level() + Level,
+			this->base_level() + Level);
 	}
 
 	inline bool texture1D::empty() const
@@ -159,7 +159,7 @@ namespace gli
 
 	inline texture1D::dim_type texture1D::dimensions() const
 	{
-		return texture1D::dim_type(this->Storage.dimensions(this->baseLevel()).x);
+		return texture1D::dim_type(this->Storage.dimensions(this->base_level()).x);
 	}
 
 	inline texture1D::format_type texture1D::format() const
@@ -179,12 +179,12 @@ namespace gli
 
 	inline texture1D::size_type texture1D::levels() const
 	{
-		return this->maxLevel() - this->baseLevel() + 1;
+		return this->max_level() - this->base_level() + 1;
 	}
 
 	inline texture1D::size_type texture1D::size() const
 	{
-		return this->Storage.face_size(this->baseLevel(), this->maxLevel());
+		return this->Storage.face_size(this->base_level(), this->max_level());
 	}
 
 	inline void * texture1D::data()
@@ -192,7 +192,7 @@ namespace gli
 		assert(!this->empty());
 
 		size_type const offset = detail::imageAddressing(
-			this->Storage, this->baseLayer(), this->baseFace(), this->baseLevel());
+			this->Storage, this->base_layer(), this->base_face(), this->base_level());
 
 		return this->Storage.data() + offset;
 	}
@@ -202,7 +202,7 @@ namespace gli
 		assert(!this->empty());
 		
 		size_type const offset = detail::imageAddressing(
-			this->Storage, this->baseLayer(), this->baseFace(), this->baseLevel());
+			this->Storage, this->base_layer(), this->base_face(), this->base_level());
 
 		return this->Storage.data() + offset;
 	}
@@ -246,32 +246,32 @@ namespace gli
 			*(this->data<genType>() + TexelIndex) = Texel;
 	}
 
-	inline texture1D::size_type texture1D::baseLayer() const
+	inline texture1D::size_type texture1D::base_layer() const
 	{
 		return this->BaseLayer;
 	}
 
-	inline texture1D::size_type texture1D::maxLayer() const
+	inline texture1D::size_type texture1D::max_layer() const
 	{
 		return this->MaxLayer;
 	}
 
-	inline texture1D::size_type texture1D::baseFace() const
+	inline texture1D::size_type texture1D::base_face() const
 	{
 		return this->BaseFace;
 	}
 
-	inline texture1D::size_type texture1D::maxFace() const
+	inline texture1D::size_type texture1D::max_face() const
 	{
 		return this->MaxFace;
 	}
 
-	inline texture1D::size_type texture1D::baseLevel() const
+	inline texture1D::size_type texture1D::base_level() const
 	{
 		return this->BaseLevel;
 	}
 
-	inline texture1D::size_type texture1D::maxLevel() const
+	inline texture1D::size_type texture1D::max_level() const
 	{
 		return this->MaxLevel;
 	}

@@ -112,12 +112,12 @@ namespace gli
 		template <typename genType>
 		void clear(genType const & Texel);
 
-		size_type baseLayer() const;
-		size_type maxLayer() const;
-		size_type baseFace() const;
-		size_type maxFace() const;
-		size_type baseLevel() const;
-		size_type maxLevel() const;
+		size_type base_layer() const;
+		size_type max_layer() const;
+		size_type base_face() const;
+		size_type max_face() const;
+		size_type base_level() const;
+		size_type max_level() const;
 
 	private:
 		storage Storage;

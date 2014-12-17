@@ -33,4 +33,9 @@ namespace gli
 	{
 		return glm::log2(glm::compMax(Dimensions)) + static_cast<size_t>(1);
 	}
+
+	inline size_t levels(size_t Dimensions)
+	{
+		return glm::log2(Dimensions) + static_cast<size_t>(1);
+	}
 }//namespace gli

@@ -48,6 +48,18 @@ namespace gli
 	/// @endcode
 	template <template <typename, glm::precision> class dimType>
 	size_t levels(dimType<size_t, glm::defaultp> const & Dimensions);
+
+	/// Compute the number of mipmaps levels necessary to create a mipmap complete texture
+	/// 
+	/// @param Dimensions Dimensions of the texture base level mipmap
+	/// @tparam dimType Vector type used to express the dimentions of a texture of any kind.
+	/// @code
+	/// #include <gli/gli.hpp>
+	/// #include <gli/levels.hpp>
+	/// ...
+	/// gli::texture2D Texture(32);
+	/// @endcode
+	size_t levels(size_t Dimension);
 }//namespace gli
 
 #include "levels.inl"

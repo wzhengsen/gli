@@ -41,24 +41,24 @@ int test_view1D
 	{
 		gli::texture1D TextureA(Formats[i], TextureSize);
 		gli::texture1D TextureViewA(TextureA,
-			TextureA.baseLevel(), TextureA.maxLevel());
+			TextureA.base_level(), TextureA.max_level());
 
 		Error += TextureA == TextureViewA ? 0 : 1;
 
 		gli::texture1D TextureViewC = gli::view(TextureA,
-			TextureA.baseLevel(), TextureA.maxLevel());
+			TextureA.base_level(), TextureA.max_level());
 
 		Error += TextureA == TextureViewC ? 0 : 1;
 		Error += TextureViewA == TextureViewC ? 0 : 1;
 
 		gli::texture1D TextureB(Formats[i], TextureSize / gli::texture1D::dim_type(2));
 		gli::texture1D TextureViewB(TextureA,
-			TextureA.baseLevel() + 1, TextureA.maxLevel());
+			TextureA.base_level() + 1, TextureA.max_level());
 
 		Error += TextureB == TextureViewB ? 0 : 1;
 
 		gli::texture1D TextureViewD = gli::view(TextureA,
-			TextureA.baseLevel() + 1, TextureA.maxLevel());
+			TextureA.base_level() + 1, TextureA.max_level());
 
 		Error += TextureB == TextureViewD ? 0 : 1;
 		Error += TextureViewB == TextureViewD ? 0 : 1;

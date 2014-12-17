@@ -127,12 +127,12 @@ namespace gli
 		size_type const & MaxLevel
 	) :
 		Storage(Texture),
-		BaseLayer(Texture.baseLayer()),
-		MaxLayer(Texture.maxLayer()),
-		BaseFace(Texture.baseFace()),
-		MaxFace(Texture.maxFace()),
-		BaseLevel(Texture.baseLevel() + BaseLevel),
-		MaxLevel(Texture.baseLevel() + MaxLevel),
+		BaseLayer(Texture.base_layer()),
+		MaxLayer(Texture.max_layer()),
+		BaseFace(Texture.base_face()),
+		MaxFace(Texture.max_face()),
+		BaseLevel(Texture.base_level() + BaseLevel),
+		MaxLevel(Texture.base_level() + MaxLevel),
 		Format(Texture.format())
 	{}
 
@@ -141,10 +141,7 @@ namespace gli
 		return this->Storage;
 	}
 
-	inline texture1D texture1DArray::operator[]
-	(
-		size_type const & Layer
-	) const
+	inline texture1D texture1DArray::operator[](size_type const & Layer) const
 	{
 		assert(!this->empty());
 		assert(Layer < this->layers());
