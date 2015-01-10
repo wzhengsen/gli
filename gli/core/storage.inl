@@ -162,7 +162,7 @@ struct format_desc
 
 inline format_desc const getFormatInfo(format const & Format)
 {
-	static format_desc const Desc[FORMAT_MAX] =
+	static format_desc const Desc[] =
 	{
 		{  0,  gli::dim3_t(0), 0,  0, false, INTERNAL_NONE, EXTERNAL_NONE, EXTERNAL_NONE, TYPE_NONE, D3DFMT_UNKNOWN},										//FORMAT_NULL
 
