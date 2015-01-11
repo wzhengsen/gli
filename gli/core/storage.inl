@@ -160,12 +160,10 @@ struct format_desc
 */
 };
 
-inline format_desc const getFormatInfo(format const & Format)
+inline format_desc const & getFormatInfo(format const & Format)
 {
 	static format_desc const Desc[] =
 	{
-		{  0,  gli::dim3_t(0), 0,  0, false, INTERNAL_NONE, EXTERNAL_NONE, EXTERNAL_NONE, TYPE_NONE, D3DFMT_UNKNOWN},										//FORMAT_NULL
-
 		// unorm formats
 		{  1, gli::dim3_t(1),  8,  1, false, INTERNAL_R8_UNORM, EXTERNAL_RED, EXTERNAL_RED, TYPE_U8, DDPF_LUMINANCE, /*D3DFMT_L8*/0, DXGI_FORMAT_R8_UNORM},							//R8_UNORM,
 		{  2, gli::dim3_t(1), 16,  2, false, INTERNAL_RG8_UNORM, EXTERNAL_RG, EXTERNAL_RG, TYPE_U8, DDPF_LUMINANCE|DDPF_ALPHAPIXELS, /*D3DFMT_A8L8*/0, DXGI_FORMAT_R8G8_UNORM},		//RG8_UNORM,
