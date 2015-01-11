@@ -309,8 +309,7 @@ inline format_desc const getFormatInfo(format const & Format)
 		{ 16, gli::dim3_t(12, 12, 1), 0,  4, true, INTERNAL_SRGB8_ALPHA8_ASTC_12x12, EXTERNAL_RGBA_ASTC_12x12, EXTERNAL_RGBA_ASTC_12x12, TYPE_NONE, DDPF_FOURCC, D3DFMT_UNKNOWN, DXGI_FORMAT_UNKNOWN},				//SRGB8_ALPHA8_ASTC_12x12,
 	};
 
-	std::size_t const Count = sizeof(Desc) / sizeof(format_desc);
-	GLM_STATIC_ASSERT(Count == gli::FORMAT_MAX, "GLI error: format descriptor list doesn't match number of supported formats");
+	GLM_STATIC_ASSERT(sizeof(Desc) / sizeof(format_desc) == gli::FORMAT_LAST + 1, "GLI error: format descriptor list doesn't match number of supported formats");
 
 	return Desc[Format];
 };

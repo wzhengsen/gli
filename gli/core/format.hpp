@@ -176,7 +176,7 @@ namespace gli
 		SRGB8_ALPHA8_ASTC_12x10,
 		SRGB8_ALPHA8_ASTC_12x12,
 
-		FORMAT_MAX
+		FORMAT_LAST = SRGB8_ALPHA8_ASTC_12x12
 	};
 
 	enum dxgiFormat
