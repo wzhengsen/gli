@@ -188,7 +188,7 @@ namespace detail
 			return RGB10A2;
 		default:
 			assert(0);
-			return FORMAT_NULL;
+			return FORMAT_INVALID;
 		}
 	}
 
@@ -196,7 +196,7 @@ namespace detail
 	{
 		static gli::format const Cast[] = 
 		{
-			gli::FORMAT_NULL,	//DXGI_FORMAT_UNKNOWN                      = 0,
+			gli::FORMAT_INVALID,	//DXGI_FORMAT_UNKNOWN                      = 0,
 			gli::RGBA32U,		//DXGI_FORMAT_R32G32B32A32_TYPELESS        = 1,
 			gli::RGBA32F,		//DXGI_FORMAT_R32G32B32A32_FLOAT           = 2,
 			gli::RGBA32U,		//DXGI_FORMAT_R32G32B32A32_UINT            = 3,
@@ -215,10 +215,10 @@ namespace detail
 			gli::RG32F,			//DXGI_FORMAT_R32G32_FLOAT                 = 16,
 			gli::RG32U,			//DXGI_FORMAT_R32G32_UINT                  = 17,
 			gli::RG32I,			//DXGI_FORMAT_R32G32_SINT                  = 18,
-			gli::FORMAT_NULL,	//DXGI_FORMAT_R32G8X24_TYPELESS            = 19,
+			gli::FORMAT_INVALID,	//DXGI_FORMAT_R32G8X24_TYPELESS            = 19,
 			gli::D32FS8X24,		//DXGI_FORMAT_D32_FLOAT_S8X24_UINT         = 20,
-			gli::FORMAT_NULL,	//DXGI_FORMAT_R32_FLOAT_X8X24_TYPELESS     = 21,
-			gli::FORMAT_NULL,	//DXGI_FORMAT_X32_TYPELESS_G8X24_UINT      = 22,
+			gli::FORMAT_INVALID,	//DXGI_FORMAT_R32_FLOAT_X8X24_TYPELESS     = 21,
+			gli::FORMAT_INVALID,	//DXGI_FORMAT_X32_TYPELESS_G8X24_UINT      = 22,
 			gli::RGB10A2,		//DXGI_FORMAT_R10G10B10A2_TYPELESS         = 23,
 			gli::RGB10A2,		//DXGI_FORMAT_R10G10B10A2_UNORM            = 24,
 			gli::RGB10A2,		//DXGI_FORMAT_R10G10B10A2_UINT             = 25,
@@ -240,10 +240,10 @@ namespace detail
 			gli::R32F,			//DXGI_FORMAT_R32_FLOAT                    = 41,
 			gli::R32U,			//DXGI_FORMAT_R32_UINT                     = 42,
 			gli::R32I,			//DXGI_FORMAT_R32_SINT                     = 43,
-			gli::FORMAT_NULL,	//DXGI_FORMAT_R24G8_TYPELESS               = 44,
-			gli::FORMAT_NULL,	//DXGI_FORMAT_D24_UNORM_S8_UINT            = 45,
-			gli::FORMAT_NULL,	//DXGI_FORMAT_R24_UNORM_X8_TYPELESS        = 46,
-			gli::FORMAT_NULL,	//DXGI_FORMAT_X24_TYPELESS_G8_UINT         = 47,
+			gli::FORMAT_INVALID,	//DXGI_FORMAT_R24G8_TYPELESS               = 44,
+			gli::FORMAT_INVALID,	//DXGI_FORMAT_D24_UNORM_S8_UINT            = 45,
+			gli::FORMAT_INVALID,	//DXGI_FORMAT_R24_UNORM_X8_TYPELESS        = 46,
+			gli::FORMAT_INVALID,	//DXGI_FORMAT_X24_TYPELESS_G8_UINT         = 47,
 			gli::RG8U,			//DXGI_FORMAT_R8G8_TYPELESS                = 48,
 			gli::RG8U,			//DXGI_FORMAT_R8G8_UNORM                   = 49,
 			gli::RG8U,			//DXGI_FORMAT_R8G8_UINT                    = 50,
@@ -262,10 +262,10 @@ namespace detail
 			gli::R8I,			//DXGI_FORMAT_R8_SNORM                     = 63,
 			gli::R8I,			//DXGI_FORMAT_R8_SINT                      = 64,
 			gli::R8U,			//DXGI_FORMAT_A8_UNORM                     = 65,
-			gli::FORMAT_NULL,	//DXGI_FORMAT_R1_UNORM                     = 66,
+			gli::FORMAT_INVALID,	//DXGI_FORMAT_R1_UNORM                     = 66,
 			gli::RGB9E5,			//DXGI_FORMAT_R9G9B9E5_SHAREDEXP           = 67,
-			gli::FORMAT_NULL,		//DXGI_FORMAT_R8G8_B8G8_UNORM              = 68,
-			gli::FORMAT_NULL,		//DXGI_FORMAT_G8R8_G8B8_UNORM              = 69,
+			gli::FORMAT_INVALID,		//DXGI_FORMAT_R8G8_B8G8_UNORM              = 68,
+			gli::FORMAT_INVALID,		//DXGI_FORMAT_G8R8_G8B8_UNORM              = 69,
 			gli::RGBA_DXT1,			//DXGI_FORMAT_BC1_TYPELESS                 = 70,
 			gli::RGBA_DXT1,			//DXGI_FORMAT_BC1_UNORM                    = 71,
 			gli::RGBA_DXT1,			//DXGI_FORMAT_BC1_UNORM_SRGB               = 72,
@@ -281,11 +281,11 @@ namespace detail
 			gli::RG_ATI2N_UNORM,	//DXGI_FORMAT_BC5_TYPELESS                 = 82,
 			gli::RG_ATI2N_UNORM,	//DXGI_FORMAT_BC5_UNORM                    = 83,
 			gli::RG_ATI2N_SNORM,	//DXGI_FORMAT_BC5_SNORM                    = 84,
-			gli::FORMAT_NULL,		//DXGI_FORMAT_B5G6R5_UNORM                 = 85,
-			gli::FORMAT_NULL,		//DXGI_FORMAT_B5G5R5A1_UNORM               = 86,
+			gli::FORMAT_INVALID,		//DXGI_FORMAT_B5G6R5_UNORM                 = 85,
+			gli::FORMAT_INVALID,		//DXGI_FORMAT_B5G5R5A1_UNORM               = 86,
 			gli::RGBA8_UNORM,			//DXGI_FORMAT_B8G8R8A8_UNORM               = 87,
 			gli::RGB8_UNORM,				//DXGI_FORMAT_B8G8R8X8_UNORM               = 88,
-			gli::FORMAT_NULL,		//DXGI_FORMAT_R10G10B10_XR_BIAS_A2_UNORM   = 89,
+			gli::FORMAT_INVALID,		//DXGI_FORMAT_R10G10B10_XR_BIAS_A2_UNORM   = 89,
 			gli::RGBA8_UNORM,			//DXGI_FORMAT_B8G8R8A8_TYPELESS            = 90,
 			gli::RGBA8_UNORM,			//DXGI_FORMAT_B8G8R8A8_UNORM_SRGB          = 91,
 			gli::RGB8_UNORM,				//DXGI_FORMAT_B8G8R8X8_TYPELESS            = 92,
@@ -327,7 +327,7 @@ struct imemstream : virtual membuf, std::istream
 
 inline storage load_dds(const char* pBuffer, size_t size)
 {
-	assert(pBuffer != NULL && size > 0);
+	assert(pBuffer != nullptr && size > 0);
 
 	imemstream memstream(pBuffer, size);
 
@@ -363,7 +363,7 @@ inline storage load_dds(std::istream& FileIn)
 	if(HeaderDesc.format.flags & detail::DDPF_FOURCC && HeaderDesc.format.fourCC == detail::D3DFMT_DX10)
 		FileIn.read((char*)&HeaderDesc10, sizeof(HeaderDesc10));
 
-	gli::format Format(gli::FORMAT_NULL);
+	gli::format Format(gli::FORMAT_INVALID);
 	if(HeaderDesc.format.fourCC == detail::D3DFMT_DX10)
 		Format = detail::format_dds2gli_cast(HeaderDesc10.Format);
 	else if(HeaderDesc.format.flags & detail::DDPF_FOURCC)

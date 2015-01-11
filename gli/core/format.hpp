@@ -32,7 +32,7 @@ namespace gli
 {
 	enum format
 	{
-		FORMAT_NULL = -1,
+		FORMAT_INVALID = -1,
 
 		// unorm formats
 		R8_UNORM = 0,

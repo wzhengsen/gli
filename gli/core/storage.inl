@@ -308,6 +308,7 @@ inline format_desc const & getFormatInfo(format const & Format)
 	};
 
 	GLM_STATIC_ASSERT(sizeof(Desc) / sizeof(format_desc) == gli::FORMAT_LAST + 1, "GLI error: format descriptor list doesn't match number of supported formats");
+	assert(Format != FORMAT_INVALID);
 
 	return Desc[Format];
 };
@@ -318,7 +319,7 @@ inline format_desc const & getFormatInfo(format const & Format)
 		Layers(0),
 		Faces(0),
 		Levels(0),
-		Format(FORMAT_NULL),
+		Format(FORMAT_INVALID),
 		Dimensions(0),
 		BlockSize(0),
 		BlockDimensions(0)

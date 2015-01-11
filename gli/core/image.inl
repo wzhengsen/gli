@@ -78,7 +78,7 @@ namespace detail
 		Storage(
 			1, 1, 1, 
 			storage::dim_type(Dimensions), 
-			FORMAT_NULL,
+			FORMAT_INVALID,
 			BlockSize, 
 			storage::dim_type(BlockDimensions)),
 		BaseLayer(0), 

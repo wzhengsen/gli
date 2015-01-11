@@ -37,7 +37,7 @@ namespace gli
 		MaxFace(0), 
 		BaseLevel(0), 
 		MaxLevel(0),
-		Format(FORMAT_NULL)
+		Format(FORMAT_INVALID)
 	{}
 
 	inline texture1DArray::texture1DArray

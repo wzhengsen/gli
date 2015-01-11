@@ -35,7 +35,7 @@ int test_storage_layer_size()
 	gli::storage Storage(
 		2, 1, 1,
 		gli::storage::dim3_type(2, 2, 1),
-		gli::FORMAT_NULL,
+		gli::FORMAT_INVALID,
 		sizeof(glm::u8vec4),
 		gli::storage::dim3_type(1));
 
@@ -63,7 +63,7 @@ int test_storage_face_size()
 	gli::storage Storage(
 		1, 6, 1,
 		gli::storage::dim3_type(2, 2, 1),
-		gli::FORMAT_NULL,
+		gli::FORMAT_INVALID,
 		sizeof(glm::u8vec4),
 		gli::storage::dim3_type(1));
 
