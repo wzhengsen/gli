@@ -33,7 +33,7 @@
 namespace gli
 {
 	template <typename texture>
-	texture generateMipmaps(
+	texture generate_mipmaps(
 		texture const & Texture, 
 		typename texture::size_type const & BaseLevel);
 

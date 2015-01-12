@@ -33,7 +33,7 @@ namespace detail
 }//namespace detail
 
 	template <>
-	inline texture2D generateMipmaps
+	inline texture2D generate_mipmaps
 	(
 		texture2D const & Texture,
 		texture2D::size_type const & BaseLevel

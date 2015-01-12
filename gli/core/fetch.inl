@@ -31,7 +31,7 @@ namespace gli
 	template <typename genType>
 	inline genType texelFetch
 	(
-		texture2D const & Texture, 
+		texture2D const & Texture,
 		texture2D::dim_type const & TexCoord,
 		texture2D::size_type const & Level
 	)
@@ -69,14 +69,14 @@ namespace gli
 	template <typename genType>
 	inline genType textureLod
 	(
-		texture2D const & Texture, 
-		texture2D::texcoord_type const & TexCoord, 
+		texture2D const & Texture,
+		texture2D::texcoord_type const & TexCoord,
 		texture2D::size_type const & Level
 	)
 	{
 		//assert(Texture.format() == R8U || Texture.format() == RG8U || Texture.format() == RGB8U || Texture.format() == RGBA8U);
 
-		image::dim_type Dimensions = Texture[Level].dimensions(); 
+		image::dim_type Dimensions = Texture[Level].dimensions();
 		genType const * const Data = reinterpret_cast<genType const * const>(Texture[Level].data());
 
 		std::size_t s_below = std::size_t(glm::floor(TexCoord.s * float(Dimensions.x - 1)));

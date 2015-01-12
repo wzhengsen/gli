@@ -61,11 +61,11 @@ namespace detail
 }//namespace detail
 
 	inline image::image() :
-		BaseLayer(0), 
-		MaxLayer(0), 
-		BaseFace(0), 
-		MaxFace(0), 
-		BaseLevel(0), 
+		BaseLayer(0),
+		MaxLayer(0),
+		BaseFace(0),
+		MaxFace(0),
+		BaseLevel(0),
 		MaxLevel(0)
 	{}
 
@@ -76,16 +76,16 @@ namespace detail
 		dim_type const & BlockDimensions
 	) :
 		Storage(
-			1, 1, 1, 
-			storage::dim_type(Dimensions), 
+			1, 1, 1,
+			storage::dim_type(Dimensions),
 			FORMAT_INVALID,
-			BlockSize, 
+			BlockSize,
 			storage::dim_type(BlockDimensions)),
-		BaseLayer(0), 
-		MaxLayer(0), 
-		BaseFace(0), 
-		MaxFace(0), 
-		BaseLevel(0), 
+		BaseLayer(0),
+		MaxLayer(0),
+		BaseFace(0),
+		MaxFace(0),
+		BaseLevel(0),
 		MaxLevel(0)
 	{}
 
@@ -95,16 +95,16 @@ namespace detail
 		dim_type const & Dimensions
 	) :
 		Storage(
-			1, 1, 1, 
+			1, 1, 1,
 			storage::dim_type(Dimensions),
 			Format,
 			block_size(Format),
 			block_dimensions(Format)),
-		BaseLayer(0), 
-		MaxLayer(0), 
-		BaseFace(0), 
-		MaxFace(0), 
-		BaseLevel(0), 
+		BaseLayer(0),
+		MaxLayer(0),
+		BaseFace(0),
+		MaxFace(0),
+		BaseLevel(0),
 		MaxLevel(0)
 	{}
 
@@ -119,11 +119,11 @@ namespace detail
 		size_type MaxLevel
 	) :
 		Storage(Storage),
-		BaseLayer(BaseLayer), 
-		MaxLayer(MaxLayer), 
-		BaseFace(BaseFace), 
-		MaxFace(MaxFace), 
-		BaseLevel(BaseLevel), 
+		BaseLayer(BaseLayer),
+		MaxLayer(MaxLayer),
+		BaseFace(BaseFace),
+		MaxFace(MaxFace),
+		BaseLevel(BaseLevel),
 		MaxLevel(MaxLevel)
 	{}
 

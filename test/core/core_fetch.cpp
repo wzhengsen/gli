@@ -125,13 +125,13 @@ namespace fetch_memory
 			gli::texelWrite<glm::u8vec3>(TextureRef, gli::texture2D::dim_type(0, 0), 1, glm::u8vec3(255, 127,   0));
 			gli::save_dds(TextureRef, "rgb8_4pixels.dds");
 		}
-		
+
 		{
 			gli::texture2D Texture(gli::load_dds("rgb8_4pixels.dds"));
 
 			Error += (Texture == TextureRef) ? 0 : 1;
 		}
-		
+
 		{
 			std::ifstream File("rgb8_4pixels.dds", std::ios::binary);
 

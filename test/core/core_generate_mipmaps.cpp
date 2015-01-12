@@ -36,7 +36,7 @@ namespace texture2d
 		int Error(0);
 
 		gli::texture2D TextureLoaded(gli::load_dds("../../data/test_rgb8.dds"));
-		gli::texture2D TextureMipmaps = gli::generateMipmaps(TextureLoaded, 0);
+		gli::texture2D TextureMipmaps = gli::generate_mipmaps(TextureLoaded, 0);
 
 		return Error;
 	}
@@ -45,6 +45,8 @@ namespace texture2d
 int main()
 {
 	int Error(0);
-		
+
+	Error += texture2d::test();
+
 	return Error;
 }

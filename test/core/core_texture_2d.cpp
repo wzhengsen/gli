@@ -292,20 +292,11 @@ int test_texture2d_image_size()
 			Tests[i].Format,
 			gli::texture2D::dim_type(4));
 
-		Error += Texture.size() == Tests[i].Size ? 0 : 1;
-		assert(!Error);
-	}
-
-	for(std::size_t i = 0; i < Tests.size(); ++i)
-	{
-		gli::texture2D Texture(
-			gli::texture2D::size_type(1),
-			Tests[i].Format,
-			gli::texture2D::dim_type(4));
-
 		gli::image Image = Texture[0];
 
 		Error += Image.size() == Tests[i].Size ? 0 : 1;
+		Error += Texture.size() == Tests[i].Size ? 0 : 1;
+
 		assert(!Error);
 	}
 

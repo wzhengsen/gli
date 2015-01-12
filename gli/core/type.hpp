@@ -42,6 +42,8 @@
 
 namespace gli
 {
+	using std::size_t;
+
 	typedef glm::tvec1<size_t> dim1_t;
 	typedef glm::tvec2<size_t> dim2_t;
 	typedef glm::tvec3<size_t> dim3_t;
@@ -51,7 +53,6 @@ namespace gli
 	typedef glm::vec3 texcoord3_t;
 	typedef glm::vec4 texcoord4_t;
 
-	using std::size_t;
 	typedef std::size_t layer_t;
 	typedef std::size_t level_t;
 	typedef std::size_t face_t;
