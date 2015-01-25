@@ -33,18 +33,12 @@ namespace detail
 }//namespace detail
 
 	template <>
-	inline texture2D generate_mipmaps
-	(
-		texture2D const & Texture,
-		texture2D::size_type const & BaseLevel
-	)
+	inline texture2D generate_mipmaps(texture2D & Texture)
 	{
-		assert(BaseLevel < Texture.levels());
-
-		texture2D Result(levels(Texture.dimensions()), Texture.format(), Texture.dimensions());
+		texture2D Result(Texture.format(), Texture.dimensions());
 		texture2D::size_type const Components(gli::component_count(Result.format()));
 
-		for(texture2D::size_type Level = BaseLevel; Level < Result.levels() - 1; ++Level)
+		for(texture2D::size_type Level = Texture.baseLevel(); Level < Texture.maxLevel(); ++Level)
 		{
 			// Src
 			std::size_t BaseWidth = Result[Level].dimensions().x;

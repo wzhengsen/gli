@@ -35,7 +35,7 @@ namespace gli
 
 	inline externalFormat external_format(format const & Format)
 	{
-		return detail::getFormatInfo(Format).ExternalShuffle;
+		return detail::getFormatInfo(Format).External;
 	}
 
 	inline typeFormat type_format(format const & Format)
