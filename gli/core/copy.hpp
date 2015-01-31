@@ -44,6 +44,8 @@ namespace gli
 	template <typename texture>
 	texture copy(texture const & Texture);
 
+	texture2D copy(texture2D const & Texture, texture2D::format_type Format);
+
 	texture1D copy(
 		texture1D const & Texture,
 		texture1D::size_type const & BaseLevel,

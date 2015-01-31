@@ -407,8 +407,6 @@ inline storage load_dds(std::istream& FileIn)
 			break;
 		}
 	}
-	else
-		assert(0);
 
 	std::streamoff Curr = FileIn.tellg();
 	FileIn.seekg(0, std::ios_base::end);
