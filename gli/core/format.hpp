@@ -45,6 +45,8 @@ namespace gli
 		RGB16_UNORM,
 		RGBA16_UNORM,
 
+		RGB10A2_UNORM,
+
 		// snorm formats
 		R8_SNORM,
 		RG8_SNORM,
@@ -71,6 +73,8 @@ namespace gli
 		RG32U,
 		RGB32U,
 		RGBA32U,
+
+		RGB10A2U,
 
 		// Signed integer formats
 		R8I,
@@ -106,7 +110,6 @@ namespace gli
 		R5G6B5,
 		RGB5A1,
 		RGBA4,
-		RGB10A2,
 
 		// Depth formats
 		D16,
@@ -314,6 +317,8 @@ namespace gli
 		INTERNAL_RGB16_UNORM = 0x8054,		//GL_RGB16
 		INTERNAL_RGBA16_UNORM = 0x805B,		//GL_RGBA16
 
+		INTERNAL_RGB10A2 = 0x8059,			//GL_RGB10_A2
+
 		// snorm formats
 		INTERNAL_R8_SNORM = 0x8F94,			//GL_R8_SNORM
 		INTERNAL_RG8_SNORM = 0x8F95,		//GL_RG8_SNORM
@@ -325,7 +330,7 @@ namespace gli
 		INTERNAL_RGB16_SNORM= 0x8F9A,		//GL_RGB16_SNORM
 		INTERNAL_RGBA16_SNORM = 0x8F9B,		//GL_RGBA16_SNORM
 
-		// Unsigned integer formats
+		// unsigned integer formats
 		INTERNAL_R8U = 0x8232,				//GL_R8UI
 		INTERNAL_RG8U = 0x8238,				//GL_RG8UI
 		INTERNAL_RGB8U = 0x8D7D,			//GL_RGB8UI
@@ -341,7 +346,9 @@ namespace gli
 		INTERNAL_RGB32U = 0x8D71,			//GL_RGB32UI
 		INTERNAL_RGBA32U = 0x8D70,			//GL_RGBA32UI
 
-		// Signed integer formats
+		INTERNAL_RGB10A2U = 0x906F,			//GL_RGB10_A2UI
+
+		// signed integer formats
 		INTERNAL_R8I = 0x8231,				//GL_R8I
 		INTERNAL_RG8I = 0x8237,				//GL_RG8I
 		INTERNAL_RGB8I = 0x8D8F,			//GL_RGB8I
@@ -375,7 +382,6 @@ namespace gli
 		INTERNAL_R5G6B5 = 0x8D62,			//GL_RGB565
 		INTERNAL_RGB5A1 = 0x8057,			//GL_RGB5_A1
 		INTERNAL_RGBA4 = 0x8056,			//GL_RGBA4
-		INTERNAL_RGB10A2 = 0x8059,			//GL_RGB10_A2UI
 
 		// Depth formats
 		INTERNAL_D16 = 0x81A5,				//GL_DEPTH_COMPONENT16

@@ -53,17 +53,32 @@ inline image copy(image const & Image)
 }
 */
 
+inline texture2D copy(texture2D const & Texture, texture2D::format_type Format)
+{
+	texture2D Copy(
+		Texture.levels(),
+		Format,
+		Texture.dimensions());
+
+	memcpy(
+		Copy.data<glm::byte>(),
+		Texture.data<glm::byte>(),
+		Copy.size<glm::byte>());
+		
+	return Copy;
+}
+
 template <>
 inline texture1D copy(texture1D const & Texture)
 {
 	texture1D Copy(
-		Texture.levels(), 
-		Texture.format(), 
+		Texture.levels(),
+		Texture.format(),
 		Texture.dimensions());
 
 	memcpy(
-		Copy.data<glm::byte>(), 
-		Texture.data<glm::byte>(), 
+		Copy.data<glm::byte>(),
+		Texture.data<glm::byte>(),
 		Copy.size<glm::byte>());
 		
 	return Copy;
