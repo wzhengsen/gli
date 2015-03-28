@@ -196,17 +196,17 @@ namespace detail
 	{
 		static gli::format const Cast[] = 
 		{
-			gli::FORMAT_INVALID,	//DXGI_FORMAT_UNKNOWN                      = 0,
-			gli::RGBA32U,		//DXGI_FORMAT_R32G32B32A32_TYPELESS        = 1,
-			gli::RGBA32F,		//DXGI_FORMAT_R32G32B32A32_FLOAT           = 2,
-			gli::RGBA32U,		//DXGI_FORMAT_R32G32B32A32_UINT            = 3,
-			gli::RGBA32I,		//DXGI_FORMAT_R32G32B32A32_SINT            = 4,
-			gli::RGB32U,			//DXGI_FORMAT_R32G32B32_TYPELESS           = 5,
-			gli::RGB32F,			//DXGI_FORMAT_R32G32B32_FLOAT              = 6,
-			gli::RGB32U,			//DXGI_FORMAT_R32G32B32_UINT               = 7,
-			gli::RGB32I,			//DXGI_FORMAT_R32G32B32_SINT               = 8,
-			gli::RGBA16U,		//DXGI_FORMAT_R16G16B16A16_TYPELESS        = 9,
-			gli::RGBA16F,		//DXGI_FORMAT_R16G16B16A16_FLOAT           = 10,
+			gli::FORMAT_INVALID,				//DXGI_FORMAT_UNKNOWN                      = 0,
+			gli::RGBA32U,						//DXGI_FORMAT_R32G32B32A32_TYPELESS        = 1,
+			gli::RGBA32F,						//DXGI_FORMAT_R32G32B32A32_FLOAT           = 2,
+			gli::RGBA32U,						//DXGI_FORMAT_R32G32B32A32_UINT            = 3,
+			gli::RGBA32I,						//DXGI_FORMAT_R32G32B32A32_SINT            = 4,
+			gli::RGB32U,						//DXGI_FORMAT_R32G32B32_TYPELESS           = 5,
+			gli::RGB32F,						//DXGI_FORMAT_R32G32B32_FLOAT              = 6,
+			gli::RGB32U,						//DXGI_FORMAT_R32G32B32_UINT               = 7,
+			gli::RGB32I,						//DXGI_FORMAT_R32G32B32_SINT               = 8,
+			gli::RGBA16U,						//DXGI_FORMAT_R16G16B16A16_TYPELESS        = 9,
+			gli::RGBA16F,						//DXGI_FORMAT_R16G16B16A16_FLOAT           = 10,
 			gli::RGBA16U,		//DXGI_FORMAT_R16G16B16A16_UNORM           = 11,
 			gli::RGBA16I,		//DXGI_FORMAT_R16G16B16A16_UINT            = 12,
 			gli::RGBA16I,		//DXGI_FORMAT_R16G16B16A16_SNORM           = 13,
@@ -296,8 +296,27 @@ namespace detail
 			gli::RGB_BP_UNORM,				//DXGI_FORMAT_BC7_TYPELESS                 = 97,
 			gli::RGB_BP_UNORM,				//DXGI_FORMAT_BC7_UNORM                    = 98,
 			gli::RGB_BP_UNORM,				//DXGI_FORMAT_BC7_UNORM_SRGB               = 99,
+			gli::FORMAT_INVALID,			//DXGI_FORMAT_AYUV							= 100,
+			gli::FORMAT_INVALID,			//DXGI_FORMAT_Y410							= 101,
+			gli::FORMAT_INVALID,			//DXGI_FORMAT_Y416							= 102,
+			gli::FORMAT_INVALID,			//DXGI_FORMAT_NV12							= 103,
+			gli::FORMAT_INVALID,			//DXGI_FORMAT_P010							= 104,
+			gli::FORMAT_INVALID,			//DXGI_FORMAT_P016							= 105,
+			gli::FORMAT_INVALID,			//DXGI_FORMAT_420_OPAQUE						= 106,
+			gli::FORMAT_INVALID,			//DXGI_FORMAT_YUY2							= 107,
+			gli::FORMAT_INVALID,			//DXGI_FORMAT_Y210							= 108,
+			gli::FORMAT_INVALID,			//DXGI_FORMAT_Y216							= 109,
+			gli::FORMAT_INVALID,			//DXGI_FORMAT_NV11							= 110,
+			gli::FORMAT_INVALID,			//DXGI_FORMAT_AI44							= 111,
+			gli::FORMAT_INVALID,			//DXGI_FORMAT_IA44							= 112,
+			gli::FORMAT_INVALID,			//DXGI_FORMAT_P8								= 113,
+			gli::FORMAT_INVALID,			//DXGI_FORMAT_A8P8							= 114,
+			gli::FORMAT_INVALID,			//DXGI_FORMAT_B4G4R4A4_UNORM					= 115,
 			gli::R32U						//DXGI_FORMAT_FORCE_UINT                   = 0xffffffffUL 
 		};
+
+		assert(Format > DXGI_FORMAT_UNKNOWN && Format < DXGI_FORMAT_LAST);
+		static_assert(sizeof(Cast) / sizeof(Cast[0]), "GLI ERROR: Translation table needs to be updated");
 
 		return Cast[Format];
 	}
