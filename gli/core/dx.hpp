@@ -29,9 +29,29 @@
 #pragma once
 
 #include "storage.hpp"
+#include <array>
 
 namespace gli
 {
+	class dx
+	{
+	public:
+		struct format
+		{
+			DDPF DDPixelFormat;
+			D3DFORMAT D3DFormat;
+			dxgiFormat DXGIFormat;
+		};
+
+	public:
+		dx();
+
+		format const & translate(gli::format const & Format) const;
+
+	private:
+		std::array<format, FORMAT_COUNT> Translation;
+	};
+
 	dxgiFormat dxgi_format(format const & Format);
 
 }//namespace gli

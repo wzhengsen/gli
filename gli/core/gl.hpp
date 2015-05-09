@@ -35,27 +35,22 @@ namespace gli
 {
 	class gl
 	{
-		typedef unsigned int GLenum;
-		typedef int GLint;
-
-		struct desc
+	public:
+		struct format
 		{
 			internalFormat Internal;
 			externalFormat External;
 			typeFormat Type;
-			GLint Swizzle[4];
+			int Swizzle[4];
 		};
 
 	public:
 		gl();
 
-		GLenum internal_format(format const & Format) const;
-		GLenum external_format(format const & Format) const;
-		GLenum type_format(format const & Format) const;
-		GLint const * const swizzle(format const & Format) const;
+		format const & translate(gli::format const & Format) const;
 
 	private:
-		std::array<desc, FORMAT_COUNT> Desc;
+		std::array<format, FORMAT_COUNT> Translation;
 	};
 }//namespace gli
 
