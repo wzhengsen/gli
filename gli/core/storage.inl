@@ -85,8 +85,6 @@ namespace gli
 
 	inline storage::format_type storage::format() const
 	{
-		assert(!this->empty());
-
 		return this->Impl->Format;
 	}
 

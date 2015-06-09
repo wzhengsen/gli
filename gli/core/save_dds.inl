@@ -81,11 +81,7 @@ namespace detail
 
 }//namespace detail
 
-	inline void save_dds
-	(
-		storage const & Storage, 
-		char const * Filename
-	)
+	inline void save_dds(storage const & Storage, char const * Filename)
 	{
 		if(Storage.empty())
 			return;
@@ -123,7 +119,7 @@ namespace detail
 		HeaderDesc.format.size = sizeof(detail::ddsPixelFormat);
 		HeaderDesc.format.flags = Storage.layers() > 1 ? dx::DDPF_FOURCC : DXFormat.DDPixelFormat;
 		HeaderDesc.format.fourCC = Storage.layers() > 1 ? dx::D3DFMT_DX10 : DXFormat.D3DFormat;
-		HeaderDesc.format.bpp = glm::uint32(Desc.Flags & detail::bits_per_pixel(Storage.format()));
+		HeaderDesc.format.bpp = glm::uint32(detail::bits_per_pixel(Storage.format()));
 		HeaderDesc.format.redMask = detail::getMaskRed(Storage.format());
 		HeaderDesc.format.greenMask = detail::getMaskGreen(Storage.format());
 		HeaderDesc.format.blueMask = detail::getMaskBlue(Storage.format());
