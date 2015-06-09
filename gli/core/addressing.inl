@@ -32,8 +32,8 @@ namespace detail
 	inline storage::size_type imageAddressing
 	(
 		storage const & Storage,
-		storage::size_type const & LayerOffset, 
-		storage::size_type const & FaceOffset, 
+		storage::size_type const & LayerOffset,
+		storage::size_type const & FaceOffset,
 		storage::size_type const & LevelOffset
 	)
 	{

@@ -141,50 +141,50 @@ namespace detail
 	{
 		switch(FourCC)
 		{
-		case D3DFMT_DXT1:
-			return Flags & DDPF_ALPHAPIXELS ? RGBA_DXT1 : RGB_DXT1;
-		case D3DFMT_DXT2:
-		case D3DFMT_DXT3:
-			return RGBA_DXT3;
-		case D3DFMT_DXT4:
-		case D3DFMT_DXT5:
-			return RGBA_DXT5;
-		case D3DFMT_ATI1:
-		case D3DFMT_AT1N:
+		case dx::D3DFMT_DXT1:
+			return Flags & dx::DDPF_ALPHAPIXELS ? RGBA_DXT1_UNORM : RGB_DXT1_UNORM;
+		case dx::D3DFMT_DXT2:
+		case dx::D3DFMT_DXT3:
+			return RGBA_DXT3_UNORM;
+		case dx::D3DFMT_DXT4:
+		case dx::D3DFMT_DXT5:
+			return RGBA_DXT5_UNORM;
+		case dx::D3DFMT_ATI1:
+		case dx::D3DFMT_AT1N:
 			return R_ATI1N_UNORM;
-		case D3DFMT_ATI2:
-		case D3DFMT_AT2N:
+		case dx::D3DFMT_ATI2:
+		case dx::D3DFMT_AT2N:
 			return RG_ATI2N_UNORM;
-		case D3DFMT_R16F:
+		case dx::D3DFMT_R16F:
 			return R16F;
-		case D3DFMT_G16R16F:
+		case dx::D3DFMT_G16R16F:
 			return RG16F;
-		case D3DFMT_A16B16G16R16F:
+		case dx::D3DFMT_A16B16G16R16F:
 			return RGBA16F;
-		case D3DFMT_R32F:
+		case dx::D3DFMT_R32F:
 			return R32F;
-		case D3DFMT_G32R32F:
+		case dx::D3DFMT_G32R32F:
 			return RG32F;
-		case D3DFMT_A32B32G32R32F:
+		case dx::D3DFMT_A32B32G32R32F:
 			return RGBA32F;
-		case D3DFMT_R8G8B8:
+		case dx::D3DFMT_R8G8B8:
 			return RGB8U;
-		case D3DFMT_A8R8G8B8:
-		case D3DFMT_X8R8G8B8:
-		case D3DFMT_A8B8G8R8:
-		case D3DFMT_X8B8G8R8:
+		case dx::D3DFMT_A8R8G8B8:
+		case dx::D3DFMT_X8R8G8B8:
+		case dx::D3DFMT_A8B8G8R8:
+		case dx::D3DFMT_X8B8G8R8:
 			return RGBA8U;
-		case D3DFMT_R5G6B5:
-			return R5G6B5;
-		case D3DFMT_A4R4G4B4:
-		case D3DFMT_X4R4G4B4:
-			return RGBA4;
-		case D3DFMT_G16R16:
+		case dx::D3DFMT_R5G6B5:
+			return R5G6B5_UNORM;
+		case dx::D3DFMT_A4R4G4B4:
+		case dx::D3DFMT_X4R4G4B4:
+			return RGBA4_UNORM;
+		case dx::D3DFMT_G16R16:
 			return RG16U;
-		case D3DFMT_A16B16G16R16:
+		case dx::D3DFMT_A16B16G16R16:
 			return RGBA16U;
-		case D3DFMT_A2R10G10B10:
-		case D3DFMT_A2B10G10R10:
+		case dx::D3DFMT_A2R10G10B10:
+		case dx::D3DFMT_A2B10G10R10:
 			return RGB10A2_UNORM;
 		default:
 			assert(0);
@@ -225,7 +225,7 @@ namespace detail
 			gli::RG11B10F,						//DXGI_FORMAT_R11G11B10_FLOAT				= 26,
 			gli::RGBA8U,						//DXGI_FORMAT_R8G8B8A8_TYPELESS				= 27,
 			gli::RGBA8_UNORM,					//DXGI_FORMAT_R8G8B8A8_UNORM				= 28,
-			gli::SRGB8_ALPHA8,					//DXGI_FORMAT_R8G8B8A8_UNORM_SRGB			= 29,
+			gli::SRGB8_ALPHA8_UNORM,			//DXGI_FORMAT_R8G8B8A8_UNORM_SRGB			= 29,
 			gli::RGBA8U,						//DXGI_FORMAT_R8G8B8A8_UINT					= 30,
 			gli::RGBA8_SNORM,					//DXGI_FORMAT_R8G8B8A8_SNORM				= 31,
 			gli::RGBA8I,						//DXGI_FORMAT_R8G8B8A8_SINT					= 32,
@@ -267,15 +267,15 @@ namespace detail
 			gli::FORMAT_INVALID,				//DXGI_FORMAT_R8G8_B8G8_UNORM				= 68,
 			gli::FORMAT_INVALID,				//DXGI_FORMAT_G8R8_G8B8_UNORM				= 69,
 
-			gli::RGBA_DXT1,						//DXGI_FORMAT_BC1_TYPELESS					= 70,
-			gli::RGBA_DXT1,						//DXGI_FORMAT_BC1_UNORM						= 71,
-			gli::SRGB_ALPHA_DXT1,				//DXGI_FORMAT_BC1_UNORM_SRGB				= 72,
-			gli::RGBA_DXT3,						//DXGI_FORMAT_BC2_TYPELESS					= 73,
-			gli::RGBA_DXT3,						//DXGI_FORMAT_BC2_UNORM						= 74,
-			gli::SRGB_ALPHA_DXT3,				//DXGI_FORMAT_BC2_UNORM_SRGB				= 75,
-			gli::RGBA_DXT5,						//DXGI_FORMAT_BC3_TYPELESS					= 76,
-			gli::RGBA_DXT5,						//DXGI_FORMAT_BC3_UNORM						= 77,
-			gli::SRGB_ALPHA_DXT5,				//DXGI_FORMAT_BC3_UNORM_SRGB				= 78,
+			gli::RGBA_DXT1_UNORM,				//DXGI_FORMAT_BC1_TYPELESS					= 70,
+			gli::RGBA_DXT1_UNORM,				//DXGI_FORMAT_BC1_UNORM						= 71,
+			gli::SRGB_ALPHA_DXT1_UNORM,			//DXGI_FORMAT_BC1_UNORM_SRGB				= 72,
+			gli::RGBA_DXT3_UNORM,				//DXGI_FORMAT_BC2_TYPELESS					= 73,
+			gli::RGBA_DXT3_UNORM,				//DXGI_FORMAT_BC2_UNORM						= 74,
+			gli::SRGB_ALPHA_DXT3_UNORM,			//DXGI_FORMAT_BC2_UNORM_SRGB				= 75,
+			gli::RGBA_DXT5_UNORM,				//DXGI_FORMAT_BC3_TYPELESS					= 76,
+			gli::RGBA_DXT5_UNORM,				//DXGI_FORMAT_BC3_UNORM						= 77,
+			gli::SRGB_ALPHA_DXT5_UNORM,			//DXGI_FORMAT_BC3_UNORM_SRGB				= 78,
 			gli::R_ATI1N_UNORM,					//DXGI_FORMAT_BC4_TYPELESS					= 79,
 			gli::R_ATI1N_UNORM,					//DXGI_FORMAT_BC4_UNORM						= 80,
 			gli::R_ATI1N_SNORM,					//DXGI_FORMAT_BC4_SNORM						= 81,
@@ -288,12 +288,12 @@ namespace detail
 			gli::RGB8_UNORM,					//DXGI_FORMAT_B8G8R8X8_UNORM				= 88,
 			gli::FORMAT_INVALID,				//DXGI_FORMAT_R10G10B10_XR_BIAS_A2_UNORM	= 89,
 			gli::RGBA8_UNORM,					//DXGI_FORMAT_B8G8R8A8_TYPELESS				= 90,
-			gli::SRGB8_ALPHA8,					//DXGI_FORMAT_B8G8R8A8_UNORM_SRGB			= 91,
+			gli::SRGB8_ALPHA8_UNORM,			//DXGI_FORMAT_B8G8R8A8_UNORM_SRGB			= 91,
 			gli::RGB8_UNORM,					//DXGI_FORMAT_B8G8R8X8_TYPELESS				= 92,
-			gli::SRGB8,							//DXGI_FORMAT_B8G8R8X8_UNORM_SRGB			= 93,
-			gli::RGB_BP_UNSIGNED_FLOAT,			//DXGI_FORMAT_BC6H_TYPELESS					= 94,
-			gli::RGB_BP_UNSIGNED_FLOAT,			//DXGI_FORMAT_BC6H_UF16						= 95,
-			gli::RGB_BP_SIGNED_FLOAT,			//DXGI_FORMAT_BC6H_SF16						= 96,
+			gli::SRGB8_UNORM,					//DXGI_FORMAT_B8G8R8X8_UNORM_SRGB			= 93,
+			gli::RGB_BP_UFLOAT,					//DXGI_FORMAT_BC6H_TYPELESS					= 94,
+			gli::RGB_BP_UFLOAT,					//DXGI_FORMAT_BC6H_UF16						= 95,
+			gli::RGB_BP_SFLOAT,					//DXGI_FORMAT_BC6H_SF16						= 96,
 			gli::RGB_BP_UNORM,					//DXGI_FORMAT_BC7_TYPELESS					= 97,
 			gli::RGB_BP_UNORM,					//DXGI_FORMAT_BC7_UNORM						= 98,
 			gli::SRGB_BP_UNORM,					//DXGI_FORMAT_BC7_UNORM_SRGB				= 99,
@@ -380,17 +380,17 @@ inline storage load_dds(std::istream& FileIn)
 
 	// Get the surface descriptor 
 	FileIn.read((char*)&HeaderDesc, sizeof(HeaderDesc));
-	if(HeaderDesc.format.flags & detail::DDPF_FOURCC && HeaderDesc.format.fourCC == detail::D3DFMT_DX10)
+	if(HeaderDesc.format.flags & dx::DDPF_FOURCC && HeaderDesc.format.fourCC == dx::D3DFMT_DX10)
 		FileIn.read((char*)&HeaderDesc10, sizeof(HeaderDesc10));
 
 	gli::format Format(gli::FORMAT_INVALID);
-	if(HeaderDesc.format.fourCC == detail::D3DFMT_DX10 && HeaderDesc10.Format != DXGI_FORMAT_UNKNOWN)
+	if(HeaderDesc.format.fourCC == dx::D3DFMT_DX10 && HeaderDesc10.Format != DXGI_FORMAT_UNKNOWN)
 		Format = detail::format_dds2gli_cast(HeaderDesc10.Format);
 	
-	if(HeaderDesc.format.flags & detail::DDPF_FOURCC && Format == gli::FORMAT_INVALID)
+	if(HeaderDesc.format.flags & dx::DDPF_FOURCC && Format == gli::FORMAT_INVALID)
 		Format = detail::format_fourcc2gli_cast(HeaderDesc.format.flags, HeaderDesc.format.fourCC);
 	
-	if(HeaderDesc.format.flags & detail::DDPF_RGB && Format == gli::FORMAT_INVALID)
+	if(HeaderDesc.format.flags & dx::DDPF_RGB && Format == gli::FORMAT_INVALID)
 	{
 		switch(HeaderDesc.format.bpp)
 		{
@@ -434,9 +434,9 @@ inline storage load_dds(std::istream& FileIn)
 
 	FileIn.read((char*)Storage.data(), std::size_t(End - Curr));
 
-	detail::format_desc const & Desc = detail::getFormatInfo(Storage.format());
+	detail::format_info const & Desc = detail::getFormatInfo(Storage.format());
 
-	if(HeaderDesc.format.fourCC != detail::D3DFMT_DX10 && !Desc.Compressed && Desc.Component >= 3)
+	if(HeaderDesc.format.fourCC != dx::D3DFMT_DX10 && !(Desc.Flags & detail::FORMAT_COMPRESSED_BIT) && Desc.Component >= 3)
 	{
 		switch(Desc.Component)
 		{

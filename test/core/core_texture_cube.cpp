@@ -36,7 +36,7 @@ int test_alloc()
 	Formats.push_back(gli::RGBA8_UNORM);
 	Formats.push_back(gli::RGB8_UNORM);
 	Formats.push_back(gli::R8_SNORM);
-	Formats.push_back(gli::RGB_DXT1);
+	Formats.push_back(gli::RGB_DXT1_UNORM);
 	Formats.push_back(gli::RGB_BP_UNORM);
 	Formats.push_back(gli::RGBA32F);
 
@@ -231,10 +231,10 @@ int test_textureCube_texture2D_size()
 	std::vector<test> Tests;
 	Tests.push_back(test(gli::RGBA8U, gli::textureCube::dim_type(4), 384));
 	Tests.push_back(test(gli::R8U, gli::textureCube::dim_type(4), 96));
-	Tests.push_back(test(gli::RGBA_DXT1, gli::textureCube::dim_type(4), 48));
-	Tests.push_back(test(gli::RGBA_DXT1, gli::textureCube::dim_type(2), 48));
-	Tests.push_back(test(gli::RGBA_DXT1, gli::textureCube::dim_type(1), 48));
-	Tests.push_back(test(gli::RGBA_DXT5, gli::textureCube::dim_type(4), 96));
+	Tests.push_back(test(gli::RGBA_DXT1_UNORM, gli::textureCube::dim_type(4), 48));
+	Tests.push_back(test(gli::RGBA_DXT1_UNORM, gli::textureCube::dim_type(2), 48));
+	Tests.push_back(test(gli::RGBA_DXT1_UNORM, gli::textureCube::dim_type(1), 48));
+	Tests.push_back(test(gli::RGBA_DXT5_UNORM, gli::textureCube::dim_type(4), 96));
 
 	for(std::size_t i = 0; i < Tests.size(); ++i)
 	{

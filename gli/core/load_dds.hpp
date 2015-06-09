@@ -29,6 +29,7 @@
 #pragma once
 
 #include "storage.hpp"
+#include "dx.hpp"
 
 namespace gli
 {
@@ -42,7 +43,6 @@ namespace gli
 
 	//Loads a texture storage from a std::istream
 	storage load_dds(std::istream& streamIn);
-
 
 }//namespace gli
 

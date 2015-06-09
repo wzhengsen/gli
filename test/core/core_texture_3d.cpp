@@ -36,7 +36,7 @@ int test_alloc()
 	Formats.push_back(gli::RGBA8_UNORM);
 	Formats.push_back(gli::RGB8_UNORM);
 	Formats.push_back(gli::R8_SNORM);
-	Formats.push_back(gli::RGB_DXT1);
+	Formats.push_back(gli::RGB_DXT1_UNORM);
 	Formats.push_back(gli::RGB_BP_UNORM);
 	Formats.push_back(gli::RGBA32F);
 
@@ -173,10 +173,10 @@ int test_texture3d_size()
 	std::vector<test> Tests;
 	Tests.push_back(test(gli::RGBA8U, gli::texture3D::dim_type(4), 256));
 	Tests.push_back(test(gli::R8U, gli::texture3D::dim_type(4), 64));
-	Tests.push_back(test(gli::RGBA_DXT1, gli::texture3D::dim_type(4), 32));
-	Tests.push_back(test(gli::RGBA_DXT1, gli::texture3D::dim_type(2), 32));
-	Tests.push_back(test(gli::RGBA_DXT1, gli::texture3D::dim_type(1), 32));
-	Tests.push_back(test(gli::RGBA_DXT5, gli::texture3D::dim_type(4), 64));
+	Tests.push_back(test(gli::RGBA_DXT1_UNORM, gli::texture3D::dim_type(4), 32));
+	Tests.push_back(test(gli::RGBA_DXT1_UNORM, gli::texture3D::dim_type(2), 32));
+	Tests.push_back(test(gli::RGBA_DXT1_UNORM, gli::texture3D::dim_type(1), 32));
+	Tests.push_back(test(gli::RGBA_DXT5_UNORM, gli::texture3D::dim_type(4), 64));
 
 	for(std::size_t i = 0; i < Tests.size(); ++i)
 	{

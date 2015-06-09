@@ -105,7 +105,7 @@ int test_alloc()
 	Formats.push_back(gli::RGBA8_UNORM);
 	Formats.push_back(gli::RGB8_UNORM);
 	Formats.push_back(gli::R8_SNORM);
-	Formats.push_back(gli::RGB_DXT1);
+	Formats.push_back(gli::RGB_DXT1_UNORM);
 	Formats.push_back(gli::RGB_BP_UNORM);
 	Formats.push_back(gli::RGBA32F);
 
@@ -173,11 +173,11 @@ int test_texture2d_image_access()
 	{
 		glm::u8vec4 const Orange(255, 127, 0, 255);
 
-		gli::image Image0(gli::image::dim_type(2, 2, 1), sizeof(glm::u8vec4), gli::image::dim_type(1));
+		gli::image Image0(gli::RGBA8U, gli::image::dim_type(2, 2, 1));
 		for(std::size_t i = 0; i < Image0.size(); ++i)
 			*(Image0.data<glm::byte>() + i) = glm::byte(i);
 
-		gli::image Image1(gli::image::dim_type(1, 1, 1), sizeof(glm::u8vec4), gli::image::dim_type(1));
+		gli::image Image1(gli::RGBA8U, gli::image::dim_type(1, 1, 1));
 		for(std::size_t i = 0; i < Image1.size(); ++i)
 			*(Image1.data<glm::byte>() + i) = glm::byte(i + 100);
 
@@ -280,10 +280,10 @@ int test_texture2d_image_size()
 	std::vector<test> Tests;
 	Tests.push_back(test(gli::RGBA8U, gli::texture2D::dim_type(4), 64));
 	Tests.push_back(test(gli::R8U, gli::texture2D::dim_type(4), 16));
-	Tests.push_back(test(gli::RGBA_DXT1, gli::texture2D::dim_type(4), 8));
-	Tests.push_back(test(gli::RGBA_DXT1, gli::texture2D::dim_type(2), 8));
-	Tests.push_back(test(gli::RGBA_DXT1, gli::texture2D::dim_type(1), 8));
-	Tests.push_back(test(gli::RGBA_DXT5, gli::texture2D::dim_type(4), 16));
+	Tests.push_back(test(gli::RGBA_DXT1_UNORM, gli::texture2D::dim_type(4), 8));
+	Tests.push_back(test(gli::RGBA_DXT1_UNORM, gli::texture2D::dim_type(2), 8));
+	Tests.push_back(test(gli::RGBA_DXT1_UNORM, gli::texture2D::dim_type(1), 8));
+	Tests.push_back(test(gli::RGBA_DXT5_UNORM, gli::texture2D::dim_type(4), 16));
 
 	for(std::size_t i = 0; i < Tests.size(); ++i)
 	{

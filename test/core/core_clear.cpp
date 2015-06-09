@@ -125,9 +125,9 @@ int main()
 
 	for(std::size_t i = 0; i < Sizes.size(); ++i)
 	{
-		Error += test_texture<gli::texture1D>(gli::texture1D::dim_type(Sizes[i]), gli::RGB_DXT1, ColorDXT1);
-		Error += test_texture<gli::texture2D>(gli::texture2D::dim_type(Sizes[i]), gli::RGB_DXT1, ColorDXT1);
-		Error += test_texture<gli::texture3D>(gli::texture3D::dim_type(Sizes[i]), gli::RGB_DXT1, ColorDXT1);
+		Error += test_texture<gli::texture1D>(gli::texture1D::dim_type(Sizes[i]), gli::RGB_DXT1_UNORM, ColorDXT1);
+		Error += test_texture<gli::texture2D>(gli::texture2D::dim_type(Sizes[i]), gli::RGB_DXT1_UNORM, ColorDXT1);
+		Error += test_texture<gli::texture3D>(gli::texture3D::dim_type(Sizes[i]), gli::RGB_DXT1_UNORM, ColorDXT1);
 		Error += test_texture<gli::texture1D>(gli::texture1D::dim_type(Sizes[i]), gli::R8_UNORM, ColorR8_UNORM);
 		Error += test_texture<gli::texture2D>(gli::texture2D::dim_type(Sizes[i]), gli::R8_UNORM, ColorR8_UNORM);
 		Error += test_texture<gli::texture3D>(gli::texture3D::dim_type(Sizes[i]), gli::R8_UNORM, ColorR8_UNORM);

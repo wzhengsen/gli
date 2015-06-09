@@ -54,12 +54,6 @@ namespace gli
 
 		/// Allocate a new storage constructor
 		explicit image(
-			dim_type const & Dimensions,
-			size_type const & BlockSize,
-			dim_type const & BlockDimensions);
-
-		/// Allocate a new storage constructor
-		explicit image(
 			format const & Format,
 			dim_type const & Dimensions);
 

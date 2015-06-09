@@ -62,10 +62,10 @@ inline texture2D flip(texture2D const & Texture)
 
 	texture2D Flip(Texture.levels(), Texture.format(), Texture.dimensions());
 
-	detail::format_desc const & Desc = detail::getFormatInfo(Texture.format());
+	std::uint32_t const BlockSize = block_size(Texture.format());
 
 	for(std::size_t Level = 0; Level < Flip.levels(); ++Level)
-		detail::flip(Flip[Level], Texture[Level], Desc.BlockSize);
+		detail::flip(Flip[Level], Texture[Level], BlockSize);
 
 	return Flip;
 }
@@ -77,11 +77,11 @@ inline texture2DArray flip(texture2DArray const & Texture)
 
 	texture2DArray Flip(Texture.layers(), Texture.levels(), Texture.format(), Texture.dimensions());
 
-	detail::format_desc const & Desc = detail::getFormatInfo(Texture.format());
+	std::uint32_t const BlockSize = block_size(Texture.format());
 
 	for(std::size_t Layer = 0; Layer < Flip.layers(); ++Layer)
 	for(std::size_t Level = 0; Level < Flip.levels(); ++Level)
-		detail::flip(Flip[Layer][Level], Texture[Layer][Level], Desc.BlockSize);
+		detail::flip(Flip[Layer][Level], Texture[Layer][Level], BlockSize);
 
 	return Flip;
 }

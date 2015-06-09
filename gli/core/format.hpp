@@ -585,6 +585,12 @@ namespace gli
 		SWIZZLE_ZERO = 0x0000,		//GL_ZERO
 		SWIZZLE_ONE = 0x0001,		//GL_ONE
 	};
+
+	std::uint32_t block_size(format const & Format);
+	std::uint32_t block_dimensions_x(format const & Format);
+	std::uint32_t block_dimensions_y(format const & Format);
+	std::uint32_t block_dimensions_z(format const & Format);
+	std::uint32_t component_count(format const & Format);
 }//namespace gli
 
 #include "format.inl"

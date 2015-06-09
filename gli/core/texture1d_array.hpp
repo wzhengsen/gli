@@ -133,3 +133,5 @@ namespace gli
 		format_type Format;
 	};
 }//namespace gli
+
+
