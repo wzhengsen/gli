@@ -323,65 +323,24 @@ namespace detail
 	}
 }//namespace detail
 
-
-/* Taken from http://stackoverflow.com/a/13059195 */
-struct membuf : std::streambuf 
-{
-	membuf(char const* base, size_t size)
-	{
-		char* p(const_cast<char*>(base));
-		this->setg(p, p, p + size);
-	}
-};
-
-struct imemstream : virtual membuf, std::istream
-{
-	imemstream(char const* base, size_t size) : 
-		membuf(base, size),
-		std::istream(static_cast<std::streambuf*>(this))
-	{
-
-	}
-};
-
-
-inline storage load_dds(const char* pBuffer, size_t size)
-{
-	assert(pBuffer != nullptr && size > 0);
-
-	imemstream memstream(pBuffer, size);
-
-	return load_dds(memstream);
-}
-
-
 inline storage load_dds(char const * Filename)
 {
-	std::ifstream FileIn(Filename, std::ios::in | std::ios::binary);
-	assert(!FileIn.fail());
+	std::ifstream File(Filename, std::ios::in | std::ios::binary);
+	assert(!File.fail());
 
-	if(FileIn.fail())
-		return storage();
-
-	return load_dds(FileIn);
-}
-
-
-inline storage load_dds(std::istream& FileIn)
-{
 	detail::ddsHeader HeaderDesc;
 	detail::ddsHeader10 HeaderDesc10;
 	char Magic[4]; 
 
 	//* Read magic number and check if valid .dds file 
-	FileIn.read((char*)&Magic, sizeof(Magic));
+	File.read((char*)&Magic, sizeof(Magic));
 
 	assert(strncmp(Magic, "DDS ", 4) == 0);
 
 	// Get the surface descriptor 
-	FileIn.read((char*)&HeaderDesc, sizeof(HeaderDesc));
+	File.read((char*)&HeaderDesc, sizeof(HeaderDesc));
 	if(HeaderDesc.format.flags & dx::DDPF_FOURCC && HeaderDesc.format.fourCC == dx::D3DFMT_DX10)
-		FileIn.read((char*)&HeaderDesc10, sizeof(HeaderDesc10));
+		File.read((char*)&HeaderDesc10, sizeof(HeaderDesc10));
 
 	gli::format Format(gli::FORMAT_INVALID);
 	if(HeaderDesc.format.fourCC == dx::D3DFMT_DX10 && HeaderDesc10.Format != DXGI_FORMAT_UNKNOWN)
@@ -390,7 +349,7 @@ inline storage load_dds(std::istream& FileIn)
 	if(HeaderDesc.format.flags & dx::DDPF_FOURCC && Format == gli::FORMAT_INVALID)
 		Format = detail::format_fourcc2gli_cast(HeaderDesc.format.flags, HeaderDesc.format.fourCC);
 	
-	if(HeaderDesc.format.flags & dx::DDPF_RGB && Format == gli::FORMAT_INVALID)
+	if(!(HeaderDesc.format.flags & dx::DDPF_FOURCC) && Format == gli::FORMAT_INVALID)
 	{
 		switch(HeaderDesc.format.bpp)
 		{
@@ -409,10 +368,10 @@ inline storage load_dds(std::istream& FileIn)
 		}
 	}
 
-	std::streamoff Curr = FileIn.tellg();
-	FileIn.seekg(0, std::ios_base::end);
-	std::streamoff End = FileIn.tellg();
-	FileIn.seekg(Curr, std::ios_base::beg);
+	std::streamoff Curr = File.tellg();
+	File.seekg(0, std::ios_base::end);
+	std::streamoff End = File.tellg();
+	File.seekg(Curr, std::ios_base::beg);
 
 	storage::size_type const MipMapCount = (HeaderDesc.flags & detail::DDSD_MIPMAPCOUNT) ? 
 		HeaderDesc.mipMapLevels : 1;
@@ -432,7 +391,7 @@ inline storage load_dds(std::istream& FileIn)
 		Format,
 		storage::dim_type(HeaderDesc.width, HeaderDesc.height, DepthCount));
 
-	FileIn.read((char*)Storage.data(), std::size_t(End - Curr));
+	File.read((char*)Storage.data(), std::size_t(End - Curr));
 
 	detail::format_info const & Desc = detail::getFormatInfo(Storage.format());
 

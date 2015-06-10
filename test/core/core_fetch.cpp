@@ -28,19 +28,109 @@
 
 #include <gli/gli.hpp>
 #include <glm/gtc/epsilon.hpp>
+#include <glm/gtc/vec1.hpp>
 
-namespace textureLod
+namespace fetch_r8_unorm
 {
 	int test()
 	{
 		int Error(0);
 
-		//gli::texture2D Texture(gli::load_dds("rgba4.dds"));
-		//glm::u8vec3 TexelA = gli::textureLod<glm::u8vec3>(Texture, gli::texture2D::texcoord_type(0.0f, 0.0f), 0);
+		{
+			gli::texture2D Texture(gli::R8_UNORM, gli::texture2D::dim_type(2, 2));
+			gli::texelWrite<glm::u8vec1>(Texture, gli::texture2D::dim_type(0, 0), 0, glm::u8vec1(1));
+			gli::texelWrite<glm::u8vec1>(Texture, gli::texture2D::dim_type(1, 0), 0, glm::u8vec1(2));
+			gli::texelWrite<glm::u8vec1>(Texture, gli::texture2D::dim_type(1, 1), 0, glm::u8vec1(3));
+			gli::texelWrite<glm::u8vec1>(Texture, gli::texture2D::dim_type(0, 1), 0, glm::u8vec1(4));
+			gli::texelWrite<glm::u8vec1>(Texture, gli::texture2D::dim_type(0, 0), 1, glm::u8vec1(5));
+			gli::save_dds(Texture, "r8_unorm_4pixels.dds");
+		}
+
+		{
+			gli::texture2D Texture(gli::load_dds("r8_unorm_4pixels.dds"));
+			glm::u8vec1 A = gli::texelFetch<glm::u8vec1>(Texture, gli::texture2D::dim_type(0, 0), 0);
+			Error += glm::all(glm::equal(A, glm::u8vec1(1))) ? 0 : 1;
+			glm::u8vec1 B = gli::texelFetch<glm::u8vec1>(Texture, gli::texture2D::dim_type(1, 0), 0);
+			Error += glm::all(glm::equal(B, glm::u8vec1(2))) ? 0 : 1;
+			glm::u8vec1 C = gli::texelFetch<glm::u8vec1>(Texture, gli::texture2D::dim_type(1, 1), 0);
+			Error += glm::all(glm::equal(C, glm::u8vec1(3))) ? 0 : 1;
+			glm::u8vec1 D = gli::texelFetch<glm::u8vec1>(Texture, gli::texture2D::dim_type(0, 1), 0);
+			Error += glm::all(glm::equal(D, glm::u8vec1(4))) ? 0 : 1;
+			glm::u8vec1 E = gli::texelFetch<glm::u8vec1>(Texture, gli::texture2D::dim_type(0, 0), 1);
+			Error += glm::all(glm::equal(E, glm::u8vec1(5))) ? 0 : 1;
+		}
 
 		return Error;
 	}
-}//namespace fetch
+}//namespace fetch_r8_unorm
+
+namespace fetch_rg8_unorm
+{
+	int test()
+	{
+		int Error(0);
+
+		{
+			gli::texture2D Texture(gli::RG8_UNORM, gli::texture2D::dim_type(2, 2));
+			gli::texelWrite<glm::u8vec2>(Texture, gli::texture2D::dim_type(0, 0), 0, glm::u8vec2(1, 2));
+			gli::texelWrite<glm::u8vec2>(Texture, gli::texture2D::dim_type(1, 0), 0, glm::u8vec2(3, 4));
+			gli::texelWrite<glm::u8vec2>(Texture, gli::texture2D::dim_type(1, 1), 0, glm::u8vec2(5, 6));
+			gli::texelWrite<glm::u8vec2>(Texture, gli::texture2D::dim_type(0, 1), 0, glm::u8vec2(7, 8));
+			gli::texelWrite<glm::u8vec2>(Texture, gli::texture2D::dim_type(0, 0), 1, glm::u8vec2(9, 5));
+			gli::save_dds(Texture, "rg8_unorm_4pixels.dds");
+		}
+
+		{
+			gli::texture2D Texture(gli::load_dds("rg8_unorm_4pixels.dds"));
+			glm::u8vec2 A = gli::texelFetch<glm::u8vec2>(Texture, gli::texture2D::dim_type(0, 0), 0);
+			Error += glm::all(glm::equal(A, glm::u8vec2(1, 2))) ? 0 : 1;
+			glm::u8vec2 B = gli::texelFetch<glm::u8vec2>(Texture, gli::texture2D::dim_type(1, 0), 0);
+			Error += glm::all(glm::equal(B, glm::u8vec2(3, 4))) ? 0 : 1;
+			glm::u8vec2 C = gli::texelFetch<glm::u8vec2>(Texture, gli::texture2D::dim_type(1, 1), 0);
+			Error += glm::all(glm::equal(C, glm::u8vec2(5, 6))) ? 0 : 1;
+			glm::u8vec2 D = gli::texelFetch<glm::u8vec2>(Texture, gli::texture2D::dim_type(0, 1), 0);
+			Error += glm::all(glm::equal(D, glm::u8vec2(7, 8))) ? 0 : 1;
+			glm::u8vec2 E = gli::texelFetch<glm::u8vec2>(Texture, gli::texture2D::dim_type(0, 0), 1);
+			Error += glm::all(glm::equal(E, glm::u8vec2(9, 5))) ? 0 : 1;
+		}
+
+		return Error;
+	}
+}//namespace fetch_rg8_unorm
+
+namespace fetch_rgb8_unorm
+{
+	int test()
+	{
+		int Error(0);
+
+		{
+			gli::texture2D Texture(gli::RGB8_UNORM, gli::texture2D::dim_type(2, 2));
+			gli::texelWrite<glm::u8vec3>(Texture, gli::texture2D::dim_type(0, 0), 0, glm::u8vec3(255, 0, 0));
+			gli::texelWrite<glm::u8vec3>(Texture, gli::texture2D::dim_type(1, 0), 0, glm::u8vec3(255, 255, 0));
+			gli::texelWrite<glm::u8vec3>(Texture, gli::texture2D::dim_type(1, 1), 0, glm::u8vec3(0, 255, 0));
+			gli::texelWrite<glm::u8vec3>(Texture, gli::texture2D::dim_type(0, 1), 0, glm::u8vec3(0, 0, 255));
+			gli::texelWrite<glm::u8vec3>(Texture, gli::texture2D::dim_type(0, 0), 1, glm::u8vec3(255, 128, 0));
+			gli::save_dds(Texture, "rgb8_unorm_4pixels.dds");
+		}
+
+		{
+			gli::texture2D Texture(gli::load_dds("rgb8_unorm_4pixels.dds"));
+			glm::u8vec3 A = gli::texelFetch<glm::u8vec3>(Texture, gli::texture2D::dim_type(0, 0), 0);
+			Error += glm::all(glm::equal(A, glm::u8vec3(255, 0, 0))) ? 0 : 1;
+			glm::u8vec3 B = gli::texelFetch<glm::u8vec3>(Texture, gli::texture2D::dim_type(1, 0), 0);
+			Error += glm::all(glm::equal(B, glm::u8vec3(255, 255, 0))) ? 0 : 1;
+			glm::u8vec3 C = gli::texelFetch<glm::u8vec3>(Texture, gli::texture2D::dim_type(1, 1), 0);
+			Error += glm::all(glm::equal(C, glm::u8vec3(0, 255, 0))) ? 0 : 1;
+			glm::u8vec3 D = gli::texelFetch<glm::u8vec3>(Texture, gli::texture2D::dim_type(0, 1), 0);
+			Error += glm::all(glm::equal(D, glm::u8vec3(0, 0, 255))) ? 0 : 1;
+			glm::u8vec3 E = gli::texelFetch<glm::u8vec3>(Texture, gli::texture2D::dim_type(0, 0), 1);
+			Error += glm::all(glm::equal(E, glm::u8vec3(255, 128, 0))) ? 0 : 1;
+		}
+
+		return Error;
+	}
+}//namespace fetch_rgb8_unorm
 
 namespace fetch_rgba8_unorm
 {
@@ -110,67 +200,15 @@ namespace fetch_rgb32f
 	}
 }//namespace fetch
 
-namespace fetch_memory
-{
-	int test()
-	{
-		int Error(0);
-
-		gli::texture2D TextureRef(gli::RGB8_UNORM, gli::texture2D::dim_type(2, 2));
-		{
-			gli::texelWrite<glm::u8vec3>(TextureRef, gli::texture2D::dim_type(0, 0), 0, glm::u8vec3(255,   0,   0));
-			gli::texelWrite<glm::u8vec3>(TextureRef, gli::texture2D::dim_type(1, 0), 0, glm::u8vec3(255, 255,   0));
-			gli::texelWrite<glm::u8vec3>(TextureRef, gli::texture2D::dim_type(1, 1), 0, glm::u8vec3(  0, 255,   0));
-			gli::texelWrite<glm::u8vec3>(TextureRef, gli::texture2D::dim_type(0, 1), 0, glm::u8vec3(  0,   0, 255));
-			gli::texelWrite<glm::u8vec3>(TextureRef, gli::texture2D::dim_type(0, 0), 1, glm::u8vec3(255, 127,   0));
-			gli::save_dds(TextureRef, "rgb8_4pixels.dds");
-		}
-
-		{
-			gli::texture2D Texture(gli::load_dds("rgb8_4pixels.dds"));
-
-			Error += (Texture == TextureRef) ? 0 : 1;
-		}
-
-		{
-			std::ifstream File("rgb8_4pixels.dds", std::ios::binary);
-
-			assert(File.is_open());
-
-			File.seekg(0, std::ios::end);
-			std::streamsize Size = File.tellg();
-			File.seekg(0, std::ios::beg);
-
-			char* Buffer = (char*)malloc(Size);
-
-			//std::vector<char> Buffer(Size);
-
-			if(File.read(Buffer, Size))
-			{
-				gli::texture2D Texture(gli::load_dds(Buffer, Size));
-
-				Error += (Texture == TextureRef) ? 0 : 1;
-			}
-			else
-			{
-				++Error;
-			}
-
-			free(Buffer);
-		}
-		
-		return Error;
-	}
-}//namespace fetch_memory
-
 int main()
 {
 	int Error(0);
 	
+	Error += fetch_r8_unorm::test();
+	Error += fetch_rg8_unorm::test();
+	Error += fetch_rgb8_unorm::test();
 	Error += fetch_rgba8_unorm::test();
 	Error += fetch_rgb32f::test();
-	Error += textureLod::test();
-	Error += fetch_memory::test();
 
 	return Error;
 }
