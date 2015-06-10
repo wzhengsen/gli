@@ -346,10 +346,10 @@ inline storage load_dds(char const * Filename)
 	if(HeaderDesc.format.fourCC == dx::D3DFMT_DX10 && HeaderDesc10.Format != DXGI_FORMAT_UNKNOWN)
 		Format = detail::format_dds2gli_cast(HeaderDesc10.Format);
 	
-	if(HeaderDesc.format.flags & dx::DDPF_FOURCC && Format == gli::FORMAT_INVALID)
+	if((HeaderDesc.format.flags & dx::DDPF_FOURCC) && Format == gli::FORMAT_INVALID)
 		Format = detail::format_fourcc2gli_cast(HeaderDesc.format.flags, HeaderDesc.format.fourCC);
 	
-	if(!(HeaderDesc.format.flags & dx::DDPF_FOURCC) && Format == gli::FORMAT_INVALID)
+	if((HeaderDesc.format.flags & (dx::DDPF_RGB | dx::DDPF_ALPHAPIXELS | dx::DDPF_ALPHA | dx::DDPF_YUV | dx::DDPF_LUMINANCE)) && Format == gli::FORMAT_INVALID)
 	{
 		switch(HeaderDesc.format.bpp)
 		{
@@ -373,9 +373,7 @@ inline storage load_dds(char const * Filename)
 	std::streamoff End = File.tellg();
 	File.seekg(Curr, std::ios_base::beg);
 
-	storage::size_type const MipMapCount = (HeaderDesc.flags & detail::DDSD_MIPMAPCOUNT) ? 
-		HeaderDesc.mipMapLevels : 1;
-
+	storage::size_type const MipMapCount = (HeaderDesc.flags & detail::DDSD_MIPMAPCOUNT) ? HeaderDesc.mipMapLevels : 1;
 	storage::size_type FaceCount(1);
 	if(HeaderDesc.cubemapFlags & detail::DDSCAPS2_CUBEMAP)
 		FaceCount = int(glm::bitCount(HeaderDesc.cubemapFlags & detail::DDSCAPS2_CUBEMAP_ALLFACES));

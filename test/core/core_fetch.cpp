@@ -29,6 +29,7 @@
 #include <gli/gli.hpp>
 #include <glm/gtc/epsilon.hpp>
 #include <glm/gtc/vec1.hpp>
+#include <glm/gtc/packing.hpp>
 
 namespace fetch_r8_unorm
 {
@@ -166,6 +167,40 @@ namespace fetch_rgba8_unorm
 	}
 }//namespace fetch
 
+namespace fetch_rgba16f
+{
+	int test()
+	{
+		int Error(0);
+
+		{
+			gli::texture2D Texture(gli::RGBA16F, gli::texture2D::dim_type(2, 2));
+			gli::texelWrite<glm::u64>(Texture, gli::texture2D::dim_type(0, 0), 0, glm::packHalf4x16(glm::vec4(1.0f, 0.0f, 0.0f, 1.0f)));
+			gli::texelWrite<glm::u64>(Texture, gli::texture2D::dim_type(1, 0), 0, glm::packHalf4x16(glm::vec4(1.0f, 1.0f, 0.0f, 1.0f)));
+			gli::texelWrite<glm::u64>(Texture, gli::texture2D::dim_type(1, 1), 0, glm::packHalf4x16(glm::vec4(0.0f, 1.0f, 0.0f, 1.0f)));
+			gli::texelWrite<glm::u64>(Texture, gli::texture2D::dim_type(0, 1), 0, glm::packHalf4x16(glm::vec4(0.0f, 0.0f, 1.0f, 1.0f)));
+			gli::texelWrite<glm::u64>(Texture, gli::texture2D::dim_type(0, 0), 1, glm::packHalf4x16(glm::vec4(1.0f, 0.5f, 0.0f, 1.0f)));
+			gli::save_dds(Texture, "rgba16f_4pixels.dds");
+		}
+
+		{
+			gli::texture2D Texture(gli::load_dds("rgba16f_4pixels.dds"));
+			glm::u64 A = gli::texelFetch<glm::u64>(Texture, gli::texture2D::dim_type(0, 0), 0);
+			Error += A == glm::packHalf4x16(glm::vec4(1.0f, 0.0f, 0.0f, 1.0f)) ? 0 : 1;
+			glm::u64 B = gli::texelFetch<glm::u64>(Texture, gli::texture2D::dim_type(1, 0), 0);
+			Error += B == glm::packHalf4x16(glm::vec4(1.0f, 1.0f, 0.0f, 1.0f)) ? 0 : 1;
+			glm::u64 C = gli::texelFetch<glm::u64>(Texture, gli::texture2D::dim_type(1, 1), 0);
+			Error += C  == glm::packHalf4x16(glm::vec4(0.0f, 1.0f, 0.0f, 1.0f)) ? 0 : 1;
+			glm::u64 D = gli::texelFetch<glm::u64>(Texture, gli::texture2D::dim_type(0, 1), 0);
+			Error += D ==  glm::packHalf4x16(glm::vec4(0.0f, 0.0f, 1.0f, 1.0f)) ? 0 : 1;
+			glm::u64 E = gli::texelFetch<glm::u64>(Texture, gli::texture2D::dim_type(0, 0), 1);
+			Error += E == glm::packHalf4x16(glm::vec4(1.0f, 0.5f, 0.0f, 1.0f)) ? 0 : 1;
+		}
+
+		return Error;
+	}
+}//namespace fetch_rgba16f
+
 namespace fetch_rgb32f
 {
 	int test()
@@ -198,7 +233,7 @@ namespace fetch_rgb32f
 
 		return Error;
 	}
-}//namespace fetch
+}//namespace fetch_rgb32f
 
 int main()
 {
@@ -208,6 +243,7 @@ int main()
 	Error += fetch_rg8_unorm::test();
 	Error += fetch_rgb8_unorm::test();
 	Error += fetch_rgba8_unorm::test();
+	Error += fetch_rgba16f::test();
 	Error += fetch_rgb32f::test();
 
 	return Error;

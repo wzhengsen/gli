@@ -78,7 +78,6 @@ namespace detail
 			return 0x000000FF;
 		}
 	}
-
 }//namespace detail
 
 	inline void save_dds(storage const & Storage, char const * Filename)
