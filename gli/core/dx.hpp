@@ -37,11 +37,11 @@ namespace gli
 	{
 	public:
 		#define GLI_MAKEFOURCC(ch0, ch1, ch2, ch3) \
-			(glm::uint32)( \
-			(((glm::uint32)(glm::uint8)(ch3) << 24) & 0xFF000000) | \
-			(((glm::uint32)(glm::uint8)(ch2) << 16) & 0x00FF0000) | \
-			(((glm::uint32)(glm::uint8)(ch1) <<  8) & 0x0000FF00) | \
-			((glm::uint32)(glm::uint8)(ch0)        & 0x000000FF) )
+			(std::uint32_t)( \
+			(((std::uint32_t)(std::uint8_t)(ch3) << 24) & 0xFF000000) | \
+			(((std::uint32_t)(std::uint8_t)(ch2) << 16) & 0x00FF0000) | \
+			(((std::uint32_t)(std::uint8_t)(ch1) <<  8) & 0x0000FF00) | \
+			((std::uint32_t)(std::uint8_t)(ch0)        & 0x000000FF) )
 
 		enum D3DFORMAT
 		{
