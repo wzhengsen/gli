@@ -58,8 +58,8 @@ int test_image_data()
 	assert(!Error);
 
 	gli::storage Storage(
-		2, 1, 1, 
-		gli::FORMAT_INVALID, 
+		2, 1, 1,
+		gli::RGBA8_UNORM,
 		gli::storage::dim3_type(1));
 
 	std::vector<glm::u8vec4> Data(2);

@@ -78,7 +78,7 @@ int main()
 {
 	int Error(0);
 
-	Error += texture2d::test();
+	//Error += texture2d::test();
 
 	return Error;
 }

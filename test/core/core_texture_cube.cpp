@@ -254,7 +254,7 @@ int test_textureCube_texture2D_size()
 
 namespace clear
 {
-	int run()
+	int test()
 	{
 		int Error(0);
 
@@ -270,7 +270,55 @@ namespace clear
 
 		return Error;
 	}
-}//namespace
+}//namespace clear
+
+namespace loader
+{
+	int test()
+	{
+		int Error(0);
+
+		gli::textureCube TextureA(
+			gli::textureCube::size_type(6),
+			gli::textureCube::size_type(1),
+			gli::RGBA8_UNORM,
+			gli::textureCube::dim_type(256));
+
+		{
+			std::vector<glm::u8vec4> Color;
+			Color.push_back(glm::u8vec4(255,   0,   0, 255));
+			Color.push_back(glm::u8vec4(255, 128,   0, 255));
+			Color.push_back(glm::u8vec4(255, 255,   0, 255));
+			Color.push_back(glm::u8vec4(  0, 255,   0, 255));
+			Color.push_back(glm::u8vec4(  0, 128, 255, 255));
+			Color.push_back(glm::u8vec4(  0,   0, 255, 255));
+
+			for(gli::textureCube::size_type FaceIndex = 0; FaceIndex < TextureA.faces(); ++FaceIndex)
+			for(gli::texture2D::size_type TexelIndex = 0; TexelIndex < TextureA[FaceIndex].size<glm::u8vec4>(); ++TexelIndex)
+				*(TextureA[FaceIndex].data<glm::u8vec4>() + TexelIndex) = Color[FaceIndex];
+
+			gli::save_dds(TextureA, "../../data/textureCubeA_rgba8_unorm.dds");
+		}
+
+		{
+			gli::textureCube TextureB(gli::load_dds("../../data/textureCubeA_rgba8_unorm.dds"));
+
+			Error += TextureA == TextureB ? 0 : 1;
+
+			gli::save_dds(TextureB, "../../data/textureCubeB_rgba8_unorm.dds");
+		}
+
+		{
+			gli::textureCube TextureC(gli::load_dds("../../data/textureCubeA_rgba8_unorm.dds"));
+			gli::textureCube TextureD(gli::load_dds("../../data/textureCubeB_rgba8_unorm.dds"));
+
+			Error += TextureA == TextureC ? 0 : 1;
+			Error += TextureA == TextureD ? 0 : 1;
+		}
+
+		return Error;
+	}
+}//namespace loader
 
 int main()
 {
@@ -280,7 +328,8 @@ int main()
 	Error += test_textureCube_texture2D_size();
 	Error += test_textureCube_query();
 	Error += test_textureCube_texture2D_access();
-	Error += clear::run();
+	Error += clear::test();
+	Error += loader::test();
 
 	return Error;
 }

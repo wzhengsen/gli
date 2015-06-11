@@ -12,5 +12,3 @@ endfunction()
 
 add_subdirectory(bug)
 add_subdirectory(core)
-add_subdirectory(gtc)
-add_subdirectory(gtx)
