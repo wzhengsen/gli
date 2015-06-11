@@ -324,12 +324,12 @@ int main()
 {
 	int Error(0);
 
+	Error += loader::test();
 	Error += test_alloc();
 	Error += test_textureCube_texture2D_size();
 	Error += test_textureCube_query();
 	Error += test_textureCube_texture2D_access();
 	Error += clear::test();
-	Error += loader::test();
 
 	return Error;
 }
