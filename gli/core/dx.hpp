@@ -154,6 +154,7 @@ namespace gli
 			DDPF DDPixelFormat;
 			D3DFORMAT D3DFormat;
 			dxgiFormat DXGIFormat;
+			glm::u32vec4 Mask;
 		};
 
 	public:
@@ -164,9 +165,6 @@ namespace gli
 	private:
 		std::array<format, FORMAT_COUNT> Translation;
 	};
-
-	dxgiFormat dxgi_format(format const & Format);
-
 }//namespace gli
 
 #include "dx.inl"
