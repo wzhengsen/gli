@@ -95,7 +95,7 @@ namespace gli
 			HeaderDesc10.arraySize = glm::uint32(Storage.layers());
 			HeaderDesc10.resourceDimension = detail::D3D10_RESOURCE_DIMENSION_TEXTURE2D;
 			HeaderDesc10.miscFlag = 0;//Storage.levels() > 0 ? detail::D3D10_RESOURCE_MISC_GENERATE_MIPS : 0;
-			HeaderDesc10.Format = static_cast<dxgiFormat>(DXFormat.DXGIFormat);
+			HeaderDesc10.Format = static_cast<dx::dxgiFormat>(DXFormat.DXGIFormat);
 			HeaderDesc10.reserved = 0;
 			File.write((char*)&HeaderDesc10, sizeof(HeaderDesc10));
 		}

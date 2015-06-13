@@ -120,14 +120,14 @@ namespace detail
 	struct ddsHeader10
 	{
 		ddsHeader10() :
-			Format(DXGI_FORMAT_UNKNOWN),
+			Format(dx::DXGI_FORMAT_UNKNOWN),
 			resourceDimension(D3D10_RESOURCE_DIMENSION_UNKNOWN),
 			miscFlag(0),
 			arraySize(1),
 			reserved(0)
 		{}
 
-		dxgiFormat					Format;
+		dx::dxgiFormat				Format;
 		D3D10_RESOURCE_DIMENSION	resourceDimension;
 		glm::uint32					miscFlag; // D3D10_RESOURCE_MISC_GENERATE_MIPS
 		glm::uint32					arraySize;
@@ -189,7 +189,7 @@ namespace detail
 		}
 	}
 
-	inline gli::format format_dds2gli_cast(dxgiFormat const & Format)
+	inline gli::format format_dds2gli_cast(dx::dxgiFormat const & Format)
 	{
 		static gli::format const Cast[] =
 		{
@@ -375,7 +375,7 @@ namespace detail
 			gli::R32U							//DXGI_FORMAT_FORCE_UINT					= 0xffffffffUL
 		};
 
-		assert(Format > DXGI_FORMAT_UNKNOWN && Format < DXGI_FORMAT_LAST);
+		assert(Format > dx::DXGI_FORMAT_UNKNOWN && Format < dx::DXGI_FORMAT_LAST);
 		static_assert(sizeof(Cast) / sizeof(Cast[0]), "GLI ERROR: Translation table needs to be updated");
 
 		return Cast[Format];
@@ -463,7 +463,7 @@ inline storage load_dds(char const * Filename)
 	}
 	else if((HeaderDesc.format.flags & dx::DDPF_FOURCC) && HeaderDesc.format.fourCC != dx::D3DFMT_DX10 && Format == gli::FORMAT_INVALID)
 		Format = detail::format_fourcc2gli_cast(HeaderDesc.format.flags, HeaderDesc.format.fourCC);
-	else if(HeaderDesc.format.fourCC == dx::D3DFMT_DX10 && HeaderDesc10.Format != DXGI_FORMAT_UNKNOWN)
+	else if(HeaderDesc.format.fourCC == dx::D3DFMT_DX10 && HeaderDesc10.Format != dx::DXGI_FORMAT_UNKNOWN)
 		Format = detail::format_dds2gli_cast(HeaderDesc10.Format);
 	else
 		assert(0); // Unsupported file
