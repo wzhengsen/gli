@@ -491,32 +491,6 @@ inline storage load_dds(char const * Filename)
 
 	File.read((char*)Storage.data(), std::size_t(End - Curr));
 
-	detail::format_info const & Desc = detail::getFormatInfo(Storage.format());
-
-	if(HeaderDesc.format.fourCC != dx::D3DFMT_DX10 && !(Desc.Flags & detail::FORMAT_COMPRESSED_BIT) && Desc.Component >= 3)
-	{
-		switch(Desc.Component)
-		{
-		default:
-			assert(0);
-			break;
-		case 3:
-			for(std::size_t Offset = 0; Offset < Storage.size() / 3; ++Offset)
-			{
-				glm::u8vec3 Src = *(reinterpret_cast<glm::u8vec3 const *>(Storage.data()) + Offset);
-				*(reinterpret_cast<glm::u8vec3*>(Storage.data()) + Offset) = glm::u8vec3(Src.z, Src.y, Src.x);
-			}
-			break;
-		case 4:
-			for(std::size_t Offset = 0; Offset < Storage.size() / 4; ++Offset)
-			{
-				glm::u8vec4 Src = *(reinterpret_cast<glm::u8vec4 const *>(Storage.data()) + Offset);
-				*(reinterpret_cast<glm::u8vec4*>(Storage.data()) + Offset) = glm::u8vec4(Src.z, Src.y, Src.x, Src.w);
-			}
-			break;
-		}
-	}
-
 	return Storage;
 }
 
