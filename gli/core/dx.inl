@@ -211,4 +211,26 @@ namespace gli
 		return Translation[Format];
 	}
 
+	inline gli::format dx::find(dx::D3DFORMAT FourCC)
+	{
+		for(int FormatIndex = 0; FormatIndex < FORMAT_COUNT; ++FormatIndex)
+		{
+			if(this->Translation[FormatIndex].D3DFormat != FourCC)
+				continue;
+			return static_cast<gli::format>(FormatIndex);
+		}
+		return FORMAT_INVALID;
+	}
+
+	inline gli::format dx::find(dx::dxgiFormat Format)
+	{
+		for(int FormatIndex = 0; FormatIndex < FORMAT_COUNT; ++FormatIndex)
+		{
+			if(this->Translation[FormatIndex].DXGIFormat != Format)
+				continue;
+			return static_cast<gli::format>(FormatIndex);
+		}
+		return FORMAT_INVALID;
+	}
+
 }//namespace gli

@@ -297,8 +297,7 @@ namespace gli
 			DXGI_FORMAT_ASTC_12X10_UNORM_SRGB			= 183,
 			DXGI_FORMAT_ASTC_12X12_TYPELESS				= 185,
 			DXGI_FORMAT_ASTC_12X12_UNORM				= 186,
-			DXGI_FORMAT_ASTC_12X12_UNORM_SRGB			= 187,
-			DXGI_FORMAT_LAST							= DXGI_FORMAT_ASTC_12X12_UNORM_SRGB,
+			DXGI_FORMAT_ASTC_12X12_UNORM_SRGB			= 187, DXGI_FORMAT_LAST = DXGI_FORMAT_ASTC_12X12_UNORM_SRGB,
 			DXGI_FORMAT_FORCE_UINT						= 0xffffffffUL
 		};
 
@@ -329,6 +328,8 @@ namespace gli
 		dx();
 
 		format const & translate(gli::format const & Format) const;
+		gli::format find(D3DFORMAT FourCC);
+		gli::format find(dxgiFormat Format);
 
 	private:
 		std::array<format, FORMAT_COUNT> Translation;
