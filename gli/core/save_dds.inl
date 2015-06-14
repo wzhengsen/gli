@@ -48,7 +48,7 @@ namespace gli
 		Caps |= Storage.dimensions(0).y > 1 ? detail::DDSD_HEIGHT : 0;
 		Caps |= Storage.dimensions(0).z > 1 ? detail::DDSD_DEPTH : 0;
 		//Caps |= Storage.levels() > 1 ? detail::DDSD_MIPMAPCOUNT : 0;
-		Caps |= (Desc.Flags & detail::FORMAT_COMPRESSED_BIT) ? detail::DDSD_LINEARSIZE : detail::DDSD_PITCH;
+		Caps |= (Desc.Flags & detail::CAP_COMPRESSED_BIT) ? detail::DDSD_LINEARSIZE : detail::DDSD_PITCH;
 
 		detail::ddsHeader HeaderDesc;
 		memset(HeaderDesc.reserved1, 0, sizeof(HeaderDesc.reserved1));
@@ -59,7 +59,7 @@ namespace gli
 		HeaderDesc.width = static_cast<glm::uint32>(Storage.dimensions(0).x);
 		assert(Storage.dimensions(0).y < std::numeric_limits<glm::uint32>::max());
 		HeaderDesc.height = static_cast<glm::uint32>(Storage.dimensions(0).y);
-		HeaderDesc.pitch = glm::uint32((Desc.Flags & detail::FORMAT_COMPRESSED_BIT) ? Storage.size() / Storage.faces() : 32);
+		HeaderDesc.pitch = glm::uint32((Desc.Flags & detail::CAP_COMPRESSED_BIT) ? Storage.size() / Storage.faces() : 32);
 		assert(Storage.dimensions(0).z < std::numeric_limits<glm::uint32>::max());
 		HeaderDesc.depth = static_cast<glm::uint32>(Storage.dimensions(0).z > 1 ? Storage.dimensions(0).z : 0);
 		HeaderDesc.mipMapLevels = glm::uint32(Storage.levels());
