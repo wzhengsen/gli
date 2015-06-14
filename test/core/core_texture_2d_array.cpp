@@ -35,12 +35,12 @@ namespace alloc
 		int Error(0);
 
 		std::vector<gli::format> Formats;
-		Formats.push_back(gli::RGBA8_UNORM);
-		Formats.push_back(gli::RGB8_UNORM);
-		Formats.push_back(gli::R8_SNORM);
-		Formats.push_back(gli::RGB_DXT1_UNORM);
-		Formats.push_back(gli::RGB_BP_UNORM);
-		Formats.push_back(gli::RGBA32F);
+		Formats.push_back(gli::FORMAT_RGBA8_UNORM);
+		Formats.push_back(gli::FORMAT_RGB8_UNORM);
+		Formats.push_back(gli::FORMAT_R8_SNORM);
+		Formats.push_back(gli::FORMAT_RGB_DXT1_UNORM);
+		Formats.push_back(gli::FORMAT_RGB_BP_UNORM);
+		Formats.push_back(gli::FORMAT_RGBA32F);
 
 		std::vector<gli::texture2DArray::dim_type::value_type> Sizes;
 		Sizes.push_back(16);
@@ -73,7 +73,7 @@ namespace clear
 		glm::u8vec4 const Orange(255, 127, 0, 255);
 
 		gli::texture2DArray::dim_type Size(16u);
-		gli::texture2DArray Texture(2, gli::levels(Size), gli::RGBA8U, Size);
+		gli::texture2DArray Texture(2, gli::levels(Size), gli::FORMAT_RGBA8U, Size);
 
 		Texture.clear<glm::u8vec4>(Orange);
 
@@ -90,16 +90,12 @@ namespace query
 		gli::texture2DArray::size_type Layers(2);
 		gli::texture2DArray::size_type Levels(2);
 
-		gli::texture2DArray Texture(
-			Layers,
-			Levels,
-			gli::RGBA8U,
-			gli::texture2DArray::dim_type(2));
+		gli::texture2DArray Texture(Layers, Levels, gli::FORMAT_RGBA8U, gli::texture2DArray::dim_type(2));
 
 		gli::texture2DArray::size_type Size = Texture.size();
 
 		Error += Size == sizeof(glm::u8vec4) * 5 * Layers ? 0 : 1;
-		Error += Texture.format() == gli::RGBA8U ? 0 : 1;
+		Error += Texture.format() == gli::FORMAT_RGBA8U ? 0 : 1;
 		Error += Texture.layers() == Layers ? 0 : 1;
 		Error += Texture.levels() == Levels ? 0 : 1;
 		Error += !Texture.empty() ? 0 : 1;
@@ -117,11 +113,7 @@ namespace access
 		int Error(0);
 
 		{
-			gli::texture2DArray Texture2DArray(
-				gli::texture2DArray::size_type(2),
-				gli::texture2DArray::size_type(1),
-				gli::RGBA8U,
-				gli::texture2DArray::dim_type(2));
+			gli::texture2DArray Texture2DArray(2, 1, gli::FORMAT_RGBA8U, gli::texture2DArray::dim_type(2));
 			assert(!Texture2DArray.empty());
 
 			gli::texture2D Texture0 = Texture2DArray[0];
@@ -185,12 +177,12 @@ namespace size
 		int Error(0);
 
 		std::vector<entry> Tests;
-		Tests.push_back(entry(gli::RGBA8U, gli::texture2DArray::dim_type(4), 64 * 2));
-		Tests.push_back(entry(gli::R8U, gli::texture2DArray::dim_type(4), 16 * 2));
-		Tests.push_back(entry(gli::RGB_DXT1_UNORM, gli::texture2DArray::dim_type(4), 8 * 2));
-		Tests.push_back(entry(gli::RGB_DXT1_UNORM, gli::texture2DArray::dim_type(2), 8 * 2));
-		Tests.push_back(entry(gli::RGB_DXT1_UNORM, gli::texture2DArray::dim_type(1), 8 * 2));
-		Tests.push_back(entry(gli::RGBA_DXT5_UNORM, gli::texture2DArray::dim_type(4), 16 * 2));
+		Tests.push_back(entry(gli::FORMAT_RGBA8U, gli::texture2DArray::dim_type(4), 64 * 2));
+		Tests.push_back(entry(gli::FORMAT_R8U, gli::texture2DArray::dim_type(4), 16 * 2));
+		Tests.push_back(entry(gli::FORMAT_RGB_DXT1_UNORM, gli::texture2DArray::dim_type(4), 8 * 2));
+		Tests.push_back(entry(gli::FORMAT_RGB_DXT1_UNORM, gli::texture2DArray::dim_type(2), 8 * 2));
+		Tests.push_back(entry(gli::FORMAT_RGB_DXT1_UNORM, gli::texture2DArray::dim_type(1), 8 * 2));
+		Tests.push_back(entry(gli::FORMAT_RGBA_DXT5_UNORM, gli::texture2DArray::dim_type(4), 16 * 2));
 
 		for(std::size_t i = 0; i < Tests.size(); ++i)
 		{
@@ -229,7 +221,7 @@ namespace loader
 		int Error(0);
 
 		{
-			gli::texture2DArray Texture(gli::texture2DArray::size_type(2), gli::texture2DArray::size_type(1), gli::RGBA8_UNORM, gli::texture2DArray::dim_type(1));
+			gli::texture2DArray Texture(gli::texture2DArray::size_type(2), gli::texture2DArray::size_type(1), gli::FORMAT_RGBA8_UNORM, gli::texture2DArray::dim_type(1));
 
 			std::vector<glm::u8vec4> Color;
 			Color.push_back(glm::u8vec4(255, 128,   0, 255));
@@ -243,7 +235,7 @@ namespace loader
 		}
 
 		{
-			gli::texture2D Texture0(gli::texture2D::size_type(1), gli::RGBA8_UNORM, gli::texture2D::dim_type(1));
+			gli::texture2D Texture0(gli::texture2D::size_type(1), gli::FORMAT_RGBA8_UNORM, gli::texture2D::dim_type(1));
 
 			*Texture0.data<glm::u8vec4>() = glm::u8vec4(255, 128, 0, 255);
 
@@ -251,7 +243,7 @@ namespace loader
 		}
 
 		{
-			gli::texture2D Texture1(gli::texture2D::size_type(1), gli::RGBA8_UNORM, gli::texture2D::dim_type(1));
+			gli::texture2D Texture1(gli::texture2D::size_type(1), gli::FORMAT_RGBA8_UNORM, gli::texture2D::dim_type(1));
 
 			*Texture1.data<glm::u8vec4>() = glm::u8vec4(  0, 128, 255, 255);
 

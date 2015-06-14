@@ -38,7 +38,7 @@ namespace fetch_r8_unorm
 	{
 		int Error(0);
 
-		gli::texture2D TextureA(gli::R8_UNORM, gli::texture2D::dim_type(2, 2));
+		gli::texture2D TextureA(gli::FORMAT_R8_UNORM, gli::texture2D::dim_type(2, 2));
 		{
 			gli::texelWrite<glm::u8vec1>(TextureA, gli::texture2D::dim_type(0, 0), 0, glm::u8vec1(1));
 			gli::texelWrite<glm::u8vec1>(TextureA, gli::texture2D::dim_type(1, 0), 0, glm::u8vec1(2));
@@ -72,7 +72,7 @@ namespace fetch_rg8_unorm
 	{
 		int Error(0);
 
-		gli::texture2D TextureA(gli::RG8_UNORM, gli::texture2D::dim_type(2, 2));
+		gli::texture2D TextureA(gli::FORMAT_RG8_UNORM, gli::texture2D::dim_type(2, 2));
 		{
 			gli::texelWrite<glm::u8vec2>(TextureA, gli::texture2D::dim_type(0, 0), 0, glm::u8vec2(1, 2));
 			gli::texelWrite<glm::u8vec2>(TextureA, gli::texture2D::dim_type(1, 0), 0, glm::u8vec2(3, 4));
@@ -108,7 +108,7 @@ namespace fetch_rgb8_unorm
 	{
 		int Error(0);
 
-		gli::texture2D TextureA(gli::RGB8_UNORM, gli::texture2D::dim_type(2, 2));
+		gli::texture2D TextureA(gli::FORMAT_RGB8_UNORM, gli::texture2D::dim_type(2, 2));
 		{
 			gli::texelWrite<glm::u8vec3>(TextureA, gli::texture2D::dim_type(0, 0), 0, glm::u8vec3(255, 0, 0));
 			gli::texelWrite<glm::u8vec3>(TextureA, gli::texture2D::dim_type(1, 0), 0, glm::u8vec3(255, 255, 0));
@@ -144,7 +144,7 @@ namespace fetch_rgba8_unorm
 	{
 		int Error(0);
 
-		gli::texture2D TextureA(gli::RGBA8_UNORM, gli::texture2D::dim_type(2, 2));
+		gli::texture2D TextureA(gli::FORMAT_RGBA8_UNORM, gli::texture2D::dim_type(2, 2));
 		{
 			gli::texelWrite<glm::u8vec4>(TextureA, gli::texture2D::dim_type(0, 0), 0, glm::u8vec4(255, 0, 0, 255));
 			gli::texelWrite<glm::u8vec4>(TextureA, gli::texture2D::dim_type(1, 0), 0, glm::u8vec4(255, 255, 0, 255));
@@ -186,7 +186,7 @@ namespace fetch_rgb10a2_unorm
 		glm::uint32 ColorB = glm::packUnorm3x10_1x2(glm::vec4(0.0f, 0.0f, 1.0f, 1.0f));
 		glm::uint32 ColorO = glm::packUnorm3x10_1x2(glm::vec4(1.0f, 0.5f, 0.0f, 1.0f));
 
-		gli::texture2D TextureA(gli::RGB10A2_UNORM, gli::texture2D::dim_type(2, 2));
+		gli::texture2D TextureA(gli::FORMAT_RGB10A2_UNORM, gli::texture2D::dim_type(2, 2));
 		{
 			gli::texelWrite<glm::uint32>(TextureA, gli::texture2D::dim_type(0, 0), 0, ColorR);
 			gli::texelWrite<glm::uint32>(TextureA, gli::texture2D::dim_type(1, 0), 0, ColorY);
@@ -222,7 +222,7 @@ namespace fetch_srgb8_unorm
 	{
 		int Error(0);
 
-		gli::texture2D TextureA(gli::RGB8_SRGB, gli::texture2D::dim_type(2, 2));
+		gli::texture2D TextureA(gli::FORMAT_RGB8_SRGB, gli::texture2D::dim_type(2, 2));
 		{
 			gli::texelWrite<glm::u8vec3>(TextureA, gli::texture2D::dim_type(0, 0), 0, glm::u8vec3(glm::convertRgbToSrgb(glm::vec3(255, 0, 0))));
 			gli::texelWrite<glm::u8vec3>(TextureA, gli::texture2D::dim_type(1, 0), 0, glm::u8vec3(glm::convertRgbToSrgb(glm::vec3(255, 255, 0))));
@@ -258,7 +258,7 @@ namespace fetch_srgba8_unorm
 	{
 		int Error(0);
 
-		gli::texture2D TextureA(gli::RGBA8_SRGB, gli::texture2D::dim_type(2, 2));
+		gli::texture2D TextureA(gli::FORMAT_RGBA8_SRGB, gli::texture2D::dim_type(2, 2));
 		{
 			gli::texelWrite<glm::u8vec4>(TextureA, gli::texture2D::dim_type(0, 0), 0, glm::u8vec4(glm::convertRgbToSrgb(glm::vec4(1.0f, 0.0f, 0.0f, 1.0f))));
 			gli::texelWrite<glm::u8vec4>(TextureA, gli::texture2D::dim_type(1, 0), 0, glm::u8vec4(glm::convertRgbToSrgb(glm::vec4(1.0f, 1.0f, 0.0f, 1.0f))));
@@ -294,7 +294,7 @@ namespace fetch_bgr8_unorm
 	{
 		int Error(0);
 
-		gli::texture2D TextureA(gli::BGR8_UNORM, gli::texture2D::dim_type(2, 2));
+		gli::texture2D TextureA(gli::FORMAT_BGR8_UNORM, gli::texture2D::dim_type(2, 2));
 		{
 			gli::texelWrite<glm::u8vec3>(TextureA, gli::texture2D::dim_type(0, 0), 0, glm::u8vec3(0, 0, 255));
 			gli::texelWrite<glm::u8vec3>(TextureA, gli::texture2D::dim_type(1, 0), 0, glm::u8vec3(0, 255, 255));
@@ -330,7 +330,7 @@ namespace fetch_bgra8_unorm
 	{
 		int Error(0);
 
-		gli::texture2D TextureA(gli::BGRA8_UNORM, gli::texture2D::dim_type(2, 2));
+		gli::texture2D TextureA(gli::FORMAT_BGRA8_UNORM, gli::texture2D::dim_type(2, 2));
 		{
 			gli::texelWrite<glm::u8vec4>(TextureA, gli::texture2D::dim_type(0, 0), 0, glm::u8vec4(0, 0, 255, 255));
 			gli::texelWrite<glm::u8vec4>(TextureA, gli::texture2D::dim_type(1, 0), 0, glm::u8vec4(0, 255, 255, 255));
@@ -366,7 +366,7 @@ namespace fetch_rgba8u
 	{
 		int Error(0);
 
-		gli::texture2D TextureA(gli::RGBA8U, gli::texture2D::dim_type(2, 2));
+		gli::texture2D TextureA(gli::FORMAT_RGBA8U, gli::texture2D::dim_type(2, 2));
 		{
 			gli::texelWrite<glm::u8vec4>(TextureA, gli::texture2D::dim_type(0, 0), 0, glm::u8vec4(255, 0, 0, 255));
 			gli::texelWrite<glm::u8vec4>(TextureA, gli::texture2D::dim_type(1, 0), 0, glm::u8vec4(255, 255, 0, 255));
@@ -402,7 +402,7 @@ namespace fetch_rgba16f
 	{
 		int Error(0);
 
-		gli::texture2D TextureA(gli::RGBA16F, gli::texture2D::dim_type(2, 2));
+		gli::texture2D TextureA(gli::FORMAT_RGBA16F, gli::texture2D::dim_type(2, 2));
 		{
 			gli::texelWrite<glm::u64>(TextureA, gli::texture2D::dim_type(0, 0), 0, glm::packHalf4x16(glm::vec4(1.0f, 0.0f, 0.0f, 1.0f)));
 			gli::texelWrite<glm::u64>(TextureA, gli::texture2D::dim_type(1, 0), 0, glm::packHalf4x16(glm::vec4(1.0f, 1.0f, 0.0f, 1.0f)));
@@ -438,7 +438,7 @@ namespace fetch_rgb32f
 	{
 		int Error(0);
 
-		gli::texture2D TextureA(gli::RGB32F, gli::texture2D::dim_type(2, 2));
+		gli::texture2D TextureA(gli::FORMAT_RGB32F, gli::texture2D::dim_type(2, 2));
 		{
 			gli::texelWrite<glm::vec3>(TextureA, gli::texture2D::dim_type(0, 0), 0, glm::vec3(1.0f, 0.0f, 0.0f));
 			gli::texelWrite<glm::vec3>(TextureA, gli::texture2D::dim_type(1, 0), 0, glm::vec3(1.0f, 1.0f, 0.0f));
@@ -474,7 +474,7 @@ namespace fetch_rgb9e5
 	{
 		int Error(0);
 
-		gli::texture2D TextureA(gli::RGB9E5_UFLOAT, gli::texture2D::dim_type(2, 2));
+		gli::texture2D TextureA(gli::FORMAT_RGB9E5_UFLOAT, gli::texture2D::dim_type(2, 2));
 		{
 			gli::texelWrite<glm::uint32_t>(TextureA, gli::texture2D::dim_type(0, 0), 0, glm::uint32_t(1));
 			gli::texelWrite<glm::uint32_t>(TextureA, gli::texture2D::dim_type(1, 0), 0, glm::uint32_t(3));
@@ -510,7 +510,7 @@ namespace fetch_rg11b10f
 	{
 		int Error(0);
 
-		gli::texture2D TextureA(gli::RG11B10_UFLOAT, gli::texture2D::dim_type(2, 2));
+		gli::texture2D TextureA(gli::FORMAT_RG11B10_UFLOAT, gli::texture2D::dim_type(2, 2));
 		{
 			gli::texelWrite<glm::uint32_t>(TextureA, gli::texture2D::dim_type(0, 0), 0, glm::packF2x11_1x10(glm::vec3(1.0f, 0.0f, 0.0f)));
 			gli::texelWrite<glm::uint32_t>(TextureA, gli::texture2D::dim_type(1, 0), 0, glm::packF2x11_1x10(glm::vec3(1.0f, 1.0f, 0.0f)));

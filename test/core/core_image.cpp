@@ -32,8 +32,8 @@ int test_image_ctor()
 {
 	int Error(0);
 
-	gli::image ImageA(gli::RGBA8U, gli::image::dim_type(4, 4, 1));
-	gli::image ImageB(gli::RGBA8U, gli::image::dim_type(4, 4, 1));
+	gli::image ImageA(gli::FORMAT_RGBA8U, gli::image::dim_type(4, 4, 1));
+	gli::image ImageB(gli::FORMAT_RGBA8U, gli::image::dim_type(4, 4, 1));
 	gli::image ImageC = ImageA;
 
 	Error += ImageA == ImageB ? 0 : 1;
@@ -50,7 +50,7 @@ int test_image_data()
 	Error += ImageA.empty() ? 0 : 1;
 	assert(!Error);
 
-	gli::image ImageB(gli::RGBA8U, gli::image::dim_type(1, 1, 1));
+	gli::image ImageB(gli::FORMAT_RGBA8U, gli::image::dim_type(1, 1, 1));
 	Error += ImageB.size() == sizeof(glm::u8vec4) ? 0 : 1;
 
 	*ImageB.data<glm::u8vec4>() = glm::u8vec4(255, 127, 0, 255);
@@ -59,7 +59,7 @@ int test_image_data()
 
 	gli::storage Storage(
 		2, 1, 1,
-		gli::RGBA8_UNORM,
+		gli::FORMAT_RGBA8_UNORM,
 		gli::storage::dim3_type(1));
 
 	std::vector<glm::u8vec4> Data(2);
@@ -86,7 +86,7 @@ int test_image_query()
 {
 	int Error(0);
 
-	gli::image Image(gli::RGBA8U, gli::image::dim_type(1, 1, 1));
+	gli::image Image(gli::FORMAT_RGBA8U, gli::image::dim_type(1, 1, 1));
 
 	Error += Image.size() == sizeof(glm::u8vec4) ? 0 : 1;
 	Error += !Image.empty() ? 0 : 1;
@@ -103,7 +103,7 @@ namespace fetch
 	{
 		int Error(0);
 
-		gli::image Image(gli::RGBA8U, gli::image::dim_type(4, 2, 1));
+		gli::image Image(gli::FORMAT_RGBA8U, gli::image::dim_type(4, 2, 1));
 		*(Image.data<glm::u8vec4>() + 0) = glm::u8vec4(255,   0,   0, 255);
 		*(Image.data<glm::u8vec4>() + 1) = glm::u8vec4(255, 128,   0, 255);
 		*(Image.data<glm::u8vec4>() + 2) = glm::u8vec4(255, 255,   0, 255);

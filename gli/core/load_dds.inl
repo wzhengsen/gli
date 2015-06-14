@@ -164,52 +164,52 @@ inline storage load_dds(char const * Filename)
 		{
 			case 8:
 			{
-				if(glm::all(glm::equal(HeaderDesc.format.Mask, DX.translate(L8_UNORM).Mask)))
-					Format = L8_UNORM;
-				else if(glm::all(glm::equal(HeaderDesc.format.Mask, DX.translate(A8_UNORM).Mask)))
-					Format = A8_UNORM;
-				else if(glm::all(glm::equal(HeaderDesc.format.Mask, DX.translate(R8_UNORM).Mask)))
-					Format = R8_UNORM;
-				else if(glm::all(glm::equal(HeaderDesc.format.Mask, DX.translate(R3G3B2_UNORM).Mask)))
-					Format = R3G3B2_UNORM;
+				if(glm::all(glm::equal(HeaderDesc.format.Mask, DX.translate(FORMAT_L8_UNORM).Mask)))
+					Format = FORMAT_L8_UNORM;
+				else if(glm::all(glm::equal(HeaderDesc.format.Mask, DX.translate(FORMAT_A8_UNORM).Mask)))
+					Format = FORMAT_A8_UNORM;
+				else if(glm::all(glm::equal(HeaderDesc.format.Mask, DX.translate(FORMAT_R8_UNORM).Mask)))
+					Format = FORMAT_R8_UNORM;
+				else if(glm::all(glm::equal(HeaderDesc.format.Mask, DX.translate(FORMAT_RG3B2_UNORM).Mask)))
+					Format = FORMAT_RG3B2_UNORM;
 				break;
 			}
 			case 16:
 			{
-				if(glm::all(glm::equal(HeaderDesc.format.Mask, DX.translate(LA8_UNORM).Mask)))
-					Format = LA8_UNORM;
-				else if(glm::all(glm::equal(HeaderDesc.format.Mask, DX.translate(RG8_UNORM).Mask)))
-					Format = RG8_UNORM;
-				else if(glm::all(glm::equal(HeaderDesc.format.Mask, DX.translate(R5G6B5_UNORM).Mask)))
-					Format = R5G6B5_UNORM;
-				else if(glm::all(glm::equal(HeaderDesc.format.Mask, DX.translate(L16_UNORM).Mask)))
-					Format = L16_UNORM;
-				else if(glm::all(glm::equal(HeaderDesc.format.Mask, DX.translate(A16_UNORM).Mask)))
-					Format = A16_UNORM;
-				else if(glm::all(glm::equal(HeaderDesc.format.Mask, DX.translate(R16_UNORM).Mask)))
-					Format = R16_UNORM;
-				else if(glm::all(glm::equal(HeaderDesc.format.Mask, DX.translate(RGB5A1_UNORM).Mask)))
-					Format = RGB5A1_UNORM;
+				if(glm::all(glm::equal(HeaderDesc.format.Mask, DX.translate(FORMAT_LA8_UNORM).Mask)))
+					Format = FORMAT_LA8_UNORM;
+				else if(glm::all(glm::equal(HeaderDesc.format.Mask, DX.translate(FORMAT_RG8_UNORM).Mask)))
+					Format = FORMAT_RG8_UNORM;
+				else if(glm::all(glm::equal(HeaderDesc.format.Mask, DX.translate(FORMAT_R5G6B5_UNORM).Mask)))
+					Format = FORMAT_R5G6B5_UNORM;
+				else if(glm::all(glm::equal(HeaderDesc.format.Mask, DX.translate(FORMAT_L16_UNORM).Mask)))
+					Format = FORMAT_L16_UNORM;
+				else if(glm::all(glm::equal(HeaderDesc.format.Mask, DX.translate(FORMAT_A16_UNORM).Mask)))
+					Format = FORMAT_A16_UNORM;
+				else if(glm::all(glm::equal(HeaderDesc.format.Mask, DX.translate(FORMAT_R16_UNORM).Mask)))
+					Format = FORMAT_R16_UNORM;
+				else if(glm::all(glm::equal(HeaderDesc.format.Mask, DX.translate(FORMAT_RGB5A1_UNORM).Mask)))
+					Format = FORMAT_RGB5A1_UNORM;
 				break;
 			}
 			case 24:
 			{
-				if(glm::all(glm::equal(HeaderDesc.format.Mask, DX.translate(BGR8_UNORM).Mask)))
-					Format = BGR8_UNORM;
+				if(glm::all(glm::equal(HeaderDesc.format.Mask, DX.translate(FORMAT_BGR8_UNORM).Mask)))
+					Format = FORMAT_BGR8_UNORM;
 				break;
 			}
 			case 32:
 			{
-				if(glm::all(glm::equal(HeaderDesc.format.Mask, DX.translate(BGRA8_UNORM).Mask)))
-					Format = BGRA8_UNORM;
-				else if(glm::all(glm::equal(HeaderDesc.format.Mask, DX.translate(RGB10A2_UNORM).Mask)))
-					Format = RGB10A2_UNORM;
-				else if(glm::all(glm::equal(HeaderDesc.format.Mask, DX.translate(LA16_UNORM).Mask)))
-					Format = LA16_UNORM;
-				else if(glm::all(glm::equal(HeaderDesc.format.Mask, DX.translate(RG16_UNORM).Mask)))
-					Format = RG16_UNORM;
-				else if(glm::all(glm::equal(HeaderDesc.format.Mask, DX.translate(R32F).Mask)))
-					Format = R32F;
+				if(glm::all(glm::equal(HeaderDesc.format.Mask, DX.translate(FORMAT_BGRA8_UNORM).Mask)))
+					Format = FORMAT_BGRA8_UNORM;
+				else if(glm::all(glm::equal(HeaderDesc.format.Mask, DX.translate(FORMAT_RGB10A2_UNORM).Mask)))
+					Format = FORMAT_RGB10A2_UNORM;
+				else if(glm::all(glm::equal(HeaderDesc.format.Mask, DX.translate(FORMAT_LA16_UNORM).Mask)))
+					Format = FORMAT_LA16_UNORM;
+				else if(glm::all(glm::equal(HeaderDesc.format.Mask, DX.translate(FORMAT_RG16_UNORM).Mask)))
+					Format = FORMAT_RG16_UNORM;
+				else if(glm::all(glm::equal(HeaderDesc.format.Mask, DX.translate(FORMAT_R32F).Mask)))
+					Format = FORMAT_R32F;
 			}
 			break;
 		}

@@ -125,21 +125,21 @@ int main()
 
 	for(std::size_t i = 0; i < Sizes.size(); ++i)
 	{
-		Error += test_texture<gli::texture1D>(gli::texture1D::dim_type(Sizes[i]), gli::RGB_DXT1_UNORM, ColorDXT1);
-		Error += test_texture<gli::texture2D>(gli::texture2D::dim_type(Sizes[i]), gli::RGB_DXT1_UNORM, ColorDXT1);
-		Error += test_texture<gli::texture3D>(gli::texture3D::dim_type(Sizes[i]), gli::RGB_DXT1_UNORM, ColorDXT1);
-		Error += test_texture<gli::texture1D>(gli::texture1D::dim_type(Sizes[i]), gli::R8_UNORM, ColorR8_UNORM);
-		Error += test_texture<gli::texture2D>(gli::texture2D::dim_type(Sizes[i]), gli::R8_UNORM, ColorR8_UNORM);
-		Error += test_texture<gli::texture3D>(gli::texture3D::dim_type(Sizes[i]), gli::R8_UNORM, ColorR8_UNORM);
-		Error += test_texture<gli::texture1D>(gli::texture1D::dim_type(Sizes[i]), gli::RGB8_UNORM, ColorRGB8_UNORM);
-		Error += test_texture<gli::texture2D>(gli::texture2D::dim_type(Sizes[i]), gli::RGB8_UNORM, ColorRGB8_UNORM);
-		Error += test_texture<gli::texture3D>(gli::texture3D::dim_type(Sizes[i]), gli::RGB8_UNORM, ColorRGB8_UNORM);
-		Error += test_texture<gli::texture1D>(gli::texture1D::dim_type(Sizes[i]), gli::RGBA8_UNORM, ColorRGBA8_UNORM);
-		Error += test_texture<gli::texture2D>(gli::texture2D::dim_type(Sizes[i]), gli::RGBA8_UNORM, ColorRGBA8_UNORM);
-		Error += test_texture<gli::texture3D>(gli::texture3D::dim_type(Sizes[i]), gli::RGBA8_UNORM, ColorRGBA8_UNORM);
-		Error += test_texture<gli::texture1D>(gli::texture1D::dim_type(Sizes[i]), gli::RGBA32F, ColorRGBA32F);
-		Error += test_texture<gli::texture2D>(gli::texture2D::dim_type(Sizes[i]), gli::RGBA32F, ColorRGBA32F);
-		Error += test_texture<gli::texture3D>(gli::texture3D::dim_type(Sizes[i]), gli::RGBA32F, ColorRGBA32F);
+		Error += test_texture<gli::texture1D>(gli::texture1D::dim_type(Sizes[i]), gli::FORMAT_RGB_DXT1_UNORM, ColorDXT1);
+		Error += test_texture<gli::texture2D>(gli::texture2D::dim_type(Sizes[i]), gli::FORMAT_RGB_DXT1_UNORM, ColorDXT1);
+		Error += test_texture<gli::texture3D>(gli::texture3D::dim_type(Sizes[i]), gli::FORMAT_RGB_DXT1_UNORM, ColorDXT1);
+		Error += test_texture<gli::texture1D>(gli::texture1D::dim_type(Sizes[i]), gli::FORMAT_R8_UNORM, ColorR8_UNORM);
+		Error += test_texture<gli::texture2D>(gli::texture2D::dim_type(Sizes[i]), gli::FORMAT_R8_UNORM, ColorR8_UNORM);
+		Error += test_texture<gli::texture3D>(gli::texture3D::dim_type(Sizes[i]), gli::FORMAT_R8_UNORM, ColorR8_UNORM);
+		Error += test_texture<gli::texture1D>(gli::texture1D::dim_type(Sizes[i]), gli::FORMAT_RGB8_UNORM, ColorRGB8_UNORM);
+		Error += test_texture<gli::texture2D>(gli::texture2D::dim_type(Sizes[i]), gli::FORMAT_RGB8_UNORM, ColorRGB8_UNORM);
+		Error += test_texture<gli::texture3D>(gli::texture3D::dim_type(Sizes[i]), gli::FORMAT_RGB8_UNORM, ColorRGB8_UNORM);
+		Error += test_texture<gli::texture1D>(gli::texture1D::dim_type(Sizes[i]), gli::FORMAT_RGBA8_UNORM, ColorRGBA8_UNORM);
+		Error += test_texture<gli::texture2D>(gli::texture2D::dim_type(Sizes[i]), gli::FORMAT_RGBA8_UNORM, ColorRGBA8_UNORM);
+		Error += test_texture<gli::texture3D>(gli::texture3D::dim_type(Sizes[i]), gli::FORMAT_RGBA8_UNORM, ColorRGBA8_UNORM);
+		Error += test_texture<gli::texture1D>(gli::texture1D::dim_type(Sizes[i]), gli::FORMAT_RGBA32F, ColorRGBA32F);
+		Error += test_texture<gli::texture2D>(gli::texture2D::dim_type(Sizes[i]), gli::FORMAT_RGBA32F, ColorRGBA32F);
+		Error += test_texture<gli::texture3D>(gli::texture3D::dim_type(Sizes[i]), gli::FORMAT_RGBA32F, ColorRGBA32F);
 	}
 		
 	return Error;

@@ -34,7 +34,7 @@ int test_create_texture_storage()
 {
 	int Error(0);
 
-	gli::texture2D Texture(gli::RGBA8U, gli::texture2D::dim_type(256));
+	gli::texture2D Texture(gli::FORMAT_RGBA8U, gli::texture2D::dim_type(256));
 	gli::texture2D::size_type Levels = Texture.levels();
 
 	assert(!Texture.empty());
