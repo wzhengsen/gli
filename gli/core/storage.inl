@@ -136,10 +136,11 @@ namespace gli
 		assert(Level < this->levels());
 
 		dim_type const BlockDimensions(gli::block_dimensions_x(this->format()), gli::block_dimensions_y(this->format()), gli::block_dimensions_z(this->format()));
+		dim_type const Dimensions = this->dimensions(Level);
+		dim_type const Multiple = glm::ceilMultiple(Dimensions, BlockDimensions);
+		std::size_t const BlockSize = gli::block_size(this->format());
 
-		return gli::block_size(this->format()) * glm::compMul(glm::ceilMultiple(
-			this->dimensions(Level),
-			BlockDimensions) / BlockDimensions);
+		return BlockSize * glm::compMul(Multiple / BlockDimensions);
 	}
 
 	inline storage::size_type storage::face_size(

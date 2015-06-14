@@ -543,7 +543,7 @@ namespace fetch_rg11b10f
 int main()
 {
 	int Error(0);
-	
+
 	Error += fetch_r8_unorm::test();
 	Error += fetch_rg8_unorm::test();
 	Error += fetch_rgb8_unorm::test();

@@ -158,7 +158,7 @@ inline storage load_dds(char const * Filename)
 
 	gli::format Format(gli::FORMAT_INVALID);
 
-	if((HeaderDesc.format.flags & (dx::DDPF_RGB | dx::DDPF_ALPHAPIXELS | dx::DDPF_ALPHA | dx::DDPF_YUV | dx::DDPF_LUMINANCE)) && Format == gli::FORMAT_INVALID)
+	if((HeaderDesc.format.flags & (dx::DDPF_RGB | /*dx::DDPF_ALPHAPIXELS |*/ dx::DDPF_ALPHA | dx::DDPF_YUV | dx::DDPF_LUMINANCE)) && Format == gli::FORMAT_INVALID)
 	{
 		switch(HeaderDesc.format.bpp)
 		{
@@ -221,8 +221,6 @@ inline storage load_dds(char const * Filename)
 	else
 		assert(0); // Unsupported file
 
-	
-
 	std::streamoff Curr = File.tellg();
 	File.seekg(0, std::ios_base::end);
 	std::streamoff End = File.tellg();
@@ -243,6 +241,8 @@ inline storage load_dds(char const * Filename)
 		MipMapCount,
 		Format,
 		storage::dim_type(HeaderDesc.width, HeaderDesc.height, DepthCount));
+
+	std::size_t Size = Storage.size();
 
 	File.read((char*)Storage.data(), std::size_t(End - Curr));
 
