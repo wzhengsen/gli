@@ -108,13 +108,22 @@ namespace detail
 		D3D10_RESOURCE_DIMENSION_TEXTURE3D   = 4 
 	};
 
-	enum D3D10_RESOURCE_MISC_FLAG 
+	enum D3D10_RESOURCE_MISC_FLAG
 	{
-		D3D10_RESOURCE_MISC_GENERATE_MIPS       = 0x1L,
-		D3D10_RESOURCE_MISC_SHARED              = 0x2L,
-		D3D10_RESOURCE_MISC_TEXTURECUBE         = 0x4L,
-		D3D10_RESOURCE_MISC_SHARED_KEYEDMUTEX   = 0x10L,
-		D3D10_RESOURCE_MISC_GDI_COMPATIBLE      = 0x20L 
+		D3D10_RESOURCE_MISC_GENERATE_MIPS		= 0x01,
+		D3D10_RESOURCE_MISC_SHARED				= 0x02,
+		D3D10_RESOURCE_MISC_TEXTURECUBE			= 0x04,
+		D3D10_RESOURCE_MISC_SHARED_KEYEDMUTEX	= 0x10,
+		D3D10_RESOURCE_MISC_GDI_COMPATIBLE		= 0x20,
+	};
+
+	enum
+	{
+		DDS_ALPHA_MODE_UNKNOWN					= 0x0,
+		DDS_ALPHA_MODE_STRAIGHT					= 0x1,
+		DDS_ALPHA_MODE_PREMULTIPLIED			= 0x2,
+		DDS_ALPHA_MODE_OPAQUE					= 0x3,
+		DDS_ALPHA_MODE_CUSTOM					= 0x4
 	};
 
 	struct ddsHeader10
@@ -158,7 +167,7 @@ inline storage load_dds(char const * Filename)
 
 	gli::format Format(gli::FORMAT_INVALID);
 
-	if((HeaderDesc.format.flags & (dx::DDPF_RGB | /*dx::DDPF_ALPHAPIXELS |*/ dx::DDPF_ALPHA | dx::DDPF_YUV | dx::DDPF_LUMINANCE)) && Format == gli::FORMAT_INVALID)
+	if((HeaderDesc.format.flags & (dx::DDPF_RGB | dx::DDPF_ALPHAPIXELS | dx::DDPF_ALPHA | dx::DDPF_YUV | dx::DDPF_LUMINANCE)) && Format == gli::FORMAT_INVALID && HeaderDesc.format.flags != dx::DDPF_FOURCC_ALPHAPIXELS)
 	{
 		switch(HeaderDesc.format.bpp)
 		{
@@ -214,12 +223,12 @@ inline storage load_dds(char const * Filename)
 			break;
 		}
 	}
-	else if((HeaderDesc.format.flags & dx::DDPF_FOURCC) && HeaderDesc.format.fourCC != dx::D3DFMT_DX10 && Format == gli::FORMAT_INVALID)
+	else if((HeaderDesc.format.flags & dx::DDPF_FOURCC) && (HeaderDesc.format.fourCC != dx::D3DFMT_DX10) && (Format == gli::FORMAT_INVALID))
 		Format = DX.find(HeaderDesc.format.fourCC);
-	else if(HeaderDesc.format.fourCC == dx::D3DFMT_DX10 && HeaderDesc10.Format != dx::DXGI_FORMAT_UNKNOWN)
+	else if((HeaderDesc.format.fourCC == dx::D3DFMT_DX10) && (HeaderDesc10.Format != dx::DXGI_FORMAT_UNKNOWN))
 		Format = DX.find(HeaderDesc10.Format);
-	else
-		assert(0); // Unsupported file
+
+	assert(Format != gli::FORMAT_INVALID);
 
 	std::streamoff Curr = File.tellg();
 	File.seekg(0, std::ios_base::end);
@@ -247,6 +256,11 @@ inline storage load_dds(char const * Filename)
 	File.read((char*)Storage.data(), std::size_t(End - Curr));
 
 	return Storage;
+}
+
+inline storage load_dds(std::string const & Filename)
+{
+	return load_dds(Filename.c_str());
 }
 
 }//namespace gli
