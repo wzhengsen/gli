@@ -59,8 +59,11 @@ namespace load
 int main()
 {
 	std::vector<std::string> Filenames;
-	Filenames.push_back("kueken7_a8_unorm.dds");
+	Filenames.push_back("kueken7_rgba8_srgb.dds");
+	Filenames.push_back("kueken7_rgb8_srgb.dds");
 	Filenames.push_back("kueken7_bgra8_srgb.dds");
+
+	Filenames.push_back("kueken7_a8_unorm.dds");
 	Filenames.push_back("kueken7_bgra8_unorm.dds");
 	Filenames.push_back("kueken7_l8_unorm.dds");
 	//Filenames.push_back("kueken7_la8_unorm.dds");
@@ -79,7 +82,6 @@ int main()
 	//Filenames.push_back("kueken7_rgb_etc2_unorm.dds");
 	Filenames.push_back("kueken7_rgb_pvrtc_2bpp_unorm.dds");
 	Filenames.push_back("kueken7_rgb_pvrtc_4bpp_unorm.dds");
-	Filenames.push_back("kueken7_rgb8_srgb.dds");
 	Filenames.push_back("kueken7_rgb8_unorm.dds");
 	Filenames.push_back("kueken7_rgb9e5_ufloat.dds");
 	Filenames.push_back("kueken7_rgb10a2_unorm.dds");
@@ -91,7 +93,6 @@ int main()
 	Filenames.push_back("kueken7_rgba_dxt5_unorm.dds");
 	//Filenames.push_back("kueken7_rgba_pvrtc2_4bpp_unorm.dds");
 	Filenames.push_back("kueken7_rgba8_snorm.dds");
-	Filenames.push_back("kueken7_rgba8_srgb.dds");
 	Filenames.push_back("kueken7_rgba16f.dds");
 
 	int Error(0);

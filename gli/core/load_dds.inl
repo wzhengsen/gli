@@ -159,7 +159,8 @@ inline storage load_dds(char const * Filename)
 	if(HeaderDesc.format.flags & dx::DDPF_FOURCC && HeaderDesc.format.fourCC == dx::D3DFMT_DX10)
 		File.read((char*)&HeaderDesc10, sizeof(HeaderDesc10));
 
-	gli::format Format(static_cast<gli::format>(FORMAT_INVALID));
+	//gli::format Format(static_cast<gli::format>(FORMAT_INVALID));
+	gli::format Format(FORMAT_RGBA8_SRGB);
 	if((HeaderDesc.format.flags & (dx::DDPF_RGB | dx::DDPF_ALPHAPIXELS | dx::DDPF_ALPHA | dx::DDPF_YUV | dx::DDPF_LUMINANCE)) && Format == gli::FORMAT_INVALID && HeaderDesc.format.flags != dx::DDPF_FOURCC_ALPHAPIXELS)
 	{
 		switch(HeaderDesc.format.bpp)
