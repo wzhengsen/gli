@@ -1,7 +1,7 @@
 ///////////////////////////////////////////////////////////////////////////////////
 /// OpenGL Image (gli.g-truc.net)
 ///
-/// Copyright (c) 2008 - 2013 G-Truc Creation (www.g-truc.net)
+/// Copyright (c) 2008 - 2015 G-Truc Creation (www.g-truc.net)
 /// Permission is hereby granted, free of charge, to any person obtaining a copy
 /// of this software and associated documentation files (the "Software"), to deal
 /// in the Software without restriction, including without limitation the rights
@@ -32,7 +32,7 @@ namespace gli
 		Layers(0),
 		Faces(0),
 		Levels(0),
-		Format(FORMAT_INVALID),
+		Format(static_cast<gli::format>(FORMAT_INVALID)),
 		Dimensions(0)
 	{}
 

@@ -1,7 +1,7 @@
 ///////////////////////////////////////////////////////////////////////////////////
 /// OpenGL Image (gli.g-truc.net)
 ///
-/// Copyright (c) 2008 - 2013 G-Truc Creation (www.g-truc.net)
+/// Copyright (c) 2008 - 2015 G-Truc Creation (www.g-truc.net)
 /// Permission is hereby granted, free of charge, to any person obtaining a copy
 /// of this software and associated documentation files (the "Software"), to deal
 /// in the Software without restriction, including without limitation the rights
@@ -31,13 +31,10 @@
 namespace gli
 {
 	inline texture1DArray::texture1DArray() :
-		BaseLayer(0), 
-		MaxLayer(0), 
-		BaseFace(0), 
-		MaxFace(0), 
-		BaseLevel(0), 
-		MaxLevel(0),
-		Format(FORMAT_INVALID)
+		BaseLayer(0), MaxLayer(0),
+		BaseFace(0), MaxFace(0),
+		BaseLevel(0), MaxLevel(0),
+		Format(static_cast<gli::format>(FORMAT_INVALID))
 	{}
 
 	inline texture1DArray::texture1DArray

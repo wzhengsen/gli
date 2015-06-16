@@ -1,7 +1,7 @@
 ///////////////////////////////////////////////////////////////////////////////////
 /// OpenGL Image (gli.g-truc.net)
 ///
-/// Copyright (c) 2008 - 2013 G-Truc Creation (www.g-truc.net)
+/// Copyright (c) 2008 - 2015 G-Truc Creation (www.g-truc.net)
 /// Permission is hereby granted, free of charge, to any person obtaining a copy
 /// of this software and associated documentation files (the "Software"), to deal
 /// in the Software without restriction, including without limitation the rights
@@ -165,7 +165,7 @@ inline storage load_dds(char const * Filename)
 	if(HeaderDesc.format.flags & dx::DDPF_FOURCC && HeaderDesc.format.fourCC == dx::D3DFMT_DX10)
 		File.read((char*)&HeaderDesc10, sizeof(HeaderDesc10));
 
-	gli::format Format(gli::FORMAT_INVALID);
+	gli::format Format(static_cast<gli::format>(FORMAT_INVALID));
 
 	if((HeaderDesc.format.flags & (dx::DDPF_RGB | dx::DDPF_ALPHAPIXELS | dx::DDPF_ALPHA | dx::DDPF_YUV | dx::DDPF_LUMINANCE)) && Format == gli::FORMAT_INVALID && HeaderDesc.format.flags != dx::DDPF_FOURCC_ALPHAPIXELS)
 	{

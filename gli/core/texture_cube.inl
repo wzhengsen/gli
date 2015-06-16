@@ -1,7 +1,7 @@
 ///////////////////////////////////////////////////////////////////////////////////
 /// OpenGL Image (gli.g-truc.net)
 ///
-/// Copyright (c) 2008 - 2013 G-Truc Creation (www.g-truc.net)
+/// Copyright (c) 2008 - 2015 G-Truc Creation (www.g-truc.net)
 /// Permission is hereby granted, free of charge, to any person obtaining a copy
 /// of this software and associated documentation files (the "Software"), to deal
 /// in the Software without restriction, including without limitation the rights
@@ -29,13 +29,10 @@
 namespace gli
 {
 	inline textureCube::textureCube() :
-		BaseLayer(0),
-		MaxLayer(0),
-		BaseFace(0),
-		MaxFace(0),
-		BaseLevel(0),
-		MaxLevel(0),
-		Format(FORMAT_INVALID)
+		BaseLayer(0), MaxLayer(0),
+		BaseFace(0), MaxFace(0),
+		BaseLevel(0), MaxLevel(0),
+		Format(static_cast<gli::format>(FORMAT_INVALID))
 	{}
 
 	inline textureCube::textureCube
@@ -46,12 +43,9 @@ namespace gli
 		dim_type const & Dimensions
 	) :
 		Storage(1, Faces, Levels, Format, storage::dim_type(Dimensions, 1)),
-		BaseLayer(0), 
-		MaxLayer(0), 
-		BaseFace(0), 
-		MaxFace(Faces - 1), 
-		BaseLevel(0), 
-		MaxLevel(Levels - 1),
+		BaseLayer(0), MaxLayer(0),
+		BaseFace(0), MaxFace(Faces - 1),
+		BaseLevel(0), MaxLevel(Levels - 1),
 		Format(Format)
 	{}
 
@@ -62,12 +56,9 @@ namespace gli
 		dim_type const & Dimensions
 	) :
 		Storage(1, Faces, gli::levels(Dimensions), Format, storage::dim_type(Dimensions, 1)),
-		BaseLayer(0), 
-		MaxLayer(0), 
-		BaseFace(0), 
-		MaxFace(Faces - 1), 
-		BaseLevel(0), 
-		MaxLevel(this->Storage.levels() - 1),
+		BaseLayer(0), MaxLayer(0),
+		BaseFace(0), MaxFace(Faces - 1),
+		BaseLevel(0), MaxLevel(this->Storage.levels() - 1),
 		Format(Format)
 	{}
 
@@ -76,12 +67,9 @@ namespace gli
 		storage const & Storage
 	) :
 		Storage(Storage),
-		BaseLayer(0), 
-		MaxLayer(0), 
-		BaseFace(0), 
-		MaxFace(Storage.faces() - 1), 
-		BaseLevel(0), 
-		MaxLevel(Storage.levels() - 1),
+		BaseLayer(0), MaxLayer(0),
+		BaseFace(0), MaxFace(Storage.faces() - 1),
+		BaseLevel(0), MaxLevel(Storage.levels() - 1),
 		Format(Storage.format())
 	{}
 
@@ -89,38 +77,27 @@ namespace gli
 	(
 		storage const & Storage,
 		format_type const & Format,
-		size_type BaseLayer,
-		size_type MaxLayer,
-		size_type BaseFace,
-		size_type MaxFace,
-		size_type BaseLevel,
-		size_type MaxLevel
+		size_type BaseLayer, size_type MaxLayer,
+		size_type BaseFace, size_type MaxFace,
+		size_type BaseLevel, size_type MaxLevel
 	) :
 		Storage(Storage),
-		BaseLayer(BaseLayer),
-		MaxLayer(MaxLayer),
-		BaseFace(BaseFace),
-		MaxFace(MaxFace),
-		BaseLevel(BaseLevel),
-		MaxLevel(MaxLevel),
+		BaseLayer(BaseLayer), MaxLayer(MaxLayer),
+		BaseFace(BaseFace), MaxFace(MaxFace),
+		BaseLevel(BaseLevel), MaxLevel(MaxLevel),
 		Format(Format)
 	{}
 
 	inline textureCube::textureCube
 	(
 		textureCube const & Texture,
-		size_type const & BaseFace,
-		size_type const & MaxFace,
-		size_type const & BaseLevel,
-		size_type const & MaxLevel
+		size_type const & BaseFace, size_type const & MaxFace,
+		size_type const & BaseLevel, size_type const & MaxLevel
 	) :
 		Storage(Texture.Storage),
-		BaseLayer(Texture.baseLayer()),
-		MaxLayer(Texture.maxLayer()),
-		BaseFace(Texture.baseFace() + BaseFace),
-		MaxFace(Texture.baseFace() + MaxFace),
-		BaseLevel(Texture.baseLevel() + BaseLevel),
-		MaxLevel(Texture.baseLevel() + MaxLevel),
+		BaseLayer(Texture.baseLayer()), MaxLayer(Texture.maxLayer()),
+		BaseFace(Texture.baseFace() + BaseFace), MaxFace(Texture.baseFace() + MaxFace),
+		BaseLevel(Texture.baseLevel() + BaseLevel), MaxLevel(Texture.baseLevel() + MaxLevel),
 		Format(Texture.format())
 	{}
 
@@ -128,18 +105,13 @@ namespace gli
 	(
 		textureCubeArray const & Texture,
 		size_type const & BaseLayer,
-		size_type const & BaseFace,
-		size_type const & MaxFace,
-		size_type const & BaseLevel,
-		size_type const & MaxLevel
+		size_type const & BaseFace, size_type const & MaxFace,
+		size_type const & BaseLevel, size_type const & MaxLevel
 	) :
 		Storage(Texture),
-		BaseLayer(Texture.baseLayer() + BaseLayer),
-		MaxLayer(Texture.baseLayer() + BaseLayer),
-		BaseFace(Texture.baseFace() + BaseFace),
-		MaxFace(Texture.baseFace() + MaxFace),
-		BaseLevel(Texture.baseLevel() + BaseLevel),
-		MaxLevel(Texture.baseLevel() + MaxLevel),
+		BaseLayer(Texture.baseLayer() + BaseLayer), MaxLayer(Texture.baseLayer() + BaseLayer),
+		BaseFace(Texture.baseFace() + BaseFace), MaxFace(Texture.baseFace() + MaxFace),
+		BaseLevel(Texture.baseLevel() + BaseLevel), MaxLevel(Texture.baseLevel() + MaxLevel),
 		Format(Texture.format())
 	{}
 
@@ -150,12 +122,9 @@ namespace gli
 		size_type const & MaxLevel
 	) :
 		Storage(Texture),
-		BaseLayer(Texture.baseLayer()),
-		MaxLayer(Texture.maxLayer()),
-		BaseFace(Texture.baseFace()),
-		MaxFace(Texture.maxFace()),
-		BaseLevel(Texture.baseLevel() + BaseLevel),
-		MaxLevel(Texture.baseLevel() + MaxLevel),
+		BaseLayer(Texture.baseLayer()), MaxLayer(Texture.maxLayer()),
+		BaseFace(Texture.baseFace()), MaxFace(Texture.maxFace()),
+		BaseLevel(Texture.baseLevel() + BaseLevel), MaxLevel(Texture.baseLevel() + MaxLevel),
 		Format(Texture.format())
 	{}
 
