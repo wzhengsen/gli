@@ -71,7 +71,7 @@ int main()
 		glm::u8vec4(255, 128, 0, 255), glm::u8vec4(0, 128, 255, 255));
 
 	Error += test_texture(
-		gli::texture2D(Levels, gli::FORMAT_RGBA32F, TextureSize),
+		gli::texture2D(Levels, gli::FORMAT_RGBA32_SFLOAT, TextureSize),
 		glm::f32vec4(1.0, 0.5, 0.0, 1.0), glm::f32vec4(0.0, 0.5, 1.0, 1.0));
 
 	Error += test_texture(
@@ -79,7 +79,7 @@ int main()
 		glm::u8vec4(255, 128, 0, 255), glm::u8vec4(0, 128, 255, 255));
 
 	Error += test_texture(
-		gli::texture2DArray(4, Levels, gli::FORMAT_RGBA32F, TextureSize),
+		gli::texture2DArray(4, Levels, gli::FORMAT_RGBA32_SFLOAT, TextureSize),
 		glm::f32vec4(1.0, 0.5, 0.0, 1.0), glm::f32vec4(0.0, 0.5, 1.0, 1.0));
 
 	return Error;

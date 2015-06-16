@@ -137,9 +137,9 @@ int main()
 		Error += test_texture<gli::texture1D>(gli::texture1D::dim_type(Sizes[i]), gli::FORMAT_RGBA8_UNORM, ColorRGBA8_UNORM);
 		Error += test_texture<gli::texture2D>(gli::texture2D::dim_type(Sizes[i]), gli::FORMAT_RGBA8_UNORM, ColorRGBA8_UNORM);
 		Error += test_texture<gli::texture3D>(gli::texture3D::dim_type(Sizes[i]), gli::FORMAT_RGBA8_UNORM, ColorRGBA8_UNORM);
-		Error += test_texture<gli::texture1D>(gli::texture1D::dim_type(Sizes[i]), gli::FORMAT_RGBA32F, ColorRGBA32F);
-		Error += test_texture<gli::texture2D>(gli::texture2D::dim_type(Sizes[i]), gli::FORMAT_RGBA32F, ColorRGBA32F);
-		Error += test_texture<gli::texture3D>(gli::texture3D::dim_type(Sizes[i]), gli::FORMAT_RGBA32F, ColorRGBA32F);
+		Error += test_texture<gli::texture1D>(gli::texture1D::dim_type(Sizes[i]), gli::FORMAT_RGBA32_SFLOAT, ColorRGBA32F);
+		Error += test_texture<gli::texture2D>(gli::texture2D::dim_type(Sizes[i]), gli::FORMAT_RGBA32_SFLOAT, ColorRGBA32F);
+		Error += test_texture<gli::texture3D>(gli::texture3D::dim_type(Sizes[i]), gli::FORMAT_RGBA32_SFLOAT, ColorRGBA32F);
 	}
 		
 	return Error;

@@ -57,9 +57,9 @@ namespace layers
 		int Error(0);
 
 		std::vector<test> Tests;
-		Tests.push_back(test(gli::storage::dim3_type(4, 4, 1), gli::FORMAT_RGBA8U, 64, 128));
-		Tests.push_back(test(gli::storage::dim3_type(4, 4, 1), gli::FORMAT_RGB16F, 96, 192));
-		Tests.push_back(test(gli::storage::dim3_type(4, 4, 1), gli::FORMAT_RGBA32F, 256, 512));
+		Tests.push_back(test(gli::storage::dim3_type(4, 4, 1), gli::FORMAT_RGBA8_UINT, 64, 128));
+		Tests.push_back(test(gli::storage::dim3_type(4, 4, 1), gli::FORMAT_RGB16_SFLOAT, 96, 192));
+		Tests.push_back(test(gli::storage::dim3_type(4, 4, 1), gli::FORMAT_RGBA32_SFLOAT, 256, 512));
 		Tests.push_back(test(gli::storage::dim3_type(4, 4, 1), gli::FORMAT_RGBA_DXT1_UNORM, 8, 16));
 		Tests.push_back(test(gli::storage::dim3_type(8, 8, 1), gli::FORMAT_RGBA_DXT1_UNORM, 32, 64));
 		Tests.push_back(test(gli::storage::dim3_type(4, 4, 1), gli::FORMAT_R_ATI1N_SNORM, 8, 16));
@@ -112,25 +112,19 @@ namespace faces
 		int Error(0);
 
 		std::vector<test> Tests;
-		Tests.push_back(test(gli::FORMAT_RGBA8U, 0, 0, 340));
-		Tests.push_back(test(gli::FORMAT_RGBA8U, 1, 256, 340));
-		Tests.push_back(test(gli::FORMAT_R8U, 1, 64, 85));
-		Tests.push_back(test(gli::FORMAT_RGBA8U, 3, 336, 340));
-		Tests.push_back(test(gli::FORMAT_RGBA32F, 0, 0, 1360));
-		Tests.push_back(test(gli::FORMAT_RGBA32F, 1, 1024, 1360));
+		Tests.push_back(test(gli::FORMAT_RGBA8_UINT, 0, 0, 340));
+		Tests.push_back(test(gli::FORMAT_RGBA8_UINT, 1, 256, 340));
+		Tests.push_back(test(gli::FORMAT_R8_UINT, 1, 64, 85));
+		Tests.push_back(test(gli::FORMAT_RGBA8_UINT, 3, 336, 340));
+		Tests.push_back(test(gli::FORMAT_RGBA32_SFLOAT, 0, 0, 1360));
+		Tests.push_back(test(gli::FORMAT_RGBA32_SFLOAT, 1, 1024, 1360));
 		Tests.push_back(test(gli::FORMAT_RGB_DXT1_UNORM, 0, 0, 56));
 		Tests.push_back(test(gli::FORMAT_RGB_DXT1_UNORM, 1, 32, 56));
 		Tests.push_back(test(gli::FORMAT_RGBA_DXT5_UNORM, 1, 64, 112));
 
 		for(std::size_t i = 0; i < Tests.size(); ++i)
 		{
-			gli::storage Storage(
-				1,
-				1,
-				4,
-				Tests[i].Format,
-				gli::storage::dim3_type(8, 8, 1));
-
+			gli::storage Storage(1, 1, 4, Tests[i].Format, gli::storage::dim3_type(8, 8, 1));
 			gli::storage::size_type Offset = gli::detail::imageAddressing(Storage, 0, 0, Tests[i].Level);
 			gli::storage::size_type Size = Storage.size();
 
@@ -170,11 +164,11 @@ namespace levels
 		int Error(0);
 
 		std::vector<test> Tests;
-		Tests.push_back(test(gli::FORMAT_RGBA8U, 0, 0, 340));
-		Tests.push_back(test(gli::FORMAT_RGBA8U, 1, 256, 340));
-		Tests.push_back(test(gli::FORMAT_RGBA8U, 3, 336, 340));
-		Tests.push_back(test(gli::FORMAT_RGBA32F, 0, 0, 1360));
-		Tests.push_back(test(gli::FORMAT_RGBA32F, 1, 1024, 1360));
+		Tests.push_back(test(gli::FORMAT_RGBA8_UINT, 0, 0, 340));
+		Tests.push_back(test(gli::FORMAT_RGBA8_UINT, 1, 256, 340));
+		Tests.push_back(test(gli::FORMAT_RGBA8_UINT, 3, 336, 340));
+		Tests.push_back(test(gli::FORMAT_RGBA32_SFLOAT, 0, 0, 1360));
+		Tests.push_back(test(gli::FORMAT_RGBA32_SFLOAT, 1, 1024, 1360));
 		Tests.push_back(test(gli::FORMAT_RGB_DXT1_UNORM, 0, 0, 56));
 		Tests.push_back(test(gli::FORMAT_RGBA_DXT1_UNORM, 1, 32, 56));
 

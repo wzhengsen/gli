@@ -40,7 +40,7 @@ namespace alloc
 		Formats.push_back(gli::FORMAT_R8_SNORM);
 		Formats.push_back(gli::FORMAT_RGB_DXT1_UNORM);
 		Formats.push_back(gli::FORMAT_RGB_BP_UNORM);
-		Formats.push_back(gli::FORMAT_RGBA32F);
+		Formats.push_back(gli::FORMAT_RGBA32_SFLOAT);
 
 		std::vector<gli::texture2DArray::dim_type::value_type> Sizes;
 		Sizes.push_back(16);
@@ -73,7 +73,7 @@ namespace clear
 		glm::u8vec4 const Orange(255, 127, 0, 255);
 
 		gli::texture2DArray::dim_type Size(16u);
-		gli::texture2DArray Texture(2, gli::levels(Size), gli::FORMAT_RGBA8U, Size);
+		gli::texture2DArray Texture(2, gli::levels(Size), gli::FORMAT_RGBA8_UINT, Size);
 
 		Texture.clear<glm::u8vec4>(Orange);
 
@@ -90,12 +90,12 @@ namespace query
 		gli::texture2DArray::size_type Layers(2);
 		gli::texture2DArray::size_type Levels(2);
 
-		gli::texture2DArray Texture(Layers, Levels, gli::FORMAT_RGBA8U, gli::texture2DArray::dim_type(2));
+		gli::texture2DArray Texture(Layers, Levels, gli::FORMAT_RGBA8_UINT, gli::texture2DArray::dim_type(2));
 
 		gli::texture2DArray::size_type Size = Texture.size();
 
 		Error += Size == sizeof(glm::u8vec4) * 5 * Layers ? 0 : 1;
-		Error += Texture.format() == gli::FORMAT_RGBA8U ? 0 : 1;
+		Error += Texture.format() == gli::FORMAT_RGBA8_UINT ? 0 : 1;
 		Error += Texture.layers() == Layers ? 0 : 1;
 		Error += Texture.levels() == Levels ? 0 : 1;
 		Error += !Texture.empty() ? 0 : 1;
@@ -113,7 +113,7 @@ namespace access
 		int Error(0);
 
 		{
-			gli::texture2DArray Texture2DArray(2, 1, gli::FORMAT_RGBA8U, gli::texture2DArray::dim_type(2));
+			gli::texture2DArray Texture2DArray(2, 1, gli::FORMAT_RGBA8_UINT, gli::texture2DArray::dim_type(2));
 			assert(!Texture2DArray.empty());
 
 			gli::texture2D Texture0 = Texture2DArray[0];
@@ -177,8 +177,8 @@ namespace size
 		int Error(0);
 
 		std::vector<entry> Tests;
-		Tests.push_back(entry(gli::FORMAT_RGBA8U, gli::texture2DArray::dim_type(4), 64 * 2));
-		Tests.push_back(entry(gli::FORMAT_R8U, gli::texture2DArray::dim_type(4), 16 * 2));
+		Tests.push_back(entry(gli::FORMAT_RGBA8_UINT, gli::texture2DArray::dim_type(4), 64 * 2));
+		Tests.push_back(entry(gli::FORMAT_R8_UINT, gli::texture2DArray::dim_type(4), 16 * 2));
 		Tests.push_back(entry(gli::FORMAT_RGB_DXT1_UNORM, gli::texture2DArray::dim_type(4), 8 * 2));
 		Tests.push_back(entry(gli::FORMAT_RGB_DXT1_UNORM, gli::texture2DArray::dim_type(2), 8 * 2));
 		Tests.push_back(entry(gli::FORMAT_RGB_DXT1_UNORM, gli::texture2DArray::dim_type(1), 8 * 2));

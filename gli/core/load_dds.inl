@@ -217,8 +217,8 @@ inline storage load_dds(char const * Filename)
 					Format = FORMAT_LA16_UNORM;
 				else if(glm::all(glm::equal(HeaderDesc.format.Mask, DX.translate(FORMAT_RG16_UNORM).Mask)))
 					Format = FORMAT_RG16_UNORM;
-				else if(glm::all(glm::equal(HeaderDesc.format.Mask, DX.translate(FORMAT_R32F).Mask)))
-					Format = FORMAT_R32F;
+				else if(glm::all(glm::equal(HeaderDesc.format.Mask, DX.translate(FORMAT_R32_SFLOAT).Mask)))
+					Format = FORMAT_R32_SFLOAT;
 			}
 			break;
 		}
