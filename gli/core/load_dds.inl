@@ -22,7 +22,7 @@
 ///
 /// @ref core
 /// @file gli/core/load_dds.inl
-/// @date 2010-09-26 / 2013-01-28
+/// @date 2010-09-26 / 2015-06-16
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
@@ -32,12 +32,6 @@
 namespace gli{
 namespace detail
 {
-	// DDS Documentation
-	/*
-		http://msdn.microsoft.com/en-us/library/bb943991(VS.85).aspx#File_Layout1
-		http://msdn.microsoft.com/en-us/library/bb943992.aspx
-	*/
-
 	enum ddsCubemapflag
 	{
 		DDSCAPS2_CUBEMAP				= 0x00000200,
@@ -50,10 +44,10 @@ namespace detail
 		DDSCAPS2_VOLUME					= 0x00200000
 	};
 
-	glm::uint32 const DDSCAPS2_CUBEMAP_ALLFACES = (
-		DDSCAPS2_CUBEMAP_POSITIVEX | DDSCAPS2_CUBEMAP_NEGATIVEX |
-		DDSCAPS2_CUBEMAP_POSITIVEY | DDSCAPS2_CUBEMAP_NEGATIVEY |
-		DDSCAPS2_CUBEMAP_POSITIVEZ | DDSCAPS2_CUBEMAP_NEGATIVEZ);
+	enum
+	{
+		DDSCAPS2_CUBEMAP_ALLFACES = DDSCAPS2_CUBEMAP_POSITIVEX | DDSCAPS2_CUBEMAP_NEGATIVEX | DDSCAPS2_CUBEMAP_POSITIVEY | DDSCAPS2_CUBEMAP_NEGATIVEY | DDSCAPS2_CUBEMAP_POSITIVEZ | DDSCAPS2_CUBEMAP_NEGATIVEZ
+	};
 
 	enum ddsFlag
 	{
@@ -155,7 +149,7 @@ inline storage load_dds(char const * Filename)
 	detail::ddsHeader10 HeaderDesc10;
 	char Magic[4]; 
 
-	//* Read magic number and check if valid .dds file 
+	// Read magic number and check if valid .dds file 
 	File.read((char*)&Magic, sizeof(Magic));
 
 	assert(strncmp(Magic, "DDS ", 4) == 0);
