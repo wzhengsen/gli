@@ -58,9 +58,6 @@ namespace load
 
 int main()
 {
-	int etc1 = gli::dx::D3DFMT_ETC1;
-	int atc = gli::dx::D3DFMT_ATC;
-
 	std::vector<std::string> Filenames;
 	Filenames.push_back("kueken7_a8_unorm.dds");
 	Filenames.push_back("kueken7_bgra8_srgb.dds");
@@ -73,7 +70,7 @@ int main()
 	Filenames.push_back("kueken7_r8_unorm.dds");
 	Filenames.push_back("kueken7_r16_unorm.dds");
 	Filenames.push_back("kueken7_rg_ati2n_unorm.dds");
-	//Filenames.push_back("kueken7_rg11b10uf.dds");
+	Filenames.push_back("kueken7_rg11b10_ufloat.dds");
 	Filenames.push_back("kueken7_rgb_atc_unorm.dds");
 	Filenames.push_back("kueken7_rgb_dxt1_srgb.dds");
 	Filenames.push_back("kueken7_rgb_dxt1_unorm.dds");
@@ -84,7 +81,7 @@ int main()
 	Filenames.push_back("kueken7_rgb_pvrtc_4bpp_unorm.dds");
 	Filenames.push_back("kueken7_rgb8_srgb.dds");
 	Filenames.push_back("kueken7_rgb8_unorm.dds");
-	//Filenames.push_back("kueken7_rgb9e5uf.dds");
+	Filenames.push_back("kueken7_rgb9e5_ufloat.dds");
 	Filenames.push_back("kueken7_rgb10a2_unorm.dds");
 	Filenames.push_back("kueken7_rgb10a2u.dds");
 	//Filenames.push_back("kueken7_rgba_astc8x8.dds");
