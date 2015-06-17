@@ -41,9 +41,6 @@ namespace gli
 		dx DX;
 		dx::format const & DXFormat = DX.translate(Storage.format());
 
-		char const * Magic = "DDS ";
-		File.write((char*)Magic, sizeof(char) * 4);
-
 		glm::uint32 Caps = detail::DDSD_CAPS | detail::DDSD_WIDTH | detail::DDSD_PIXELFORMAT | detail::DDSD_MIPMAPCOUNT;
 		Caps |= Storage.dimensions(0).y > 1 ? detail::DDSD_HEIGHT : 0;
 		Caps |= Storage.dimensions(0).z > 1 ? detail::DDSD_DEPTH : 0;
@@ -51,6 +48,7 @@ namespace gli
 		Caps |= (Desc.Flags & detail::CAP_COMPRESSED_BIT) ? detail::DDSD_LINEARSIZE : detail::DDSD_PITCH;
 
 		detail::ddsHeader HeaderDesc;
+		memcpy(HeaderDesc.Magic, "DDS ", sizeof(char) * 4);
 		memset(HeaderDesc.reserved1, 0, sizeof(HeaderDesc.reserved1));
 		memset(HeaderDesc.reserved2, 0, sizeof(HeaderDesc.reserved2));
 		HeaderDesc.size = sizeof(detail::ddsHeader);

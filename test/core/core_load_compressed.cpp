@@ -46,11 +46,14 @@ namespace load
 	{
 		int Error(0);
 
+		gli::texture2D TextureO(gli::load(path(Filename.c_str())));
 		gli::texture2D TextureA(gli::load_dds(path(Filename.c_str())));
 		gli::save_dds(TextureA, Filename.c_str());
 		gli::texture2D TextureB(gli::load_dds(Filename.c_str()));
 
 		Error += TextureA == TextureB ? 0 : 1;
+		Error += TextureA == TextureO ? 0 : 1;
+		Error += TextureO == TextureB ? 0 : 1;
 
 		return Error;
 	}
