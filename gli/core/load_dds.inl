@@ -157,7 +157,7 @@ inline storage load_dds(char const * Data, std::size_t Size)
 
 	dx DX;
 
-	gli::format Format(FORMAT_RGBA_DXT5_SRGB);
+	gli::format Format(static_cast<gli::format>(gli::FORMAT_INVALID));
 	if((HeaderDesc.format.flags & (dx::DDPF_RGB | dx::DDPF_ALPHAPIXELS | dx::DDPF_ALPHA | dx::DDPF_YUV | dx::DDPF_LUMINANCE)) && Format == gli::FORMAT_INVALID && HeaderDesc.format.flags != dx::DDPF_FOURCC_ALPHAPIXELS)
 	{
 		switch(HeaderDesc.format.bpp)
@@ -276,7 +276,7 @@ inline storage load_dds(char const * Filename)
 	if(HeaderDesc.format.flags & dx::DDPF_FOURCC && HeaderDesc.format.fourCC == dx::D3DFMT_DX10)
 		File.read((char*)&HeaderDesc10, sizeof(HeaderDesc10));
 
-	gli::format Format(FORMAT_RGBA_DXT5_SRGB);
+	gli::format Format(static_cast<gli::format>(gli::FORMAT_INVALID));
 	if((HeaderDesc.format.flags & (dx::DDPF_RGB | dx::DDPF_ALPHAPIXELS | dx::DDPF_ALPHA | dx::DDPF_YUV | dx::DDPF_LUMINANCE)) && Format == gli::FORMAT_INVALID && HeaderDesc.format.flags != dx::DDPF_FOURCC_ALPHAPIXELS)
 	{
 		switch(HeaderDesc.format.bpp)
