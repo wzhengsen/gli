@@ -239,7 +239,7 @@ inline storage load_dds(char const * Data, std::size_t Size)
 	return Storage;
 }
 
-inline storage load(char const * Filename)
+inline storage load_dds(char const * Filename)
 {
 	std::ifstream File(Filename, std::ios::in | std::ios::binary);
 	assert(!File.fail());
@@ -254,118 +254,6 @@ inline storage load(char const * Filename)
 	File.read(&Data[0], Data.size());
 
 	return load_dds(&Data[0], Data.size());
-}
-
-inline storage load(std::string const & Filename)
-{
-	return load(Filename.c_str());
-}
-
-inline storage load_dds(char const * Filename)
-{
-	std::ifstream File(Filename, std::ios::in | std::ios::binary);
-	assert(!File.fail());
-
-	dx DX;
-
-	detail::ddsHeader HeaderDesc;
-	File.read((char*)&HeaderDesc, sizeof(HeaderDesc));
-	assert(strncmp(HeaderDesc.Magic, "DDS ", 4) == 0);
-
-	detail::ddsHeader10 HeaderDesc10;
-	if(HeaderDesc.format.flags & dx::DDPF_FOURCC && HeaderDesc.format.fourCC == dx::D3DFMT_DX10)
-		File.read((char*)&HeaderDesc10, sizeof(HeaderDesc10));
-
-	gli::format Format(static_cast<gli::format>(gli::FORMAT_INVALID));
-	if((HeaderDesc.format.flags & (dx::DDPF_RGB | dx::DDPF_ALPHAPIXELS | dx::DDPF_ALPHA | dx::DDPF_YUV | dx::DDPF_LUMINANCE)) && Format == gli::FORMAT_INVALID && HeaderDesc.format.flags != dx::DDPF_FOURCC_ALPHAPIXELS)
-	{
-		switch(HeaderDesc.format.bpp)
-		{
-			case 8:
-			{
-				if(glm::all(glm::equal(HeaderDesc.format.Mask, DX.translate(FORMAT_L8_UNORM).Mask)))
-					Format = FORMAT_L8_UNORM;
-				else if(glm::all(glm::equal(HeaderDesc.format.Mask, DX.translate(FORMAT_A8_UNORM).Mask)))
-					Format = FORMAT_A8_UNORM;
-				else if(glm::all(glm::equal(HeaderDesc.format.Mask, DX.translate(FORMAT_R8_UNORM).Mask)))
-					Format = FORMAT_R8_UNORM;
-				else if(glm::all(glm::equal(HeaderDesc.format.Mask, DX.translate(FORMAT_RG3B2_UNORM).Mask)))
-					Format = FORMAT_RG3B2_UNORM;
-				break;
-			}
-			case 16:
-			{
-				if(glm::all(glm::equal(HeaderDesc.format.Mask, DX.translate(FORMAT_LA8_UNORM).Mask)))
-					Format = FORMAT_LA8_UNORM;
-				else if(glm::all(glm::equal(HeaderDesc.format.Mask, DX.translate(FORMAT_RG8_UNORM).Mask)))
-					Format = FORMAT_RG8_UNORM;
-				else if(glm::all(glm::equal(HeaderDesc.format.Mask, DX.translate(FORMAT_R5G6B5_UNORM).Mask)))
-					Format = FORMAT_R5G6B5_UNORM;
-				else if(glm::all(glm::equal(HeaderDesc.format.Mask, DX.translate(FORMAT_L16_UNORM).Mask)))
-					Format = FORMAT_L16_UNORM;
-				else if(glm::all(glm::equal(HeaderDesc.format.Mask, DX.translate(FORMAT_A16_UNORM).Mask)))
-					Format = FORMAT_A16_UNORM;
-				else if(glm::all(glm::equal(HeaderDesc.format.Mask, DX.translate(FORMAT_R16_UNORM).Mask)))
-					Format = FORMAT_R16_UNORM;
-				else if(glm::all(glm::equal(HeaderDesc.format.Mask, DX.translate(FORMAT_RGB5A1_UNORM).Mask)))
-					Format = FORMAT_RGB5A1_UNORM;
-				break;
-			}
-			case 24:
-			{
-				if(glm::all(glm::equal(HeaderDesc.format.Mask, DX.translate(FORMAT_BGR8_UNORM).Mask)))
-					Format = FORMAT_BGR8_UNORM;
-				break;
-			}
-			case 32:
-			{
-				if(glm::all(glm::equal(HeaderDesc.format.Mask, DX.translate(FORMAT_BGRA8_UNORM).Mask)))
-					Format = FORMAT_BGRA8_UNORM;
-				else if(glm::all(glm::equal(HeaderDesc.format.Mask, DX.translate(FORMAT_RGB10A2_UNORM).Mask)))
-					Format = FORMAT_RGB10A2_UNORM;
-				else if(glm::all(glm::equal(HeaderDesc.format.Mask, DX.translate(FORMAT_LA16_UNORM).Mask)))
-					Format = FORMAT_LA16_UNORM;
-				else if(glm::all(glm::equal(HeaderDesc.format.Mask, DX.translate(FORMAT_RG16_UNORM).Mask)))
-					Format = FORMAT_RG16_UNORM;
-				else if(glm::all(glm::equal(HeaderDesc.format.Mask, DX.translate(FORMAT_R32_SFLOAT).Mask)))
-					Format = FORMAT_R32_SFLOAT;
-			}
-			break;
-		}
-	}
-	else if((HeaderDesc.format.flags & dx::DDPF_FOURCC) && (HeaderDesc.format.fourCC != dx::D3DFMT_DX10) && (Format == gli::FORMAT_INVALID))
-		Format = DX.find(HeaderDesc.format.fourCC);
-	else if((HeaderDesc.format.fourCC == dx::D3DFMT_DX10) && (HeaderDesc10.Format != dx::DXGI_FORMAT_UNKNOWN))
-		Format = DX.find(HeaderDesc10.Format);
-
-	assert(Format != gli::FORMAT_INVALID);
-
-	std::streamoff Curr = File.tellg();
-	File.seekg(0, std::ios_base::end);
-	std::streamoff End = File.tellg();
-	File.seekg(Curr, std::ios_base::beg);
-
-	storage::size_type const MipMapCount = (HeaderDesc.flags & detail::DDSD_MIPMAPCOUNT) ? HeaderDesc.mipMapLevels : 1;
-	storage::size_type FaceCount(1);
-	if(HeaderDesc.cubemapFlags & detail::DDSCAPS2_CUBEMAP)
-		FaceCount = int(glm::bitCount(HeaderDesc.cubemapFlags & detail::DDSCAPS2_CUBEMAP_ALLFACES));
-
-	storage::size_type DepthCount = 1;
-	if(HeaderDesc.cubemapFlags & detail::DDSCAPS2_VOLUME)
-		DepthCount = HeaderDesc.depth;
-
-	storage Storage(
-		HeaderDesc10.arraySize,
-		FaceCount,
-		MipMapCount,
-		Format,
-		storage::dim_type(HeaderDesc.width, HeaderDesc.height, DepthCount));
-
-	std::size_t Size = Storage.size();
-
-	File.read((char*)Storage.data(), std::size_t(End - Curr));
-
-	return Storage;
 }
 
 inline storage load_dds(std::string const & Filename)

@@ -33,9 +33,14 @@
 
 namespace gli
 {
-	//Loads a texture storage from file
+	// Load a texture storage from file
 	storage load_dds(char const * Filename);
 
+	// Load a texture storage from file
+	storage load_dds(std::string const & Filename);
+
+	// Load a texture storage from memory
+	storage load_dds(char const * Data, std::size_t Size);
 }//namespace gli
 
 #include "load_dds.inl"

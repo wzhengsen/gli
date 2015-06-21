@@ -32,11 +32,14 @@
 
 namespace gli
 {
-	/// Saving a texture storage to file
-	void save_dds(
-		storage const & Storage, 
-		char const * Filename);
+	/// Save a texture storage to file
+	void save_dds(storage const & Storage, char const * Filename);
 
+	/// Save a texture storage to file
+	void save_dds(storage const & Storage, std::string const & Filename);
+
+	// Save a texture storage to memory
+	void save_dds(storage const & Storage, char const * Data, std::size_t Size);
 }//namespace gli
 
 #include "save_dds.inl"

@@ -31,6 +31,7 @@
 #include <glm/gtc/vec1.hpp>
 #include <glm/gtc/packing.hpp>
 #include <glm/gtc/color.hpp>
+#include <ctime>
 
 namespace
 {
@@ -40,24 +41,54 @@ namespace
 	}
 }//namespace
 
-namespace load
+namespace load_file
 {
 	int test(std::string const & Filename)
 	{
 		int Error(0);
 
-		gli::texture2D TextureO(gli::load(path(Filename.c_str())));
 		gli::texture2D TextureA(gli::load_dds(path(Filename.c_str())));
 		gli::save_dds(TextureA, Filename.c_str());
 		gli::texture2D TextureB(gli::load_dds(Filename.c_str()));
 
 		Error += TextureA == TextureB ? 0 : 1;
-		Error += TextureA == TextureO ? 0 : 1;
-		Error += TextureO == TextureB ? 0 : 1;
 
 		return Error;
 	}
-}//namespace load
+}//namespace load_file
+
+namespace load_mem
+{
+	int test(std::string const & Filename)
+	{
+		int Error(0);
+
+		gli::texture2D TextureA(gli::load_dds(path(Filename.c_str())));
+		gli::save_dds(TextureA, Filename.c_str());
+		gli::texture2D TextureB(gli::load_dds(Filename.c_str()));
+
+		Error += TextureA == TextureB ? 0 : 1;
+
+		return Error;
+	}
+}//namespace load_mem
+
+namespace load_mem_only
+{
+	int test(std::vector<char> const & Data, std::string const & Filename)
+	{
+		int Error(0);
+
+		gli::texture2D TextureA(gli::load_dds(&Data[0], Data.size()));
+		std::vector<char> Memory;
+		gli::save_dds(TextureA, Memory);
+		gli::texture2D TextureB(gli::load_dds(&Memory[0], Memory.size()));
+
+		Error += TextureA == TextureB ? 0 : 1;
+
+		return Error;
+	}
+}//namespace load_mem_only
 
 int main()
 {
@@ -98,7 +129,49 @@ int main()
 	Filenames.push_back("kueken7_rgba16f.dds");
 
 	int Error(0);
-	for(std::size_t Index = 0; Index < Filenames.size(); ++Index)
-		Error += load::test(Filenames[Index]);
+
+	std::clock_t TimeFileStart = std::clock();
+	{
+		for(std::size_t Index = 0; Index < Filenames.size(); ++Index)
+			Error += load_file::test(Filenames[Index]);
+	}
+	std::clock_t TimeFileEnd = std::clock();
+
+	std::clock_t TimeMemStart = std::clock();
+	{
+		for(std::size_t Index = 0; Index < Filenames.size(); ++Index)
+			Error += load_mem::test(Filenames[Index]);
+	}
+	std::clock_t TimeMemEnd = std::clock();
+
+	std::clock_t TimeMemOnlyStart = 0;
+	{
+		std::vector<std::vector<char> > Memory(Filenames.size());
+
+		for(std::size_t Index = 0; Index < Filenames.size(); ++Index)
+		{
+			std::ifstream File(Filenames[Index], std::ios::in | std::ios::binary);
+			assert(!File.fail());
+
+			std::streamoff Curr = File.tellg();
+			File.seekg(0, std::ios_base::end);
+			std::streamoff End = File.tellg();
+			File.seekg(Curr, std::ios_base::beg);
+
+			Memory[Index].resize(End - Curr);
+
+			File.read(&Memory[Index][0], Memory[Index].size());
+		}
+
+		TimeMemOnlyStart = std::clock();
+
+		for(std::size_t Index = 0; Index < Filenames.size(); ++Index)
+			Error += load_mem_only::test(Memory[Index], Filenames[Index]);
+	}
+	std::clock_t TimeMemOnlyEnd = std::clock();
+
+
+	printf("File: %d, Mem: %d, Mem Only: %d\n", TimeFileEnd - TimeFileStart, TimeMemEnd - TimeMemStart, TimeMemOnlyEnd - TimeMemOnlyStart);
+
 	return Error;
 }

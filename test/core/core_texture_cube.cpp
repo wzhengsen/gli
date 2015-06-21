@@ -277,23 +277,17 @@ namespace loader
 			for(gli::texture2D::size_type TexelIndex = 0; TexelIndex < TextureA[FaceIndex].size<glm::u8vec4>(); ++TexelIndex)
 				*(TextureA[FaceIndex].data<glm::u8vec4>() + TexelIndex) = Color[FaceIndex];
 
-			gli::save_dds(TextureA, "../../data/textureCubeA_rgba8_unorm.dds");
+			gli::save_dds(TextureA, "textureCubeA_rgba8_unorm.dds");
 		}
 
 		{
-			gli::textureCube TextureB(gli::load_dds("../../data/textureCubeA_rgba8_unorm.dds"));
+			gli::textureCube TextureB(gli::load_dds("textureCubeA_rgba8_unorm.dds"));
+			gli::save_dds(TextureB, "textureCubeB_rgba8_unorm.dds");
+			gli::textureCube TextureC(gli::load_dds("textureCubeB_rgba8_unorm.dds"));
 
 			Error += TextureA == TextureB ? 0 : 1;
-
-			gli::save_dds(TextureB, "../../data/textureCubeB_rgba8_unorm.dds");
-		}
-
-		{
-			gli::textureCube TextureC(gli::load_dds("../../data/textureCubeA_rgba8_unorm.dds"));
-			gli::textureCube TextureD(gli::load_dds("../../data/textureCubeB_rgba8_unorm.dds"));
-
 			Error += TextureA == TextureC ? 0 : 1;
-			Error += TextureA == TextureD ? 0 : 1;
+			Error += TextureB == TextureC ? 0 : 1;
 		}
 
 		return Error;

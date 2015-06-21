@@ -28,6 +28,14 @@
 
 #include <gli/gli.hpp>
 
+namespace
+{
+	std::string path(const char* filename)
+	{
+		return std::string(SOURCE_DIR) + "/data/" + filename;
+	}
+}//namespace
+
 namespace alloc
 {
 	int test()
@@ -220,44 +228,38 @@ namespace loader
 	{
 		int Error(0);
 
-		{
-			gli::texture2DArray Texture(gli::texture2DArray::size_type(2), gli::texture2DArray::size_type(1), gli::FORMAT_RGBA8_UNORM, gli::texture2DArray::dim_type(1));
+		gli::texture2DArray TextureArrayRGBA8(gli::texture2DArray::size_type(2), gli::texture2DArray::size_type(1), gli::FORMAT_RGBA8_UNORM, gli::texture2DArray::dim_type(1));
 
+		{
 			std::vector<glm::u8vec4> Color;
 			Color.push_back(glm::u8vec4(255, 128,   0, 255));
 			Color.push_back(glm::u8vec4(  0, 128, 255, 255));
 
-			for(gli::texture2DArray::size_type LayerIndex = 0; LayerIndex < Texture.layers(); ++LayerIndex)
-			for(gli::texture2DArray::size_type TexelIndex = 0; TexelIndex < Texture[LayerIndex].size<glm::u8vec4>(); ++TexelIndex)
-				*(Texture[LayerIndex].data<glm::u8vec4>() + TexelIndex) = Color[LayerIndex];
+			for(gli::texture2DArray::size_type LayerIndex = 0; LayerIndex < TextureArrayRGBA8.layers(); ++LayerIndex)
+			for(gli::texture2DArray::size_type TexelIndex = 0; TexelIndex < TextureArrayRGBA8[LayerIndex].size<glm::u8vec4>(); ++TexelIndex)
+				*(TextureArrayRGBA8[LayerIndex].data<glm::u8vec4>() + TexelIndex) = Color[LayerIndex];
 
-			gli::save_dds(Texture, "../../data/texture2DArray_rgba8unorm.dds");
+			gli::save_dds(TextureArrayRGBA8, "texture2DArray_rgba8_unorm.dds");
 		}
 
 		{
 			gli::texture2D Texture0(gli::texture2D::size_type(1), gli::FORMAT_RGBA8_UNORM, gli::texture2D::dim_type(1));
-
-			*Texture0.data<glm::u8vec4>() = glm::u8vec4(255, 128, 0, 255);
-
-			gli::save_dds(Texture0, "../../data/texture2D0_rgba8unorm.dds");
-		}
-
-		{
 			gli::texture2D Texture1(gli::texture2D::size_type(1), gli::FORMAT_RGBA8_UNORM, gli::texture2D::dim_type(1));
 
+			*Texture0.data<glm::u8vec4>() = glm::u8vec4(255, 128, 0, 255);
 			*Texture1.data<glm::u8vec4>() = glm::u8vec4(  0, 128, 255, 255);
 
-			gli::save_dds(Texture1, "../../data/texture2D1_rgba8unorm.dds");
+			gli::save_dds(Texture0, "texture2D0_rgba8_unorm.dds");
+			gli::save_dds(Texture1, "texture2D1_rgba8_unorm.dds");
 		}
 
 		{
-			gli::texture2DArray TextureArrayA(gli::load_dds("../../data/texture2DArray_rgba8unorm.dds"));
+			gli::texture2DArray TextureArrayRGBA8Loaded(gli::load_dds("texture2DArray_rgba8_unorm.dds"));
+			gli::texture2D Texture0(gli::load_dds("texture2D0_rgba8_unorm.dds"));
+			gli::texture2D Texture1(gli::load_dds("texture2D1_rgba8_unorm.dds"));
 
-			gli::texture2D Texture0(gli::load_dds("../../data/texture2D0_rgba8unorm.dds"));
-			gli::texture2D Texture1(gli::load_dds("../../data/texture2D1_rgba8unorm.dds"));
-
-			Error += TextureArrayA[0] == Texture0 ? 0 : 1;
-			Error += TextureArrayA[1] == Texture1 ? 0 : 1;
+			Error += TextureArrayRGBA8Loaded[0] == Texture0 ? 0 : 1;
+			Error += TextureArrayRGBA8Loaded[1] == Texture1 ? 0 : 1;
 		}
 
 		return Error;
