@@ -48,6 +48,8 @@
 #include <glm/gtx/bit.hpp>
 #include <glm/gtx/raw_data.hpp>
 
+static_assert(GLM_VERSION >= 97, "GLI requires at least GLM 0.9.7");
+
 namespace gli
 {
 	class storage
