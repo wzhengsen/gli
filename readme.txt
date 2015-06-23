@@ -61,6 +61,17 @@ GLI is a header only library, there is nothing to build, just include it.
 #include <gli/gli.hpp>
 
 ================================================================================
+GLI 0.6.0.0: 2015-06-30
+--------------------------------------------------------------------------------
+- Large refactoring
+- Added loading DDS from memory
+- Added saving DDS to memory
+- Improved DDS coverage for R, RG, RGB and RGBA formats
+- Added DDS ASTC, PVRTC, ATC and ETC support
+- Added DDS alpha, luminance and alpha luminance support
+- Added PVRTC2, ETC2 and EAC formats
+
+================================================================================
 GLI 0.5.1.1: 2014-01-20
 --------------------------------------------------------------------------------
 - Fixed swizzled RGB channel when reading back a DDS
