@@ -70,7 +70,7 @@ namespace gli
 	inline genType textureLod
 	(
 		texture2D const & Texture,
-		texture2D::texcoord_type const & TexCoord,
+		texture2D::texcoord_type const & Texcoord,
 		texture2D::size_type const & Level
 	)
 	{
