@@ -38,9 +38,11 @@
 
 namespace gli
 {
-	template <typename genType, typename texture>
-	void clear(texture const & Texture, genType const & Texel);
+	template <typename genType>
+	inline void clear(image & Image, genType const & Texel);
 
+	template <typename genType>
+	void clear(texture2D & Texture, genType const & Texel);
 }//namespace gli
 
 #include "clear.inl"

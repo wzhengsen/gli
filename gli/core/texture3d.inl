@@ -214,10 +214,14 @@ namespace gli
 	template <typename genType>
 	inline void texture3D::clear(genType const & Texel)
 	{
+		assert(!this->empty());
 		assert(block_size(this->Storage.format()) == sizeof(genType));
 
-		for(size_type TexelIndex = 0; TexelIndex < this->size<genType>(); ++TexelIndex)
-			*(this->data<genType>() + TexelIndex) = Texel;
+		genType* Data = this->data<genType>();
+		size_type const TexelCount = this->size<genType>();
+
+		for(size_type TexelIndex = 0; TexelIndex < TexelCount; ++TexelIndex)
+			*(Data + TexelIndex) = Texel;
 	}
 
 	inline texture3D::size_type texture3D::baseLayer() const

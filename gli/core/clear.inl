@@ -29,11 +29,7 @@
 namespace gli
 {
 	template <typename genType>
-	inline image clear
-	(
-		image const & Image, 
-		genType const & Texel
-	)
+	inline void clear(image & Image, genType const & Texel)
 	{
 		image Result = Image;
 		for(std::size_t i = 0; i < Image.size() / sizeof(genType); ++i)
@@ -41,4 +37,12 @@ namespace gli
 		return Result;
 	}
 
+	template <typename genType>
+	void clear(texture2D & Texture, genType const & Texel)
+	{
+		genType* Data = Texture.data<genType>();
+		typename texture2D::size_type const TexelCount = Texture.size<glm::u8vec4>();
+		for(std::size_t TexelIndex = 0; TexelIndex < TexelCount; ++TexelIndex)
+			*(Data + TexelIndex) = Texel;
+	}
 }//namespace gli
