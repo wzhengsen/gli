@@ -61,7 +61,7 @@ GLI is a header only library, there is nothing to build, just include it.
 #include <gli/gli.hpp>
 
 ================================================================================
-GLI 0.6.0.0: 2015-06-30
+GLI 0.6.0.0: 2015-06-28
 --------------------------------------------------------------------------------
 - Large refactoring
 - Added loading DDS from memory
