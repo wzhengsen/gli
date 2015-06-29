@@ -171,7 +171,7 @@ int main()
 	std::clock_t TimeMemOnlyEnd = std::clock();
 
 
-	printf("File: %d, Mem: %d, Mem Only: %d\n", TimeFileEnd - TimeFileStart, TimeMemEnd - TimeMemStart, TimeMemOnlyEnd - TimeMemOnlyStart);
+	printf("File: %lu, Mem: %lu, Mem Only: %lu\n", TimeFileEnd - TimeFileStart, TimeMemEnd - TimeMemStart, TimeMemOnlyEnd - TimeMemOnlyStart);
 
 	return Error;
 }
