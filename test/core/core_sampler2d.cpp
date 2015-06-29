@@ -219,8 +219,8 @@ namespace detail
 			this->Levels[LEVEL_FIRST] = Level;
 			this->Levels[LEVEL_LAST] = Level;
 
-			this->Caches[LEVEL_FIRST].TexelData = this->Caches[LEVEL_LAST].TexelData = Texture[Level].data<genType>();
-			this->Caches[LEVEL_FIRST].TexelSize = this->Caches[LEVEL_LAST].TexelSize = Texture[Level].size<genType>();
+			this->Caches[LEVEL_FIRST].TexelData = this->Caches[LEVEL_LAST].TexelData = Texture[Level].template data<genType>();
+			this->Caches[LEVEL_FIRST].TexelSize = this->Caches[LEVEL_LAST].TexelSize = Texture[Level].template size<genType>();
 			this->Caches[LEVEL_FIRST].TexelDim = this->Caches[LEVEL_LAST].TexelDim = texture2D::dim_type(Texture[Level].dimensions());
 		}
 
@@ -234,12 +234,12 @@ namespace detail
 			this->Levels[LEVEL_FIRST] = LevelFirst;
 			this->Levels[LEVEL_LAST] = LevelLast;
 
-			this->Caches[LEVEL_FIRST].TexelData = Texture[LevelFirst].data<genType>();
-			this->Caches[LEVEL_FIRST].TexelSize = Texture[LevelFirst].size<genType>();
+			this->Caches[LEVEL_FIRST].TexelData = Texture[LevelFirst].template data<genType>();
+			this->Caches[LEVEL_FIRST].TexelSize = Texture[LevelFirst].template size<genType>();
 			this->Caches[LEVEL_FIRST].TexelDim = texture2D::dim_type(Texture[LevelFirst].dimensions());
 
-			this->Caches[LEVEL_LAST].TexelData = LevelFirst == LevelLast ? this->Caches[LEVEL_FIRST].TexelData : Texture[LevelLast].data<genType>();
-			this->Caches[LEVEL_LAST].TexelSize = LevelFirst == LevelLast ? this->Caches[LEVEL_FIRST].TexelSize : Texture[LevelLast].size<genType>();
+			this->Caches[LEVEL_LAST].TexelData = LevelFirst == LevelLast ? this->Caches[LEVEL_FIRST].TexelData : Texture[LevelLast].template data<genType>();
+			this->Caches[LEVEL_LAST].TexelSize = LevelFirst == LevelLast ? this->Caches[LEVEL_FIRST].TexelSize : Texture[LevelLast].template size<genType>();
 			this->Caches[LEVEL_LAST].TexelDim = LevelFirst == LevelLast ? this->Caches[LEVEL_FIRST].TexelDim : texture2D::dim_type(Texture[LevelLast].dimensions());
 		}
 
