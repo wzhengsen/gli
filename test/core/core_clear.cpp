@@ -166,7 +166,7 @@ namespace data
 
 			std::clock_t TimeEnd = std::clock();
 
-			printf(".clear() - Time: %d\n", TimeEnd - TimeStart);
+			printf(".clear() - Time: %lu\n", TimeEnd - TimeStart);
 		}
 
 		{
@@ -178,7 +178,7 @@ namespace data
 
 			std::clock_t TimeEnd = std::clock();
 
-			printf("texelWrite - Time: %d\n", TimeEnd - TimeStart);
+			printf("texelWrite - Time: %lu\n", TimeEnd - TimeStart);
 		}
 
 		Error += TextureA == TextureB ? 0 : 1;

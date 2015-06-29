@@ -158,7 +158,7 @@ inline storage load_dds(char const * Data, std::size_t Size)
 	dx DX;
 
 	gli::format Format(static_cast<gli::format>(gli::FORMAT_INVALID));
-	if((HeaderDesc.format.flags & (dx::DDPF_RGB | dx::DDPF_ALPHAPIXELS | dx::DDPF_ALPHA | dx::DDPF_YUV | dx::DDPF_LUMINANCE)) && Format == gli::FORMAT_INVALID && HeaderDesc.format.flags != dx::DDPF_FOURCC_ALPHAPIXELS)
+	if((HeaderDesc.format.flags & (dx::DDPF_RGB | dx::DDPF_ALPHAPIXELS | dx::DDPF_ALPHA | dx::DDPF_YUV | dx::DDPF_LUMINANCE)) && Format == static_cast<format>(gli::FORMAT_INVALID) && HeaderDesc.format.flags != dx::DDPF_FOURCC_ALPHAPIXELS)
 	{
 		switch(HeaderDesc.format.bpp)
 		{
@@ -214,12 +214,12 @@ inline storage load_dds(char const * Data, std::size_t Size)
 			break;
 		}
 	}
-	else if((HeaderDesc.format.flags & dx::DDPF_FOURCC) && (HeaderDesc.format.fourCC != dx::D3DFMT_DX10) && (Format == gli::FORMAT_INVALID))
+	else if((HeaderDesc.format.flags & dx::DDPF_FOURCC) && (HeaderDesc.format.fourCC != dx::D3DFMT_DX10) && (Format == static_cast<format>(gli::FORMAT_INVALID)))
 		Format = DX.find(HeaderDesc.format.fourCC);
 	else if((HeaderDesc.format.fourCC == dx::D3DFMT_DX10) && (HeaderDesc10.Format != dx::DXGI_FORMAT_UNKNOWN))
 		Format = DX.find(HeaderDesc10.Format);
 
-	assert(Format != gli::FORMAT_INVALID);
+	assert(Format != static_cast<format>(gli::FORMAT_INVALID));
 
 	storage::size_type const MipMapCount = (HeaderDesc.flags & detail::DDSD_MIPMAPCOUNT) ? HeaderDesc.mipMapLevels : 1;
 	storage::size_type FaceCount(1);

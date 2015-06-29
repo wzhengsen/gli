@@ -236,7 +236,7 @@ namespace detail
 		};
 
 		GLM_STATIC_ASSERT(sizeof(Table) / sizeof(Table[0]) == FORMAT_COUNT, "GLI error: format descriptor list doesn't match number of supported formats");
-		assert(Format != FORMAT_INVALID);
+		assert(Format != static_cast<format>(FORMAT_INVALID));
 
 		return Table[Format];
 	};

@@ -79,10 +79,10 @@ namespace gli
 		image::dim_type Dimensions = Texture[Level].dimensions();
 		genType const * const Data = reinterpret_cast<genType const * const>(Texture[Level].data());
 
-		std::size_t s_below = std::size_t(glm::floor(TexCoord.s * float(Dimensions.x - 1)));
-		std::size_t s_above = std::size_t(glm::ceil( TexCoord.s * float(Dimensions.x - 1)));
-		std::size_t t_below = std::size_t(glm::floor(TexCoord.t * float(Dimensions.y - 1)));
-		std::size_t t_above = std::size_t(glm::ceil( TexCoord.t * float(Dimensions.y - 1)));
+		std::size_t s_below = std::size_t(glm::floor(Texcoord.s * float(Dimensions.x - 1)));
+		std::size_t s_above = std::size_t(glm::ceil( Texcoord.s * float(Dimensions.x - 1)));
+		std::size_t t_below = std::size_t(glm::floor(Texcoord.t * float(Dimensions.y - 1)));
+		std::size_t t_above = std::size_t(glm::ceil( Texcoord.t * float(Dimensions.y - 1)));
 
 		float s_step = 1.0f / float(Dimensions.x);
 		float t_step = 1.0f / float(Dimensions.y);
@@ -97,9 +97,9 @@ namespace gli
 		genType Value3 = reinterpret_cast<genType const * const>(Data)[s_above + t_above * Dimensions.x];
 		genType Value4 = reinterpret_cast<genType const * const>(Data)[s_below + t_above * Dimensions.x];
 
-		float BlendA = float(TexCoord.s - s_below_normalized) * float(Dimensions.x - 1);
-		float BlendB = float(TexCoord.s - s_below_normalized) * float(Dimensions.x - 1);
-		float BlendC = float(TexCoord.t - t_below_normalized) * float(Dimensions.y - 1);
+		float BlendA = float(Texcoord.s - s_below_normalized) * float(Dimensions.x - 1);
+		float BlendB = float(Texcoord.s - s_below_normalized) * float(Dimensions.x - 1);
+		float BlendC = float(Texcoord.t - t_below_normalized) * float(Dimensions.y - 1);
 
 		genType ValueA(glm::mix(Value1, Value2, BlendA));
 		genType ValueB(glm::mix(Value4, Value3, BlendB));
