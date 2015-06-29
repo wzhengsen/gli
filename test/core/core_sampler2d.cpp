@@ -35,12 +35,12 @@ namespace detail
 	template <typename genType>
 	genType textureLodLinear(genType const * const TexelData, texture2D::dim_type const & TexelDim, texture2D::texcoord_type const & Texcoord, genType const & BorderColor)
 	{
-		std::size_t const s_below = std::size_t(glm::floor(Texcoord.s * float(TexelDim.x - 1)));
-		std::size_t const s_above = std::size_t(glm::ceil( Texcoord.s * float(TexelDim.x - 1)));
-		std::size_t const t_below = std::size_t(glm::floor(Texcoord.t * float(TexelDim.y - 1)));
-		std::size_t const t_above = std::size_t(glm::ceil( Texcoord.t * float(TexelDim.y - 1)));
+		int const s_below = int(glm::floor(Texcoord.s * float(TexelDim.x - 1)));
+		int const s_above = int(glm::ceil( Texcoord.s * float(TexelDim.x - 1)));
+		int const t_below = int(glm::floor(Texcoord.t * float(TexelDim.y - 1)));
+		int const t_above = int(glm::ceil( Texcoord.t * float(TexelDim.y - 1)));
 
-		glm::bvec4 UseBorderColor(s_below < 0.0f, s_above > 1.0f, t_below < 0.0f, t_above > 1.0f);
+		glm::bvec4 UseBorderColor(s_below < 0 || s_below > TexelDim.x, s_above < 0 || s_above > TexelDim.x, t_below < 0 || t_below > TexelDim.y, t_above < 0 || t_above > TexelDim.y);
 
 		float const s_step = 1.0f / float(TexelDim.x);
 		float const t_step = 1.0f / float(TexelDim.y);
@@ -68,21 +68,27 @@ namespace detail
 	template <typename genType>
 	genType textureLodNearest(genType const * const TexelData, texture2D::dim_type const & TexelDim, texture2D::texcoord_type const & Texcoord, genType const & BorderColor)
 	{
-		std::size_t const s = std::size_t(glm::floor(Texcoord.s * float(TexelDim.x - 1)));
-		std::size_t const t = std::size_t(glm::floor(Texcoord.t * float(TexelDim.y - 1)));
+		int const s = int(glm::floor(Texcoord.s * float(TexelDim.x - 1)));
+		int const t = int(glm::floor(Texcoord.t * float(TexelDim.y - 1)));
 
-		return s > 1.0f || s < 0.0f || t > 1.0f || t < 0.0f ? BorderColor : TexelData[s + t * TexelDim.x];
+		return s > TexelDim.x || s < 0 || t > TexelDim.y || t < 0 ? BorderColor : TexelData[s + t * TexelDim.x];
+	}
+
+	inline float passThrought(float const & texcoord)
+	{
+		return texcoord;
 	}
 }//namespace detail
+
 
 	enum wrap
 	{
 		WRAP_CLAMP_TO_EDGE, WRAP_FIRST = WRAP_CLAMP_TO_EDGE,
-		//WRAP_CLAMP_TO_BORDER,
+		WRAP_CLAMP_TO_BORDER,
 		WRAP_REPEAT,
 		WRAP_MIRROR_REPEAT,
-		WRAP_MIRROR_CLAMP_TO_EDGE, WRAP_LAST = WRAP_MIRROR_CLAMP_TO_EDGE
-		//WRAP_MIRROR_CLAMP_TO_BORDER
+		WRAP_MIRROR_CLAMP_TO_EDGE,
+		WRAP_MIRROR_CLAMP_TO_BORDER, WRAP_LAST = WRAP_MIRROR_CLAMP_TO_BORDER
 	};
 
 	enum
@@ -105,7 +111,6 @@ namespace detail
 	class sampler
 	{
 		typedef float (*wrapFunc)(float const & texcoord);
-		typedef genType (*textureLodFunc)(genType const * const TexelData, texture2D::dim_type const & TexelDim, texture2D::texcoord_type const & Texcoord, genType const & BorderColor);
 
 	protected:
 		wrapFunc getFunc(wrap WrapMode) const
@@ -113,14 +118,34 @@ namespace detail
 			static wrapFunc Table[] =
 			{
 				glm::clamp,
+				detail::passThrought,
 				glm::repeat,
 				glm::mirrorRepeat,
+				glm::mirrorClamp,
 				glm::mirrorClamp
 			};
 			static_assert(sizeof(Table) / sizeof(Table[0]) == WRAP_COUNT, "Table needs to be updated");
 
 			return Table[WrapMode];
 		}
+
+	public:
+		sampler(wrap Wrap, filter Mip, filter Min)
+			: WrapMode(Wrap)
+			, WrapFunc(getFunc(Wrap))
+			, Mip(Mip)
+		{}
+
+	protected:
+		wrap WrapMode;
+		wrapFunc WrapFunc;
+		filter Mip;
+	};
+
+	template <typename genType>
+	class sampler2D : public sampler<genType>
+	{
+		typedef genType (*textureLodFunc)(genType const * const TexelData, texture2D::dim_type const & TexelDim, texture2D::texcoord_type const & Texcoord, genType const & BorderColor);
 
 		textureLodFunc getFunc(filter Filter) const
 		{
@@ -134,24 +159,6 @@ namespace detail
 			return Table[Filter];
 		}
 
-	public:
-		sampler(wrap Wrap, filter Mip, filter Min)
-			: WrapMode(Wrap)
-			, WrapFunc(getFunc(Wrap))
-			, TextureLodFunc(getFunc(Min))
-			, Mip(Mip)
-		{}
-
-	protected:
-		wrap WrapMode;
-		wrapFunc WrapFunc;
-		textureLodFunc TextureLodFunc;
-		filter Mip;
-	};
-
-	template <typename genType>
-	class sampler2D : public sampler<genType>
-	{
 		enum level
 		{
 			LEVEL_FIRST,
@@ -176,6 +183,7 @@ namespace detail
 			: sampler<genType>(Wrap, Texture.levels() > 1 ? Mip : FILTER_NEAREST, Min)
 			, Texture(Texture)
 			, Level(0)
+			, TextureLodFunc(getFunc(Min))
 			, BorderColor(BorderColor)
 		{
 			assert(!Texture.empty());
@@ -250,6 +258,7 @@ namespace detail
 		float Level;
 		std::array<std::size_t, LEVEL_COUNT> Levels;
 		std::array<cache, LEVEL_COUNT> Caches;
+		textureLodFunc TextureLodFunc;
 		genType BorderColor;
 	};
 }//namespace gli
@@ -348,10 +357,47 @@ namespace sampler
 	}
 }//namespace sampler
 
+namespace clamp_to_border
+{
+	int test()
+	{
+		int Error(0);
+
+		glm::u8vec4 const Orange(255, 127, 0, 255);
+		glm::u8vec4 const Blue(0, 127, 255, 255);
+
+		gli::texture2D::dim_type const Size(32);
+		gli::texture2D Texture(1, gli::FORMAT_RGBA8_UNORM, Size);
+		Texture.clear(Orange);
+
+		gli::sampler2D<glm::u8vec4> Sampler(Texture, gli::WRAP_CLAMP_TO_BORDER, gli::FILTER_LINEAR, gli::FILTER_LINEAR, Blue);
+
+		{
+			glm::u8vec4 const Color = Sampler.textureLod(gli::texcoord2_t(0.5f, 0.5f), 0.0f);
+			Error += glm::all(glm::equal(Color, Orange)) ? 0 : 1;
+		}
+		{
+			glm::u8vec4 const Color = Sampler.textureLod(gli::texcoord2_t(-0.5f, -0.5f), 0.0f);
+			Error += glm::all(glm::equal(Color, Blue)) ? 0 : 1;
+		}
+		{
+			glm::u8vec4 const Color = Sampler.textureLod(gli::texcoord2_t(1.5f,-0.5f), 0.0f);
+			Error += glm::all(glm::equal(Color, Blue)) ? 0 : 1;
+		}
+		{
+			glm::u8vec4 const Color = Sampler.textureLod(gli::texcoord2_t(1.5f, 1.5f), 0.0f);
+			Error += glm::all(glm::equal(Color, Blue)) ? 0 : 1;
+		}
+
+		return Error;
+	}
+}//namespace clamp_to_border
+
 int main()
 {
 	int Error(0);
 
+	Error += clamp_to_border::test();
 	Error += fetch::test();
 	Error += sampler::test();
 
