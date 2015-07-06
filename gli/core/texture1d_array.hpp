@@ -89,16 +89,6 @@ namespace gli
 		texture1D operator[] (layer_type const & Layer) const;
 
 		dim_type dimensions() const;
-
-	private:
-		storage Storage;
-		layer_type BaseLayer; 
-		layer_type MaxLayer; 
-		level_type BaseLevel;
-		level_type MaxLevel;
-		face_type BaseFace;
-		face_type MaxFace;
-		format_type Format;
 	};
 }//namespace gli
 

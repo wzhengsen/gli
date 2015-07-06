@@ -34,16 +34,11 @@ namespace gli
 {
 	class texture1DArray;
 
-	class texture1D
+	class texture1D : public texture
 	{
 	public:
 		typedef storage::dim1_type dim_type;
 		typedef storage::texcoord1_type texcoord_type;
-		typedef storage::size_type size_type;
-		typedef storage::format_type format_type;
-		typedef storage::size_type layer_type;
-		typedef storage::size_type level_type;
-		typedef storage::size_type face_type;
 
 	public:
 		texture1D();
@@ -90,43 +85,6 @@ namespace gli
 		operator storage() const;
 		image operator[] (size_type const & Level) const;
 
-		bool empty() const;
-		format_type format() const;
 		dim_type dimensions() const;
-		size_type layers() const;
-		size_type faces() const;
-		size_type levels() const;
-
-		size_type size() const;
-		void * data();
-		void const * data() const;
-
-		template <typename genType>
-		size_type size() const;
-		template <typename genType>
-		genType * data();
-		template <typename genType>
-		genType const * data() const;
-
-		void clear();
-		template <typename genType>
-		void clear(genType const & Texel);
-
-		size_type base_layer() const;
-		size_type max_layer() const;
-		size_type base_face() const;
-		size_type max_face() const;
-		size_type base_level() const;
-		size_type max_level() const;
-
-	private:
-		storage Storage;
-		size_type BaseLayer; 
-		size_type MaxLayer; 
-		size_type BaseFace;
-		size_type MaxFace;
-		size_type BaseLevel;
-		size_type MaxLevel;
-		format_type Format;
 	};
 }//namespace gli

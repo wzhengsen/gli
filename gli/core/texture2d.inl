@@ -33,27 +33,15 @@ namespace gli
 	inline texture2D::texture2D()
 	{}
 
-	inline texture2D::texture2D
-	(
-		size_type const & Levels,
-		format_type const & Format,
-		dim_type const & Dimensions
-	)
-		: texture(1, 1, Levels, Format, storage::dim_type(Dimensions, 1))
-	{}
-
-	inline texture2D::texture2D
-	(
-		format_type const & Format,
-		dim_type const & Dimensions
-	)
+	inline texture2D::texture2D(format_type const & Format, dim_type const & Dimensions)
 		: texture(1, 1, gli::levels(Dimensions), Format, storage::dim_type(Dimensions, 1))
 	{}
 
-	inline texture2D::texture2D
-	(
-		storage const & Storage
-	)
+	inline texture2D::texture2D(size_type const & Levels, format_type const & Format, dim_type const & Dimensions)
+		: texture(1, 1, Levels, Format, storage::dim_type(Dimensions, 1))
+	{}
+
+	inline texture2D::texture2D(storage const & Storage)
 		: texture(Storage)
 	{}
 
@@ -88,8 +76,7 @@ namespace gli
 	(
 		texture2DArray const & Texture,
 		size_type const & BaseLayer,
-		size_type const & BaseLevel,
-		size_type const & MaxLevel
+		size_type const & BaseLevel, size_type const & MaxLevel
 	)
 		: texture(
 			Texture, Texture.format(),
@@ -130,10 +117,7 @@ namespace gli
 		return this->Storage;
 	}
 
-	inline image texture2D::operator[]
-	(
-		texture2D::size_type const & Level
-	) const
+	inline image texture2D::operator[](texture2D::size_type const & Level) const
 	{
 		assert(Level < this->levels());
 

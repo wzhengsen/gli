@@ -30,14 +30,7 @@
 
 namespace gli
 {
-	inline texture1D::texture1D() :
-		BaseLayer(0),
-		MaxLayer(0),
-		BaseFace(0),
-		MaxFace(0),
-		BaseLevel(0),
-		MaxLevel(0),
-		Format(static_cast<gli::format>(FORMAT_INVALID))
+	inline texture1D::texture1D()
 	{}
 
 	inline texture1D::texture1D
@@ -45,92 +38,63 @@ namespace gli
 		size_type const & Levels,
 		format_type const & Format,
 		dim_type const & Dimensions
-	) :
-		Storage(
-			1, 1, Levels,
-			Format,
-			storage::dim_type(Dimensions.x, 1, 1)),
-		BaseLayer(0), MaxLayer(0),
-		BaseFace(0), MaxFace(0),
-		BaseLevel(0), MaxLevel(Levels - 1),
-		Format(Format)
+	)
+		: texture(1, 1, Levels, Format, storage::dim_type(Dimensions.x, 1, 1))
 	{}
 
 	inline texture1D::texture1D
 	(
 		format_type const & Format,
 		dim_type const & Dimensions
-	) :
-		Storage(
-			1, 1, gli::levels(Dimensions),
-			Format,
-			storage::dim_type(Dimensions.x, 1, 1)),
-		BaseLayer(0), MaxLayer(0),
-		BaseFace(0), MaxFace(0),
-		BaseLevel(0), MaxLevel(Storage.levels() - 1),
-		Format(Format)
+	)
+		: texture(1, 1, gli::levels(Dimensions), Format, storage::dim_type(Dimensions.x, 1, 1))
 	{}
 
 	inline texture1D::texture1D
 	(
 		storage const & Storage
-	) :
-		Storage(Storage),
-		BaseLayer(0), MaxLayer(0),
-		BaseFace(0), MaxFace(0),
-		BaseLevel(0), MaxLevel(Storage.levels() - 1),
-		Format(Storage.format())
+	)
+		: texture(Storage)
 	{}
 
 	inline texture1D::texture1D
 	(
 		storage const & Storage,
 		format_type const & Format,
-		size_type BaseLayer,
-		size_type MaxLayer,
-		size_type BaseFace,
-		size_type MaxFace,
-		size_type BaseLevel,
-		size_type MaxLevel
-	) :
-		Storage(Storage),
-		BaseLayer(BaseLayer), MaxLayer(MaxLayer),
-		BaseFace(BaseFace), MaxFace(MaxFace),
-		BaseLevel(BaseLevel), MaxLevel(MaxLevel),
-		Format(Format)
+		size_type BaseLayer, size_type MaxLayer,
+		size_type BaseFace, size_type MaxFace,
+		size_type BaseLevel, size_type MaxLevel
+	)
+		: texture(
+			Storage, Format,
+			BaseLayer, MaxLayer,
+			BaseFace, MaxFace,
+			BaseLevel, MaxLevel)
 	{}
  
 	inline texture1D::texture1D
 	(
 		texture1D const & Texture,
-		size_type const & BaseLevel,
-		size_type const & MaxLevel
-	) :
-		Storage(Texture.Storage),
-		BaseLayer(Texture.base_layer()),
-		MaxLayer(Texture.max_layer()),
-		BaseFace(Texture.base_face()),
-		MaxFace(Texture.max_face()),
-		BaseLevel(Texture.base_level() + BaseLevel),
-		MaxLevel(Texture.base_level() + MaxLevel),
-		Format(Texture.format())
+		size_type const & BaseLevel, size_type const & MaxLevel
+	)
+		: texture(
+			Texture.Storage, Texture.format(),
+			Texture.baseLayer(), Texture.maxLayer(),
+			Texture.baseFace(), Texture.maxFace(),
+			Texture.baseLevel() + BaseLevel, Texture.baseLevel() + MaxLevel)
 	{}
 
 	inline texture1D::texture1D
 	(
 		texture1DArray const & Texture,
 		size_type const & BaseLayer,
-		size_type const & BaseLevel,
-		size_type const & MaxLevel
-	) :
-		Storage(Texture),
-		BaseLayer(Texture.baseLayer() + BaseLayer),
-		MaxLayer(Texture.baseLayer() + BaseLayer),
-		BaseFace(Texture.baseFace()),
-		MaxFace(Texture.maxFace()),
-		BaseLevel(Texture.baseLevel() + BaseLevel),
-		MaxLevel(Texture.baseLevel() + MaxLevel),
-		Format(Texture.format())
+		size_type const & BaseLevel, size_type const & MaxLevel
+	)
+		: texture(
+			Texture, Texture.format(),
+			Texture.baseLayer() + BaseLayer, Texture.baseLayer() + BaseLayer,
+			Texture.baseFace(), Texture.maxFace(),
+			Texture.baseLevel() + BaseLevel, Texture.baseLevel() + MaxLevel)
 	{}
 
 	inline texture1D::operator storage() const
@@ -144,139 +108,15 @@ namespace gli
 
 		return image(
 			this->Storage,
-			this->base_layer(),
-			this->max_layer(),
-			this->base_face(),
-			this->max_face(),
-			this->base_level() + Level,
-			this->base_level() + Level);
-	}
-
-	inline bool texture1D::empty() const
-	{
-		return this->Storage.empty();
+			this->baseLayer(), this->maxLayer(),
+			this->baseFace(), this->maxFace(),
+			this->baseLevel() + Level, this->baseLevel() + Level);
 	}
 
 	inline texture1D::dim_type texture1D::dimensions() const
 	{
-		return texture1D::dim_type(this->Storage.dimensions(this->base_level()).x);
-	}
-
-	inline texture1D::format_type texture1D::format() const
-	{
-		return this->Format;
-	}
-
-	inline texture1D::size_type texture1D::layers() const
-	{
-		return 1;
-	}
-
-	inline texture1D::size_type texture1D::faces() const
-	{
-		return 1;
-	}
-
-	inline texture1D::size_type texture1D::levels() const
-	{
-		return this->max_level() - this->base_level() + 1;
-	}
-
-	inline texture1D::size_type texture1D::size() const
-	{
-		return this->Storage.face_size(this->base_level(), this->max_level());
-	}
-
-	inline void * texture1D::data()
-	{
 		assert(!this->empty());
 
-		size_type const offset = detail::imageAddressing(
-			this->Storage, this->base_layer(), this->base_face(), this->base_level());
-
-		return this->Storage.data() + offset;
-	}
-
-	inline void const * texture1D::data() const
-	{
-		assert(!this->empty());
-		
-		size_type const offset = detail::imageAddressing(
-			this->Storage, this->base_layer(), this->base_face(), this->base_level());
-
-		return this->Storage.data() + offset;
-	}
-
-	template <typename genType>
-	inline texture1D::size_type texture1D::size() const
-	{
-		assert(sizeof(genType) <= block_size(this->Storage.format()));
-		return this->size() / sizeof(genType);
-	}
-
-	template <typename genType>
-	inline genType * texture1D::data()
-	{
-		assert(!this->empty());
-		assert(block_size(this->Storage.format()) >= sizeof(genType));
-
-		return reinterpret_cast<genType *>(this->data());
-	}
-
-	template <typename genType>
-	inline genType const * texture1D::data() const
-	{
-		assert(!this->empty());
-		assert(block_size(this->Storage.format()) >= sizeof(genType));
-
-		return reinterpret_cast<genType const *>(this->data());
-	}
-
-	inline void texture1D::clear()
-	{
-		memset(this->data<glm::byte>(), 0, this->size<glm::byte>());
-	}
-
-	template <typename genType>
-	inline void texture1D::clear(genType const & Texel)
-	{
-		assert(!this->empty());
-		assert(block_size(this->Storage.format()) == sizeof(genType));
-
-		genType* Data = this->data<genType>();
-		size_type const TexelCount = this->size<genType>();
-
-		for(size_type TexelIndex = 0; TexelIndex < TexelCount; ++TexelIndex)
-			*(Data + TexelIndex) = Texel;
-	}
-
-	inline texture1D::size_type texture1D::base_layer() const
-	{
-		return this->BaseLayer;
-	}
-
-	inline texture1D::size_type texture1D::max_layer() const
-	{
-		return this->MaxLayer;
-	}
-
-	inline texture1D::size_type texture1D::base_face() const
-	{
-		return this->BaseFace;
-	}
-
-	inline texture1D::size_type texture1D::max_face() const
-	{
-		return this->MaxFace;
-	}
-
-	inline texture1D::size_type texture1D::base_level() const
-	{
-		return this->BaseLevel;
-	}
-
-	inline texture1D::size_type texture1D::max_level() const
-	{
-		return this->MaxLevel;
+		return texture1D::dim_type(this->Storage.dimensions(this->baseLevel()).x);
 	}
 }//namespace gli

@@ -30,11 +30,16 @@
 
 namespace gli
 {
-	inline texture1DArray::texture1DArray() :
-		BaseLayer(0), MaxLayer(0),
-		BaseFace(0), MaxFace(0),
-		BaseLevel(0), MaxLevel(0),
-		Format(static_cast<gli::format>(FORMAT_INVALID))
+	inline texture1DArray::texture1DArray()
+	{}
+
+	inline texture1DArray::texture1DArray
+	(
+		size_type const & Layers,
+		format_type const & Format,
+		dim_type const & Dimensions
+	)
+		: texture(Layers, 1, gli::levels(Dimensions), Format, storage::dim_type(Dimensions.x, 1, 1))
 	{}
 
 	inline texture1DArray::texture1DArray
@@ -43,94 +48,52 @@ namespace gli
 		size_type const & Levels,
 		format_type const & Format,
 		dim_type const & Dimensions
-	) :
-		Storage(
-			Layers, 1, Levels,
-			Format,
-			storage::dim_type(Dimensions.x, 1, 1)),
-		BaseLayer(0), MaxLayer(Layers - 1),
-		BaseFace(0), MaxFace(0),
-		BaseLevel(0), MaxLevel(Levels - 1),
-		Format(Format)
+	)
+		: texture(Layers, 1, Levels, Format, storage::dim_type(Dimensions.x, 1, 1))
 	{}
 
-	inline texture1DArray::texture1DArray
-	(
-		size_type const & Layers,
-		format_type const & Format,
-		dim_type const & Dimensions
-	) :
-		Storage(
-			Layers, 1, gli::levels(Dimensions),
-			Format,
-			storage::dim_type(Dimensions.x, 1, 1)),
-		BaseLayer(0), MaxLayer(Layers - 1),
-		BaseFace(0), MaxFace(0),
-		BaseLevel(0), MaxLevel(Storage.levels() - 1),
-		Format(Format)
-	{}
-
-	inline texture1DArray::texture1DArray
-	(
-		storage const & Storage
-	) :
-		Storage(Storage),
-		BaseLayer(0), MaxLayer(Storage.layers() - 1),
-		BaseFace(0), MaxFace(0), BaseLevel(0),
-		MaxLevel(Storage.levels() - 1),
-		Format(Storage.format())
+	inline texture1DArray::texture1DArray(storage const & Storage)
+		: texture(Storage)
 	{}
 
 	inline texture1DArray::texture1DArray
 	(
 		storage const & Storage,
 		format_type const & Format,
-		size_type BaseLayer,
-		size_type MaxLayer,
-		size_type BaseFace,
-		size_type MaxFace,
-		size_type BaseLevel,
-		size_type MaxLevel
-	) :
-		Storage(Storage),
-		BaseLayer(BaseLayer), MaxLayer(MaxLayer),
-		BaseFace(BaseFace), MaxFace(MaxFace),
-		BaseLevel(BaseLevel), MaxLevel(MaxLevel),
-		Format(Format)
+		size_type BaseLayer, size_type MaxLayer,
+		size_type BaseFace, size_type MaxFace,
+		size_type BaseLevel, size_type MaxLevel
+	)
+		: texture(
+			Storage, Format,
+			BaseLayer, MaxLayer,
+			BaseFace, MaxFace,
+			BaseLevel, MaxLevel)
 	{}
 
 	inline texture1DArray::texture1DArray
 	(
 		texture1DArray const & Texture,
-		size_type const & BaseLayer,
-		size_type const & MaxLayer,
-		size_type const & BaseLevel,
-		size_type const & MaxLevel
-	) :
-		Storage(Texture.Storage),
-		BaseLayer(Texture.baseLayer() + BaseLayer),
-		MaxLayer(Texture.baseLayer() + MaxLayer),
-		BaseFace(Texture.baseFace()),
-		MaxFace(Texture.maxFace()),
-		BaseLevel(Texture.baseLevel() + BaseLevel),
-		MaxLevel(Texture.baseLevel() + MaxLevel),
-		Format(Texture.format())
+		size_type const & BaseLayer, size_type const & MaxLayer,
+		size_type const & BaseLevel, size_type const & MaxLevel
+	)
+		: texture(
+			Texture, Texture.format(),
+			Texture.baseLayer() + BaseLayer, Texture.baseLayer() + MaxLayer,
+			Texture.baseFace(), Texture.maxFace(),
+			Texture.baseLevel() + BaseLevel, Texture.baseLevel() + MaxLevel)
 	{}
 
 	inline texture1DArray::texture1DArray
 	(
 		texture1D const & Texture,
-		size_type const & BaseLevel,
-		size_type const & MaxLevel
-	) :
-		Storage(Texture),
-		BaseLayer(Texture.base_layer()),
-		MaxLayer(Texture.max_layer()),
-		BaseFace(Texture.base_face()),
-		MaxFace(Texture.max_face()),
-		BaseLevel(Texture.base_level() + BaseLevel),
-		MaxLevel(Texture.base_level() + MaxLevel),
-		Format(Texture.format())
+		size_type const & BaseLevel, size_type const & MaxLevel
+	)
+		: texture(
+			Texture, Texture.format(),
+			Texture.baseLayer(), Texture.maxLayer(),
+			Texture.baseFace(), Texture.maxFace(),
+			Texture.baseLevel() + BaseLevel, Texture.baseLevel() + MaxLevel)
 	{}
 
 	inline texture1DArray::operator storage() const
