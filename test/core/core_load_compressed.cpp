@@ -150,17 +150,18 @@ int main()
 
 		for(std::size_t Index = 0; Index < Filenames.size(); ++Index)
 		{
-			std::ifstream File(Filenames[Index], std::ios::in | std::ios::binary);
-			assert(!File.fail());
+			FILE* File = std::fopen(Filenames[Index].c_str(), "rb");
+			assert(File);
 
-			std::streamoff Curr = File.tellg();
-			File.seekg(0, std::ios_base::end);
-			std::streamoff End = File.tellg();
-			File.seekg(Curr, std::ios_base::beg);
+			long Beg = std::ftell(File);
+			std::fseek(File, 0, SEEK_END);
+			long End = std::ftell(File);
+			std::fseek(File, 0, SEEK_SET);
 
-			Memory[Index].resize(End - Curr);
+			Memory[Index].resize(End - Beg);
 
-			File.read(&Memory[Index][0], Memory[Index].size());
+			std::fread(&Memory[Index][0], 1, Memory[Index].size(), File);
+			std::fclose(File);
 		}
 
 		TimeMemOnlyStart = std::clock();
@@ -170,8 +171,7 @@ int main()
 	}
 	std::clock_t TimeMemOnlyEnd = std::clock();
 
-
-	printf("File: %lu, Mem: %lu, Mem Only: %lu\n", TimeFileEnd - TimeFileStart, TimeMemEnd - TimeMemStart, TimeMemOnlyEnd - TimeMemOnlyStart);
+	std::printf("File: %lu, Mem: %lu, Mem Only: %lu\n", TimeFileEnd - TimeFileStart, TimeMemEnd - TimeMemStart, TimeMemOnlyEnd - TimeMemOnlyStart);
 
 	return Error;
 }

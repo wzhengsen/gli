@@ -26,6 +26,8 @@
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
+#include <cstdio>
+
 namespace gli
 {
 	inline void save_dds(storage const & Storage, std::vector<char> & Memory)
@@ -108,14 +110,15 @@ namespace gli
 		if(Storage.empty())
 			return;
 
-		std::ofstream File(Filename, std::ios::out | std::ios::binary);
+		FILE* File = std::fopen(Filename, "wb");
 		if (!File)
 			return;
 
 		std::vector<char> Memory;
 		save_dds(Storage, Memory);
 
-		File.write(&Memory[0], Memory.size());
+		std::fwrite(&Memory[0], 1, Memory.size(), File);
+		std::fclose(File);
 	}
 
 	inline void save_dds(storage const & Storage, std::string const & Filename)

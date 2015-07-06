@@ -26,7 +26,7 @@
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
-#include <fstream>
+#include <cstdio>
 #include <cassert>
 
 namespace gli{
@@ -241,17 +241,18 @@ inline storage load_dds(char const * Data, std::size_t Size)
 
 inline storage load_dds(char const * Filename)
 {
-	std::ifstream File(Filename, std::ios::in | std::ios::binary);
-	assert(!File.fail());
+	FILE* File = std::fopen(Filename, "rb");
+	assert(File);
 
-	std::streamoff Curr = File.tellg();
-	File.seekg(0, std::ios_base::end);
-	std::streamoff End = File.tellg();
-	File.seekg(Curr, std::ios_base::beg);
+	long Beg = std::ftell(File);
+	std::fseek(File, 0, SEEK_END);
+	long End = std::ftell(File);
+	std::fseek(File, 0, SEEK_SET);
 
-	std::vector<char> Data(End - Curr);
+	std::vector<char> Data(static_cast<std::size_t>(End - Beg));
 
-	File.read(&Data[0], Data.size());
+	std::fread(&Data[0], 1, Data.size(), File);
+	std::fclose(File);
 
 	return load_dds(&Data[0], Data.size());
 }

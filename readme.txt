@@ -65,6 +65,7 @@ GLI 0.6.1.0: 2015-0X-XX
 --------------------------------------------------------------------------------
 - Fixed interface inconsistency
 - Improved clear(), data() and size() performance using caching
+- Moved internal dependence to std::fstream
 
 ================================================================================
 GLI 0.6.0.0: 2015-06-28
