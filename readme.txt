@@ -64,6 +64,7 @@ GLI is a header only library, there is nothing to build, just include it.
 GLI 0.6.1.0: 2015-0X-XX
 --------------------------------------------------------------------------------
 - Fixed interface inconsistency
+- Improved clear(), data() and size() performance using caching
 
 ================================================================================
 GLI 0.6.0.0: 2015-06-28
