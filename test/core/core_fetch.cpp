@@ -294,17 +294,17 @@ namespace fetch_bgr8_unorm
 	{
 		int Error(0);
 
-		gli::texture2D TextureA(gli::FORMAT_BGR8_UNORM, gli::texture2D::dim_type(2, 2));
+		gli::texture2D TextureA(gli::FORMAT_RGB8_UNORM, gli::texture2D::dim_type(2, 2));
 		{
 			gli::texelWrite<glm::u8vec3>(TextureA, gli::texture2D::dim_type(0, 0), 0, glm::u8vec3(0, 0, 255));
 			gli::texelWrite<glm::u8vec3>(TextureA, gli::texture2D::dim_type(1, 0), 0, glm::u8vec3(0, 255, 255));
 			gli::texelWrite<glm::u8vec3>(TextureA, gli::texture2D::dim_type(1, 1), 0, glm::u8vec3(0, 255, 0));
 			gli::texelWrite<glm::u8vec3>(TextureA, gli::texture2D::dim_type(0, 1), 0, glm::u8vec3(255, 0, 0));
 			gli::texelWrite<glm::u8vec3>(TextureA, gli::texture2D::dim_type(0, 0), 1, glm::u8vec3(0, 128, 255));
-			gli::save_dds(TextureA, "bgr8_unorm_4pixels.dds");
+			gli::save_dds(TextureA, "rgb8_unorm_4pixels.dds");
 		}
 
-		gli::texture2D TextureB(gli::load_dds("bgr8_unorm_4pixels.dds"));
+		gli::texture2D TextureB(gli::load_dds("rgb8_unorm_4pixels.dds"));
 		{
 			glm::u8vec3 A = gli::texelFetch<glm::u8vec3>(TextureB, gli::texture2D::dim_type(0, 0), 0);
 			Error += glm::all(glm::equal(A, glm::u8vec3(0, 0, 255))) ? 0 : 1;
