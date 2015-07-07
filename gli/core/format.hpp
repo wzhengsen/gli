@@ -114,9 +114,9 @@ namespace gli
 		FORMAT_RGBA4_UNORM,
 
 		// Swizzle formats
-		FORMAT_BGR8_UNORM,
+		FORMAT_BGRX8_UNORM,
 		FORMAT_BGRA8_UNORM,
-		FORMAT_BGR8_SRGB,
+		FORMAT_BGRX8_SRGB,
 		FORMAT_BGRA8_SRGB,
 
 		// Luminance Alpha formats

@@ -194,13 +194,16 @@ inline storage load_dds(char const * Data, std::size_t Size)
 			}
 			case 24:
 			{
-				if(glm::all(glm::equal(HeaderDesc.format.Mask, DX.translate(FORMAT_BGR8_UNORM).Mask)))
-					Format = FORMAT_BGR8_UNORM;
+				dx::format const & DXFormat = DX.translate(FORMAT_RGB8_UNORM);
+				if(glm::all(glm::equal(HeaderDesc.format.Mask, DXFormat.Mask)))
+					Format = FORMAT_RGB8_UNORM;
 				break;
 			}
 			case 32:
 			{
-				if(glm::all(glm::equal(HeaderDesc.format.Mask, DX.translate(FORMAT_BGRA8_UNORM).Mask)))
+				if(glm::all(glm::equal(HeaderDesc.format.Mask, DX.translate(FORMAT_BGRX8_UNORM).Mask)))
+					Format = FORMAT_BGRX8_UNORM;
+				else if(glm::all(glm::equal(HeaderDesc.format.Mask, DX.translate(FORMAT_BGRA8_UNORM).Mask)))
 					Format = FORMAT_BGRA8_UNORM;
 				else if(glm::all(glm::equal(HeaderDesc.format.Mask, DX.translate(FORMAT_RGB10A2_UNORM).Mask)))
 					Format = FORMAT_RGB10A2_UNORM;
