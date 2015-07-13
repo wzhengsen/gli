@@ -37,9 +37,6 @@ namespace gli
 	public:
 		typedef storage::size_type size_type;
 		typedef storage::format_type format_type;
-		typedef storage::size_type layer_type;
-		typedef storage::size_type level_type;
-		typedef storage::size_type face_type;
 
 		texture();
 
