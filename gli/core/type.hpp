@@ -53,5 +53,5 @@ namespace gli
 	typedef glm::vec3 vec3;
 	typedef glm::vec4 vec4;
 
-	typedef glm::tvec4<int> swizzle_t;
+	typedef glm::ivec4 ivec4;
 }//namespace gli
