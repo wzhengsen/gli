@@ -38,8 +38,8 @@ namespace gli
 	class textureCube : public texture
 	{
 	public:
-		typedef storage::dim2_type dim_type;
-		typedef storage::texcoord3_type texcoord_type;
+		typedef dim2_t dim_type;
+		typedef texcoord3_t texcoord_type;
 
 	public:
 		textureCube();
@@ -96,7 +96,7 @@ namespace gli
 			size_type const & MaxLevel);
 
 		operator storage() const;
-		texture2D operator[] (size_type const & Face) const;
+		texture2D operator[](size_type const & Face) const;
 
 		dim_type dimensions() const;
 	};

@@ -35,8 +35,8 @@ namespace gli
 	class texture3D : public texture
 	{
 	public:
-		typedef storage::dim3_type dim_type;
-		typedef storage::texcoord3_type texcoord_type;
+		typedef dim3_t dim_type;
+		typedef texcoord3_t texcoord_type;
 
 	public:
 		texture3D();
@@ -60,21 +60,17 @@ namespace gli
 		explicit texture3D(
 			storage const & Storage,
 			format_type const & Format,
-			size_type BaseLayer,
-			size_type MaxLayer,
-			size_type BaseFace,
-			size_type MaxFace,
-			size_type BaseLevel,
-			size_type MaxLevel);
+			size_type BaseLayer, size_type MaxLayer,
+			size_type BaseFace, size_type MaxFace,
+			size_type BaseLevel, size_type MaxLevel);
 
 		/// Create a texture3D view, reference a subset of an existing texture3D instance
 		explicit texture3D(
 			texture3D const & Texture,
-			size_type const & BaseLevel,
-			size_type const & MaxLevel);
+			size_type const & BaseLevel, size_type const & MaxLevel);
 
 		operator storage() const;
-		image operator[] (size_type const & Level) const;
+		image operator[](size_type const & Level) const;
 
 		dim_type dimensions() const;
 	};

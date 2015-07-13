@@ -40,8 +40,8 @@ namespace gli
 	class texture2D : public texture
 	{
 	public:
-		typedef storage::dim2_type dim_type;
-		typedef storage::texcoord2_type texcoord_type;
+		typedef dim2_t dim_type;
+		typedef texcoord2_t texcoord_type;
 
 	public:
 		texture2D();
@@ -65,12 +65,9 @@ namespace gli
 		explicit texture2D(
 			storage const & Storage,
 			format_type const & Format,
-			size_type BaseLayer,
-			size_type MaxLayer,
-			size_type BaseFace,
-			size_type MaxFace,
-			size_type BaseLevel,
-			size_type MaxLevel);
+			size_type BaseLayer, size_type MaxLayer,
+			size_type BaseFace, size_type MaxFace,
+			size_type BaseLevel, size_type MaxLevel);
 
 		/// Create a texture2D view, reference a subset of an existing texture2D instance
 		explicit texture2D(
@@ -82,15 +79,13 @@ namespace gli
 		explicit texture2D(
 			texture2DArray const & Texture,
 			size_type const & BaseLayer,
-			size_type const & BaseLevel,
-			size_type const & MaxLevel);
+			size_type const & BaseLevel, size_type const & MaxLevel);
 
 		/// Create a texture view, reference a subset of an existing textureCube instance
 		explicit texture2D(
 			textureCube const & Texture,
 			size_type const & BaseFace,
-			size_type const & BaseLevel,
-			size_type const & MaxLevel);
+			size_type const & BaseLevel, size_type const & MaxLevel);
 
 		/// Create a texture view, reference a subset of an existing textureCubeArray instance
 		explicit texture2D(

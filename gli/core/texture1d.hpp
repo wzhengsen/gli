@@ -37,8 +37,8 @@ namespace gli
 	class texture1D : public texture
 	{
 	public:
-		typedef storage::dim1_type dim_type;
-		typedef storage::texcoord1_type texcoord_type;
+		typedef dim1_t dim_type;
+		typedef texcoord1_t texcoord_type;
 
 	public:
 		texture1D();
@@ -62,25 +62,20 @@ namespace gli
 		explicit texture1D(
 			storage const & Storage,
 			format_type const & Format,
-			size_type BaseLayer,
-			size_type MaxLayer,
-			size_type BaseFace,
-			size_type MaxFace,
-			size_type BaseLevel,
-			size_type MaxLevel);
+			size_type BaseLayer, size_type MaxLayer,
+			size_type BaseFace, size_type MaxFace,
+			size_type BaseLevel, size_type MaxLevel);
 
 		/// Create a texture1D view, reference a subset of an existing texture1D instance
 		explicit texture1D(
 			texture1D const & Texture,
-			size_type const & BaseLevel,
-			size_type const & MaxLevel);
+			size_type const & BaseLevel, size_type const & MaxLevel);
 
 		/// Create a texture1D view, reference a subset of an existing texture1DArray instance
 		explicit texture1D(
 			texture1DArray const & Texture,
 			size_type const & BaseLayer,
-			size_type const & BaseLevel,
-			size_type const & MaxLevel);
+			size_type const & BaseLevel, size_type const & MaxLevel);
 
 		operator storage() const;
 		image operator[] (size_type const & Level) const;

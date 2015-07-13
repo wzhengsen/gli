@@ -35,8 +35,8 @@ namespace gli
 	class texture2DArray : public texture
 	{
 	public:
-		typedef storage::dim2_type dim_type;
-		typedef storage::texcoord3_type texcoord_type;
+		typedef dim2_t dim_type;
+		typedef texcoord3_t texcoord_type;
 
 	public:
 		texture2DArray();
@@ -62,29 +62,24 @@ namespace gli
 		explicit texture2DArray(
 			storage const & Storage,
 			format_type const & Format,
-			size_type BaseLayer,
-			size_type MaxLayer,
-			size_type BaseFace,
-			size_type MaxFace,
-			size_type BaseLevel,
-			size_type MaxLevel);
+			size_type BaseLayer, size_type MaxLayer,
+			size_type BaseFace, size_type MaxFace,
+			size_type BaseLevel, size_type MaxLevel);
 
 		/// Create a texture view, reference a subset of an exiting texture2DArray instance
 		explicit texture2DArray(
 			texture2DArray const & Texture,
-			size_type const & BaseLayer,
-			size_type const & MaxLayer,
-			size_type const & BaseLevel,
-			size_type const & MaxLevel);
+			size_type const & BaseLayer, size_type const & MaxLayer,
+			size_type const & BaseLevel, size_type const & MaxLevel);
 
 		/// Create a texture view, reference a subset of an exiting texture2D instance
 		explicit texture2DArray(
 			texture2D const & Texture,
-			size_type const & BaseLevel,
-			size_type const & MaxLevel);
+			size_type const & BaseLevel, size_type const & MaxLevel);
 
 		operator storage() const;
-		texture2D operator[] (size_type const & Layer) const;
+
+		texture2D operator[](size_type const & Layer) const;
 
 		dim_type dimensions() const;
 	};

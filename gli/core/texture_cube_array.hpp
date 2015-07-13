@@ -38,8 +38,8 @@ namespace gli
 	class textureCubeArray : public texture
 	{
 	public:
-		typedef storage::dim2_type dim_type;
-		typedef storage::texcoord4_type texcoord_type;
+		typedef dim2_t dim_type;
+		typedef texcoord4_t texcoord_type;
 
 	public:
 		textureCubeArray();
