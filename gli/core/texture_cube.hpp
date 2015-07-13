@@ -39,7 +39,7 @@ namespace gli
 	{
 	public:
 		typedef dim2_t dim_type;
-		typedef texcoord3_t texcoord_type;
+		typedef vec3 texcoord_type;
 
 	public:
 		textureCube();

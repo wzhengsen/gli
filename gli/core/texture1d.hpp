@@ -38,7 +38,7 @@ namespace gli
 	{
 	public:
 		typedef dim1_t dim_type;
-		typedef texcoord1_t texcoord_type;
+		typedef vec1 texcoord_type;
 
 	public:
 		texture1D();

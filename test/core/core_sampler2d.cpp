@@ -373,19 +373,19 @@ namespace clamp_to_border
 		gli::sampler2D<glm::u8vec4> Sampler(Texture, gli::WRAP_CLAMP_TO_BORDER, gli::FILTER_LINEAR, gli::FILTER_LINEAR, Blue);
 
 		{
-			glm::u8vec4 const Color = Sampler.textureLod(gli::texcoord2_t(0.5f, 0.5f), 0.0f);
+			glm::u8vec4 const Color = Sampler.textureLod(gli::vec2(0.5f, 0.5f), 0.0f);
 			Error += glm::all(glm::equal(Color, Orange)) ? 0 : 1;
 		}
 		{
-			glm::u8vec4 const Color = Sampler.textureLod(gli::texcoord2_t(-0.5f, -0.5f), 0.0f);
+			glm::u8vec4 const Color = Sampler.textureLod(gli::vec2(-0.5f, -0.5f), 0.0f);
 			Error += glm::all(glm::equal(Color, Blue)) ? 0 : 1;
 		}
 		{
-			glm::u8vec4 const Color = Sampler.textureLod(gli::texcoord2_t(1.5f,-0.5f), 0.0f);
+			glm::u8vec4 const Color = Sampler.textureLod(gli::vec2(1.5f,-0.5f), 0.0f);
 			Error += glm::all(glm::equal(Color, Blue)) ? 0 : 1;
 		}
 		{
-			glm::u8vec4 const Color = Sampler.textureLod(gli::texcoord2_t(1.5f, 1.5f), 0.0f);
+			glm::u8vec4 const Color = Sampler.textureLod(gli::vec2(1.5f, 1.5f), 0.0f);
 			Error += glm::all(glm::equal(Color, Blue)) ? 0 : 1;
 		}
 

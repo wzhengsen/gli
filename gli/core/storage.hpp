@@ -61,14 +61,11 @@ namespace gli
 		typedef dim3_t dim3_type;
 		typedef dim4_t dim4_type;
 		typedef dim3_type dim_type;
-		typedef texcoord1_t texcoord1_type;
-		typedef texcoord2_t texcoord2_type;
-		typedef texcoord3_t texcoord3_type;
-		typedef texcoord4_t texcoord4_type;
+		typedef vec1 texcoord1_type;
+		typedef vec2 texcoord2_type;
+		typedef vec3 texcoord3_type;
+		typedef vec4 texcoord4_type;
 		typedef size_t size_type;
-		typedef size_t layer_type;
-		typedef size_t level_type;
-		typedef size_t face_type;
 		typedef gli::format format_type;
 		typedef glm::byte data_type;
 		typedef glm::ivec4 swizzle_type;
@@ -77,18 +74,18 @@ namespace gli
 		storage();
 
 		storage(
-			layer_type const & Layers,
-			face_type const & Faces,
-			level_type const & Levels,
+			size_type const & Layers,
+			size_type const & Faces,
+			size_type const & Levels,
 			format_type const & Format,
 			dim_type const & Dimensions);
 
 		bool empty() const;
 		size_type size() const; // Express is bytes
 		format_type format() const;
-		layer_type layers() const;
-		level_type levels() const;
-		face_type faces() const;
+		size_type layers() const;
+		size_type levels() const;
+		size_type faces() const;
 		swizzle_type swizzle() const;
 
 		dim_type dimensions(size_type const & Level) const;
@@ -97,15 +94,15 @@ namespace gli
 		data_type const * data() const;
 
 		size_type level_size(
-			level_type const & Level) const;
+			size_type const & Level) const;
 		size_type face_size(
-			level_type const & BaseLevel,
-			level_type const & MaxLevel) const;
+			size_type const & BaseLevel,
+			size_type const & MaxLevel) const;
 		size_type layer_size(
-			face_type const & BaseFace,
-			face_type const & MaxFace,
-			level_type const & BaseLevel,
-			level_type const & MaxLevel) const;
+			size_type const & BaseFace,
+			size_type const & MaxFace,
+			size_type const & BaseLevel,
+			size_type const & MaxLevel) const;
 
 	private:
 		struct impl
@@ -113,9 +110,9 @@ namespace gli
 			impl();
 
 			explicit impl(
-				layer_type const & Layers, 
-				face_type const & Faces,
-				level_type const & Levels,
+				size_type const & Layers, 
+				size_type const & Faces,
+				size_type const & Levels,
 				format_type const & Format,
 				dim_type const & Dimensions);
 

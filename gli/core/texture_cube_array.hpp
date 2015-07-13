@@ -34,12 +34,12 @@ namespace gli
 {
 	class textureCube;
 	class texture2D;
-	
+
 	class textureCubeArray : public texture
 	{
 	public:
 		typedef dim2_t dim_type;
-		typedef texcoord4_t texcoord_type;
+		typedef vec4 texcoord_type;
 
 	public:
 		textureCubeArray();

@@ -41,7 +41,7 @@ namespace gli
 	{
 	public:
 		typedef dim2_t dim_type;
-		typedef texcoord2_t texcoord_type;
+		typedef vec2 texcoord_type;
 
 	public:
 		texture2D();
