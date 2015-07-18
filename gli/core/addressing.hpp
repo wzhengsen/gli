@@ -33,35 +33,35 @@
 namespace gli{
 namespace detail
 {
-	storage::size_type imageAddressing(
+	size_t imageAddressing(
 		storage const & Storage,
-		storage::size_type const & LayerOffset, 
-		storage::size_type const & FaceOffset, 
-		storage::size_type const & LevelOffset);
+		size_t const & LayerOffset, 
+		size_t const & FaceOffset, 
+		size_t const & LevelOffset);
 
-	storage::size_type texelLinearAdressing(
-		storage::dim1_type const & Dimensions,
-		storage::dim1_type const & TexelCoord);
+	size_t texelLinearAdressing(
+		dim1_t const & Dimensions,
+		dim1_t const & TexelCoord);
 
-	storage::size_type texelLinearAdressing(
-		storage::dim2_type const & Dimensions,
-		storage::dim2_type const & TexelCoord);
+	size_t texelLinearAdressing(
+		dim2_t const & Dimensions,
+		dim2_t const & TexelCoord);
 
-	storage::size_type texelLinearAdressing(
-		storage::dim3_type const & Dimensions,
-		storage::dim3_type const & TexelCoord);
+	size_t texelLinearAdressing(
+		dim3_t const & Dimensions,
+		dim3_t const & TexelCoord);
 
-	storage::size_type texelMortonAdressing(
-		storage::dim1_type const & Dimensions,
-		storage::dim1_type const & TexelCoord);
+	size_t texelMortonAdressing(
+		dim1_t const & Dimensions,
+		dim1_t const & TexelCoord);
 
-	storage::size_type texelMortonAdressing(
-		storage::dim2_type const & Dimensions,
-		storage::dim2_type const & TexelCoord);
+	size_t texelMortonAdressing(
+		dim2_t const & Dimensions,
+		dim2_t const & TexelCoord);
 
-	storage::size_type texelMortonAdressing(
-		storage::dim3_type const & Dimensions,
-		storage::dim3_type const & TexelCoord);
+	size_t texelMortonAdressing(
+		dim3_t const & Dimensions,
+		dim3_t const & TexelCoord);
 
 }//namespace detail
 /*

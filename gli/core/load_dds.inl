@@ -237,6 +237,8 @@ inline storage load_dds(char const * Data, std::size_t Size)
 		HeaderDesc10.arraySize, FaceCount, MipMapCount, Format,
 		storage::dim_type(HeaderDesc.width, HeaderDesc.height, DepthCount));
 
+	assert(Offset + Storage.size() == Size);
+
 	std::memcpy(Storage.data(), Data + Offset, Storage.size());
 
 	return Storage;

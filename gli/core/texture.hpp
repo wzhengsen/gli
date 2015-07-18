@@ -35,8 +35,8 @@ namespace gli
 	class texture
 	{
 	public:
-		typedef storage::size_type size_type;
-		typedef storage::format_type format_type;
+		typedef size_t size_type;
+		typedef format format_type;
 
 		texture();
 

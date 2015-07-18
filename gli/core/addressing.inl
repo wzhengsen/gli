@@ -29,32 +29,32 @@
 namespace gli{
 namespace detail
 {
-	inline storage::size_type imageAddressing
+	inline size_t imageAddressing
 	(
 		storage const & Storage,
-		storage::size_type const & LayerOffset,
-		storage::size_type const & FaceOffset,
-		storage::size_type const & LevelOffset
+		size_t const & LayerOffset,
+		size_t const & FaceOffset,
+		size_t const & LevelOffset
 	)
 	{
 		assert(LayerOffset < Storage.layers());
 		assert(FaceOffset < Storage.faces());
 		assert(LevelOffset < Storage.levels());
 
-		storage::size_type LayerSize = Storage.layer_size(0, Storage.faces() - 1, 0, Storage.levels() - 1);
-		storage::size_type FaceSize = Storage.face_size(0, Storage.levels() - 1);
-		storage::size_type BaseOffset = LayerSize * LayerOffset + FaceSize * FaceOffset; 
+		size_t LayerSize = Storage.layer_size(0, Storage.faces() - 1, 0, Storage.levels() - 1);
+		size_t FaceSize = Storage.face_size(0, Storage.levels() - 1);
+		size_t BaseOffset = LayerSize * LayerOffset + FaceSize * FaceOffset; 
 
-		for(storage::size_type Level(0); Level < LevelOffset; ++Level)
+		for(size_t Level = 0; Level < LevelOffset; ++Level)
 			BaseOffset += Storage.level_size(Level);
 
 		return BaseOffset;
 	}
 
-	inline storage::size_type texelLinearAdressing
+	inline size_t texelLinearAdressing
 	(
-		storage::dim1_type const & Dimensions,
-		storage::dim1_type const & TexelCoord
+		dim1_t const & Dimensions,
+		dim1_t const & TexelCoord
 	)
 	{
 		assert(glm::all(glm::lessThan(TexelCoord, Dimensions)));
@@ -62,10 +62,10 @@ namespace detail
 		return TexelCoord.x;
 	}
 
-	inline storage::size_type texelLinearAdressing
+	inline size_t texelLinearAdressing
 	(
-		storage::dim2_type const & Dimensions,
-		storage::dim2_type const & TexelCoord
+		dim2_t const & Dimensions,
+		dim2_t const & TexelCoord
 	)
 	{
 		assert(TexelCoord.x < Dimensions.x);
@@ -74,10 +74,10 @@ namespace detail
 		return TexelCoord.x + Dimensions.x * TexelCoord.y;
 	}
 
-	inline storage::size_type texelLinearAdressing
+	inline size_t texelLinearAdressing
 	(
-		storage::dim3_type const & Dimensions,
-		storage::dim3_type const & TexelCoord
+		dim3_t const & Dimensions,
+		dim3_t const & TexelCoord
 	)
 	{
 		assert(TexelCoord.x < Dimensions.x);
@@ -87,10 +87,10 @@ namespace detail
 		return TexelCoord.x + Dimensions.x * (TexelCoord.y + Dimensions.y * TexelCoord.z);
 	}
 
-	inline storage::size_type texelMortonAdressing
+	inline size_t texelMortonAdressing
 	(
-		storage::dim1_type const & Dimensions,
-		storage::dim1_type const & TexelCoord
+		dim1_t const & Dimensions,
+		dim1_t const & TexelCoord
 	)
 	{
 		assert(TexelCoord.x < Dimensions.x);
@@ -98,10 +98,10 @@ namespace detail
 		return TexelCoord.x;
 	}
 
-	inline storage::size_type texelMortonAdressing
+	inline size_t texelMortonAdressing
 	(
-		storage::dim2_type const & Dimensions,
-		storage::dim2_type const & TexelCoord
+		dim2_t const & Dimensions,
+		dim2_t const & TexelCoord
 	)
 	{
 		assert(TexelCoord.x < Dimensions.x && TexelCoord.x < std::numeric_limits<std::uint32_t>::max());
@@ -112,10 +112,10 @@ namespace detail
 		return glm::bitfieldInterleave(Input.x, Input.y);
 	}
 
-	inline storage::size_type texelMortonAdressing
+	inline size_t texelMortonAdressing
 	(
-		storage::dim3_type const & Dimensions,
-		storage::dim3_type const & TexelCoord
+		dim3_t const & Dimensions,
+		dim3_t const & TexelCoord
 	)
 	{
 		assert(TexelCoord.x < Dimensions.x);

@@ -124,7 +124,7 @@ namespace faces
 
 		for(std::size_t i = 0; i < Tests.size(); ++i)
 		{
-			gli::storage Storage(1, 1, 4, Tests[i].Format, gli::storage::dim3_type(8, 8, 1));
+			gli::storage Storage(1, 1, 4, Tests[i].Format, gli::storage::dim_type(8, 8, 1));
 			gli::storage::size_type Offset = gli::detail::imageAddressing(Storage, 0, 0, Tests[i].Level);
 			gli::storage::size_type Size = Storage.size();
 

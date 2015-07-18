@@ -56,15 +56,7 @@ namespace gli
 	class storage
 	{
 	public:
-		typedef dim1_t dim1_type;
-		typedef dim2_t dim2_type;
-		typedef dim3_t dim3_type;
-		typedef dim4_t dim4_type;
-		typedef dim3_type dim_type;
-		typedef vec1 texcoord1_type;
-		typedef vec2 texcoord2_type;
-		typedef vec3 texcoord3_type;
-		typedef vec4 texcoord4_type;
+		typedef dim3_t dim_type;
 		typedef size_t size_type;
 		typedef gli::format format_type;
 		typedef glm::byte data_type;

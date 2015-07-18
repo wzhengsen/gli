@@ -264,7 +264,7 @@ namespace detail
 		return detail::getFormatInfo(Format).BlockDimensionsY;
 	}
 
-	inline std::uint32_t block_dimensions_z(format const & Format)
+	inline std::uint32_t block_dimensions_z(format const &)
 	{
 		return 1;
 	}

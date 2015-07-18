@@ -41,14 +41,8 @@ namespace gli
 	class image
 	{
 	public:
-		typedef storage::dim1_type dim1_type;
-		typedef storage::dim2_type dim2_type;
-		typedef storage::dim3_type dim3_type;
-		typedef storage::dim3_type dim_type;
-		typedef storage::size_type size_type;
-		typedef storage::size_type layer_type;
-		typedef storage::size_type level_type;
-		typedef storage::size_type face_type;
+		typedef dim3_t dim_type;
+		typedef size_t size_type;
 
 		image();
 
