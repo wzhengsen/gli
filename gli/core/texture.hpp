@@ -277,7 +277,7 @@ namespace gli
 			*(Data + TexelIndex) = Texel;
 	}
 
-	void * const texture::compute_data()
+	inline void * const texture::compute_data()
 	{
 		size_type const offset = detail::imageAddressing(
 			this->Storage, this->baseLayer(), this->baseFace(), this->baseLevel());
