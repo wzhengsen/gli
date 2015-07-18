@@ -61,11 +61,11 @@ GLI is a header only library, there is nothing to build, just include it.
 #include <gli/gli.hpp>
 
 ================================================================================
-GLI 0.6.1.0: 2015-0X-XX
+GLI 0.6.1.0: 2015-07-18
 --------------------------------------------------------------------------------
-- Fixed interface inconsistency
+- Fixed interface inconsistencies
 - Improved clear(), data() and size() performance using caching
-- Moved internal dependence to std::fstream
+- Removed internal dependence to std::fstream
 - Added FORMAT_BGRX8_UNORM and FORMAT_BGRX8_SRGB support #48, #43
 - Improved FORMAT_RGB8_UNORM loading
 
