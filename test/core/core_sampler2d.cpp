@@ -72,7 +72,7 @@ namespace detail
 		int const s = int(glm::floor(Texcoord.s * float(TexelDim.x - 1)));
 		int const t = int(glm::floor(Texcoord.t * float(TexelDim.y - 1)));
 
-		return s > TexelDim.x || s < 0 || t > TexelDim.y || t < 0 ? BorderColor : TexelData[s + t * TexelDim.x];
+		return s > static_cast<int>(TexelDim.x) || s < 0 || t > static_cast<int>(TexelDim.y) || t < 0 ? BorderColor : TexelData[s + t * TexelDim.x];
 	}
 
 	inline float passThrought(float const & texcoord)
