@@ -70,28 +70,28 @@ namespace detail
 
 	struct ddsPixelFormat
 	{
-		glm::uint32 size; // 32
+		std::uint32_t size; // 32
 		dx::DDPF flags;
 		dx::D3DFORMAT fourCC;
-		glm::uint32 bpp;
+		std::uint32_t bpp;
 		glm::u32vec4 Mask;
 	};
 
 	struct ddsHeader
 	{
 		char Magic[4];
-		glm::uint32 size;
-		glm::uint32 flags;
-		glm::uint32 height;
-		glm::uint32 width;
-		glm::uint32 pitch;
-		glm::uint32 depth;
-		glm::uint32 mipMapLevels;
-		glm::uint32 reserved1[11];
+		std::uint32_t size;
+		std::uint32_t flags;
+		std::uint32_t height;
+		std::uint32_t width;
+		std::uint32_t pitch;
+		std::uint32_t depth;
+		std::uint32_t mipMapLevels;
+		std::uint32_t reserved1[11];
 		ddsPixelFormat format;
-		glm::uint32 surfaceFlags;
-		glm::uint32 cubemapFlags;
-		glm::uint32 reserved2[3];
+		std::uint32_t surfaceFlags;
+		std::uint32_t cubemapFlags;
+		std::uint32_t reserved2[3];
 	};
 
 	enum D3D10_RESOURCE_DIMENSION 
@@ -133,9 +133,9 @@ namespace detail
 
 		dx::dxgiFormat				Format;
 		D3D10_RESOURCE_DIMENSION	resourceDimension;
-		glm::uint32					miscFlag; // D3D10_RESOURCE_MISC_GENERATE_MIPS
-		glm::uint32					arraySize;
-		glm::uint32					reserved;
+		std::uint32_t				miscFlag; // D3D10_RESOURCE_MISC_GENERATE_MIPS
+		std::uint32_t				arraySize;
+		std::uint32_t				reserved;
 	};
 }//namespace detail
 
@@ -144,7 +144,7 @@ inline storage load_dds(char const * Data, std::size_t Size)
 	assert(Data && (Size >= (sizeof(char[4]) + sizeof(detail::ddsHeader))));
 
 	detail::ddsHeader const & HeaderDesc(*reinterpret_cast<detail::ddsHeader const *>(Data));
-	std::size_t Offset = sizeof(detail::ddsHeader);
+	size_t Offset = sizeof(detail::ddsHeader);
 
 	assert(strncmp(HeaderDesc.Magic, "DDS ", 4) == 0);
 
@@ -224,12 +224,12 @@ inline storage load_dds(char const * Data, std::size_t Size)
 
 	assert(Format != static_cast<format>(gli::FORMAT_INVALID));
 
-	storage::size_type const MipMapCount = (HeaderDesc.flags & detail::DDSD_MIPMAPCOUNT) ? HeaderDesc.mipMapLevels : 1;
-	storage::size_type FaceCount(1);
+	size_t const MipMapCount = (HeaderDesc.flags & detail::DDSD_MIPMAPCOUNT) ? HeaderDesc.mipMapLevels : 1;
+	size_t FaceCount(1);
 	if(HeaderDesc.cubemapFlags & detail::DDSCAPS2_CUBEMAP)
 		FaceCount = int(glm::bitCount(HeaderDesc.cubemapFlags & detail::DDSCAPS2_CUBEMAP_ALLFACES));
 
-	storage::size_type DepthCount = 1;
+	size_t DepthCount = 1;
 	if(HeaderDesc.cubemapFlags & detail::DDSCAPS2_VOLUME)
 		DepthCount = HeaderDesc.depth;
 

@@ -46,7 +46,7 @@ namespace gli
 
 		detail::format_info const & Desc = detail::getFormatInfo(Storage.format());
 
-		glm::uint32 Caps = detail::DDSD_CAPS | detail::DDSD_WIDTH | detail::DDSD_PIXELFORMAT | detail::DDSD_MIPMAPCOUNT;
+		std::uint32_t Caps = detail::DDSD_CAPS | detail::DDSD_WIDTH | detail::DDSD_PIXELFORMAT | detail::DDSD_MIPMAPCOUNT;
 		Caps |= Storage.dimensions(0).y > 1 ? detail::DDSD_HEIGHT : 0;
 		Caps |= Storage.dimensions(0).z > 1 ? detail::DDSD_DEPTH : 0;
 		//Caps |= Storage.levels() > 1 ? detail::DDSD_MIPMAPCOUNT : 0;
@@ -58,17 +58,17 @@ namespace gli
 		HeaderDesc.size = sizeof(detail::ddsHeader);
 		HeaderDesc.flags = Caps;
 		assert(Storage.dimensions(0).x < std::numeric_limits<glm::uint32>::max());
-		HeaderDesc.width = static_cast<glm::uint32>(Storage.dimensions(0).x);
+		HeaderDesc.width = static_cast<std::uint32_t>(Storage.dimensions(0).x);
 		assert(Storage.dimensions(0).y < std::numeric_limits<glm::uint32>::max());
-		HeaderDesc.height = static_cast<glm::uint32>(Storage.dimensions(0).y);
-		HeaderDesc.pitch = glm::uint32((Desc.Flags & detail::CAP_COMPRESSED_BIT) ? Storage.size() / Storage.faces() : 32);
+		HeaderDesc.height = static_cast<std::uint32_t>(Storage.dimensions(0).y);
+		HeaderDesc.pitch = static_cast<std::uint32_t>((Desc.Flags & detail::CAP_COMPRESSED_BIT) ? Storage.size() / Storage.faces() : 32);
 		assert(Storage.dimensions(0).z < std::numeric_limits<glm::uint32>::max());
-		HeaderDesc.depth = static_cast<glm::uint32>(Storage.dimensions(0).z > 1 ? Storage.dimensions(0).z : 0);
-		HeaderDesc.mipMapLevels = glm::uint32(Storage.levels());
+		HeaderDesc.depth = static_cast<std::uint32_t>(Storage.dimensions(0).z > 1 ? Storage.dimensions(0).z : 0);
+		HeaderDesc.mipMapLevels = static_cast<std::uint32_t>(Storage.levels());
 		HeaderDesc.format.size = sizeof(detail::ddsPixelFormat);
 		HeaderDesc.format.flags = Storage.layers() > 1 ? dx::DDPF_FOURCC : DXFormat.DDPixelFormat;
 		HeaderDesc.format.fourCC = Storage.layers() > 1 ? dx::D3DFMT_DX10 : DXFormat.D3DFormat;
-		HeaderDesc.format.bpp = glm::uint32(detail::bits_per_pixel(Storage.format()));
+		HeaderDesc.format.bpp = static_cast<std::uint32_t>(detail::bits_per_pixel(Storage.format()));
 		HeaderDesc.format.Mask = DXFormat.Mask;
 		//HeaderDesc.surfaceFlags = detail::DDSCAPS_TEXTURE | (Storage.levels() > 1 ? detail::DDSCAPS_MIPMAP : 0);
 		HeaderDesc.surfaceFlags = detail::DDSCAPS_TEXTURE | detail::DDSCAPS_MIPMAP;
@@ -85,17 +85,13 @@ namespace gli
 		if(Storage.dimensions(0).z > 1)
 			HeaderDesc.cubemapFlags |= detail::DDSCAPS2_VOLUME;
 
-		storage::size_type DepthCount = 1;
-		if(HeaderDesc.cubemapFlags & detail::DDSCAPS2_VOLUME)
-				DepthCount = HeaderDesc.depth;
-
-		std::size_t Offset = sizeof(detail::ddsHeader);
+		size_t Offset = sizeof(detail::ddsHeader);
 		if(HeaderDesc.format.fourCC == dx::D3DFMT_DX10)
 		{
 			detail::ddsHeader10 & HeaderDesc10 = *reinterpret_cast<detail::ddsHeader10*>(&Memory[0] + sizeof(detail::ddsHeader));
 			Offset += sizeof(detail::ddsHeader10);
 
-			HeaderDesc10.arraySize = glm::uint32(Storage.layers());
+			HeaderDesc10.arraySize = static_cast<std::uint32_t>(Storage.layers());
 			HeaderDesc10.resourceDimension = detail::D3D10_RESOURCE_DIMENSION_TEXTURE2D;
 			HeaderDesc10.miscFlag = 0;//Storage.levels() > 0 ? detail::D3D10_RESOURCE_MISC_GENERATE_MIPS : 0;
 			HeaderDesc10.Format = static_cast<dx::dxgiFormat>(DXFormat.DXGIFormat);
