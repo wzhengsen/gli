@@ -114,7 +114,7 @@ namespace query
 	}
 }//namespace query
 
-namespace access
+namespace access_map
 {
 	int test()
 	{
@@ -160,7 +160,7 @@ namespace access
 
 		return Error;
 	}
-}//namespace access
+}//namespace access_map
 
 namespace size
 {
@@ -274,7 +274,7 @@ int main()
 	Error += size::test();
 	Error += query::test();
 	Error += clear::test();
-	Error += access::test();
+	Error += access_map::test();
 	Error += loader::test();
 
 	return Error;
