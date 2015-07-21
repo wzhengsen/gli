@@ -47,9 +47,7 @@ namespace detail
 			t_above < 0 || t_above > static_cast<int>(TexelDim.y));
 
 		float const s_below_normalized = s_below / float(TexelDim.x);
-		float const s_above_normalized = s_above / float(TexelDim.x);
 		float const t_below_normalized = t_below / float(TexelDim.y);
-		float const t_above_normalized = t_above / float(TexelDim.y);
 
 		genType const Value1 = UseBorderColor[0] || UseBorderColor[2] ? BorderColor : TexelData[s_below + t_below * TexelDim.x];
 		genType const Value2 = UseBorderColor[1] || UseBorderColor[2] ? BorderColor : TexelData[s_above + t_below * TexelDim.x];
