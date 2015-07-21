@@ -37,9 +37,13 @@ int test_create_texture_storage()
 	gli::texture2D Texture(gli::FORMAT_RGBA8_UINT, gli::texture2D::dim_type(256));
 	gli::texture2D::size_type Levels = Texture.levels();
 
+	Error += Levels > 1 ? 0 : 1;
+
 	assert(!Texture.empty());
 
 	void const * Pointer = Texture[0].data();
+
+	Error += Pointer != 0 ? 0 : 1;
 
 	glm::u8vec4 TexelA = Texture[0].data<glm::u8vec4>()[0];
 	glm::u8vec4 TexelB = Texture[0].data<glm::u8vec4>()[1];
@@ -119,15 +123,28 @@ int test_reset_loop_ff()
 	return 0;
 }
 
+int test_floorMultiple()
+{
+	int Error(0);
+
+	int const A = glm::floorMultiple(3, 4);
+	int const B = glm::floorMultiple(6, 4);
+	int const C = glm::floorMultiple(8, 4);
+	int const D = glm::floorMultiple(9, 4);
+
+	Error += A == 0 ? 0 : 1;
+	Error += B == 4 ? 0 : 1;
+	Error += C == 8 ? 0 : 1;
+	Error += D == 8 ? 0 : 1;
+
+	return Error;
+}
+
 int main()
 {
 	int Error(0);
 
-	int A = glm::floorMultiple(3, 4);
-	int B = glm::floorMultiple(6, 4);
-	int C = glm::floorMultiple(8, 4);
-	int D = glm::floorMultiple(9, 4);
-
+	Error += test_floorMultiple();
 	Error += test_reset_memset_zero();
 	Error += test_reset_memset_ff();
 	Error += test_reset_loop_zero();
