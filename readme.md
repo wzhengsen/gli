@@ -25,11 +25,13 @@ GLuint CreateTextureArray(char const* Filename)
 	assert(!Texture.empty());
 	gli::gl GL;
 	gli::gl::format const Format = GL.translate(Texture.format());
+	GLint const MaxLevels = static_cast<GLint>(Texture.levels() - 1);
+
 	GLuint TextureName = 0;
 	glGenTextures(1, &TextureName);
 	glBindTexture(GL_TEXTURE_2D_ARRAY, TextureName);
 	glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_BASE_LEVEL, 0);
-	glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_MAX_LEVEL, static_cast<GLint>(Texture.levels() - 1));
+	glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_MAX_LEVEL, MaxLevels);
 	glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_SWIZZLE_R, Format.Swizzle[0]);
 	glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_SWIZZLE_G, Format.Swizzle[1]);
 	glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_SWIZZLE_B, Format.Swizzle[2]);
