@@ -36,7 +36,7 @@ namespace gli
 	{
 	public:
 		typedef size_t size_type;
-		typedef format format_type;
+		typedef gli::format format_type;
 
 		texture();
 
