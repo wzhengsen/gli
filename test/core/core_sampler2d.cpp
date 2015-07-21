@@ -40,10 +40,11 @@ namespace detail
 		int const t_below = int(glm::floor(Texcoord.t * float(TexelDim.y - 1)));
 		int const t_above = int(glm::ceil( Texcoord.t * float(TexelDim.y - 1)));
 
-		glm::bvec4 UseBorderColor(s_below < 0 || s_below > TexelDim.x, s_above < 0 || s_above > TexelDim.x, t_below < 0 || t_below > TexelDim.y, t_above < 0 || t_above > TexelDim.y);
-
-		float const s_step = 1.0f / float(TexelDim.x);
-		float const t_step = 1.0f / float(TexelDim.y);
+		glm::bvec4 UseBorderColor(
+			s_below < 0 || s_below > static_cast<int>(TexelDim.x),
+			s_above < 0 || s_above > static_cast<int>(TexelDim.x),
+			t_below < 0 || t_below > static_cast<int>(TexelDim.y),
+			t_above < 0 || t_above > static_cast<int>(TexelDim.y));
 
 		float const s_below_normalized = s_below / float(TexelDim.x);
 		float const s_above_normalized = s_above / float(TexelDim.x);
