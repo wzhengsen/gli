@@ -82,6 +82,10 @@ GLuint CreateTextureArray(char const* Filename)
 
 ## Release notes
 
+#### GLI 0.6.1.2: 2015-07-XX
+- Fixed GCC
+- Fixed warnings
+
 #### GLI 0.6.1.1: 2015-07-18
 - Updated API documentation
 - Fixed link error
