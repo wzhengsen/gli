@@ -85,6 +85,7 @@ GLuint CreateTextureArray(char const* Filename)
 #### GLI 0.6.1.2: 2015-07-XX
 - Fixed GCC
 - Fixed warnings
+- Fixed saved DDS header size on #52
 
 #### GLI 0.6.1.1: 2015-07-18
 - Updated API documentation
