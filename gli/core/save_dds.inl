@@ -55,7 +55,7 @@ namespace gli
 		memcpy(HeaderDesc.Magic, "DDS ", sizeof(char) * 4);
 		memset(HeaderDesc.reserved1, 0, sizeof(HeaderDesc.reserved1));
 		memset(HeaderDesc.reserved2, 0, sizeof(HeaderDesc.reserved2));
-		HeaderDesc.size = sizeof(detail::ddsHeader);
+		HeaderDesc.size = sizeof(detail::ddsHeader) - sizeof(detail::ddsHeader::Magic);
 		HeaderDesc.flags = Caps;
 		assert(Storage.dimensions(0).x < std::numeric_limits<glm::uint32>::max());
 		HeaderDesc.width = static_cast<std::uint32_t>(Storage.dimensions(0).x);
