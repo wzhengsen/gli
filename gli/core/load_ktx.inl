@@ -21,34 +21,45 @@
 /// THE SOFTWARE.
 ///
 /// @ref core
-/// @file gli/gli.hpp
-/// @date 2008-12-19 / 2013-01-11
+/// @file gli/core/load_ktx.inl
+/// @date 2015-08-05 / 2015-08-05
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
-/*! @mainpage OpenGL Image
- *
- */
+#include <cstdio>
+#include <cassert>
 
-#pragma once
+namespace gli{
+namespace detail
+{
 
-#define GLI_VERSION					62
-#define GLI_VERSION_MAJOR			0
-#define GLI_VERSION_MINOR			6
-#define GLI_VERSION_PATCH			2
-#define GLI_VERSION_REVISION		0
+}//namespace detail
 
-#include "./core/storage.hpp"
-#include "./core/texture.hpp"
-#include "./core/clear.hpp"
-#include "./core/comparison.hpp"
-#include "./core/copy.hpp"
-#include "./core/flip.hpp"
-#include "./core/fetch.hpp"
-#include "./core/load_dds.hpp"
-#include "./core/save_dds.hpp"
-#include "./core/load_ktx.hpp"
-#include "./core/save_ktx.hpp"
-#include "./core/view.hpp"
-#include "./core/gl.hpp"
-#include "./core/dx.hpp"
+	inline storage load_ktx(char const * Data, std::size_t Size)
+	{
+		
+	}
+
+	inline storage load_ktx(char const * Filename)
+	{
+		FILE* File = std::fopen(Filename, "rb");
+		assert(File);
+
+		long Beg = std::ftell(File);
+		std::fseek(File, 0, SEEK_END);
+		long End = std::ftell(File);
+		std::fseek(File, 0, SEEK_SET);
+
+		std::vector<char> Data(static_cast<std::size_t>(End - Beg));
+
+		std::fread(&Data[0], 1, Data.size(), File);
+		std::fclose(File);
+
+		return load_ktx(&Data[0], Data.size());
+	}
+
+	inline storage load_ktx(std::string const & Filename)
+	{
+		return load_ktx(Filename.c_str());
+	}
+}//namespace gli

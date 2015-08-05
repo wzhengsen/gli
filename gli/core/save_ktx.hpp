@@ -21,34 +21,25 @@
 /// THE SOFTWARE.
 ///
 /// @ref core
-/// @file gli/gli.hpp
-/// @date 2008-12-19 / 2013-01-11
+/// @file gli/core/save_ktx.hpp
+/// @date 2015-08-05 / 2015-08-05
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
-/*! @mainpage OpenGL Image
- *
- */
-
 #pragma once
 
-#define GLI_VERSION					62
-#define GLI_VERSION_MAJOR			0
-#define GLI_VERSION_MINOR			6
-#define GLI_VERSION_PATCH			2
-#define GLI_VERSION_REVISION		0
+#include "load_ktx.hpp"
 
-#include "./core/storage.hpp"
-#include "./core/texture.hpp"
-#include "./core/clear.hpp"
-#include "./core/comparison.hpp"
-#include "./core/copy.hpp"
-#include "./core/flip.hpp"
-#include "./core/fetch.hpp"
-#include "./core/load_dds.hpp"
-#include "./core/save_dds.hpp"
-#include "./core/load_ktx.hpp"
-#include "./core/save_ktx.hpp"
-#include "./core/view.hpp"
-#include "./core/gl.hpp"
-#include "./core/dx.hpp"
+namespace gli
+{
+	/// Save a texture storage to file
+	void save_ktx(storage const & Storage, char const * Filename);
+
+	/// Save a texture storage to file
+	void save_ktx(storage const & Storage, std::string const & Filename);
+
+	// Save a texture storage to memory
+	void save_ktx(storage const & Storage, char const * Data, std::size_t Size);
+}//namespace gli
+
+#include "save_ktx.inl"
