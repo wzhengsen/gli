@@ -26,6 +26,8 @@
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
+#include <cstring>
+
 namespace gli{
 namespace detail
 {
@@ -37,12 +39,12 @@ namespace detail
 			return true;
 
 		// Compare the actual data
-		for(typename texture::size_type Level = 0; Level < TextureA.levels(); ++Level)
-		for(typename texture::size_type i = 0; i < TextureA[Level].template size<glm::byte>(); ++i)
+		for(typename texture::size_type Level = 0, Levels = TextureA.levels(); Level < Levels; ++Level)
 		{
-			glm::byte A = *(TextureA[Level].template data<glm::byte>() + i);
-			glm::byte B = *(TextureB[Level].template data<glm::byte>() + i);
-			if(A != B)
+			glm::byte* PointerA = TextureA[Level].template data<glm::byte>();
+			glm::byte* PointerB = TextureB[Level].template data<glm::byte>();
+
+			if (std::memcmp(PointerA, PointerB, TextureA[Level].template size<glm::byte>()) != 0)
 				return false;
 		}
 
