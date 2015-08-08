@@ -47,8 +47,9 @@ namespace load_file
 	{
 		int Error(0);
 
-		gli::texture2D TextureDDS(gli::load_dds(path(Filename, "dds")));
 		gli::texture2D TextureKTX(gli::load_ktx(path(Filename, "ktx")));
+		gli::save_dds(TextureKTX, Filename + "dds");
+		gli::texture2D TextureDDS(gli::load_dds(Filename + "dds"));
 
 		Error += TextureDDS == TextureKTX ? 0 : 1;
 
@@ -59,12 +60,12 @@ namespace load_file
 int main()
 {
 	std::vector<std::string> Filenames;
+	Filenames.push_back("kueken7_rgba8_srgb");
 	Filenames.push_back("kueken8_rgba8_srgb");
-	//Filenames.push_back("kueken7_rgb8_unorm");
-	//Filenames.push_back("kueken7_rgba_dxt5_srgb");
-	//Filenames.push_back("kueken7_rgb_dxt1_srgb");
-	//Filenames.push_back("kueken7_rgba8_srgb");
-	//Filenames.push_back("kueken7_rgb8_srgb");
+	Filenames.push_back("kueken7_rgb8_unorm");
+	Filenames.push_back("kueken7_rgba_dxt5_srgb");
+	Filenames.push_back("kueken7_rgb_dxt1_srgb");
+	Filenames.push_back("kueken7_rgb8_srgb");
 
 	int Error(0);
 
