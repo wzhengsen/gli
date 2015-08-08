@@ -1,4 +1,4 @@
-///////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////
 /// OpenGL Image (gli.g-truc.net)
 ///
 /// Copyright (c) 2008 - 2015 G-Truc Creation (www.g-truc.net)
@@ -21,34 +21,57 @@
 /// THE SOFTWARE.
 ///
 /// @ref core
-/// @file gli/gli.hpp
-/// @date 2008-12-19 / 2015-08-08
+/// @file gli/test/core/core_load.cpp
+/// @date 2013-11-25 / 2015-08-08
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
-/*! @mainpage OpenGL Image
- *
- */
+#include <gli/gli.hpp>
+#include <glm/gtc/epsilon.hpp>
+#include <glm/gtc/vec1.hpp>
+#include <glm/gtc/packing.hpp>
+#include <glm/gtc/color.hpp>
+#include <ctime>
 
-#pragma once
+namespace
+{
+	std::string path(std::string const & filename, const char* ext)
+	{
+		return std::string(SOURCE_DIR) + "/data/" + filename + "." + ext;
+	}
+}//namespace
 
-#define GLI_VERSION					62
-#define GLI_VERSION_MAJOR			0
-#define GLI_VERSION_MINOR			6
-#define GLI_VERSION_PATCH			2
-#define GLI_VERSION_REVISION		0
+namespace load_file
+{
+	int test(std::string const & Filename)
+	{
+		int Error(0);
 
-#include "./core/storage.hpp"
-#include "./core/texture.hpp"
-#include "./core/clear.hpp"
-#include "./core/comparison.hpp"
-#include "./core/copy.hpp"
-#include "./core/flip.hpp"
-#include "./core/fetch.hpp"
-#include "./core/load_dds.hpp"
-#include "./core/save_dds.hpp"
-#include "./core/load_ktx.hpp"
-#include "./core/save_ktx.hpp"
-#include "./core/view.hpp"
-#include "./core/gl.hpp"
-#include "./core/dx.hpp"
+		gli::texture2D TextureDDS(gli::load_dds(path(Filename, "dds")));
+		gli::texture2D TextureKTX(gli::load_ktx(path(Filename, "ktx")));
+
+		Error += TextureDDS == TextureKTX ? 0 : 1;
+
+		return Error;
+	}
+}//namespace load_file
+
+int main()
+{
+	std::vector<std::string> Filenames;
+	Filenames.push_back("kueken7_rgb8_unorm");
+	Filenames.push_back("kueken7_bgrx8_unorm");
+	Filenames.push_back("kueken7_rgba_dxt5_srgb");
+	Filenames.push_back("kueken7_rgb_dxt1_srgb");
+	Filenames.push_back("kueken7_rgba8_srgb");
+	Filenames.push_back("kueken7_rgb8_srgb");
+
+	int Error(0);
+
+	{
+		for(std::size_t Index = 0; Index < Filenames.size(); ++Index)
+			Error += load_file::test(Filenames[Index]);
+	}
+
+	return Error;
+}

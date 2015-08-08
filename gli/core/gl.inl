@@ -219,4 +219,20 @@ namespace gli
 	{
 		return this->Translation[Format];
 	}
+
+	inline gli::format gl::find(gl::internalFormat InternalFormat, gl::externalFormat ExternalFormat, gl::typeFormat Type)
+	{
+		for (int FormatIndex = 0; FormatIndex < FORMAT_COUNT; ++FormatIndex)
+		{
+			if (this->Translation[FormatIndex].Internal != InternalFormat)
+				continue;
+			if (this->Translation[FormatIndex].External != ExternalFormat)
+				continue;
+			if (this->Translation[FormatIndex].Type != Type)
+				continue;
+			return static_cast<gli::format>(FormatIndex);
+		}
+		return static_cast<gli::format>(FORMAT_INVALID);
+	}
+
 }//namespace gli

@@ -35,6 +35,7 @@ namespace gli
 {
 	class gl
 	{
+	public:
 		enum internalFormat
 		{
 			// unorm formats
@@ -346,7 +347,6 @@ namespace gli
 			SWIZZLE_ONE = 0x0001,		//GL_ONE
 		};
 
-	public:
 		struct format
 		{
 			internalFormat Internal;
@@ -355,10 +355,10 @@ namespace gli
 			swizzle Swizzle[4];
 		};
 
-	public:
 		gl();
 
 		format const & translate(gli::format const & Format) const;
+		gli::format find(internalFormat internalFormat, externalFormat externalFormat, typeFormat type);
 
 	private:
 		std::array<format, FORMAT_COUNT> Translation;

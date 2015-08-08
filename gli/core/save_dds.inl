@@ -52,10 +52,10 @@ namespace gli
 		//Caps |= Storage.levels() > 1 ? detail::DDSD_MIPMAPCOUNT : 0;
 		Caps |= (Desc.Flags & detail::CAP_COMPRESSED_BIT) ? detail::DDSD_LINEARSIZE : detail::DDSD_PITCH;
 
-		memcpy(HeaderDesc.Magic, "DDS ", sizeof(char) * 4);
+		memcpy(HeaderDesc.Magic, "DDS ", sizeof(HeaderDesc.Magic));
 		memset(HeaderDesc.reserved1, 0, sizeof(HeaderDesc.reserved1));
 		memset(HeaderDesc.reserved2, 0, sizeof(HeaderDesc.reserved2));
-		HeaderDesc.size = sizeof(detail::ddsHeader) - sizeof(char) * 4;
+		HeaderDesc.size = sizeof(detail::ddsHeader) - sizeof(HeaderDesc.Magic);
 		HeaderDesc.flags = Caps;
 		assert(Storage.dimensions(0).x < std::numeric_limits<glm::uint32>::max());
 		HeaderDesc.width = static_cast<std::uint32_t>(Storage.dimensions(0).x);

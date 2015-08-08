@@ -21,8 +21,8 @@
 /// THE SOFTWARE.
 ///
 /// @ref core
-/// @file gli/core/fetch.cpp
-/// @date 2013-11-25 / 2013-11-25
+/// @file gli/test/core/core_load_dds.cpp
+/// @date 2013-11-25 / 2015-08-08
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
@@ -127,7 +127,7 @@ int main()
 	Filenames.push_back("kueken7_rgba_dxt5_unorm.dds");
 	//Filenames.push_back("kueken7_rgba_pvrtc2_4bpp_unorm.dds");
 	Filenames.push_back("kueken7_rgba8_snorm.dds");
-	Filenames.push_back("kueken7_rgba16f.dds");
+	Filenames.push_back("kueken7_rgba16_sfloat.dds");
 
 	int Error(0);
 
