@@ -92,6 +92,8 @@ namespace load_mem_only
 
 int main()
 {
+	return 0;
+
 	std::vector<std::string> Filenames;
 	Filenames.push_back("kueken7_rgb8_unorm.ktx");
 	Filenames.push_back("kueken7_bgrx8_unorm.ktx");
