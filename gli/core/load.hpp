@@ -21,8 +21,8 @@
 /// THE SOFTWARE.
 ///
 /// @ref core
-/// @file gli/core/load_ktx.hpp
-/// @date 2015-08-05 / 2015-08-05
+/// @file gli/core/load.hpp
+/// @date 2015-08-09 / 2015-08-09
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
@@ -32,20 +32,20 @@
 
 namespace gli
 {
-	/// Loads a texture storage from KTX file. Returns an empty storage in case of failure.
+	/// Loads a texture storage from file. Returns an empty storage in case of failure.
 	///
 	/// @param Path Path of the file to open including filaname and filename extension
-	storage load_ktx(char const * Path);
+	storage load(char const * Path);
 
-	/// Loads a texture storage from KTX file. Returns an empty storage in case of failure.
+	/// Loads a texture storage from file. Returns an empty storage in case of failure.
 	///
 	/// @param Path Path of the file to open including filaname and filename extension
-	storage load_ktx(std::string const & Filename);
+	storage load(std::string const & Filename);
 
-	/// Loads a texture storage from KTX memory. Returns an empty storage in case of failure.
+	/// Loads a texture storage from memory. Returns an empty storage in case of failure.
 	///
 	/// @param Path Path of the file to open including filaname and filename extension
-	storage load_ktx(char const * Data, std::size_t Size);
+	storage load(char const * Data, std::size_t Size);
 }//namespace gli
 
-#include "load_ktx.inl"
+#include "load.inl"

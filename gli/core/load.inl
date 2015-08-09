@@ -21,31 +21,49 @@
 /// THE SOFTWARE.
 ///
 /// @ref core
-/// @file gli/core/load_ktx.hpp
-/// @date 2015-08-05 / 2015-08-05
+/// @file gli/core/load.inl
+/// @date 2010-09-26 / 2015-06-16
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
-#pragma once
+#include "load_dds.hpp"
+#include "load_ktx.hpp"
 
-#include "storage.hpp"
+namespace gli{
 
-namespace gli
+inline storage load(char const * Data, std::size_t Size)
 {
-	/// Loads a texture storage from KTX file. Returns an empty storage in case of failure.
-	///
-	/// @param Path Path of the file to open including filaname and filename extension
-	storage load_ktx(char const * Path);
+	{
+		storage Storage = load_dds(Data, Size);
+		if(!Storage.empty())
+			return Storage;
+	}
+	{
+		return load_ktx(Data, Size);
+	}
+}
 
-	/// Loads a texture storage from KTX file. Returns an empty storage in case of failure.
-	///
-	/// @param Path Path of the file to open including filaname and filename extension
-	storage load_ktx(std::string const & Filename);
+inline storage load(char const * Filename)
+{
+	FILE* File = std::fopen(Filename, "rb");
+	assert(File);
 
-	/// Loads a texture storage from KTX memory. Returns an empty storage in case of failure.
-	///
-	/// @param Path Path of the file to open including filaname and filename extension
-	storage load_ktx(char const * Data, std::size_t Size);
+	long Beg = std::ftell(File);
+	std::fseek(File, 0, SEEK_END);
+	long End = std::ftell(File);
+	std::fseek(File, 0, SEEK_SET);
+
+	std::vector<char> Data(static_cast<std::size_t>(End - Beg));
+
+	std::fread(&Data[0], 1, Data.size(), File);
+	std::fclose(File);
+
+	return load(&Data[0], Data.size());
+}
+
+inline storage load(std::string const & Filename)
+{
+	return load(Filename.c_str());
+}
+
 }//namespace gli
-
-#include "load_ktx.inl"

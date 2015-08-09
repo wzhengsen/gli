@@ -144,9 +144,11 @@ inline storage load_dds(char const * Data, std::size_t Size)
 	assert(Data && (Size >= sizeof(detail::ddsHeader)));
 
 	detail::ddsHeader const & HeaderDesc(*reinterpret_cast<detail::ddsHeader const *>(Data));
-	size_t Offset = sizeof(detail::ddsHeader);
 
-	assert(strncmp(HeaderDesc.Magic, "DDS ", 4) == 0);
+	if(strncmp(HeaderDesc.Magic, "DDS ", 4) != 0)
+		return storage();
+
+	size_t Offset = sizeof(detail::ddsHeader);
 
 	detail::ddsHeader10 HeaderDesc10;
 	if(HeaderDesc.format.flags & dx::DDPF_FOURCC && HeaderDesc.format.fourCC == dx::D3DFMT_DX10)

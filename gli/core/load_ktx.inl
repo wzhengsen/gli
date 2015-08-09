@@ -58,9 +58,11 @@ namespace detail
 		assert(Data && (Size >= sizeof(detail::ktxHeader)));
 
 		detail::ktxHeader const & Header(*reinterpret_cast<detail::ktxHeader const *>(Data));
-		size_t Offset = sizeof(detail::ktxHeader);
 
-		assert(strncmp(Header.Identifier, "«KTX 11»\r\n\x1A\n", 12) == 0);
+		if(strncmp(Header.Identifier, "«KTX 11»\r\n\x1A\n", 12) != 0)
+			return storage();
+
+		size_t Offset = sizeof(detail::ktxHeader);
 
 		// Skip key value data
 		Offset += Header.BytesOfKeyValueData;
