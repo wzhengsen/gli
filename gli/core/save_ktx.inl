@@ -57,10 +57,10 @@ namespace detail
 	
 }//namespace detail
 
-	inline void save_ktx(storage const & Storage, std::vector<char> & Memory)
+	inline bool save_ktx(storage const & Storage, std::vector<char> & Memory)
 	{
 		if(Storage.empty())
-			return;
+			return false;
 
 		gl GL;
 		gl::format const & Format = GL.translate(Storage.format());
@@ -113,26 +113,30 @@ namespace detail
 
 			ImageSize = glm::ceilMultiple(ImageSize, static_cast<std::uint32_t>(4));
 		}
+
+		return true;
 	}
 
-	inline void save_ktx(storage const & Storage, char const * Filename)
+	inline bool save_ktx(storage const & Storage, char const * Filename)
 	{
 		if(Storage.empty())
-			return;
+			return false;
 
 		FILE* File = std::fopen(Filename, "wb");
-		if (!File)
-			return;
+		if(!File)
+			return false;
 
 		std::vector<char> Memory;
-		save_ktx(Storage, Memory);
+		bool const Result = save_ktx(Storage, Memory);
 
 		std::fwrite(&Memory[0], 1, Memory.size(), File);
 		std::fclose(File);
+
+		return Result;
 	}
 
-	inline void save_ktx(storage const & Storage, std::string const & Filename)
+	inline bool save_ktx(storage const & Storage, std::string const & Filename)
 	{
-		save_ktx(Storage, Filename.c_str());
+		return save_ktx(Storage, Filename.c_str());
 	}
 }//namespace gli

@@ -32,14 +32,25 @@
 
 namespace gli
 {
-	/// Save a texture storage to file
-	void save_dds(storage const & Storage, char const * Filename);
+	/// Save a texture storage to a DDS file.
+	/// 
+	/// @param Path Path for where to save the file. It must include the filaname and filename extension.
+	/// This function ignores the filename extension in the path and save to DDS anyway but keep the requested filename extension.
+	/// @return Returns false if the function fails to save the file.
+	bool save_dds(storage const & Storage, char const * Filename);
 
-	/// Save a texture storage to file
-	void save_dds(storage const & Storage, std::string const & Filename);
+	/// Save a texture storage to a DDS file.
+	/// 
+	/// @param Path Path for where to save the file. It must include the filaname and filename extension.
+	/// This function ignores the filename extension in the path and save to DDS anyway but keep the requested filename extension.
+	/// @return Returns false if the function fails to save the file.
+	bool save_dds(storage const & Storage, std::string const & Filename);
 
-	// Save a texture storage to memory
-	void save_dds(storage const & Storage, char const * Data, std::size_t Size);
+	/// Save a texture storage to a DDS file.
+	/// 
+	/// @param Memory Storage for the DDS container. The function resizes the containers to fit the necessary storage.
+	/// @return Returns false if the function fails to save the file.
+	bool save_dds(storage const & Storage, std::vector<char> & Memory);
 }//namespace gli
 
 #include "save_dds.inl"

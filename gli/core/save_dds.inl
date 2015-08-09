@@ -30,10 +30,10 @@
 
 namespace gli
 {
-	inline void save_dds(storage const & Storage, std::vector<char> & Memory)
+	inline bool save_dds(storage const & Storage, std::vector<char> & Memory)
 	{
 		if(Storage.empty())
-			return;
+			return false;
 
 		dx DX;
 		dx::format const & DXFormat = DX.translate(Storage.format());
@@ -99,26 +99,30 @@ namespace gli
 		}
 
 		std::memcpy(&Memory[0] + Offset, Storage.data(), Storage.size());
+
+		return true;
 	}
 
-	inline void save_dds(storage const & Storage, char const * Filename)
+	inline bool save_dds(storage const & Storage, char const * Filename)
 	{
 		if(Storage.empty())
-			return;
+			return false;
 
 		FILE* File = std::fopen(Filename, "wb");
-		if (!File)
-			return;
+		if(!File)
+			return false;
 
 		std::vector<char> Memory;
-		save_dds(Storage, Memory);
+		bool const Result = save_dds(Storage, Memory);
 
 		std::fwrite(&Memory[0], 1, Memory.size(), File);
 		std::fclose(File);
+
+		return Result;
 	}
 
-	inline void save_dds(storage const & Storage, std::string const & Filename)
+	inline bool save_dds(storage const & Storage, std::string const & Filename)
 	{
-		save_dds(Storage, Filename.c_str());
+		return save_dds(Storage, Filename.c_str());
 	}
 }//namespace gli
