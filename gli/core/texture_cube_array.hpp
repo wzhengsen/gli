@@ -102,5 +102,7 @@ namespace gli
 		textureCube operator[] (size_type const & Layer) const;
 
 		dim_type dimensions() const;
+
+		virtual gli::target target() const;
 	};
 }//namespace gli

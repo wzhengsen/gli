@@ -130,4 +130,9 @@ namespace gli
 	{
 		return textureCubeArray::dim_type(this->Storage.dimensions(this->baseLevel()));
 	}
+
+	inline gli::target textureCubeArray::target() const
+	{
+		return TARGET_CUBE_ARRAY;
+	}
 }//namespace gli

@@ -101,6 +101,8 @@ namespace gli
 
 		template <typename genType>
 		genType fetch(dim_type const & TexelCoord, size_type const & Level);
+
+		virtual gli::target target() const;
 	};
 }//namespace gli
 

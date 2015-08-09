@@ -32,6 +32,18 @@
 
 namespace gli
 {
+	enum target
+	{
+		TARGET_NONE,
+		TARGET_1D,
+		TARGET_1D_ARRAY,
+		TARGET_2D,
+		TARGET_2D_ARRAY,
+		TARGET_3D,
+		TARGET_CUBE,
+		TARGET_CUBE_ARRAY
+	};
+
 	class texture
 	{
 	public:
@@ -55,6 +67,8 @@ namespace gli
 			size_type BaseLayer, size_type MaxLayer,
 			size_type BaseFace, size_type MaxFace,
 			size_type BaseLevel, size_type MaxLevel);
+
+		virtual ~texture(){}
 
 		bool empty() const;
 		format_type format() const;
@@ -85,6 +99,8 @@ namespace gli
 		void clear();
 		template <typename genType>
 		void clear(genType const & Texel);
+
+		virtual gli::target target() const = 0;
 
 	protected:
 		storage Storage;

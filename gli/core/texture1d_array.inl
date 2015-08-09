@@ -119,6 +119,11 @@ namespace gli
 
 		return texture1DArray::dim_type(this->Storage.dimensions(this->baseLevel()).x);
 	}
+
+	inline gli::target texture1DArray::target() const
+	{
+		return TARGET_1D_ARRAY;
+	}
 }//namespace gli
 
 
