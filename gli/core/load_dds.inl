@@ -141,7 +141,7 @@ namespace detail
 
 inline storage load_dds(char const * Data, std::size_t Size)
 {
-	assert(Data && (Size >= (sizeof(char[4]) + sizeof(detail::ddsHeader))));
+	assert(Data && (Size >= sizeof(detail::ddsHeader)));
 
 	detail::ddsHeader const & HeaderDesc(*reinterpret_cast<detail::ddsHeader const *>(Data));
 	size_t Offset = sizeof(detail::ddsHeader);
