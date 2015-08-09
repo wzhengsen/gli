@@ -273,5 +273,4 @@ namespace detail
 	{
 		return detail::getFormatInfo(Format).Component;
 	}
-
 }//namespace gli

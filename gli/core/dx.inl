@@ -239,5 +239,4 @@ namespace gli
 		}
 		return static_cast<gli::format>(FORMAT_INVALID);
 	}
-
 }//namespace gli
