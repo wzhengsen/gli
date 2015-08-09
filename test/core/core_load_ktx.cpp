@@ -48,7 +48,7 @@ namespace load_file
 		int Error(0);
 
 		gli::texture2D TextureA(gli::load_ktx(path(Filename.c_str())));
-		gli::save_dds(TextureA, Filename.c_str());
+		gli::save_ktx(TextureA, Filename.c_str());
 		gli::texture2D TextureB(gli::load_ktx(Filename.c_str()));
 
 		Error += TextureA == TextureB ? 0 : 1;
@@ -64,7 +64,7 @@ namespace load_mem
 		int Error(0);
 
 		gli::texture2D TextureA(gli::load_ktx(path(Filename.c_str())));
-		gli::save_dds(TextureA, Filename.c_str());
+		gli::save_ktx(TextureA, Filename.c_str());
 		gli::texture2D TextureB(gli::load_ktx(Filename.c_str()));
 
 		Error += TextureA == TextureB ? 0 : 1;
@@ -81,7 +81,7 @@ namespace load_mem_only
 
 		gli::texture2D TextureA(gli::load_ktx(&Data[0], Data.size()));
 		std::vector<char> Memory;
-		gli::save_dds(TextureA, Memory);
+		gli::save_ktx(TextureA, Memory);
 		gli::texture2D TextureB(gli::load_ktx(&Memory[0], Memory.size()));
 
 		Error += TextureA == TextureB ? 0 : 1;
@@ -92,11 +92,8 @@ namespace load_mem_only
 
 int main()
 {
-	return 0;
-
 	std::vector<std::string> Filenames;
 	Filenames.push_back("kueken7_rgb8_unorm.ktx");
-	Filenames.push_back("kueken7_bgrx8_unorm.ktx");
 	Filenames.push_back("kueken7_rgba_dxt5_srgb.ktx");
 	Filenames.push_back("kueken7_rgb_dxt1_srgb.ktx");
 	Filenames.push_back("kueken7_rgba8_srgb.ktx");

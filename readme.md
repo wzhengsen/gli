@@ -83,7 +83,7 @@ GLuint CreateTextureArray(char const* Filename)
 ## Release notes
 
 #### GLI 0.6.2.0: 2015-0X-XX
-- Added KTX loading
+- Added KTX loading and saving
 - Much faster texture comparisons is non optimal cases. (Measured ~21x faster on Intel IVB)
 
 #### GLI 0.6.1.2: 2015-07-XX

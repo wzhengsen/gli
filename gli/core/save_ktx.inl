@@ -29,8 +29,34 @@
 #include <cstdio>
 #include <glm/gtc/round.hpp>
 
-namespace gli
+namespace gli{
+namespace detail
 {
+	inline std::size_t compute_ktx_storage_size(storage const & Storage)
+	{
+		std::size_t TotalSize = sizeof(detail::ktxHeader);
+
+		for(std::size_t Level = 0, Levels = Storage.levels(); Level < Levels; ++Level)
+		{
+			TotalSize += sizeof(std::uint32_t);
+
+			for(std::size_t Layer = 0, Layers = Storage.layers(); Layer < Layers; ++Layer)
+			{
+				for(std::size_t Face = 0, Faces = Storage.faces(); Face < Faces; ++Face)
+				{
+					std::uint32_t const FaceSize = static_cast<std::uint32_t>(Storage.level_size(Level));
+					std::uint32_t const PaddedSize = glm::ceilMultiple(FaceSize, static_cast<std::uint32_t>(4));
+
+					TotalSize += PaddedSize;
+				}
+			}
+		}
+
+		return TotalSize;
+	}
+	
+}//namespace detail
+
 	inline void save_ktx(storage const & Storage, std::vector<char> & Memory)
 	{
 		if(Storage.empty())
@@ -41,7 +67,7 @@ namespace gli
 
 		detail::format_info const & Desc = detail::getFormatInfo(Storage.format());
 
-		Memory.resize(Storage.size() + sizeof(detail::ktxHeader));
+		Memory.resize(detail::compute_ktx_storage_size(Storage) + sizeof(detail::ktxHeader));
 
 		detail::ktxHeader & Header = *reinterpret_cast<detail::ktxHeader*>(&Memory[0]);
 
@@ -80,6 +106,8 @@ namespace gli
 
 					ImageSize += PaddedSize;
 					Offset += PaddedSize;
+
+					assert(Offset <= Memory.size());
 				}
 			}
 
