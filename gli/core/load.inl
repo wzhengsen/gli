@@ -29,42 +29,41 @@
 #include "load_dds.hpp"
 #include "load_ktx.hpp"
 
-namespace gli{
-
-inline storage load(char const * Data, std::size_t Size)
+namespace gli
 {
+	inline storage load(char const * Data, std::size_t Size)
 	{
-		storage Storage = load_dds(Data, Size);
-		if(!Storage.empty())
-			return Storage;
+		{
+			storage Storage = load_dds(Data, Size);
+			if(!Storage.empty())
+				return Storage;
+		}
+		{
+			return load_ktx(Data, Size);
+		}
 	}
+
+	inline storage load(char const * Filename)
 	{
-		return load_ktx(Data, Size);
+		FILE* File = std::fopen(Filename, "rb");
+		if(!File)
+			return storage();
+
+		long Beg = std::ftell(File);
+		std::fseek(File, 0, SEEK_END);
+		long End = std::ftell(File);
+		std::fseek(File, 0, SEEK_SET);
+
+		std::vector<char> Data(static_cast<std::size_t>(End - Beg));
+
+		std::fread(&Data[0], 1, Data.size(), File);
+		std::fclose(File);
+
+		return load(&Data[0], Data.size());
 	}
-}
 
-inline storage load(char const * Filename)
-{
-	FILE* File = std::fopen(Filename, "rb");
-	if(!File)
-		return storage();
-
-	long Beg = std::ftell(File);
-	std::fseek(File, 0, SEEK_END);
-	long End = std::ftell(File);
-	std::fseek(File, 0, SEEK_SET);
-
-	std::vector<char> Data(static_cast<std::size_t>(End - Beg));
-
-	std::fread(&Data[0], 1, Data.size(), File);
-	std::fclose(File);
-
-	return load(&Data[0], Data.size());
-}
-
-inline storage load(std::string const & Filename)
-{
-	return load(Filename.c_str());
-}
-
+	inline storage load(std::string const & Filename)
+	{
+		return load(Filename.c_str());
+	}
 }//namespace gli
