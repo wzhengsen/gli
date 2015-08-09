@@ -35,9 +35,9 @@
 
 namespace
 {
-	std::string path(std::string const & filename, const char* ext)
+	std::string path(std::string const & filename, char const * ext)
 	{
-		return std::string(SOURCE_DIR) + "/data/" + filename + "." + ext;
+		return std::string(SOURCE_DIR) + "/data/" + filename + ext;
 	}
 }//namespace
 
@@ -47,11 +47,14 @@ namespace load_file
 	{
 		int Error(0);
 
-		gli::texture2D TextureKTX(gli::load_ktx(path(Filename, "ktx")));
-		gli::save_dds(TextureKTX, Filename + "dds");
-		gli::texture2D TextureDDS(gli::load_dds(Filename + "dds"));
+		gli::texture2D TextureKTX(gli::load(path(Filename, ".ktx")));
+		gli::save(TextureKTX, Filename + ".dds");
+		gli::texture2D TextureSavedDDS(gli::load(Filename + ".dds"));
+		gli::save(TextureKTX, Filename + ".ktx");
+		gli::texture2D TextureSavedKTX(gli::load(Filename + ".ktx"));
 
-		Error += TextureDDS == TextureKTX ? 0 : 1;
+		Error += TextureSavedDDS == TextureKTX ? 0 : 1;
+		Error += TextureSavedDDS == TextureSavedKTX ? 0 : 1;
 
 		return Error;
 	}

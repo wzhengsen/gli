@@ -46,7 +46,8 @@ inline storage load(char const * Data, std::size_t Size)
 inline storage load(char const * Filename)
 {
 	FILE* File = std::fopen(Filename, "rb");
-	assert(File);
+	if(!File)
+		return storage();
 
 	long Beg = std::ftell(File);
 	std::fseek(File, 0, SEEK_END);

@@ -31,12 +31,12 @@
 
 namespace gli
 {
-	bool save(storage const & Storage, char const * Path)
+	inline bool save(storage const & Storage, char const * Path)
 	{
 		return save(Storage, std::string(Path));
 	}
 
-	bool save(storage const & Storage, std::string const & Path)
+	inline bool save(storage const & Storage, std::string const & Path)
 	{
 		if(Path.rfind(".dds") != std::string::npos)
 			return save_dds(Storage, Path);
