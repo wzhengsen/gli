@@ -21,33 +21,33 @@
 /// THE SOFTWARE.
 ///
 /// @ref core
-/// @file gli/gli.hpp
-/// @date 2008-12-19 / 2015-08-08
+/// @file gli/core/create.hpp
+/// @date 2015-08-09 / 2015-08-09
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
-/*! @mainpage OpenGL Image
- *
- */
-
 #pragma once
 
-#define GLI_VERSION					62
-#define GLI_VERSION_MAJOR			0
-#define GLI_VERSION_MINOR			6
-#define GLI_VERSION_PATCH			2
-#define GLI_VERSION_REVISION		0
+#include "texture.hpp"
 
-#include "./core/create.hpp"
-#include "./core/storage.hpp"
-#include "./core/texture.hpp"
-#include "./core/clear.hpp"
-#include "./core/comparison.hpp"
-#include "./core/copy.hpp"
-#include "./core/flip.hpp"
-#include "./core/fetch.hpp"
-#include "./core/load.hpp"
-#include "./core/save.hpp"
-#include "./core/view.hpp"
-#include "./core/gl.hpp"
-#include "./core/dx.hpp"
+namespace gli
+{
+	texture* create(char const * Path);
+
+	texture* create(std::string const & Filename);
+
+	texture* create(char const * Data, std::size_t Size);
+
+	texture* create(
+		target Target,
+		size_t const & Layers,
+		size_t const & Faces,
+		size_t const & Levels,
+		format const & Format,
+		storage::dim_type const & Dimensions);
+
+	void release(texture* Texture);
+}//namespace gli
+
+#include "create.inl"
+
