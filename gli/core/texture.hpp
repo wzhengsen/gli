@@ -90,7 +90,7 @@ namespace gli
 		size_type maxLevel() const;
 		size_type levels() const;
 
-		dim_type dimensions() const;
+		dim_type dimensions(size_type Level = 0) const;
 
 		size_type size() const;
 		template <typename genType>
@@ -246,11 +246,11 @@ namespace gli
 		return this->Format;
 	}
 
-	inline texture::dim_type texture::dimensions() const
+	inline texture::dim_type texture::dimensions(size_type Level) const
 	{
 		assert(!this->empty());
 
-		return this->Storage.dimensions(this->baseLevel());
+		return this->Storage.dimensions(this->baseLevel() + Level);
 	}
 
 	inline texture::size_type texture::baseLayer() const
