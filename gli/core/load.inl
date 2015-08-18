@@ -31,23 +31,23 @@
 
 namespace gli
 {
-	inline storage load(char const * Data, std::size_t Size)
+	inline texture load(char const * Data, std::size_t Size)
 	{
 		{
-			storage Storage = load_dds(Data, Size);
-			if(!Storage.empty())
-				return Storage;
+			texture Texture = load_dds(Data, Size);
+			if(!Texture.empty())
+				return Texture;
 		}
 		{
 			return load_ktx(Data, Size);
 		}
 	}
 
-	inline storage load(char const * Filename)
+	inline texture load(char const * Filename)
 	{
 		FILE* File = std::fopen(Filename, "rb");
 		if(!File)
-			return storage();
+			return texture();
 
 		long Beg = std::ftell(File);
 		std::fseek(File, 0, SEEK_END);
@@ -62,7 +62,7 @@ namespace gli
 		return load(&Data[0], Data.size());
 	}
 
-	inline storage load(std::string const & Filename)
+	inline texture load(std::string const & Filename)
 	{
 		return load(Filename.c_str());
 	}

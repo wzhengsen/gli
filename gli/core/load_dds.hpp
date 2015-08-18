@@ -36,17 +36,17 @@ namespace gli
 	/// Loads a texture storage from DDS file. Returns an empty storage in case of failure.
 	///
 	/// @param Path Path of the file to open including filaname and filename extension
-	storage load_dds(char const * Path);
+	texture load_dds(char const * Path);
 
 	/// Loads a texture storage from DDS file. Returns an empty storage in case of failure.
 	///
 	/// @param Path Path of the file to open including filaname and filename extension
-	storage load_dds(std::string const & Filename);
+	texture load_dds(std::string const & Filename);
 
 	/// Loads a texture storage from DDS memory. Returns an empty storage in case of failure.
 	///
 	/// @param Path Path of the file to open including filaname and filename extension
-	storage load_dds(char const * Data, std::size_t Size);
+	texture load_dds(char const * Data, std::size_t Size);
 }//namespace gli
 
 #include "load_dds.inl"

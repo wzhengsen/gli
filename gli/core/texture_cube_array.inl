@@ -114,11 +114,6 @@ namespace gli
 			Texture.baseLevel() + BaseLevel, Texture.baseLevel() + MaxLevel)
 	{}
 
-	inline textureCubeArray::operator storage() const
-	{
-		return this->Storage;
-	}
-
 	inline textureCube textureCubeArray::operator[](size_type const & Layer) const
 	{
 		assert(Layer < this->layers());

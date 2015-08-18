@@ -57,17 +57,17 @@ namespace detail
 	
 }//namespace detail
 
-	inline bool save_ktx(storage const & Storage, std::vector<char> & Memory)
+	inline bool save_ktx(texture const & Texture, std::vector<char> & Memory)
 	{
-		if(Storage.empty())
+		if(Texture.empty())
 			return false;
 
 		gl GL;
-		gl::format const & Format = GL.translate(Storage.format());
+		gl::format const & Format = GL.translate(Texture.format());
 
-		detail::format_info const & Desc = detail::getFormatInfo(Storage.format());
+		detail::format_info const & Desc = detail::getFormatInfo(Texture.format());
 
-		Memory.resize(detail::compute_ktx_storage_size(Storage) + sizeof(detail::ktxHeader));
+		Memory.resize(detail::compute_ktx_storage_size(Texture) + sizeof(detail::ktxHeader));
 
 		detail::ktxHeader & Header = *reinterpret_cast<detail::ktxHeader*>(&Memory[0]);
 
@@ -78,29 +78,29 @@ namespace detail
 		Header.GLFormat = Format.External;
 		Header.GLInternalFormat = Format.Internal;
 		Header.GLBaseInternalFormat = Format.External;
-		Header.PixelWidth = static_cast<std::uint32_t>(Storage.dimensions(0).x);
-		Header.PixelHeight = static_cast<std::uint32_t>(Storage.dimensions(0).y);
-		Header.PixelDepth = static_cast<std::uint32_t>(Storage.dimensions(0).z);
-		Header.NumberOfArrayElements = static_cast<std::uint32_t>(Storage.layers());
-		Header.NumberOfFaces = static_cast<std::uint32_t>(Storage.faces());
-		Header.NumberOfMipmapLevels = static_cast<std::uint32_t>(Storage.levels());
+		Header.PixelWidth = static_cast<std::uint32_t>(Texture.dimensions().x);
+		Header.PixelHeight = static_cast<std::uint32_t>(Texture.dimensions().y);
+		Header.PixelDepth = static_cast<std::uint32_t>(Texture.dimensions().z);
+		Header.NumberOfArrayElements = static_cast<std::uint32_t>(Texture.layers());
+		Header.NumberOfFaces = static_cast<std::uint32_t>(Texture.faces());
+		Header.NumberOfMipmapLevels = static_cast<std::uint32_t>(Texture.levels());
 		Header.BytesOfKeyValueData = 0;
 
 		std::size_t Offset = sizeof(detail::ktxHeader);
 
-		for(std::size_t Level = 0, Levels = Storage.levels(); Level < Levels; ++Level)
+		for(std::size_t Level = 0, Levels = Texture.levels(); Level < Levels; ++Level)
 		{
 			std::uint32_t& ImageSize = *reinterpret_cast<std::uint32_t*>(&Memory[0] + Offset);
 			Offset += sizeof(std::uint32_t);
 
-			for(std::size_t Layer = 0, Layers = Storage.layers(); Layer < Layers; ++Layer)
+			for(std::size_t Layer = 0, Layers = Texture.layers(); Layer < Layers; ++Layer)
 			{
-				for(std::size_t Face = 0, Faces = Storage.faces(); Face < Faces; ++Face)
+				for(std::size_t Face = 0, Faces = Texture.faces(); Face < Faces; ++Face)
 				{
-					std::uint32_t const FaceSize = static_cast<std::uint32_t>(Storage.level_size(Level));
-					std::uint32_t const SourceOffset = static_cast<std::uint32_t>(detail::imageAddressing(Storage, Layer, Face, Level));
+					std::uint32_t const FaceSize = static_cast<std::uint32_t>(static_cast<storage>(Texture).level_size(Level));
+					std::uint32_t const SourceOffset = static_cast<std::uint32_t>(detail::imageAddressing(static_cast<storage>(Texture), Layer, Face, Level));
 
-					std::memcpy(&Memory[0] + Offset, Storage.data() + SourceOffset, FaceSize);
+					std::memcpy(&Memory[0] + Offset, Texture.data<std::uint8_t>() + SourceOffset, FaceSize);
 
 					std::uint32_t const PaddedSize = glm::ceilMultiple(FaceSize, static_cast<std::uint32_t>(4));
 
@@ -117,9 +117,9 @@ namespace detail
 		return true;
 	}
 
-	inline bool save_ktx(storage const & Storage, char const * Filename)
+	inline bool save_ktx(texture const & Texture, char const * Filename)
 	{
-		if(Storage.empty())
+		if(Texture.empty())
 			return false;
 
 		FILE* File = std::fopen(Filename, "wb");
@@ -127,7 +127,7 @@ namespace detail
 			return false;
 
 		std::vector<char> Memory;
-		bool const Result = save_ktx(Storage, Memory);
+		bool const Result = save_ktx(Texture, Memory);
 
 		std::fwrite(&Memory[0], 1, Memory.size(), File);
 		std::fclose(File);
@@ -135,8 +135,8 @@ namespace detail
 		return Result;
 	}
 
-	inline bool save_ktx(storage const & Storage, std::string const & Filename)
+	inline bool save_ktx(texture const & Texture, std::string const & Filename)
 	{
-		return save_ktx(Storage, Filename.c_str());
+		return save_ktx(Texture, Filename.c_str());
 	}
 }//namespace gli

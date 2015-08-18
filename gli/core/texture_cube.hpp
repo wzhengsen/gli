@@ -95,7 +95,6 @@ namespace gli
 			size_type const & BaseLevel,
 			size_type const & MaxLevel);
 
-		operator storage() const;
 		texture2D operator[](size_type const & Face) const;
 
 		dim_type dimensions() const;

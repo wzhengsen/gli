@@ -49,6 +49,7 @@ namespace gli
 	public:
 		typedef size_t size_type;
 		typedef gli::format format_type;
+		typedef storage::dim_type dim_type;
 
 		texture();
 
@@ -89,6 +90,8 @@ namespace gli
 		size_type maxLevel() const;
 		size_type levels() const;
 
+		dim_type dimensions() const;
+
 		size_type size() const;
 		template <typename genType>
 		size_type size() const;
@@ -104,10 +107,9 @@ namespace gli
 		template <typename genType>
 		void clear(genType const & Texel);
 
-		gli::target target() const
-		{
-			return this->Target;
-		}
+		gli::target target() const{return this->Target;}
+
+		operator storage() const{return this->Storage;}
 
 	protected:
 		storage Storage;
@@ -242,6 +244,13 @@ namespace gli
 	inline texture::format_type texture::format() const
 	{
 		return this->Format;
+	}
+
+	inline texture::dim_type texture::dimensions() const
+	{
+		assert(!this->empty());
+
+		return this->Storage.dimensions(this->baseLevel());
 	}
 
 	inline texture::size_type texture::baseLayer() const

@@ -35,17 +35,17 @@ namespace gli
 	/// Loads a texture storage from KTX file. Returns an empty storage in case of failure.
 	///
 	/// @param Path Path of the file to open including filaname and filename extension
-	storage load_ktx(char const * Path);
+	texture load_ktx(char const * Path);
 
 	/// Loads a texture storage from KTX file. Returns an empty storage in case of failure.
 	///
 	/// @param Path Path of the file to open including filaname and filename extension
-	storage load_ktx(std::string const & Filename);
+	texture load_ktx(std::string const & Filename);
 
 	/// Loads a texture storage from KTX memory. Returns an empty storage in case of failure.
 	///
 	/// @param Path Path of the file to open including filaname and filename extension
-	storage load_ktx(char const * Data, std::size_t Size);
+	texture load_ktx(char const * Data, std::size_t Size);
 }//namespace gli
 
 #include "load_ktx.inl"

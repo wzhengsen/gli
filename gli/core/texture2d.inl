@@ -117,11 +117,6 @@ namespace gli
 			Texture.baseLevel() + BaseLevel, Texture.baseLevel() + MaxLevel)
 	{}
 
-	inline texture2D::operator storage() const
-	{
-		return this->Storage;
-	}
-
 	inline image texture2D::operator[](texture2D::size_type const & Level) const
 	{
 		assert(Level < this->levels());

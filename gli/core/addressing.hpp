@@ -35,8 +35,8 @@ namespace detail
 {
 	size_t imageAddressing(
 		storage const & Storage,
-		size_t const & LayerOffset, 
-		size_t const & FaceOffset, 
+		size_t const & LayerOffset,
+		size_t const & FaceOffset,
 		size_t const & LevelOffset);
 
 	size_t texelLinearAdressing(

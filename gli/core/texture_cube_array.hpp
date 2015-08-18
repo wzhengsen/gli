@@ -98,7 +98,6 @@ namespace gli
 			size_type const & BaseLevel,
 			size_type const & MaxLevel);
 
-		operator storage() const;
 		textureCube operator[] (size_type const & Layer) const;
 
 		dim_type dimensions() const;

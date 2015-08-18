@@ -93,7 +93,6 @@ namespace gli
 			size_type const & BaseLayer, size_type const & BaseFace,
 			size_type const & BaseLevel, size_type const & MaxLevel);
 
-		operator storage() const;
 		image operator[] (size_type const & Level) const;
 
 		dim_type dimensions() const;

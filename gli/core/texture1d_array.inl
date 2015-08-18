@@ -99,11 +99,6 @@ namespace gli
 			Texture.baseLevel() + BaseLevel, Texture.baseLevel() + MaxLevel)
 	{}
 
-	inline texture1DArray::operator storage() const
-	{
-		return this->Storage;
-	}
-
 	inline texture1D texture1DArray::operator[](size_type const & Layer) const
 	{
 		assert(!this->empty());

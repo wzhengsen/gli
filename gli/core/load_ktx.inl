@@ -53,14 +53,14 @@ namespace detail
 	};
 }//namespace detail
 
-	inline storage load_ktx(char const * Data, std::size_t Size)
+	inline texture load_ktx(char const * Data, std::size_t Size)
 	{
 		assert(Data && (Size >= sizeof(detail::ktxHeader)));
 
 		detail::ktxHeader const & Header(*reinterpret_cast<detail::ktxHeader const *>(Data));
 
 		if(strncmp(Header.Identifier, "«KTX 11»\r\n\x1A\n", 12) != 0)
-			return storage();
+			return texture();
 
 		size_t Offset = sizeof(detail::ktxHeader);
 
@@ -75,40 +75,41 @@ namespace detail
 
 		assert(Format != static_cast<format>(gli::FORMAT_INVALID));
 
-		storage Storage(
+		texture Texture(
+			TARGET_NONE,
 			std::max<std::uint32_t>(Header.NumberOfArrayElements, 1),
 			std::max<std::uint32_t>(Header.NumberOfFaces, 1),
 			std::max<std::uint32_t>(Header.NumberOfMipmapLevels, 1),
 			Format,
 			storage::dim_type(Header.PixelWidth, Header.PixelHeight, std::max<std::uint32_t>(Header.PixelDepth, 1)));
 
-		for(std::size_t Level = 0, Levels = Storage.levels(); Level < Levels; ++Level)
+		for(std::size_t Level = 0, Levels = Texture.levels(); Level < Levels; ++Level)
 		{
 			std::uint32_t const ImageSize = *reinterpret_cast<std::uint32_t const*>(Data + Offset);
 			Offset += sizeof(std::uint32_t);
 
-			for(std::size_t Layer = 0, Layers = Storage.layers(); Layer < Layers; ++Layer)
+			for(std::size_t Layer = 0, Layers = Texture.layers(); Layer < Layers; ++Layer)
 			{
-				for(std::size_t Face = 0, Faces = Storage.faces(); Face < Faces; ++Face)
+				for(std::size_t Face = 0, Faces = Texture.faces(); Face < Faces; ++Face)
 				{
-					std::uint32_t const FaceSize = static_cast<std::uint32_t>(Storage.level_size(Level));
-					std::uint32_t const DestinationOffset = static_cast<std::uint32_t>(detail::imageAddressing(Storage, Layer, Face, Level));
+					std::uint32_t const FaceSize = static_cast<std::uint32_t>(static_cast<storage>(Texture).level_size(Level));
+					std::uint32_t const DestinationOffset = static_cast<std::uint32_t>(detail::imageAddressing(Texture, Layer, Face, Level));
 
-					std::memcpy(Storage.data() + DestinationOffset, Data + Offset, FaceSize);
+					std::memcpy(Texture.data<std::uint8_t>() + DestinationOffset, Data + Offset, FaceSize);
 
 					Offset += glm::ceilMultiple(FaceSize, static_cast<std::uint32_t>(4));
 				}
 			}
 		}
 
-		return Storage;
+		return Texture;
 	}
 
-	inline storage load_ktx(char const * Filename)
+	inline texture load_ktx(char const * Filename)
 	{
 		FILE* File = std::fopen(Filename, "rb");
 		if(!File)
-			return storage();
+			return texture();
 
 		long Beg = std::ftell(File);
 		std::fseek(File, 0, SEEK_END);
@@ -123,7 +124,7 @@ namespace detail
 		return load_ktx(&Data[0], Data.size());
 	}
 
-	inline storage load_ktx(std::string const & Filename)
+	inline texture load_ktx(std::string const & Filename)
 	{
 		return load_ktx(Filename.c_str());
 	}

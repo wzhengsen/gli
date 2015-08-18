@@ -31,17 +31,17 @@
 
 namespace gli
 {
-	inline bool save(storage const & Storage, char const * Path)
+	inline bool save(texture const & Texture, char const * Path)
 	{
-		return save(Storage, std::string(Path));
+		return save(Texture, std::string(Path));
 	}
 
-	inline bool save(storage const & Storage, std::string const & Path)
+	inline bool save(texture const & Texture, std::string const & Path)
 	{
 		if(Path.rfind(".dds") != std::string::npos)
-			return save_dds(Storage, Path);
+			return save_dds(Texture, Path);
 		if(Path.rfind(".ktx") != std::string::npos)
-			return save_ktx(Storage, Path);
+			return save_ktx(Texture, Path);
 		return false;
 	}
 }//namespace gli

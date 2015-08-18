@@ -77,8 +77,6 @@ namespace gli
 			texture2D const & Texture,
 			size_type const & BaseLevel, size_type const & MaxLevel);
 
-		operator storage() const;
-
 		texture2D operator[](size_type const & Layer) const;
 
 		dim_type dimensions() const;

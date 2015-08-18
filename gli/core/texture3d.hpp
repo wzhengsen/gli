@@ -69,7 +69,6 @@ namespace gli
 			texture3D const & Texture,
 			size_type const & BaseLevel, size_type const & MaxLevel);
 
-		operator storage() const;
 		image operator[](size_type const & Level) const;
 
 		dim_type dimensions() const;
