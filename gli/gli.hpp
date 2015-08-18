@@ -32,13 +32,12 @@
 
 #pragma once
 
-#define GLI_VERSION					62
+#define GLI_VERSION					70
 #define GLI_VERSION_MAJOR			0
-#define GLI_VERSION_MINOR			6
-#define GLI_VERSION_PATCH			2
+#define GLI_VERSION_MINOR			7
+#define GLI_VERSION_PATCH			0
 #define GLI_VERSION_REVISION		0
 
-#include "./core/create.hpp"
 #include "./core/storage.hpp"
 #include "./core/texture.hpp"
 #include "./core/clear.hpp"

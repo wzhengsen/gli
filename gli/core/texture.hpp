@@ -53,15 +53,19 @@ namespace gli
 		texture();
 
 		texture(
+			gli::target Target,
 			size_type const & Layers,
 			size_type const & Faces,
 			size_type const & Levels,
 			format_type const & Format,
 			storage::dim_type const & Dimensions);
 
-		texture(storage const & Storage);
+		texture(
+			gli::target Target,
+			storage const & Storage);
 
 		texture(
+			gli::target Target,
 			storage const & Storage,
 			format_type const & Format,
 			size_type BaseLayer, size_type MaxLayer,
@@ -100,10 +104,14 @@ namespace gli
 		template <typename genType>
 		void clear(genType const & Texel);
 
-		virtual gli::target target() const = 0;
+		gli::target target() const
+		{
+			return this->Target;
+		}
 
 	protected:
 		storage Storage;
+		gli::target const Target;
 		format_type const Format;
 		size_type const BaseLayer;
 		size_type const MaxLayer;
@@ -120,7 +128,8 @@ namespace gli
 	};
 
 	inline texture::texture()
-		: Format(static_cast<gli::format>(FORMAT_INVALID))
+		: Target(TARGET_NONE)
+		, Format(static_cast<gli::format>(FORMAT_INVALID))
 		, BaseLayer(0), MaxLayer(0)
 		, BaseFace(0), MaxFace(0)
 		, BaseLevel(0), MaxLevel(0)
@@ -130,6 +139,7 @@ namespace gli
 
 	inline texture::texture
 	(
+		gli::target Target,
 		size_type const & Layers,
 		size_type const & Faces,
 		size_type const & Levels,
@@ -137,6 +147,7 @@ namespace gli
 		storage::dim_type const & Dimensions
 	)
 		: Storage(Layers, Faces, Levels, Format, Dimensions)
+		, Target(Target)
 		, Format(Format)
 		, BaseLayer(0), MaxLayer(Layers - 1)
 		, BaseFace(0), MaxFace(Faces - 1)
@@ -147,9 +158,11 @@ namespace gli
 
 	inline texture::texture
 	(
+		gli::target target,
 		storage const & Storage
 	)
 		: Storage(Storage)
+		, Target(Target)
 		, Format(Storage.format())
 		, BaseLayer(0), MaxLayer(Storage.layers() - 1)
 		, BaseFace(0), MaxFace(Storage.faces() - 1)
@@ -160,6 +173,7 @@ namespace gli
 
 	inline texture::texture
 	(
+		gli::target target,
 		storage const & Storage,
 		format_type const & Format,
 		size_type BaseLayer, size_type MaxLayer,
@@ -167,6 +181,7 @@ namespace gli
 		size_type BaseLevel, size_type MaxLevel
 	)
 		: Storage(Storage)
+		, Target(Target)
 		, Format(Format)
 		, BaseLayer(BaseLayer), MaxLayer(MaxLayer)
 		, BaseFace(BaseFace), MaxFace(MaxFace)

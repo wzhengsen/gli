@@ -34,15 +34,15 @@ namespace gli
 	{}
 
 	inline texture2D::texture2D(format_type const & Format, dim_type const & Dimensions)
-		: texture(1, 1, gli::levels(Dimensions), Format, storage::dim_type(Dimensions, 1))
+		: texture(gli::TARGET_2D, 1, 1, gli::levels(Dimensions), Format, storage::dim_type(Dimensions, 1))
 	{}
 
 	inline texture2D::texture2D(size_type const & Levels, format_type const & Format, dim_type const & Dimensions)
-		: texture(1, 1, Levels, Format, storage::dim_type(Dimensions, 1))
+		: texture(gli::TARGET_2D, 1, 1, Levels, Format, storage::dim_type(Dimensions, 1))
 	{}
 
 	inline texture2D::texture2D(storage const & Storage)
-		: texture(Storage)
+		: texture(gli::TARGET_2D, Storage)
 	{}
 
 	inline texture2D::texture2D
@@ -54,6 +54,7 @@ namespace gli
 		size_type BaseLevel, size_type MaxLevel
 	)
 		: texture(
+			gli::TARGET_2D,
 			Storage, Format,
 			BaseLayer, MaxLayer,
 			BaseFace, MaxFace,
@@ -66,6 +67,7 @@ namespace gli
 		size_type const & BaseLevel, size_type const & MaxLevel
 	)
 		: texture(
+			gli::TARGET_2D,
 			Texture.Storage, Texture.format(),
 			Texture.baseLayer(), Texture.maxLayer(),
 			Texture.baseFace(), Texture.maxFace(),
@@ -79,6 +81,7 @@ namespace gli
 		size_type const & BaseLevel, size_type const & MaxLevel
 	)
 		: texture(
+			gli::TARGET_2D,
 			Texture, Texture.format(),
 			Texture.baseLayer() + BaseLayer, Texture.baseLayer() + BaseLayer,
 			Texture.baseFace(), Texture.maxFace(),
@@ -92,6 +95,7 @@ namespace gli
 		size_type const & BaseLevel, size_type const & MaxLevel
 	)
 		: texture(
+			gli::TARGET_2D,
 			Texture, Texture.format(),
 			Texture.baseLayer(), Texture.maxLayer(),
 			Texture.baseFace() + BaseFace, Texture.baseFace() + BaseFace,
@@ -106,6 +110,7 @@ namespace gli
 		size_type const & BaseLevel, size_type const & MaxLevel
 	)
 		: texture(
+			gli::TARGET_2D,
 			Texture, Texture.format(),
 			Texture.baseLayer() + BaseLayer, Texture.baseLayer() + BaseLayer,
 			Texture.baseFace() + BaseFace, Texture.baseFace() + BaseFace,

@@ -117,15 +117,15 @@ namespace detail
 			}
 		}
 
-		return Texture;	
+		return Texture;
 	}
 }//namespace detail
 
 	inline texture* create(char const * Path)
 	{
-		FILE* File = std::fopen(Filename, "rb");
+		FILE* File = std::fopen(Path, "rb");
 		if(!File)
-			return storage();
+			return nullptr;
 
 		long Beg = std::ftell(File);
 		std::fseek(File, 0, SEEK_END);

@@ -38,7 +38,7 @@ namespace gli
 		format_type const & Format,
 		dim_type const & Dimensions
 	)
-		: texture(Layers, Faces, gli::levels(Dimensions), Format, storage::dim_type(Dimensions, 1))
+		: texture(gli::TARGET_CUBE_ARRAY, Layers, Faces, gli::levels(Dimensions), Format, storage::dim_type(Dimensions, 1))
 	{}
 
 	inline textureCubeArray::textureCubeArray
@@ -49,11 +49,11 @@ namespace gli
 		format_type const & Format,
 		dim_type const & Dimensions
 	)
-		: texture(Layers, Faces, Levels, Format, storage::dim_type(Dimensions, 1))
+		: texture(gli::TARGET_CUBE_ARRAY, Layers, Faces, Levels, Format, storage::dim_type(Dimensions, 1))
 	{}
 
 	inline textureCubeArray::textureCubeArray(storage const & Storage)
-		: texture(Storage)
+		: texture(gli::TARGET_CUBE_ARRAY, Storage)
 	{}
 
 	inline textureCubeArray::textureCubeArray
@@ -65,6 +65,7 @@ namespace gli
 		size_type BaseLevel, size_type MaxLevel
 	)
 		: texture(
+			gli::TARGET_CUBE_ARRAY,
 			Storage, Format,
 			BaseLayer, MaxLayer,
 			BaseFace, MaxFace,
@@ -79,6 +80,7 @@ namespace gli
 		size_type const & BaseLevel, size_type const & MaxLevel
 	)
 		: texture(
+			gli::TARGET_CUBE_ARRAY,
 			Texture, Texture.format(),
 			Texture.baseLayer() + BaseLayer, Texture.baseLayer() + MaxLayer,
 			Texture.baseFace() + BaseFace, Texture.baseFace() + MaxFace,
@@ -92,6 +94,7 @@ namespace gli
 		size_type const & BaseLevel, size_type const & MaxLevel
 	)
 		: texture(
+			gli::TARGET_CUBE_ARRAY,
 			Texture, Texture.format(),
 			Texture.baseLayer(), Texture.maxLayer(),
 			Texture.baseFace() + BaseFace, Texture.baseFace() + MaxFace,
@@ -104,6 +107,7 @@ namespace gli
 		size_type const & BaseLevel, size_type const & MaxLevel
 	)
 		: texture(
+			gli::TARGET_CUBE_ARRAY,
 			Texture, Texture.format(),
 			Texture.baseLayer(), Texture.maxLayer(),
 			Texture.baseFace(), Texture.maxFace(),

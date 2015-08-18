@@ -39,7 +39,7 @@ namespace gli
 		format_type const & Format,
 		dim_type const & Dimensions
 	)
-		: texture(Layers, 1, gli::levels(Dimensions), Format, storage::dim_type(Dimensions, 1))
+		: texture(gli::TARGET_2D_ARRAY, Layers, 1, gli::levels(Dimensions), Format, storage::dim_type(Dimensions, 1))
 	{}
 
 	inline texture2DArray::texture2DArray
@@ -49,11 +49,11 @@ namespace gli
 		format_type const & Format,
 		dim_type const & Dimensions
 	)
-		: texture(Layers, 1, Levels, Format, storage::dim_type(Dimensions, 1))
+		: texture(gli::TARGET_2D_ARRAY, Layers, 1, Levels, Format, storage::dim_type(Dimensions, 1))
 	{}
 
 	inline texture2DArray::texture2DArray(storage const & Storage)
-		: texture(Storage)
+		: texture(gli::TARGET_2D_ARRAY, Storage)
 	{}
 
 	inline texture2DArray::texture2DArray
@@ -65,6 +65,7 @@ namespace gli
 		size_type BaseLevel, size_type MaxLevel
 	)
 		: texture(
+			gli::TARGET_2D_ARRAY,
 			Storage, Format,
 			BaseLayer, MaxLayer,
 			BaseFace, MaxFace,
@@ -78,6 +79,7 @@ namespace gli
 		size_type const & BaseLevel, size_type const & MaxLevel
 	)
 		: texture(
+			gli::TARGET_2D_ARRAY,
 			Texture, Texture.format(),
 			Texture.baseLayer() + BaseLayer, Texture.baseLayer() + MaxLayer,
 			Texture.baseFace(), Texture.maxFace(),
@@ -90,6 +92,7 @@ namespace gli
 		size_type const & BaseLevel, size_type const & MaxLevel
 	)
 		: texture(
+			gli::TARGET_2D_ARRAY,
 			Texture, Texture.format(),
 			Texture.baseLayer(), Texture.maxLayer(),
 			Texture.baseFace(), Texture.maxFace(),
