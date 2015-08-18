@@ -73,7 +73,5 @@ namespace gli
 		image operator[](size_type const & Level) const;
 
 		dim_type dimensions() const;
-
-		virtual gli::target target() const;
 	};
 }//namespace gli

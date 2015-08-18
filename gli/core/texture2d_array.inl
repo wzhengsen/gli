@@ -121,9 +121,4 @@ namespace gli
 
 		return texture2DArray::dim_type(this->Storage.dimensions(this->baseLevel()));
 	}
-
-	inline gli::target texture2DArray::target() const
-	{
-		return TARGET_2D_ARRAY;
-	}
 }//namespace gli

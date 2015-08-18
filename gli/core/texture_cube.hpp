@@ -99,7 +99,5 @@ namespace gli
 		texture2D operator[](size_type const & Face) const;
 
 		dim_type dimensions() const;
-
-		virtual gli::target target() const;
 	};
 }//namespace gli

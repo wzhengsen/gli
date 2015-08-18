@@ -140,11 +140,6 @@ namespace gli
 		return texture2D::dim_type(this->Storage.dimensions(this->baseLevel()));
 	}
 
-	inline gli::target texture2D::target() const
-	{
-		return TARGET_2D;
-	}
-
 	template <typename genType>
 	inline genType texture2D::fetch(dim_type const & TexelCoord, size_type const & Level)
 	{
