@@ -62,6 +62,18 @@ namespace gli
 			storage::dim_type const & Dimensions);
 
 		texture(
+			texture const & Texture,
+			gli::target Target,
+			format_type const & Format,
+			size_type BaseLayer, size_type MaxLayer,
+			size_type BaseFace, size_type MaxFace,
+			size_type BaseLevel, size_type MaxLevel);
+
+		texture(
+			texture const & Texture,
+			gli::target Target);
+
+		texture(
 			gli::target Target,
 			storage const & Storage);
 
@@ -157,6 +169,42 @@ namespace gli
 		, Data(this->compute_data())
 		, Size(this->compute_size())
 	{}
+/*
+	inline texture::texture
+	(
+		texture const & Texture,
+		gli::target Target,
+		format_type const & Format,
+		size_type BaseLayer, size_type MaxLayer,
+		size_type BaseFace, size_type MaxFace,
+		size_type BaseLevel, size_type MaxLevel
+	)
+	{
+
+	}
+*/
+	inline texture::texture
+	(
+		texture const & Texture,
+		gli::target Target
+	)
+		: Storage(Texture.Storage)
+		, Target(Target)
+		, Format(Texture.format())
+		, BaseLayer(Texture.baseLayer()), MaxLayer(Texture.maxLayer())
+		, BaseFace(Texture.baseFace()), MaxFace(Texture.maxFace())
+		, BaseLevel(Texture.baseLevel()), MaxLevel(Texture.maxLevel())
+		, Data(this->compute_data())
+		, Size(this->compute_size())
+	{
+		assert(Target != TARGET_1D || (Target == TARGET_1D && this->layers() == 1 && this->faces() == 1 && this->dimensions().y == 1 && this->dimensions().z == 1));
+		assert(Target != TARGET_1D_ARRAY || (Target == TARGET_1D_ARRAY && this->layers() >= 1 && this->faces() == 1 && this->dimensions().y == 1 && this->dimensions().z == 1));
+		assert(Target != TARGET_2D || (Target == TARGET_2D && this->layers() == 1 && this->faces() == 1 && this->dimensions().y >= 1 && this->dimensions().z == 1));
+		assert(Target != TARGET_2D_ARRAY || (Target == TARGET_2D_ARRAY && this->layers() >= 1 && this->faces() == 1 && this->dimensions().y >= 1 && this->dimensions().z == 1));
+		assert(Target != TARGET_3D || (Target == TARGET_3D && this->layers() == 1 && this->faces() == 1 && this->dimensions().y >= 1 && this->dimensions().z >= 1));
+		assert(Target != TARGET_CUBE || (Target == TARGET_CUBE && this->layers() == 1 && this->faces() >= 1 && this->dimensions().y >= 1 && this->dimensions().z == 1));
+		assert(Target != TARGET_CUBE_ARRAY || (Target == TARGET_CUBE_ARRAY && this->layers() >= 1 && this->faces() >= 1 && this->dimensions().y >= 1 && this->dimensions().z == 1));
+	}
 
 	inline texture::texture
 	(

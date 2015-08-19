@@ -41,8 +41,8 @@ namespace gli
 		: texture(gli::TARGET_2D, 1, 1, Levels, Format, storage::dim_type(Dimensions, 1))
 	{}
 
-	inline texture2D::texture2D(storage const & Storage)
-		: texture(gli::TARGET_2D, Storage)
+	inline texture2D::texture2D(texture const & Texture)
+		: texture(Texture, gli::TARGET_2D)
 	{}
 
 	inline texture2D::texture2D
