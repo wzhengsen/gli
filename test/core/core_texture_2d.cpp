@@ -70,7 +70,7 @@ inline gli::texture2D linear
 	for(std::size_t x = 0; x < Result.dimensions().x; ++x)
 	{
 		float Value = glm::linearGradient(
-			Point0 * glm::vec2(Size), 
+			Point0 * glm::vec2(Size),
 			Point1 * glm::vec2(Size),
 			gli::texture2D::texcoord_type(x, y));
 

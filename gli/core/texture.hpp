@@ -211,7 +211,7 @@ namespace gli
 	inline texture::size_type texture::size() const
 	{
 		assert(!this->empty());
-		assert(block_size(this->Storage.format()) >= sizeof(genType));
+		assert(block_size(this->format()) >= sizeof(genType));
 
 		return this->size() / sizeof(genType);
 	}
@@ -316,7 +316,7 @@ namespace gli
 	inline void texture::clear(genType const & Texel)
 	{
 		assert(!this->empty());
-		assert(block_size(this->Storage.format()) == sizeof(genType));
+		assert(block_size(this->format()) == sizeof(genType));
 
 		genType* Data = this->data<genType>();
 		size_type const TexelCount = this->size<genType>();
