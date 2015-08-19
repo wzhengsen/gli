@@ -51,6 +51,30 @@ namespace detail
 		std::uint32_t NumberOfMipmapLevels;
 		std::uint32_t BytesOfKeyValueData;
 	};
+
+	inline target getTarget(ktxHeader const & Header)
+	{
+		if(Header.NumberOfFaces > 0)
+		{
+			if(Header.NumberOfArrayElements > 0)
+				return TARGET_CUBE_ARRAY;
+			else
+				return TARGET_CUBE;
+		}
+		else if(Header.NumberOfArrayElements > 0)
+		{
+			if(Header.PixelHeight == 0)
+				return TARGET_1D_ARRAY;
+			else
+				return TARGET_2D_ARRAY;
+		}
+		else if(Header.PixelHeight == 0)
+			return TARGET_1D;
+		else if(Header.PixelDepth > 0)
+			return TARGET_3D;
+		else
+			return TARGET_2D;
+	}
 }//namespace detail
 
 	inline texture load_ktx(char const * Data, std::size_t Size)
@@ -76,12 +100,12 @@ namespace detail
 		assert(Format != static_cast<format>(gli::FORMAT_INVALID));
 
 		texture Texture(
-			TARGET_NONE,
+			detail::getTarget(Header),
 			std::max<std::uint32_t>(Header.NumberOfArrayElements, 1),
 			std::max<std::uint32_t>(Header.NumberOfFaces, 1),
 			std::max<std::uint32_t>(Header.NumberOfMipmapLevels, 1),
 			Format,
-			storage::dim_type(Header.PixelWidth, Header.PixelHeight, std::max<std::uint32_t>(Header.PixelDepth, 1)));
+			texture::dim_type(Header.PixelWidth, Header.PixelHeight, std::max<std::uint32_t>(Header.PixelDepth, 1)));
 
 		for(std::size_t Level = 0, Levels = Texture.levels(); Level < Levels; ++Level)
 		{
