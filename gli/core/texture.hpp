@@ -199,7 +199,7 @@ namespace gli
 	inline texture::texture
 	(
 		texture const & Texture,
-		gli::target target,
+		gli::target Target,
 		format_type const & Format,
 		size_type BaseLayer, size_type MaxLayer,
 		size_type BaseFace, size_type MaxFace,
