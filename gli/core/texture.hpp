@@ -44,6 +44,21 @@ namespace gli
 		TARGET_CUBE_ARRAY
 	};
 
+	inline bool isTarget1D(target Target)
+	{
+		return Target == TARGET_1D || Target == TARGET_1D_ARRAY;
+	}
+
+	inline bool isTargetArray(target Target)
+	{
+		return Target == TARGET_1D_ARRAY || Target == TARGET_2D_ARRAY || Target == TARGET_CUBE_ARRAY;
+	}
+
+	inline bool isTargetCube(target Target)
+	{
+		return Target == TARGET_CUBE || Target == TARGET_CUBE_ARRAY;
+	}
+
 	class texture
 	{
 	public:
