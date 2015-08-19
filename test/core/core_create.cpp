@@ -89,9 +89,9 @@ namespace create_view
 int main()
 {
 	std::vector<std::string> Filenames;
+	Filenames.push_back("kueken7_rgb8_unorm");
 	Filenames.push_back("kueken7_rgba8_srgb");
 	Filenames.push_back("kueken8_rgba8_srgb");
-	Filenames.push_back("kueken7_rgb8_unorm");
 	Filenames.push_back("kueken7_rgba_dxt5_srgb");
 	Filenames.push_back("kueken7_rgb_dxt1_srgb");
 	Filenames.push_back("kueken7_rgb8_srgb");

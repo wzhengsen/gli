@@ -127,7 +127,7 @@ namespace detail
 			Format(dx::DXGI_FORMAT_UNKNOWN),
 			ResourceDimension(D3D10_RESOURCE_DIMENSION_UNKNOWN),
 			MiscFlag(0),
-			ArraySize(1),
+			ArraySize(0),
 			Reserved(0)
 		{}
 
