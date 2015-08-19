@@ -52,8 +52,8 @@ namespace gli
 		: texture(gli::TARGET_CUBE_ARRAY, Layers, Faces, Levels, Format, storage::dim_type(Dimensions, 1))
 	{}
 
-	inline textureCubeArray::textureCubeArray(storage const & Storage)
-		: texture(gli::TARGET_CUBE_ARRAY, Storage)
+	inline textureCubeArray::textureCubeArray(texture const & Texture)
+		: texture(Texture, gli::TARGET_CUBE_ARRAY)
 	{}
 
 	inline textureCubeArray::textureCubeArray

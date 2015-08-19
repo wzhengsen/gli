@@ -41,8 +41,8 @@ namespace gli
 		: texture(gli::TARGET_3D, 1, 1, Levels, Format, Dimensions)
 	{}
 
-	inline texture3D::texture3D(storage const & Storage)
-		: texture(gli::TARGET_3D, Storage)
+	inline texture3D::texture3D(texture const & Texture)
+		: texture(Texture, gli::TARGET_3D)
 	{}
 
 	inline texture3D::texture3D

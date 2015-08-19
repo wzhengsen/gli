@@ -59,7 +59,7 @@ namespace gli
 
 		/// Create a texture2D view with an existing storage
 		explicit textureCube(
-			storage const & Storage);
+			texture const & Texture);
 
 		/// Create a texture2D view with an existing storage
 		explicit textureCube(

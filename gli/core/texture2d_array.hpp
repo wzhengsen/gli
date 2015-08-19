@@ -56,7 +56,7 @@ namespace gli
 
 		/// Create a texture2DArray view with an existing storage
 		explicit texture2DArray(
-			storage const & Storage);
+			texture const & Texture);
 
 		/// Create a texture2DArray view with an existing storage
 		explicit texture2DArray(

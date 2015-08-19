@@ -50,8 +50,8 @@ namespace gli
 		: texture(gli::TARGET_CUBE, 1, Faces, Levels, Format, storage::dim_type(Dimensions, 1))
 	{}
 
-	inline textureCube::textureCube(storage const & Storage)
-		: texture(gli::TARGET_CUBE, Storage)
+	inline textureCube::textureCube(texture const & Texture)
+		: texture(Texture, gli::TARGET_CUBE)
 	{}
 
 	inline textureCube::textureCube

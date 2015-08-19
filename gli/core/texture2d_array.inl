@@ -52,8 +52,8 @@ namespace gli
 		: texture(gli::TARGET_2D_ARRAY, Layers, 1, Levels, Format, storage::dim_type(Dimensions, 1))
 	{}
 
-	inline texture2DArray::texture2DArray(storage const & Storage)
-		: texture(gli::TARGET_2D_ARRAY, Storage)
+	inline texture2DArray::texture2DArray(texture const & Texture)
+		: texture(Texture, gli::TARGET_2D_ARRAY)
 	{}
 
 	inline texture2DArray::texture2DArray
