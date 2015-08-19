@@ -27,7 +27,6 @@
 ///////////////////////////////////////////////////////////////////////////////////
 
 #include <gli/gli.hpp>
-//#include <gli/core/create.hpp>
 #include <glm/gtc/epsilon.hpp>
 #include <glm/gtc/vec1.hpp>
 #include <glm/gtc/packing.hpp>
@@ -41,7 +40,7 @@ namespace
 		return std::string(SOURCE_DIR) + "/data/" + filename + ext;
 	}
 }//namespace
-/*
+
 namespace load_texture
 {
 	int test(std::string const & Filename)
@@ -62,7 +61,7 @@ namespace load_texture
 		return Error;
 	}
 }//namespace load_texture
-*/
+
 namespace create_texture
 {
 	int test()
@@ -98,12 +97,12 @@ int main()
 	Filenames.push_back("kueken7_rgb8_srgb");
 
 	int Error(0);
-/*
+
 	{
 		for(std::size_t Index = 0; Index < Filenames.size(); ++Index)
 			Error += load_texture::test(Filenames[Index]);
 	}
-*/
+
 	return Error;
 }
 
