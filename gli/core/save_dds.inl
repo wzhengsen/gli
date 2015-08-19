@@ -28,8 +28,28 @@
 
 #include <cstdio>
 
-namespace gli
+namespace gli{
+namespace detail
 {
+	inline D3D10_RESOURCE_DIMENSION getDimension(gli::target const & Target)
+	{
+		static D3D10_RESOURCE_DIMENSION Table[] = //TARGET_COUNT
+		{
+			D3D10_RESOURCE_DIMENSION_UNKNOWN,		//TARGET_NONE,
+			D3D10_RESOURCE_DIMENSION_TEXTURE1D,		//TARGET_1D,
+			D3D10_RESOURCE_DIMENSION_TEXTURE1D,		//TARGET_1D_ARRAY,
+			D3D10_RESOURCE_DIMENSION_TEXTURE2D,		//TARGET_2D,
+			D3D10_RESOURCE_DIMENSION_TEXTURE2D,		//TARGET_2D_ARRAY,
+			D3D10_RESOURCE_DIMENSION_TEXTURE3D,		//TARGET_3D,
+			D3D10_RESOURCE_DIMENSION_TEXTURE2D,		//TARGET_CUBE,
+			D3D10_RESOURCE_DIMENSION_TEXTURE2D		//TARGET_CUBE_ARRAY
+		};
+		static_assert(sizeof(Table) / sizeof(Table[0]) == TARGET_COUNT, "Table needs to be updated");
+
+		return Table[Target];
+	}
+}
+
 	inline bool save_dds(texture const & Texture, std::vector<char> & Memory)
 	{
 		if(Texture.empty())
@@ -91,8 +111,8 @@ namespace gli
 			detail::ddsHeader10 & Header10 = *reinterpret_cast<detail::ddsHeader10*>(&Memory[0] + sizeof(detail::ddsHeader));
 			Offset += sizeof(detail::ddsHeader10);
 
-			Header10.ArraySize = static_cast<std::uint32_t>(Texture.layers());
-			Header10.ResourceDimension = detail::D3D10_RESOURCE_DIMENSION_TEXTURE2D;
+			Header10.ArraySize = isTargetArray(Texture.target()) ? static_cast<std::uint32_t>(Texture.layers()) : 0;
+			Header10.ResourceDimension = detail::getDimension(Texture.target());
 			Header10.MiscFlag = 0;//Storage.levels() > 0 ? detail::D3D10_RESOURCE_MISC_GENERATE_MIPS : 0;
 			Header10.Format = static_cast<dx::dxgiFormat>(DXFormat.DXGIFormat);
 			Header10.Reserved = 0;

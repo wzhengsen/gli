@@ -41,7 +41,12 @@ namespace gli
 		TARGET_2D_ARRAY,
 		TARGET_3D,
 		TARGET_CUBE,
-		TARGET_CUBE_ARRAY
+		TARGET_CUBE_ARRAY, TARGET_MAX = TARGET_CUBE_ARRAY
+	};
+
+	enum
+	{
+		TARGET_COUNT = TARGET_MAX + 1
 	};
 
 	inline bool isTarget1D(target Target)
