@@ -72,8 +72,7 @@ namespace gli
 		/// Create a texture2D view, reference a subset of an existing texture2D instance
 		explicit texture2D(
 			texture2D const & Texture,
-			size_type const & BaseLevel,
-			size_type const & MaxLevel);
+			size_type const & BaseLevel, size_type const & MaxLevel);
 
 		/// Create a texture2D view, reference a subset of an existing texture2DArray instance
 		explicit texture2D(

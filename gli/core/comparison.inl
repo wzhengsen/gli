@@ -81,6 +81,8 @@ namespace detail
 			return false;
 		if(!glm::all(glm::equal(TextureA.dimensions(), TextureB.dimensions())))
 			return false;
+		if(TextureA.target() != TextureB.target())
+			return false;
 		if(TextureA.layers() != TextureB.layers())
 			return false;
 		if(TextureA.faces() != TextureB.faces())
@@ -102,6 +104,8 @@ namespace detail
 		if(TextureA.empty() != TextureB.empty())
 			return true;
 		if(!glm::all(glm::equal(TextureA.dimensions(), TextureB.dimensions())))
+			return true;
+		if(TextureA.target() != TextureB.target())
 			return true;
 		if(TextureA.layers() != TextureB.layers())
 			return true;
