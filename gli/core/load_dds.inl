@@ -251,7 +251,7 @@ namespace detail
 		assert(Format != static_cast<format>(gli::FORMAT_INVALID));
 
 		size_t const MipMapCount = (Header.Flags & detail::DDSD_MIPMAPCOUNT) ? Header.MipMapLevels : 1;
-		size_t FaceCount(1);
+		size_t FaceCount = 1;
 		if(Header.CubemapFlags & detail::DDSCAPS2_CUBEMAP)
 			FaceCount = int(glm::bitCount(Header.CubemapFlags & detail::DDSCAPS2_CUBEMAP_ALLFACES));
 
@@ -261,7 +261,7 @@ namespace detail
 
 		texture Texture(
 			getTarget(Header, Header10),
-			Header10.ArraySize, FaceCount, MipMapCount, Format,
+			std::max<std::size_t>(Header10.ArraySize, 1), FaceCount, MipMapCount, Format,
 			storage::dim_type(Header.Width, Header.Height, DepthCount));
 
 		assert(Offset + Texture.size() == Size);
