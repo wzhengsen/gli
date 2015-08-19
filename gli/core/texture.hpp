@@ -73,18 +73,6 @@ namespace gli
 			texture const & Texture,
 			gli::target Target);
 
-		texture(
-			gli::target Target,
-			storage const & Storage);
-
-		texture(
-			gli::target Target,
-			storage const & Storage,
-			format_type const & Format,
-			size_type BaseLayer, size_type MaxLayer,
-			size_type BaseFace, size_type MaxFace,
-			size_type BaseLevel, size_type MaxLevel);
-
 		virtual ~texture(){}
 
 		bool empty() const;
@@ -169,20 +157,7 @@ namespace gli
 		, Data(this->compute_data())
 		, Size(this->compute_size())
 	{}
-/*
-	inline texture::texture
-	(
-		texture const & Texture,
-		gli::target Target,
-		format_type const & Format,
-		size_type BaseLayer, size_type MaxLayer,
-		size_type BaseFace, size_type MaxFace,
-		size_type BaseLevel, size_type MaxLevel
-	)
-	{
 
-	}
-*/
 	inline texture::texture
 	(
 		texture const & Texture,
@@ -208,29 +183,14 @@ namespace gli
 
 	inline texture::texture
 	(
+		texture const & Texture,
 		gli::target target,
-		storage const & Storage
-	)
-		: Storage(Storage)
-		, Target(Target)
-		, Format(Storage.format())
-		, BaseLayer(0), MaxLayer(Storage.layers() - 1)
-		, BaseFace(0), MaxFace(Storage.faces() - 1)
-		, BaseLevel(0), MaxLevel(Storage.levels() - 1)
-		, Data(this->compute_data())
-		, Size(this->compute_size())
-	{}
-
-	inline texture::texture
-	(
-		gli::target target,
-		storage const & Storage,
 		format_type const & Format,
 		size_type BaseLayer, size_type MaxLayer,
 		size_type BaseFace, size_type MaxFace,
 		size_type BaseLevel, size_type MaxLevel
 	)
-		: Storage(Storage)
+		: Storage(Texture.Storage)
 		, Target(Target)
 		, Format(Format)
 		, BaseLayer(BaseLayer), MaxLayer(MaxLayer)

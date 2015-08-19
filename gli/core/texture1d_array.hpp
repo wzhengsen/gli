@@ -58,11 +58,11 @@ namespace gli
 
 		/// Create a texture1DArray view with an existing storage
 		explicit texture1DArray(
-			storage const & Storage);
+			texture const & Texture);
 
 		/// Create a texture1DArray view with an existing storage
 		explicit texture1DArray(
-			storage const & Storage,
+			texture const & Texture,
 			format_type const & Format,
 			size_type BaseLayer, size_type MaxLayer,
 			size_type BaseFace, size_type MaxFace,

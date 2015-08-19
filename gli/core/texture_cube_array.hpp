@@ -65,7 +65,7 @@ namespace gli
 
 		/// Reference a subset of an exiting storage constructor
 		explicit textureCubeArray(
-			storage const & Storage,
+			texture const & Texture,
 			format_type const & Format,
 			size_type BaseLayer,
 			size_type MaxLayer,

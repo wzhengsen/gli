@@ -47,15 +47,15 @@ namespace gli
 
 	inline texture3D::texture3D
 	(
-		storage const & Storage,
+		texture const & Texture,
 		format_type const & Format,
 		size_type BaseLayer, size_type MaxLayer,
 		size_type BaseFace, size_type MaxFace,
 		size_type BaseLevel, size_type MaxLevel
 	)
 		: texture(
-			gli::TARGET_3D,
-			Storage, Format,
+			Texture, gli::TARGET_3D,
+			Format,
 			BaseLayer, MaxLayer,
 			BaseFace, MaxFace,
 			BaseLevel, MaxLevel)
@@ -67,8 +67,8 @@ namespace gli
 		size_type const & BaseLevel, size_type const & MaxLevel
 	)
 		: texture(
-			gli::TARGET_3D,
-			Texture, Texture.format(),
+			Texture, gli::TARGET_3D,
+			Texture.format(),
 			Texture.baseLayer(), Texture.maxLayer(),
 			Texture.baseFace(), Texture.maxFace(),
 			Texture.baseLevel() + BaseLevel, Texture.baseLevel() + MaxLevel)

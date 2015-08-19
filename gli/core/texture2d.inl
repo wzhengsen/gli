@@ -47,28 +47,26 @@ namespace gli
 
 	inline texture2D::texture2D
 	(
-		storage const & Storage,
+		texture const & Texture,
 		format_type const & Format,
 		size_type BaseLayer, size_type MaxLayer,
 		size_type BaseFace, size_type MaxFace,
 		size_type BaseLevel, size_type MaxLevel
 	)
 		: texture(
-			gli::TARGET_2D,
-			Storage, Format,
+			Texture, gli::TARGET_2D, Format,
 			BaseLayer, MaxLayer,
 			BaseFace, MaxFace,
 			BaseLevel, MaxLevel)
 	{}
-	
+
 	inline texture2D::texture2D
 	(
 		texture2D const & Texture,
 		size_type const & BaseLevel, size_type const & MaxLevel
 	)
 		: texture(
-			gli::TARGET_2D,
-			Texture.Storage, Texture.format(),
+			Texture, gli::TARGET_2D, Texture.format(),
 			Texture.baseLayer(), Texture.maxLayer(),
 			Texture.baseFace(), Texture.maxFace(),
 			Texture.baseLevel() + BaseLevel, Texture.baseLevel() + MaxLevel)
@@ -81,8 +79,8 @@ namespace gli
 		size_type const & BaseLevel, size_type const & MaxLevel
 	)
 		: texture(
-			gli::TARGET_2D,
-			Texture, Texture.format(),
+			Texture, gli::TARGET_2D,
+			Texture.format(),
 			Texture.baseLayer() + BaseLayer, Texture.baseLayer() + BaseLayer,
 			Texture.baseFace(), Texture.maxFace(),
 			Texture.baseLevel() + BaseLevel, Texture.baseLevel() + MaxLevel)
@@ -95,8 +93,8 @@ namespace gli
 		size_type const & BaseLevel, size_type const & MaxLevel
 	)
 		: texture(
-			gli::TARGET_2D,
-			Texture, Texture.format(),
+			Texture, gli::TARGET_2D,
+			Texture.format(),
 			Texture.baseLayer(), Texture.maxLayer(),
 			Texture.baseFace() + BaseFace, Texture.baseFace() + BaseFace,
 			Texture.baseLevel() + BaseLevel, Texture.baseLevel() + MaxLevel)
@@ -110,8 +108,8 @@ namespace gli
 		size_type const & BaseLevel, size_type const & MaxLevel
 	)
 		: texture(
-			gli::TARGET_2D,
-			Texture, Texture.format(),
+			Texture, gli::TARGET_2D,
+			Texture.format(),
 			Texture.baseLayer() + BaseLayer, Texture.baseLayer() + BaseLayer,
 			Texture.baseFace() + BaseFace, Texture.baseFace() + BaseFace,
 			Texture.baseLevel() + BaseLevel, Texture.baseLevel() + MaxLevel)

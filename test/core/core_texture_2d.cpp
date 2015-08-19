@@ -58,8 +58,8 @@ inline gli::texture2D radial
 
 inline gli::texture2D linear
 (
-	gli::texture2D::dim_type const & Size, 
-	gli::texture2D::texcoord_type const & Point0, 
+	gli::texture2D::dim_type const & Size,
+	gli::texture2D::texcoord_type const & Point0,
 	gli::texture2D::texcoord_type const & Point1
 )
 {

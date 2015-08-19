@@ -60,7 +60,7 @@ namespace gli
 
 		/// Create a texture1D view with an existing storage
 		explicit texture1D(
-			storage const & Storage,
+			texture const & Texture,
 			format_type const & Format,
 			size_type BaseLayer, size_type MaxLayer,
 			size_type BaseFace, size_type MaxFace,
