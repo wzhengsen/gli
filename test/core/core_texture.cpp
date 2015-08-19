@@ -222,6 +222,30 @@ namespace specialize
 		Error += Texture != TextureCube ? 0 : 1;
 		Error += Texture != TextureCubeArray ? 0 : 1;
 
+		gli::texture Texture1D_B(Texture1D);
+		gli::texture Texture1DArray_B(Texture1DArray);
+		gli::texture Texture2D_B(Texture2D);
+		gli::texture Texture2DArray_B(Texture2DArray);
+		gli::texture Texture3D_B(Texture3D);
+		gli::texture TextureCube_B(TextureCube);
+		gli::texture TextureCubeArray_B(TextureCubeArray);
+
+		Error += Texture != Texture1D_B ? 0 : 1;
+		Error += Texture != Texture1DArray_B ? 0 : 1;
+		Error += Texture != Texture2D_B ? 0 : 1;
+		Error += Texture != Texture2DArray_B ? 0 : 1;
+		Error += Texture != Texture3D_B ? 0 : 1;
+		Error += Texture != TextureCube_B ? 0 : 1;
+		Error += Texture != TextureCubeArray_B ? 0 : 1;
+
+		Error += Texture1D == Texture1D_B ? 0 : 1;
+		Error += Texture1DArray == Texture1DArray_B ? 0 : 1;
+		Error += Texture2D == Texture2D_B ? 0 : 1;
+		Error += Texture2DArray == Texture2DArray_B ? 0 : 1;
+		Error += Texture3D == Texture3D_B ? 0 : 1;
+		Error += TextureCube == TextureCube_B ? 0 : 1;
+		Error += TextureCubeArray == TextureCubeArray_B ? 0 : 1;
+
 		return Error;
 	}
 }//namespace specialize
