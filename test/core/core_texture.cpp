@@ -214,6 +214,14 @@ namespace specialize
 		gli::textureCube TextureCube(Texture);
 		gli::textureCubeArray TextureCubeArray(Texture);
 
+		Error += Texture != Texture1D ? 0 : 1;
+		Error += Texture != Texture1DArray ? 0 : 1;
+		Error += Texture != Texture2D ? 0 : 1;
+		Error += Texture != Texture2DArray ? 0 : 1;
+		Error += Texture != Texture3D ? 0 : 1;
+		Error += Texture != TextureCube ? 0 : 1;
+		Error += Texture != TextureCubeArray ? 0 : 1;
+
 		return Error;
 	}
 }//namespace specialize
