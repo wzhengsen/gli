@@ -228,8 +228,8 @@ namespace gli
 
 	inline void * const texture::compute_data()
 	{
-		size_type const offset = detail::imageAddressing(
-			this->Storage, this->baseLayer(), this->baseFace(), this->baseLevel());
+		size_type const offset = texture_addressing(
+			*this, this->baseLayer(), this->baseFace(), this->baseLevel());
 
 		return this->Storage.data() + offset;
 	}
@@ -241,6 +241,80 @@ namespace gli
 		return this->Storage.layer_size(
 			this->baseFace(), this->maxFace(),
 			this->baseLevel(), this->maxLevel()) * this->layers();
+	}
+
+	inline size_t texture_addressing
+	(
+		texture const & Texture,
+		size_t const & LayerOffset,
+		size_t const & FaceOffset,
+		size_t const & LevelOffset
+	)
+	{
+		assert(LayerOffset < Texture.layers());
+		assert(FaceOffset < Texture.faces());
+		assert(LevelOffset < Texture.levels());
+
+		size_t const LayerSize = layer_size(Texture, 0, Texture.faces() - 1, 0, Texture.levels() - 1);
+		size_t const FaceSize = face_size(Texture, 0, Texture.levels() - 1);
+		size_t BaseOffset = LayerSize * LayerOffset + FaceSize * FaceOffset;
+
+		for(size_t Level = 0; Level < LevelOffset; ++Level)
+			BaseOffset += level_size(Texture, Level);
+
+		return BaseOffset;
+	}
+
+	inline size_t level_size
+	(
+		texture const & Texture,
+		size_t const & Level
+	)
+	{
+		assert(Level < Texture.levels());
+
+		texture::dim_type const BlockDimensions(
+			block_dimensions_x(Texture.format()),
+			block_dimensions_y(Texture.format()),
+			block_dimensions_z(Texture.format()));
+
+		texture::dim_type const Dimensions = Texture.dimensions(Level);
+		texture::dim_type const Multiple = glm::ceilMultiple(Dimensions, BlockDimensions);
+		size_t const BlockSize = block_size(Texture.format());
+
+		return BlockSize * glm::compMul(Multiple / BlockDimensions);
+	}
+
+	inline size_t face_size
+	(
+		texture const & Texture,
+		size_t const & BaseLevel, size_t const & MaxLevel
+	)
+	{
+		assert(MaxLevel < Texture.levels());
+		
+		size_t FaceSize = 0;
+
+		// The size of a face is the sum of the size of each level.
+		for(size_t Level = BaseLevel; Level <= MaxLevel; ++Level)
+			FaceSize += level_size(Texture, Level);
+
+		return FaceSize;
+	}
+
+	inline size_t layer_size
+	(
+		texture const & Texture,
+		size_t const & BaseFace, size_t const & MaxFace,
+		size_t const & BaseLevel, size_t const & MaxLevel
+	)
+	{
+		assert(MaxFace < Texture.faces());
+		assert(MaxLevel < Texture.levels());
+
+		// The size of a layer is the sum of the size of each face.
+		// All the faces have the same size.
+		return face_size(Texture, BaseLevel, MaxLevel) * (MaxFace - BaseFace + 1);
 	}
 }//namespace gli
 

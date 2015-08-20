@@ -120,7 +120,7 @@ namespace detail
 				for(std::size_t Face = 0, Faces = Texture.faces(); Face < Faces; ++Face)
 				{
 					std::uint32_t const FaceSize = static_cast<std::uint32_t>(static_cast<storage>(Texture).level_size(Level));
-					std::uint32_t const DestinationOffset = static_cast<std::uint32_t>(detail::imageAddressing(Texture, Layer, Face, Level));
+					std::uint32_t const DestinationOffset = static_cast<std::uint32_t>(texture_addressing(Texture, Layer, Face, Level));
 
 					std::memcpy(Texture.data<std::uint8_t>() + DestinationOffset, Data + Offset, FaceSize);
 

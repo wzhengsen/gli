@@ -26,89 +26,37 @@
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
-namespace gli{
-namespace detail
+namespace gli
 {
-	size_t imageAddressing(
-		storage const & Storage,
-		storage::size_type const & LayerOffset, 
-		storage::size_type const & FaceOffset, 
-		storage::size_type const & LevelOffset);
-
-	size_t texelLinearAdressing(
-		dim1_t const & Dimensions,
-		dim1_t const & TexelCoord);
-
-	size_t texelLinearAdressing(
-		dim2_t const & Dimensions,
-		dim2_t const & TexelCoord);
-
-	size_t texelLinearAdressing(
-		dim3_t const & Dimensions,
-		dim3_t const & TexelCoord);
-
-	size_t texelMortonAdressing(
-		dim1_t const & Dimensions,
-		dim1_t const & TexelCoord);
-
-	size_t texelMortonAdressing(
-		dim2_t const & Dimensions,
-		dim2_t const & TexelCoord);
-
-	size_t texelMortonAdressing(
-		dim3_t const & Dimensions,
-		dim3_t const & TexelCoord);
-}//namespace detail
-
-	inline image::image() :
-		BaseLayer(0),
-		MaxLayer(0),
-		BaseFace(0),
-		MaxFace(0),
-		BaseLevel(0),
-		MaxLevel(0)
+	inline image::image()
+		: BaseLayer(0)
+		, BaseFace(0)
+		, BaseLevel(0)
 	{}
 
 	inline image::image
 	(
 		format const & Format,
 		dim_type const & Dimensions
-	) :
-		Storage(
-			1, 1, 1,
-			Format,
-			dim_type(Dimensions)),
-		BaseLayer(0),
-		MaxLayer(0),
-		BaseFace(0),
-		MaxFace(0),
-		BaseLevel(0),
-		MaxLevel(0)
+	)
+		: Storage(1, 1, 1, Format, dim_type(Dimensions))
+		, BaseLayer(0)
+		, BaseFace(0)
+		, BaseLevel(0)
 	{}
 
 	inline image::image
 	(
 		storage const & Storage,
 		size_type BaseLayer,
-		size_type MaxLayer,
 		size_type BaseFace,
-		size_type MaxFace,
-		size_type BaseLevel,
-		size_type MaxLevel
-	) :
-		Storage(Storage),
-		BaseLayer(BaseLayer),
-		MaxLayer(MaxLayer),
-		BaseFace(BaseFace),
-		MaxFace(MaxFace),
-		BaseLevel(BaseLevel),
-		MaxLevel(MaxLevel)
+		size_type BaseLevel
+	)
+		: Storage(Storage)
+		, BaseLayer(BaseLayer)
+		, BaseFace(BaseFace)
+		, BaseLevel(BaseLevel)
 	{}
-
-	inline image::operator storage() const
-	{
-		return this->Storage;
-	}
 
 	inline bool image::empty() const
 	{
@@ -139,8 +87,8 @@ namespace detail
 	{
 		assert(!this->empty());
 
-		size_type const offset = detail::imageAddressing(
-			this->Storage, this->BaseLayer, this->BaseFace, this->BaseLevel);
+		size_type const offset = this->Storage.addressing(
+			this->BaseLayer, this->BaseFace, this->BaseLevel);
 
 		return this->Storage.data() + offset;
 	}
@@ -149,8 +97,8 @@ namespace detail
 	{
 		assert(!this->empty());
 		
-		size_type const offset = detail::imageAddressing(
-			this->Storage, this->BaseLayer, this->BaseFace, this->BaseLevel);
+		size_type const offset = this->Storage.addressing(
+			this->BaseLayer, this->BaseFace, this->BaseLevel);
 
 		return this->Storage.data() + offset;
 	}
@@ -206,35 +154,5 @@ namespace detail
 		assert(block_size(this->Storage.format()) == sizeof(genType));
 
 		*(this->data<genType>() + detail::texelLinearAdressing(this->dimensions(), TexelCoord)) = Data;
-	}
-
-	inline image::size_type image::baseLayer() const
-	{
-		return this->BaseLayer;
-	}
-
-	inline image::size_type image::maxLayer() const
-	{
-		return this->MaxLayer;
-	}
-
-	inline image::size_type image::baseFace() const
-	{
-		return this->BaseFace;
-	}
-
-	inline image::size_type image::maxFace() const
-	{
-		return this->MaxFace;
-	}
-
-	inline image::size_type image::baseLevel() const
-	{
-		return this->BaseLevel;
-	}
-
-	inline image::size_type image::maxLevel() const
-	{
-		return this->MaxLevel;
 	}
 }//namespace gli

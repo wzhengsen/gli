@@ -103,9 +103,9 @@ namespace gli
 
 		return image(
 			this->Storage,
-			this->baseLayer(), this->maxLayer(),
-			this->baseFace(), this->maxFace(),
-			this->baseLevel() + Level, this->baseLevel() + Level);
+			this->baseLayer(),
+			this->baseFace(),
+			this->baseLevel() + Level);
 	}
 
 	inline texture1D::dim_type texture1D::dimensions() const

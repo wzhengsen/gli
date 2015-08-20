@@ -29,28 +29,6 @@
 namespace gli{
 namespace detail
 {
-	inline size_t imageAddressing
-	(
-		storage const & Storage,
-		size_t const & LayerOffset,
-		size_t const & FaceOffset,
-		size_t const & LevelOffset
-	)
-	{
-		assert(LayerOffset < Storage.layers());
-		assert(FaceOffset < Storage.faces());
-		assert(LevelOffset < Storage.levels());
-
-		size_t LayerSize = Storage.layer_size(0, Storage.faces() - 1, 0, Storage.levels() - 1);
-		size_t FaceSize = Storage.face_size(0, Storage.levels() - 1);
-		size_t BaseOffset = LayerSize * LayerOffset + FaceSize * FaceOffset; 
-
-		for(size_t Level = 0; Level < LevelOffset; ++Level)
-			BaseOffset += Storage.level_size(Level);
-
-		return BaseOffset;
-	}
-
 	inline size_t texelLinearAdressing
 	(
 		dim1_t const & Dimensions,

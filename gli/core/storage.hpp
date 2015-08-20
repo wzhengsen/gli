@@ -85,6 +85,10 @@ namespace gli
 		data_type * data();
 		data_type const * data() const;
 
+		size_t addressing(
+			size_t const & BaseLayer,
+			size_t const & BaseFace,
+			size_t const & BaseLevel) const;
 		size_type level_size(
 			size_type const & Level) const;
 		size_type face_size(

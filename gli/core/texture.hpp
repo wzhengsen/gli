@@ -148,24 +148,27 @@ namespace gli
 		void * const compute_data();
 		size_type compute_size() const;
 	};
+
+	size_t texture_addressing(
+		texture const & Texture,
+		size_t const & LayerOffset,
+		size_t const & FaceOffset,
+		size_t const & LevelOffset);
+
+	size_t level_size(
+		texture const & Texture,
+		size_t const & Level);
+
+	size_t face_size(
+		texture const & Texture,
+		size_t const & BaseLevel, size_t const & MaxLevel);
+
+	size_t layer_size(
+		texture const & Texture,
+		size_t const & BaseFace, size_t const & MaxFace,
+		size_t const & BaseLevel, size_t const & MaxLevel);
+
 }//namespace gli
 
 #include "texture.inl"
 
-#include "texture1d.hpp"
-#include "texture1d_array.hpp"
-#include "texture2d.hpp"
-#include "texture2d_array.hpp"
-#include "texture3d.hpp"
-#include "texture_cube.hpp"
-#include "texture_cube_array.hpp"
-
-#include "addressing.hpp"
-
-#include "texture1d.inl"
-#include "texture1d_array.inl"
-#include "texture2d.inl"
-#include "texture2d_array.inl"
-#include "texture3d.inl"
-#include "texture_cube.inl"
-#include "texture_cube_array.inl"

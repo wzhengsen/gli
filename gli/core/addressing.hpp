@@ -28,17 +28,12 @@
 
 #pragma once
 
-#include "storage.hpp"
+#include "texture.hpp"
+#include "size.hpp"
 
 namespace gli{
 namespace detail
 {
-	size_t imageAddressing(
-		storage const & Storage,
-		size_t const & LayerOffset,
-		size_t const & FaceOffset,
-		size_t const & LevelOffset);
-
 	size_t texelLinearAdressing(
 		dim1_t const & Dimensions,
 		dim1_t const & TexelCoord);

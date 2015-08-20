@@ -21,70 +21,12 @@
 /// THE SOFTWARE.
 ///
 /// @ref core
-/// @file gli/core/image.hpp
-/// @date 2011-10-06 / 2013-01-12
+/// @file gli/core/size.inl
+/// @date 2015-08-20 / 2015-08-20
 /// @author Christophe Riccio
-///
-/// @defgroup core_image Image 
-/// @ingroup core
 ///////////////////////////////////////////////////////////////////////////////////
-
-#pragma once
-
-#include "storage.hpp"
-#include "header.hpp"
 
 namespace gli
 {
-	/// Image
-	class image
-	{
-	public:
-		typedef dim3_t dim_type;
-		typedef size_t size_type;
 
-		image();
-
-		/// Allocate a new storage constructor
-		explicit image(
-			format const & Format,
-			dim_type const & Dimensions);
-
-		/// Reference an exiting storage constructor
-		explicit image(
-			storage const & Storage,
-			size_type BaseLayer,
-			size_type BaseFace,
-			size_type BaseLevel);
-
-		bool empty() const;
-		dim_type dimensions() const;
-
-		size_type size() const;
-		void * data();
-		void const * data() const;
-
-		template <typename genType>
-		size_type size() const;
-		template <typename genType>
-		genType * data();
-		template <typename genType>
-		genType const * data() const;
-
-		void clear();
-		template <typename genType>
-		void clear(genType const & Texel);
-		template <typename genType>
-		genType load(dim_type const & TexelCoord);
-		template <typename genType>
-		void store(dim_type const & TexelCoord, genType const & Data);
-
-	private:
-		storage Storage;
-		size_type BaseLayer;
-		size_type BaseFace;
-		size_type BaseLevel;
-	};
 }//namespace gli
-
-#include "image.inl"

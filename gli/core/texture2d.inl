@@ -121,9 +121,9 @@ namespace gli
 
 		return image(
 			this->Storage,
-			this->baseLayer(), this->maxLayer(),
-			this->baseFace(), this->maxFace(),
-			this->baseLevel() + Level, this->baseLevel() + Level);
+			this->baseLayer(),
+			this->baseFace(),
+			this->baseLevel() + Level);
 	}
 
 	inline texture2D::dim_type texture2D::dimensions() const
