@@ -67,8 +67,8 @@ namespace detail
 		detail::format_info const & Desc = detail::getFormatInfo(Texture.format());
 
 		std::uint32_t Caps = detail::DDSD_CAPS | detail::DDSD_WIDTH | detail::DDSD_PIXELFORMAT | detail::DDSD_MIPMAPCOUNT;
-		Caps |= Texture.dimensions().y > 1 ? detail::DDSD_HEIGHT : 0;
-		Caps |= Texture.dimensions().z > 1 ? detail::DDSD_DEPTH : 0;
+		Caps |= !isTarget1D(Texture.target()) ? detail::DDSD_HEIGHT : 0;
+		Caps |= Texture.target() == TARGET_3D ? detail::DDSD_DEPTH : 0;
 		//Caps |= Storage.levels() > 1 ? detail::DDSD_MIPMAPCOUNT : 0;
 		Caps |= (Desc.Flags & detail::CAP_COMPRESSED_BIT) ? detail::DDSD_LINEARSIZE : detail::DDSD_PITCH;
 

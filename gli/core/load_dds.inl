@@ -149,14 +149,14 @@ namespace detail
 		}
 		else if(Header10.ArraySize > 0)
 		{
-			if(Header.Height == 0)
-				return TARGET_1D_ARRAY;
-			else
+			if(Header.Flags & detail::DDSD_HEIGHT)
 				return TARGET_2D_ARRAY;
+			else
+				return TARGET_1D_ARRAY;
 		}
 		else if(Header10.ResourceDimension == D3D10_RESOURCE_DIMENSION_TEXTURE1D)
 			return TARGET_1D;
-		else if(Header10.ResourceDimension == D3D10_RESOURCE_DIMENSION_TEXTURE3D)
+		else if(Header10.ResourceDimension == D3D10_RESOURCE_DIMENSION_TEXTURE3D || Header.Flags & detail::DDSD_DEPTH)
 			return TARGET_3D;
 		else
 			return TARGET_2D;

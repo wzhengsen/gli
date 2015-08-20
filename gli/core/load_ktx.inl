@@ -54,7 +54,7 @@ namespace detail
 
 	inline target getTarget(ktxHeader const & Header)
 	{
-		if(Header.NumberOfFaces > 1)
+		if(Header.NumberOfFaces > 0)
 		{
 			if(Header.NumberOfArrayElements > 0)
 				return TARGET_CUBE_ARRAY;
@@ -105,7 +105,10 @@ namespace detail
 			std::max<std::uint32_t>(Header.NumberOfFaces, 1),
 			std::max<std::uint32_t>(Header.NumberOfMipmapLevels, 1),
 			Format,
-			texture::dim_type(Header.PixelWidth, Header.PixelHeight, std::max<std::uint32_t>(Header.PixelDepth, 1)));
+			texture::dim_type(
+				Header.PixelWidth,
+				std::max<std::uint32_t>(Header.PixelHeight, 1),
+				std::max<std::uint32_t>(Header.PixelDepth, 1)));
 
 		for(std::size_t Level = 0, Levels = Texture.levels(); Level < Levels; ++Level)
 		{

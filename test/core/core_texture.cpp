@@ -250,6 +250,108 @@ namespace specialize
 	}
 }//namespace specialize
 
+namespace load
+{
+	int run()
+	{
+		int Error = 0;
+
+		// Texture 1D
+		{
+			gli::texture Texture(gli::TARGET_1D, 1, 1, 1, gli::FORMAT_RGBA8_UNORM, gli::texture::dim_type(1));
+			Texture.clear(glm::u8vec4(225, 127, 0, 255));
+
+			gli::save(Texture, "texture_1d.ktx");
+			gli::save(Texture, "texture_1d.dds");
+			gli::texture TextureKTX = gli::load("texture_1d.ktx");
+			gli::texture TextureDDS = gli::load("texture_1d.dds");
+
+			Error += Texture == TextureKTX ? 0 : 1;
+			Error += Texture == TextureDDS ? 0 : 1;
+		}
+
+		// Texture 1D array
+		{
+			gli::texture Texture(gli::TARGET_1D_ARRAY, 2, 1, 1, gli::FORMAT_RGBA8_UNORM, gli::texture::dim_type(1));
+			Texture.clear(glm::u8vec4(225, 127, 0, 255));
+			gli::save(Texture, "texture_1d_array.ktx");
+			gli::save(Texture, "texture_1d_array.dds");
+			gli::texture TextureKTX = gli::load("texture_1d_array.ktx");
+			gli::texture TextureDDS = gli::load("texture_1d_array.dds");
+
+			Error += Texture == TextureKTX ? 0 : 1;
+			Error += Texture == TextureDDS ? 0 : 1;
+		}
+
+		// Texture 2D
+		{
+			gli::texture Texture(gli::TARGET_2D, 1, 1, 1, gli::FORMAT_RGBA8_UNORM, gli::texture::dim_type(1));
+			Texture.clear(glm::u8vec4(225, 127, 0, 255));
+
+			gli::save(Texture, "texture_2d.ktx");
+			gli::save(Texture, "texture_2d.dds");
+			gli::texture TextureKTX = gli::load("texture_2d.ktx");
+			gli::texture TextureDDS = gli::load("texture_2d.dds");
+
+			Error += Texture == TextureKTX ? 0 : 1;
+			Error += Texture == TextureDDS ? 0 : 1;
+		}
+
+		// Texture 2D array
+		{
+			gli::texture Texture(gli::TARGET_2D_ARRAY, 2, 1, 1, gli::FORMAT_RGBA8_UNORM, gli::texture::dim_type(1));
+			Texture.clear(glm::u8vec4(225, 127, 0, 255));
+			gli::save(Texture, "texture_2d_array.ktx");
+			gli::save(Texture, "texture_2d_array.dds");
+			gli::texture TextureKTX = gli::load("texture_2d_array.ktx");
+			gli::texture TextureDDS = gli::load("texture_2d_array.dds");
+
+			Error += Texture == TextureKTX ? 0 : 1;
+			Error += Texture == TextureDDS ? 0 : 1;
+		}
+
+		// Texture 3D
+		{
+			gli::texture Texture(gli::TARGET_3D, 1, 1, 1, gli::FORMAT_RGBA8_UNORM, gli::texture::dim_type(1));
+			gli::save(Texture, "texture_3d.ktx");
+			gli::save(Texture, "texture_3d.dds");
+			gli::texture TextureKTX = gli::load("texture_3d.ktx");
+			gli::texture TextureDDS = gli::load("texture_3d.dds");
+
+			Error += Texture == TextureKTX ? 0 : 1;
+			Error += Texture == TextureDDS ? 0 : 1;
+		}
+
+		// Texture cube
+		{
+			gli::texture Texture(gli::TARGET_CUBE, 1, 6, 1, gli::FORMAT_RGBA8_UNORM, gli::texture::dim_type(1));
+			Texture.clear(glm::u8vec4(225, 127, 0, 255));
+			gli::save(Texture, "texture_cube.ktx");
+			gli::save(Texture, "texture_cube.dds");
+			gli::texture TextureKTX = gli::load("texture_cube.ktx");
+			gli::texture TextureDDS = gli::load("texture_cube.dds");
+
+			Error += Texture == TextureKTX ? 0 : 1;
+			Error += Texture == TextureDDS ? 0 : 1;
+		}
+
+		// Texture cube array
+		{
+			gli::texture Texture(gli::TARGET_CUBE_ARRAY, 2, 6, 1, gli::FORMAT_RGBA8_UNORM, gli::texture::dim_type(1));
+			Texture.clear(glm::u8vec4(225, 127, 0, 255));
+			gli::save(Texture, "texture_cube_array.ktx");
+			gli::save(Texture, "texture_cube_array.dds");
+			gli::texture TextureKTX = gli::load("texture_cube_array.ktx");
+			gli::texture TextureDDS = gli::load("texture_cube_array.dds");
+
+			Error += Texture == TextureKTX ? 0 : 1;
+			Error += Texture == TextureDDS ? 0 : 1;
+		}
+
+		return Error;
+	}
+}//namespace load
+
 int main()
 {
 	int Error(0);
@@ -260,6 +362,7 @@ int main()
 	Error += clear::run();
 	Error += tex_access::run();
 	Error += specialize::run();
+	Error += load::run();
 
 	return Error;
 }
