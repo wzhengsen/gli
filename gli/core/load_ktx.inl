@@ -54,7 +54,7 @@ namespace detail
 
 	inline target getTarget(ktxHeader const & Header)
 	{
-		if(Header.NumberOfFaces > 0)
+		if(Header.NumberOfFaces > 1)
 		{
 			if(Header.NumberOfArrayElements > 0)
 				return TARGET_CUBE_ARRAY;
