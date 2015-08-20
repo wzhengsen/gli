@@ -29,7 +29,7 @@
 namespace gli
 {
 	template <typename genType>
-	inline genType texelFetch
+	inline genType texel_fetch
 	(
 		texture2D const & Texture,
 		texture2D::dim_type const & TexCoord,
@@ -46,7 +46,7 @@ namespace gli
 	}
 
 	template <typename genType>
-	void texelWrite
+	void texel_write
 	(
 		texture2D & Texture,
 		texture2D::dim_type const & Texcoord,
@@ -67,7 +67,7 @@ namespace gli
 	}
 
 	template <typename genType>
-	inline genType textureLod
+	inline genType texture_lod
 	(
 		texture2D const & Texture,
 		texture2D::texcoord_type const & Texcoord,

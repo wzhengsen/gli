@@ -174,7 +174,7 @@ namespace data
 
 			for(std::size_t y = 0; y < TextureB.dimensions().y; ++y)
 			for(std::size_t x = 0; x < TextureB.dimensions().x; ++x)
-				gli::texelWrite<glm::u8vec4>(TextureB, gli::texture2D::dim_type(x, y), 0, glm::u8vec4(255, 127, 0, 255));
+				gli::texel_write<glm::u8vec4>(TextureB, gli::texture2D::dim_type(x, y), 0, glm::u8vec4(255, 127, 0, 255));
 
 			std::clock_t TimeEnd = std::clock();
 
