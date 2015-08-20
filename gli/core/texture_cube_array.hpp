@@ -59,7 +59,7 @@ namespace gli
 			format_type const & Format,
 			dim_type const & Dimensions);
 
-		/// Create a texture2D view with an existing storage
+		/// Create a textureCubeArray view with an existing storage
 		explicit textureCubeArray(
 			texture const & Texture);
 
