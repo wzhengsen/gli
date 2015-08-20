@@ -72,7 +72,7 @@ namespace detail
 		//Caps |= Storage.levels() > 1 ? detail::DDSD_MIPMAPCOUNT : 0;
 		Caps |= (Desc.Flags & detail::CAP_COMPRESSED_BIT) ? detail::DDSD_LINEARSIZE : detail::DDSD_PITCH;
 
-		bool const RequireFOURCCDX10 = isTargetArray(Texture.target()) || isTarget1D(Texture.target();
+		bool const RequireFOURCCDX10 = isTargetArray(Texture.target()) || isTarget1D(Texture.target());
 
 		memcpy(Header.Magic, "DDS ", sizeof(Header.Magic));
 		memset(Header.Reserved1, 0, sizeof(Header.Reserved1));
@@ -108,7 +108,7 @@ namespace detail
 			Header.CubemapFlags |= detail::DDSCAPS2_VOLUME;
 
 		size_t Offset = sizeof(detail::ddsHeader);
-		if(Header.Format.fourCC == dx::D3DFMT_DX10))
+		if(Header.Format.fourCC == dx::D3DFMT_DX10)
 		{
 			detail::ddsHeader10 & Header10 = *reinterpret_cast<detail::ddsHeader10*>(&Memory[0] + sizeof(detail::ddsHeader));
 			Offset += sizeof(detail::ddsHeader10);
