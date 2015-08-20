@@ -73,8 +73,8 @@ namespace layers
 				Tests[i].Format,
 				Tests[i].Dimensions);
 
-			gli::storage::size_type Offset = gli::detail::imageAddressing(Storage, 1, 0, 0);
-			gli::storage::size_type Size = Storage.size();
+			gli::storage::size_type const Offset = Storage.addressing(1, 0, 0);
+			gli::storage::size_type const Size = Storage.size();
 
 			Error += Offset == Tests[i].Offset ? 0 : 1;
 			Error += Size == Tests[i].Size ? 0 : 1;
@@ -125,7 +125,7 @@ namespace faces
 		for(std::size_t i = 0; i < Tests.size(); ++i)
 		{
 			gli::storage Storage(1, 1, 4, Tests[i].Format, gli::storage::dim_type(8, 8, 1));
-			gli::storage::size_type Offset = gli::detail::imageAddressing(Storage, 0, 0, Tests[i].Level);
+			gli::storage::size_type Offset = Storage.addressing(0, 0, Tests[i].Level);
 			gli::storage::size_type Size = Storage.size();
 
 			Error += Offset == Tests[i].Offset ? 0 : 1;
@@ -181,7 +181,7 @@ namespace levels
 				Tests[i].Format,
 				gli::dim3_t(8, 8, 1));
 
-			gli::storage::size_type Offset = gli::detail::imageAddressing(Storage, 0, 0, Tests[i].Level);
+			gli::storage::size_type Offset = Storage.addressing(0, 0, Tests[i].Level);
 			gli::storage::size_type Size = Storage.size();
 
 			Error += Offset == Tests[i].Offset ? 0 : 1;

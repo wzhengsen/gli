@@ -29,8 +29,8 @@
 namespace gli
 {
 	inline image::image()
-		: BaseLayer(0)
-		, BaseFace(0)
+		: Data(nullptr)
+		, Size(0)
 		, BaseLevel(0)
 	{}
 
@@ -40,8 +40,8 @@ namespace gli
 		dim_type const & Dimensions
 	)
 		: Storage(1, 1, 1, Format, dim_type(Dimensions))
-		, BaseLayer(0)
-		, BaseFace(0)
+		, Data(Storage.data())
+		, Size(compute_size(0))
 		, BaseLevel(0)
 	{}
 
@@ -53,8 +53,8 @@ namespace gli
 		size_type BaseLevel
 	)
 		: Storage(Storage)
-		, BaseLayer(BaseLayer)
-		, BaseFace(BaseFace)
+		, Data(compute_data(BaseLayer, BaseFace, BaseLevel))
+		, Size(compute_size(BaseLevel))
 		, BaseLevel(BaseLevel)
 	{}
 
@@ -67,7 +67,7 @@ namespace gli
 	{
 		assert(!this->empty());
 
-		return this->Storage.level_size(this->BaseLevel);
+		return this->Size;
 	}
 
 	template <typename genType>
@@ -87,20 +87,14 @@ namespace gli
 	{
 		assert(!this->empty());
 
-		size_type const offset = this->Storage.addressing(
-			this->BaseLayer, this->BaseFace, this->BaseLevel);
-
-		return this->Storage.data() + offset;
+		return this->Data;
 	}
 
 	inline void const * image::data() const
 	{
 		assert(!this->empty());
 		
-		size_type const offset = this->Storage.addressing(
-			this->BaseLayer, this->BaseFace, this->BaseLevel);
-
-		return this->Storage.data() + offset;
+		return this->Data;
 	}
 
 	template <typename genType>
@@ -136,6 +130,20 @@ namespace gli
 
 		for(size_type TexelIndex = 0; TexelIndex < this->size<genType>(); ++TexelIndex)
 			*(this->data<genType>() + TexelIndex) = Texel;
+	}
+
+	inline image::data_type * const image::compute_data(size_type BaseLayer, size_type BaseFace, size_type BaseLevel) const
+	{
+		size_type const Offset = this->Storage.addressing(BaseLayer, BaseFace, BaseLevel);
+
+		return this->Storage.data() + Offset;
+	}
+
+	inline image::size_type image::compute_size(size_type Level) const
+	{
+		assert(!this->empty());
+
+		return this->Storage.level_size(Level);
 	}
 
 	template <typename genType>

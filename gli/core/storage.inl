@@ -117,7 +117,7 @@ namespace gli
 		return this->Impl->Data.size();
 	}
 
-	inline storage::data_type const * storage::data() const
+	inline storage::data_type * const storage::data() const
 	{
 		assert(!this->empty());
 

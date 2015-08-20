@@ -129,6 +129,13 @@ namespace gli
 
 		gli::target target() const{return this->Target;}
 
+		size_t addressing(
+			size_t const & Layer,
+			size_t const & Face,
+			size_t const & Level) const;
+
+		size_t level_size(size_t const & Level) const;
+
 		operator storage() const{return this->Storage;}
 
 	protected:
@@ -145,28 +152,9 @@ namespace gli
 		size_type const Size;
 
 	private:
-		void * const compute_data();
+		void * const compute_data() const;
 		size_type compute_size() const;
 	};
-
-	size_t texture_addressing(
-		texture const & Texture,
-		size_t const & LayerOffset,
-		size_t const & FaceOffset,
-		size_t const & LevelOffset);
-
-	size_t level_size(
-		texture const & Texture,
-		size_t const & Level);
-
-	size_t face_size(
-		texture const & Texture,
-		size_t const & BaseLevel, size_t const & MaxLevel);
-
-	size_t layer_size(
-		texture const & Texture,
-		size_t const & BaseFace, size_t const & MaxFace,
-		size_t const & BaseLevel, size_t const & MaxLevel);
 
 }//namespace gli
 

@@ -50,7 +50,7 @@ int test_image_data()
 	Error += ImageA.empty() ? 0 : 1;
 	assert(!Error);
 
-	gli::image ImageB(gli::FORMAT_RGBA8_UINT, gli::image::dim_type(1, 1, 1));
+	gli::image ImageB(gli::FORMAT_RGBA8_UNORM, gli::image::dim_type(1, 1, 1));
 	Error += ImageB.size() == sizeof(glm::u8vec4) ? 0 : 1;
 
 	*ImageB.data<glm::u8vec4>() = glm::u8vec4(255, 127, 0, 255);
@@ -68,15 +68,11 @@ int test_image_data()
 
 	memcpy(Storage.data(), &Data[0][0], Data.size() * sizeof(glm::u8vec4));
 
-	gli::image ImageC(Storage, 0, 0, 0, 0, 0, 1);
+	gli::image ImageC(Storage, 1, 0, 0);
 	Error += !ImageC.empty() ? 0 : 1;
 	assert(!Error);
 
-	glm::u8vec4 ValueB = *(ImageB.data<glm::u8vec4>() + 0);
-	glm::u8vec4 ValueC = *(ImageC.data<glm::u8vec4>() + 1);
-	glm::u8vec4 ValueD = *(ImageC.data<glm::u8vec4>() + 0);
-
-	Error += glm::all(glm::equal(ValueB, ValueC)) ? 0 : 1;
+	Error += ImageB == ImageC ? 0 : 1;
 	assert(!Error);
 
 	return Error;

@@ -42,6 +42,7 @@ namespace gli
 	public:
 		typedef dim3_t dim_type;
 		typedef size_t size_type;
+		typedef storage::data_type data_type;
 
 		image();
 
@@ -80,10 +81,13 @@ namespace gli
 		void store(dim_type const & TexelCoord, genType const & Data);
 
 	private:
+		data_type * const compute_data(size_type BaseLayer, size_type BaseFace, size_type BaseLevel) const;
+		size_type compute_size(size_type Level) const;
+
 		storage Storage;
-		size_type BaseLayer;
-		size_type BaseFace;
-		size_type BaseLevel;
+		data_type * const Data;
+		size_type const Size;
+		size_type const BaseLevel;
 	};
 }//namespace gli
 

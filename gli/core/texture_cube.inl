@@ -120,7 +120,7 @@ namespace gli
 		return texture2D(
 			*this, this->format(),
 			this->baseLayer(), this->maxLayer(),
-			this->baseFace() + Face, 	this->baseFace() + Face,
+			this->baseFace() + Face, this->baseFace() + Face,
 			this->baseLevel(), this->maxLevel());
 	}
 

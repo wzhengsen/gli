@@ -83,7 +83,7 @@ namespace gli
 		dim_type dimensions(size_type const & Level) const;
 
 		data_type * data();
-		data_type const * data() const;
+		data_type * const data() const;
 
 		size_t addressing(
 			size_t const & BaseLayer,
