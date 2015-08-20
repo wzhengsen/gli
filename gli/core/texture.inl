@@ -67,9 +67,9 @@ namespace gli
 		: Storage(Texture.Storage)
 		, Target(Target)
 		, Format(Texture.format())
-		, BaseLayer(Texture.baseLayer()), MaxLayer(Texture.maxLayer())
-		, BaseFace(Texture.baseFace()), MaxFace(Texture.maxFace())
-		, BaseLevel(Texture.baseLevel()), MaxLevel(Texture.maxLevel())
+		, BaseLayer(Texture.base_layer()), MaxLayer(Texture.max_layer())
+		, BaseFace(Texture.base_face()), MaxFace(Texture.max_face())
+		, BaseLevel(Texture.base_level()), MaxLevel(Texture.max_level())
 		, Data(this->compute_data())
 		, Size(this->compute_size())
 	{
@@ -159,53 +159,53 @@ namespace gli
 	{
 		assert(!this->empty());
 
-		return this->Storage.dimensions(this->baseLevel() + Level);
+		return this->Storage.dimensions(this->base_level() + Level);
 	}
 
-	inline texture::size_type texture::baseLayer() const
+	inline texture::size_type texture::base_layer() const
 	{
 		return this->BaseLayer;
 	}
 
-	inline texture::size_type texture::maxLayer() const
+	inline texture::size_type texture::max_layer() const
 	{
 		return this->MaxLayer;
 	}
 
 	inline texture::size_type texture::layers() const
 	{
-		return this->maxLayer() - this->baseLayer() + 1;
+		return this->max_layer() - this->base_layer() + 1;
 	}
 
-	inline texture::size_type texture::baseFace() const
+	inline texture::size_type texture::base_face() const
 	{
 		return this->BaseFace;
 	}
 
-	inline texture::size_type texture::maxFace() const
+	inline texture::size_type texture::max_face() const
 	{
 		return this->MaxFace;
 	}
 
 	inline texture::size_type texture::faces() const
 	{
-		//assert(this->maxFace() - this->baseFace() + 1 == 1);
-		return this->maxFace() - this->baseFace() + 1;
+		//assert(this->max_face() - this->base_face() + 1 == 1);
+		return this->max_face() - this->base_face() + 1;
 	}
 
-	inline texture::size_type texture::baseLevel() const
+	inline texture::size_type texture::base_level() const
 	{
 		return this->BaseLevel;
 	}
 
-	inline texture::size_type texture::maxLevel() const
+	inline texture::size_type texture::max_level() const
 	{
 		return this->MaxLevel;
 	}
 
 	inline texture::size_type texture::levels() const
 	{
-		return this->maxLevel() - this->baseLevel() + 1;
+		return this->max_level() - this->base_level() + 1;
 	}
 
 	inline void texture::clear()
@@ -228,10 +228,10 @@ namespace gli
 
 	inline void * const texture::compute_data() const
 	{
-		size_type const offset = this->Storage.offset(
-			this->baseLayer(), this->baseFace(), this->baseLevel());
+		size_type const Offset = this->Storage.offset(
+			this->base_layer(), this->base_face(), this->base_level());
 
-		return this->Storage.data() + offset;
+		return this->Storage.data() + Offset;
 	}
 
 	inline texture::size_type texture::compute_size() const
@@ -239,8 +239,8 @@ namespace gli
 		assert(!this->empty());
 
 		return this->Storage.layer_size(
-			this->baseFace(), this->maxFace(),
-			this->baseLevel(), this->maxLevel()) * this->layers();
+			this->base_face(), this->max_face(),
+			this->base_level(), this->max_level()) * this->layers();
 	}
 
 	inline size_t texture::offset

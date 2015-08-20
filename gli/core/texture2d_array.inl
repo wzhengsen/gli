@@ -81,9 +81,9 @@ namespace gli
 		: texture(
 			Texture, gli::TARGET_2D_ARRAY,
 			Texture.format(),
-			Texture.baseLayer() + BaseLayer, Texture.baseLayer() + MaxLayer,
-			Texture.baseFace(), Texture.maxFace(),
-			Texture.baseLevel() + BaseLevel, Texture.baseLevel() + MaxLevel)
+			Texture.base_layer() + BaseLayer, Texture.base_layer() + MaxLayer,
+			Texture.base_face(), Texture.max_face(),
+			Texture.base_level() + BaseLevel, Texture.base_level() + MaxLevel)
 	{}
 
 	inline texture2DArray::texture2DArray
@@ -94,9 +94,9 @@ namespace gli
 		: texture(
 			Texture, gli::TARGET_2D_ARRAY,
 			Texture.format(),
-			Texture.baseLayer(), Texture.maxLayer(),
-			Texture.baseFace(), Texture.maxFace(),
-			Texture.baseLevel() + BaseLevel, Texture.baseLevel() + MaxLevel)
+			Texture.base_layer(), Texture.max_layer(),
+			Texture.base_face(), Texture.max_face(),
+			Texture.base_level() + BaseLevel, Texture.base_level() + MaxLevel)
 	{}
 
 	inline texture2D texture2DArray::operator[](size_type const & Layer) const
@@ -105,15 +105,15 @@ namespace gli
 
 		return texture2D(
 			*this, this->format(),
-			this->baseLayer() + Layer, this->baseLayer() + Layer,
-			this->baseFace(), this->maxFace(),
-			this->baseLevel(), this->maxLevel());
+			this->base_layer() + Layer, this->base_layer() + Layer,
+			this->base_face(), this->max_face(),
+			this->base_level(), this->max_level());
 	}
 
 	inline texture2DArray::dim_type texture2DArray::dimensions() const
 	{
 		assert(!this->empty());
 
-		return texture2DArray::dim_type(this->Storage.dimensions(this->baseLevel()));
+		return texture2DArray::dim_type(this->Storage.dimensions(this->base_level()));
 	}
 }//namespace gli

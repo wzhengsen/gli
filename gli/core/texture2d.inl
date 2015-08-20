@@ -67,9 +67,9 @@ namespace gli
 	)
 		: texture(
 			Texture, gli::TARGET_2D, Texture.format(),
-			Texture.baseLayer(), Texture.maxLayer(),
-			Texture.baseFace(), Texture.maxFace(),
-			Texture.baseLevel() + BaseLevel, Texture.baseLevel() + MaxLevel)
+			Texture.base_layer(), Texture.max_layer(),
+			Texture.base_face(), Texture.max_face(),
+			Texture.base_level() + BaseLevel, Texture.base_level() + MaxLevel)
 	{}
 
 	inline texture2D::texture2D
@@ -81,9 +81,9 @@ namespace gli
 		: texture(
 			Texture, gli::TARGET_2D,
 			Texture.format(),
-			Texture.baseLayer() + BaseLayer, Texture.baseLayer() + BaseLayer,
-			Texture.baseFace(), Texture.maxFace(),
-			Texture.baseLevel() + BaseLevel, Texture.baseLevel() + MaxLevel)
+			Texture.base_layer() + BaseLayer, Texture.base_layer() + BaseLayer,
+			Texture.base_face(), Texture.max_face(),
+			Texture.base_level() + BaseLevel, Texture.base_level() + MaxLevel)
 	{}
 
 	inline texture2D::texture2D
@@ -95,9 +95,9 @@ namespace gli
 		: texture(
 			Texture, gli::TARGET_2D,
 			Texture.format(),
-			Texture.baseLayer(), Texture.maxLayer(),
-			Texture.baseFace() + BaseFace, Texture.baseFace() + BaseFace,
-			Texture.baseLevel() + BaseLevel, Texture.baseLevel() + MaxLevel)
+			Texture.base_layer(), Texture.max_layer(),
+			Texture.base_face() + BaseFace, Texture.base_face() + BaseFace,
+			Texture.base_level() + BaseLevel, Texture.base_level() + MaxLevel)
 	{}
 
 	inline texture2D::texture2D
@@ -110,9 +110,9 @@ namespace gli
 		: texture(
 			Texture, gli::TARGET_2D,
 			Texture.format(),
-			Texture.baseLayer() + BaseLayer, Texture.baseLayer() + BaseLayer,
-			Texture.baseFace() + BaseFace, Texture.baseFace() + BaseFace,
-			Texture.baseLevel() + BaseLevel, Texture.baseLevel() + MaxLevel)
+			Texture.base_layer() + BaseLayer, Texture.base_layer() + BaseLayer,
+			Texture.base_face() + BaseFace, Texture.base_face() + BaseFace,
+			Texture.base_level() + BaseLevel, Texture.base_level() + MaxLevel)
 	{}
 
 	inline image texture2D::operator[](texture2D::size_type const & Level) const
@@ -121,16 +121,16 @@ namespace gli
 
 		return image(
 			this->Storage,
-			this->baseLayer(),
-			this->baseFace(),
-			this->baseLevel() + Level);
+			this->base_layer(),
+			this->base_face(),
+			this->base_level() + Level);
 	}
 
 	inline texture2D::dim_type texture2D::dimensions() const
 	{
 		assert(!this->empty());
 
-		return texture2D::dim_type(this->Storage.dimensions(this->baseLevel()));
+		return texture2D::dim_type(this->Storage.dimensions(this->base_level()));
 	}
 
 	template <typename genType>

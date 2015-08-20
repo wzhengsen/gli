@@ -69,9 +69,9 @@ namespace gli
 		: texture(
 			Texture, gli::TARGET_3D,
 			Texture.format(),
-			Texture.baseLayer(), Texture.maxLayer(),
-			Texture.baseFace(), Texture.maxFace(),
-			Texture.baseLevel() + BaseLevel, Texture.baseLevel() + MaxLevel)
+			Texture.base_layer(), Texture.max_layer(),
+			Texture.base_face(), Texture.max_face(),
+			Texture.base_level() + BaseLevel, Texture.base_level() + MaxLevel)
 	{}
 
 	inline image texture3D::operator[](texture3D::size_type const & Level) const
@@ -80,13 +80,13 @@ namespace gli
 
 		return image(
 			this->Storage,
-			this->baseLayer(),
-			this->baseFace(),
-			this->baseLevel() + Level);
+			this->base_layer(),
+			this->base_face(),
+			this->base_level() + Level);
 	}
 
 	inline texture3D::dim_type texture3D::dimensions() const
 	{
-		return texture3D::dim_type(this->Storage.dimensions(this->baseLevel()));
+		return texture3D::dim_type(this->Storage.dimensions(this->base_level()));
 	}
 }//namespace gli
