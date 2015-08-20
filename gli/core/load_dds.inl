@@ -147,7 +147,7 @@ namespace detail
 			else
 				return TARGET_CUBE;
 		}
-		else if(Header10.ArraySize > 0)
+		else if(Header10.ArraySize > 1)
 		{
 			if(Header.Flags & detail::DDSD_HEIGHT)
 				return TARGET_2D_ARRAY;

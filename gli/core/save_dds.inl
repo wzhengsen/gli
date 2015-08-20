@@ -72,6 +72,8 @@ namespace detail
 		//Caps |= Storage.levels() > 1 ? detail::DDSD_MIPMAPCOUNT : 0;
 		Caps |= (Desc.Flags & detail::CAP_COMPRESSED_BIT) ? detail::DDSD_LINEARSIZE : detail::DDSD_PITCH;
 
+		bool const RequireFOURCCDX10 = isTargetArray(Texture.target()) || isTarget1D(Texture.target();
+
 		memcpy(Header.Magic, "DDS ", sizeof(Header.Magic));
 		memset(Header.Reserved1, 0, sizeof(Header.Reserved1));
 		memset(Header.Reserved2, 0, sizeof(Header.Reserved2));
@@ -86,8 +88,8 @@ namespace detail
 		Header.Depth = static_cast<std::uint32_t>(Texture.dimensions().z > 1 ? Texture.dimensions().z : 0);
 		Header.MipMapLevels = static_cast<std::uint32_t>(Texture.levels());
 		Header.Format.size = sizeof(detail::ddsPixelFormat);
-		Header.Format.flags = Texture.layers() > 1 ? dx::DDPF_FOURCC : DXFormat.DDPixelFormat;
-		Header.Format.fourCC = Texture.layers() > 1 ? dx::D3DFMT_DX10 : DXFormat.D3DFormat;
+		Header.Format.flags = RequireFOURCCDX10 ? dx::DDPF_FOURCC : DXFormat.DDPixelFormat;
+		Header.Format.fourCC = RequireFOURCCDX10 ? dx::D3DFMT_DX10 : DXFormat.D3DFormat;
 		Header.Format.bpp = static_cast<std::uint32_t>(detail::bits_per_pixel(Texture.format()));
 		Header.Format.Mask = DXFormat.Mask;
 		//Header.surfaceFlags = detail::DDSCAPS_TEXTURE | (Storage.levels() > 1 ? detail::DDSCAPS_MIPMAP : 0);
@@ -106,12 +108,12 @@ namespace detail
 			Header.CubemapFlags |= detail::DDSCAPS2_VOLUME;
 
 		size_t Offset = sizeof(detail::ddsHeader);
-		if(Header.Format.fourCC == dx::D3DFMT_DX10)
+		if(Header.Format.fourCC == dx::D3DFMT_DX10))
 		{
 			detail::ddsHeader10 & Header10 = *reinterpret_cast<detail::ddsHeader10*>(&Memory[0] + sizeof(detail::ddsHeader));
 			Offset += sizeof(detail::ddsHeader10);
 
-			Header10.ArraySize = isTargetArray(Texture.target()) ? static_cast<std::uint32_t>(Texture.layers()) : 0;
+			Header10.ArraySize = static_cast<std::uint32_t>(Texture.layers());
 			Header10.ResourceDimension = detail::getDimension(Texture.target());
 			Header10.MiscFlag = 0;//Storage.levels() > 0 ? detail::D3D10_RESOURCE_MISC_GENERATE_MIPS : 0;
 			Header10.Format = static_cast<dx::dxgiFormat>(DXFormat.DXGIFormat);
