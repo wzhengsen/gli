@@ -142,7 +142,7 @@ namespace detail
 	{
 		if(Header.CubemapFlags & detail::DDSCAPS2_CUBEMAP)
 		{
-			if(Header10.ArraySize > 0)
+			if(Header10.ArraySize > 1)
 				return TARGET_CUBE_ARRAY;
 			else
 				return TARGET_CUBE;
