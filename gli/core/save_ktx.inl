@@ -32,19 +32,19 @@
 namespace gli{
 namespace detail
 {
-	inline std::size_t compute_ktx_storage_size(storage const & Storage)
+	inline std::size_t compute_ktx_storage_size(texture const & Texture)
 	{
 		std::size_t TotalSize = sizeof(detail::ktxHeader);
 
-		for(std::size_t Level = 0, Levels = Storage.levels(); Level < Levels; ++Level)
+		for(std::size_t Level = 0, Levels = Texture.levels(); Level < Levels; ++Level)
 		{
 			TotalSize += sizeof(std::uint32_t);
 
-			for(std::size_t Layer = 0, Layers = Storage.layers(); Layer < Layers; ++Layer)
+			for(std::size_t Layer = 0, Layers = Texture.layers(); Layer < Layers; ++Layer)
 			{
-				for(std::size_t Face = 0, Faces = Storage.faces(); Face < Faces; ++Face)
+				for(std::size_t Face = 0, Faces = Texture.faces(); Face < Faces; ++Face)
 				{
-					std::uint32_t const FaceSize = static_cast<std::uint32_t>(Storage.level_size(Level));
+					std::uint32_t const FaceSize = static_cast<std::uint32_t>(Texture.level_size(Level));
 					std::uint32_t const PaddedSize = glm::ceilMultiple(FaceSize, static_cast<std::uint32_t>(4));
 
 					TotalSize += PaddedSize;

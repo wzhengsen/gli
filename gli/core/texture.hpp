@@ -136,8 +136,6 @@ namespace gli
 
 		size_t level_size(size_t const & Level) const;
 
-		operator storage() const{return this->Storage;}
-
 	protected:
 		storage Storage;
 		gli::target const Target;
