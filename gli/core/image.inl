@@ -134,7 +134,7 @@ namespace gli
 
 	inline image::data_type * const image::compute_data(size_type BaseLayer, size_type BaseFace, size_type BaseLevel) const
 	{
-		size_type const Offset = this->Storage.addressing(BaseLayer, BaseFace, BaseLevel);
+		size_type const Offset = this->Storage.offset(BaseLayer, BaseFace, BaseLevel);
 
 		return this->Storage.data() + Offset;
 	}

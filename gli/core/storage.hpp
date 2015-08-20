@@ -85,10 +85,12 @@ namespace gli
 		data_type * data();
 		data_type * const data() const;
 
-		size_t addressing(
-			size_t const & BaseLayer,
-			size_t const & BaseFace,
-			size_t const & BaseLevel) const;
+		/// Compute the relative memory offset to access the data for a specific layer, face and level
+		size_t offset(
+			size_t const & Layer,
+			size_t const & Face,
+			size_t const & Level) const;
+
 		size_type level_size(
 			size_type const & Level) const;
 		size_type face_size(

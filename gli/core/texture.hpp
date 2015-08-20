@@ -129,7 +129,8 @@ namespace gli
 
 		gli::target target() const{return this->Target;}
 
-		size_t addressing(
+		/// Compute the relative memory offset to access the data for a specific layer, face and level
+		size_t offset(
 			size_t const & Layer,
 			size_t const & Face,
 			size_t const & Level) const;

@@ -228,7 +228,7 @@ namespace gli
 
 	inline void * const texture::compute_data() const
 	{
-		size_type const offset = this->Storage.addressing(
+		size_type const offset = this->Storage.offset(
 			this->baseLayer(), this->baseFace(), this->baseLevel());
 
 		return this->Storage.data() + offset;
@@ -243,7 +243,7 @@ namespace gli
 			this->baseLevel(), this->maxLevel()) * this->layers();
 	}
 
-	inline size_t texture::addressing
+	inline size_t texture::offset
 	(
 		size_t const & Layer,
 		size_t const & Face,
@@ -254,7 +254,7 @@ namespace gli
 		assert(Face >= BaseFace && Face <= MaxFace);
 		assert(Level >= BaseLevel && Level <= MaxLevel);
 
-		return this->Storage.addressing(Layer, Face, Level);
+		return this->Storage.offset(Layer, Face, Level);
 	}
 
 	inline size_t texture::level_size

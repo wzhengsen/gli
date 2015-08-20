@@ -131,23 +131,23 @@ namespace gli
 		return &this->Impl->Data[0];
 	}
 
-	inline size_t storage::addressing
+	inline size_t storage::offset
 	(
-		size_t const & BaseLayer,
-		size_t const & BaseFace,
-		size_t const & BaseLevel
+		size_t const & Layer,
+		size_t const & Face,
+		size_t const & Level
 	) const
 	{
-		assert(BaseLayer < this->layers());
-		assert(BaseFace < this->faces());
-		assert(BaseLevel < this->levels());
+		assert(Layer < this->layers());
+		assert(Face < this->faces());
+		assert(Level < this->levels());
 
 		size_t const LayerSize = this->layer_size(0, this->faces() - 1, 0, this->levels() - 1);
 		size_t const FaceSize = this->face_size(0, this->levels() - 1);
-		size_t BaseOffset = LayerSize * BaseLayer + FaceSize * BaseFace;
+		size_t BaseOffset = LayerSize * Layer + FaceSize * Face;
 
-		for(size_t Level = 0; Level < BaseLevel; ++Level)
-			BaseOffset += this->level_size(Level);
+		for(size_t LevelIndex = 0, LevelCount = Level; LevelIndex < LevelCount; ++LevelIndex)
+			BaseOffset += this->level_size(LevelIndex);
 
 		return BaseOffset;
 	}
