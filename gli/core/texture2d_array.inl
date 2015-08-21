@@ -75,8 +75,8 @@ namespace gli
 	inline texture2DArray::texture2DArray
 	(
 		texture2DArray const & Texture,
-		size_type const & BaseLayer, size_type const & MaxLayer,
-		size_type const & BaseLevel, size_type const & MaxLevel
+		size_type BaseLayer, size_type MaxLayer,
+		size_type BaseLevel, size_type MaxLevel
 	)
 		: texture(
 			Texture, gli::TARGET_2D_ARRAY,
@@ -86,20 +86,7 @@ namespace gli
 			Texture.base_level() + BaseLevel, Texture.base_level() + MaxLevel)
 	{}
 
-	inline texture2DArray::texture2DArray
-	(
-		texture2D const & Texture,
-		size_type const & BaseLevel, size_type const & MaxLevel
-	)
-		: texture(
-			Texture, gli::TARGET_2D_ARRAY,
-			Texture.format(),
-			Texture.base_layer(), Texture.max_layer(),
-			Texture.base_face(), Texture.max_face(),
-			Texture.base_level() + BaseLevel, Texture.base_level() + MaxLevel)
-	{}
-
-	inline texture2D texture2DArray::operator[](size_type const & Layer) const
+	inline texture2D texture2DArray::operator[](size_type Layer) const
 	{
 		assert(Layer < this->layers());
 

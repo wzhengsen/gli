@@ -28,6 +28,7 @@
 
 #pragma once
 
+#include "texture.hpp"
 #include "image.hpp"
 
 namespace gli
@@ -74,3 +75,5 @@ namespace gli
 		dim_type dimensions() const;
 	};
 }//namespace gli
+
+#include "texture3d.inl"

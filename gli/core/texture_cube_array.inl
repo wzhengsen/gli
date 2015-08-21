@@ -75,42 +75,14 @@ namespace gli
 	inline textureCubeArray::textureCubeArray
 	(
 		textureCubeArray const & Texture,
-		size_type const & BaseLayer, size_type const & MaxLayer,
-		size_type const & BaseFace, size_type const & MaxFace,
-		size_type const & BaseLevel, size_type const & MaxLevel
+		size_type BaseLayer, size_type MaxLayer,
+		size_type BaseFace, size_type MaxFace,
+		size_type BaseLevel, size_type MaxLevel
 	)
 		: texture(
-			Texture, gli::TARGET_CUBE_ARRAY,
-			Texture.format(),
+			Texture, gli::TARGET_CUBE_ARRAY, Texture.format(),
 			Texture.base_layer() + BaseLayer, Texture.base_layer() + MaxLayer,
 			Texture.base_face() + BaseFace, Texture.base_face() + MaxFace,
-			Texture.base_level() + BaseLevel, Texture.base_level() + MaxLevel)
-	{}
-
-	inline textureCubeArray::textureCubeArray
-	(
-		textureCube const & Texture,
-		size_type const & BaseFace, size_type const & MaxFace,
-		size_type const & BaseLevel, size_type const & MaxLevel
-	)
-		: texture(
-			Texture, gli::TARGET_CUBE_ARRAY,
-			Texture.format(),
-			Texture.base_layer(), Texture.max_layer(),
-			Texture.base_face() + BaseFace, Texture.base_face() + MaxFace,
-			Texture.base_level() + BaseLevel, Texture.base_level() + MaxLevel)
-	{}
-
-	inline textureCubeArray::textureCubeArray
-	(
-		texture2D const & Texture,
-		size_type const & BaseLevel, size_type const & MaxLevel
-	)
-		: texture(
-			Texture, gli::TARGET_CUBE_ARRAY,
-			Texture.format(),
-			Texture.base_layer(), Texture.max_layer(),
-			Texture.base_face(), Texture.max_face(),
 			Texture.base_level() + BaseLevel, Texture.base_level() + MaxLevel)
 	{}
 

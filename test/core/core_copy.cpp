@@ -157,7 +157,8 @@ int test_texture2D
 		gli::texture2D TextureB = gli::copy(TextureA);
 		Error += TextureA == TextureB ? 0 : 1;
 
-		gli::texture2D TextureC(TextureA, gli::texture2D::size_type(1), gli::texture2D::size_type(2));
+		gli::texture2D TextureC(gli::view(
+			TextureA, gli::texture2D::size_type(1), gli::texture2D::size_type(2)));
 
 		Error += TextureA[1] == TextureC[0] ? 0 : 1;
 		Error += TextureA[2] == TextureC[1] ? 0 : 1;
@@ -172,7 +173,8 @@ int test_texture2D
 		gli::texture2D TextureE = gli::copy(TextureA, 1, TextureA.levels() - 1);
 		Error += TextureA[1] == TextureE[0] ? 0 : 1;
 
-		gli::texture2D TextureF(TextureA, 1, TextureA.levels() - 1); 
+		gli::texture2D TextureF(gli::view(
+			TextureA, 1, TextureA.levels() - 1));
 
 		Error += TextureE == TextureF ? 0 : 1;
 	}

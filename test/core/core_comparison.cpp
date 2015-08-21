@@ -239,8 +239,9 @@ int test_texture2D()
 	}
 
 	{
-		gli::texture2D TextureD(TextureA, 
-			TextureA.base_level(), TextureA.max_level());
+		gli::texture2D TextureD(gli::view(
+			TextureA,
+			TextureA.base_level(), TextureA.max_level()));
 
 		Error += TextureA == TextureD ? 0 : 1;
 		Error += TextureA != TextureD ? 1 : 0;
@@ -276,8 +277,9 @@ int test_texture2D()
 	{
 		gli::texture2D TextureB(gli::levels(64), gli::FORMAT_RGBA8_UNORM, gli::texture2D::dim_type(64));
 
-		gli::texture2D TextureC(TextureB, 
-			TextureB.base_level() + 1, TextureB.max_level());
+		gli::texture2D TextureC(gli::view(
+			TextureB,
+			TextureB.base_level() + 1, TextureB.max_level()));
 
 		Error += TextureA == TextureC ? 0 : 1;
 		Error += TextureA != TextureC ? 1 : 0;

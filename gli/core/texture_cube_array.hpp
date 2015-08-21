@@ -28,13 +28,10 @@
 
 #pragma once
 
-#include "image.hpp"
+#include "texture_cube.hpp"
 
 namespace gli
 {
-	class textureCube;
-	class texture2D;
-
 	class textureCubeArray : public texture
 	{
 	public:
@@ -77,29 +74,15 @@ namespace gli
 		/// Create a texture view, reference a subset of an exiting textureCubeArray instance
 		explicit textureCubeArray(
 			textureCubeArray const & Texture,
-			size_type const & BaseLayer,
-			size_type const & MaxLayer,
-			size_type const & BaseFace,
-			size_type const & MaxFace,
-			size_type const & BaseLevel,
-			size_type const & MaxLevel);
-
-		/// Create a texture view, reference a subset of an exiting textureCube instance
-		explicit textureCubeArray(
-			textureCube const & Texture,
-			size_type const & BaseFace,
-			size_type const & MaxFace,
-			size_type const & BaseLevel,
-			size_type const & MaxLevel);
-
-		/// Create a texture view, reference a subset of an exiting texture2D instance
-		explicit textureCubeArray(
-			texture2D const & Texture,
-			size_type const & BaseLevel,
-			size_type const & MaxLevel);
+			size_type BaseLayer, size_type MaxLayer,
+			size_type BaseFace, size_type MaxFace,
+			size_type BaseLevel, size_type MaxLevel);
 
 		textureCube operator[] (size_type const & Layer) const;
 
 		dim_type dimensions() const;
 	};
 }//namespace gli
+
+#include "texture_cube_array.inl"
+

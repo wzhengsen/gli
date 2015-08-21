@@ -75,8 +75,8 @@ namespace gli
 	inline texture1DArray::texture1DArray
 	(
 		texture1DArray const & Texture,
-		size_type const & BaseLayer, size_type const & MaxLayer,
-		size_type const & BaseLevel, size_type const & MaxLevel
+		size_type BaseLayer, size_type MaxLayer,
+		size_type BaseLevel, size_type MaxLevel
 	)
 		: texture(
 			Texture, gli::TARGET_1D_ARRAY,
@@ -86,20 +86,7 @@ namespace gli
 			Texture.base_level() + BaseLevel, Texture.base_level() + MaxLevel)
 	{}
 
-	inline texture1DArray::texture1DArray
-	(
-		texture1D const & Texture,
-		size_type const & BaseLevel, size_type const & MaxLevel
-	)
-		: texture(
-			Texture, gli::TARGET_1D_ARRAY,
-			Texture.format(),
-			Texture.base_layer(), Texture.max_layer(),
-			Texture.base_face(), Texture.max_face(),
-			Texture.base_level() + BaseLevel, Texture.base_level() + MaxLevel)
-	{}
-
-	inline texture1D texture1DArray::operator[](size_type const & Layer) const
+	inline texture1D texture1DArray::operator[](size_type Layer) const
 	{
 		assert(!this->empty());
 		assert(Layer < this->layers());

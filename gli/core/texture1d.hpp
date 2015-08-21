@@ -28,12 +28,11 @@
 
 #pragma once
 
+#include "texture.hpp"
 #include "image.hpp"
 
 namespace gli
 {
-	class texture1DArray;
-
 	class texture1D : public texture
 	{
 	public:
@@ -71,14 +70,10 @@ namespace gli
 			texture1D const & Texture,
 			size_type const & BaseLevel, size_type const & MaxLevel);
 
-		/// Create a texture1D view, reference a subset of an existing texture1DArray instance
-		explicit texture1D(
-			texture1DArray const & Texture,
-			size_type const & BaseLayer,
-			size_type const & BaseLevel, size_type const & MaxLevel);
-
 		image operator[] (size_type const & Level) const;
 
 		dim_type dimensions() const;
 	};
 }//namespace gli
+
+#include "texture1d.inl"

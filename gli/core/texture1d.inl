@@ -83,20 +83,6 @@ namespace gli
 			Texture.base_level() + BaseLevel, Texture.base_level() + MaxLevel)
 	{}
 
-	inline texture1D::texture1D
-	(
-		texture1DArray const & Texture,
-		size_type const & BaseLayer,
-		size_type const & BaseLevel, size_type const & MaxLevel
-	)
-		: texture(
-			Texture, gli::TARGET_1D,
-			Texture.format(),
-			Texture.base_layer() + BaseLayer, Texture.base_layer() + BaseLayer,
-			Texture.base_face(), Texture.max_face(),
-			Texture.base_level() + BaseLevel, Texture.base_level() + MaxLevel)
-	{}
-
 	inline image texture1D::operator[](texture1D::size_type const & Level) const
 	{
 		assert(Level < this->levels());

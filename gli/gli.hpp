@@ -61,11 +61,3 @@
 #include "./core/texture_cube.hpp"
 #include "./core/texture_cube_array.hpp"
 
-#include "./core/texture1d.inl"
-#include "./core/texture1d_array.inl"
-#include "./core/texture2d.inl"
-#include "./core/texture2d_array.inl"
-#include "./core/texture3d.inl"
-#include "./core/texture_cube.inl"
-#include "./core/texture_cube_array.inl"
-

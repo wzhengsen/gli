@@ -84,35 +84,6 @@ namespace gli
 			Texture.base_level() + BaseLevel, Texture.base_level() + MaxLevel)
 	{}
 
-	inline textureCube::textureCube
-	(
-		textureCubeArray const & Texture,
-		size_type const & BaseLayer,
-		size_type const & BaseFace, size_type const & MaxFace,
-		size_type const & BaseLevel, size_type const & MaxLevel
-	)
-		: texture(
-			Texture, gli::TARGET_CUBE,
-			Texture.format(),
-			Texture.base_layer() + BaseLayer, Texture.base_layer() + BaseLayer,
-			Texture.base_face() + BaseFace, Texture.base_face() + MaxFace,
-			Texture.base_level() + BaseLevel, Texture.base_level() + MaxLevel)
-	{}
-
-	inline textureCube::textureCube
-	(
-		texture2D const & Texture,
-		size_type const & BaseLevel,
-		size_type const & MaxLevel
-	)
-		: texture(
-			Texture, gli::TARGET_CUBE,
-			Texture.format(),
-			Texture.base_layer(), Texture.max_layer(),
-			Texture.base_face(), Texture.max_face(),
-			Texture.base_level() + BaseLevel, Texture.base_level() + MaxLevel)
-	{}
-
 	inline texture2D textureCube::operator[](size_type const & Face) const
 	{
 		assert(Face < this->faces());

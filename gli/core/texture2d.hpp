@@ -28,15 +28,11 @@
 
 #pragma once
 
+#include "texture.hpp"
 #include "image.hpp"
 
 namespace gli
 {
-	class texture2DArray;
-	class textureCube;
-	class textureCubeArray;
-
-	/// texture2D
 	class texture2D : public texture
 	{
 	public:
@@ -72,28 +68,9 @@ namespace gli
 		/// Create a texture2D view, reference a subset of an existing texture2D instance
 		explicit texture2D(
 			texture2D const & Texture,
-			size_type const & BaseLevel, size_type const & MaxLevel);
+			size_type BaseLevel, size_type MaxLevel);
 
-		/// Create a texture2D view, reference a subset of an existing texture2DArray instance
-		explicit texture2D(
-			texture2DArray const & Texture,
-			size_type const & BaseLayer,
-			size_type const & BaseLevel, size_type const & MaxLevel);
-
-		/// Create a texture view, reference a subset of an existing textureCube instance
-		explicit texture2D(
-			textureCube const & Texture,
-			size_type const & BaseFace,
-			size_type const & BaseLevel, size_type const & MaxLevel);
-
-		/// Create a texture view, reference a subset of an existing textureCubeArray instance
-		explicit texture2D(
-			textureCubeArray const & Texture,
-			size_type const & BaseLayer,
-			size_type const & BaseFace,
-			size_type const & BaseLevel, size_type const & MaxLevel);
-
-		image operator[] (size_type const & Level) const;
+		image operator[] (size_type Level) const;
 
 		dim_type dimensions() const;
 		glm::ivec4 swizzle() const;
@@ -103,4 +80,4 @@ namespace gli
 	};
 }//namespace gli
 
-
+#include "texture2d.inl"

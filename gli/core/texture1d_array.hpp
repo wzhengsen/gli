@@ -32,8 +32,6 @@
 
 namespace gli
 {
-	class texture1D;
-
 	class texture1DArray : public texture
 	{
 	public:
@@ -71,18 +69,13 @@ namespace gli
 		/// Create a texture view, reference a subset of an exiting storage
 		explicit texture1DArray(
 			texture1DArray const & Texture,
-			size_type const & BaseLayer, size_type const & MaxLayer,
-			size_type const & BaseLevel, size_type const & MaxLevel);
+			size_type BaseLayer, size_type MaxLayer,
+			size_type BaseLevel, size_type MaxLevel);
 
-		/// Create a texture view, reference a subset of an exiting texture1D instance
-		explicit texture1DArray(
-			texture1D const & Texture,
-			size_type const & BaseLevel, size_type const & MaxLevel);
-
-		texture1D operator[](size_type const & Layer) const;
+		texture1D operator[](size_type Layer) const;
 
 		dim_type dimensions() const;
 	};
 }//namespace gli
 
-
+#include "texture1d_array.inl"
