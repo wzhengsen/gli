@@ -70,7 +70,8 @@ namespace gli
 			texture2D const & Texture,
 			size_type BaseLevel, size_type MaxLevel);
 
-		image operator[] (size_type Level) const;
+		/// Create a view of the image identified by Level in the mipmap chain of the texture
+		image operator[](size_type Level) const;
 
 		dim_type dimensions() const;
 		glm::ivec4 swizzle() const;

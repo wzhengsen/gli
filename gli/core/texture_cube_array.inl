@@ -86,7 +86,7 @@ namespace gli
 			Texture.base_level() + BaseLevel, Texture.base_level() + MaxLevel)
 	{}
 
-	inline textureCube textureCubeArray::operator[](size_type const & Layer) const
+	inline textureCube textureCubeArray::operator[](size_type Layer) const
 	{
 		assert(Layer < this->layers());
 

@@ -72,6 +72,7 @@ namespace gli
 			size_type BaseLayer, size_type MaxLayer,
 			size_type BaseLevel, size_type MaxLevel);
 
+		/// Create a view of the texture identified by Layer in the texture array
 		texture2D operator[](size_type Layer) const;
 
 		dim_type dimensions() const;

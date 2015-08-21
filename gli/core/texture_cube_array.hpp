@@ -64,12 +64,9 @@ namespace gli
 		explicit textureCubeArray(
 			texture const & Texture,
 			format_type const & Format,
-			size_type BaseLayer,
-			size_type MaxLayer,
-			size_type BaseFace,
-			size_type MaxFace,
-			size_type BaseLevel,
-			size_type MaxLevel);
+			size_type BaseLayer, size_type MaxLayer,
+			size_type BaseFace, size_type MaxFace,
+			size_type BaseLevel, size_type MaxLevel);
 
 		/// Create a texture view, reference a subset of an exiting textureCubeArray instance
 		explicit textureCubeArray(
@@ -78,7 +75,8 @@ namespace gli
 			size_type BaseFace, size_type MaxFace,
 			size_type BaseLevel, size_type MaxLevel);
 
-		textureCube operator[] (size_type const & Layer) const;
+		/// Create a view of the texture identified by Layer in the texture array
+		textureCube operator[](size_type Layer) const;
 
 		dim_type dimensions() const;
 	};

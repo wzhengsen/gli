@@ -62,22 +62,18 @@ namespace gli
 		explicit textureCube(
 			texture const & Texture,
 			format_type const & Format,
-			size_type BaseLayer,
-			size_type MaxLayer,
-			size_type BaseFace,
-			size_type MaxFace,
-			size_type BaseLevel,
-			size_type MaxLevel);
+			size_type BaseLayer, size_type MaxLayer,
+			size_type BaseFace, size_type MaxFace,
+			size_type BaseLevel, size_type MaxLevel);
 
 		/// Create a textureCube view, reference a subset of an existing textureCube instance
 		explicit textureCube(
 			textureCube const & Texture,
-			size_type const & BaseFace,
-			size_type const & MaxFace,
-			size_type const & BaseLevel,
-			size_type const & MaxLevel);
+			size_type BaseFace, size_type MaxFace,
+			size_type BaseLevel, size_type MaxLevel);
 
-		texture2D operator[](size_type const & Face) const;
+		/// Create a view of the texture identified by Face in the texture cube
+		texture2D operator[](size_type Face) const;
 
 		dim_type dimensions() const;
 	};

@@ -68,9 +68,10 @@ namespace gli
 		/// Create a texture3D view, reference a subset of an existing texture3D instance
 		explicit texture3D(
 			texture3D const & Texture,
-			size_type const & BaseLevel, size_type const & MaxLevel);
+			size_type BaseLevel, size_type MaxLevel);
 
-		image operator[](size_type const & Level) const;
+		/// Create a view of the image identified by Level in the mipmap chain of the texture
+		image operator[](size_type Level) const;
 
 		dim_type dimensions() const;
 	};
