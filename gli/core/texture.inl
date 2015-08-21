@@ -253,11 +253,11 @@ namespace gli
 			this->base_level(), this->max_level()) * this->layers();
 	}
 
-	inline size_t texture::offset
+	inline texture::size_type texture::offset
 	(
-		size_t const & Layer,
-		size_t const & Face,
-		size_t const & Level
+		size_type Layer,
+		size_type Face,
+		size_type Level
 	) const
 	{
 		assert(Layer >= BaseLayer && Layer <= MaxLayer);
@@ -267,9 +267,9 @@ namespace gli
 		return this->Storage.offset(Layer, Face, Level);
 	}
 
-	inline size_t texture::level_size
+	inline texture::size_type texture::level_size
 	(
-		size_t const & Level
+		size_type Level
 	) const
 	{
 		assert(Level >= BaseLevel && Level <= MaxLevel);

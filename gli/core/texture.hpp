@@ -99,19 +99,19 @@ namespace gli
 		template <typename genType>
 		void clear(genType const & Texel);
 
-		gli::target target() const{return this->Target;}
+		target_type target() const{return this->Target;}
 
 		/// Compute the relative memory offset to access the data for a specific layer, face and level
-		size_t offset(
-			size_t const & Layer,
-			size_t const & Face,
-			size_t const & Level) const;
+		size_type offset(
+			size_type Layer,
+			size_type Face,
+			size_type Level) const;
 
-		size_t level_size(size_t const & Level) const;
+		size_type level_size(size_type Level) const;
 
 	protected:
 		storage Storage;
-		gli::target const Target;
+		target_type const Target;
 		format_type const Format;
 		size_type const BaseLayer;
 		size_type const MaxLayer;
