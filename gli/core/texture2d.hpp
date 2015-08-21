@@ -89,7 +89,8 @@ namespace gli
 		/// Create a texture view, reference a subset of an existing textureCubeArray instance
 		explicit texture2D(
 			textureCubeArray const & Texture,
-			size_type const & BaseLayer, size_type const & BaseFace,
+			size_type const & BaseLayer,
+			size_type const & BaseFace,
 			size_type const & BaseLevel, size_type const & MaxLevel);
 
 		image operator[] (size_type const & Level) const;

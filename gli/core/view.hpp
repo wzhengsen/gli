@@ -29,6 +29,7 @@
 #pragma once
 
 #include "image.hpp"
+#include "texture.hpp"
 #include "texture1d.hpp"
 #include "texture1d_array.hpp"
 #include "texture2d.hpp"
@@ -44,45 +45,38 @@ namespace gli
 	template <typename texture>
 	texture view(texture const & Texture);
 
-	texture1D view(
-		texture1D const & Texture,
-		texture1D::size_type const & BaseLevel,
-		texture1D::size_type const & MaxLevel);
-
-	texture2D view(
-		texture2D const & Texture,
-		texture2D::size_type const & BaseLevel,
-		texture2D::size_type const & MaxLevel);
-
-	texture3D view(
-		texture3D const & Texture,
-		texture3D::size_type const & BaseLevel,
-		texture3D::size_type const & MaxLevel);
-
-	// texture can be texture1DArray, texture2DArray
-	template <typename texture>
 	texture view(
-		texture const & Texture,
-		typename texture::size_type const & BaseLayer,
-		typename texture::size_type const & MaxLayer,
-		typename texture::size_type const & BaseLevel,
-		typename texture::size_type const & MaxLevel);
+		texture1D const & Texture,
+		texture1D::size_type BaseLevel, texture1D::size_type MaxLevel);
 
-	textureCube view(
+	texture view(
+		texture1DArray const & Texture,
+		texture1DArray::size_type BaseLayer, texture1DArray::size_type MaxLayer,
+		texture1DArray::size_type BaseLevel, texture1DArray::size_type MaxLevel);
+
+	texture view(
+		texture2D const & Texture,
+		texture2D::size_type BaseLevel, texture2D::size_type MaxLevel);
+
+	texture view(
+		texture2DArray const & Texture,
+		texture2DArray::size_type BaseLayer, texture2DArray::size_type MaxLayer,
+		texture2DArray::size_type BaseLevel, texture2DArray::size_type MaxLevel);
+
+	texture view(
+		texture3D const & Texture,
+		texture3D::size_type BaseLevel, texture3D::size_type MaxLevel);
+
+	texture view(
 		textureCube const & Texture,
-		textureCube::size_type const & BaseFace,
-		textureCube::size_type const & MaxFace,
-		textureCube::size_type const & BaseLevel,
-		textureCube::size_type const & MaxLevel);
+		textureCube::size_type BaseFace, textureCube::size_type MaxFace,
+		textureCube::size_type BaseLevel, textureCube::size_type MaxLevel);
 
-	textureCubeArray view(
+	texture view(
 		textureCubeArray const & Texture,
-		textureCubeArray::size_type const & BaseLayer,
-		textureCubeArray::size_type const & MaxLayer,
-		textureCubeArray::size_type const & BaseFace,
-		textureCubeArray::size_type const & MaxFace,
-		textureCubeArray::size_type const & BaseLevel,
-		textureCubeArray::size_type const & MaxLevel);
+		textureCubeArray::size_type BaseLayer, textureCubeArray::size_type MaxLayer,
+		textureCubeArray::size_type BaseFace, textureCubeArray::size_type MaxFace,
+		textureCubeArray::size_type BaseLevel, textureCubeArray::size_type MaxLevel);
 }//namespace gli
 
 #include "view.inl"
