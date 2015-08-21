@@ -68,7 +68,7 @@ int test_image_data()
 
 	memcpy(Storage.data(), &Data[0][0], Data.size() * sizeof(glm::u8vec4));
 
-	gli::image ImageC(Storage, 1, 0, 0);
+	gli::image ImageC(Storage, gli::FORMAT_RGBA8_UNORM, 1, 0, 0);
 	Error += !ImageC.empty() ? 0 : 1;
 	assert(!Error);
 

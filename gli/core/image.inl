@@ -107,33 +107,37 @@ namespace detail
 }//namespace detail
 
 	inline image::image()
-		: Data(nullptr)
-		, Size(0)
+		: Format(static_cast<gli::format>(FORMAT_INVALID))
 		, BaseLevel(0)
+		, Data(nullptr)
+		, Size(0)
 	{}
 
 	inline image::image
 	(
-		format const & Format,
+		format_type const & Format,
 		dim_type const & Dimensions
 	)
 		: Storage(1, 1, 1, Format, dim_type(Dimensions))
+		, Format(Format)
+		, BaseLevel(0)
 		, Data(Storage.data())
 		, Size(compute_size(0))
-		, BaseLevel(0)
 	{}
 
 	inline image::image
 	(
 		storage const & Storage,
+		format_type const & Format,
 		size_type BaseLayer,
 		size_type BaseFace,
 		size_type BaseLevel
 	)
 		: Storage(Storage)
+		, Format(Format)
+		, BaseLevel(BaseLevel)
 		, Data(compute_data(BaseLayer, BaseFace, BaseLevel))
 		, Size(compute_size(BaseLevel))
-		, BaseLevel(BaseLevel)
 	{}
 
 	inline bool image::empty() const
@@ -154,6 +158,11 @@ namespace detail
 		assert(sizeof(genType) <= block_size(this->Storage.format()));
 
 		return this->size() / sizeof(genType);
+	}
+
+	inline image::format_type image::format() const
+	{
+		return this->Format;
 	}
 
 	inline image::dim_type image::dimensions() const

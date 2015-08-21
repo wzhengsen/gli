@@ -38,7 +38,7 @@ int test_texture
 {
 	int Error(0);
 
-	texture TextureA = gli::copy(Texture);
+	texture TextureA(gli::copy(Texture));
 	TextureA.template clear<genType>(ClearColor);
 	*TextureA.template data<genType>() = FirstColor;
 

@@ -40,25 +40,29 @@ namespace gli
 	class image
 	{
 	public:
-		typedef dim3_t dim_type;
 		typedef size_t size_type;
+		typedef gli::format format_type;
+		typedef storage::dim_type dim_type;
 		typedef storage::data_type data_type;
 
 		image();
 
 		/// Allocate a new storage constructor
 		explicit image(
-			format const & Format,
+			format_type const & Format,
 			dim_type const & Dimensions);
 
 		/// Reference an exiting storage constructor
 		explicit image(
 			storage const & Storage,
+			format_type const & Format,
 			size_type BaseLayer,
 			size_type BaseFace,
 			size_type BaseLevel);
 
 		bool empty() const;
+		format_type format() const;
+
 		dim_type dimensions() const;
 
 		size_type size() const;
@@ -85,9 +89,10 @@ namespace gli
 		size_type compute_size(size_type Level) const;
 
 		storage Storage;
+		format_type const Format;
+		size_type const BaseLevel;
 		data_type * const Data;
 		size_type const Size;
-		size_type const BaseLevel;
 	};
 }//namespace gli
 

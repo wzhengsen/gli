@@ -70,6 +70,7 @@ namespace gli
 		typedef size_t size_type;
 		typedef gli::format format_type;
 		typedef storage::dim_type dim_type;
+		typedef storage::data_type data_type;
 
 		texture();
 

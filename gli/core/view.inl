@@ -39,6 +39,12 @@ namespace gli
 		return Texture;
 	}
 
+	template <typename texture>
+	inline texture view(texture const & Texture, format Format)
+	{
+		return Texture;
+	}
+
 	inline texture view
 	(
 		texture1D const & Texture,

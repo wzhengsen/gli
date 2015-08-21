@@ -44,17 +44,17 @@ namespace clear
 		texture TextureB = TextureA;
 		Error += TextureB == TextureA ? 0 : 1;
 
-		texture TextureC = gli::copy(TextureA);
+		texture TextureC(gli::copy(TextureA));
 		Error += TextureC == TextureA ? 0 : 1;
 
-		texture TextureD = gli::copy(TextureB);
+		texture TextureD(gli::copy(TextureB));
 		Error += TextureD == TextureB ? 0 : 1;
 
-		texture TextureE = gli::copy(TextureC, 1, 2);
+		texture TextureE(gli::copy(TextureC, 1, 2));
 		texture TextureF(TextureC, 1, 2);
 		Error += TextureE == TextureF ? 0 : 1;
 
-		texture TextureG = gli::copy(TextureD, 1, 2);
+		texture TextureG(gli::copy(TextureD, 1, 2));
 		texture TextureH(TextureD, 1, 2);
 		Error += TextureG == TextureH ? 0 : 1;
 

@@ -41,50 +41,44 @@ namespace gli
 {
 	image copy(image const & Image);
 
-	template <typename texture>
-	texture copy(texture const & Texture);
+	template <typename texType>
+	texture copy(texType const & Texture);
 
-	texture2D copy(texture2D const & Texture, texture2D::format_type Format);
+	template <typename texType>
+	texture copy(texType const & Texture, format Format);
 
-	texture1D copy(
-		texture1D const & Texture,
-		texture1D::size_type const & BaseLevel,
-		texture1D::size_type const & MaxLevel);
-
-	texture2D copy(
-		texture2D const & Texture,
-		texture2D::size_type const & BaseLevel,
-		texture2D::size_type const & MaxLevel);
-
-	texture3D copy(
-		texture3D const & Texture,
-		texture3D::size_type const & BaseLevel,
-		texture3D::size_type const & MaxLevel);
-
-	// texture can be texture1DArray, texture2DArray
-	template <typename texture>
 	texture copy(
-		texture const & Texture,
-		typename texture::size_type const & BaseLayer,
-		typename texture::size_type const & MaxLayer,
-		typename texture::size_type const & BaseLevel,
-		typename texture::size_type const & MaxLevel);
+		texture1D const & Texture,
+		texture1D::size_type BaseLevel, texture1D::size_type MaxLevel);
 
-	textureCube copy(
+	texture copy(
+		texture1DArray const & Texture,
+		texture1DArray::size_type BaseLayer, texture1DArray::size_type MaxLayer,
+		texture1DArray::size_type BaseLevel, texture1DArray::size_type MaxLevel);
+
+	texture copy(
+		texture2D const & Texture,
+		texture2D::size_type BaseLevel, texture2D::size_type MaxLevel);
+
+	texture copy(
+		texture2DArray const & Texture,
+		texture2DArray::size_type BaseLayer, texture2DArray::size_type MaxLayer,
+		texture2DArray::size_type BaseLevel, texture2DArray::size_type MaxLevel);
+
+	texture copy(
+		texture3D const & Texture,
+		texture3D::size_type BaseLevel, texture3D::size_type MaxLevel);
+
+	texture copy(
 		textureCube const & Texture,
-		textureCube::size_type const & BaseFace,
-		textureCube::size_type const & MaxFace,
-		textureCube::size_type const & BaseLevel,
-		textureCube::size_type const & MaxLevel);
+		textureCube::size_type BaseFace, textureCube::size_type MaxFace,
+		textureCube::size_type BaseLevel, textureCube::size_type MaxLevel);
 
-	textureCubeArray copy(
+	texture copy(
 		textureCubeArray const & Texture,
-		textureCubeArray::size_type const & BaseLayer,
-		textureCubeArray::size_type const & MaxLayer,
-		textureCubeArray::size_type const & BaseFace,
-		textureCubeArray::size_type const & MaxFace,
-		textureCubeArray::size_type const & BaseLevel,
-		textureCubeArray::size_type const & MaxLevel);
+		textureCubeArray::size_type BaseLayer, textureCubeArray::size_type MaxLayer,
+		textureCubeArray::size_type BaseFace, textureCubeArray::size_type MaxFace,
+		textureCubeArray::size_type BaseLevel, textureCubeArray::size_type MaxLevel);
 }//namespace gli
 
 #include "copy.inl"

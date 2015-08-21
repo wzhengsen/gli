@@ -45,6 +45,9 @@ namespace gli
 	template <typename texture>
 	texture view(texture const & Texture);
 
+	template <typename texture>
+	texture view(texture const & Texture, format Format);
+
 	texture view(
 		texture1D const & Texture,
 		texture1D::size_type BaseLevel, texture1D::size_type MaxLevel);

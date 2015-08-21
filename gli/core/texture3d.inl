@@ -80,6 +80,7 @@ namespace gli
 
 		return image(
 			this->Storage,
+			this->format(),
 			this->base_layer(),
 			this->base_face(),
 			this->base_level() + Level);
