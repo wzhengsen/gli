@@ -32,33 +32,7 @@
 #include "size.hpp"
 
 namespace gli{
-namespace detail
-{
-	size_t texelLinearAdressing(
-		dim1_t const & Dimensions,
-		dim1_t const & TexelCoord);
 
-	size_t texelLinearAdressing(
-		dim2_t const & Dimensions,
-		dim2_t const & TexelCoord);
-
-	size_t texelLinearAdressing(
-		dim3_t const & Dimensions,
-		dim3_t const & TexelCoord);
-
-	size_t texelMortonAdressing(
-		dim1_t const & Dimensions,
-		dim1_t const & TexelCoord);
-
-	size_t texelMortonAdressing(
-		dim2_t const & Dimensions,
-		dim2_t const & TexelCoord);
-
-	size_t texelMortonAdressing(
-		dim3_t const & Dimensions,
-		dim3_t const & TexelCoord);
-
-}//namespace detail
 /*
 	template <typename texture>
 	class sampler
