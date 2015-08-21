@@ -29,41 +29,10 @@
 #pragma once
 
 #include "image.hpp"
+#include "target.hpp"
 
 namespace gli
 {
-	enum target
-	{
-		TARGET_NONE,
-		TARGET_1D,
-		TARGET_1D_ARRAY,
-		TARGET_2D,
-		TARGET_2D_ARRAY,
-		TARGET_3D,
-		TARGET_CUBE,
-		TARGET_CUBE_ARRAY, TARGET_MAX = TARGET_CUBE_ARRAY
-	};
-
-	enum
-	{
-		TARGET_COUNT = TARGET_MAX + 1
-	};
-
-	inline bool isTarget1D(target Target)
-	{
-		return Target == TARGET_1D || Target == TARGET_1D_ARRAY;
-	}
-
-	inline bool isTargetArray(target Target)
-	{
-		return Target == TARGET_1D_ARRAY || Target == TARGET_2D_ARRAY || Target == TARGET_CUBE_ARRAY;
-	}
-
-	inline bool isTargetCube(target Target)
-	{
-		return Target == TARGET_CUBE || Target == TARGET_CUBE_ARRAY;
-	}
-
 	class texture
 	{
 	public:
