@@ -51,7 +51,7 @@ namespace gli
 	{}
 
 	inline texture1D::texture1D(texture const & Texture)
-		: texture(Texture, gli::TARGET_1D)
+		: texture(Texture, gli::TARGET_1D, Texture.format())
 	{}
 
 	inline texture1D::texture1D

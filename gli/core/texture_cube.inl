@@ -51,7 +51,7 @@ namespace gli
 	{}
 
 	inline textureCube::textureCube(texture const & Texture)
-		: texture(Texture, gli::TARGET_CUBE)
+		: texture(Texture, gli::TARGET_CUBE, Texture.format())
 	{}
 
 	inline textureCube::textureCube

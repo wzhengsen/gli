@@ -42,12 +42,12 @@ namespace gli
 
 	inline texture::texture
 	(
-		gli::target Target,
-		size_type const & Layers,
-		size_type const & Faces,
-		size_type const & Levels,
-		format_type const & Format,
-		storage::dim_type const & Dimensions
+		target_type Target,
+		size_type Layers,
+		size_type Faces,
+		size_type Levels,
+		format_type Format,
+		dim_type const & Dimensions
 	)
 		: Storage(Layers, Faces, Levels, Format, Dimensions)
 		, Target(Target)
@@ -62,11 +62,12 @@ namespace gli
 	inline texture::texture
 	(
 		texture const & Texture,
-		gli::target Target
+		target_type Target,
+		format_type Format
 	)
 		: Storage(Texture.Storage)
 		, Target(Target)
-		, Format(Texture.format())
+		, Format(Format)
 		, BaseLayer(Texture.base_layer()), MaxLayer(Texture.max_layer())
 		, BaseFace(Texture.base_face()), MaxFace(Texture.max_face())
 		, BaseLevel(Texture.base_level()), MaxLevel(Texture.max_level())
@@ -85,8 +86,8 @@ namespace gli
 	inline texture::texture
 	(
 		texture const & Texture,
-		gli::target Target,
-		format_type const & Format,
+		target_type Target,
+		format_type Format,
 		size_type BaseLayer, size_type MaxLayer,
 		size_type BaseFace, size_type MaxFace,
 		size_type BaseLevel, size_type MaxLevel
@@ -100,6 +101,7 @@ namespace gli
 		, Data(this->compute_data())
 		, Size(this->compute_size())
 	{
+		assert(block_size(Format) == block_size(Texture.format()));
 		assert(Target != TARGET_1D || (Target == TARGET_1D && this->layers() == 1 && this->faces() == 1 && this->dimensions().y == 1 && this->dimensions().z == 1));
 		assert(Target != TARGET_1D_ARRAY || (Target == TARGET_1D_ARRAY && this->layers() >= 1 && this->faces() == 1 && this->dimensions().y == 1 && this->dimensions().z == 1));
 		assert(Target != TARGET_2D || (Target == TARGET_2D && this->layers() == 1 && this->faces() == 1 && this->dimensions().y >= 1 && this->dimensions().z == 1));

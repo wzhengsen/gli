@@ -42,7 +42,7 @@ namespace gli
 	{}
 
 	inline texture3D::texture3D(texture const & Texture)
-		: texture(Texture, gli::TARGET_3D)
+		: texture(Texture, gli::TARGET_3D, Texture.format())
 	{}
 
 	inline texture3D::texture3D

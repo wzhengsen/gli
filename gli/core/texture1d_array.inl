@@ -53,7 +53,7 @@ namespace gli
 	{}
 
 	inline texture1DArray::texture1DArray(texture const & Texture)
-		: texture(Texture, gli::TARGET_1D_ARRAY)
+		: texture(Texture, gli::TARGET_1D_ARRAY, Texture.format())
 	{}
 
 	inline texture1DArray::texture1DArray

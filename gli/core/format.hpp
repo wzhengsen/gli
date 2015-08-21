@@ -215,21 +215,21 @@ namespace gli
 		FORMAT_COMPRESSED_COUNT = FORMAT_COMPRESSED_LAST - FORMAT_COMPRESSED_FIRST + 1
 	};
 
-	inline bool is_compressed(format const & Format)
+	inline bool is_compressed(format Format)
 	{
 		return Format >= FORMAT_COMPRESSED_FIRST && Format <= FORMAT_COMPRESSED_LAST;
 	}
 
-	inline bool is_valid(format const & Format)
+	inline bool is_valid(format Format)
 	{
 		return Format >= FORMAT_FIRST && Format <= FORMAT_LAST;
 	}
 
-	std::uint32_t block_size(format const & Format);
-	std::uint32_t block_dimensions_x(format const & Format);
-	std::uint32_t block_dimensions_y(format const & Format);
-	std::uint32_t block_dimensions_z(format const & Format);
-	std::uint32_t component_count(format const & Format);
+	std::uint32_t block_size(format Format);
+	std::uint32_t block_dimensions_x(format Format);
+	std::uint32_t block_dimensions_y(format Format);
+	std::uint32_t block_dimensions_z(format Format);
+	std::uint32_t component_count(format Format);
 }//namespace gli
 
 #include "format.inl"

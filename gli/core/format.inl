@@ -241,7 +241,7 @@ namespace detail
 		return Table[Format];
 	};
 
-	inline std::uint32_t bits_per_pixel(format const & Format)
+	inline std::uint32_t bits_per_pixel(format Format)
 	{
 		detail::format_info const & Info = detail::getFormatInfo(Format);
 
@@ -249,27 +249,27 @@ namespace detail
 	}
 }//namespace detail
 
-	inline std::uint32_t block_size(format const & Format)
+	inline std::uint32_t block_size(format Format)
 	{
 		return detail::getFormatInfo(Format).BlockSize;
 	}
 
-	inline std::uint32_t block_dimensions_x(format const & Format)
+	inline std::uint32_t block_dimensions_x(format Format)
 	{
 		return detail::getFormatInfo(Format).BlockDimensionsX;
 	}
 
-	inline std::uint32_t block_dimensions_y(format const & Format)
+	inline std::uint32_t block_dimensions_y(format Format)
 	{
 		return detail::getFormatInfo(Format).BlockDimensionsY;
 	}
 
-	inline std::uint32_t block_dimensions_z(format const &)
+	inline std::uint32_t block_dimensions_z(format Format)
 	{
 		return 1;
 	}
 
-	inline std::uint32_t component_count(format const & Format)
+	inline std::uint32_t component_count(format Format)
 	{
 		return detail::getFormatInfo(Format).Component;
 	}

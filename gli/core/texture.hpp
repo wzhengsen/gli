@@ -38,30 +38,32 @@ namespace gli
 	public:
 		typedef size_t size_type;
 		typedef gli::format format_type;
+		typedef gli::target target_type;
 		typedef storage::dim_type dim_type;
 		typedef storage::data_type data_type;
 
 		texture();
 
 		texture(
-			gli::target Target,
-			size_type const & Layers,
-			size_type const & Faces,
-			size_type const & Levels,
-			format_type const & Format,
-			storage::dim_type const & Dimensions);
+			target_type Target,
+			size_type Layers,
+			size_type Faces,
+			size_type Levels,
+			format_type Format,
+			dim_type const & Dimensions);
 
 		texture(
 			texture const & Texture,
-			gli::target Target,
-			format_type const & Format,
+			target_type Target,
+			format_type Format,
 			size_type BaseLayer, size_type MaxLayer,
 			size_type BaseFace, size_type MaxFace,
 			size_type BaseLevel, size_type MaxLevel);
 
 		texture(
 			texture const & Texture,
-			gli::target Target);
+			target_type Target,
+			format_type Format);
 
 		virtual ~texture(){}
 

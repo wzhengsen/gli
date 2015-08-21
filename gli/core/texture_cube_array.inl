@@ -53,7 +53,7 @@ namespace gli
 	{}
 
 	inline textureCubeArray::textureCubeArray(texture const & Texture)
-		: texture(Texture, gli::TARGET_CUBE_ARRAY)
+		: texture(Texture, gli::TARGET_CUBE_ARRAY, Texture.format())
 	{}
 
 	inline textureCubeArray::textureCubeArray
