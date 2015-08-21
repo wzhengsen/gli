@@ -42,11 +42,11 @@ namespace gli
 {
 	image view(image const & Image);
 
-	template <typename texture>
-	texture view(texture const & Texture);
+	template <typename texType>
+	texture view(texType const & Texture);
 
-	template <typename texture>
-	texture view(texture const & Texture, format Format);
+	template <typename texType>
+	texture view(texType const & Texture, format Format);
 
 	texture view(
 		texture1D const & Texture,
