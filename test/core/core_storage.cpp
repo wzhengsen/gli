@@ -34,8 +34,8 @@ int test_storage_layer_size()
 
 	gli::storage Storage(
 		2, 1, 1,
-		gli::FORMAT_RGBA8_UNORM,
-		gli::storage::dim_type(2, 2, 1));
+		gli::storage::dim_type(2, 2, 1) / block_dimensions(gli::FORMAT_RGBA8_UNORM),
+		gli::block_size(gli::FORMAT_RGBA8_UNORM));
 
 	std::vector<glm::u8vec4> Data(8, glm::u8vec4(0));
 	for(std::size_t i = 0; i < 4; ++i)
@@ -45,7 +45,7 @@ int test_storage_layer_size()
 
 	memcpy(Storage.data(), &Data[0][0], Data.size() * sizeof(glm::u8vec4));
 
-	Error += block_size(Storage.format()) == sizeof(glm::u8vec4) ? 0 : 1;
+	Error += Storage.block_size() == sizeof(glm::u8vec4) ? 0 : 1;
 	Error += Storage.level_size(0) == sizeof(glm::u8vec4) * 2 * 2 ? 0 : 1;
 	Error += Storage.face_size(0, Storage.levels() - 1) == sizeof(glm::u8vec4) * 2 * 2 ? 0 : 1;
 	Error += Storage.layer_size(0, Storage.faces() - 1, 0, Storage.levels() - 1) == sizeof(glm::u8vec4) * 2 * 2 ? 0 : 1;
@@ -58,9 +58,12 @@ int test_storage_face_size()
 {
 	int Error(0);
 
-	gli::storage Storage(1, 6, 1, gli::FORMAT_RGBA8_UNORM, gli::storage::dim_type(2, 2, 1));
+	gli::storage Storage(
+		1, 6, 1,
+		gli::storage::dim_type(2, 2, 1) / block_dimensions(gli::FORMAT_RGBA8_UNORM),
+		gli::block_size(gli::FORMAT_RGBA8_UNORM));
 
-	gli::storage::size_type BlockSize = gli::block_size(Storage.format());
+	gli::storage::size_type BlockSize = Storage.block_size();
 	Error += BlockSize == sizeof(glm::u8vec4) ? 0 : 1;
 
 	gli::storage::size_type LevelSize = Storage.level_size(0);

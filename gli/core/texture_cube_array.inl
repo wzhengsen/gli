@@ -99,6 +99,11 @@ namespace gli
 
 	inline textureCubeArray::dim_type textureCubeArray::dimensions() const
 	{
-		return textureCubeArray::dim_type(this->Storage.dimensions(this->base_level()));
+		assert(!this->empty());
+
+		return textureCubeArray::dim_type(
+			this->Storage.block_count(this->base_level()) * block_dimensions(this->format()));
+
+		//return textureCubeArray::dim_type(this->Storage.dimensions(this->base_level()));
 	}
 }//namespace gli

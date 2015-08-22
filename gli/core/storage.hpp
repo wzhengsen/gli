@@ -22,7 +22,7 @@
 ///
 /// @ref core
 /// @file gli/core/storage.hpp
-/// @date 2012-06-21 / 2013-01-12
+/// @date 2012-06-21 / 2015-08-22
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
@@ -39,6 +39,7 @@
 
 #include "header.hpp"
 #include "type.hpp"
+#include "format.hpp"
 
 // GLM
 #include <glm/gtc/round.hpp>
@@ -66,41 +67,38 @@ namespace gli
 		storage();
 
 		storage(
-			size_type const & Layers,
-			size_type const & Faces,
-			size_type const & Levels,
-			format_type const & Format,
-			dim_type const & Dimensions);
+			size_type Layers,
+			size_type Faces,
+			size_type Levels,
+			dim_type const & BlockCount,
+			size_type BlockSize);
 
 		bool empty() const;
 		size_type size() const; // Express is bytes
-		format_type format() const;
 		size_type layers() const;
 		size_type levels() const;
 		size_type faces() const;
 		swizzle_type swizzle() const;
 
-		dim_type dimensions(size_type const & Level) const;
+		size_type block_size() const;
+		dim_type block_count(size_type Level) const;
 
 		data_type * data();
 		data_type * const data() const;
 
 		/// Compute the relative memory offset to access the data for a specific layer, face and level
-		size_t offset(
-			size_t const & Layer,
-			size_t const & Face,
-			size_t const & Level) const;
+		size_type offset(
+			size_type Layer,
+			size_type Face,
+			size_type Level) const;
 
 		size_type level_size(
-			size_type const & Level) const;
+			size_type Level) const;
 		size_type face_size(
-			size_type const & BaseLevel,
-			size_type const & MaxLevel) const;
+			size_type BaseLevel, size_type MaxLevel) const;
 		size_type layer_size(
-			size_type const & BaseFace,
-			size_type const & MaxFace,
-			size_type const & BaseLevel,
-			size_type const & MaxLevel) const;
+			size_type BaseFace, size_type MaxFace,
+			size_type BaseLevel, size_type MaxLevel) const;
 
 	private:
 		struct impl
@@ -108,17 +106,17 @@ namespace gli
 			impl();
 
 			explicit impl(
-				size_type const & Layers,
-				size_type const & Faces,
-				size_type const & Levels,
-				format_type const & Format,
-				dim_type const & Dimensions);
+				size_type Layers,
+				size_type Faces,
+				size_type Levels,
+				size_type BlockSize,
+				dim_type const & BlockCount);
 
 			size_type const Layers;
 			size_type const Faces;
 			size_type const Levels;
-			format_type const Format;
-			dim_type const Dimensions;
+			size_type const BlockSize;
+			dim_type const BlockCount;
 			std::vector<data_type> Data;
 		};
 

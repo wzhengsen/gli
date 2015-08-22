@@ -22,7 +22,7 @@
 ///
 /// @ref core
 /// @file gli/core/storage.inl
-/// @date 2012-06-21 / 2013-01-12
+/// @date 2012-06-21 / 2015-08-22
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
@@ -32,22 +32,22 @@ namespace gli
 		Layers(0),
 		Faces(0),
 		Levels(0),
-		Format(static_cast<gli::format>(FORMAT_INVALID)),
-		Dimensions(0)
+		BlockSize(0),
+		BlockCount(0)
 	{}
 
 	inline storage::impl::impl(
-		size_type const & Layers, 
-		size_type const & Faces,
-		size_type const & Levels,
-		format_type const & Format,
-		dim_type const & Dimensions
+		size_type Layers,
+		size_type Faces,
+		size_type Levels,
+		size_type BlockSize,
+		dim_type const & BlockCount
 	)
 	:	Layers(Layers),
 		Faces(Faces),
 		Levels(Levels),
-		Format(Format),
-		Dimensions(Dimensions)
+		BlockSize(BlockSize),
+		BlockCount(BlockCount)
 	{}
 
 	inline storage::storage()
@@ -55,23 +55,24 @@ namespace gli
 
 	inline storage::storage
 	(
-		size_type const & Layers,
-		size_type const & Faces,
-		size_type const & Levels,
-		format_type const & Format,
-		dim_type const & Dimensions
+		size_type Layers,
+		size_type Faces,
+		size_type Levels,
+		dim_type const & BlockCount,
+		size_type BlockSize
 	) :
 		Impl(new impl(
 			Layers,
 			Faces,
 			Levels,
-			Format,
-			Dimensions))
+			BlockSize,
+			BlockCount))
 	{
 		assert(Layers > 0);
 		assert(Faces > 0);
 		assert(Levels > 0);
-		assert(glm::all(glm::greaterThan(Dimensions, dim_type(0))));
+		assert(BlockSize > 0);
+		assert(glm::all(glm::greaterThan(BlockCount, dim_type(0))));
 
 		Impl->Data.resize(this->layer_size(0, Faces - 1, 0, Levels - 1) * Layers, 0);
 	}
@@ -81,11 +82,6 @@ namespace gli
 		if(this->Impl.get() == 0)
 			return true;
 		return this->Impl->Data.empty();
-	}
-
-	inline storage::format_type storage::format() const
-	{
-		return this->Impl->Format;
 	}
 
 	inline storage::size_type storage::layers() const
@@ -103,11 +99,16 @@ namespace gli
 		return this->Impl->Levels;
 	}
 
-	inline storage::dim_type storage::dimensions(size_type const & Level) const
+	inline storage::size_type storage::block_size() const
+	{
+		return this->Impl->BlockSize;
+	}
+
+	inline storage::dim_type storage::block_count(size_type Level) const
 	{
 		assert(Level < this->Impl->Levels);
 
-		return glm::max(this->Impl->Dimensions >> storage::dim_type(static_cast<glm::uint>(Level)), storage::dim_type(static_cast<glm::uint>(1)));
+		return glm::max(this->Impl->BlockCount >> storage::dim_type(static_cast<glm::uint>(Level)), storage::dim_type(static_cast<glm::uint>(1)));
 	}
 
 	inline storage::size_type storage::size() const
@@ -131,11 +132,11 @@ namespace gli
 		return &this->Impl->Data[0];
 	}
 
-	inline size_t storage::offset
+	inline storage::size_type storage::offset
 	(
-		size_t const & Layer,
-		size_t const & Face,
-		size_t const & Level
+		size_type Layer,
+		size_type Face,
+		size_type Level
 	) const
 	{
 		assert(Layer < this->layers());
@@ -152,21 +153,21 @@ namespace gli
 		return BaseOffset;
 	}
 
-	inline storage::size_type storage::level_size(size_type const & Level) const
+	inline storage::size_type storage::level_size(size_type Level) const
 	{
 		assert(Level < this->levels());
-
+/*
 		dim_type const BlockDimensions(gli::block_dimensions_x(this->format()), gli::block_dimensions_y(this->format()), gli::block_dimensions_z(this->format()));
 		dim_type const Dimensions = this->dimensions(Level);
 		dim_type const Multiple = glm::ceilMultiple(Dimensions, BlockDimensions);
 		std::size_t const BlockSize = gli::block_size(this->format());
-
-		return BlockSize * glm::compMul(Multiple / BlockDimensions);
+*/
+		return this->Impl->BlockSize * glm::compMul(this->block_count(Level));//glm::compMul(Multiple / BlockDimensions);
 	}
 
 	inline storage::size_type storage::face_size(
-		size_type const & BaseLevel,
-		size_type const & MaxLevel) const
+		size_type BaseLevel,
+		size_type MaxLevel) const
 	{
 		assert(MaxLevel < this->levels());
 		
@@ -180,10 +181,8 @@ namespace gli
 	}
 
 	inline storage::size_type storage::layer_size(
-		size_type const & BaseFace,
-		size_type const & MaxFace,
-		size_type const & BaseLevel,
-		size_type const & MaxLevel) const
+		size_type BaseFace, size_type MaxFace,
+		size_type BaseLevel, size_type MaxLevel) const
 	{
 		assert(MaxFace < this->faces());
 		assert(MaxLevel < this->levels());

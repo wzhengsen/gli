@@ -226,6 +226,7 @@ namespace gli
 	}
 
 	std::uint32_t block_size(format Format);
+	gli::dim3_t block_dimensions(format Format);
 	std::uint32_t block_dimensions_x(format Format);
 	std::uint32_t block_dimensions_y(format Format);
 	std::uint32_t block_dimensions_z(format Format);

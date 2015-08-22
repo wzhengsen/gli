@@ -439,22 +439,30 @@ namespace dim
 	{
 		int Error(0);
 
-		std::vector<gli::format> Formats;
-		Formats.push_back(gli::FORMAT_RGBA8_UNORM);
-		Formats.push_back(gli::FORMAT_RGB8_UNORM);
-		Formats.push_back(gli::FORMAT_R8_SNORM);
-		Formats.push_back(gli::FORMAT_RGB_DXT1_UNORM);
-		Formats.push_back(gli::FORMAT_RGB_BP_UNORM);
-		Formats.push_back(gli::FORMAT_RGBA32_SFLOAT);
+		std::vector<gli::format> FormatsA;
+		FormatsA.push_back(gli::FORMAT_RGBA8_UNORM);
+		FormatsA.push_back(gli::FORMAT_RGB8_UNORM);
+		FormatsA.push_back(gli::FORMAT_R8_SNORM);
+		FormatsA.push_back(gli::FORMAT_RGBA32_SFLOAT);
+		FormatsA.push_back(gli::FORMAT_RGB_DXT1_UNORM);
+		FormatsA.push_back(gli::FORMAT_RGB_BP_UNORM);
+
+		// 1D textures don't support compressed formats
+		std::vector<gli::format> FormatsB;
+		FormatsA.push_back(gli::FORMAT_RGBA8_UNORM);
+		FormatsA.push_back(gli::FORMAT_RGB8_UNORM);
+		FormatsA.push_back(gli::FORMAT_R8_SNORM);
+		FormatsA.push_back(gli::FORMAT_RGBA32_SFLOAT);
+
 		std::size_t const TextureSize(32);
 
-		Error += test_view1D(Formats, gli::texture1D::dim_type(TextureSize));
-		Error += test_view1DArray(Formats, gli::texture1DArray::dim_type(TextureSize));
-		Error += test_view2D(Formats, gli::texture2D::dim_type(TextureSize));
-		Error += test_view2DArray(Formats, gli::texture2DArray::dim_type(TextureSize));
-		Error += test_view3D(Formats, gli::texture3D::dim_type(TextureSize));
-		Error += test_viewCube(Formats, gli::textureCube::dim_type(TextureSize));
-		Error += test_viewCubeArray(Formats, gli::textureCube::dim_type(TextureSize));
+		Error += test_view1D(FormatsB, gli::texture1D::dim_type(TextureSize));
+		Error += test_view1DArray(FormatsB, gli::texture1DArray::dim_type(TextureSize));
+		Error += test_view2D(FormatsA, gli::texture2D::dim_type(TextureSize));
+		Error += test_view2DArray(FormatsA, gli::texture2DArray::dim_type(TextureSize));
+		Error += test_view3D(FormatsA, gli::texture3D::dim_type(TextureSize));
+		Error += test_viewCube(FormatsA, gli::textureCube::dim_type(TextureSize));
+		Error += test_viewCubeArray(FormatsA, gli::textureCube::dim_type(TextureSize));
 
 		return Error;
 	}
@@ -466,9 +474,22 @@ namespace format
 	{
 		int Error = 0;
 
-		gli::texture2D TextureA(gli::FORMAT_RGBA8_UNORM, gli::texture2D::dim_type(1));
-		gli::texture2D TextureB(gli::view(TextureA, gli::FORMAT_R32_UINT));
-		gli::texture2D TextureC(gli::view(TextureA));
+		{
+			gli::texture2D TextureA(gli::FORMAT_RGBA8_UNORM, gli::texture2D::dim_type(1));
+			gli::texture2D TextureB(gli::view(TextureA, gli::FORMAT_R32_UINT));
+			gli::texture2D TextureC(gli::view(TextureA));
+
+			Error += TextureA.dimensions() == TextureB.dimensions() ? 0 : 1;
+		}
+
+		{
+			gli::texture2D TextureA(gli::FORMAT_RGB_DXT1_UNORM, gli::texture2D::dim_type(4));
+			gli::texture2D TextureB(gli::view(TextureA, gli::FORMAT_R32_UINT));
+
+			Error += TextureA.dimensions() == gli::texture2D::dim_type(4) ? 0 : 1;
+			Error += TextureB.dimensions() == gli::texture2D::dim_type(1) ? 0 : 1;
+			Error += TextureA.dimensions() != TextureB.dimensions() ? 0 : 1;
+		}
 
 		return Error;
 	}

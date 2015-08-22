@@ -99,6 +99,9 @@ namespace gli
 	{
 		assert(!this->empty());
 
-		return textureCube::dim_type(this->Storage.dimensions(this->base_level()));
+		return textureCube::dim_type(
+			this->Storage.block_count(this->base_level()) * block_dimensions(this->format()));
+
+		//return textureCube::dim_type(this->Storage.dimensions(this->base_level()));
 	}
 }//namespace gli

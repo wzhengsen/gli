@@ -37,9 +37,6 @@
 #include <glm/gtc/vec1.hpp>
 #include <glm/gtx/std_based_type.hpp>
 
-// GLI
-#include "format.hpp"
-
 namespace gli
 {
 	using std::size_t;

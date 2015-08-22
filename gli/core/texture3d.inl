@@ -88,6 +88,11 @@ namespace gli
 
 	inline texture3D::dim_type texture3D::dimensions() const
 	{
-		return texture3D::dim_type(this->Storage.dimensions(this->base_level()));
+		assert(!this->empty());
+
+		return texture3D::dim_type(
+			this->Storage.block_count(this->base_level()) * block_dimensions(this->format()));
+
+		//return texture3D::dim_type(this->Storage.dimensions(this->base_level()));
 	}
 }//namespace gli

@@ -118,7 +118,7 @@ namespace detail
 		format_type const & Format,
 		dim_type const & Dimensions
 	)
-		: Storage(1, 1, 1, Format, dim_type(Dimensions))
+		: Storage(1, 1, 1, glm::max(Dimensions / block_dimensions(Format), dim3_t(1)), block_size(Format))
 		, Format(Format)
 		, BaseLevel(0)
 		, Data(Storage.data())
@@ -155,7 +155,7 @@ namespace detail
 	template <typename genType>
 	inline image::size_type image::size() const
 	{
-		assert(sizeof(genType) <= block_size(this->Storage.format()));
+		assert(sizeof(genType) <= this->Storage.block_size());
 
 		return this->size() / sizeof(genType);
 	}
@@ -167,7 +167,7 @@ namespace detail
 
 	inline image::dim_type image::dimensions() const
 	{
-		return image::dim_type(this->Storage.dimensions(this->BaseLevel));
+		return this->Storage.block_count(this->BaseLevel) * block_dimensions(this->format());
 	}
 
 	inline void * image::data()
@@ -188,7 +188,7 @@ namespace detail
 	inline genType * image::data()
 	{
 		assert(!this->empty());
-		assert(block_size(this->Storage.format()) >= sizeof(genType));
+		assert(this->Storage.block_size() >= sizeof(genType));
 
 		return reinterpret_cast<genType *>(this->data());
 	}
@@ -197,7 +197,7 @@ namespace detail
 	inline genType const * image::data() const
 	{
 		assert(!this->empty());
-		assert(block_size(this->Storage.format()) >= sizeof(genType));
+		assert(this->Storage.block_size() >= sizeof(genType));
 
 		return reinterpret_cast<genType const *>(this->data());
 	}
@@ -213,7 +213,7 @@ namespace detail
 	inline void image::clear(genType const & Texel)
 	{
 		assert(!this->empty());
-		assert(block_size(this->Storage.format()) == sizeof(genType));
+		assert(this->Storage.block_size() == sizeof(genType));
 
 		for(size_type TexelIndex = 0; TexelIndex < this->size<genType>(); ++TexelIndex)
 			*(this->data<genType>() + TexelIndex) = Texel;
@@ -237,7 +237,7 @@ namespace detail
 	genType image::load(dim_type const & TexelCoord)
 	{
 		assert(!this->empty());
-		assert(block_size(this->Storage.format()) == sizeof(genType));
+		assert(this->Storage.block_size() == sizeof(genType));
 
 		return *(this->data<genType>() + detail::texelLinearAdressing(this->dimensions(), TexelCoord));
 	}
@@ -246,7 +246,7 @@ namespace detail
 	void image::store(dim_type const & TexelCoord, genType const & Data)
 	{
 		assert(!this->empty());
-		assert(block_size(this->Storage.format()) == sizeof(genType));
+		assert(this->Storage.block_size() == sizeof(genType));
 
 		*(this->data<genType>() + detail::texelLinearAdressing(this->dimensions(), TexelCoord)) = Data;
 	}

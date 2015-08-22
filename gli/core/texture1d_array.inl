@@ -102,7 +102,10 @@ namespace gli
 	{
 		assert(!this->empty());
 
-		return texture1DArray::dim_type(this->Storage.dimensions(this->base_level()).x);
+		return texture1DArray::dim_type(
+			this->Storage.block_count(this->base_level()) * block_dimensions(this->format()));
+
+		//return texture1DArray::dim_type(this->Storage.dimensions(this->base_level()).x);
 	}
 }//namespace gli
 

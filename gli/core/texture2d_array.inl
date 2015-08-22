@@ -101,6 +101,9 @@ namespace gli
 	{
 		assert(!this->empty());
 
-		return texture2DArray::dim_type(this->Storage.dimensions(this->base_level()));
+		return texture2DArray::dim_type(
+			this->Storage.block_count(this->base_level()) * block_dimensions(this->format()));
+
+		//return texture2DArray::dim_type(this->Storage.dimensions(this->base_level()));
 	}
 }//namespace gli

@@ -26,6 +26,8 @@
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
+#include "type.hpp"
+
 namespace gli{
 namespace detail
 {
@@ -252,6 +254,14 @@ namespace detail
 	inline std::uint32_t block_size(format Format)
 	{
 		return detail::getFormatInfo(Format).BlockSize;
+	}
+
+	inline gli::dim3_t block_dimensions(format Format)
+	{
+		return gli::dim3_t(
+			detail::getFormatInfo(Format).BlockDimensionsX,
+			detail::getFormatInfo(Format).BlockDimensionsY,
+			1);
 	}
 
 	inline std::uint32_t block_dimensions_x(format Format)
