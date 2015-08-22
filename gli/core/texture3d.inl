@@ -33,11 +33,11 @@ namespace gli
 	inline texture3D::texture3D()
 	{}
 
-	inline texture3D::texture3D(format_type const & Format, dim_type const & Dimensions)
+	inline texture3D::texture3D(format_type Format, dim_type const & Dimensions)
 		: texture(gli::TARGET_3D, Format, 1, 1, gli::levels(Dimensions), Dimensions)
 	{}
 
-	inline texture3D::texture3D(size_type const & Levels, format_type const & Format, dim_type const & Dimensions)
+	inline texture3D::texture3D(format_type Format, size_type Levels, dim_type const & Dimensions)
 		: texture(gli::TARGET_3D, Format, 1, 1, Levels, Dimensions)
 	{}
 
@@ -48,7 +48,7 @@ namespace gli
 	inline texture3D::texture3D
 	(
 		texture const & Texture,
-		format_type const & Format,
+		format_type Format,
 		size_type BaseLayer, size_type MaxLayer,
 		size_type BaseFace, size_type MaxFace,
 		size_type BaseLevel, size_type MaxLevel

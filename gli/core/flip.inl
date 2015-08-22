@@ -60,7 +60,7 @@ inline texture2D flip(texture2D const & Texture)
 {
 	assert(!gli::is_compressed(Texture.format()));
 
-	texture2D Flip(Texture.levels(), Texture.format(), Texture.dimensions());
+	texture2D Flip(Texture.format(), Texture.levels(), Texture.dimensions());
 
 	gli::size_t const BlockSize = block_size(Texture.format());
 
@@ -75,7 +75,7 @@ inline texture2DArray flip(texture2DArray const & Texture)
 {
 	assert(!gli::is_compressed(Texture.format()));
 
-	texture2DArray Flip(Texture.layers(), Texture.levels(), Texture.format(), Texture.dimensions());
+	texture2DArray Flip(Texture.format(), Texture.layers(), Texture.levels(), Texture.dimensions());
 
 	gli::size_t const BlockSize = block_size(Texture.format());
 

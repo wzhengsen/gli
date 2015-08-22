@@ -52,7 +52,7 @@ int test_alloc()
 	{
 		gli::texture1D::dim_type Size(Sizes[SizeIndex]);
 
-		gli::texture1D TextureA(gli::levels(Size), Formats[FormatIndex], Size);
+		gli::texture1D TextureA(Formats[FormatIndex], gli::levels(Size), Size);
 		gli::texture1D TextureB(Formats[FormatIndex], Size);
 
 		Error += TextureA == TextureB ? 0 : 1;
@@ -103,7 +103,7 @@ namespace tex_access
 		int Error(0);
 
 		{
-			gli::texture1D Texture(2, gli::FORMAT_RGBA8_UINT, gli::texture1D::dim_type(2));
+			gli::texture1D Texture(gli::FORMAT_RGBA8_UINT, 2, gli::texture1D::dim_type(2));
 			assert(!Texture.empty());
 
 			gli::image Image0 = Texture[0];

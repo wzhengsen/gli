@@ -44,13 +44,13 @@ namespace gli
 
 		/// Create a texture2D and allocate a new storage
 		explicit texture2D(
-			size_type const & Levels,
-			format_type const & Format,
+			format_type Format,
+			size_type Levels,
 			dim_type const & Dimensions);
 
 		/// Create a texture2D and allocate a new storage with a complete mipmap chain
 		explicit texture2D(
-			format_type const & Format,
+			format_type Format,
 			dim_type const & Dimensions);
 
 		/// Create a texture2D view with an existing storage
@@ -60,7 +60,7 @@ namespace gli
 		/// Create a texture2D view with an existing storage
 		explicit texture2D(
 			texture const & Texture,
-			format_type const & Format,
+			format_type Format,
 			size_type BaseLayer, size_type MaxLayer,
 			size_type BaseFace, size_type MaxFace,
 			size_type BaseLevel, size_type MaxLevel);

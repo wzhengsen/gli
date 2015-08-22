@@ -43,17 +43,17 @@ namespace gli
 
 		/// Create a textureCubeArray and allocate a new storage
 		explicit textureCubeArray(
-			size_type const & Layers,
-			size_type const & Faces,
-			size_type const & Levels,
-			format_type const & Format,
+			format_type Format,
+			size_type Layers,
+			size_type Faces,
+			size_type Levels,
 			dim_type const & Dimensions);
 
 		/// Create a textureCubeArray and allocate a new storage with a complete mipmap chain
 		explicit textureCubeArray(
-			size_type const & Layers,
-			size_type const & Faces,
-			format_type const & Format,
+			format_type Format,
+			size_type Layers,
+			size_type Faces,
 			dim_type const & Dimensions);
 
 		/// Create a textureCubeArray view with an existing storage
@@ -63,7 +63,7 @@ namespace gli
 		/// Reference a subset of an exiting storage constructor
 		explicit textureCubeArray(
 			texture const & Texture,
-			format_type const & Format,
+			format_type Format,
 			size_type BaseLayer, size_type MaxLayer,
 			size_type BaseFace, size_type MaxFace,
 			size_type BaseLevel, size_type MaxLevel);

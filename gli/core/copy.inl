@@ -40,8 +40,8 @@ namespace gli
 	inline texture copy(texture2D const & Texture, texture2D::format_type Format)
 	{
 		texture2D Copy(
-			Texture.levels(),
 			Format,
+			Texture.levels(),
 			Texture.dimensions());
 
 		memcpy(
@@ -56,8 +56,8 @@ namespace gli
 	inline texture copy<texture1D>(texture1D const & Texture)
 	{
 		texture1D Copy(
-			Texture.levels(),
 			Texture.format(),
+			Texture.levels(),
 			Texture.dimensions());
 
 		memcpy(
@@ -72,9 +72,9 @@ namespace gli
 	inline texture copy(texture1DArray const & Texture)
 	{
 		texture1DArray Copy(
+			Texture.format(),
 			Texture.layers(),
 			Texture.levels(),
-			Texture.format(),
 			Texture.dimensions());
 
 		for(texture1DArray::size_type Layer = 0; Layer < Copy.layers(); ++Layer)
@@ -92,8 +92,8 @@ namespace gli
 	inline texture copy(texture2D const & Texture)
 	{
 		texture2D Copy(
-			Texture.levels(),
 			Texture.format(),
+			Texture.levels(),
 			Texture.dimensions());
 
 		memcpy(
@@ -107,7 +107,7 @@ namespace gli
 	template <>
 	inline texture copy(texture2DArray const & Texture)
 	{
-		texture2DArray Copy(Texture.layers(), Texture.levels(), Texture.format(), Texture.dimensions());
+		texture2DArray Copy(Texture.format(), Texture.layers(), Texture.levels(), Texture.dimensions());
 
 		for(texture2DArray::size_type Layer = 0; Layer < Copy.layers(); ++Layer)
 			memcpy(Copy[Layer].data<glm::byte>(), Texture[Layer].data<glm::byte>(), Copy[Layer].size<glm::byte>());
@@ -119,8 +119,8 @@ namespace gli
 	inline texture copy(texture3D const & Texture)
 	{
 		texture3D Copy(
-			Texture.levels(),
 			Texture.format(),
+			Texture.levels(),
 			Texture.dimensions());
 
 		memcpy(
@@ -135,9 +135,9 @@ namespace gli
 	inline texture copy(textureCube const & Texture)
 	{
 		textureCube Copy(
+			Texture.format(),
 			Texture.faces(),
 			Texture.levels(),
-			Texture.format(),
 			Texture.dimensions());
 
 		for(textureCube::size_type Face = 0; Face < Copy.faces(); ++Face)
@@ -155,10 +155,10 @@ namespace gli
 	inline texture copy(textureCubeArray const & Texture)
 	{
 		textureCubeArray Copy(
+			Texture.format(),
 			Texture.layers(),
 			Texture.faces(),
 			Texture.levels(),
-			Texture.format(),
 			Texture.dimensions());
 
 		for(textureCubeArray::size_type Layer = 0; Layer < Copy.layers(); ++Layer)
@@ -184,8 +184,8 @@ namespace gli
 		assert(MaxLevel < Texture.levels());
 	
 		texture1D Copy(
-			MaxLevel - BaseLevel + 1,
 			Texture.format(), 
+			MaxLevel - BaseLevel + 1,
 			texture1D::dim_type(Texture[BaseLevel].dimensions().x));
 
 		memcpy(
@@ -211,9 +211,9 @@ namespace gli
 		assert(MaxMayer < Texture.layers());
 
 		texture1DArray Copy(
+			Texture.format(), 
 			MaxMayer - BaseLayer + 1,
 			MaxLevel - BaseLevel + 1,
-			Texture.format(), 
 			texture1DArray::dim_type(Texture[BaseLayer][BaseLevel].dimensions().x));
 
 		for(texture1DArray::size_type Layer = 0; Layer < Copy.layers(); ++Layer)
@@ -238,8 +238,8 @@ namespace gli
 		assert(MaxLevel < Texture.levels());
 	
 		texture2D Copy(
-			MaxLevel - BaseLevel + 1,
 			Texture.format(),
+			MaxLevel - BaseLevel + 1,
 			texture2D::dim_type(Texture[BaseLevel].dimensions().x));
 
 		memcpy(
@@ -265,9 +265,9 @@ namespace gli
 		assert(MaxMayer < Texture.layers());
 
 		texture2DArray Copy(
+			Texture.format(), 
 			MaxMayer - BaseLayer + 1,
 			MaxLevel - BaseLevel + 1,
-			Texture.format(), 
 			texture2DArray::dim_type(Texture[BaseLayer][BaseLevel].dimensions()));
 
 		for(texture2DArray::size_type Layer = 0; Layer < Copy.layers(); ++Layer)
@@ -292,8 +292,8 @@ namespace gli
 		assert(MaxLevel < Texture.levels());
 	
 		texture3D Copy(
-			MaxLevel - BaseLevel + 1,
 			Texture.format(),
+			MaxLevel - BaseLevel + 1,
 			texture3D::dim_type(Texture[BaseLevel].dimensions()));
 
 		memcpy(
@@ -319,9 +319,9 @@ namespace gli
 		assert(MaxFace < Texture.faces());
 
 		textureCube Copy(
+			Texture.format(), 
 			MaxFace - BaseFace + 1,
 			MaxLevel - BaseLevel + 1,
-			Texture.format(), 
 			textureCube::dim_type(Texture[BaseFace][BaseLevel].dimensions()));
 
 		for(textureCube::size_type Face = 0; Face < Copy.faces(); ++Face)
@@ -354,10 +354,10 @@ namespace gli
 		assert(MaxLayer < Texture.layers());
 
 		textureCubeArray Copy(
+			Texture.format(),
 			MaxLayer - BaseLayer + 1,
 			MaxFace - BaseFace + 1,
 			MaxLevel - BaseLevel + 1,
-			Texture.format(),
 			textureCube::dim_type(Texture[BaseLayer][BaseFace][BaseLevel].dimensions()));
 
 		for(textureCubeArray::size_type Layer = 0; Layer < Copy.layers(); ++Layer)

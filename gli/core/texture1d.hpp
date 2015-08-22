@@ -44,8 +44,8 @@ namespace gli
 
 		/// Create a texture1D and allocate a new storage
 		explicit texture1D(
-			size_type Levels,
 			format_type Format,
+			size_type Levels,
 			dim_type const & Dimensions);
 
 		/// Create a texture1D and allocate a new storage with a complete mipmap chain

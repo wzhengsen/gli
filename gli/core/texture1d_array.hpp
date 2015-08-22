@@ -43,15 +43,15 @@ namespace gli
 
 		/// Create a texture1DArray and allocate a new storage
 		explicit texture1DArray(
-			size_type const & Layers,
-			size_type const & Levels,
-			format_type const & Format,
+			format_type Format,
+			size_type Layers,
+			size_type Levels,
 			dim_type const & Dimensions);
 
 		/// Create a texture1DArray and allocate a new storage with a complete mipmap chain
 		explicit texture1DArray(
-			size_type const & Layers,
-			format_type const & Format,
+			format_type Format,
+			size_type Layers,
 			dim_type const & Dimensions);
 
 		/// Create a texture1DArray view with an existing storage
@@ -61,7 +61,7 @@ namespace gli
 		/// Create a texture1DArray view with an existing storage
 		explicit texture1DArray(
 			texture const & Texture,
-			format_type const & Format,
+			format_type Format,
 			size_type BaseLayer, size_type MaxLayer,
 			size_type BaseFace, size_type MaxFace,
 			size_type BaseLevel, size_type MaxLevel);

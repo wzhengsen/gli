@@ -268,7 +268,7 @@ namespace fetch
 	{
 		int Error(0);
 
-		gli::texture2D Texture(1, gli::FORMAT_RGBA8_UNORM, gli::texture2D::dim_type(4, 2));
+		gli::texture2D Texture(gli::FORMAT_RGBA8_UNORM, 1, gli::texture2D::dim_type(4, 2));
 		*(Texture.data<glm::u8vec4>() + 0) = glm::u8vec4(255,   0,   0, 255);
 		*(Texture.data<glm::u8vec4>() + 1) = glm::u8vec4(255, 128,   0, 255);
 		*(Texture.data<glm::u8vec4>() + 2) = glm::u8vec4(255, 255,   0, 255);
@@ -298,7 +298,7 @@ namespace sampler
 		int Error(0);
 
 		gli::texture2D::dim_type const Size(512);
-		gli::texture2D TextureA(1, gli::FORMAT_RGBA8_UNORM, Size);
+		gli::texture2D TextureA(gli::FORMAT_RGBA8_UNORM, 1, Size);
 
 		{
 			std::clock_t TimeStart = std::clock();
@@ -314,7 +314,7 @@ namespace sampler
 			printf("texelWrite(texture2D) - Time: %lu\n", TimeEnd - TimeStart);
 		}
 
-		gli::texture2D TextureB(1, gli::FORMAT_RGBA8_UNORM, Size);
+		gli::texture2D TextureB(gli::FORMAT_RGBA8_UNORM, 1, Size);
 
 		{
 			gli::sampler2D<glm::u8vec4> Sampler(TextureB, gli::WRAP_CLAMP_TO_EDGE, gli::FILTER_LINEAR, gli::FILTER_LINEAR, glm::u8vec4(0, 127, 255, 255));
@@ -366,7 +366,7 @@ namespace clamp_to_border
 		glm::u8vec4 const Blue(0, 127, 255, 255);
 
 		gli::texture2D::dim_type const Size(32);
-		gli::texture2D Texture(1, gli::FORMAT_RGBA8_UNORM, Size);
+		gli::texture2D Texture(gli::FORMAT_RGBA8_UNORM, 1, Size);
 		Texture.clear(Orange);
 
 		gli::sampler2D<glm::u8vec4> Sampler(Texture, gli::WRAP_CLAMP_TO_BORDER, gli::FILTER_LINEAR, gli::FILTER_LINEAR, Blue);

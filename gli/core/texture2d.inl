@@ -33,11 +33,11 @@ namespace gli
 	inline texture2D::texture2D()
 	{}
 
-	inline texture2D::texture2D(format_type const & Format, dim_type const & Dimensions)
+	inline texture2D::texture2D(format_type Format, dim_type const & Dimensions)
 		: texture(gli::TARGET_2D, Format, 1, 1, gli::levels(Dimensions), storage::dim_type(Dimensions, 1))
 	{}
 
-	inline texture2D::texture2D(size_type const & Levels, format_type const & Format, dim_type const & Dimensions)
+	inline texture2D::texture2D(format_type Format, size_type Levels, dim_type const & Dimensions)
 		: texture(gli::TARGET_2D, Format, 1, 1, Levels, storage::dim_type(Dimensions, 1))
 	{}
 
@@ -48,7 +48,7 @@ namespace gli
 	inline texture2D::texture2D
 	(
 		texture const & Texture,
-		format_type const & Format,
+		format_type Format,
 		size_type BaseLayer, size_type MaxLayer,
 		size_type BaseFace, size_type MaxFace,
 		size_type BaseLevel, size_type MaxLevel
