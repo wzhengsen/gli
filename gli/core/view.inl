@@ -42,6 +42,8 @@ namespace gli
 	template <typename texType>
 	inline texture view(texType const & Texture, format Format)
 	{
+		assert(block_size(Texture.format()) == block_size(Format));
+
 		return texture(Texture, Texture.target(), Format);
 	}
 

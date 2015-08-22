@@ -484,7 +484,25 @@ namespace format
 
 		{
 			gli::texture2D TextureA(gli::FORMAT_RGB_DXT1_UNORM, gli::texture2D::dim_type(4));
-			gli::texture2D TextureB(gli::view(TextureA, gli::FORMAT_R32_UINT));
+			gli::texture2D TextureB(gli::view(TextureA, gli::FORMAT_RG32_UINT));
+			gli::texture2D TextureC(3, gli::FORMAT_RG32_UINT, gli::texture2D::dim_type(1));
+
+			Error += TextureA.size() == TextureB.size() ? 0 : 1;
+			Error += TextureA.size() == TextureC.size() ? 0 : 1;
+			Error += TextureB == TextureC ? 0 : 1;
+			Error += TextureA.dimensions() == gli::texture2D::dim_type(4) ? 0 : 1;
+			Error += TextureB.dimensions() == gli::texture2D::dim_type(1) ? 0 : 1;
+			Error += TextureA.dimensions() != TextureB.dimensions() ? 0 : 1;
+		}
+
+		{
+			gli::texture2D TextureA(gli::FORMAT_RGBA_DXT5_UNORM, gli::texture2D::dim_type(4));
+			gli::texture2D TextureB(gli::view(TextureA, gli::FORMAT_RGBA32_UINT));
+			gli::texture2D TextureC(3, gli::FORMAT_RGBA32_UINT, gli::texture2D::dim_type(1));
+			gli::texture2D TextureD(gli::view(TextureC, gli::FORMAT_RGBA_DXT5_UNORM));
+
+			Error += TextureA == TextureD ? 0 : 1;
+			Error += TextureB == TextureC ? 0 : 1;
 
 			Error += TextureA.dimensions() == gli::texture2D::dim_type(4) ? 0 : 1;
 			Error += TextureB.dimensions() == gli::texture2D::dim_type(1) ? 0 : 1;
