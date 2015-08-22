@@ -260,8 +260,8 @@ namespace detail
 			DepthCount = Header.Depth;
 
 		texture Texture(
-			getTarget(Header, Header10),
-			std::max<std::size_t>(Header10.ArraySize, 1), FaceCount, MipMapCount, Format,
+			getTarget(Header, Header10), Format,
+			std::max<std::size_t>(Header10.ArraySize, 1), FaceCount, MipMapCount,
 			storage::dim_type(Header.Width, Header.Height, DepthCount));
 
 		assert(Offset + Texture.size() == Size);

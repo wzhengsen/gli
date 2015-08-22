@@ -38,7 +38,7 @@ namespace gli
 		format_type const & Format,
 		dim_type const & Dimensions
 	)
-		: texture(gli::TARGET_CUBE_ARRAY, Layers, Faces, gli::levels(Dimensions), Format, storage::dim_type(Dimensions, 1))
+		: texture(gli::TARGET_CUBE_ARRAY, Format, Layers, Faces, gli::levels(Dimensions), storage::dim_type(Dimensions, 1))
 	{}
 
 	inline textureCubeArray::textureCubeArray
@@ -49,7 +49,7 @@ namespace gli
 		format_type const & Format,
 		dim_type const & Dimensions
 	)
-		: texture(gli::TARGET_CUBE_ARRAY, Layers, Faces, Levels, Format, storage::dim_type(Dimensions, 1))
+		: texture(gli::TARGET_CUBE_ARRAY, Format, Layers, Faces, Levels, storage::dim_type(Dimensions, 1))
 	{}
 
 	inline textureCubeArray::textureCubeArray(texture const & Texture)

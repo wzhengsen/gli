@@ -115,10 +115,10 @@ namespace detail
 
 	inline image::image
 	(
-		format_type const & Format,
+		format_type Format,
 		dim_type const & Dimensions
 	)
-		: Storage(1, 1, 1, glm::max(Dimensions / block_dimensions(Format), dim3_t(1)), block_size(Format))
+		: Storage(Format, 1, 1, 1, Dimensions)
 		, Format(Format)
 		, BaseLevel(0)
 		, Data(Storage.data())
@@ -128,7 +128,7 @@ namespace detail
 	inline image::image
 	(
 		storage const & Storage,
-		format_type const & Format,
+		format_type Format,
 		size_type BaseLayer,
 		size_type BaseFace,
 		size_type BaseLevel

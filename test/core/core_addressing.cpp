@@ -67,11 +67,11 @@ namespace layers
 		for(std::size_t i = 0; i < Tests.size(); ++i)
 		{
 			gli::storage Storage(
+				Tests[i].Format,
 				2,
 				1,
 				1,
-				Tests[i].Dimensions / block_dimensions(Tests[i].Format),
-				block_size(Tests[i].Format));
+				Tests[i].Dimensions);
 
 			gli::storage::size_type const Offset = Storage.offset(1, 0, 0);
 			gli::storage::size_type const Size = Storage.size();
@@ -124,7 +124,7 @@ namespace faces
 
 		for(std::size_t i = 0; i < Tests.size(); ++i)
 		{
-			gli::storage Storage(1, 1, 4, gli::storage::dim_type(8, 8, 1) / block_dimensions(Tests[i].Format), block_size(Tests[i].Format));
+			gli::storage Storage(Tests[i].Format, 1, 1, 4, gli::storage::dim_type(8, 8, 1));
 			gli::storage::size_type Offset = Storage.offset(0, 0, Tests[i].Level);
 			gli::storage::size_type Size = Storage.size();
 
@@ -175,11 +175,11 @@ namespace levels
 		for(std::size_t i = 0; i < Tests.size(); ++i)
 		{
 			gli::storage Storage(
+				Tests[i].Format,
 				1,
 				1,
 				4,
-				gli::dim3_t(8, 8, 1) / block_dimensions(Tests[i].Format),
-				block_size(Tests[i].Format));
+				gli::dim3_t(8, 8, 1));
 
 			gli::storage::size_type Offset = Storage.offset(0, 0, Tests[i].Level);
 			gli::storage::size_type Size = Storage.size();

@@ -35,19 +35,19 @@ namespace gli
 
 	inline texture1D::texture1D
 	(
-		size_type const & Levels,
-		format_type const & Format,
+		size_type Levels,
+		format_type Format,
 		dim_type const & Dimensions
 	)
-		: texture(gli::TARGET_1D, 1, 1, Levels, Format, storage::dim_type(Dimensions.x, 1, 1))
+		: texture(gli::TARGET_1D, Format, 1, 1, Levels, storage::dim_type(Dimensions.x, 1, 1))
 	{}
 
 	inline texture1D::texture1D
 	(
-		format_type const & Format,
+		format_type Format,
 		dim_type const & Dimensions
 	)
-		: texture(gli::TARGET_1D, 1, 1, gli::levels(Dimensions), Format, storage::dim_type(Dimensions.x, 1, 1))
+		: texture(gli::TARGET_1D, Format, 1, 1, gli::levels(Dimensions), storage::dim_type(Dimensions.x, 1, 1))
 	{}
 
 	inline texture1D::texture1D(texture const & Texture)
@@ -57,7 +57,7 @@ namespace gli
 	inline texture1D::texture1D
 	(
 		texture const & Texture,
-		format_type const & Format,
+		format_type Format,
 		size_type BaseLayer, size_type MaxLayer,
 		size_type BaseFace, size_type MaxFace,
 		size_type BaseLevel, size_type MaxLevel

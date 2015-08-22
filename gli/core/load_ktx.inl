@@ -101,10 +101,10 @@ namespace detail
 
 		texture Texture(
 			detail::getTarget(Header),
+			Format,
 			std::max<std::uint32_t>(Header.NumberOfArrayElements, 1),
 			std::max<std::uint32_t>(Header.NumberOfFaces, 1),
 			std::max<std::uint32_t>(Header.NumberOfMipmapLevels, 1),
-			Format,
 			texture::dim_type(
 				Header.PixelWidth,
 				std::max<std::uint32_t>(Header.PixelHeight, 1),

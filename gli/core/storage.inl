@@ -37,17 +37,17 @@ namespace gli
 	{}
 
 	inline storage::impl::impl(
+		format_type Format,
 		size_type Layers,
 		size_type Faces,
 		size_type Levels,
-		size_type BlockSize,
-		dim_type const & BlockCount
+		dim_type const & Dimensions
 	)
 	:	Layers(Layers),
 		Faces(Faces),
 		Levels(Levels),
-		BlockSize(BlockSize),
-		BlockCount(BlockCount)
+		BlockSize(gli::block_size(Format)),
+		BlockCount(glm::max(Dimensions / block_dimensions(Format), gli::dim3_t(1)))
 	{}
 
 	inline storage::storage()
@@ -55,18 +55,18 @@ namespace gli
 
 	inline storage::storage
 	(
+		format_type Format,
 		size_type Layers,
 		size_type Faces,
 		size_type Levels,
-		dim_type const & BlockCount,
-		size_type BlockSize
+		dim_type const & Dimensions
 	) :
 		Impl(new impl(
+			Format,
 			Layers,
 			Faces,
 			Levels,
-			BlockSize,
-			BlockCount))
+			Dimensions))
 	{
 		assert(Layers > 0);
 		assert(Faces > 0);

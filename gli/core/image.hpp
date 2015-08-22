@@ -49,13 +49,13 @@ namespace gli
 
 		/// Allocate a new storage constructor
 		explicit image(
-			format_type const & Format,
+			format_type Format,
 			dim_type const & Dimensions);
 
 		/// Reference an exiting storage constructor
 		explicit image(
 			storage const & Storage,
-			format_type const & Format,
+			format_type Format,
 			size_type BaseLayer,
 			size_type BaseFace,
 			size_type BaseLevel);

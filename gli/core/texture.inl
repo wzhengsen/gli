@@ -43,13 +43,13 @@ namespace gli
 	inline texture::texture
 	(
 		target_type Target,
+		format_type Format,
 		size_type Layers,
 		size_type Faces,
 		size_type Levels,
-		format_type Format,
 		dim_type const & Dimensions
 	)
-		: Storage(Layers, Faces, Levels, glm::max(Dimensions / block_dimensions(Format), gli::dim3_t(1)), block_size(Format))
+		: Storage(Format, Layers, Faces, Levels, Dimensions)
 		, Target(Target)
 		, Format(Format)
 		, BaseLayer(0), MaxLayer(Layers - 1)
