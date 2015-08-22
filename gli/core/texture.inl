@@ -102,7 +102,6 @@ namespace gli
 		, Size(this->compute_size())
 	{
 		assert(block_size(Format) == block_size(Texture.format()));
-		assert(!is_compressed(Format) || !is_compressed(Texture.format()) || Format == Texture.format());
 		assert(Target != TARGET_1D || (Target == TARGET_1D && this->layers() == 1 && this->faces() == 1 && this->dimensions().y == 1 && this->dimensions().z == 1));
 		assert(Target != TARGET_1D_ARRAY || (Target == TARGET_1D_ARRAY && this->layers() >= 1 && this->faces() == 1 && this->dimensions().y == 1 && this->dimensions().z == 1));
 		assert(Target != TARGET_2D || (Target == TARGET_2D && this->layers() == 1 && this->faces() == 1 && this->dimensions().y >= 1 && this->dimensions().z == 1));
