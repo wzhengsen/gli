@@ -86,6 +86,7 @@ GLuint CreateTextureArray(char const* Filename)
 - Added KTX loading and saving
 - Added gli::load for generic file loading, either DDS or KTX files depending on filename extensions
 - Added gli::save for generic file saving, either DDS or KTX files depending on filename extensions
+- Added texture views using different texture format, including compressed texture formats
 - Much faster texture comparisons is non optimal cases. (Measured ~21x faster on Intel IVB)
 - Explicitly handling of texture targets: fixed various cases of cubemap and texture arrays failing to load with DDS
 - Fixed GCC
