@@ -205,7 +205,7 @@ namespace specialize
 	{
 		int Error(0);
 
-		gli::texture Texture(gli::TARGET_NONE, gli::FORMAT_RGBA8_UNORM, 1, 1, 1, gli::texture::dim_type(1));
+		gli::texture Texture(gli::TARGET_1D, gli::FORMAT_RGBA8_UNORM, 1, 1, 1, gli::texture::dim_type(1));
 		gli::texture1D Texture1D(Texture);
 		gli::texture1DArray Texture1DArray(Texture);
 		gli::texture2D Texture2D(Texture);
@@ -214,7 +214,7 @@ namespace specialize
 		gli::textureCube TextureCube(Texture);
 		gli::textureCubeArray TextureCubeArray(Texture);
 
-		Error += Texture != Texture1D ? 0 : 1;
+		Error += Texture == Texture1D ? 0 : 1;
 		Error += Texture != Texture1DArray ? 0 : 1;
 		Error += Texture != Texture2D ? 0 : 1;
 		Error += Texture != Texture2DArray ? 0 : 1;
@@ -230,7 +230,7 @@ namespace specialize
 		gli::texture TextureCube_B(TextureCube);
 		gli::texture TextureCubeArray_B(TextureCubeArray);
 
-		Error += Texture != Texture1D_B ? 0 : 1;
+		Error += Texture == Texture1D_B ? 0 : 1;
 		Error += Texture != Texture1DArray_B ? 0 : 1;
 		Error += Texture != Texture2D_B ? 0 : 1;
 		Error += Texture != Texture2DArray_B ? 0 : 1;

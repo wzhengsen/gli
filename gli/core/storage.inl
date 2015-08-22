@@ -71,8 +71,7 @@ namespace gli
 		assert(Layers > 0);
 		assert(Faces > 0);
 		assert(Levels > 0);
-		assert(BlockSize > 0);
-		assert(glm::all(glm::greaterThan(BlockCount, dim_type(0))));
+		assert(glm::all(glm::greaterThan(Dimensions, dim_type(0))));
 
 		Impl->Data.resize(this->layer_size(0, Faces - 1, 0, Levels - 1) * Layers, 0);
 	}

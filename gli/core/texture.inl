@@ -31,7 +31,7 @@
 namespace gli
 {
 	inline texture::texture()
-		: Target(TARGET_NONE)
+		: Target(static_cast<gli::target>(TARGET_INVALID))
 		, Format(static_cast<gli::format>(FORMAT_INVALID))
 		, BaseLayer(0), MaxLayer(0)
 		, BaseFace(0), MaxFace(0)

@@ -30,7 +30,6 @@ namespace gli
 {
 	enum target
 	{
-		TARGET_NONE,
 		TARGET_1D,
 		TARGET_1D_ARRAY,
 		TARGET_2D,
@@ -42,7 +41,8 @@ namespace gli
 
 	enum
 	{
-		TARGET_COUNT = TARGET_MAX + 1
+		TARGET_COUNT = TARGET_MAX + 1,
+		TARGET_INVALID = -1
 	};
 
 	inline bool isTarget1D(target Target)
