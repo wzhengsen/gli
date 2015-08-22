@@ -74,6 +74,9 @@ namespace gli
 		, Data(this->compute_data())
 		, Size(this->compute_size())
 	{
+		if(this->empty())
+			return;
+
 		assert(Target != TARGET_1D || (Target == TARGET_1D && this->layers() == 1 && this->faces() == 1 && this->dimensions().y == 1 && this->dimensions().z == 1));
 		assert(Target != TARGET_1D_ARRAY || (Target == TARGET_1D_ARRAY && this->layers() >= 1 && this->faces() == 1 && this->dimensions().y == 1 && this->dimensions().z == 1));
 		assert(Target != TARGET_2D || (Target == TARGET_2D && this->layers() == 1 && this->faces() == 1 && this->dimensions().y >= 1 && this->dimensions().z == 1));
@@ -239,6 +242,9 @@ namespace gli
 
 	inline void * const texture::compute_data() const
 	{
+		if(this->empty())
+			return nullptr;
+
 		size_type const Offset = this->Storage.offset(
 			this->base_layer(), this->base_face(), this->base_level());
 
@@ -247,7 +253,8 @@ namespace gli
 
 	inline texture::size_type texture::compute_size() const
 	{
-		assert(!this->empty());
+		if(this->empty())
+			return 0;
 
 		return this->Storage.layer_size(
 			this->base_face(), this->max_face(),

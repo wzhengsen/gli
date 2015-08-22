@@ -509,6 +509,19 @@ namespace format
 			Error += TextureA.dimensions() != TextureB.dimensions() ? 0 : 1;
 		}
 
+		{
+			gli::texture2D TextureA(gli::FORMAT_RG32_UINT, gli::texture2D::dim_type(4));
+			gli::texture2D TextureB(gli::view(TextureA, gli::FORMAT_RG32_UINT));
+			gli::texture2D TextureC(gli::view(TextureA, gli::FORMAT_R32_UINT));
+			gli::texture2D TextureD(gli::view(TextureA, gli::FORMAT_RGB32_UINT));
+			gli::texture2D TextureE(gli::view(TextureA, gli::FORMAT_RGBA32_UINT));
+
+			Error += TextureA == TextureB ? 0 : 1;
+			Error += TextureC.empty() ? 0 : 1;
+			Error += TextureD.empty() ? 0 : 1;
+			Error += TextureE.empty() ? 0 : 1;
+		}
+
 		return Error;
 	}
 }//namespace format
