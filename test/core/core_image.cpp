@@ -59,8 +59,8 @@ int test_image_data()
 
 	gli::storage Storage(
 		gli::FORMAT_RGBA8_UNORM,
-		2, 1, 1,
-		gli::storage::dim_type(1, 1, 1));
+		gli::storage::dim_type(1, 1, 1),
+		2, 1, 1);
 
 	std::vector<glm::u8vec4> Data(2);
 	Data[0] = glm::u8vec4(  0, 127, 255, 255);

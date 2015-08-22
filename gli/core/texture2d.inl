@@ -34,11 +34,11 @@ namespace gli
 	{}
 
 	inline texture2D::texture2D(format_type Format, dim_type const & Dimensions)
-		: texture(gli::TARGET_2D, Format, 1, 1, gli::levels(Dimensions), storage::dim_type(Dimensions, 1))
+		: texture(gli::TARGET_2D, Format, texture::dim_type(Dimensions, 1), 1, 1, gli::levels(Dimensions))
 	{}
 
 	inline texture2D::texture2D(format_type Format, size_type Levels, dim_type const & Dimensions)
-		: texture(gli::TARGET_2D, Format, 1, 1, Levels, storage::dim_type(Dimensions, 1))
+		: texture(gli::TARGET_2D, Format, texture::dim_type(Dimensions, 1), 1, 1, Levels)
 	{}
 
 	inline texture2D::texture2D(texture const & Texture)

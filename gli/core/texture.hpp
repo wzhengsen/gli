@@ -47,10 +47,10 @@ namespace gli
 		texture(
 			target_type Target,
 			format_type Format,
+			dim_type const & Dimensions,
 			size_type Layers,
 			size_type Faces,
-			size_type Levels,
-			dim_type const & Dimensions);
+			size_type Levels);
 
 		texture(
 			texture const & Texture,

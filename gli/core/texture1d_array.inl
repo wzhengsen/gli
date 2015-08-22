@@ -39,7 +39,7 @@ namespace gli
 		size_type Layers,
 		dim_type const & Dimensions
 	)
-		: texture(gli::TARGET_1D_ARRAY, Format, Layers, 1, gli::levels(Dimensions), storage::dim_type(Dimensions.x, 1, 1))
+		: texture(gli::TARGET_1D_ARRAY, Format, texture::dim_type(Dimensions.x, 1, 1), Layers, 1, gli::levels(Dimensions))
 	{}
 
 	inline texture1DArray::texture1DArray
@@ -49,7 +49,7 @@ namespace gli
 		size_type Levels,
 		dim_type const & Dimensions
 	)
-		: texture(gli::TARGET_1D_ARRAY, Format, Layers, 1, Levels, storage::dim_type(Dimensions.x, 1, 1))
+		: texture(gli::TARGET_1D_ARRAY, Format, texture::dim_type(Dimensions.x, 1, 1), Layers, 1, Levels)
 	{}
 
 	inline texture1DArray::texture1DArray(texture const & Texture)
@@ -104,8 +104,6 @@ namespace gli
 
 		return texture1DArray::dim_type(
 			this->Storage.block_count(this->base_level()) * block_dimensions(this->format()));
-
-		//return texture1DArray::dim_type(this->Storage.dimensions(this->base_level()).x);
 	}
 }//namespace gli
 

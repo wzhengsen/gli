@@ -68,10 +68,10 @@ namespace gli
 
 		storage(
 			format_type Format,
+			dim_type const & Dimensions,
 			size_type Layers,
 			size_type Faces,
-			size_type Levels,
-			dim_type const & Dimensions);
+			size_type Levels);
 
 		bool empty() const;
 		size_type size() const; // Express is bytes
@@ -107,10 +107,10 @@ namespace gli
 
 			explicit impl(
 				format_type Format,
+				dim_type const & Dimensions,
 				size_type Layers,
 				size_type Faces,
-				size_type Levels,
-				dim_type const & Dimensions);
+				size_type Levels);
 
 			size_type const Layers;
 			size_type const Faces;

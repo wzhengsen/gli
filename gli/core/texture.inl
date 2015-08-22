@@ -44,12 +44,12 @@ namespace gli
 	(
 		target_type Target,
 		format_type Format,
+		dim_type const & Dimensions,
 		size_type Layers,
 		size_type Faces,
-		size_type Levels,
-		dim_type const & Dimensions
+		size_type Levels
 	)
-		: Storage(Format, Layers, Faces, Levels, Dimensions)
+		: Storage(Format, Dimensions, Layers, Faces, Levels)
 		, Target(Target)
 		, Format(Format)
 		, BaseLayer(0), MaxLayer(Layers - 1)

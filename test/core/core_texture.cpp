@@ -70,7 +70,7 @@ namespace clear
 		glm::u8vec4 const Orange(255, 127, 0, 255);
 
 		gli::texture::dim_type Size(16u, 16u, 1u);
-		gli::texture Texture(gli::TARGET_2D, gli::FORMAT_RGBA8_UNORM, 1, 1, gli::levels(Size), Size);
+		gli::texture Texture(gli::TARGET_2D, gli::FORMAT_RGBA8_UNORM, Size, 1, 1, gli::levels(Size));
 
 		Texture.clear<glm::u8vec4>(Orange);
 
@@ -84,7 +84,7 @@ namespace query
 	{
 		int Error(0);
 
-		gli::texture Texture(gli::TARGET_2D, gli::FORMAT_RGBA8_UINT, 1, 1, 1, gli::texture::dim_type(1));
+		gli::texture Texture(gli::TARGET_2D, gli::FORMAT_RGBA8_UINT, gli::texture::dim_type(1), 1, 1, 1);
 
 		Error += Texture.size() == sizeof(glm::u8vec4) * 1 ? 0 : 1;
 		Error += Texture.format() == gli::FORMAT_RGBA8_UINT ? 0 : 1;
@@ -138,7 +138,7 @@ namespace tex_access
 		}
 
 		{
-			gli::texture Texture(gli::TARGET_2D, gli::FORMAT_RGBA8_UINT, 1, 1, 1, gli::texture::dim_type(1));
+			gli::texture Texture(gli::TARGET_2D, gli::FORMAT_RGBA8_UINT, gli::texture::dim_type(1), 1, 1, 1);
 
 			std::size_t SizeA = Texture.size();
 			Error += SizeA == sizeof(glm::u8vec4) * 1 ? 0 : 1;
@@ -186,10 +186,10 @@ namespace size
 			gli::texture Texture(
 				gli::TARGET_2D,
 				Tests[i].Format,
+				gli::texture::dim_type(1),
 				gli::texture::size_type(1),
 				gli::texture::size_type(1),
-				gli::texture::size_type(1),
-				gli::texture::dim_type(1));
+				gli::texture::size_type(1));
 
 			Error += Texture.size() == Tests[i].Size ? 0 : 1;
 			assert(!Error);
@@ -205,7 +205,7 @@ namespace specialize
 	{
 		int Error(0);
 
-		gli::texture Texture(gli::TARGET_1D, gli::FORMAT_RGBA8_UNORM, 1, 1, 1, gli::texture::dim_type(1));
+		gli::texture Texture(gli::TARGET_1D, gli::FORMAT_RGBA8_UNORM, gli::texture::dim_type(1), 1, 1, 1);
 		gli::texture1D Texture1D(Texture);
 		gli::texture1DArray Texture1DArray(Texture);
 		gli::texture2D Texture2D(Texture);
@@ -258,7 +258,7 @@ namespace load
 
 		// Texture 1D
 		{
-			gli::texture Texture(gli::TARGET_1D, gli::FORMAT_RGBA8_UNORM, 1, 1, 1, gli::texture::dim_type(1));
+			gli::texture Texture(gli::TARGET_1D, gli::FORMAT_RGBA8_UNORM, gli::texture::dim_type(1), 1, 1, 1);
 			Texture.clear(glm::u8vec4(225, 127, 0, 255));
 
 			gli::save(Texture, "texture_1d.ktx");
@@ -272,7 +272,7 @@ namespace load
 
 		// Texture 1D array
 		{
-			gli::texture Texture(gli::TARGET_1D_ARRAY, gli::FORMAT_RGBA8_UNORM, 2, 1, 1, gli::texture::dim_type(1));
+			gli::texture Texture(gli::TARGET_1D_ARRAY, gli::FORMAT_RGBA8_UNORM, gli::texture::dim_type(1), 2, 1, 1);
 			Texture.clear(glm::u8vec4(225, 127, 0, 255));
 			gli::save(Texture, "texture_1d_array.ktx");
 			gli::save(Texture, "texture_1d_array.dds");
@@ -285,7 +285,7 @@ namespace load
 
 		// Texture 2D
 		{
-			gli::texture Texture(gli::TARGET_2D, gli::FORMAT_RGBA8_UNORM, 1, 1, 1, gli::texture::dim_type(1));
+			gli::texture Texture(gli::TARGET_2D, gli::FORMAT_RGBA8_UNORM, gli::texture::dim_type(1), 1, 1, 1);
 			Texture.clear(glm::u8vec4(225, 127, 0, 255));
 
 			gli::save(Texture, "texture_2d.ktx");
@@ -299,7 +299,7 @@ namespace load
 
 		// Texture 2D array
 		{
-			gli::texture Texture(gli::TARGET_2D_ARRAY, gli::FORMAT_RGBA8_UNORM, 2, 1, 1, gli::texture::dim_type(1));
+			gli::texture Texture(gli::TARGET_2D_ARRAY, gli::FORMAT_RGBA8_UNORM, gli::texture::dim_type(1), 2, 1, 1);
 			Texture.clear(glm::u8vec4(225, 127, 0, 255));
 			gli::save(Texture, "texture_2d_array.ktx");
 			gli::save(Texture, "texture_2d_array.dds");
@@ -312,7 +312,7 @@ namespace load
 
 		// Texture 3D
 		{
-			gli::texture Texture(gli::TARGET_3D, gli::FORMAT_RGBA8_UNORM, 1, 1, 1, gli::texture::dim_type(1));
+			gli::texture Texture(gli::TARGET_3D, gli::FORMAT_RGBA8_UNORM, gli::texture::dim_type(1), 1, 1, 1);
 			gli::save(Texture, "texture_3d.ktx");
 			gli::save(Texture, "texture_3d.dds");
 			gli::texture TextureKTX = gli::load("texture_3d.ktx");
@@ -324,7 +324,7 @@ namespace load
 
 		// Texture cube
 		{
-			gli::texture Texture(gli::TARGET_CUBE, gli::FORMAT_RGBA8_UNORM, 1, 6, 1, gli::texture::dim_type(1));
+			gli::texture Texture(gli::TARGET_CUBE, gli::FORMAT_RGBA8_UNORM, gli::texture::dim_type(1), 1, 6, 1);
 			Texture.clear(glm::u8vec4(225, 127, 0, 255));
 			gli::save(Texture, "texture_cube.ktx");
 			gli::save(Texture, "texture_cube.dds");
@@ -337,7 +337,7 @@ namespace load
 
 		// Texture cube array
 		{
-			gli::texture Texture(gli::TARGET_CUBE_ARRAY, gli::FORMAT_RGBA8_UNORM, 2, 6, 1, gli::texture::dim_type(1));
+			gli::texture Texture(gli::TARGET_CUBE_ARRAY, gli::FORMAT_RGBA8_UNORM, gli::texture::dim_type(1), 2, 6, 1);
 			Texture.clear(glm::u8vec4(225, 127, 0, 255));
 			gli::save(Texture, "texture_cube_array.ktx");
 			gli::save(Texture, "texture_cube_array.dds");

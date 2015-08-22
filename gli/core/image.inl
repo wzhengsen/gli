@@ -118,7 +118,7 @@ namespace detail
 		format_type Format,
 		dim_type const & Dimensions
 	)
-		: Storage(Format, 1, 1, 1, Dimensions)
+		: Storage(Format, Dimensions, 1, 1, 1)
 		, Format(Format)
 		, BaseLevel(0)
 		, Data(Storage.data())

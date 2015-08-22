@@ -68,7 +68,7 @@ namespace create_texture
 	{
 		int Error(0);
 
-		gli::texture Texture(gli::TARGET_2D, gli::FORMAT_RGBA4_UNORM, 1, 1, 1, gli::storage::dim_type(1, 1, 1));
+		gli::texture Texture(gli::TARGET_2D, gli::FORMAT_RGBA4_UNORM, gli::texture::dim_type(1, 1, 1), 1, 1, 1);
 
 		return Error;
 	}

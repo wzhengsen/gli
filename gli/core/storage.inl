@@ -38,10 +38,10 @@ namespace gli
 
 	inline storage::impl::impl(
 		format_type Format,
+		dim_type const & Dimensions,
 		size_type Layers,
 		size_type Faces,
-		size_type Levels,
-		dim_type const & Dimensions
+		size_type Levels
 	)
 	:	Layers(Layers),
 		Faces(Faces),
@@ -56,17 +56,17 @@ namespace gli
 	inline storage::storage
 	(
 		format_type Format,
+		dim_type const & Dimensions,
 		size_type Layers,
 		size_type Faces,
-		size_type Levels,
-		dim_type const & Dimensions
+		size_type Levels
 	) :
 		Impl(new impl(
 			Format,
+			Dimensions,
 			Layers,
 			Faces,
-			Levels,
-			Dimensions))
+			Levels))
 	{
 		assert(Layers > 0);
 		assert(Faces > 0);
@@ -155,13 +155,8 @@ namespace gli
 	inline storage::size_type storage::level_size(size_type Level) const
 	{
 		assert(Level < this->levels());
-/*
-		dim_type const BlockDimensions(gli::block_dimensions_x(this->format()), gli::block_dimensions_y(this->format()), gli::block_dimensions_z(this->format()));
-		dim_type const Dimensions = this->dimensions(Level);
-		dim_type const Multiple = glm::ceilMultiple(Dimensions, BlockDimensions);
-		std::size_t const BlockSize = gli::block_size(this->format());
-*/
-		return this->Impl->BlockSize * glm::compMul(this->block_count(Level));//glm::compMul(Multiple / BlockDimensions);
+
+		return this->Impl->BlockSize * glm::compMul(this->block_count(Level));
 	}
 
 	inline storage::size_type storage::face_size(
