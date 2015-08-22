@@ -45,7 +45,6 @@ namespace gli
 		explicit textureCubeArray(
 			format_type Format,
 			size_type Layers,
-			size_type Faces,
 			size_type Levels,
 			dim_type const & Dimensions);
 
@@ -53,7 +52,6 @@ namespace gli
 		explicit textureCubeArray(
 			format_type Format,
 			size_type Layers,
-			size_type Faces,
 			dim_type const & Dimensions);
 
 		/// Create a textureCubeArray view with an existing storage

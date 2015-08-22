@@ -304,8 +304,6 @@ int test_textureCube
 	{
 		gli::textureCube TextureA(
 			Formats[i],
-			gli::textureCube::size_type(6),
-			gli::levels(TextureSize),
 			gli::textureCube::dim_type(TextureSize));
 
 		gli::textureCube TextureB(gli::copy(TextureA));
@@ -333,29 +331,28 @@ int test_textureCube
 
 		gli::textureCube TextureE(gli::copy(
 			TextureA,
-			1, TextureA.faces() - 1,
+			0, TextureA.faces() - 1,
 			0, TextureA.levels() - 1));
 		Error += TextureA[1] == TextureE[0] ? 0 : 1;
 
 		gli::textureCube TextureF(
 			TextureA,
-			1, TextureA.faces() - 1,
+			0, TextureA.faces() - 1,
 			0, TextureA.levels() - 1);
 
 		Error += TextureE == TextureF ? 0 : 1;
 
 		gli::textureCube TextureK(
 			Formats[i],
-			gli::textureCube::size_type(6),
 			gli::levels(TextureSize),
 			TextureSize);
 
-		gli::textureCube TextureH(TextureK, 1, 2, 1, 2);
+		gli::textureCube TextureH(TextureK, 0, 5, 1, 2);
 		gli::textureCube TextureI(gli::copy(TextureH));
 
 		Error += TextureH == TextureI ? 0 : 1;
 
-		gli::textureCube TextureJ(gli::copy(TextureK, 1, 2, 1, 2));
+		gli::textureCube TextureJ(gli::copy(TextureK, 0, 5, 1, 2));
 		Error += TextureH == TextureJ ? 0 : 1;
 		Error += TextureI == TextureJ ? 0 : 1;
 	}
@@ -376,7 +373,6 @@ int test_textureCubeArray
 		gli::textureCubeArray TextureA(
 			Formats[i],
 			gli::textureCubeArray::size_type(4),
-			gli::textureCubeArray::size_type(6),
 			gli::levels(TextureSize),
 			TextureSize);
 
@@ -405,34 +401,18 @@ int test_textureCubeArray
 			gli::textureCubeArray::size_type(0), TextureA.levels() - 1));
 		Error += TextureA == TextureG ? 0 : 1;
 
-		gli::textureCubeArray TextureE(gli::copy(
-			TextureA,
-			gli::textureCubeArray::size_type(0), TextureA.layers() - 1,
-			gli::textureCubeArray::size_type(1), TextureA.faces() - 1,
-			gli::textureCubeArray::size_type(0), TextureA.levels() - 1));
-		Error += TextureA[0][1] == TextureE[0][0] ? 0 : 1;
-
-		gli::textureCubeArray TextureF(
-			TextureA,
-			gli::textureCubeArray::size_type(0), TextureA.layers() - 1,
-			gli::textureCubeArray::size_type(1), TextureA.faces() - 1,
-			gli::textureCubeArray::size_type(0), TextureA.levels() - 1);
-
-		Error += TextureE == TextureF ? 0 : 1;
-
 		gli::textureCubeArray TextureK(
 			Formats[i],
 			gli::textureCubeArray::size_type(4),
-			gli::textureCubeArray::size_type(6),
 			gli::levels(TextureSize),
 			TextureSize);
 
-		gli::textureCubeArray TextureH(TextureK, 1, 2, 1, 2, 1, 2);
+		gli::textureCubeArray TextureH(TextureK, 1, 2, 0, 5, 1, 2);
 		gli::textureCubeArray TextureI(gli::copy(TextureH));
 
 		Error += TextureH == TextureI ? 0 : 1;
 
-		gli::textureCubeArray TextureJ(gli::copy(TextureK, 1, 2, 1, 2, 1, 2));
+		gli::textureCubeArray TextureJ(gli::copy(TextureK, 1, 2, 0, 5, 1, 2));
 		Error += TextureH == TextureJ ? 0 : 1;
 		Error += TextureI == TextureJ ? 0 : 1;
 	}
@@ -444,21 +424,27 @@ int main()
 {
 	int Error(0);
 
-	std::vector<gli::format> Formats;
-	Formats.push_back(gli::FORMAT_RGBA8_UNORM);
-	Formats.push_back(gli::FORMAT_RGB8_UNORM);
-	Formats.push_back(gli::FORMAT_RGB_DXT1_UNORM);
-	Formats.push_back(gli::FORMAT_RGB_BP_UNORM);
-	Formats.push_back(gli::FORMAT_RGBA32_SFLOAT);
+	std::vector<gli::format> FormatsA;
+	FormatsA.push_back(gli::FORMAT_RGBA8_UNORM);
+	FormatsA.push_back(gli::FORMAT_RGB8_UNORM);
+	FormatsA.push_back(gli::FORMAT_RGB_DXT1_UNORM);
+	FormatsA.push_back(gli::FORMAT_RGB_BP_UNORM);
+	FormatsA.push_back(gli::FORMAT_RGBA32_SFLOAT);
+
+	std::vector<gli::format> FormatsB;
+	FormatsB.push_back(gli::FORMAT_RGBA8_UNORM);
+	FormatsB.push_back(gli::FORMAT_RGB8_UNORM);
+	FormatsB.push_back(gli::FORMAT_RGBA32_SFLOAT);
+
 	std::size_t const TextureSize = 32;
 
-	Error += test_textureCubeArray(Formats, gli::textureCubeArray::dim_type(TextureSize));
-	Error += test_texture1D(Formats, gli::texture1D::dim_type(TextureSize));
-	Error += test_texture1DArray(Formats, gli::texture1DArray::dim_type(TextureSize));
-	Error += test_texture2D(Formats, gli::texture2D::dim_type(TextureSize));
-	Error += test_texture2DArray(Formats, gli::texture2DArray::dim_type(TextureSize));
-	Error += test_texture3D(Formats, gli::texture3D::dim_type(TextureSize));
-	Error += test_textureCube(Formats, gli::textureCube::dim_type(TextureSize));
+	Error += test_texture1D(FormatsB, gli::texture1D::dim_type(TextureSize));
+	Error += test_texture1DArray(FormatsB, gli::texture1DArray::dim_type(TextureSize));
+	Error += test_texture2D(FormatsA, gli::texture2D::dim_type(TextureSize));
+	Error += test_texture2DArray(FormatsA, gli::texture2DArray::dim_type(TextureSize));
+	Error += test_texture3D(FormatsA, gli::texture3D::dim_type(TextureSize));
+	Error += test_textureCube(FormatsA, gli::textureCube::dim_type(TextureSize));
+	Error += test_textureCubeArray(FormatsA, gli::textureCubeArray::dim_type(TextureSize));
 
 	return Error;
 }

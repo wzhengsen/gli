@@ -136,7 +136,6 @@ namespace gli
 	{
 		textureCube Copy(
 			Texture.format(),
-			Texture.faces(),
 			Texture.levels(),
 			Texture.dimensions());
 
@@ -157,7 +156,6 @@ namespace gli
 		textureCubeArray Copy(
 			Texture.format(),
 			Texture.layers(),
-			Texture.faces(),
 			Texture.levels(),
 			Texture.dimensions());
 
@@ -320,7 +318,6 @@ namespace gli
 
 		textureCube Copy(
 			Texture.format(), 
-			MaxFace - BaseFace + 1,
 			MaxLevel - BaseLevel + 1,
 			textureCube::dim_type(Texture[BaseFace][BaseLevel].dimensions()));
 
@@ -356,7 +353,6 @@ namespace gli
 		textureCubeArray Copy(
 			Texture.format(),
 			MaxLayer - BaseLayer + 1,
-			MaxFace - BaseFace + 1,
 			MaxLevel - BaseLevel + 1,
 			textureCube::dim_type(Texture[BaseLayer][BaseFace][BaseLevel].dimensions()));
 

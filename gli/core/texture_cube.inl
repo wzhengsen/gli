@@ -34,20 +34,18 @@ namespace gli
 	inline textureCube::textureCube
 	(
 		format_type Format,
-		size_type Faces,
 		dim_type const & Dimensions
 	)
-		: texture(gli::TARGET_CUBE, Format, texture::dim_type(Dimensions, 1), 1, Faces, gli::levels(Dimensions))
+		: texture(gli::TARGET_CUBE, Format, texture::dim_type(Dimensions, 1), 1, 6, gli::levels(Dimensions))
 	{}
 
 	inline textureCube::textureCube
 	(
 		format_type Format,
-		size_type Faces,
 		size_type Levels,
 		dim_type const & Dimensions
 	)
-		: texture(gli::TARGET_CUBE, Format, texture::dim_type(Dimensions, 1), 1, Faces, Levels)
+		: texture(gli::TARGET_CUBE, Format, texture::dim_type(Dimensions, 1), 1, 6, Levels)
 	{}
 
 	inline textureCube::textureCube(texture const & Texture)
