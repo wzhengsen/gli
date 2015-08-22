@@ -42,10 +42,10 @@ int test_texture1D()
 	Color.push_back(glm::u8vec4(  0, 255, 255, 255));
 	Color.push_back(glm::u8vec4(  0,   0, 255, 255));
 
-	gli::texture1D TextureA(gli::FORMAT_RGBA8_UNORM, gli::levels(32), gli::texture1D::dim_type(32));
+	gli::texture1D TextureA(gli::FORMAT_RGBA8_UNORM, gli::texture1D::dim_type(32), gli::levels(32));
 
 	{
-		gli::texture1D TextureB(gli::FORMAT_RGBA8_UNORM, gli::levels(32), gli::texture1D::dim_type(32));
+		gli::texture1D TextureB(gli::FORMAT_RGBA8_UNORM, gli::texture1D::dim_type(32), gli::levels(32));
 
 		Error += TextureA == TextureB ? 0 : 1;
 		assert(!Error);
@@ -72,7 +72,7 @@ int test_texture1D()
 	}
 
 	{
-		gli::texture1D TextureE(gli::FORMAT_RGBA8_UNORM, gli::levels(32), gli::texture1D::dim_type(32));
+		gli::texture1D TextureE(gli::FORMAT_RGBA8_UNORM, gli::texture1D::dim_type(32));
 
 		*TextureE[TextureE.levels() - 1].data<glm::u8vec4>() = glm::u8vec4(255, 127, 0, 255);
 
@@ -83,7 +83,7 @@ int test_texture1D()
 	}
 
 	{
-		gli::texture1D TextureB(gli::FORMAT_RGBA8_UNORM, 1, gli::texture1D::dim_type(32));
+		gli::texture1D TextureB(gli::FORMAT_RGBA8_UNORM, gli::texture1D::dim_type(32), 1);
 
 		*TextureB[TextureB.levels() - 1].data<glm::u8vec4>() = glm::u8vec4(255, 127, 0, 255);
 
@@ -94,7 +94,7 @@ int test_texture1D()
 	}
 
 	{
-		gli::texture1D TextureB(gli::FORMAT_RGBA8_SNORM, gli::levels(32), gli::texture1D::dim_type(32));
+		gli::texture1D TextureB(gli::FORMAT_RGBA8_SNORM, gli::texture1D::dim_type(32));
 
 		*TextureB[TextureB.levels() - 1].data<glm::u8vec4>() = glm::u8vec4(255, 127, 0, 255);
 
@@ -105,7 +105,7 @@ int test_texture1D()
 	}
 
 	{
-		gli::texture1D TextureB(gli::FORMAT_RGBA8_UNORM, gli::levels(64), gli::texture1D::dim_type(64));
+		gli::texture1D TextureB(gli::FORMAT_RGBA8_UNORM, gli::texture1D::dim_type(64));
 
 		gli::texture1D TextureC(TextureB, TextureB.base_level() + 1, TextureB.max_level());
 
@@ -132,16 +132,14 @@ int test_texture1DArray()
 
 	gli::texture1DArray TextureA(
 		gli::FORMAT_RGBA8_UNORM,
-		gli::texture1D::size_type(1),
-		gli::levels(32),
-		gli::texture1D::dim_type(32));
+		gli::texture1D::dim_type(32),
+		gli::texture1D::size_type(1));
 
 	{
 		gli::texture1DArray TextureB(
 			gli::FORMAT_RGBA8_UNORM,
-			gli::texture1D::size_type(1),
-			gli::levels(32),
-			gli::texture1D::dim_type(32));
+			gli::texture1D::dim_type(32),
+			gli::texture1D::size_type(1));
 
 		Error += TextureA == TextureB ? 0 : 1;
 		Error += TextureA != TextureB ? 1 : 0;
@@ -168,9 +166,8 @@ int test_texture1DArray()
 	{
 		gli::texture1DArray TextureE(
 			gli::FORMAT_RGBA8_UNORM,
-			gli::texture1D::size_type(1),
-			gli::levels(32),
-			gli::texture1DArray::dim_type(32));
+			gli::texture1DArray::dim_type(32),
+			gli::texture1D::size_type(1));
 
 		*TextureE[0][TextureE.levels() - 1].data<glm::u8vec4>() = glm::u8vec4(255, 127, 0, 255);
 
@@ -179,7 +176,7 @@ int test_texture1DArray()
 	}
 
 	{
-		gli::texture1DArray TextureB(gli::FORMAT_RGBA8_UNORM, gli::texture1D::size_type(1), 1, gli::texture1DArray::dim_type(32));
+		gli::texture1DArray TextureB(gli::FORMAT_RGBA8_UNORM, gli::texture1DArray::dim_type(32), 1, 1);
 
 		*TextureB[TextureB.levels() - 1].data<glm::u8vec4>() = glm::u8vec4(255, 127, 0, 255);
 
@@ -188,7 +185,7 @@ int test_texture1DArray()
 	}
 
 	{
-		gli::texture1DArray TextureB(gli::FORMAT_RGBA8_SNORM, gli::texture1D::size_type(1), gli::levels(32), gli::texture1DArray::dim_type(32));
+		gli::texture1DArray TextureB(gli::FORMAT_RGBA8_SNORM, gli::texture1DArray::dim_type(32), 1);
 
 		*TextureB[0][TextureB.levels() - 1].data<glm::u8vec4>() = glm::u8vec4(255, 127, 0, 255);
 
@@ -197,7 +194,7 @@ int test_texture1DArray()
 	}
 
 	{
-		gli::texture1DArray TextureB(gli::FORMAT_RGBA8_UNORM, 1, gli::levels(64), gli::texture1DArray::dim_type(64));
+		gli::texture1DArray TextureB(gli::FORMAT_RGBA8_UNORM, gli::texture1DArray::dim_type(64), 1);
 
 		gli::texture1DArray TextureC(TextureB,
 			TextureB.base_layer(), TextureB.max_layer(),

@@ -40,8 +40,8 @@ int test_texture1D
 	{
 		gli::texture1D TextureA(
 			Formats[i],
-			gli::levels(TextureSize),
-			TextureSize);
+			TextureSize,
+			gli::levels(TextureSize));
 
 		gli::texture1D TextureB(gli::copy(TextureA));
 
@@ -83,9 +83,8 @@ int test_texture1DArray
 	{
 		gli::texture1DArray TextureA(
 			Formats[i],
-			gli::texture1DArray::size_type(4),
-			gli::levels(TextureSize),
-			TextureSize);
+			TextureSize,
+			gli::texture1DArray::size_type(4));
 
 		gli::texture1DArray TextureB(gli::copy(TextureA));
 
@@ -125,9 +124,9 @@ int test_texture1DArray
 
 		gli::texture1DArray TextureK(
 			Formats[i],
+			TextureSize,
 			gli::texture1DArray::size_type(4),
-			gli::levels(TextureSize),
-			TextureSize);
+			gli::levels(TextureSize));
 
 		gli::texture1DArray TextureH(TextureK, 1, 2, 1, 2);
 		gli::texture1DArray TextureI(gli::copy(TextureH));

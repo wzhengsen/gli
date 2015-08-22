@@ -36,8 +36,8 @@ namespace gli
 	inline texture1D::texture1D
 	(
 		format_type Format,
-		size_type Levels,
-		dim_type const & Dimensions
+		dim_type const & Dimensions,
+		size_type Levels
 	)
 		: texture(gli::TARGET_1D, Format, texture::dim_type(Dimensions.x, 1, 1), 1, 1, Levels)
 	{}

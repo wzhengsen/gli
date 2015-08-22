@@ -57,8 +57,8 @@ namespace gli
 	{
 		texture1D Copy(
 			Texture.format(),
-			Texture.levels(),
-			Texture.dimensions());
+			Texture.dimensions(),
+			Texture.levels());
 
 		memcpy(
 			Copy.data<glm::byte>(),
@@ -73,9 +73,9 @@ namespace gli
 	{
 		texture1DArray Copy(
 			Texture.format(),
+			Texture.dimensions(),
 			Texture.layers(),
-			Texture.levels(),
-			Texture.dimensions());
+			Texture.levels());
 
 		for(texture1DArray::size_type Layer = 0; Layer < Copy.layers(); ++Layer)
 		{
@@ -182,9 +182,9 @@ namespace gli
 		assert(MaxLevel < Texture.levels());
 	
 		texture1D Copy(
-			Texture.format(), 
-			MaxLevel - BaseLevel + 1,
-			texture1D::dim_type(Texture[BaseLevel].dimensions().x));
+			Texture.format(),
+			texture1D::dim_type(Texture[BaseLevel].dimensions().x), 
+			MaxLevel - BaseLevel + 1);
 
 		memcpy(
 			Copy.data<glm::byte>(),
@@ -209,10 +209,10 @@ namespace gli
 		assert(MaxMayer < Texture.layers());
 
 		texture1DArray Copy(
-			Texture.format(), 
+			Texture.format(),
+			texture1DArray::dim_type(Texture[BaseLayer][BaseLevel].dimensions().x), 
 			MaxMayer - BaseLayer + 1,
-			MaxLevel - BaseLevel + 1,
-			texture1DArray::dim_type(Texture[BaseLayer][BaseLevel].dimensions().x));
+			MaxLevel - BaseLevel + 1);
 
 		for(texture1DArray::size_type Layer = 0; Layer < Copy.layers(); ++Layer)
 		{

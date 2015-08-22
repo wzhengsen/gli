@@ -91,7 +91,7 @@ namespace dim
 
 		for(std::size_t i = 0; i < Formats.size(); ++i)
 		{
-			gli::texture1DArray TextureA(Formats[i], gli::texture1DArray::size_type(4), TextureSize);
+			gli::texture1DArray TextureA(Formats[i], TextureSize, gli::texture1DArray::size_type(4));
 
 			gli::texture1DArray TextureViewA(gli::view(
 				TextureA,
@@ -109,7 +109,7 @@ namespace dim
 			Error += TextureViewC == TextureViewA ? 0 : 1;
 
 			gli::texture1DArray TextureB(
-				Formats[i], gli::texture1DArray::size_type(4), TextureSize / gli::texture1DArray::dim_type(2));
+				Formats[i], TextureSize / gli::texture1DArray::dim_type(2), gli::texture1DArray::size_type(4));
 
 			Error += TextureA != TextureB ? 0 : 1;
 
