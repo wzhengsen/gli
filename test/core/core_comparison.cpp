@@ -486,7 +486,7 @@ int test_textureCube()
 	}
 
 	{
-		gli::textureCube TextureB(gli::FORMAT_RGBA8_UNORM, 1, Size);
+		gli::textureCube TextureB(gli::FORMAT_RGBA8_UNORM, Size, 1);
 
 		*TextureB[TextureB.faces() - 1][TextureB.levels() - 1].data<glm::u8vec4>() = glm::u8vec4(255, 127, 0, 255);
 

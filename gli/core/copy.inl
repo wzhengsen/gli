@@ -136,8 +136,8 @@ namespace gli
 	{
 		textureCube Copy(
 			Texture.format(),
-			Texture.levels(),
-			Texture.dimensions());
+			Texture.dimensions(),
+			Texture.levels());
 
 		for(textureCube::size_type Face = 0; Face < Copy.faces(); ++Face)
 		{
@@ -317,9 +317,9 @@ namespace gli
 		assert(MaxFace < Texture.faces());
 
 		textureCube Copy(
-			Texture.format(), 
-			MaxLevel - BaseLevel + 1,
-			textureCube::dim_type(Texture[BaseFace][BaseLevel].dimensions()));
+			Texture.format(),
+			textureCube::dim_type(Texture[BaseFace][BaseLevel].dimensions()),
+			MaxLevel - BaseLevel + 1);
 
 		for(textureCube::size_type Face = 0; Face < Copy.faces(); ++Face)
 		{

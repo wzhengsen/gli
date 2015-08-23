@@ -343,7 +343,6 @@ int test_textureCube
 
 		gli::textureCube TextureK(
 			Formats[i],
-			gli::levels(TextureSize),
 			TextureSize);
 
 		gli::textureCube TextureH(TextureK, 0, 5, 1, 2);

@@ -42,8 +42,8 @@ namespace gli
 	inline textureCube::textureCube
 	(
 		format_type Format,
-		size_type Levels,
-		dim_type const & Dimensions
+		dim_type const & Dimensions,
+		size_type Levels
 	)
 		: texture(gli::TARGET_CUBE, Format, texture::dim_type(Dimensions, 1), 1, 6, Levels)
 	{}

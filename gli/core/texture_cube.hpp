@@ -44,8 +44,8 @@ namespace gli
 		/// Create a textureCube and allocate a new storage
 		explicit textureCube(
 			format_type Format,
-			size_type Levels,
-			dim_type const & Dimensions);
+			dim_type const & Dimensions,
+			size_type Levels);
 
 		/// Create a textureCube and allocate a new storage with a complete mipmap chain
 		explicit textureCube(
