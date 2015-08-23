@@ -261,14 +261,14 @@ namespace dim
 
 		for(std::size_t i = 0; i < Formats.size(); ++i)
 		{
-			gli::texture3D TextureA(Formats[i], gli::levels(TextureSize), TextureSize);
+			gli::texture3D TextureA(Formats[i], TextureSize, gli::levels(TextureSize));
 			gli::texture3D TextureViewA(gli::view(
 				TextureA, TextureA.base_level(), TextureA.max_level()));
 
 			Error += TextureA == TextureViewA ? 0 : 1;
 
 			gli::texture3D::dim_type SizeB(TextureSize / gli::texture3D::dim_type(2));
-			gli::texture3D TextureB(Formats[i], gli::levels(SizeB), SizeB);
+			gli::texture3D TextureB(Formats[i], SizeB, gli::levels(SizeB));
 
 			gli::texture3D TextureViewB(gli::view(
 				TextureA, TextureA.base_level() + 1, TextureA.max_level()));
@@ -364,9 +364,8 @@ namespace dim
 		{
 			gli::textureCubeArray TextureA(
 				Formats[i],
-				gli::textureCubeArray::size_type(4),
-				gli::levels(TextureSize),
-				TextureSize);
+				TextureSize,
+				4);
 
 			gli::textureCubeArray TextureViewA(gli::view(
 				TextureA,
@@ -379,9 +378,8 @@ namespace dim
 			gli::textureCubeArray::dim_type SizeB(TextureSize / gli::textureCubeArray::dim_type(2));
 			gli::textureCubeArray TextureB(
 				Formats[i],
-				gli::textureCubeArray::size_type(4),
-				gli::levels(SizeB),
-				SizeB);
+				SizeB,
+				gli::textureCubeArray::size_type(4));
 
 			gli::textureCubeArray TextureViewB(gli::view(
 				TextureA,

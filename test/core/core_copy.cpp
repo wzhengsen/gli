@@ -371,9 +371,8 @@ int test_textureCubeArray
 	{
 		gli::textureCubeArray TextureA(
 			Formats[i],
-			gli::textureCubeArray::size_type(4),
-			gli::levels(TextureSize),
-			TextureSize);
+			TextureSize,
+			gli::textureCubeArray::size_type(4));
 
 		gli::textureCubeArray TextureB(gli::copy(TextureA));
 
@@ -402,9 +401,8 @@ int test_textureCubeArray
 
 		gli::textureCubeArray TextureK(
 			Formats[i],
-			gli::textureCubeArray::size_type(4),
-			gli::levels(TextureSize),
-			TextureSize);
+			TextureSize,
+			4);
 
 		gli::textureCubeArray TextureH(TextureK, 1, 2, 0, 5, 1, 2);
 		gli::textureCubeArray TextureI(gli::copy(TextureH));

@@ -44,15 +44,15 @@ namespace gli
 		/// Create a textureCubeArray and allocate a new storage
 		explicit textureCubeArray(
 			format_type Format,
+			dim_type const & Dimensions,
 			size_type Layers,
-			size_type Levels,
-			dim_type const & Dimensions);
+			size_type Levels);
 
 		/// Create a textureCubeArray and allocate a new storage with a complete mipmap chain
 		explicit textureCubeArray(
 			format_type Format,
-			size_type Layers,
-			dim_type const & Dimensions);
+			dim_type const & Dimensions,
+			size_type Layers);
 
 		/// Create a textureCubeArray view with an existing storage
 		explicit textureCubeArray(

@@ -120,8 +120,8 @@ namespace gli
 	{
 		texture3D Copy(
 			Texture.format(),
-			Texture.levels(),
-			Texture.dimensions());
+			Texture.dimensions(),
+			Texture.levels());
 
 		memcpy(
 			Copy.data<glm::byte>(),
@@ -155,9 +155,9 @@ namespace gli
 	{
 		textureCubeArray Copy(
 			Texture.format(),
+			Texture.dimensions(),
 			Texture.layers(),
-			Texture.levels(),
-			Texture.dimensions());
+			Texture.levels());
 
 		for(textureCubeArray::size_type Layer = 0; Layer < Copy.layers(); ++Layer)
 		for(textureCubeArray::size_type Face = 0; Face < Copy[Layer].faces(); ++Face)
@@ -291,8 +291,8 @@ namespace gli
 	
 		texture3D Copy(
 			Texture.format(),
-			MaxLevel - BaseLevel + 1,
-			texture3D::dim_type(Texture[BaseLevel].dimensions()));
+			texture3D::dim_type(Texture[BaseLevel].dimensions()),
+			MaxLevel - BaseLevel + 1);
 
 		memcpy(
 			Copy.data<glm::byte>(),
@@ -352,9 +352,9 @@ namespace gli
 
 		textureCubeArray Copy(
 			Texture.format(),
+			textureCubeArray::dim_type(Texture[BaseLayer][BaseFace][BaseLevel].dimensions()),
 			MaxLayer - BaseLayer + 1,
-			MaxLevel - BaseLevel + 1,
-			textureCube::dim_type(Texture[BaseLayer][BaseFace][BaseLevel].dimensions()));
+			MaxLevel - BaseLevel + 1);
 
 		for(textureCubeArray::size_type Layer = 0; Layer < Copy.layers(); ++Layer)
 		for(textureCubeArray::size_type Face = 0; Face < Copy[Layer].faces(); ++Face)

@@ -34,8 +34,8 @@ namespace gli
 	inline textureCubeArray::textureCubeArray
 	(
 		format_type Format,
-		size_type Layers,
-		dim_type const & Dimensions
+		dim_type const & Dimensions,
+		size_type Layers
 	)
 		: texture(gli::TARGET_CUBE_ARRAY, Format, texture::dim_type(Dimensions, 1), Layers, 6, gli::levels(Dimensions))
 	{}
@@ -43,9 +43,9 @@ namespace gli
 	inline textureCubeArray::textureCubeArray
 	(
 		format_type Format,
+		dim_type const & Dimensions,
 		size_type Layers,
-		size_type Levels,
-		dim_type const & Dimensions
+		size_type Levels
 	)
 		: texture(gli::TARGET_CUBE_ARRAY, Format, texture::dim_type(Dimensions, 1), Layers, 6, Levels)
 	{}
