@@ -44,15 +44,15 @@ namespace gli
 		/// Create a texture2DArray and allocate a new storage
 		explicit texture2DArray(
 			format_type Format,
+			dim_type const & Dimensions,
 			size_type Layers,
-			size_type Levels,
-			dim_type const & Dimensions);
+			size_type Levels);
 
 		/// Create a texture2DArray and allocate a new storage with a complete mipmap chain
 		explicit texture2DArray(
 			format_type Format,
-			size_type Layers,
-			dim_type const & Dimensions);
+			dim_type const & Dimensions,
+			size_type Layers);
 
 		/// Create a texture2DArray view with an existing storage
 		explicit texture2DArray(

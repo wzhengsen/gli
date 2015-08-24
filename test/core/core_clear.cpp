@@ -156,8 +156,8 @@ namespace data
 		int Error(0);
 
 		gli::texture2DArray::dim_type const Size(16);
-		gli::texture2D TextureA(gli::FORMAT_RGBA8_UNORM, gli::texture2DArray::size_type(1), Size);
-		gli::texture2D TextureB(gli::FORMAT_RGBA8_UNORM, gli::texture2DArray::size_type(1), Size);
+		gli::texture2D TextureA(gli::FORMAT_RGBA8_UNORM, Size, 1);
+		gli::texture2D TextureB(gli::FORMAT_RGBA8_UNORM, Size, 1);
 
 		{
 			std::clock_t TimeStart = std::clock();

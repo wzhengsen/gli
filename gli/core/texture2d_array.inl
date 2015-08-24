@@ -36,8 +36,8 @@ namespace gli
 	inline texture2DArray::texture2DArray
 	(
 		format_type Format,
-		size_type Layers,
-		dim_type const & Dimensions
+		dim_type const & Dimensions,
+		size_type Layers
 	)
 		: texture(gli::TARGET_2D_ARRAY, Format, texture::dim_type(Dimensions, 1), Layers, 1, gli::levels(Dimensions))
 	{}
@@ -45,9 +45,9 @@ namespace gli
 	inline texture2DArray::texture2DArray
 	(
 		format_type Format,
+		dim_type const & Dimensions,
 		size_type Layers,
-		size_type Levels,
-		dim_type const & Dimensions
+		size_type Levels
 	)
 		: texture(gli::TARGET_2D_ARRAY, Format, texture::dim_type(Dimensions, 1), Layers, 1, Levels)
 	{}

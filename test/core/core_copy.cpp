@@ -193,15 +193,14 @@ int test_texture2DArray
 	{
 		gli::texture2DArray TextureA(
 			Formats[i],
-			gli::texture2DArray::size_type(4),
-			gli::levels(TextureSize),
-			TextureSize);
+			TextureSize,
+			gli::texture2DArray::size_type(4));
 
 		gli::texture2DArray TextureB(gli::copy(TextureA));
 
 		Error += TextureA == TextureB ? 0 : 1;
 
-		gli::texture2DArray TextureC(TextureA, 
+		gli::texture2DArray TextureC(TextureA,
 			gli::texture2DArray::size_type(0), TextureA.layers() - 1,
 			gli::texture2DArray::size_type(1), gli::texture2DArray::size_type(2));
 
@@ -235,9 +234,8 @@ int test_texture2DArray
 
 		gli::texture2DArray TextureK(
 			Formats[i],
-			gli::texture2DArray::size_type(4),
-			gli::levels(TextureSize),
-			TextureSize);
+			TextureSize,
+			gli::texture2DArray::size_type(4));
 
 		gli::texture2DArray TextureH(TextureK, 1, 2, 1, 2);
 		gli::texture2DArray TextureI(gli::copy(TextureH));

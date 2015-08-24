@@ -37,7 +37,7 @@ namespace gli
 		: texture(gli::TARGET_2D, Format, texture::dim_type(Dimensions, 1), 1, 1, gli::levels(Dimensions))
 	{}
 
-	inline texture2D::texture2D(format_type Format, size_type Levels, dim_type const & Dimensions)
+	inline texture2D::texture2D(format_type Format, dim_type const & Dimensions, size_type Levels)
 		: texture(gli::TARGET_2D, Format, texture::dim_type(Dimensions, 1), 1, 1, Levels)
 	{}
 

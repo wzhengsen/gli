@@ -41,8 +41,8 @@ namespace gli
 	{
 		texture2D Copy(
 			Format,
-			Texture.levels(),
-			Texture.dimensions());
+			Texture.dimensions(),
+			Texture.levels());
 
 		memcpy(
 			Copy.data<glm::byte>(),
@@ -93,8 +93,8 @@ namespace gli
 	{
 		texture2D Copy(
 			Texture.format(),
-			Texture.levels(),
-			Texture.dimensions());
+			Texture.dimensions(),
+			Texture.levels());
 
 		memcpy(
 			Copy.data<glm::byte>(),
@@ -107,7 +107,7 @@ namespace gli
 	template <>
 	inline texture copy(texture2DArray const & Texture)
 	{
-		texture2DArray Copy(Texture.format(), Texture.layers(), Texture.levels(), Texture.dimensions());
+		texture2DArray Copy(Texture.format(), Texture.dimensions(), Texture.layers(), Texture.levels());
 
 		for(texture2DArray::size_type Layer = 0; Layer < Copy.layers(); ++Layer)
 			memcpy(Copy[Layer].data<glm::byte>(), Texture[Layer].data<glm::byte>(), Copy[Layer].size<glm::byte>());
@@ -237,8 +237,8 @@ namespace gli
 	
 		texture2D Copy(
 			Texture.format(),
-			MaxLevel - BaseLevel + 1,
-			texture2D::dim_type(Texture[BaseLevel].dimensions().x));
+			texture2D::dim_type(Texture[BaseLevel].dimensions().x),
+			MaxLevel - BaseLevel + 1);
 
 		memcpy(
 			Copy.data<glm::byte>(),
@@ -263,10 +263,10 @@ namespace gli
 		assert(MaxMayer < Texture.layers());
 
 		texture2DArray Copy(
-			Texture.format(), 
+			Texture.format(),
+			texture2DArray::dim_type(Texture[BaseLayer][BaseLevel].dimensions()),
 			MaxMayer - BaseLayer + 1,
-			MaxLevel - BaseLevel + 1,
-			texture2DArray::dim_type(Texture[BaseLayer][BaseLevel].dimensions()));
+			MaxLevel - BaseLevel + 1);
 
 		for(texture2DArray::size_type Layer = 0; Layer < Copy.layers(); ++Layer)
 		{

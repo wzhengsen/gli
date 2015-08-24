@@ -160,7 +160,7 @@ namespace dim
 
 		for(std::size_t i = 0; i < Formats.size(); ++i)
 		{
-			gli::texture2D TextureA(Formats[i], gli::levels(TextureSize), TextureSize);
+			gli::texture2D TextureA(Formats[i], TextureSize, gli::levels(TextureSize));
 
 			for(std::size_t Index = 0; Index < TextureA.size<glm::byte>(); ++Index)
 				*(TextureA.data<glm::byte>() + Index) = glm::byte(Index);
@@ -205,7 +205,7 @@ namespace dim
 
 		for(std::size_t i = 0; i < Formats.size(); ++i)
 		{
-			gli::texture2DArray TextureA(Formats[i], gli::texture2DArray::size_type(4), gli::levels(TextureSize), TextureSize);
+			gli::texture2DArray TextureA(Formats[i], TextureSize, 4);
 
 			gli::texture2DArray TextureViewA(gli::view(
 				TextureA,
@@ -214,7 +214,7 @@ namespace dim
 
 			Error += TextureA == TextureViewA ? 0 : 1;
 
-			gli::texture2DArray TextureB(Formats[i], gli::texture2DArray::size_type(4), TextureSize / gli::texture2DArray::dim_type(2));
+			gli::texture2DArray TextureB(Formats[i], TextureSize / gli::texture2DArray::dim_type(2), 4);
 
 			gli::texture2DArray TextureViewB(gli::view(
 				TextureA,
@@ -481,7 +481,7 @@ namespace format
 		{
 			gli::texture2D TextureA(gli::FORMAT_RGB_DXT1_UNORM, gli::texture2D::dim_type(4));
 			gli::texture2D TextureB(gli::view(TextureA, gli::FORMAT_RG32_UINT));
-			gli::texture2D TextureC(gli::FORMAT_RG32_UINT, 3, gli::texture2D::dim_type(1));
+			gli::texture2D TextureC(gli::FORMAT_RG32_UINT, gli::texture2D::dim_type(1), 3);
 
 			Error += TextureA.size() == TextureB.size() ? 0 : 1;
 			Error += TextureA.size() == TextureC.size() ? 0 : 1;
@@ -494,7 +494,7 @@ namespace format
 		{
 			gli::texture2D TextureA(gli::FORMAT_RGBA_DXT5_UNORM, gli::texture2D::dim_type(4));
 			gli::texture2D TextureB(gli::view(TextureA, gli::FORMAT_RGBA32_UINT));
-			gli::texture2D TextureC(gli::FORMAT_RGBA32_UINT, 3, gli::texture2D::dim_type(1));
+			gli::texture2D TextureC(gli::FORMAT_RGBA32_UINT, gli::texture2D::dim_type(1), 3);
 			gli::texture2D TextureD(gli::view(TextureC, gli::FORMAT_RGBA_DXT5_UNORM));
 
 			Error += TextureA == TextureD ? 0 : 1;
