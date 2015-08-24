@@ -112,7 +112,6 @@ namespace detail
 
 		for(std::size_t Level = 0, Levels = Texture.levels(); Level < Levels; ++Level)
 		{
-			std::uint32_t const ImageSize = *reinterpret_cast<std::uint32_t const*>(Data + Offset);
 			Offset += sizeof(std::uint32_t);
 
 			for(std::size_t Layer = 0, Layers = Texture.layers(); Layer < Layers; ++Layer)
