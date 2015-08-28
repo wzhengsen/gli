@@ -140,6 +140,20 @@ namespace detail
 		, Size(compute_size(BaseLevel))
 	{}
 
+	inline image::image
+	(
+		image const & Image,
+		format_type Format
+	)
+		: Storage(Image.Storage)
+		, Format(Format)
+		, BaseLevel(Image.BaseLevel)
+		, Data(Image.Data)
+		, Size(Image.Size)
+	{
+		assert(block_size(Format) == block_size(Image.format()));
+	}
+
 	inline bool image::empty() const
 	{
 		return this->Storage.empty();

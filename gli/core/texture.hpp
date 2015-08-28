@@ -120,7 +120,7 @@ namespace gli
 		size_type size() const;
 
 		/// Return the number of blocks contained in a texture instance storage.
-		/// genType size must match the block size conresponding to the the texture format. 
+		/// genType size must match the block size conresponding to the texture format. 
 		template <typename genType>
 		size_type size() const;
 
@@ -165,11 +165,11 @@ namespace gli
 		size_type const MaxFace;
 		size_type const BaseLevel;
 		size_type const MaxLevel;
-		data_type *const Data;
+		data_type * const Data;
 		size_type const Size;
 
 	private:
-		data_type *const compute_data() const;
+		data_type * const compute_data() const;
 		size_type compute_size() const;
 	};
 

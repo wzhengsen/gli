@@ -85,6 +85,8 @@ namespace gli
 		/// Return the memory size of an image instance storage in bytes.
 		size_type size() const;
 
+		/// Return the number of blocks contained in an image instance storage.
+		/// genType size must match the block size conresponding to the image format. 
 		template <typename genType>
 		size_type size() const;
 

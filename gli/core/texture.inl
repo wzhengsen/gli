@@ -243,7 +243,7 @@ namespace gli
 			*(Data + TexelIndex) = Texel;
 	}
 
-	inline texture::data_type *const texture::compute_data() const
+	inline texture::data_type * const texture::compute_data() const
 	{
 		if(this->empty())
 			return nullptr;

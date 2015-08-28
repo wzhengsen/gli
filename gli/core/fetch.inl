@@ -84,13 +84,8 @@ namespace gli
 		std::size_t t_below = std::size_t(glm::floor(Texcoord.t * float(Dimensions.y - 1)));
 		std::size_t t_above = std::size_t(glm::ceil( Texcoord.t * float(Dimensions.y - 1)));
 
-		float s_step = 1.0f / float(Dimensions.x);
-		float t_step = 1.0f / float(Dimensions.y);
-
 		float s_below_normalized = s_below / float(Dimensions.x);
-		float s_above_normalized = s_above / float(Dimensions.x);
 		float t_below_normalized = t_below / float(Dimensions.y);
-		float t_above_normalized = t_above / float(Dimensions.y);
 
 		genType Value1 = reinterpret_cast<genType const * const>(Data)[s_below + t_below * Dimensions.x];
 		genType Value2 = reinterpret_cast<genType const * const>(Data)[s_above + t_below * Dimensions.x];
