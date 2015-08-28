@@ -72,7 +72,12 @@ namespace detail
 
 		detail::ktxHeader & Header = *reinterpret_cast<detail::ktxHeader*>(&Memory[0]);
 
-		memcpy(Header.Identifier, "«KTX 11»\r\n\x1A\n", sizeof(Header.Identifier));
+		unsigned char const Identifier[] =
+		{
+		   0xAB, 0x4B, 0x54, 0x58, 0x20, 0x31, 0x31, 0xBB, 0x0D, 0x0A, 0x1A, 0x0A
+		};
+
+		memcpy(Header.Identifier, Identifier, sizeof(Header.Identifier));
 		Header.Endianness = 0x04030201;
 		Header.GLType = Format.Type;
 		Header.GLTypeSize = Format.Type == gl::TYPE_NONE ? 1 : Desc.BlockSize;
