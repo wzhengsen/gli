@@ -124,19 +124,19 @@ namespace gli
 		/// This image object is effectively a image view where the format can be reinterpreted
 		/// with a different compatible image format.
 		explicit image(
-			storage const & Storage,
+			std::shared_ptr<storage> Storage,
 			format_type Format,
 			size_type BaseLayer,
 			size_type BaseFace,
 			size_type BaseLevel);
 
-		storage Storage;
+		std::shared_ptr<storage> Storage;
 		format_type const Format;
 		size_type const BaseLevel;
-		data_type *const Data;
+		data_type * Data;
 		size_type const Size;
 
-		data_type *const compute_data(size_type BaseLayer, size_type BaseFace, size_type BaseLevel) const;
+		data_type * compute_data(size_type BaseLayer, size_type BaseFace, size_type BaseLevel);
 		size_type compute_size(size_type Level) const;
 	};
 }//namespace gli

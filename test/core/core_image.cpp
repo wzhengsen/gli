@@ -60,24 +60,6 @@ int test_image_data()
 	Error += !ImageB.empty() ? 0 : 1;
 	assert(!Error);
 
-	gli::storage Storage(
-		gli::FORMAT_RGBA8_UNORM,
-		gli::storage::dim_type(1, 1, 1),
-		2, 1, 1);
-
-	std::vector<glm::u8vec4> Data(2);
-	Data[0] = glm::u8vec4(  0, 127, 255, 255);
-	Data[1] = glm::u8vec4(255, 127,   0, 255);
-
-	memcpy(Storage.data(), &Data[0][0], Data.size() * sizeof(glm::u8vec4));
-
-	gli::image ImageC(Storage, gli::FORMAT_RGBA8_UNORM, 1, 0, 0);
-	Error += !ImageC.empty() ? 0 : 1;
-	assert(!Error);
-
-	Error += ImageB == ImageC ? 0 : 1;
-	assert(!Error);
-
 	return Error;
 }
 

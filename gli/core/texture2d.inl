@@ -89,9 +89,7 @@ namespace gli
 		assert(!this->empty());
 
 		return texture2D::dim_type(
-			this->Storage.block_count(this->base_level()) * block_dimensions(this->format()));
-
-		//return texture2D::dim_type(this->Storage.dimensions(this->base_level()));
+			this->Storage->block_count(this->base_level()) * block_dimensions(this->format()));
 	}
 
 	template <typename genType>
@@ -99,7 +97,7 @@ namespace gli
 	{
 		assert(!this->empty());
 		assert(!is_compressed(this->format()));
-		assert(this->Storage.block_size() >= sizeof(genType));
+		assert(this->Storage->block_size() >= sizeof(genType));
 
 		dim_type const Dimensions(this->dimensions());
 		size_type const Offset = TexelCoord.x + TexelCoord.y * Dimensions.x;

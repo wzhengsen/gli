@@ -156,7 +156,7 @@ namespace gli
 			size_type Level) const;
 
 	protected:
-		storage Storage;
+		std::shared_ptr<storage> Storage;
 		target_type const Target;
 		format_type const Format;
 		size_type const BaseLayer;
@@ -165,11 +165,11 @@ namespace gli
 		size_type const MaxFace;
 		size_type const BaseLevel;
 		size_type const MaxLevel;
-		data_type * const Data;
+		data_type * Data;
 		size_type const Size;
 
 	private:
-		data_type * const compute_data() const;
+		data_type * compute_data();
 		size_type compute_size() const;
 	};
 

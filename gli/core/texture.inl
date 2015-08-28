@@ -31,7 +31,8 @@
 namespace gli
 {
 	inline texture::texture()
-		: Target(static_cast<gli::target>(TARGET_INVALID))
+		: Storage(nullptr)
+		, Target(static_cast<gli::target>(TARGET_INVALID))
 		, Format(static_cast<gli::format>(FORMAT_INVALID))
 		, BaseLayer(0), MaxLayer(0)
 		, BaseFace(0), MaxFace(0)
@@ -49,7 +50,7 @@ namespace gli
 		size_type Faces,
 		size_type Levels
 	)
-		: Storage(Format, Dimensions, Layers, Faces, Levels)
+		: Storage(new storage(Format, Dimensions, Layers, Faces, Levels))
 		, Target(Target)
 		, Format(Format)
 		, BaseLayer(0), MaxLayer(Layers - 1)
@@ -163,7 +164,10 @@ namespace gli
 
 	inline bool texture::empty() const
 	{
-		return this->Storage.empty();
+		if(this->Storage.get() == nullptr)
+			return true;
+
+		return this->Storage->empty();
 	}
 
 	inline texture::format_type texture::format() const
@@ -175,8 +179,7 @@ namespace gli
 	{
 		assert(!this->empty());
 
-		//return this->Storage.dimensions(this->base_level() + Level);
-		return this->Storage.block_count(this->base_level() + Level) * block_dimensions(this->format());
+		return this->Storage->block_count(this->base_level() + Level) * block_dimensions(this->format());
 	}
 
 	inline texture::size_type texture::base_layer() const
@@ -243,15 +246,15 @@ namespace gli
 			*(Data + TexelIndex) = Texel;
 	}
 
-	inline texture::data_type * const texture::compute_data() const
+	inline texture::data_type * texture::compute_data()
 	{
 		if(this->empty())
 			return nullptr;
 
-		size_type const Offset = this->Storage.offset(
+		size_type const Offset = this->Storage->offset(
 			this->base_layer(), this->base_face(), this->base_level());
 
-		return this->Storage.data() + Offset;
+		return this->Storage->data() + Offset;
 	}
 
 	inline texture::size_type texture::compute_size() const
@@ -259,7 +262,7 @@ namespace gli
 		if(this->empty())
 			return 0;
 
-		return this->Storage.layer_size(
+		return this->Storage->layer_size(
 			this->base_face(), this->max_face(),
 			this->base_level(), this->max_level()) * this->layers();
 	}
@@ -275,7 +278,7 @@ namespace gli
 		assert(Face >= BaseFace && Face <= MaxFace);
 		assert(Level >= BaseLevel && Level <= MaxLevel);
 
-		return this->Storage.offset(Layer, Face, Level);
+		return this->Storage->offset(Layer, Face, Level);
 	}
 
 	inline texture::size_type texture::level_size
@@ -285,7 +288,7 @@ namespace gli
 	{
 		assert(Level >= BaseLevel && Level <= MaxLevel);
 
-		return this->Storage.level_size(Level);
+		return this->Storage->level_size(Level);
 	}
 }//namespace gli
 

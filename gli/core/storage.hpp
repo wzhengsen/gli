@@ -82,7 +82,6 @@ namespace gli
 		dim_type block_count(size_type Level) const;
 
 		data_type * data();
-		data_type * const data() const;
 
 		/// Compute the relative memory offset to access the data for a specific layer, face and level
 		size_type offset(
@@ -99,26 +98,12 @@ namespace gli
 			size_type BaseLevel, size_type MaxLevel) const;
 
 	private:
-		struct impl
-		{
-			impl();
-
-			explicit impl(
-				format_type Format,
-				dim_type const & Dimensions,
-				size_type Layers,
-				size_type Faces,
-				size_type Levels);
-
-			size_type const Layers;
-			size_type const Faces;
-			size_type const Levels;
-			size_type const BlockSize;
-			dim_type const BlockCount;
-			std::vector<data_type> Data;
-		};
-
-		std::shared_ptr<impl> Impl;
+		size_type const Layers;
+		size_type const Faces;
+		size_type const Levels;
+		size_type const BlockSize;
+		dim_type const BlockCount;
+		std::vector<data_type> Data;
 	};
 
 /*

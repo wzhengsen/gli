@@ -100,6 +100,6 @@ namespace gli
 		assert(!this->empty());
 
 		return texture1D::dim_type(
-			this->Storage.block_count(this->base_level()) * block_dimensions(this->format()));
+			this->Storage->block_count(this->base_level()) * block_dimensions(this->format()));
 	}
 }//namespace gli
