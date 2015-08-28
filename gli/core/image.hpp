@@ -39,6 +39,11 @@ namespace gli
 	/// Image
 	class image
 	{
+	private:
+		friend class texture1D;
+		friend class texture2D;
+		friend class texture3D;
+
 	public:
 		typedef size_t size_type;
 		typedef gli::format format_type;
@@ -52,18 +57,6 @@ namespace gli
 		explicit image(
 			format_type Format,
 			dim_type const & Dimensions);
-
-		/// Create an image object by sharing an existing image storage from another image instance.
-		/// This image object is effectively an image view where the layer, the face and the level allows identifying
-		/// a specific subset of the image storage source. 
-		/// This image object is effectively a image view where the format can be reinterpreted
-		/// with a different compatible image format.
-		explicit image(
-			storage const & Storage,
-			format_type Format,
-			size_type BaseLayer,
-			size_type BaseFace,
-			size_type BaseLevel);
 
 		/// Create an image object by sharing an existing image storage from another image instance.
 		/// This image object is effectively an image view where format can be reinterpreted
@@ -125,6 +118,18 @@ namespace gli
 		void store(dim_type const & TexelCoord, genType const & Data);
 
 	private:
+		/// Create an image object by sharing an existing image storage from another image instance.
+		/// This image object is effectively an image view where the layer, the face and the level allows identifying
+		/// a specific subset of the image storage source. 
+		/// This image object is effectively a image view where the format can be reinterpreted
+		/// with a different compatible image format.
+		explicit image(
+			storage const & Storage,
+			format_type Format,
+			size_type BaseLayer,
+			size_type BaseFace,
+			size_type BaseLevel);
+
 		storage Storage;
 		format_type const Format;
 		size_type const BaseLevel;
