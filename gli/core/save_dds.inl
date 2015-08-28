@@ -63,7 +63,7 @@ namespace detail
 
 		detail::ddsHeader & Header = *reinterpret_cast<detail::ddsHeader*>(&Memory[0]);
 
-		detail::format_info const & Desc = detail::get_format_info(Texture.format());
+		detail::formatInfo const & Desc = detail::get_format_info(Texture.format());
 
 		std::uint32_t Caps = detail::DDSD_CAPS | detail::DDSD_WIDTH | detail::DDSD_PIXELFORMAT | detail::DDSD_MIPMAPCOUNT;
 		Caps |= !isTarget1D(Texture.target()) ? detail::DDSD_HEIGHT : 0;

@@ -66,7 +66,7 @@ namespace detail
 		gl::format const & Format = GL.translate(Texture.format());
 		target const Target = Texture.target();
 
-		detail::format_info const & Desc = detail::get_format_info(Texture.format());
+		detail::formatInfo const & Desc = detail::get_format_info(Texture.format());
 
 		Memory.resize(detail::compute_ktx_storage_size(Texture) + sizeof(detail::ktxHeader));
 
