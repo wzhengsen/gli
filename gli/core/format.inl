@@ -57,7 +57,7 @@ namespace detail
 		std::uint16_t Flags;
 	};
 
-	inline format_info const & getFormatInfo(format const & Format)
+	inline format_info const & get_format_info(format Format)
 	{
 		static format_info const Table[] =
 		{
@@ -245,7 +245,7 @@ namespace detail
 
 	inline std::uint32_t bits_per_pixel(format Format)
 	{
-		detail::format_info const & Info = detail::getFormatInfo(Format);
+		detail::format_info const & Info = detail::get_format_info(Format);
 
 		return Info.BlockSize * 8 / (Info.BlockDimensionsX * Info.BlockDimensionsY);
 	}
@@ -253,34 +253,19 @@ namespace detail
 
 	inline std::uint32_t block_size(format Format)
 	{
-		return detail::getFormatInfo(Format).BlockSize;
+		return detail::get_format_info(Format).BlockSize;
 	}
 
 	inline gli::dim3_t block_dimensions(format Format)
 	{
 		return gli::dim3_t(
-			detail::getFormatInfo(Format).BlockDimensionsX,
-			detail::getFormatInfo(Format).BlockDimensionsY,
+			detail::get_format_info(Format).BlockDimensionsX,
+			detail::get_format_info(Format).BlockDimensionsY,
 			1);
-	}
-
-	inline std::uint32_t block_dimensions_x(format Format)
-	{
-		return detail::getFormatInfo(Format).BlockDimensionsX;
-	}
-
-	inline std::uint32_t block_dimensions_y(format Format)
-	{
-		return detail::getFormatInfo(Format).BlockDimensionsY;
-	}
-
-	inline std::uint32_t block_dimensions_z(format Format)
-	{
-		return 1;
 	}
 
 	inline std::uint32_t component_count(format Format)
 	{
-		return detail::getFormatInfo(Format).Component;
+		return detail::get_format_info(Format).Component;
 	}
 }//namespace gli
