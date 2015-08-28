@@ -57,7 +57,10 @@ namespace gli
 		, BaseLevel(0), MaxLevel(Levels - 1)
 		, Data(this->compute_data())
 		, Size(this->compute_size())
-	{}
+	{
+		assert(Target != TARGET_CUBE || (Target == TARGET_CUBE && Dimensions.x == Dimensions.y));
+		assert(Target != TARGET_CUBE_ARRAY || (Target == TARGET_CUBE_ARRAY && Dimensions.x == Dimensions.y));
+	}
 
 	inline texture::texture
 	(
@@ -240,7 +243,7 @@ namespace gli
 			*(Data + TexelIndex) = Texel;
 	}
 
-	inline void * const texture::compute_data() const
+	inline texture::data_type *const texture::compute_data() const
 	{
 		if(this->empty())
 			return nullptr;

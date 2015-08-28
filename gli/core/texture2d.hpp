@@ -40,6 +40,7 @@ namespace gli
 		typedef vec2 texcoord_type;
 
 	public:
+		/// Create an empty texture 2D
 		texture2D();
 
 		/// Create a texture2D and allocate a new storage
@@ -73,11 +74,11 @@ namespace gli
 		/// Create a view of the image identified by Level in the mipmap chain of the texture
 		image operator[](size_type Level) const;
 
+		/// Return the dimensions of a texture instance: width and height 
 		dim_type dimensions() const;
-		glm::ivec4 swizzle() const;
 
 		template <typename genType>
-		genType fetch(dim_type const & TexelCoord, size_type const & Level);
+		genType fetch(dim_type const & TexelCoord, size_type Level);
 	};
 }//namespace gli
 

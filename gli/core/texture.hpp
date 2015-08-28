@@ -42,8 +42,10 @@ namespace gli
 		typedef storage::dim_type dim_type;
 		typedef storage::data_type data_type;
 
+		/// Create an empty texture instance
 		texture();
 
+		/// Create a texture object and allocate a texture storoge for it
 		texture(
 			target_type Target,
 			format_type Format,
@@ -52,6 +54,11 @@ namespace gli
 			size_type Faces,
 			size_type Levels);
 
+		/// Create a texture object by sharing an existing texture storage from another texture instance.
+		/// This texture object is effectively a texture view where the layer, the face and the level allows identifying
+		/// a specific subset of the texture storage source. 
+		/// This texture object is effectively a texture view where the target and format can be reinterpreted
+		/// with a different compatible texture target and texture format.
 		texture(
 			texture const & Texture,
 			target_type Target,
@@ -60,6 +67,9 @@ namespace gli
 			size_type BaseFace, size_type MaxFace,
 			size_type BaseLevel, size_type MaxLevel);
 
+		/// Create a texture object by sharing an existing texture storage from another texture instance.
+		/// This texture object is effectively a texture view where the target and format can be reinterpreted
+		/// with a different compatible texture target and texture format.
 		texture(
 			texture const & Texture,
 			target_type Target,
@@ -67,47 +77,83 @@ namespace gli
 
 		virtual ~texture(){}
 
+		/// Return whether the texture instance is empty, no storage or description have been assigned to the instance.
 		bool empty() const;
+
+		/// Return the target of a texture instance. 
+		target_type target() const{return this->Target;}
+
+		/// Return the texture instance format
 		format_type format() const;
-		
+
+		/// Return the base layer of the texture instance, effectively a memory offset in the actual texture storage to identify where to start reading the layers. 
 		size_type base_layer() const;
+
+		/// Return the max layer of the texture instance, effectively a memory offset to the beginning of the last layer in the actual texture storage that the texture instance can access. 
 		size_type max_layer() const;
+
+		/// Return max_layer() - base_layer() + 1
 		size_type layers() const;
 
+		/// Return the base face of the texture instance, effectively a memory offset in the actual texture storage to identify where to start reading the faces. 
 		size_type base_face() const;
+
+		/// Return the max face of the texture instance, effectively a memory offset to the beginning of the last face in the actual texture storage that the texture instance can access. 
 		size_type max_face() const;
+
+		/// Return max_face() - base_face() + 1
 		size_type faces() const;
 
+		/// Return the base level of the texture instance, effectively a memory offset in the actual texture storage to identify where to start reading the levels. 
 		size_type base_level() const;
+
+		/// Return the max level of the texture instance, effectively a memory offset to the beginning of the last level in the actual texture storage that the texture instance can access. 
 		size_type max_level() const;
+
+		/// Return max_level() - base_level() + 1
 		size_type levels() const;
 
+		/// Return the dimensions of a texture instance: width, height and depth 
 		dim_type dimensions(size_type Level = 0) const;
 
+		/// Return the memory size of a texture instance storage in bytes.
 		size_type size() const;
+
+		/// Return the number of blocks contained in a texture instance storage.
+		/// genType size must match the block size conresponding to the the texture format. 
 		template <typename genType>
 		size_type size() const;
 
+		/// Return the memory size of a specific level identified by Level
+		size_type level_size(size_type Level) const;
+
+		/// Return a pointer to the beginning of the texture instance data.
 		void * data();
+
+		/// Return a pointer of type genType which size must match the texture format block size
 		template <typename genType>
 		genType * data();
+
+		/// Return a pointer to the beginning of the texture instance data.
 		void const * data() const;
+
+		/// Return a pointer of type genType which size must match the texture format block size
 		template <typename genType>
 		genType const * data() const;
 
+		/// Clear the entire texture storage with zeros
 		void clear();
+
+		/// Clear the entire texture storage with Texel which type must match the texture storage format block size
+		/// If the type of genType doesn't match the type of the texture format, no conversion is performed and the data will be reinterpreted as if is was of the texture format. 
 		template <typename genType>
 		void clear(genType const & Texel);
-
-		target_type target() const{return this->Target;}
 
 		/// Compute the relative memory offset to access the data for a specific layer, face and level
 		size_type offset(
 			size_type Layer,
 			size_type Face,
 			size_type Level) const;
-
-		size_type level_size(size_type Level) const;
 
 	protected:
 		storage Storage;
@@ -119,11 +165,11 @@ namespace gli
 		size_type const MaxFace;
 		size_type const BaseLevel;
 		size_type const MaxLevel;
-		void * const Data;
+		data_type *const Data;
 		size_type const Size;
 
 	private:
-		void * const compute_data() const;
+		data_type *const compute_data() const;
 		size_type compute_size() const;
 	};
 

@@ -39,6 +39,7 @@ namespace gli
 		typedef vec3 texcoord_type;
 
 	public:
+		/// Create an empty texture cube
 		textureCube();
 
 		/// Create a textureCube and allocate a new storage
@@ -73,6 +74,7 @@ namespace gli
 		/// Create a view of the texture identified by Face in the texture cube
 		texture2D operator[](size_type Face) const;
 
+		/// Return the dimensions of a texture instance: width and height where both should be equal.
 		dim_type dimensions() const;
 	};
 }//namespace gli

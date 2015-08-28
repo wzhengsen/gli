@@ -40,6 +40,7 @@ namespace gli
 		typedef vec1 texcoord_type;
 
 	public:
+		/// Create an empty texture 1D
 		texture1D();
 
 		/// Create a texture1D and allocate a new storage
@@ -73,6 +74,7 @@ namespace gli
 		/// Create a view of the image identified by Level in the mipmap chain of the texture
 		image operator[](size_type Level) const;
 
+		/// Return the width of a texture instance 
 		dim_type dimensions() const;
 	};
 }//namespace gli

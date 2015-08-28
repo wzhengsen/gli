@@ -95,16 +95,16 @@ namespace gli
 	}
 
 	template <typename genType>
-	inline genType texture2D::fetch(dim_type const & TexelCoord, size_type const & Level)
+	inline genType texture2D::fetch(dim_type const & TexelCoord, size_type Level)
 	{
 		assert(!this->empty());
 		assert(!is_compressed(this->format()));
 		assert(this->Storage.block_size() >= sizeof(genType));
 
 		dim_type const Dimensions(this->dimensions());
-		size_type const Address = TexelCoord.x + TexelCoord.y * Dimensions.x;
+		size_type const Offset = TexelCoord.x + TexelCoord.y * Dimensions.x;
 
-		return *(this->data<genType>() + Address);
+		return *(this->data<genType>() + Offset);
 	}
 
 /*

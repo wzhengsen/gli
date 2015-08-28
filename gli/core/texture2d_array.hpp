@@ -39,6 +39,7 @@ namespace gli
 		typedef vec3 texcoord_type;
 
 	public:
+		/// Create an empty texture 2D array
 		texture2DArray();
 
 		/// Create a texture2DArray and allocate a new storage
@@ -75,6 +76,7 @@ namespace gli
 		/// Create a view of the texture identified by Layer in the texture array
 		texture2D operator[](size_type Layer) const;
 
+		/// Return the dimensions of a texture instance: width and height 
 		dim_type dimensions() const;
 	};
 }//namespace gli

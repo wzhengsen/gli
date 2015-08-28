@@ -40,6 +40,7 @@ namespace gli
 		typedef vec3 texcoord_type;
 
 	public:
+		/// Create an empty texture 3D
 		texture3D();
 
 		/// Create a texture3D and allocate a new storage
@@ -73,6 +74,7 @@ namespace gli
 		/// Create a view of the image identified by Level in the mipmap chain of the texture
 		image operator[](size_type Level) const;
 
+		/// Return the dimensions of a texture instance: width, height and depth 
 		dim_type dimensions() const;
 	};
 }//namespace gli

@@ -39,6 +39,7 @@ namespace gli
 		typedef vec1 texcoord_type;
 
 	public:
+		/// Create an empty texture 1D array
 		texture1DArray();
 
 		/// Create a texture1DArray and allocate a new storage
@@ -75,6 +76,7 @@ namespace gli
 		/// Create a view of the texture identified by Layer in the texture array
 		texture1D operator[](size_type Layer) const;
 
+		/// Return the width of a texture instance
 		dim_type dimensions() const;
 	};
 }//namespace gli
