@@ -35,9 +35,12 @@ int test_image_ctor()
 	gli::image ImageA(gli::FORMAT_RGBA8_UINT, gli::image::dim_type(4, 4, 1));
 	gli::image ImageB(gli::FORMAT_RGBA8_UINT, gli::image::dim_type(4, 4, 1));
 	gli::image ImageC = ImageA;
+	gli::image ImageD(ImageA, gli::FORMAT_RGBA8_UNORM);
+	gli::image ImageE(ImageD, gli::FORMAT_RGBA8_UNORM);
 
 	Error += ImageA == ImageB ? 0 : 1;
 	Error += ImageC == ImageB ? 0 : 1;
+	Error += ImageA == ImageE ? 0 : 1;
 
 	return Error;
 }
