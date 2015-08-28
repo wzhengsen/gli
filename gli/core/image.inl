@@ -251,7 +251,9 @@ namespace detail
 	genType image::load(dim_type const & TexelCoord)
 	{
 		assert(!this->empty());
+		assert(!is_compressed(this->format()));
 		assert(this->Storage.block_size() == sizeof(genType));
+		assert(glm::all(glm::lessThan(TexelCoord, this->dimensions())));
 
 		return *(this->data<genType>() + detail::texelLinearAdressing(this->dimensions(), TexelCoord));
 	}
@@ -260,7 +262,9 @@ namespace detail
 	void image::store(dim_type const & TexelCoord, genType const & Data)
 	{
 		assert(!this->empty());
+		assert(!is_compressed(this->format()));
 		assert(this->Storage.block_size() == sizeof(genType));
+		assert(glm::all(glm::lessThan(TexelCoord, this->dimensions())));
 
 		*(this->data<genType>() + detail::texelLinearAdressing(this->dimensions(), TexelCoord)) = Data;
 	}

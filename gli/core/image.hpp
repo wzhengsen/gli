@@ -112,11 +112,15 @@ namespace gli
 		template <typename genType>
 		void clear(genType const & Texel);
 
-
+		/// Load the texel located at TexelCoord coordinates.
+		/// It's an error to call this function if the format is compressed.
+		/// It's an error if TexelCoord values aren't between [0, dimensions].
 		template <typename genType>
 		genType load(dim_type const & TexelCoord);
 
-
+		/// Store the texel located at TexelCoord coordinates.
+		/// It's an error to call this function if the format is compressed.
+		/// It's an error if TexelCoord values aren't between [0, dimensions].
 		template <typename genType>
 		void store(dim_type const & TexelCoord, genType const & Data);
 
