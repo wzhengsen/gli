@@ -12,7 +12,7 @@ This library works perfectly with *[OpenGL](https://www.opengl.org)* but it also
 - [GCC](http://gcc.gnu.org/) 4.6 and higher
 - [Intel C++ Composer](https://software.intel.com/en-us/intel-compilers) XE 2013 and higher
 - [LLVM](http://llvm.org/) 3.2 and higher
-- [Visual C++](http://www.visualstudio.com/) 2012 and higher
+- [Visual C++](http://www.visualstudio.com/) 2010 and higher
 - Any conform C++11 compiler
 
 Thanks for contributing to the project by <link href="https://github.com/g-truc/gli/issues">submitting issues</link> for bug reports and feature requests. Any feedback is welcome at <link href="mailto://gli@g-truc.net">gli@g-truc.net</link>.

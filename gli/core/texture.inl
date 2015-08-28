@@ -50,7 +50,7 @@ namespace gli
 		size_type Faces,
 		size_type Levels
 	)
-		: Storage(new storage(Format, Dimensions, Layers, Faces, Levels))
+		: Storage(std::make_shared<storage>(Format, Dimensions, Layers, Faces, Levels))
 		, Target(Target)
 		, Format(Format)
 		, BaseLayer(0), MaxLayer(Layers - 1)

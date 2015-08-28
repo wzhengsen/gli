@@ -28,6 +28,8 @@
 
 #pragma once
 
+#include <cstdint>
+
 namespace gli
 {
 	enum format

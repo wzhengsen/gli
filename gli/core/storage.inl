@@ -144,7 +144,7 @@ namespace gli
 		for(storage::size_type Level(BaseLevel); Level <= MaxLevel; ++Level)
 			FaceSize += this->level_size(Level);
 
-		return FaceSize;// * TexelSize;
+		return FaceSize;
 	}
 
 	inline storage::size_type storage::layer_size(

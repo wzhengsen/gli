@@ -118,7 +118,7 @@ namespace detail
 		format_type Format,
 		dim_type const & Dimensions
 	)
-		: Storage(new storage(Format, Dimensions, 1, 1, 1))
+		: Storage(std::make_shared<storage>(Format, Dimensions, 1, 1, 1))
 		, Format(Format)
 		, BaseLevel(0)
 		, Data(Storage->data())
