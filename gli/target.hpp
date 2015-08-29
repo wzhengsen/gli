@@ -38,26 +38,26 @@ namespace gli
 		TARGET_2D_ARRAY,
 		TARGET_3D,
 		TARGET_CUBE,
-		TARGET_CUBE_ARRAY, TARGET_MAX = TARGET_CUBE_ARRAY
+		TARGET_CUBE_ARRAY, TARGET_LAST = TARGET_CUBE_ARRAY
 	};
 
 	enum
 	{
-		TARGET_COUNT = TARGET_MAX - TARGET_FIRST + 1,
+		TARGET_COUNT = TARGET_LAST - TARGET_FIRST + 1,
 		TARGET_INVALID = -1
 	};
 
-	inline bool isTarget1D(target Target)
+	inline bool is_target_1d(target Target)
 	{
 		return Target == TARGET_1D || Target == TARGET_1D_ARRAY;
 	}
 
-	inline bool isTargetArray(target Target)
+	inline bool is_target_array(target Target)
 	{
 		return Target == TARGET_1D_ARRAY || Target == TARGET_2D_ARRAY || Target == TARGET_CUBE_ARRAY;
 	}
 
-	inline bool isTargetCube(target Target)
+	inline bool is_target_cube(target Target)
 	{
 		return Target == TARGET_CUBE || Target == TARGET_CUBE_ARRAY;
 	}

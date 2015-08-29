@@ -21,32 +21,31 @@
 /// THE SOFTWARE.
 ///
 /// @ref core
-/// @file gli/core/load_dds.hpp
-/// @date 2010-09-08 / 2013-01-28
+/// @file gli/core/load.hpp
+/// @date 2015-08-09 / 2015-08-09
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
 #pragma once
 
-#include "storage.hpp"
-#include "dx.hpp"
+#include "texture.hpp"
 
 namespace gli
 {
-	/// Loads a texture storage from DDS file. Returns an empty storage in case of failure.
+	/// Loads a texture storage from file. Returns an empty storage in case of failure.
 	///
 	/// @param Path Path of the file to open including filaname and filename extension
-	texture load_dds(char const * Path);
+	texture load(char const * Path);
 
-	/// Loads a texture storage from DDS file. Returns an empty storage in case of failure.
+	/// Loads a texture storage from file. Returns an empty storage in case of failure.
 	///
 	/// @param Path Path of the file to open including filaname and filename extension
-	texture load_dds(std::string const & Filename);
+	texture load(std::string const & Filename);
 
-	/// Loads a texture storage from DDS memory. Returns an empty storage in case of failure.
+	/// Loads a texture storage from memory. Returns an empty storage in case of failure.
 	///
 	/// @param Path Path of the file to open including filaname and filename extension
-	texture load_dds(char const * Data, std::size_t Size);
+	texture load(char const * Data, std::size_t Size);
 }//namespace gli
 
-#include "load_dds.inl"
+#include "./core/load.inl"

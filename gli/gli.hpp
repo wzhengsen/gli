@@ -56,10 +56,11 @@
 #include "view.hpp"
 #include "comparison.hpp"
 
+#include "load.hpp"
+#include "save.hpp"
+
 #include "./core/flip.hpp"
 #include "./core/fetch.hpp"
-#include "./core/load.hpp"
-#include "./core/save.hpp"
 #include "./core/gl.hpp"
 #include "./core/dx.hpp"
 

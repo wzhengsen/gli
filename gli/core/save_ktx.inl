@@ -85,10 +85,10 @@ namespace detail
 		Header.GLInternalFormat = Format.Internal;
 		Header.GLBaseInternalFormat = Format.External;
 		Header.PixelWidth = static_cast<std::uint32_t>(Texture.dimensions().x);
-		Header.PixelHeight = !isTarget1D(Target) ? static_cast<std::uint32_t>(Texture.dimensions().y) : 0;
+		Header.PixelHeight = !is_target_1d(Target) ? static_cast<std::uint32_t>(Texture.dimensions().y) : 0;
 		Header.PixelDepth = Target == TARGET_3D ? static_cast<std::uint32_t>(Texture.dimensions().z) : 0;
-		Header.NumberOfArrayElements = isTargetArray(Target) ? static_cast<std::uint32_t>(Texture.layers()) : 0;
-		Header.NumberOfFaces = isTargetCube(Target) ? static_cast<std::uint32_t>(Texture.faces()) : 0;
+		Header.NumberOfArrayElements = is_target_array(Target) ? static_cast<std::uint32_t>(Texture.layers()) : 0;
+		Header.NumberOfFaces = is_target_cube(Target) ? static_cast<std::uint32_t>(Texture.faces()) : 0;
 		Header.NumberOfMipmapLevels = static_cast<std::uint32_t>(Texture.levels());
 		Header.BytesOfKeyValueData = 0;
 

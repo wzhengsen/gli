@@ -21,31 +21,36 @@
 /// THE SOFTWARE.
 ///
 /// @ref core
-/// @file gli/core/load_ktx.hpp
-/// @date 2015-08-05 / 2015-08-05
+/// @file gli/core/save_dds.hpp
+/// @date 2013-01-28 / 2013-01-28
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
 #pragma once
 
-#include "storage.hpp"
+#include "load_dds.hpp"
 
 namespace gli
 {
-	/// Loads a texture storage from KTX file. Returns an empty storage in case of failure.
-	///
-	/// @param Path Path of the file to open including filaname and filename extension
-	texture load_ktx(char const * Path);
+	/// Save a texture storage to a DDS file.
+	/// 
+	/// @param Path Path for where to save the file. It must include the filaname and filename extension.
+	/// This function ignores the filename extension in the path and save to DDS anyway but keep the requested filename extension.
+	/// @return Returns false if the function fails to save the file.
+	bool save_dds(texture const & Texture, char const * Filename);
 
-	/// Loads a texture storage from KTX file. Returns an empty storage in case of failure.
-	///
-	/// @param Path Path of the file to open including filaname and filename extension
-	texture load_ktx(std::string const & Filename);
+	/// Save a texture storage to a DDS file.
+	/// 
+	/// @param Path Path for where to save the file. It must include the filaname and filename extension.
+	/// This function ignores the filename extension in the path and save to DDS anyway but keep the requested filename extension.
+	/// @return Returns false if the function fails to save the file.
+	bool save_dds(texture const & Texture, std::string const & Filename);
 
-	/// Loads a texture storage from KTX memory. Returns an empty storage in case of failure.
-	///
-	/// @param Path Path of the file to open including filaname and filename extension
-	texture load_ktx(char const * Data, std::size_t Size);
+	/// Save a texture storage to a DDS file.
+	/// 
+	/// @param Memory Storage for the DDS container. The function resizes the containers to fit the necessary storage.
+	/// @return Returns false if the function fails to save the file.
+	bool save_dds(texture const & Texture, std::vector<char> & Memory);
 }//namespace gli
 
-#include "load_ktx.inl"
+#include "./core/save_dds.inl"

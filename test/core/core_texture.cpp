@@ -26,40 +26,49 @@
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
-#include <gli/gli.hpp>
+#include <gli/texture.hpp>
+#include <gli/levels.hpp>
+#include <gli/comparison.hpp>
+#include <gli/save.hpp>
+#include <gli/load.hpp>
 
-int test_alloc()
+namespace alloc
 {
-	int Error(0);
-
-	std::vector<gli::format> Formats;
-	Formats.push_back(gli::FORMAT_RGBA8_UNORM);
-	Formats.push_back(gli::FORMAT_RGB8_UNORM);
-	Formats.push_back(gli::FORMAT_R8_SNORM);
-	Formats.push_back(gli::FORMAT_RGB_DXT1_UNORM);
-	Formats.push_back(gli::FORMAT_RGB_BP_UNORM);
-	Formats.push_back(gli::FORMAT_RGBA32_SFLOAT);
-
-	std::vector<std::size_t> Sizes;
-	Sizes.push_back(16);
-	Sizes.push_back(32);
-	Sizes.push_back(15);
-	Sizes.push_back(17);
-	Sizes.push_back(1);
-
-	for(std::size_t FormatIndex = 0; FormatIndex < Formats.size(); ++FormatIndex)
-	for(std::size_t SizeIndex = 0; SizeIndex < Sizes.size(); ++SizeIndex)
+	int run()
 	{
-		gli::texture1D::dim_type Size(Sizes[SizeIndex]);
+		int Error(0);
 
-		gli::texture1D TextureA(Formats[FormatIndex], Size, gli::levels(Size));
-		gli::texture1D TextureB(Formats[FormatIndex], Size);
+		std::vector<std::size_t> Sizes;
+		Sizes.push_back(16);
+		Sizes.push_back(32);
+		Sizes.push_back(15);
+		Sizes.push_back(17);
+		Sizes.push_back(1);
 
-		Error += TextureA == TextureB ? 0 : 1;
+		for(std::size_t TargetIndex = gli::TARGET_FIRST; TargetIndex <= gli::TARGET_LAST; ++TargetIndex)
+		for(std::size_t FormatIndex = gli::FORMAT_FIRST; FormatIndex <= gli::FORMAT_LAST; ++FormatIndex)
+		{
+			gli::format const Format = static_cast<gli::format>(FormatIndex);
+			gli::target const Target = static_cast<gli::target>(TargetIndex);
+			gli::texture::size_type const Faces = gli::is_target_cube(Target) ? 6 : 1;
+
+			if(gli::is_compressed(Format) && gli::is_target_1d(Target))
+				continue;
+
+			for(std::size_t SizeIndex = 0; SizeIndex < Sizes.size(); ++SizeIndex)
+			{
+				gli::texture::dim_type Size(Sizes[SizeIndex]);
+
+				gli::texture TextureA(Target, Format, Size, 1, Faces, gli::levels(Size));
+				gli::texture TextureB(Target, Format, Size, 1, Faces, gli::levels(Size));
+
+				Error += TextureA == TextureB ? 0 : 1;
+			}
+		}
+
+		return Error;
 	}
-
-	return Error;
-}
+}//namespace alloc
 
 namespace clear
 {
@@ -356,7 +365,7 @@ int main()
 {
 	int Error(0);
 
-	Error += test_alloc();
+	Error += alloc::run();
 	Error += size::run();
 	Error += query::run();
 	Error += clear::run();

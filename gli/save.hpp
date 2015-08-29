@@ -21,36 +21,31 @@
 /// THE SOFTWARE.
 ///
 /// @ref core
-/// @file gli/core/save_ktx.hpp
-/// @date 2015-08-05 / 2015-08-05
+/// @file gli/core/save.hpp
+/// @date 2015-08-09 / 2015-08-09
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
 #pragma once
 
-#include "load_ktx.hpp"
+#include "save_dds.hpp"
+#include "save_ktx.hpp"
 
 namespace gli
 {
-	/// Save a texture storage to a KTX file.
+	/// Save a texture storage to file.
 	/// 
 	/// @param Path Path for where to save the file. It must include the filaname and filename extension.
-	/// This function ignores the filename extension in the path and save to KTX anyway but keep the requested filename extension.
+	/// The function use the filename extension included in the path to figure out the file container to use.
 	/// @return Returns false if the function fails to save the file.
-	bool save_ktx(texture const & Texture, char const * Path);
+	bool save(texture const & Texture, char const * Path);
 
-	/// Save a texture storage to a KTX file.
+	/// Save a texture storage to file.
 	/// 
 	/// @param Path Path for where to save the file. It must include the filaname and filename extension.
-	/// This function ignores the filename extension in the path and save to KTX anyway but keep the requested filename extension.
+	/// The function use the filename extension included in the path to figure out the file container to use.
 	/// @return Returns false if the function fails to save the file.
-	bool save_ktx(texture const & Texture, std::string const & Path);
-
-	/// Save a texture storage to a KTX file.
-	/// 
-	/// @param Memory Storage for the KTX container. The function resizes the containers to fit the necessary storage.
-	/// @return Returns false if the function fails to save the file.
-	bool save_ktx(texture const & Texture, std::vector<char> & Memory);
+	bool save(texture const & Texture, std::string const & Path);
 }//namespace gli
 
-#include "save_ktx.inl"
+#include "./core/save.inl"

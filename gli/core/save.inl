@@ -26,8 +26,8 @@
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
-#include "save_dds.hpp"
-#include "save_ktx.hpp"
+#include "../save_dds.hpp"
+#include "../save_ktx.hpp"
 
 namespace gli
 {

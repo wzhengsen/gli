@@ -21,31 +21,32 @@
 /// THE SOFTWARE.
 ///
 /// @ref core
-/// @file gli/core/save.hpp
-/// @date 2015-08-09 / 2015-08-09
+/// @file gli/core/load_dds.hpp
+/// @date 2010-09-08 / 2013-01-28
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
 #pragma once
 
-#include "save_dds.hpp"
-#include "save_ktx.hpp"
+#include "texture.hpp"
+#include "./core/dx.hpp"
 
 namespace gli
 {
-	/// Save a texture storage to file.
-	/// 
-	/// @param Path Path for where to save the file. It must include the filaname and filename extension.
-	/// The function use the filename extension included in the path to figure out the file container to use.
-	/// @return Returns false if the function fails to save the file.
-	bool save(texture const & Texture, char const * Path);
+	/// Loads a texture storage from DDS file. Returns an empty storage in case of failure.
+	///
+	/// @param Path Path of the file to open including filaname and filename extension
+	texture load_dds(char const * Path);
 
-	/// Save a texture storage to file.
-	/// 
-	/// @param Path Path for where to save the file. It must include the filaname and filename extension.
-	/// The function use the filename extension included in the path to figure out the file container to use.
-	/// @return Returns false if the function fails to save the file.
-	bool save(texture const & Texture, std::string const & Path);
+	/// Loads a texture storage from DDS file. Returns an empty storage in case of failure.
+	///
+	/// @param Path Path of the file to open including filaname and filename extension
+	texture load_dds(std::string const & Filename);
+
+	/// Loads a texture storage from DDS memory. Returns an empty storage in case of failure.
+	///
+	/// @param Path Path of the file to open including filaname and filename extension
+	texture load_dds(char const * Data, std::size_t Size);
 }//namespace gli
 
-#include "save.inl"
+#include "./core/load_dds.inl"
