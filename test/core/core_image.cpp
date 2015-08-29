@@ -26,7 +26,8 @@
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
-#include <gli/gli.hpp>
+#include <gli/image.hpp>
+#include <gli/comparison.hpp>
 
 int test_image_ctor()
 {

@@ -31,7 +31,7 @@
 
 #pragma once
 
-#include "storage.hpp"
+#include "./core/storage.hpp"
 
 namespace gli
 {
@@ -140,4 +140,4 @@ namespace gli
 	};
 }//namespace gli
 
-#include "image.inl"
+#include "./core/image.inl"

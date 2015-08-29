@@ -21,14 +21,29 @@
 /// THE SOFTWARE.
 ///
 /// @ref core
-/// @file gli/core/addressing.inl
-/// @date 2012-11-19 / 2012-11-19
+/// @file gli/core/comparison.hpp
+/// @date 2013-02-04 / 2013-02-04
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
-namespace gli{
-namespace detail
-{
+#pragma once
 
-}//namespace detail
+#include "image.hpp"
+#include "texture1d.hpp"
+#include "texture1d_array.hpp"
+#include "texture2d.hpp"
+#include "texture2d_array.hpp"
+#include "texture3d.hpp"
+#include "texture_cube.hpp"
+#include "texture_cube_array.hpp"
+
+namespace gli
+{
+	bool operator==(image const & ImageA, image const & ImageB);
+	bool operator!=(image const & ImageA, image const & ImageB);
+
+	bool operator==(texture const & A, texture const & B);
+	bool operator!=(texture const & A, texture const & B);
 }//namespace gli
+
+#include "./core/comparison.inl"

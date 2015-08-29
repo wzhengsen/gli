@@ -21,7 +21,7 @@
 /// THE SOFTWARE.
 ///
 /// @ref core
-/// @file gli/core/texture2d_array.hpp
+/// @file gli/core/texture_cube.hpp
 /// @date 2011-04-06 / 2013-01-11
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
@@ -32,53 +32,51 @@
 
 namespace gli
 {
-	class texture2DArray : public texture
+	class textureCube : public texture
 	{
 	public:
 		typedef dim2_t dim_type;
 		typedef vec3 texcoord_type;
 
 	public:
-		/// Create an empty texture 2D array
-		texture2DArray();
+		/// Create an empty texture cube
+		textureCube();
 
-		/// Create a texture2DArray and allocate a new storage
-		explicit texture2DArray(
+		/// Create a textureCube and allocate a new storage
+		explicit textureCube(
 			format_type Format,
 			dim_type const & Dimensions,
-			size_type Layers,
 			size_type Levels);
 
-		/// Create a texture2DArray and allocate a new storage with a complete mipmap chain
-		explicit texture2DArray(
+		/// Create a textureCube and allocate a new storage with a complete mipmap chain
+		explicit textureCube(
 			format_type Format,
-			dim_type const & Dimensions,
-			size_type Layers);
+			dim_type const & Dimensions);
 
-		/// Create a texture2DArray view with an existing storage
-		explicit texture2DArray(
+		/// Create a textureCube view with an existing storage
+		explicit textureCube(
 			texture const & Texture);
 
-		/// Create a texture2DArray view with an existing storage
-		explicit texture2DArray(
+		/// Create a textureCube view with an existing storage
+		explicit textureCube(
 			texture const & Texture,
 			format_type Format,
 			size_type BaseLayer, size_type MaxLayer,
 			size_type BaseFace, size_type MaxFace,
 			size_type BaseLevel, size_type MaxLevel);
 
-		/// Create a texture view, reference a subset of an exiting texture2DArray instance
-		explicit texture2DArray(
-			texture2DArray const & Texture,
-			size_type BaseLayer, size_type MaxLayer,
+		/// Create a textureCube view, reference a subset of an existing textureCube instance
+		explicit textureCube(
+			textureCube const & Texture,
+			size_type BaseFace, size_type MaxFace,
 			size_type BaseLevel, size_type MaxLevel);
 
-		/// Create a view of the texture identified by Layer in the texture array
-		texture2D operator[](size_type Layer) const;
+		/// Create a view of the texture identified by Face in the texture cube
+		texture2D operator[](size_type Face) const;
 
-		/// Return the dimensions of a texture instance: width and height 
+		/// Return the dimensions of a texture instance: width and height where both should be equal.
 		dim_type dimensions() const;
 	};
 }//namespace gli
 
-#include "texture2d_array.inl"
+#include "./core/texture_cube.inl"

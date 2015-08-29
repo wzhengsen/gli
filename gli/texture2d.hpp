@@ -21,88 +21,65 @@
 /// THE SOFTWARE.
 ///
 /// @ref core
-/// @file gli/core/addressing.hpp
-/// @date 2012-11-19 / 2012-11-19
+/// @file gli/core/texture2d.hpp
+/// @date 2010-01-09 / 2012-10-16
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
 #pragma once
 
 #include "texture.hpp"
+#include "image.hpp"
 
-namespace gli{
-
-/*
-	template <typename texture>
-	class sampler
+namespace gli
+{
+	class texture2D : public texture
 	{
-		enum wrap
-		{
-			MIRROR,
-			CLAMP_TO_EDGE
-		};
-
-		enum filter
-		{
-			NEAREST,
-			LINEAR,
-			CUBIC
-		};
+	public:
+		typedef dim2_t dim_type;
+		typedef vec2 texcoord_type;
 
 	public:
-		sampler(texture const & Texture)
-		{
-			switch(Texture.format())
-			{
-			default:
-				break;
-			case RGB_DXT1:
-				Impl.reset(new impl_fetch_dxt1());
-				break;
-			}
-		}
+		/// Create an empty texture 2D
+		texture2D();
+
+		/// Create a texture2D and allocate a new storage
+		explicit texture2D(
+			format_type Format,
+			dim_type const & Dimensions,
+			size_type Levels);
+
+		/// Create a texture2D and allocate a new storage with a complete mipmap chain
+		explicit texture2D(
+			format_type Format,
+			dim_type const & Dimensions);
+
+		/// Create a texture2D view with an existing storage
+		explicit texture2D(
+			texture const & Texture);
+
+		/// Create a texture2D view with an existing storage
+		explicit texture2D(
+			texture const & Texture,
+			format_type Format,
+			size_type BaseLayer, size_type MaxLayer,
+			size_type BaseFace, size_type MaxFace,
+			size_type BaseLevel, size_type MaxLevel);
+
+		/// Create a texture2D view, reference a subset of an existing texture2D instance
+		explicit texture2D(
+			texture2D const & Texture,
+			size_type BaseLevel, size_type MaxLevel);
+
+		/// Create a view of the image identified by Level in the mipmap chain of the texture
+		image operator[](size_type Level) const;
+
+		/// Return the dimensions of a texture instance: width and height 
+		dim_type dimensions() const;
 
 		template <typename genType>
-		genType operator() (texture::dimension_type const & Dimensions) const
-
-	private:
-		struct impl
-		{
-			virtual ~impl(){}
-
-			template <typename genType>
-			virtual genType operator() (texture::dimension_type const & Dimensions) const = 0;
-		};
-
-		class impl_fetch_color : public impl
-		{
-		public: 
-			impl_fetch_color(){}
-
-			template <typename genType>
-			virtual genType operator() (
-				texture const & Texture,
-				texture::texcoord_type const & Texcoord) const;
-
-		private:
-
-		};
-
-		class impl_fetch_dxt1 : public impl
-		{
-		public:
-			impl_fetch_dxt1(){}
-
-			template <typename genType>
-			virtual genType operator() (texture::dimension_type const & Dimensions) const;
-
-		private:
-
-		};
-
-		shared_ptr<impl> Impl;
+		genType fetch(dim_type const & TexelCoord, size_type Level);
 	};
-*/
 }//namespace gli
 
-#include "addressing.inl"
+#include "./core/texture2d.inl"

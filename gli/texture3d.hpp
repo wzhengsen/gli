@@ -21,64 +21,62 @@
 /// THE SOFTWARE.
 ///
 /// @ref core
-/// @file gli/core/texture1d_array.hpp
-/// @date 2012-06-25 / 2013-01-11
+/// @file gli/core/texture3d.hpp
+/// @date 2010-01-09 / 2013-01-11
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
 #pragma once
 
-#include "texture1d.hpp"
+#include "texture.hpp"
+#include "image.hpp"
 
 namespace gli
 {
-	class texture1DArray : public texture
+	class texture3D : public texture
 	{
 	public:
-		typedef dim1_t dim_type;
-		typedef vec1 texcoord_type;
+		typedef dim3_t dim_type;
+		typedef vec3 texcoord_type;
 
 	public:
-		/// Create an empty texture 1D array
-		texture1DArray();
+		/// Create an empty texture 3D
+		texture3D();
 
-		/// Create a texture1DArray and allocate a new storage
-		explicit texture1DArray(
+		/// Create a texture3D and allocate a new storage
+		explicit texture3D(
 			format_type Format,
 			dim_type const & Dimensions,
-			size_type Layers,
 			size_type Levels);
 
-		/// Create a texture1DArray and allocate a new storage with a complete mipmap chain
-		explicit texture1DArray(
+		/// Create a texture3D and allocate a new storage with a complete mipmap chain
+		explicit texture3D(
 			format_type Format,
-			dim_type const & Dimensions,
-			size_type Layers);
+			dim_type const & Dimensions);
 
-		/// Create a texture1DArray view with an existing storage
-		explicit texture1DArray(
+		/// Create a texture3D view with an existing storage
+		explicit texture3D(
 			texture const & Texture);
 
-		/// Create a texture1DArray view with an existing storage
-		explicit texture1DArray(
+		/// Create a texture3D view with an existing storage
+		explicit texture3D(
 			texture const & Texture,
 			format_type Format,
 			size_type BaseLayer, size_type MaxLayer,
 			size_type BaseFace, size_type MaxFace,
 			size_type BaseLevel, size_type MaxLevel);
 
-		/// Create a texture view, reference a subset of an exiting storage
-		explicit texture1DArray(
-			texture1DArray const & Texture,
-			size_type BaseLayer, size_type MaxLayer,
+		/// Create a texture3D view, reference a subset of an existing texture3D instance
+		explicit texture3D(
+			texture3D const & Texture,
 			size_type BaseLevel, size_type MaxLevel);
 
-		/// Create a view of the texture identified by Layer in the texture array
-		texture1D operator[](size_type Layer) const;
+		/// Create a view of the image identified by Level in the mipmap chain of the texture
+		image operator[](size_type Level) const;
 
-		/// Return the width of a texture instance
+		/// Return the dimensions of a texture instance: width, height and depth 
 		dim_type dimensions() const;
 	};
 }//namespace gli
 
-#include "texture1d_array.inl"
+#include "./core/texture3d.inl"

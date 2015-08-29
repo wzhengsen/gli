@@ -8,10 +8,10 @@
 /// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 /// copies of the Software, and to permit persons to whom the Software is
 /// furnished to do so, subject to the following conditions:
-/// 
+///
 /// The above copyright notice and this permission notice shall be included in
 /// all copies or substantial portions of the Software.
-/// 
+///
 /// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 /// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 /// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -21,65 +21,64 @@
 /// THE SOFTWARE.
 ///
 /// @ref core
-/// @file gli/core/texture2d.hpp
-/// @date 2010-01-09 / 2012-10-16
+/// @file gli/core/texture2d_array.hpp
+/// @date 2011-04-06 / 2013-01-11
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
 #pragma once
 
-#include "texture.hpp"
-#include "image.hpp"
+#include "texture2d.hpp"
 
 namespace gli
 {
-	class texture2D : public texture
+	class texture2DArray : public texture
 	{
 	public:
 		typedef dim2_t dim_type;
-		typedef vec2 texcoord_type;
+		typedef vec3 texcoord_type;
 
 	public:
-		/// Create an empty texture 2D
-		texture2D();
+		/// Create an empty texture 2D array
+		texture2DArray();
 
-		/// Create a texture2D and allocate a new storage
-		explicit texture2D(
+		/// Create a texture2DArray and allocate a new storage
+		explicit texture2DArray(
 			format_type Format,
 			dim_type const & Dimensions,
+			size_type Layers,
 			size_type Levels);
 
-		/// Create a texture2D and allocate a new storage with a complete mipmap chain
-		explicit texture2D(
+		/// Create a texture2DArray and allocate a new storage with a complete mipmap chain
+		explicit texture2DArray(
 			format_type Format,
-			dim_type const & Dimensions);
+			dim_type const & Dimensions,
+			size_type Layers);
 
-		/// Create a texture2D view with an existing storage
-		explicit texture2D(
+		/// Create a texture2DArray view with an existing storage
+		explicit texture2DArray(
 			texture const & Texture);
 
-		/// Create a texture2D view with an existing storage
-		explicit texture2D(
+		/// Create a texture2DArray view with an existing storage
+		explicit texture2DArray(
 			texture const & Texture,
 			format_type Format,
 			size_type BaseLayer, size_type MaxLayer,
 			size_type BaseFace, size_type MaxFace,
 			size_type BaseLevel, size_type MaxLevel);
 
-		/// Create a texture2D view, reference a subset of an existing texture2D instance
-		explicit texture2D(
-			texture2D const & Texture,
+		/// Create a texture view, reference a subset of an exiting texture2DArray instance
+		explicit texture2DArray(
+			texture2DArray const & Texture,
+			size_type BaseLayer, size_type MaxLayer,
 			size_type BaseLevel, size_type MaxLevel);
 
-		/// Create a view of the image identified by Level in the mipmap chain of the texture
-		image operator[](size_type Level) const;
+		/// Create a view of the texture identified by Layer in the texture array
+		texture2D operator[](size_type Layer) const;
 
 		/// Return the dimensions of a texture instance: width and height 
 		dim_type dimensions() const;
-
-		template <typename genType>
-		genType fetch(dim_type const & TexelCoord, size_type Level);
 	};
 }//namespace gli
 
-#include "texture2d.inl"
+#include "./core/texture2d_array.inl"

@@ -26,7 +26,7 @@
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
-#include <gli/core/addressing.hpp>
+#include <gli/core/storage.hpp>
 #include <gli/format.hpp>
 
 namespace layers

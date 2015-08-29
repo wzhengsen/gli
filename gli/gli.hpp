@@ -38,26 +38,30 @@
 #define GLI_VERSION_PATCH			0
 #define GLI_VERSION_REVISION		0
 
-#include "./levels.hpp"
-#include "./core/storage.hpp"
-#include "./core/texture.hpp"
-#include "./core/addressing.hpp"
-#include "./core/clear.hpp"
-#include "./core/comparison.hpp"
-#include "./core/copy.hpp"
+#include "format.hpp"
+#include "target.hpp"
+#include "levels.hpp"
+
+#include "image.hpp"
+#include "texture.hpp"
+#include "texture1d.hpp"
+#include "texture1d_array.hpp"
+#include "texture2d.hpp"
+#include "texture2d_array.hpp"
+#include "texture3d.hpp"
+#include "texture_cube.hpp"
+#include "texture_cube_array.hpp"
+
+#include "copy.hpp"
+#include "view.hpp"
+#include "comparison.hpp"
+
 #include "./core/flip.hpp"
 #include "./core/fetch.hpp"
 #include "./core/load.hpp"
 #include "./core/save.hpp"
-#include "./core/view.hpp"
 #include "./core/gl.hpp"
 #include "./core/dx.hpp"
 
-#include "./core/texture1d.hpp"
-#include "./core/texture1d_array.hpp"
-#include "./core/texture2d.hpp"
-#include "./core/texture2d_array.hpp"
-#include "./core/texture3d.hpp"
-#include "./core/texture_cube.hpp"
-#include "./core/texture_cube_array.hpp"
+
 

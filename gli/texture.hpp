@@ -21,7 +21,7 @@
 /// THE SOFTWARE.
 ///
 /// @ref core
-/// @file gli/core/texture.hpp
+/// @file gli/texture.hpp
 /// @date 2013-02-05 / 2013-02-05
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
@@ -29,7 +29,7 @@
 #pragma once
 
 #include "image.hpp"
-#include "../target.hpp"
+#include "target.hpp"
 
 namespace gli
 {
@@ -175,5 +175,5 @@ namespace gli
 
 }//namespace gli
 
-#include "texture.inl"
+#include "./core/texture.inl"
 

@@ -21,13 +21,15 @@
 /// THE SOFTWARE.
 ///
 /// @ref core
-/// @file gli/core/clear.hpp
-/// @date 2013-01-12 / 2013-01-03
+/// @file gli/core/view.hpp
+/// @date 2013-02-07 / 2013-02-07
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
 #pragma once
 
+#include "image.hpp"
+#include "texture.hpp"
 #include "texture1d.hpp"
 #include "texture1d_array.hpp"
 #include "texture2d.hpp"
@@ -38,11 +40,46 @@
 
 namespace gli
 {
-	template <typename genType>
-	inline void clear(image & Image, genType const & Texel);
+	image view(image const & Image);
 
-	template <typename genType>
-	void clear(texture2D & Texture, genType const & Texel);
+	template <typename texType>
+	texture view(texType const & Texture);
+
+	template <typename texType>
+	texture view(texType const & Texture, format Format);
+
+	texture view(
+		texture1D const & Texture,
+		texture1D::size_type BaseLevel, texture1D::size_type MaxLevel);
+
+	texture view(
+		texture1DArray const & Texture,
+		texture1DArray::size_type BaseLayer, texture1DArray::size_type MaxLayer,
+		texture1DArray::size_type BaseLevel, texture1DArray::size_type MaxLevel);
+
+	texture view(
+		texture2D const & Texture,
+		texture2D::size_type BaseLevel, texture2D::size_type MaxLevel);
+
+	texture view(
+		texture2DArray const & Texture,
+		texture2DArray::size_type BaseLayer, texture2DArray::size_type MaxLayer,
+		texture2DArray::size_type BaseLevel, texture2DArray::size_type MaxLevel);
+
+	texture view(
+		texture3D const & Texture,
+		texture3D::size_type BaseLevel, texture3D::size_type MaxLevel);
+
+	texture view(
+		textureCube const & Texture,
+		textureCube::size_type BaseFace, textureCube::size_type MaxFace,
+		textureCube::size_type BaseLevel, textureCube::size_type MaxLevel);
+
+	texture view(
+		textureCubeArray const & Texture,
+		textureCubeArray::size_type BaseLayer, textureCubeArray::size_type MaxLayer,
+		textureCubeArray::size_type BaseFace, textureCubeArray::size_type MaxFace,
+		textureCubeArray::size_type BaseLevel, textureCubeArray::size_type MaxLevel);
 }//namespace gli
 
-#include "clear.inl"
+#include "./core/view.inl"

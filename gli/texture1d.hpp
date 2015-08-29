@@ -21,33 +21,62 @@
 /// THE SOFTWARE.
 ///
 /// @ref core
-/// @file gli/core/create.hpp
-/// @date 2015-08-09 / 2015-08-09
+/// @file gli/core/texture1d.hpp
+/// @date 2012-06-25 / 2013-01-11
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
 #pragma once
 
 #include "texture.hpp"
+#include "image.hpp"
 
 namespace gli
 {
-	texture* create(char const * Path);
+	class texture1D : public texture
+	{
+	public:
+		typedef dim1_t dim_type;
+		typedef vec1 texcoord_type;
 
-	texture* create(std::string const & Filename);
+	public:
+		/// Create an empty texture 1D
+		texture1D();
 
-	texture* create(char const * Data, std::size_t Size);
+		/// Create a texture1D and allocate a new storage
+		explicit texture1D(
+			format_type Format,
+			dim_type const & Dimensions,
+			size_type Levels);
 
-	texture* create(
-		target Target,
-		size_t const & Layers,
-		size_t const & Faces,
-		size_t const & Levels,
-		format const & Format,
-		storage::dim_type const & Dimensions);
+		/// Create a texture1D and allocate a new storage with a complete mipmap chain
+		explicit texture1D(
+			format_type Format,
+			dim_type const & Dimensions);
 
-	void release(texture* Texture);
+		/// Create a texture1D view with an existing storage
+		explicit texture1D(
+			texture const & Texture);
+
+		/// Create a texture1D view with an existing storage
+		explicit texture1D(
+			texture const & Texture,
+			format_type Format,
+			size_type BaseLayer, size_type MaxLayer,
+			size_type BaseFace, size_type MaxFace,
+			size_type BaseLevel, size_type MaxLevel);
+
+		/// Create a texture1D view, reference a subset of an existing texture1D instance
+		explicit texture1D(
+			texture1D const & Texture,
+			size_type BaseLevel, size_type MaxLevel);
+
+		/// Create a view of the image identified by Level in the mipmap chain of the texture
+		image operator[](size_type Level) const;
+
+		/// Return the width of a texture instance 
+		dim_type dimensions() const;
+	};
 }//namespace gli
 
-#include "create.inl"
-
+#include "./core/texture1d.inl"
