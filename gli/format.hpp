@@ -28,6 +28,7 @@
 
 #pragma once
 
+#include "type.hpp"
 #include <cstdint>
 
 namespace gli
@@ -232,4 +233,4 @@ namespace gli
 	std::uint32_t component_count(format Format);
 }//namespace gli
 
-#include "format.inl"
+#include "./core/format.inl"
