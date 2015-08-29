@@ -37,137 +37,61 @@ namespace gli
 		return Result;
 	}
 
-	inline texture copy(texture2D const & Texture, texture2D::format_type Format)
+	inline texture copy(texture const & Texture)
 	{
-		texture2D Copy(
+		texture Copy(
+			Texture.target(),
+			Texture.format(),
+			Texture.dimensions(),
+			Texture.layers(),
+			Texture.faces(),
+			Texture.levels());
+
+		memcpy(
+			Copy.data<glm::byte>(),
+			Texture.template data<glm::byte>(),
+			Copy.size<glm::byte>());
+
+		return Copy;
+	}
+
+	template <typename texType>
+	inline texture copy(texType const & Texture)
+	{
+		texture Copy(
+			Texture.target(),
+			Texture.format(),
+			Texture.texture::dimensions(),
+			Texture.layers(),
+			Texture.faces(),
+			Texture.levels());
+
+		memcpy(
+			Copy.data<glm::byte>(),
+			Texture.template data<glm::byte>(),
+			Copy.size<glm::byte>());
+
+		return Copy;
+	}
+
+	template <typename texType>
+	inline texture copy(texType const & Texture, typename texType::format_type Format)
+	{
+		assert(block_size(Texture.format()) == block_size(Format));
+
+		texture Copy(
+			Texture.target(),
 			Format,
 			Texture.dimensions(),
-			Texture.levels());
-
-		memcpy(
-			Copy.data<glm::byte>(),
-			Texture.data<glm::byte>(),
-			Copy.size<glm::byte>());
-		
-		return Copy;
-	}
-
-	template <>
-	inline texture copy<texture1D>(texture1D const & Texture)
-	{
-		texture1D Copy(
-			Texture.format(),
-			Texture.dimensions(),
-			Texture.levels());
-
-		memcpy(
-			Copy.data<glm::byte>(),
-			Texture.data<glm::byte>(),
-			Copy.size<glm::byte>());
-		
-		return Copy;
-	}
-
-	template <>
-	inline texture copy(texture1DArray const & Texture)
-	{
-		texture1DArray Copy(
-			Texture.format(),
-			Texture.dimensions(),
 			Texture.layers(),
-			Texture.levels());
-
-		for(texture1DArray::size_type Layer = 0; Layer < Copy.layers(); ++Layer)
-		{
-			memcpy(
-				Copy[Layer].data<glm::byte>(),
-				Texture[Layer].data<glm::byte>(),
-				Copy[Layer].size<glm::byte>());
-		}
-		
-		return Copy;
-	}
-
-	template <>
-	inline texture copy(texture2D const & Texture)
-	{
-		texture2D Copy(
-			Texture.format(),
-			Texture.dimensions(),
+			Texture.faces(),
 			Texture.levels());
 
 		memcpy(
 			Copy.data<glm::byte>(),
-			Texture.data<glm::byte>(),
+			Texture.template data<glm::byte>(),
 			Copy.size<glm::byte>());
 		
-		return Copy;
-	}
-
-	template <>
-	inline texture copy(texture2DArray const & Texture)
-	{
-		texture2DArray Copy(Texture.format(), Texture.dimensions(), Texture.layers(), Texture.levels());
-
-		for(texture2DArray::size_type Layer = 0; Layer < Copy.layers(); ++Layer)
-			memcpy(Copy[Layer].data<glm::byte>(), Texture[Layer].data<glm::byte>(), Copy[Layer].size<glm::byte>());
-		
-		return Copy;
-	}
-
-	template <>
-	inline texture copy(texture3D const & Texture)
-	{
-		texture3D Copy(
-			Texture.format(),
-			Texture.dimensions(),
-			Texture.levels());
-
-		memcpy(
-			Copy.data<glm::byte>(),
-			Texture.data<glm::byte>(),
-			Texture.size<glm::byte>());
-		
-		return Copy;
-	}
-
-	template <>
-	inline texture copy(textureCube const & Texture)
-	{
-		textureCube Copy(
-			Texture.format(),
-			Texture.dimensions(),
-			Texture.levels());
-
-		for(textureCube::size_type Face = 0; Face < Copy.faces(); ++Face)
-		{
-			memcpy(
-				Copy[Face].data<glm::byte>(),
-				Texture[Face].data<glm::byte>(),
-				Texture[Face].size<glm::byte>());
-		}
-		
-		return Copy;
-	}
-
-	template <>
-	inline texture copy(textureCubeArray const & Texture)
-	{
-		textureCubeArray Copy(
-			Texture.format(),
-			Texture.dimensions(),
-			Texture.layers(),
-			Texture.levels());
-
-		for(textureCubeArray::size_type Layer = 0; Layer < Copy.layers(); ++Layer)
-		for(textureCubeArray::size_type Face = 0; Face < Copy[Layer].faces(); ++Face)
-		{
-			memcpy(
-				Copy[Layer][Face].data<glm::byte>(),
-				Texture[Layer][Face].data<glm::byte>(),
-				Copy[Layer][Face].size<glm::byte>());
-		}
-
 		return Copy;
 	}
 

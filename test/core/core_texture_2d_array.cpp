@@ -28,14 +28,6 @@
 
 #include <gli/gli.hpp>
 
-namespace
-{
-	std::string path(const char* filename)
-	{
-		return std::string(SOURCE_DIR) + "/data/" + filename;
-	}
-}//namespace
-
 namespace alloc
 {
 	int test()

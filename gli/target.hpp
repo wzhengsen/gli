@@ -47,16 +47,19 @@ namespace gli
 		TARGET_INVALID = -1
 	};
 
+	/// Check whether a target is a 1D target
 	inline bool is_target_1d(target Target)
 	{
 		return Target == TARGET_1D || Target == TARGET_1D_ARRAY;
 	}
 
+	/// Check whether a target is an array target
 	inline bool is_target_array(target Target)
 	{
 		return Target == TARGET_1D_ARRAY || Target == TARGET_2D_ARRAY || Target == TARGET_CUBE_ARRAY;
 	}
 
+	/// Check whether a target is a cube map target
 	inline bool is_target_cube(target Target)
 	{
 		return Target == TARGET_CUBE || Target == TARGET_CUBE_ARRAY;

@@ -39,14 +39,22 @@
 
 namespace gli
 {
+	/// Copy an image and create a new image with a new storage allocation.
 	image copy(image const & Image);
 
+	/// Copy a texture and create a new texture with a new storage allocation.
+	texture copy(texture const & Texture);
+
+	/// Copy a texture and create a new texture with a new storage allocation.
 	template <typename texType>
 	texture copy(texType const & Texture);
 
+	/// Copy a texture and create a new texture with a new storage allocation but a different format.
+	/// The format must be a compatible format, a format which block size match the original format. 
 	template <typename texType>
 	texture copy(texType const & Texture, format Format);
 
+	/// Copy a subset of a texture and create a new texture with a new storage allocation.
 	texture copy(
 		texture1D const & Texture,
 		texture1D::size_type BaseLevel, texture1D::size_type MaxLevel);

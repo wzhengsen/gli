@@ -26,10 +26,9 @@
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
+#include "../gl.hpp"
 #include <cstdio>
 #include <cassert>
-
-#include "gl.hpp"
 
 namespace gli{
 namespace detail

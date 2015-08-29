@@ -59,10 +59,11 @@
 #include "load.hpp"
 #include "save.hpp"
 
+#include "gl.hpp"
+#include "dx.hpp"
+
 #include "./core/flip.hpp"
 #include "./core/fetch.hpp"
-#include "./core/gl.hpp"
-#include "./core/dx.hpp"
 
 
 

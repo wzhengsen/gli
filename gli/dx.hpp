@@ -28,7 +28,7 @@
 
 #pragma once
 
-#include "storage.hpp"
+#include "format.hpp"
 #include <array>
 
 namespace gli
@@ -342,4 +342,4 @@ namespace gli
 	};
 }//namespace gli
 
-#include "dx.inl"
+#include "./core/dx.inl"

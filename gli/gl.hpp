@@ -28,7 +28,7 @@
 
 #pragma once
 
-#include "storage.hpp"
+#include "format.hpp"
 #include <array>
 
 namespace gli
@@ -291,4 +291,4 @@ namespace gli
 	};
 }//namespace gli
 
-#include "gl.inl"
+#include "./core/gl.inl"
