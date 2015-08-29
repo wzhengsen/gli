@@ -32,12 +32,16 @@
 
 namespace gli
 {
+	/// Fetch a texel from a texture
+	/// The texture format must be uncompressed
 	template <typename genType>
 	genType texel_fetch(
 		texture2D const & Texture,
 		texture2D::dim_type const & Texcoord,
 		texture2D::size_type const & Level);
 
+	/// Write a texel to a texture
+	/// The texture format must be uncompressed
 	template <typename genType>
 	void texel_write(
 		texture2D & Texture,
@@ -45,6 +49,8 @@ namespace gli
 		texture2D::size_type const & Level,
 		genType const & Color);
 
+	/// Sample a pixel from a texture
+	/// The texture format must be uncompressed
 	template <typename genType>
 	genType texture_lod(
 		texture2D const & Texture,

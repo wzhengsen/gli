@@ -22,7 +22,7 @@
 ///
 /// @ref core
 /// @file gli/core/texture2d.hpp
-/// @date 2010-01-09 / 2012-10-16
+/// @date 2010-01-09 / 2015-08-29
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
@@ -40,25 +40,25 @@ namespace gli
 		typedef vec2 texcoord_type;
 
 	public:
-		/// Create an empty texture 2D
+		/// Create an empty texture 2D.
 		texture2D();
 
-		/// Create a texture2D and allocate a new storage
+		/// Create a texture2D and allocate a new storage.
 		explicit texture2D(
 			format_type Format,
 			dim_type const & Dimensions,
 			size_type Levels);
 
-		/// Create a texture2D and allocate a new storage with a complete mipmap chain
+		/// Create a texture2D and allocate a new storage with a complete mipmap chain.
 		explicit texture2D(
 			format_type Format,
 			dim_type const & Dimensions);
 
-		/// Create a texture2D view with an existing storage
+		/// Create a texture2D view with an existing storage.
 		explicit texture2D(
 			texture const & Texture);
 
-		/// Create a texture2D view with an existing storage
+		/// Create a texture2D view with an existing storage.
 		explicit texture2D(
 			texture const & Texture,
 			format_type Format,
@@ -66,19 +66,22 @@ namespace gli
 			size_type BaseFace, size_type MaxFace,
 			size_type BaseLevel, size_type MaxLevel);
 
-		/// Create a texture2D view, reference a subset of an existing texture2D instance
+		/// Create a texture2D view, reference a subset of an existing texture2D instance.
 		explicit texture2D(
 			texture2D const & Texture,
 			size_type BaseLevel, size_type MaxLevel);
 
-		/// Create a view of the image identified by Level in the mipmap chain of the texture
+		/// Create a view of the image identified by Level in the mipmap chain of the texture.
 		image operator[](size_type Level) const;
 
-		/// Return the dimensions of a texture instance: width and height 
+		/// Return the dimensions of a texture instance: width and height.
 		dim_type dimensions() const;
 
 		template <typename genType>
-		genType fetch(dim_type const & TexelCoord, size_type Level);
+		genType fetch(texture2D::dim_type const & TexelCoord, texture2D::size_type Level);
+
+		template <typename genType>
+		void write(texture2D::dim_type const & TexelCoord, texture2D::size_type Level, genType const & Color);
 	};
 }//namespace gli
 

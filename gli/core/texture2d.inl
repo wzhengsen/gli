@@ -93,16 +93,35 @@ namespace gli
 	}
 
 	template <typename genType>
-	inline genType texture2D::fetch(dim_type const & TexelCoord, size_type Level)
+	inline genType texture2D::fetch(texture2D::dim_type const & TexelCoord, texture2D::size_type Level)
 	{
 		assert(!this->empty());
 		assert(!is_compressed(this->format()));
-		assert(this->Storage->block_size() >= sizeof(genType));
+		assert(block_size(this->format()) == sizeof(genType));
 
-		dim_type const Dimensions(this->dimensions());
-		size_type const Offset = TexelCoord.x + TexelCoord.y * Dimensions.x;
+		image Image = this->operator[](Level);
 
-		return *(this->data<genType>() + Offset);
+		genType const * const Data = Image.data<genType>();
+		std::size_t const Index = TexelCoord.x + TexelCoord.y * Image.dimensions().x;
+		assert(Index < Image.size());
+
+		return reinterpret_cast<genType const * const>(Data)[Index];
+	}
+
+	template <typename genType>
+	void texture2D::write(texture2D::dim_type const & TexelCoord, texture2D::size_type Level, genType const & Color)
+	{
+		assert(!this->empty());
+		assert(!is_compressed(this->format()));
+		assert(block_size(this->format()) == sizeof(genType));
+
+		image Image = this->operator[](Level);
+
+		genType * Data = Image.data<genType>();
+		std::size_t const Index = TexelCoord.x + TexelCoord.y * Image.dimensions().x;
+		assert(Index < Image.size());
+
+		*(Data + Index) = Color;
 	}
 
 /*
