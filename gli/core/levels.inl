@@ -26,6 +26,8 @@
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
+#include <glm/gtx/component_wise.hpp>
+
 namespace gli
 {
 	template <template <typename, glm::precision> class dimType>
