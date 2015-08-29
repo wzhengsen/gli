@@ -21,12 +21,42 @@
 /// THE SOFTWARE.
 ///
 /// @ref core
-/// @file gli/core/size.inl
-/// @date 2015-08-20 / 2015-08-20
+/// @file gli/target.hpp
+/// @date 2015-08-21 / 2015-08-21
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
 namespace gli
 {
+	enum target
+	{
+		TARGET_1D = 0, TARGET_FIRST = TARGET_1D,
+		TARGET_1D_ARRAY,
+		TARGET_2D,
+		TARGET_2D_ARRAY,
+		TARGET_3D,
+		TARGET_CUBE,
+		TARGET_CUBE_ARRAY, TARGET_MAX = TARGET_CUBE_ARRAY
+	};
 
+	enum
+	{
+		TARGET_COUNT = TARGET_MAX - TARGET_FIRST + 1,
+		TARGET_INVALID = -1
+	};
+
+	inline bool isTarget1D(target Target)
+	{
+		return Target == TARGET_1D || Target == TARGET_1D_ARRAY;
+	}
+
+	inline bool isTargetArray(target Target)
+	{
+		return Target == TARGET_1D_ARRAY || Target == TARGET_2D_ARRAY || Target == TARGET_CUBE_ARRAY;
+	}
+
+	inline bool isTargetCube(target Target)
+	{
+		return Target == TARGET_CUBE || Target == TARGET_CUBE_ARRAY;
+	}
 }//namespace gli

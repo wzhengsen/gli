@@ -29,7 +29,6 @@
 #pragma once
 
 #include "texture.hpp"
-#include "size.hpp"
 
 namespace gli{
 

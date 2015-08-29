@@ -29,7 +29,7 @@
 #pragma once
 
 #include "image.hpp"
-#include "target.hpp"
+#include "../target.hpp"
 
 namespace gli
 {

@@ -41,7 +41,6 @@
 #include "./levels.hpp"
 #include "./core/storage.hpp"
 #include "./core/texture.hpp"
-#include "./core/size.hpp"
 #include "./core/addressing.hpp"
 #include "./core/clear.hpp"
 #include "./core/comparison.hpp"
