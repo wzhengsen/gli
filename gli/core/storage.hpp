@@ -37,9 +37,8 @@
 #include <cstring>
 #include <memory>
 
-#include "header.hpp"
-#include "type.hpp"
-#include "format.hpp"
+#include "../type.hpp"
+#include "../format.hpp"
 
 // GLM
 #include <glm/gtc/round.hpp>
