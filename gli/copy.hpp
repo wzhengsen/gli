@@ -59,29 +59,35 @@ namespace gli
 		texture1D const & Texture,
 		texture1D::size_type BaseLevel, texture1D::size_type MaxLevel);
 
+	/// Copy a subset of a texture and create a new texture with a new storage allocation.
 	texture copy(
 		texture1DArray const & Texture,
 		texture1DArray::size_type BaseLayer, texture1DArray::size_type MaxLayer,
 		texture1DArray::size_type BaseLevel, texture1DArray::size_type MaxLevel);
 
+	/// Copy a subset of a texture and create a new texture with a new storage allocation.
 	texture copy(
 		texture2D const & Texture,
 		texture2D::size_type BaseLevel, texture2D::size_type MaxLevel);
 
+	/// Copy a subset of a texture and create a new texture with a new storage allocation.
 	texture copy(
 		texture2DArray const & Texture,
 		texture2DArray::size_type BaseLayer, texture2DArray::size_type MaxLayer,
 		texture2DArray::size_type BaseLevel, texture2DArray::size_type MaxLevel);
 
+	/// Copy a subset of a texture and create a new texture with a new storage allocation.
 	texture copy(
 		texture3D const & Texture,
 		texture3D::size_type BaseLevel, texture3D::size_type MaxLevel);
 
+	/// Copy a subset of a texture and create a new texture with a new storage allocation.
 	texture copy(
 		textureCube const & Texture,
 		textureCube::size_type BaseFace, textureCube::size_type MaxFace,
 		textureCube::size_type BaseLevel, textureCube::size_type MaxLevel);
 
+	/// Copy a subset of a texture and create a new texture with a new storage allocation.
 	texture copy(
 		textureCubeArray const & Texture,
 		textureCubeArray::size_type BaseLayer, textureCubeArray::size_type MaxLayer,

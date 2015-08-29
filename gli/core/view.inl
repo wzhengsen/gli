@@ -33,6 +33,11 @@ namespace gli
 		return Image;
 	}
 
+	inline texture view(texture const & Texture)
+	{
+		return Texture;
+	}
+
 	template <typename texType>
 	inline texture view(texType const & Texture)
 	{
