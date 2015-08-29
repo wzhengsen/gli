@@ -27,7 +27,7 @@
 ///////////////////////////////////////////////////////////////////////////////////
 
 #include <gli/core/addressing.hpp>
-#include <gli/core/format.hpp>
+#include <gli/format.hpp>
 
 namespace layers
 {

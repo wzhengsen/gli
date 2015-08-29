@@ -32,7 +32,6 @@
 #pragma once
 
 #include "storage.hpp"
-#include "header.hpp"
 
 namespace gli
 {
