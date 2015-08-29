@@ -21,7 +21,7 @@
 /// THE SOFTWARE.
 ///
 /// @ref core
-/// @file gli/core/levels.hpp
+/// @file gli/levels.hpp
 /// @date 2014-12-12 / 2014-12-12
 /// @author Christophe Riccio
 ///
@@ -62,4 +62,4 @@ namespace gli
 	size_t levels(size_t Dimension);
 }//namespace gli
 
-#include "levels.inl"
+#include "./core/levels.inl"

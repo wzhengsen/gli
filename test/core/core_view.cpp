@@ -27,7 +27,7 @@
 ///////////////////////////////////////////////////////////////////////////////////
 
 #include <gli/gli.hpp>
-#include <gli/core/levels.hpp>
+#include <gli/levels.hpp>
 
 namespace dim
 {

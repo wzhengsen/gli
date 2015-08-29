@@ -38,6 +38,7 @@
 #define GLI_VERSION_PATCH			0
 #define GLI_VERSION_REVISION		0
 
+#include "./levels.hpp"
 #include "./core/storage.hpp"
 #include "./core/texture.hpp"
 #include "./core/size.hpp"
