@@ -49,7 +49,7 @@ namespace gli
 
 		memcpy(
 			Copy.data<glm::byte>(),
-			Texture.template data<glm::byte>(),
+			Texture.data<glm::byte>(),
 			Copy.size<glm::byte>());
 
 		return Copy;
