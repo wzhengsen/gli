@@ -21,7 +21,7 @@
 /// THE SOFTWARE.
 ///
 /// @ref core
-/// @file gli/gtx/fetch.hpp
+/// @file gli/core/fetch.hpp
 /// @date 2008-12-19 / 2013-01-13
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////

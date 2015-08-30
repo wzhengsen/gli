@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['flip_2ehpp',['flip.hpp',['../a00014.html',1,'']]]
+  ['comparison_2ehpp',['comparison.hpp',['../a00010.html',1,'']]],
+  ['copy_2ehpp',['copy.hpp',['../a00011.html',1,'']]]
 ];
