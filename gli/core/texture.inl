@@ -281,7 +281,7 @@ namespace gli
 
 	inline void texture::clear()
 	{
-		memset(this->data<glm::byte>(), 0, this->size<glm::byte>());
+		memset(this->data(), 0, this->size());
 	}
 
 	template <typename genType>

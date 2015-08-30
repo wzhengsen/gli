@@ -32,7 +32,7 @@ namespace gli
 	{
 		image Result(Image.format(), Image.dimensions());
 
-		memcpy(Result.data<glm::byte>(), Image.data<glm::byte>(), Image.size());
+		memcpy(Result.data(), Image.data(), Image.size());
 		
 		return Result;
 	}
@@ -47,10 +47,7 @@ namespace gli
 			Texture.faces(),
 			Texture.levels());
 
-		memcpy(
-			Copy.data<glm::byte>(),
-			Texture.data<glm::byte>(),
-			Copy.size<glm::byte>());
+		memcpy(Copy.data(), Texture.data(), Copy.size());
 
 		return Copy;
 	}
@@ -66,10 +63,7 @@ namespace gli
 			Texture.faces(),
 			Texture.levels());
 
-		memcpy(
-			Copy.data<glm::byte>(),
-			Texture.template data<glm::byte>(),
-			Copy.size<glm::byte>());
+		memcpy(Copy.data(), Texture.data(), Copy.size());
 
 		return Copy;
 	}
@@ -87,11 +81,8 @@ namespace gli
 			Texture.faces(),
 			Texture.levels());
 
-		memcpy(
-			Copy.data<glm::byte>(),
-			Texture.template data<glm::byte>(),
-			Copy.size<glm::byte>());
-		
+		memcpy(Copy.data(), Texture.data(), Copy.size());
+
 		return Copy;
 	}
 
@@ -110,11 +101,8 @@ namespace gli
 			texture1D::dim_type(Texture[BaseLevel].dimensions().x), 
 			MaxLevel - BaseLevel + 1);
 
-		memcpy(
-			Copy.data<glm::byte>(),
-			Texture[BaseLevel].data<glm::byte>(),
-			Copy.size<glm::byte>());
-		
+		memcpy(Copy.data(), Texture[BaseLevel].data(), Copy.size());
+
 		return Copy;
 	}
 
@@ -139,12 +127,7 @@ namespace gli
 			MaxLevel - BaseLevel + 1);
 
 		for(texture1DArray::size_type Layer = 0; Layer < Copy.layers(); ++Layer)
-		{
-			memcpy(
-				Copy[Layer].data<glm::byte>(),
-				Texture[Layer + BaseLayer][BaseLevel].data<glm::byte>(),
-				Copy[Layer].size<glm::byte>());
-		}
+			memcpy(Copy[Layer].data(), Texture[Layer + BaseLayer][BaseLevel].data(), Copy[Layer].size());
 
 		return Copy;
 	}
@@ -164,11 +147,8 @@ namespace gli
 			texture2D::dim_type(Texture[BaseLevel].dimensions().x),
 			MaxLevel - BaseLevel + 1);
 
-		memcpy(
-			Copy.data<glm::byte>(),
-			Texture[BaseLevel].data<glm::byte>(),
-			Copy.size<glm::byte>());
-		
+		memcpy(Copy.data(), Texture[BaseLevel].data(), Copy.size());
+
 		return Copy;
 	}
 
@@ -193,13 +173,8 @@ namespace gli
 			MaxLevel - BaseLevel + 1);
 
 		for(texture2DArray::size_type Layer = 0; Layer < Copy.layers(); ++Layer)
-		{
-			memcpy(
-				Copy[Layer].data<glm::byte>(),
-				Texture[Layer + BaseLayer][BaseLevel].data<glm::byte>(),
-				Copy[Layer].size<glm::byte>());
-		}
-		
+			memcpy(Copy[Layer].data(), Texture[Layer + BaseLayer][BaseLevel].data(), Copy[Layer].size());
+
 		return Copy;
 	}
 
@@ -212,17 +187,14 @@ namespace gli
 		assert(BaseLevel <= MaxLevel);
 		assert(BaseLevel < Texture.levels());
 		assert(MaxLevel < Texture.levels());
-	
+
 		texture3D Copy(
 			Texture.format(),
 			texture3D::dim_type(Texture[BaseLevel].dimensions()),
 			MaxLevel - BaseLevel + 1);
 
-		memcpy(
-			Copy.data<glm::byte>(),
-			Texture[BaseLevel].data<glm::byte>(),
-			Copy.size<glm::byte>());
-		
+		memcpy(Copy.data(), Texture[BaseLevel].data(), Copy.size());
+
 		return Copy;
 	}
 
@@ -246,13 +218,8 @@ namespace gli
 			MaxLevel - BaseLevel + 1);
 
 		for(textureCube::size_type Face = 0; Face < Copy.faces(); ++Face)
-		{
-			memcpy(
-				Copy[Face].data<glm::byte>(), 
-				Texture[Face + BaseFace][BaseLevel].data<glm::byte>(), 
-				Copy[Face].size<glm::byte>());
-		}
-		
+			memcpy(Copy[Face].data(), Texture[Face + BaseFace][BaseLevel].data(), Copy[Face].size());
+
 		return Copy;
 	}
 
@@ -282,12 +249,7 @@ namespace gli
 
 		for(textureCubeArray::size_type Layer = 0; Layer < Copy.layers(); ++Layer)
 		for(textureCubeArray::size_type Face = 0; Face < Copy[Layer].faces(); ++Face)
-		{
-			memcpy(
-				Copy[Layer][Face].data<glm::byte>(),
-				Texture[Layer + BaseLayer][Face + BaseFace][BaseLevel].data<glm::byte>(),
-				Copy[Layer][Face].size<glm::byte>());
-		}
+			memcpy(Copy[Layer][Face].data(), Texture[Layer + BaseLayer][Face + BaseFace][BaseLevel].data(), Copy[Layer][Face].size());
 
 		return Copy;
 	}

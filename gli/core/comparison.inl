@@ -36,9 +36,9 @@ namespace detail
 		if(TextureA.data() == TextureB.data())
 			return true;
 
-		glm::byte const* PointerA = TextureA.data<glm::byte>();
-		glm::byte const* PointerB = TextureB.data<glm::byte>();
-		if(std::memcmp(PointerA, PointerB, TextureA.size<glm::byte>()) == 0)
+		void const* PointerA = TextureA.data();
+		void const* PointerB = TextureB.data();
+		if(std::memcmp(PointerA, PointerB, TextureA.size()) == 0)
 			return true;
 
 		return false;
