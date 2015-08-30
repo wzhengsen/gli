@@ -123,10 +123,9 @@ namespace detail
 			{
 				for(std::size_t Face = 0, Faces = Texture.faces(); Face < Faces; ++Face)
 				{
-					std::uint32_t const FaceSize = static_cast<std::uint32_t>(Texture.level_size(Level));
-					std::uint32_t const DestinationOffset = static_cast<std::uint32_t>(Texture.offset(Layer, Face, Level));
+					std::uint32_t const FaceSize = static_cast<std::uint32_t>(Texture.size(Level));
 
-					std::memcpy(Texture.data<std::uint8_t>() + DestinationOffset, Data + Offset, FaceSize);
+					std::memcpy(Texture.data(Layer, Face, Level), Data + Offset, FaceSize);
 
 					Offset += std::max(BlockSize, glm::ceilMultiple(FaceSize, static_cast<std::uint32_t>(4)));
 				}

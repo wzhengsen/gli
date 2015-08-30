@@ -45,7 +45,7 @@ namespace detail
 			{
 				for(std::size_t Face = 0, Faces = Texture.faces(); Face < Faces; ++Face)
 				{
-					std::uint32_t const FaceSize = static_cast<std::uint32_t>(Texture.level_size(Level));
+					std::uint32_t const FaceSize = static_cast<std::uint32_t>(Texture.size(Level));
 					std::uint32_t const PaddedSize = std::max(BlockSize, glm::ceilMultiple(FaceSize, static_cast<std::uint32_t>(4)));
 
 					TotalSize += PaddedSize;
@@ -104,10 +104,9 @@ namespace detail
 			{
 				for(std::size_t Face = 0, Faces = Texture.faces(); Face < Faces; ++Face)
 				{
-					std::uint32_t const FaceSize = static_cast<std::uint32_t>(Texture.level_size(Level));
-					std::uint32_t const SourceOffset = static_cast<std::uint32_t>(Texture.offset(Layer, Face, Level));
+					std::uint32_t const FaceSize = static_cast<std::uint32_t>(Texture.size(Level));
 
-					std::memcpy(&Memory[0] + Offset, Texture.data<std::uint8_t>() + SourceOffset, FaceSize);
+					std::memcpy(&Memory[0] + Offset, Texture.data(Layer, Face, Level), FaceSize);
 
 					std::uint32_t const PaddedSize = glm::ceilMultiple(FaceSize, static_cast<std::uint32_t>(4));
 

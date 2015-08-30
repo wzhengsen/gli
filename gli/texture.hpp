@@ -110,36 +110,55 @@ namespace gli
 		/// Return the max level of the texture instance, effectively a memory offset to the beginning of the last level in the actual texture storage that the texture instance can access. 
 		size_type max_level() const;
 
-		/// Return max_level() - base_level() + 1
+		/// Return max_level() - base_level() + 1.
 		size_type levels() const;
 
-		/// Return the dimensions of a texture instance: width, height and depth 
+		/// Return the dimensions of a texture instance: width, height and depth.
 		dim_type dimensions(size_type Level = 0) const;
 
 		/// Return the memory size of a texture instance storage in bytes.
-		size_type size(size_type Level = 0) const;
+		size_type size() const;
 
 		/// Return the number of blocks contained in a texture instance storage.
-		/// genType size must match the block size conresponding to the texture format. 
+		/// genType size must match the block size conresponding to the texture format.
 		template <typename genType>
-		size_type size(size_type Level = 0) const;
+		size_type size() const;
 
-		/// Return the memory size of a specific level identified by Level
-		size_type level_size(size_type Level) const;
+		/// Return the memory size of a specific level identified by Level.
+		size_type size(size_type Level) const;
+
+		/// Return the memory size of a specific level identified by Level.
+		/// genType size must match the block size conresponding to the texture format.
+		template <typename genType>
+		size_type size(size_type Level) const;
 
 		/// Return a pointer to the beginning of the texture instance data.
-		void * data(size_type Level = 0);
+		void * data();
 
 		/// Return a pointer of type genType which size must match the texture format block size
 		template <typename genType>
-		genType * data(size_type Level = 0);
+		genType * data();
 
 		/// Return a pointer to the beginning of the texture instance data.
-		void const * data(size_type Level = 0) const;
+		void const * data() const;
 
 		/// Return a pointer of type genType which size must match the texture format block size
 		template <typename genType>
-		genType const * data(size_type Level = 0) const;
+		genType const * data() const;
+
+		/// Return a pointer to the beginning of the texture instance data.
+		void * data(size_type Layer, size_type Face, size_type Level);
+
+		/// Return a pointer to the beginning of the texture instance data.
+		void const * data(size_type Layer, size_type Face, size_type Level) const;
+
+		/// Return a pointer of type genType which size must match the texture format block size
+		template <typename genType>
+		genType * data(size_type Layer, size_type Face, size_type Level);
+
+		/// Return a pointer of type genType which size must match the texture format block size
+		template <typename genType>
+		genType const * data(size_type Layer, size_type Face, size_type Level) const;
 
 		/// Clear the entire texture storage with zeros
 		void clear();
@@ -149,14 +168,11 @@ namespace gli
 		template <typename genType>
 		void clear(genType const & Texel);
 
-		/// Compute the relative memory offset to access the data for a specific layer, face and level
-		size_type offset(
-			size_type Layer,
-			size_type Face,
-			size_type Level) const;
-
 	protected:
-		struct entry
+		/// Compute the relative memory offset to access the data for a specific layer, face and level
+		size_type offset(size_type Layer, size_type Face, size_type Level) const;
+
+		struct cache
 		{
 			data_type * Data;
 			size_type Size;
@@ -171,7 +187,7 @@ namespace gli
 		size_type const MaxFace;
 		size_type const BaseLevel;
 		size_type const MaxLevel;
-		std::vector<entry> Cache;
+		cache Cache;
 
 	private:
 		void build_cache();

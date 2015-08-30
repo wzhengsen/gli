@@ -361,6 +361,20 @@ namespace load
 	}
 }//namespace load
 
+namespace data
+{
+	int run()
+	{
+		int Error = 0;
+
+		gli::texture Texture(gli::TARGET_2D_ARRAY, gli::FORMAT_RGBA8_UNORM, gli::texture::dim_type(1), 2, 1, 1);
+		Error += gli::texture2DArray(Texture)[0].data() == Texture.data(0, 0, 0) ? 0 : 1;
+		Error += gli::texture2DArray(Texture)[1].data() == Texture.data(1, 0, 0) ? 0 : 1;
+
+		return Error;
+	}
+}//namespace data
+
 int main()
 {
 	int Error(0);
@@ -372,6 +386,7 @@ int main()
 	Error += tex_access::run();
 	Error += specialize::run();
 	Error += load::run();
+	Error += data::run();
 
 	return Error;
 }
