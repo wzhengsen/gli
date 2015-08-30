@@ -20,8 +20,7 @@ Thanks for contributing to the project by <link href="https://github.com/g-truc/
 ```c++
 #include <gli/gli.hpp>
 
-namespace glu{
-
+/// Filename can be KTX or DDS files
 GLuint createTexture(char const* Filename)
 {
 	gli::texture Texture = gli::load(Filename);
@@ -73,6 +72,7 @@ GLuint createTexture(char const* Filename)
 	for(std::size_t Face = 0; Face < Texture.faces(); ++Face)
 	for(std::size_t Level = 0; Level < Texture.levels(); ++Level)
 	{
+		GLsizei const LayerGL = static_cast<GLsizei>(Layer);
 		glm::tvec3<GLsizei> Dimensions(Texture.dimensions(Level));
 		Target = gli::is_target_cube(Texture.target()) ? static_cast<GLenum>(GL_TEXTURE_CUBE_MAP_POSITIVE_X + Face) : Target;
 
@@ -96,12 +96,13 @@ GLuint createTexture(char const* Filename)
 			if(gli::is_compressed(Texture.format()))
 				glCompressedTexSubImage2D(
 					Target, static_cast<GLint>(Level),
-					0, 0, Dimensions.x, Texture.target() == gli::TARGET_1D_ARRAY ? static_cast<GLsizei>(Layer) : Dimensions.y,
-					Format.Internal, static_cast<GLsizei>(Texture.size(Level)), Texture.data(Layer, Face, Level));
+					0, 0, Dimensions.x, Texture.target() == gli::TARGET_1D_ARRAY ?  : Dimensions.y,
+					Format.Internal, static_cast<GLsizei>(Texture.size(Level)),
+					Texture.data(Layer, Face, Level));
 			else
 				glTexSubImage2D(
 					Target, static_cast<GLint>(Level),
-					0, 0, Dimensions.x, Texture.target() == gli::TARGET_1D_ARRAY ? static_cast<GLsizei>(Layer) : Dimensions.y,
+					0, 0, Dimensions.x, Texture.target() == gli::TARGET_1D_ARRAY ? LayerGL : Dimensions.y,
 					Format.External, Format.Type,
 					Texture.data(Layer, Face, Level));
 			break;
@@ -111,13 +112,13 @@ GLuint createTexture(char const* Filename)
 			if(gli::is_compressed(Texture.format()))
 				glCompressedTexSubImage3D(
 					Target, static_cast<GLint>(Level),
-					0, 0, 0, Dimensions.x, Dimensions.y, Texture.target() == gli::TARGET_3D ? Dimensions.z : static_cast<GLsizei>(Layer),
+					0, 0, 0, Dimensions.x, Dimensions.y, Texture.target() == gli::TARGET_3D ? Dimensions.z : LayerGL,
 					Format.Internal, static_cast<GLsizei>(Texture.size(Level)),
 					Texture.data(Layer, Face, Level));
 			else
 				glTexSubImage3D(
 					Target, static_cast<GLint>(Level),
-					0, 0, 0, Dimensions.x, Dimensions.y, Texture.target() == gli::TARGET_3D ? Dimensions.z : static_cast<GLsizei>(Layer),
+					0, 0, 0, Dimensions.x, Dimensions.y, Texture.target() == gli::TARGET_3D ? Dimensions.z : LayerGL,
 					Format.External, Format.Type,
 					Texture.data(Layer, Face, Level));
 			break;
@@ -127,7 +128,6 @@ GLuint createTexture(char const* Filename)
 	return TextureName;
 }
 
-}//namespace glu
 ```
 
 ## Project Health
