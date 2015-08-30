@@ -2,7 +2,7 @@
 
 [OpenGL Image](http://gli.g-truc.net/) (*GLI*) is a header only C++ image library for graphics software.
 
-*GLI* provides classes and functions to load image files (*[KTX](https://www.khronos.org/opengles/sdk/tools/KTX/)* and *[DDS]https://msdn.microsoft.com/en-us/library/windows/desktop/bb943990%28v=vs.85%29.aspx?f=255&MSPPError=-2147217396)*), facilitate loading texture with graphics APIs, manipulate textures, etc.
+*GLI* provides classes and functions to load image files (*[KTX](https://www.khronos.org/opengles/sdk/tools/KTX/)* and *[DDS](https://msdn.microsoft.com/en-us/library/windows/desktop/bb943990%28v=vs.85%29.aspx)*), facilitate loading texture with graphics APIs, manipulate textures, etc.
 
 This library works perfectly with *[OpenGL](https://www.opengl.org)* but it also ensures interoperability with other third party libraries and SDK. It is a good candidate for software rendering (raytracing / rasterisation), image processing, physic simulations and any development context that requires a simple and convenient image library.
 
