@@ -21,7 +21,7 @@
 /// THE SOFTWARE.
 ///
 /// @ref core
-/// @file gli/core/texture3d.hpp
+/// @file gli/texture3d.hpp
 /// @date 2010-01-09 / 2013-01-11
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////

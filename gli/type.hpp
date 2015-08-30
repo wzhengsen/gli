@@ -21,7 +21,7 @@
 /// THE SOFTWARE.
 ///
 /// @ref core
-/// @file gli/core/type.hpp
+/// @file gli/type.hpp
 /// @date 2014-07-28 / 2015-08-29
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////

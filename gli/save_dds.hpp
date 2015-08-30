@@ -21,7 +21,7 @@
 /// THE SOFTWARE.
 ///
 /// @ref core
-/// @file gli/core/save_dds.hpp
+/// @file gli/save_dds.hpp
 /// @date 2013-01-28 / 2013-01-28
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////

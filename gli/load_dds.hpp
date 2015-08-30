@@ -21,7 +21,7 @@
 /// THE SOFTWARE.
 ///
 /// @ref core
-/// @file gli/core/load_dds.hpp
+/// @file gli/load_dds.hpp
 /// @date 2010-09-08 / 2013-01-28
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////

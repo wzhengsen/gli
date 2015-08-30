@@ -21,7 +21,7 @@
 /// THE SOFTWARE.
 ///
 /// @ref core
-/// @file gli/core/load_ktx.hpp
+/// @file gli/load_ktx.hpp
 /// @date 2015-08-05 / 2015-08-05
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////

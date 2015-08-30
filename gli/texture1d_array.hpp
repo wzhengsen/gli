@@ -21,7 +21,7 @@
 /// THE SOFTWARE.
 ///
 /// @ref core
-/// @file gli/core/texture1d_array.hpp
+/// @file gli/texture1d_array.hpp
 /// @date 2012-06-25 / 2013-01-11
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
