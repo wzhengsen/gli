@@ -37,8 +37,6 @@ namespace gli
 		, BaseLayer(0), MaxLayer(0)
 		, BaseFace(0), MaxFace(0)
 		, BaseLevel(0), MaxLevel(0)
-		, Data(nullptr)
-		, Size(0)
 	{}
 
 	inline texture::texture
@@ -56,11 +54,11 @@ namespace gli
 		, BaseLayer(0), MaxLayer(Layers - 1)
 		, BaseFace(0), MaxFace(Faces - 1)
 		, BaseLevel(0), MaxLevel(Levels - 1)
-		, Data(this->compute_data())
-		, Size(this->compute_size())
 	{
 		assert(Target != TARGET_CUBE || (Target == TARGET_CUBE && Dimensions.x == Dimensions.y));
 		assert(Target != TARGET_CUBE_ARRAY || (Target == TARGET_CUBE_ARRAY && Dimensions.x == Dimensions.y));
+
+		this->build_cache();
 	}
 
 	inline texture::texture
@@ -75,8 +73,6 @@ namespace gli
 		, BaseLayer(Texture.base_layer()), MaxLayer(Texture.max_layer())
 		, BaseFace(Texture.base_face()), MaxFace(Texture.max_face())
 		, BaseLevel(Texture.base_level()), MaxLevel(Texture.max_level())
-		, Data(this->compute_data())
-		, Size(this->compute_size())
 	{
 		if(this->empty())
 			return;
@@ -88,6 +84,8 @@ namespace gli
 		assert(Target != TARGET_3D || (Target == TARGET_3D && this->layers() == 1 && this->faces() == 1 && this->dimensions().y >= 1 && this->dimensions().z >= 1));
 		assert(Target != TARGET_CUBE || (Target == TARGET_CUBE && this->layers() == 1 && this->faces() >= 1 && this->dimensions().y >= 1 && this->dimensions().z == 1));
 		assert(Target != TARGET_CUBE_ARRAY || (Target == TARGET_CUBE_ARRAY && this->layers() >= 1 && this->faces() >= 1 && this->dimensions().y >= 1 && this->dimensions().z == 1));
+
+		this->build_cache();
 	}
 
 	inline texture::texture
@@ -105,8 +103,6 @@ namespace gli
 		, BaseLayer(BaseLayer), MaxLayer(MaxLayer)
 		, BaseFace(BaseFace), MaxFace(MaxFace)
 		, BaseLevel(BaseLevel), MaxLevel(MaxLevel)
-		, Data(this->compute_data())
-		, Size(this->compute_size())
 	{
 		assert(block_size(Format) == block_size(Texture.format()));
 		assert(Target != TARGET_1D || (Target == TARGET_1D && this->layers() == 1 && this->faces() == 1 && this->dimensions().y == 1 && this->dimensions().z == 1));
@@ -116,50 +112,52 @@ namespace gli
 		assert(Target != TARGET_3D || (Target == TARGET_3D && this->layers() == 1 && this->faces() == 1 && this->dimensions().y >= 1 && this->dimensions().z >= 1));
 		assert(Target != TARGET_CUBE || (Target == TARGET_CUBE && this->layers() == 1 && this->faces() >= 1 && this->dimensions().y >= 1 && this->dimensions().z == 1));
 		assert(Target != TARGET_CUBE_ARRAY || (Target == TARGET_CUBE_ARRAY && this->layers() >= 1 && this->faces() >= 1 && this->dimensions().y >= 1 && this->dimensions().z == 1));
+
+		this->build_cache();
 	}
 
-	inline texture::size_type texture::size() const
+	inline texture::size_type texture::size(size_type Level) const
 	{
 		assert(!this->empty());
 
-		return this->Size;
+		return this->Cache[Level].Size;
 	}
 
 	template <typename genType>
-	inline texture::size_type texture::size() const
+	inline texture::size_type texture::size(size_type Level) const
 	{
 		assert(!this->empty());
 		assert(block_size(this->format()) >= sizeof(genType));
 
-		return this->size() / sizeof(genType);
+		return this->size(Level) / sizeof(genType);
 	}
 
-	inline void * texture::data()
+	inline void * texture::data(size_type Level)
 	{
-		return this->Data;
+		return this->Cache[Level].Data;
 	}
 
-	inline void const * texture::data() const
+	inline void const * texture::data(size_type Level) const
 	{
-		return this->Data;
+		return this->Cache[Level].Data;
 	}
 
 	template <typename genType>
-	inline genType * texture::data()
+	inline genType * texture::data(size_type Level)
 	{
 		assert(!this->empty());
 		assert(block_size(this->format()) >= sizeof(genType));
 
-		return reinterpret_cast<genType *>(this->data());
+		return reinterpret_cast<genType *>(this->data(Level));
 	}
 
 	template <typename genType>
-	inline genType const * texture::data() const
+	inline genType const * texture::data(size_type Level) const
 	{
 		assert(!this->empty());
 		assert(block_size(this->format()) >= sizeof(genType));
 
-		return reinterpret_cast<genType const *>(this->data());
+		return reinterpret_cast<genType const *>(this->data(Level));
 	}
 
 	inline bool texture::empty() const
@@ -247,25 +245,21 @@ namespace gli
 			*(Data + TexelIndex) = Texel;
 	}
 
-	inline texture::data_type * texture::compute_data()
+	inline void texture::build_cache()
 	{
-		if(this->empty())
-			return nullptr;
+		this->Cache.resize(this->levels());
+		for(std::size_t Level = 0; Level < this->Cache.size(); ++Level)
+		{
+			size_type const Offset = this->Storage->offset(
+				this->base_layer(), this->base_face(), this->base_level() + Level);
 
-		size_type const Offset = this->Storage->offset(
-			this->base_layer(), this->base_face(), this->base_level());
+			size_type const Size = this->Storage->layer_size(
+				this->base_face(), this->max_face(),
+				this->base_level() + Level, this->max_level()) * this->layers();
 
-		return this->Storage->data() + Offset;
-	}
-
-	inline texture::size_type texture::compute_size() const
-	{
-		if(this->empty())
-			return 0;
-
-		return this->Storage->layer_size(
-			this->base_face(), this->max_face(),
-			this->base_level(), this->max_level()) * this->layers();
+			this->Cache[Level].Data = this->Storage->data() + Offset;
+			this->Cache[Level].Size = Size;
+		}
 	}
 
 	inline texture::size_type texture::offset

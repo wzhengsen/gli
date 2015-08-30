@@ -117,29 +117,29 @@ namespace gli
 		dim_type dimensions(size_type Level = 0) const;
 
 		/// Return the memory size of a texture instance storage in bytes.
-		size_type size() const;
+		size_type size(size_type Level = 0) const;
 
 		/// Return the number of blocks contained in a texture instance storage.
 		/// genType size must match the block size conresponding to the texture format. 
 		template <typename genType>
-		size_type size() const;
+		size_type size(size_type Level = 0) const;
 
 		/// Return the memory size of a specific level identified by Level
 		size_type level_size(size_type Level) const;
 
 		/// Return a pointer to the beginning of the texture instance data.
-		void * data();
+		void * data(size_type Level = 0);
 
 		/// Return a pointer of type genType which size must match the texture format block size
 		template <typename genType>
-		genType * data();
+		genType * data(size_type Level = 0);
 
 		/// Return a pointer to the beginning of the texture instance data.
-		void const * data() const;
+		void const * data(size_type Level = 0) const;
 
 		/// Return a pointer of type genType which size must match the texture format block size
 		template <typename genType>
-		genType const * data() const;
+		genType const * data(size_type Level = 0) const;
 
 		/// Clear the entire texture storage with zeros
 		void clear();
@@ -156,6 +156,12 @@ namespace gli
 			size_type Level) const;
 
 	protected:
+		struct entry
+		{
+			data_type * Data;
+			size_type Size;
+		};
+
 		std::shared_ptr<storage> Storage;
 		target_type const Target;
 		format_type const Format;
@@ -165,12 +171,10 @@ namespace gli
 		size_type const MaxFace;
 		size_type const BaseLevel;
 		size_type const MaxLevel;
-		data_type * Data;
-		size_type const Size;
+		std::vector<entry> Cache;
 
 	private:
-		data_type * compute_data();
-		size_type compute_size() const;
+		void build_cache();
 	};
 
 }//namespace gli
