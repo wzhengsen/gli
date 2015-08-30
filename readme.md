@@ -42,6 +42,7 @@ GLuint createTexture(char const* Filename)
 	glTexParameteri(Target, GL_TEXTURE_SWIZZLE_A, Format.Swizzle[3]);
 
 	glm::tvec3<GLsizei> const Dimensions(Texture.dimensions());
+	GLsizei const FaceTotal = static_cast<GLsizei>(Texture.layers() * Texture.faces());
 
 	switch(Texture.target())
 	{
@@ -54,14 +55,15 @@ GLuint createTexture(char const* Filename)
 	case gli::TARGET_CUBE:
 		glTexStorage2D(
 			Target, static_cast<GLint>(Texture.levels()), Format.Internal,
-			Dimensions.x, Texture.target() == gli::TARGET_2D ? Dimensions.y : static_cast<GLsizei>(Texture.layers() * Texture.faces()));
+			Dimensions.x, Texture.target() == gli::TARGET_2D ? Dimensions.y : FaceTotal);
 		break;
 	case gli::TARGET_2D_ARRAY:
 	case gli::TARGET_3D:
 	case gli::TARGET_CUBE_ARRAY:
 		glTexStorage3D(
 			Target, static_cast<GLint>(Texture.levels()), Format.Internal,
-			Dimensions.x, Dimensions.y, Texture.target() == gli::TARGET_3D ? Dimensions.z : static_cast<GLsizei>(Texture.layers() * Texture.faces()));
+			Dimensions.x, Dimensions.y,
+			Texture.target() == gli::TARGET_3D ? Dimensions.z : FaceTotal);
 		break;
 	default:
 		assert(0);
@@ -74,7 +76,9 @@ GLuint createTexture(char const* Filename)
 	{
 		GLsizei const LayerGL = static_cast<GLsizei>(Layer);
 		glm::tvec3<GLsizei> Dimensions(Texture.dimensions(Level));
-		Target = gli::is_target_cube(Texture.target()) ? static_cast<GLenum>(GL_TEXTURE_CUBE_MAP_POSITIVE_X + Face) : Target;
+		Target = gli::is_target_cube(Texture.target())
+			? static_cast<GLenum>(GL_TEXTURE_CUBE_MAP_POSITIVE_X + Face)
+			: Target;
 
 		switch(Texture.target())
 		{
@@ -96,13 +100,17 @@ GLuint createTexture(char const* Filename)
 			if(gli::is_compressed(Texture.format()))
 				glCompressedTexSubImage2D(
 					Target, static_cast<GLint>(Level),
-					0, 0, Dimensions.x, Texture.target() == gli::TARGET_1D_ARRAY ?  : Dimensions.y,
+					0, 0,
+					Dimensions.x,
+					Texture.target() == gli::TARGET_1D_ARRAY ? : Dimensions.y,
 					Format.Internal, static_cast<GLsizei>(Texture.size(Level)),
 					Texture.data(Layer, Face, Level));
 			else
 				glTexSubImage2D(
 					Target, static_cast<GLint>(Level),
-					0, 0, Dimensions.x, Texture.target() == gli::TARGET_1D_ARRAY ? LayerGL : Dimensions.y,
+					0, 0,
+					Dimensions.x,
+					Texture.target() == gli::TARGET_1D_ARRAY ? LayerGL : Dimensions.y,
 					Format.External, Format.Type,
 					Texture.data(Layer, Face, Level));
 			break;
@@ -112,13 +120,17 @@ GLuint createTexture(char const* Filename)
 			if(gli::is_compressed(Texture.format()))
 				glCompressedTexSubImage3D(
 					Target, static_cast<GLint>(Level),
-					0, 0, 0, Dimensions.x, Dimensions.y, Texture.target() == gli::TARGET_3D ? Dimensions.z : LayerGL,
+					0, 0, 0,
+					Dimensions.x, Dimensions.y,
+					Texture.target() == gli::TARGET_3D ? Dimensions.z : LayerGL,
 					Format.Internal, static_cast<GLsizei>(Texture.size(Level)),
 					Texture.data(Layer, Face, Level));
 			else
 				glTexSubImage3D(
 					Target, static_cast<GLint>(Level),
-					0, 0, 0, Dimensions.x, Dimensions.y, Texture.target() == gli::TARGET_3D ? Dimensions.z : LayerGL,
+					0, 0, 0,
+					Dimensions.x, Dimensions.y,
+					Texture.target() == gli::TARGET_3D ? Dimensions.z : LayerGL,
 					Format.External, Format.Type,
 					Texture.data(Layer, Face, Level));
 			break;
