@@ -29,6 +29,7 @@
 #pragma once
 
 #include "format.hpp"
+#include "target.hpp"
 #include <array>
 
 namespace gli
@@ -263,6 +264,17 @@ namespace gli
 			TYPE_UINT32_RGB10A2_REV = 0x8368	//GL_UNSIGNED_INT_2_10_10_10_REV
 		};
 
+		enum target
+		{
+			TARGET_1D			= 0x0DE0,
+			TARGET_1D_ARRAY		= 0x8C18,
+			TARGET_2D			= 0x0DE1,
+			TARGET_2D_ARRAY		= 0x8C1A,
+			TARGET_3D			= 0x806F,
+			TARGET_CUBE			= 0x8513,
+			TARGET_CUBE_ARRAY	= 0x9009
+		};
+
 		enum swizzle
 		{
 			SWIZZLE_RED = 0x1903,		//GL_RED
@@ -283,7 +295,8 @@ namespace gli
 
 		gl();
 
-		format const & translate(gli::format const & Format) const;
+		target const & translate(gli::target Target) const;
+		format const & translate(gli::format Format) const;
 		gli::format find(internalFormat internalFormat, externalFormat externalFormat, typeFormat type);
 
 	private:

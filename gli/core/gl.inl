@@ -216,7 +216,25 @@ namespace gli
 		std::copy(&Table[0], &Table[0] + FORMAT_COUNT, this->Translation.begin());
 	}
 
-	inline gl::format const & gl::translate(gli::format const & Format) const
+	inline gl::target const & gl::translate(gli::target Target) const
+	{
+		static gl::target const Table[] =
+		{
+			gl::TARGET_1D,
+			gl::TARGET_1D_ARRAY,
+			gl::TARGET_2D,
+			gl::TARGET_2D_ARRAY,
+			gl::TARGET_3D,
+			gl::TARGET_CUBE,
+			gl::TARGET_CUBE_ARRAY
+		};
+
+		static_assert(sizeof(Table) / sizeof(Table[0]) == TARGET_COUNT, "GLI error: format descriptor list doesn't match number of supported formats");
+
+		return Table[Target];
+	}
+
+	inline gl::format const & gl::translate(gli::format Format) const
 	{
 		return this->Translation[Format];
 	}
