@@ -33,6 +33,7 @@
 
 namespace gli
 {
+	/// texture1D
 	class texture1D : public texture
 	{
 	public:

@@ -33,6 +33,7 @@
 
 namespace gli
 {
+	/// Genetic texture class. It can support any target.
 	class texture
 	{
 	public:

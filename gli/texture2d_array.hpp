@@ -32,6 +32,7 @@
 
 namespace gli
 {
+	/// texture2DArray
 	class texture2DArray : public texture
 	{
 	public:

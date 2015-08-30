@@ -32,6 +32,7 @@
 
 namespace gli
 {
+	/// textureCube
 	class textureCube : public texture
 	{
 	public:

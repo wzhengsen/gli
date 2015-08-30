@@ -3,7 +3,7 @@
 [OpenGL Image](http://gli.g-truc.net/) (*GLI*) is a header only C++ image library for graphics software
 released under the <link href="../copying.txt">MIT license</link>.
 
-For more information about GLI, please have a look at <link href="../0.6.1/api/index.html">the API reference documentation</link>.
+For more information about GLI, please have a look at <link href="../0.7.0/api/index.html">the API reference documentation</link>.
 
 This library works perfectly with *[OpenGL](https://www.opengl.org)* but it also ensures interoperability with other third party libraries and SDK. It is a good candidate for software rendering (raytracing / rasterisation), image processing, physic simulations and any development context that requires a simple and convenient mathematics library.
 
@@ -139,7 +139,6 @@ GLuint createTexture(char const* Filename)
 	}
 	return TextureName;
 }
-
 ```
 
 ## Project Health
@@ -152,11 +151,13 @@ GLuint createTexture(char const* Filename)
 
 ## Release notes
 
-#### GLI 0.7.0.0: 2015-08-XX
+#### GLI 0.7.0.0: 2015-09-XX
 - Added KTX loading and saving
 - Added gli::load for generic file loading, either DDS or KTX files depending on filename extensions
 - Added gli::save for generic file saving, either DDS or KTX files depending on filename extensions
 - Added texture views using different texture format, including compressed texture formats
+- Added fine granularity includes
+- Improved API documentation
 - Much faster texture comparisons is non optimal cases. (Measured ~21x faster on Intel IVB)
 - Explicitly handling of texture targets: fixed various cases of cubemap and texture arrays failing to load with DDS
 - Fixed GCC
