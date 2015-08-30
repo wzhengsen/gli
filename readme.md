@@ -82,11 +82,13 @@ GLuint createTexture(char const* Filename)
 			if(gli::is_compressed(Texture.format()))
 				glCompressedTexSubImage1D(
 					Target, static_cast<GLint>(Level), 0, Dimensions.x,
-					Format.Internal, static_cast<GLsizei>(Texture.size(Level)), Texture.data(Layer, Face, Level));
+					Format.Internal, static_cast<GLsizei>(Texture.size(Level)),
+					Texture.data(Layer, Face, Level));
 			else
 				glTexSubImage1D(
 					Target, static_cast<GLint>(Level), 0, Dimensions.x,
-					Format.External, Format.Type, Texture.data(Layer, Face, Level));
+					Format.External, Format.Type,
+					Texture.data(Layer, Face, Level));
 			break;
 		case gli::TARGET_1D_ARRAY:
 		case gli::TARGET_2D:
@@ -100,7 +102,8 @@ GLuint createTexture(char const* Filename)
 				glTexSubImage2D(
 					Target, static_cast<GLint>(Level),
 					0, 0, Dimensions.x, Texture.target() == gli::TARGET_1D_ARRAY ? static_cast<GLsizei>(Layer) : Dimensions.y,
-					Format.External, Format.Type, Texture.data(Layer, Face, Level));
+					Format.External, Format.Type,
+					Texture.data(Layer, Face, Level));
 			break;
 		case gli::TARGET_2D_ARRAY:
 		case gli::TARGET_3D:
@@ -109,12 +112,14 @@ GLuint createTexture(char const* Filename)
 				glCompressedTexSubImage3D(
 					Target, static_cast<GLint>(Level),
 					0, 0, 0, Dimensions.x, Dimensions.y, Texture.target() == gli::TARGET_3D ? Dimensions.z : static_cast<GLsizei>(Layer),
-					Format.Internal, static_cast<GLsizei>(Texture.size(Level)), Texture.data(Layer, Face, Level));
+					Format.Internal, static_cast<GLsizei>(Texture.size(Level)),
+					Texture.data(Layer, Face, Level));
 			else
 				glTexSubImage3D(
 					Target, static_cast<GLint>(Level),
 					0, 0, 0, Dimensions.x, Dimensions.y, Texture.target() == gli::TARGET_3D ? Dimensions.z : static_cast<GLsizei>(Layer),
-					Format.External, Format.Type, Texture.data(Layer, Face, Level));
+					Format.External, Format.Type,
+					Texture.data(Layer, Face, Level));
 			break;
 		default: assert(0); break;
 		}
