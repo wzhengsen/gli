@@ -34,6 +34,7 @@ namespace gli
 		, Levels(0)
 		, BlockSize(0)
 		, BlockCount(0)
+		, Dimensions(0)
 	{}
 
 	inline storage::storage
@@ -49,6 +50,7 @@ namespace gli
 		, Levels(Levels)
 		, BlockSize(gli::block_size(Format))
 		, BlockCount(glm::max(Dimensions / block_dimensions(Format), gli::dim3_t(1)))
+		, Dimensions(Dimensions)
 	{
 		assert(Layers > 0);
 		assert(Faces > 0);
@@ -88,6 +90,11 @@ namespace gli
 		assert(Level < this->Levels);
 
 		return glm::max(this->BlockCount >> storage::dim_type(static_cast<glm::uint>(Level)), storage::dim_type(static_cast<glm::uint>(1)));
+	}
+
+	inline storage::dim_type storage::dimensions(size_type Level) const
+	{
+		return glm::max(this->Dimensions >> Level, storage::dim_type(1));
 	}
 
 	inline storage::size_type storage::size() const

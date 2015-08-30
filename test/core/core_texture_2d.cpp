@@ -324,6 +324,37 @@ namespace fetch
 	}
 }//namespace fetch
 
+namespace level
+{
+	int test_format(gli::format Format)
+	{
+		int Error(0);
+
+		gli::texture2D Texture(Format, gli::texture2D::dim_type(16));
+
+		for(gli::texture2D::size_type Level = 0; Level < Texture.levels(); ++Level)
+		{
+			gli::image::dim_type const & DimensionsL = Texture[Level].dimensions();
+			gli::image::dim_type const & Dimensions0 = glm::max(gli::image::dim_type(Texture[0].dimensions() >> Level), gli::image::dim_type(1));
+
+			Error += DimensionsL == Dimensions0 ? 0 : 1;
+			assert(!Error);
+		}
+
+		return Error;
+	}
+
+	int test()
+	{
+		int Error(0);
+
+		for(gli::texture2D::size_type FormatIndex = gli::FORMAT_FIRST; FormatIndex <= gli::FORMAT_LAST; ++FormatIndex)
+			Error += test_format(static_cast<gli::format>(FormatIndex));
+
+		return Error;
+	}
+}//namespace level
+
 int main()
 {
 	int Error(0);
@@ -335,6 +366,7 @@ int main()
 	Error += test_texture2d_image_access();
 	Error += test_create();
 	Error += fetch::test();
+	Error += level::test();
 
 	return Error;
 }

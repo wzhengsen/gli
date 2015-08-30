@@ -179,7 +179,8 @@ namespace gli
 	{
 		assert(!this->empty());
 
-		return this->Storage->block_count(this->base_level() + Level) * block_dimensions(this->format());
+		return this->Storage->dimensions(this->base_level() + Level);
+		//return this->Storage->block_count(this->base_level() + Level) * block_dimensions(this->format());
 	}
 
 	inline texture::size_type texture::base_layer() const

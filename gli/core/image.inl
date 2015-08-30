@@ -184,7 +184,11 @@ namespace detail
 
 	inline image::dim_type image::dimensions() const
 	{
-		return this->Storage->block_count(this->BaseLevel) * block_dimensions(this->format());
+		assert(!this->empty());
+
+		return this->Storage->dimensions(this->BaseLevel);
+
+		//return this->Storage->block_count(this->BaseLevel) * block_dimensions(this->format());
 	}
 
 	inline void * image::data()
