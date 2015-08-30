@@ -34,6 +34,7 @@ namespace detail
 {
 	inline std::size_t compute_ktx_storage_size(texture const & Texture)
 	{
+		std::uint32_t const BlockSize = block_size(Texture.format());
 		std::size_t TotalSize = sizeof(detail::ktxHeader);
 
 		for(std::size_t Level = 0, Levels = Texture.levels(); Level < Levels; ++Level)
@@ -45,7 +46,7 @@ namespace detail
 				for(std::size_t Face = 0, Faces = Texture.faces(); Face < Faces; ++Face)
 				{
 					std::uint32_t const FaceSize = static_cast<std::uint32_t>(Texture.level_size(Level));
-					std::uint32_t const PaddedSize = glm::ceilMultiple(FaceSize, static_cast<std::uint32_t>(4));
+					std::uint32_t const PaddedSize = std::max(BlockSize, glm::ceilMultiple(FaceSize, static_cast<std::uint32_t>(4)));
 
 					TotalSize += PaddedSize;
 				}

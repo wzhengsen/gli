@@ -100,8 +100,9 @@ namespace detail
 			static_cast<gli::gl::internalFormat>(Header.GLInternalFormat),
 			static_cast<gli::gl::externalFormat>(Header.GLFormat),
 			static_cast<gli::gl::typeFormat>(Header.GLType));
-
 		assert(Format != static_cast<format>(gli::FORMAT_INVALID));
+		
+		std::uint32_t const BlockSize = block_size(Format);
 
 		texture Texture(
 			detail::getTarget(Header),
@@ -127,7 +128,7 @@ namespace detail
 
 					std::memcpy(Texture.data<std::uint8_t>() + DestinationOffset, Data + Offset, FaceSize);
 
-					Offset += glm::ceilMultiple(FaceSize, static_cast<std::uint32_t>(4));
+					Offset += std::max(BlockSize, glm::ceilMultiple(FaceSize, static_cast<std::uint32_t>(4)));
 				}
 			}
 		}
