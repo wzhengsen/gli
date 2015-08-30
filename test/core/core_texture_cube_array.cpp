@@ -260,7 +260,7 @@ namespace load
 		};
 
 
-		gli::textureCubeArray Texture(gli::FORMAT_RGBA8_UNORM, gli::textureCubeArray::dim_type(1), 1);
+		gli::textureCubeArray Texture(gli::FORMAT_RGBA8_UNORM, gli::textureCubeArray::dim_type(1), 2);
 
 		for(std::size_t Layer = 0; Layer < Texture.layers(); ++Layer)
 		for(std::size_t Face = 0; Face < Texture.faces(); ++Face)
@@ -269,8 +269,8 @@ namespace load
 		gli::save(Texture, "cube_rgba8_unorm.ktx");
 		gli::save(Texture, "cube_rgba8_unorm.dds");
 
-		gli::textureCubeArray TextureKTX(gli::load("cube_rgba8_unorm.ktx"));
-		gli::textureCubeArray TextureDDS(gli::load("cube_rgba8_unorm.dds"));
+		gli::texture TextureKTX(gli::load("cube_rgba8_unorm.ktx"));
+		gli::texture TextureDDS(gli::load("cube_rgba8_unorm.dds"));
 
 		Error += TextureKTX == Texture ? 0 : 1;
 		Error += TextureDDS == Texture ? 0 : 1;
