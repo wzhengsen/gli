@@ -28,6 +28,14 @@
 
 #include <gli/gli.hpp>
 
+namespace
+{
+	std::string path(std::string const & filename)
+	{
+		return std::string(SOURCE_DIR) + "/data/" + filename;
+	}
+}//namespace
+
 namespace alloc
 {
 	int test()
@@ -258,6 +266,26 @@ namespace loader
 	}
 }//namespace loader
 
+namespace load
+{
+	int test()
+	{
+		int Error(0);
+
+		{
+			gli::texture const Texture = gli::load(path("array_r8_unorm.ktx"));
+			Error += Texture.target() == gli::TARGET_2D_ARRAY ? 0 : 1;
+		}
+
+		{
+			gli::texture const Texture = gli::load(path("array_r8_unorm.dds"));
+			Error += Texture.target() == gli::TARGET_2D_ARRAY ? 0 : 1;
+		}
+
+		return Error;
+	}
+}//namespace load
+
 int main()
 {
 	int Error(0);
@@ -268,6 +296,7 @@ int main()
 	Error += clear::test();
 	Error += access_map::test();
 	Error += loader::test();
+	Error += load::test();
 
 	return Error;
 }

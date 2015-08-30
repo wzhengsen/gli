@@ -233,6 +233,52 @@ namespace clear
 	}
 }//namespace
 
+namespace load
+{
+	int run()
+	{
+		int Error(0);
+
+		glm::u8vec4 const Color[][6] =
+		{
+			{
+				glm::u8vec4(255,   0,   0, 255),
+				glm::u8vec4(255, 127,   0, 255),
+				glm::u8vec4(255, 255,   0, 255),
+				glm::u8vec4(  0, 255,   0, 255),
+				glm::u8vec4(  0, 255, 255, 255),
+				glm::u8vec4(  0,   0, 255, 255)
+			},
+			{
+				glm::u8vec4(255, 127, 127, 255),
+				glm::u8vec4(255, 191, 127, 255),
+				glm::u8vec4(255, 255, 127, 255),
+				glm::u8vec4(127, 255, 127, 255),
+				glm::u8vec4(127, 255, 255, 255),
+				glm::u8vec4(127, 127, 255, 255)
+			}
+		};
+
+
+		gli::textureCubeArray Texture(gli::FORMAT_RGBA8_UNORM, gli::textureCubeArray::dim_type(1), 1);
+
+		for(std::size_t Layer = 0; Layer < Texture.layers(); ++Layer)
+		for(std::size_t Face = 0; Face < Texture.faces(); ++Face)
+			Texture[Layer][Face].clear<glm::u8vec4>(Color[Layer][Face]);
+
+		gli::save(Texture, "cube_rgba8_unorm.ktx");
+		gli::save(Texture, "cube_rgba8_unorm.dds");
+
+		gli::textureCubeArray TextureKTX(gli::load("cube_rgba8_unorm.ktx"));
+		gli::textureCubeArray TextureDDS(gli::load("cube_rgba8_unorm.dds"));
+
+		Error += TextureKTX == Texture ? 0 : 1;
+		Error += TextureDDS == Texture ? 0 : 1;
+
+		return Error;
+	}
+}//namespace load
+
 int main()
 {
 	int Error(0);
@@ -242,6 +288,7 @@ int main()
 	Error += test_textureCubeArray_query();
 	Error += test_textureCubeArray_textureCube_access();
 	Error += clear::run();
+	Error += load::run();
 
 	return Error;
 }
