@@ -30,7 +30,7 @@
 #include <glm/gtc/epsilon.hpp>
 #include <glm/gtc/vec1.hpp>
 #include <glm/gtc/packing.hpp>
-#include <glm/gtc/color.hpp>
+#include <glm/gtc/color_space.hpp>
 
 namespace fetch_r8_unorm
 {
@@ -224,26 +224,26 @@ namespace fetch_srgb8_unorm
 
 		gli::texture2D TextureA(gli::FORMAT_RGB8_SRGB, gli::texture2D::dim_type(2, 2));
 		{
-			gli::texel_write<glm::u8vec3>(TextureA, gli::texture2D::dim_type(0, 0), 0, glm::u8vec3(glm::convertRgbToSrgb(glm::vec3(255, 0, 0))));
-			gli::texel_write<glm::u8vec3>(TextureA, gli::texture2D::dim_type(1, 0), 0, glm::u8vec3(glm::convertRgbToSrgb(glm::vec3(255, 255, 0))));
-			gli::texel_write<glm::u8vec3>(TextureA, gli::texture2D::dim_type(1, 1), 0, glm::u8vec3(glm::convertRgbToSrgb(glm::vec3(0, 255, 0))));
-			gli::texel_write<glm::u8vec3>(TextureA, gli::texture2D::dim_type(0, 1), 0, glm::u8vec3(glm::convertRgbToSrgb(glm::vec3(0, 0, 255))));
-			gli::texel_write<glm::u8vec3>(TextureA, gli::texture2D::dim_type(0, 0), 1, glm::u8vec3(glm::convertRgbToSrgb(glm::vec3(255, 128, 0))));
+			gli::texel_write<glm::u8vec3>(TextureA, gli::texture2D::dim_type(0, 0), 0, glm::u8vec3(glm::convertLinearToSRGB(glm::vec3(255, 0, 0))));
+			gli::texel_write<glm::u8vec3>(TextureA, gli::texture2D::dim_type(1, 0), 0, glm::u8vec3(glm::convertLinearToSRGB(glm::vec3(255, 255, 0))));
+			gli::texel_write<glm::u8vec3>(TextureA, gli::texture2D::dim_type(1, 1), 0, glm::u8vec3(glm::convertLinearToSRGB(glm::vec3(0, 255, 0))));
+			gli::texel_write<glm::u8vec3>(TextureA, gli::texture2D::dim_type(0, 1), 0, glm::u8vec3(glm::convertLinearToSRGB(glm::vec3(0, 0, 255))));
+			gli::texel_write<glm::u8vec3>(TextureA, gli::texture2D::dim_type(0, 0), 1, glm::u8vec3(glm::convertLinearToSRGB(glm::vec3(255, 128, 0))));
 			gli::save_dds(TextureA, "srgb8_unorm_4pixels.dds");
 		}
 
 		gli::texture2D TextureB(gli::load_dds("srgb8_unorm_4pixels.dds"));
 		{
 			glm::u8vec3 A = gli::texel_fetch<glm::u8vec3>(TextureB, gli::texture2D::dim_type(0, 0), 0);
-			Error += glm::all(glm::equal(A, glm::u8vec3(glm::convertRgbToSrgb(glm::vec3(255, 0, 0))))) ? 0 : 1;
+			Error += glm::all(glm::equal(A, glm::u8vec3(glm::convertLinearToSRGB(glm::vec3(255, 0, 0))))) ? 0 : 1;
 			glm::u8vec3 B = gli::texel_fetch<glm::u8vec3>(TextureB, gli::texture2D::dim_type(1, 0), 0);
-			Error += glm::all(glm::equal(B, glm::u8vec3(glm::convertRgbToSrgb(glm::vec3(255, 255, 0))))) ? 0 : 1;
+			Error += glm::all(glm::equal(B, glm::u8vec3(glm::convertLinearToSRGB(glm::vec3(255, 255, 0))))) ? 0 : 1;
 			glm::u8vec3 C = gli::texel_fetch<glm::u8vec3>(TextureB, gli::texture2D::dim_type(1, 1), 0);
-			Error += glm::all(glm::equal(C, glm::u8vec3(glm::convertRgbToSrgb(glm::vec3(0, 255, 0))))) ? 0 : 1;
+			Error += glm::all(glm::equal(C, glm::u8vec3(glm::convertLinearToSRGB(glm::vec3(0, 255, 0))))) ? 0 : 1;
 			glm::u8vec3 D = gli::texel_fetch<glm::u8vec3>(TextureB, gli::texture2D::dim_type(0, 1), 0);
-			Error += glm::all(glm::equal(D, glm::u8vec3(glm::convertRgbToSrgb(glm::vec3(0, 0, 255))))) ? 0 : 1;
+			Error += glm::all(glm::equal(D, glm::u8vec3(glm::convertLinearToSRGB(glm::vec3(0, 0, 255))))) ? 0 : 1;
 			glm::u8vec3 E = gli::texel_fetch<glm::u8vec3>(TextureB, gli::texture2D::dim_type(0, 0), 1);
-			Error += glm::all(glm::equal(E, glm::u8vec3(glm::convertRgbToSrgb(glm::vec3(255, 128, 0))))) ? 0 : 1;
+			Error += glm::all(glm::equal(E, glm::u8vec3(glm::convertLinearToSRGB(glm::vec3(255, 128, 0))))) ? 0 : 1;
 		}
 
 		Error += TextureA == TextureB ? 0 : 1;
@@ -260,26 +260,26 @@ namespace fetch_srgba8_unorm
 
 		gli::texture2D TextureA(gli::FORMAT_RGBA8_SRGB, gli::texture2D::dim_type(2, 2));
 		{
-			gli::texel_write<glm::u8vec4>(TextureA, gli::texture2D::dim_type(0, 0), 0, glm::u8vec4(glm::convertRgbToSrgb(glm::vec4(1.0f, 0.0f, 0.0f, 1.0f))));
-			gli::texel_write<glm::u8vec4>(TextureA, gli::texture2D::dim_type(1, 0), 0, glm::u8vec4(glm::convertRgbToSrgb(glm::vec4(1.0f, 1.0f, 0.0f, 1.0f))));
-			gli::texel_write<glm::u8vec4>(TextureA, gli::texture2D::dim_type(1, 1), 0, glm::u8vec4(glm::convertRgbToSrgb(glm::vec4(0.0f, 1.0f, 0.0f, 1.0f))));
-			gli::texel_write<glm::u8vec4>(TextureA, gli::texture2D::dim_type(0, 1), 0, glm::u8vec4(glm::convertRgbToSrgb(glm::vec4(0.0f, 0.0f, 1.0f, 1.0f))));
-			gli::texel_write<glm::u8vec4>(TextureA, gli::texture2D::dim_type(0, 0), 1, glm::u8vec4(glm::convertRgbToSrgb(glm::vec4(1.0f, 0.5f, 0.0f, 1.0f))));
+			gli::texel_write<glm::u8vec4>(TextureA, gli::texture2D::dim_type(0, 0), 0, glm::u8vec4(glm::convertLinearToSRGB(glm::vec4(1.0f, 0.0f, 0.0f, 1.0f))));
+			gli::texel_write<glm::u8vec4>(TextureA, gli::texture2D::dim_type(1, 0), 0, glm::u8vec4(glm::convertLinearToSRGB(glm::vec4(1.0f, 1.0f, 0.0f, 1.0f))));
+			gli::texel_write<glm::u8vec4>(TextureA, gli::texture2D::dim_type(1, 1), 0, glm::u8vec4(glm::convertLinearToSRGB(glm::vec4(0.0f, 1.0f, 0.0f, 1.0f))));
+			gli::texel_write<glm::u8vec4>(TextureA, gli::texture2D::dim_type(0, 1), 0, glm::u8vec4(glm::convertLinearToSRGB(glm::vec4(0.0f, 0.0f, 1.0f, 1.0f))));
+			gli::texel_write<glm::u8vec4>(TextureA, gli::texture2D::dim_type(0, 0), 1, glm::u8vec4(glm::convertLinearToSRGB(glm::vec4(1.0f, 0.5f, 0.0f, 1.0f))));
 			gli::save_dds(TextureA, "srgba8_unorm_4pixels.dds");
 		}
 
 		gli::texture2D TextureB(gli::load_dds("srgba8_unorm_4pixels.dds"));
 		{
 			glm::u8vec4 A = gli::texel_fetch<glm::u8vec4>(TextureB, gli::texture2D::dim_type(0, 0), 0);
-			Error += glm::all(glm::equal(A, glm::u8vec4(glm::convertRgbToSrgb(glm::vec4(1.0f, 0.0f, 0.0f, 1.0f))))) ? 0 : 1;
+			Error += glm::all(glm::equal(A, glm::u8vec4(glm::convertLinearToSRGB(glm::vec4(1.0f, 0.0f, 0.0f, 1.0f))))) ? 0 : 1;
 			glm::u8vec4 B = gli::texel_fetch<glm::u8vec4>(TextureB, gli::texture2D::dim_type(1, 0), 0);
-			Error += glm::all(glm::equal(B, glm::u8vec4(glm::convertRgbToSrgb(glm::vec4(1.0f, 1.0f, 0.0f, 1.0f))))) ? 0 : 1;
+			Error += glm::all(glm::equal(B, glm::u8vec4(glm::convertLinearToSRGB(glm::vec4(1.0f, 1.0f, 0.0f, 1.0f))))) ? 0 : 1;
 			glm::u8vec4 C = gli::texel_fetch<glm::u8vec4>(TextureB, gli::texture2D::dim_type(1, 1), 0);
-			Error += glm::all(glm::equal(C, glm::u8vec4(glm::convertRgbToSrgb(glm::vec4(0.0f, 1.0f, 0.0f, 1.0f))))) ? 0 : 1;
+			Error += glm::all(glm::equal(C, glm::u8vec4(glm::convertLinearToSRGB(glm::vec4(0.0f, 1.0f, 0.0f, 1.0f))))) ? 0 : 1;
 			glm::u8vec4 D = gli::texel_fetch<glm::u8vec4>(TextureB, gli::texture2D::dim_type(0, 1), 0);
-			Error += glm::all(glm::equal(D, glm::u8vec4(glm::convertRgbToSrgb(glm::vec4(0.0f, 0.0f, 1.0f, 1.0f))))) ? 0 : 1;
+			Error += glm::all(glm::equal(D, glm::u8vec4(glm::convertLinearToSRGB(glm::vec4(0.0f, 0.0f, 1.0f, 1.0f))))) ? 0 : 1;
 			glm::u8vec4 E = gli::texel_fetch<glm::u8vec4>(TextureB, gli::texture2D::dim_type(0, 0), 1);
-			Error += glm::all(glm::equal(E, glm::u8vec4(glm::convertRgbToSrgb(glm::vec4(1.0f, 0.5f, 0.0f, 1.0f))))) ? 0 : 1;
+			Error += glm::all(glm::equal(E, glm::u8vec4(glm::convertLinearToSRGB(glm::vec4(1.0f, 0.5f, 0.0f, 1.0f))))) ? 0 : 1;
 		}
 
 		Error += TextureA == TextureB ? 0 : 1;

@@ -30,7 +30,7 @@
 #include <glm/gtc/epsilon.hpp>
 #include <glm/gtc/vec1.hpp>
 #include <glm/gtc/packing.hpp>
-#include <glm/gtc/color.hpp>
+#include <glm/gtc/color_space.hpp>
 #include <ctime>
 
 namespace
