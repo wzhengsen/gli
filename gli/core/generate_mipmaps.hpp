@@ -28,7 +28,7 @@
 
 #pragma once
 
-#include "texture2d.hpp"
+#include "../texture2d.hpp"
 
 namespace gli
 {

@@ -30,7 +30,7 @@
 
 namespace
 {
-	std::string path(const char* filename)
+	std::string path(std::string const & filename)
 	{
 		return std::string(SOURCE_DIR) + "/data/" + filename;
 	}
@@ -62,8 +62,8 @@ namespace alloc
 		{
 			gli::texture2DArray::dim_type Size(Sizes[SizeIndex]);
 
-			gli::texture2DArray TextureA(1, gli::levels(Size), Formats[FormatIndex], Size);
-			gli::texture2DArray TextureB(1, Formats[FormatIndex], Size);
+			gli::texture2DArray TextureA(Formats[FormatIndex], Size, 1, gli::levels(Size));
+			gli::texture2DArray TextureB(Formats[FormatIndex], Size, 1);
 
 			Error += TextureA == TextureB ? 0 : 1;
 		}
@@ -81,7 +81,7 @@ namespace clear
 		glm::u8vec4 const Orange(255, 127, 0, 255);
 
 		gli::texture2DArray::dim_type Size(16u);
-		gli::texture2DArray Texture(2, gli::levels(Size), gli::FORMAT_RGBA8_UINT, Size);
+		gli::texture2DArray Texture(gli::FORMAT_RGBA8_UINT, Size, 2);
 
 		Texture.clear<glm::u8vec4>(Orange);
 
@@ -98,7 +98,7 @@ namespace query
 		gli::texture2DArray::size_type Layers(2);
 		gli::texture2DArray::size_type Levels(2);
 
-		gli::texture2DArray Texture(Layers, Levels, gli::FORMAT_RGBA8_UINT, gli::texture2DArray::dim_type(2));
+		gli::texture2DArray Texture(gli::FORMAT_RGBA8_UINT, gli::texture2DArray::dim_type(2), Layers, Levels);
 
 		gli::texture2DArray::size_type Size = Texture.size();
 
@@ -121,7 +121,7 @@ namespace access_map
 		int Error(0);
 
 		{
-			gli::texture2DArray Texture2DArray(2, 1, gli::FORMAT_RGBA8_UINT, gli::texture2DArray::dim_type(2));
+			gli::texture2DArray Texture2DArray(gli::FORMAT_RGBA8_UINT, gli::texture2DArray::dim_type(2), 2, 1);
 			assert(!Texture2DArray.empty());
 
 			gli::texture2D Texture0 = Texture2DArray[0];
@@ -170,9 +170,9 @@ namespace size
 			gli::format const & Format,
 			gli::texture2DArray::dim_type const & Dimensions,
 			gli::texture2DArray::size_type const & Size) :
-			Format(Format),
-			Dimensions(Dimensions),
-			Size(Size)
+				Format(Format),
+				Dimensions(Dimensions),
+				Size(Size)
 		{}
 
 		gli::format Format;
@@ -195,10 +195,10 @@ namespace size
 		for(std::size_t i = 0; i < Tests.size(); ++i)
 		{
 			gli::texture2DArray Texture2DArray(
-				gli::texture2DArray::size_type(2),
-				gli::texture2DArray::size_type(1),
 				Tests[i].Format,
-				gli::texture2DArray::dim_type(4));
+				gli::texture2DArray::dim_type(4),
+				gli::texture2DArray::size_type(2),
+				gli::texture2DArray::size_type(1));
 
 			Error += Texture2DArray.size() == Tests[i].Size ? 0 : 1;
 			assert(!Error);
@@ -207,10 +207,10 @@ namespace size
 		for(std::size_t i = 0; i < Tests.size(); ++i)
 		{
 			gli::texture2DArray Texture2DArray(
-				gli::texture2DArray::size_type(2),
-				gli::texture2DArray::size_type(1),
 				Tests[i].Format,
-				gli::texture2DArray::dim_type(4));
+				gli::texture2DArray::dim_type(4),
+				gli::texture2DArray::size_type(2),
+				gli::texture2DArray::size_type(1));
 
 			gli::texture2D Texture2D = Texture2DArray[0];
 
@@ -228,7 +228,7 @@ namespace loader
 	{
 		int Error(0);
 
-		gli::texture2DArray TextureArrayRGBA8(gli::texture2DArray::size_type(2), gli::texture2DArray::size_type(1), gli::FORMAT_RGBA8_UNORM, gli::texture2DArray::dim_type(1));
+		gli::texture2DArray TextureArrayRGBA8(gli::FORMAT_RGBA8_UNORM, gli::texture2DArray::dim_type(1), 2, 1);
 
 		{
 			std::vector<glm::u8vec4> Color;
@@ -243,8 +243,8 @@ namespace loader
 		}
 
 		{
-			gli::texture2D Texture0(gli::texture2D::size_type(1), gli::FORMAT_RGBA8_UNORM, gli::texture2D::dim_type(1));
-			gli::texture2D Texture1(gli::texture2D::size_type(1), gli::FORMAT_RGBA8_UNORM, gli::texture2D::dim_type(1));
+			gli::texture2D Texture0(gli::FORMAT_RGBA8_UNORM, gli::texture2D::dim_type(1), 1);
+			gli::texture2D Texture1(gli::FORMAT_RGBA8_UNORM, gli::texture2D::dim_type(1), 1);
 
 			*Texture0.data<glm::u8vec4>() = glm::u8vec4(255, 128, 0, 255);
 			*Texture1.data<glm::u8vec4>() = glm::u8vec4(  0, 128, 255, 255);
@@ -266,6 +266,26 @@ namespace loader
 	}
 }//namespace loader
 
+namespace load
+{
+	int test()
+	{
+		int Error(0);
+
+		{
+			gli::texture const Texture = gli::load(path("array_r8_unorm.ktx"));
+			Error += Texture.target() == gli::TARGET_2D_ARRAY ? 0 : 1;
+		}
+
+		{
+			gli::texture const Texture = gli::load(path("array_r8_unorm.dds"));
+			Error += Texture.target() == gli::TARGET_2D_ARRAY ? 0 : 1;
+		}
+
+		return Error;
+	}
+}//namespace load
+
 int main()
 {
 	int Error(0);
@@ -276,6 +296,7 @@ int main()
 	Error += clear::test();
 	Error += access_map::test();
 	Error += loader::test();
+	Error += load::test();
 
 	return Error;
 }

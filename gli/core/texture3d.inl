@@ -26,35 +26,36 @@
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
-#include "levels.hpp"
+#include "../levels.hpp"
 
 namespace gli
 {
 	inline texture3D::texture3D()
 	{}
 
-	inline texture3D::texture3D(format_type const & Format, dim_type const & Dimensions)
-		: texture(1, 1, gli::levels(Dimensions), Format, Dimensions)
+	inline texture3D::texture3D(format_type Format, dim_type const & Dimensions)
+		: texture(gli::TARGET_3D, Format, Dimensions, 1, 1, gli::levels(Dimensions))
 	{}
 
-	inline texture3D::texture3D(size_type const & Levels, format_type const & Format, dim_type const & Dimensions)
-		: texture(1, 1, Levels, Format, Dimensions)
+	inline texture3D::texture3D(format_type Format, dim_type const & Dimensions, size_type Levels)
+		: texture(gli::TARGET_3D, Format, Dimensions, 1, 1, Levels)
 	{}
 
-	inline texture3D::texture3D(storage const & Storage)
-		: texture(Storage)
+	inline texture3D::texture3D(texture const & Texture)
+		: texture(Texture, gli::TARGET_3D, Texture.format())
 	{}
 
 	inline texture3D::texture3D
 	(
-		storage const & Storage,
-		format_type const & Format,
+		texture const & Texture,
+		format_type Format,
 		size_type BaseLayer, size_type MaxLayer,
 		size_type BaseFace, size_type MaxFace,
 		size_type BaseLevel, size_type MaxLevel
 	)
 		: texture(
-			Storage, Format,
+			Texture, gli::TARGET_3D,
+			Format,
 			BaseLayer, MaxLayer,
 			BaseFace, MaxFace,
 			BaseLevel, MaxLevel)
@@ -63,33 +64,35 @@ namespace gli
 	inline texture3D::texture3D
 	(
 		texture3D const & Texture,
-		size_type const & BaseLevel, size_type const & MaxLevel
+		size_type BaseLevel, size_type MaxLevel
 	)
 		: texture(
-			Texture, Texture.format(),
-			Texture.baseLayer(), Texture.maxLayer(),
-			Texture.baseFace(), Texture.maxFace(),
-			Texture.baseLevel() + BaseLevel, Texture.baseLevel() + MaxLevel)
+			Texture, gli::TARGET_3D,
+			Texture.format(),
+			Texture.base_layer(), Texture.max_layer(),
+			Texture.base_face(), Texture.max_face(),
+			Texture.base_level() + BaseLevel, Texture.base_level() + MaxLevel)
 	{}
 
-	inline texture3D::operator storage() const
-	{
-		return this->Storage;
-	}
-
-	inline image texture3D::operator[](texture3D::size_type const & Level) const
+	inline image texture3D::operator[](texture3D::size_type Level) const
 	{
 		assert(Level < this->levels());
 
 		return image(
 			this->Storage,
-			this->baseLayer(), this->maxLayer(),
-			this->baseFace(), this->maxFace(),
-			this->baseLevel() + Level, this->baseLevel() + Level);
+			this->format(),
+			this->base_layer(),
+			this->base_face(),
+			this->base_level() + Level);
 	}
 
 	inline texture3D::dim_type texture3D::dimensions() const
 	{
-		return texture3D::dim_type(this->Storage.dimensions(this->baseLevel()));
+		assert(!this->empty());
+
+		return texture3D::dim_type(
+			this->Storage->block_count(this->base_level()) * block_dimensions(this->format()));
+
+		//return texture3D::dim_type(this->Storage.dimensions(this->base_level()));
 	}
 }//namespace gli

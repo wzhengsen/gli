@@ -37,10 +37,10 @@ namespace texture2d
 
 		{
 			gli::texture2D Texture(gli::FORMAT_RGB8_UNORM, gli::texture2D::dim_type(2, 2));
-			gli::texelWrite<glm::u8vec3>(Texture, gli::texture2D::dim_type(0, 0), 0, glm::u8vec3(255,   0,   0));
-			gli::texelWrite<glm::u8vec3>(Texture, gli::texture2D::dim_type(1, 0), 0, glm::u8vec3(255, 255,   0));
-			gli::texelWrite<glm::u8vec3>(Texture, gli::texture2D::dim_type(1, 1), 0, glm::u8vec3(  0, 255,   0));
-			gli::texelWrite<glm::u8vec3>(Texture, gli::texture2D::dim_type(0, 1), 0, glm::u8vec3(  0,   0, 255));
+			gli::texel_write<glm::u8vec3>(Texture, gli::texture2D::dim_type(0, 0), 0, glm::u8vec3(255,   0,   0));
+			gli::texel_write<glm::u8vec3>(Texture, gli::texture2D::dim_type(1, 0), 0, glm::u8vec3(255, 255,   0));
+			gli::texel_write<glm::u8vec3>(Texture, gli::texture2D::dim_type(1, 1), 0, glm::u8vec3(  0, 255,   0));
+			gli::texel_write<glm::u8vec3>(Texture, gli::texture2D::dim_type(0, 1), 0, glm::u8vec3(  0,   0, 255));
 			
 			gli::generate_mipmaps(Texture);
 

@@ -52,8 +52,8 @@ int test_alloc()
 	{
 		gli::texture1DArray::dim_type Size(Sizes[SizeIndex]);
 
-		gli::texture1DArray TextureA(1, Formats[FormatIndex], Size);
-		gli::texture1DArray TextureB(1, Formats[FormatIndex], Size);
+		gli::texture1DArray TextureA(Formats[FormatIndex], Size, 1);
+		gli::texture1DArray TextureB(Formats[FormatIndex], Size, 1);
 
 		Error += TextureA == TextureB ? 0 : 1;
 	}
@@ -67,9 +67,9 @@ int test_texture1DArray_clear()
 
 	glm::u8vec4 const Orange(255, 127, 0, 255);
 
-	gli::texture1DArray::dim_type Size(16);
+	gli::texture1DArray::dim_type const Size(16);
 
-	gli::texture1DArray Texture(2, gli::FORMAT_RGBA8_UINT, Size);
+	gli::texture1DArray Texture(gli::FORMAT_RGBA8_UINT, Size, 2);
 
 	Texture.clear<glm::u8vec4>(Orange);
 
@@ -83,7 +83,7 @@ int test_texture1DArray_query()
 	gli::texture1DArray::size_type Layers(2);
 	gli::texture1DArray::size_type Levels(2);
 
-	gli::texture1DArray Texture(Layers, Levels, gli::FORMAT_RGBA8_UINT, gli::texture1DArray::dim_type(2));
+	gli::texture1DArray Texture(gli::FORMAT_RGBA8_UINT, gli::texture1DArray::dim_type(2), Layers, Levels);
 
 	gli::texture1DArray::size_type Size = Texture.size();
 
@@ -102,7 +102,7 @@ int test_texture1DArray_access()
 	int Error(0);
 
 	{
-		gli::texture1DArray Texture1DArray(2, 1, gli::FORMAT_RGBA8_UINT, gli::texture1DArray::dim_type(2));
+		gli::texture1DArray Texture1DArray(gli::FORMAT_RGBA8_UINT, gli::texture1DArray::dim_type(2), 2, 1);
 		assert(!Texture1DArray.empty());
 
 		gli::texture1D Texture0 = Texture1DArray[0];
@@ -168,7 +168,7 @@ int test_texture1DArray_size()
 
 	for(std::size_t i = 0; i < Tests.size(); ++i)
 	{
-		gli::texture1DArray Texture1DArray(2, 1, Tests[i].Format, gli::texture1DArray::dim_type(4));
+		gli::texture1DArray Texture1DArray(Tests[i].Format, gli::texture1DArray::dim_type(4), 2, 1);
 
 		Error += Texture1DArray.size() == Tests[i].Size ? 0 : 1;
 		assert(!Error);
@@ -176,7 +176,7 @@ int test_texture1DArray_size()
 
 	for(std::size_t i = 0; i < Tests.size(); ++i)
 	{
-		gli::texture1DArray Texture1DArray(2, 1, Tests[i].Format, gli::texture1DArray::dim_type(4));
+		gli::texture1DArray Texture1DArray(Tests[i].Format, gli::texture1DArray::dim_type(4), 2, 1);
 
 		gli::texture1D Texture1D = Texture1DArray[0];
 

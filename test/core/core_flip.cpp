@@ -38,7 +38,7 @@ int test_texture
 {
 	int Error(0);
 
-	texture TextureA = gli::copy(Texture);
+	texture TextureA(gli::copy(Texture));
 	TextureA.template clear<genType>(ClearColor);
 	*TextureA.template data<genType>() = FirstColor;
 
@@ -59,27 +59,27 @@ int main()
 	std::size_t const Levels = gli::levels(TextureSize);
 
 	Error += test_texture(
-		gli::texture2D(Levels, gli::FORMAT_R8_UNORM, TextureSize),
+		gli::texture2D(gli::FORMAT_R8_UNORM, TextureSize, Levels),
 		glm::uint8(255), glm::uint8(0));
 
 	Error += test_texture(
-		gli::texture2D(Levels, gli::FORMAT_RGB8_UNORM, TextureSize),
+		gli::texture2D(gli::FORMAT_RGB8_UNORM, TextureSize, Levels),
 		glm::u8vec3(255, 128, 0), glm::u8vec3(0, 128, 255));
 
 	Error += test_texture(
-		gli::texture2D(Levels, gli::FORMAT_RGBA8_UNORM, TextureSize),
+		gli::texture2D(gli::FORMAT_RGBA8_UNORM, TextureSize, Levels),
 		glm::u8vec4(255, 128, 0, 255), glm::u8vec4(0, 128, 255, 255));
 
 	Error += test_texture(
-		gli::texture2D(Levels, gli::FORMAT_RGBA32_SFLOAT, TextureSize),
+		gli::texture2D(gli::FORMAT_RGBA32_SFLOAT, TextureSize, Levels),
 		glm::f32vec4(1.0, 0.5, 0.0, 1.0), glm::f32vec4(0.0, 0.5, 1.0, 1.0));
 
 	Error += test_texture(
-		gli::texture2DArray(4, Levels, gli::FORMAT_RGBA8_UNORM, TextureSize),
+		gli::texture2DArray(gli::FORMAT_RGBA8_UNORM, TextureSize, 4, Levels),
 		glm::u8vec4(255, 128, 0, 255), glm::u8vec4(0, 128, 255, 255));
 
 	Error += test_texture(
-		gli::texture2DArray(4, Levels, gli::FORMAT_RGBA32_SFLOAT, TextureSize),
+		gli::texture2DArray(gli::FORMAT_RGBA32_SFLOAT, TextureSize, 4, Levels),
 		glm::f32vec4(1.0, 0.5, 0.0, 1.0), glm::f32vec4(0.0, 0.5, 1.0, 1.0));
 
 	return Error;

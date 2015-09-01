@@ -21,7 +21,7 @@
 /// THE SOFTWARE.
 ///
 /// @ref core
-/// @file gli/gtx/fetch.hpp
+/// @file gli/core/fetch.hpp
 /// @date 2008-12-19 / 2013-01-13
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
@@ -32,22 +32,28 @@
 
 namespace gli
 {
+	/// Fetch a texel from a texture
+	/// The texture format must be uncompressed
 	template <typename genType>
-	genType texelFetch(
-		texture2D const & Texture, 
+	genType texel_fetch(
+		texture2D const & Texture,
 		texture2D::dim_type const & Texcoord,
 		texture2D::size_type const & Level);
 
+	/// Write a texel to a texture
+	/// The texture format must be uncompressed
 	template <typename genType>
-	void texelWrite(
+	void texel_write(
 		texture2D & Texture,
 		texture2D::dim_type const & Texcoord,
 		texture2D::size_type const & Level,
 		genType const & Color);
 
+	/// Sample a pixel from a texture
+	/// The texture format must be uncompressed
 	template <typename genType>
-	genType textureLod(
-		texture2D const & Texture, 
+	genType texture_lod(
+		texture2D const & Texture,
 		texture2D::texcoord_type const & Texcoord,
 		texture2D::size_type const & Level);
 

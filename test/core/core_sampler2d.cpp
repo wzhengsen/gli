@@ -191,7 +191,7 @@ namespace detail
 			this->updateCacheLevel(0);
 		}
 
-		genType texelFetch(texture2D::dim_type const & TexelCoord, texture2D::size_type const & Level)
+		genType texel_fetch(texture2D::dim_type const & TexelCoord, texture2D::size_type const & Level)
 		{
 			if(this->Levels[LEVEL_FIRST] != Level)
 				this->updateCacheLevel(Level);
@@ -202,7 +202,7 @@ namespace detail
 			return *(this->Caches[LEVEL_FIRST].TexelData + Index);
 		}
 
-		void texelWrite(texture2D::dim_type const & TexelCoord, texture2D::size_type const & Level, genType const & Color)
+		void texel_write(texture2D::dim_type const & TexelCoord, texture2D::size_type const & Level, genType const & Color)
 		{
 			if(this->Levels[LEVEL_FIRST] != Level)
 				this->updateCacheLevel(Level);
@@ -213,7 +213,7 @@ namespace detail
 			*(this->Caches[LEVEL_FIRST].TexelData + Index) = Color;
 		}
 
-		genType textureLod(texture2D::texcoord_type const & Texcoord, float Level)
+		genType texture_lod(texture2D::texcoord_type const & Texcoord, float Level)
 		{
 			texture2D::texcoord_type const TexcoordWrap(this->WrapFunc(Texcoord.x), this->WrapFunc(Texcoord.y));
 
@@ -268,7 +268,7 @@ namespace fetch
 	{
 		int Error(0);
 
-		gli::texture2D Texture(1, gli::FORMAT_RGBA8_UNORM, gli::texture2D::dim_type(4, 2));
+		gli::texture2D Texture(gli::FORMAT_RGBA8_UNORM, gli::texture2D::dim_type(4, 2), 1);
 		*(Texture.data<glm::u8vec4>() + 0) = glm::u8vec4(255,   0,   0, 255);
 		*(Texture.data<glm::u8vec4>() + 1) = glm::u8vec4(255, 128,   0, 255);
 		*(Texture.data<glm::u8vec4>() + 2) = glm::u8vec4(255, 255,   0, 255);
@@ -298,7 +298,7 @@ namespace sampler
 		int Error(0);
 
 		gli::texture2D::dim_type const Size(512);
-		gli::texture2D TextureA(1, gli::FORMAT_RGBA8_UNORM, Size);
+		gli::texture2D TextureA(gli::FORMAT_RGBA8_UNORM, Size, 1);
 
 		{
 			std::clock_t TimeStart = std::clock();
@@ -306,7 +306,7 @@ namespace sampler
 			for(std::size_t y = 0; y < Size.y; ++y)
 			for(std::size_t x = 0; x < Size.x; ++x)
 			{
-				gli::texelWrite(TextureA, gli::texture2D::dim_type(x, y), 0, glm::u8vec4(255, 128,   0, 255));
+				gli::texel_write(TextureA, gli::texture2D::dim_type(x, y), 0, glm::u8vec4(255, 128,   0, 255));
 			}
 
 			std::clock_t TimeEnd = std::clock();
@@ -314,7 +314,7 @@ namespace sampler
 			printf("texelWrite(texture2D) - Time: %lu\n", TimeEnd - TimeStart);
 		}
 
-		gli::texture2D TextureB(1, gli::FORMAT_RGBA8_UNORM, Size);
+		gli::texture2D TextureB(gli::FORMAT_RGBA8_UNORM, Size, 1);
 
 		{
 			gli::sampler2D<glm::u8vec4> Sampler(TextureB, gli::WRAP_CLAMP_TO_EDGE, gli::FILTER_LINEAR, gli::FILTER_LINEAR, glm::u8vec4(0, 127, 255, 255));
@@ -325,7 +325,7 @@ namespace sampler
 				for(std::size_t y = 0; y < Size.y; ++y)
 				for(std::size_t x = 0; x < Size.x; ++x)
 				{
-					Sampler.texelWrite(gli::texture2D::dim_type(x, y), 0, glm::u8vec4(255, 128,   0, 255));
+					Sampler.texel_write(gli::texture2D::dim_type(x, y), 0, glm::u8vec4(255, 128,   0, 255));
 				}
 
 				std::clock_t TimeEnd = std::clock();
@@ -339,7 +339,7 @@ namespace sampler
 				for(float y = -0.5f; y < 1.5f; y += 0.025f)
 				for(float x = -0.5f; x < 1.5f; x += 0.025f)
 				{
-					glm::u8vec4 Color = Sampler.textureLod(gli::texture2D::texcoord_type(x, y), 0);
+					glm::u8vec4 Color = Sampler.texture_lod(gli::texture2D::texcoord_type(x, y), 0);
 
 					Error += glm::all(glm::equal(Color, glm::u8vec4(255, 128,   0, 255))) ? 0 : 1;
 				}
@@ -366,25 +366,25 @@ namespace clamp_to_border
 		glm::u8vec4 const Blue(0, 127, 255, 255);
 
 		gli::texture2D::dim_type const Size(32);
-		gli::texture2D Texture(1, gli::FORMAT_RGBA8_UNORM, Size);
+		gli::texture2D Texture(gli::FORMAT_RGBA8_UNORM, Size, 1);
 		Texture.clear(Orange);
 
 		gli::sampler2D<glm::u8vec4> Sampler(Texture, gli::WRAP_CLAMP_TO_BORDER, gli::FILTER_LINEAR, gli::FILTER_LINEAR, Blue);
 
 		{
-			glm::u8vec4 const Color = Sampler.textureLod(gli::vec2(0.5f, 0.5f), 0.0f);
+			glm::u8vec4 const Color = Sampler.texture_lod(gli::vec2(0.5f, 0.5f), 0.0f);
 			Error += glm::all(glm::equal(Color, Orange)) ? 0 : 1;
 		}
 		{
-			glm::u8vec4 const Color = Sampler.textureLod(gli::vec2(-0.5f, -0.5f), 0.0f);
+			glm::u8vec4 const Color = Sampler.texture_lod(gli::vec2(-0.5f, -0.5f), 0.0f);
 			Error += glm::all(glm::equal(Color, Blue)) ? 0 : 1;
 		}
 		{
-			glm::u8vec4 const Color = Sampler.textureLod(gli::vec2(1.5f,-0.5f), 0.0f);
+			glm::u8vec4 const Color = Sampler.texture_lod(gli::vec2(1.5f,-0.5f), 0.0f);
 			Error += glm::all(glm::equal(Color, Blue)) ? 0 : 1;
 		}
 		{
-			glm::u8vec4 const Color = Sampler.textureLod(gli::vec2(1.5f, 1.5f), 0.0f);
+			glm::u8vec4 const Color = Sampler.texture_lod(gli::vec2(1.5f, 1.5f), 0.0f);
 			Error += glm::all(glm::equal(Color, Blue)) ? 0 : 1;
 		}
 

@@ -29,137 +29,187 @@
 namespace gli{
 namespace detail
 {
-	size_t imageAddressing(
-		storage const & Storage,
-		storage::size_type const & LayerOffset, 
-		storage::size_type const & FaceOffset, 
-		storage::size_type const & LevelOffset);
-
-	size_t texelLinearAdressing(
+	inline size_t texelLinearAdressing
+	(
 		dim1_t const & Dimensions,
-		dim1_t const & TexelCoord);
+		dim1_t const & TexelCoord
+	)
+	{
+		assert(glm::all(glm::lessThan(TexelCoord, Dimensions)));
 
-	size_t texelLinearAdressing(
+		return TexelCoord.x;
+	}
+
+	inline size_t texelLinearAdressing
+	(
 		dim2_t const & Dimensions,
-		dim2_t const & TexelCoord);
+		dim2_t const & TexelCoord
+	)
+	{
+		assert(TexelCoord.x < Dimensions.x);
+		assert(TexelCoord.y < Dimensions.y);
 
-	size_t texelLinearAdressing(
+		return TexelCoord.x + Dimensions.x * TexelCoord.y;
+	}
+
+	inline size_t texelLinearAdressing
+	(
 		dim3_t const & Dimensions,
-		dim3_t const & TexelCoord);
+		dim3_t const & TexelCoord
+	)
+	{
+		assert(TexelCoord.x < Dimensions.x);
+		assert(TexelCoord.y < Dimensions.y);
+		assert(TexelCoord.z < Dimensions.z);
 
-	size_t texelMortonAdressing(
+		return TexelCoord.x + Dimensions.x * (TexelCoord.y + Dimensions.y * TexelCoord.z);
+	}
+
+	inline size_t texelMortonAdressing
+	(
 		dim1_t const & Dimensions,
-		dim1_t const & TexelCoord);
+		dim1_t const & TexelCoord
+	)
+	{
+		assert(TexelCoord.x < Dimensions.x);
 
-	size_t texelMortonAdressing(
+		return TexelCoord.x;
+	}
+
+	inline size_t texelMortonAdressing
+	(
 		dim2_t const & Dimensions,
-		dim2_t const & TexelCoord);
+		dim2_t const & TexelCoord
+	)
+	{
+		assert(TexelCoord.x < Dimensions.x && TexelCoord.x < std::numeric_limits<std::uint32_t>::max());
+		assert(TexelCoord.y < Dimensions.y && TexelCoord.y < std::numeric_limits<std::uint32_t>::max());
 
-	size_t texelMortonAdressing(
+		glm::u32vec2 const Input(TexelCoord);
+
+		return glm::bitfieldInterleave(Input.x, Input.y);
+	}
+
+	inline size_t texelMortonAdressing
+	(
 		dim3_t const & Dimensions,
-		dim3_t const & TexelCoord);
+		dim3_t const & TexelCoord
+	)
+	{
+		assert(TexelCoord.x < Dimensions.x);
+		assert(TexelCoord.y < Dimensions.y);
+		assert(TexelCoord.z < Dimensions.z);
+
+		glm::u32vec3 const Input(TexelCoord);
+
+		return glm::bitfieldInterleave(Input.x, Input.y, Input.z);
+	}
 }//namespace detail
 
-	inline image::image() :
-		BaseLayer(0),
-		MaxLayer(0),
-		BaseFace(0),
-		MaxFace(0),
-		BaseLevel(0),
-		MaxLevel(0)
+	inline image::image()
+		: Format(static_cast<gli::format>(FORMAT_INVALID))
+		, BaseLevel(0)
+		, Data(nullptr)
+		, Size(0)
 	{}
 
 	inline image::image
 	(
-		format const & Format,
+		format_type Format,
 		dim_type const & Dimensions
-	) :
-		Storage(
-			1, 1, 1,
-			Format,
-			dim_type(Dimensions)),
-		BaseLayer(0),
-		MaxLayer(0),
-		BaseFace(0),
-		MaxFace(0),
-		BaseLevel(0),
-		MaxLevel(0)
+	)
+		: Storage(std::make_shared<storage>(Format, Dimensions, 1, 1, 1))
+		, Format(Format)
+		, BaseLevel(0)
+		, Data(Storage->data())
+		, Size(compute_size(0))
 	{}
 
 	inline image::image
 	(
-		storage const & Storage,
+		std::shared_ptr<storage> Storage,
+		format_type Format,
 		size_type BaseLayer,
-		size_type MaxLayer,
 		size_type BaseFace,
-		size_type MaxFace,
-		size_type BaseLevel,
-		size_type MaxLevel
-	) :
-		Storage(Storage),
-		BaseLayer(BaseLayer),
-		MaxLayer(MaxLayer),
-		BaseFace(BaseFace),
-		MaxFace(MaxFace),
-		BaseLevel(BaseLevel),
-		MaxLevel(MaxLevel)
+		size_type BaseLevel
+	)
+		: Storage(Storage)
+		, Format(Format)
+		, BaseLevel(BaseLevel)
+		, Data(compute_data(BaseLayer, BaseFace, BaseLevel))
+		, Size(compute_size(BaseLevel))
 	{}
 
-	inline image::operator storage() const
+	inline image::image
+	(
+		image const & Image,
+		format_type Format
+	)
+		: Storage(Image.Storage)
+		, Format(Format)
+		, BaseLevel(Image.BaseLevel)
+		, Data(Image.Data)
+		, Size(Image.Size)
 	{
-		return this->Storage;
+		assert(block_size(Format) == block_size(Image.format()));
 	}
 
 	inline bool image::empty() const
 	{
-		return this->Storage.empty();
+		if(this->Storage.get() == nullptr)
+			return true;
+
+		return this->Storage->empty();
 	}
 
 	inline image::size_type image::size() const
 	{
 		assert(!this->empty());
 
-		return this->Storage.level_size(this->BaseLevel);
+		return this->Size;
 	}
 
 	template <typename genType>
 	inline image::size_type image::size() const
 	{
-		assert(sizeof(genType) <= block_size(this->Storage.format()));
+		assert(sizeof(genType) <= this->Storage->block_size());
 
 		return this->size() / sizeof(genType);
 	}
 
+	inline image::format_type image::format() const
+	{
+		return this->Format;
+	}
+
 	inline image::dim_type image::dimensions() const
 	{
-		return image::dim_type(this->Storage.dimensions(this->BaseLevel));
+		assert(!this->empty());
+
+		return this->Storage->dimensions(this->BaseLevel);
+
+		//return this->Storage->block_count(this->BaseLevel) * block_dimensions(this->format());
 	}
 
 	inline void * image::data()
 	{
 		assert(!this->empty());
 
-		size_type const offset = detail::imageAddressing(
-			this->Storage, this->BaseLayer, this->BaseFace, this->BaseLevel);
-
-		return this->Storage.data() + offset;
+		return this->Data;
 	}
 
 	inline void const * image::data() const
 	{
 		assert(!this->empty());
 		
-		size_type const offset = detail::imageAddressing(
-			this->Storage, this->BaseLayer, this->BaseFace, this->BaseLevel);
-
-		return this->Storage.data() + offset;
+		return this->Data;
 	}
 
 	template <typename genType>
 	inline genType * image::data()
 	{
 		assert(!this->empty());
-		assert(block_size(this->Storage.format()) >= sizeof(genType));
+		assert(this->Storage->block_size() >= sizeof(genType));
 
 		return reinterpret_cast<genType *>(this->data());
 	}
@@ -168,7 +218,7 @@ namespace detail
 	inline genType const * image::data() const
 	{
 		assert(!this->empty());
-		assert(block_size(this->Storage.format()) >= sizeof(genType));
+		assert(this->Storage->block_size() >= sizeof(genType));
 
 		return reinterpret_cast<genType const *>(this->data());
 	}
@@ -184,17 +234,33 @@ namespace detail
 	inline void image::clear(genType const & Texel)
 	{
 		assert(!this->empty());
-		assert(block_size(this->Storage.format()) == sizeof(genType));
+		assert(this->Storage->block_size() == sizeof(genType));
 
 		for(size_type TexelIndex = 0; TexelIndex < this->size<genType>(); ++TexelIndex)
 			*(this->data<genType>() + TexelIndex) = Texel;
+	}
+
+	inline image::data_type * image::compute_data(size_type BaseLayer, size_type BaseFace, size_type BaseLevel)
+	{
+		size_type const Offset = this->Storage->offset(BaseLayer, BaseFace, BaseLevel);
+
+		return this->Storage->data() + Offset;
+	}
+
+	inline image::size_type image::compute_size(size_type Level) const
+	{
+		assert(!this->empty());
+
+		return this->Storage->level_size(Level);
 	}
 
 	template <typename genType>
 	genType image::load(dim_type const & TexelCoord)
 	{
 		assert(!this->empty());
-		assert(block_size(this->Storage.format()) == sizeof(genType));
+		assert(!is_compressed(this->format()));
+		assert(this->Storage->block_size() == sizeof(genType));
+		assert(glm::all(glm::lessThan(TexelCoord, this->dimensions())));
 
 		return *(this->data<genType>() + detail::texelLinearAdressing(this->dimensions(), TexelCoord));
 	}
@@ -203,38 +269,10 @@ namespace detail
 	void image::store(dim_type const & TexelCoord, genType const & Data)
 	{
 		assert(!this->empty());
-		assert(block_size(this->Storage.format()) == sizeof(genType));
+		assert(!is_compressed(this->format()));
+		assert(this->Storage->block_size() == sizeof(genType));
+		assert(glm::all(glm::lessThan(TexelCoord, this->dimensions())));
 
 		*(this->data<genType>() + detail::texelLinearAdressing(this->dimensions(), TexelCoord)) = Data;
-	}
-
-	inline image::size_type image::baseLayer() const
-	{
-		return this->BaseLayer;
-	}
-
-	inline image::size_type image::maxLayer() const
-	{
-		return this->MaxLayer;
-	}
-
-	inline image::size_type image::baseFace() const
-	{
-		return this->BaseFace;
-	}
-
-	inline image::size_type image::maxFace() const
-	{
-		return this->MaxFace;
-	}
-
-	inline image::size_type image::baseLevel() const
-	{
-		return this->BaseLevel;
-	}
-
-	inline image::size_type image::maxLevel() const
-	{
-		return this->MaxLevel;
 	}
 }//namespace gli

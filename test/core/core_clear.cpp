@@ -44,17 +44,17 @@ namespace clear
 		texture TextureB = TextureA;
 		Error += TextureB == TextureA ? 0 : 1;
 
-		texture TextureC = gli::copy(TextureA);
+		texture TextureC(gli::copy(TextureA));
 		Error += TextureC == TextureA ? 0 : 1;
 
-		texture TextureD = gli::copy(TextureB);
+		texture TextureD(gli::copy(TextureB));
 		Error += TextureD == TextureB ? 0 : 1;
 
-		texture TextureE = gli::copy(TextureC, 1, 2);
+		texture TextureE(gli::copy(TextureC, 1, 2));
 		texture TextureF(TextureC, 1, 2);
 		Error += TextureE == TextureF ? 0 : 1;
 
-		texture TextureG = gli::copy(TextureD, 1, 2);
+		texture TextureG(gli::copy(TextureD, 1, 2));
 		texture TextureH(TextureD, 1, 2);
 		Error += TextureG == TextureH ? 0 : 1;
 
@@ -128,7 +128,7 @@ namespace clear
 
 		for(std::size_t i = 0; i < Sizes.size(); ++i)
 		{
-			Error += test_texture<gli::texture1D>(gli::texture1D::dim_type(Sizes[i]), gli::FORMAT_RGB_DXT1_UNORM, ColorDXT1);
+			//Error += test_texture<gli::texture1D>(gli::texture1D::dim_type(Sizes[i]), gli::FORMAT_RGB_DXT1_UNORM, ColorDXT1);
 			Error += test_texture<gli::texture2D>(gli::texture2D::dim_type(Sizes[i]), gli::FORMAT_RGB_DXT1_UNORM, ColorDXT1);
 			Error += test_texture<gli::texture3D>(gli::texture3D::dim_type(Sizes[i]), gli::FORMAT_RGB_DXT1_UNORM, ColorDXT1);
 			Error += test_texture<gli::texture1D>(gli::texture1D::dim_type(Sizes[i]), gli::FORMAT_R8_UNORM, ColorR8_UNORM);
@@ -156,8 +156,8 @@ namespace data
 		int Error(0);
 
 		gli::texture2DArray::dim_type const Size(16);
-		gli::texture2D TextureA(gli::texture2DArray::size_type(1), gli::FORMAT_RGBA8_UNORM, Size);
-		gli::texture2D TextureB(gli::texture2DArray::size_type(1), gli::FORMAT_RGBA8_UNORM, Size);
+		gli::texture2D TextureA(gli::FORMAT_RGBA8_UNORM, Size, 1);
+		gli::texture2D TextureB(gli::FORMAT_RGBA8_UNORM, Size, 1);
 
 		{
 			std::clock_t TimeStart = std::clock();
@@ -174,7 +174,7 @@ namespace data
 
 			for(std::size_t y = 0; y < TextureB.dimensions().y; ++y)
 			for(std::size_t x = 0; x < TextureB.dimensions().x; ++x)
-				gli::texelWrite<glm::u8vec4>(TextureB, gli::texture2D::dim_type(x, y), 0, glm::u8vec4(255, 127, 0, 255));
+				gli::texel_write<glm::u8vec4>(TextureB, gli::texture2D::dim_type(x, y), 0, glm::u8vec4(255, 127, 0, 255));
 
 			std::clock_t TimeEnd = std::clock();
 

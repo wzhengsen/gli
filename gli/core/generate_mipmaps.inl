@@ -38,7 +38,7 @@ namespace detail
 		texture2D Result(Texture.format(), Texture.dimensions());
 		texture2D::size_type const Components(gli::component_count(Result.format()));
 
-		for(texture2D::size_type Level = Texture.baseLevel(); Level < Texture.maxLevel(); ++Level)
+		for(texture2D::size_type Level = Texture.base_level(); Level < Texture.max_level(); ++Level)
 		{
 			// Src
 			std::size_t BaseWidth = Result[Level].dimensions().x;

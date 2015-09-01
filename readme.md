@@ -1,71 +1,142 @@
 ![gli](doc/logo.png)
 
-[OpenGL Image](http://gli.g-truc.net/) (*GLI*) is a header only C++ image library for graphics software
-released under the <link href="../copying.txt">MIT license</link>.
+[OpenGL Image](http://gli.g-truc.net/) (*GLI*) is a header only C++ image library for graphics software.
 
-For more information about GLI, please have a look at <link href="../0.6.1/api/index.html">the API reference documentation</link>.
+*GLI* provides classes and functions to load image files (*[KTX](https://www.khronos.org/opengles/sdk/tools/KTX/)* and *[DDS](https://msdn.microsoft.com/en-us/library/windows/desktop/bb943990%28v=vs.85%29.aspx)*), facilitate loading texture with graphics APIs, manipulate textures, etc.
 
-This library works perfectly with *[OpenGL](https://www.opengl.org)* but it also ensures interoperability with other third party libraries and SDK. It is a good candidate for software rendering (raytracing / rasterisation), image processing, physic simulations and any development context that requires a simple and convenient mathematics library.
+This library works perfectly with *[OpenGL](https://www.opengl.org)* but it also ensures interoperability with other third party libraries and SDK. It is a good candidate for software rendering (raytracing / rasterisation), image processing, physic simulations and any development context that requires a simple and convenient image library.
 
 *GLI* is written in C++11. It is a platform independent library with no dependence and it supports the following compilers:
 - [Apple Clang 4.0](https://developer.apple.com/library/mac/documentation/CompilerTools/Conceptual/LLVMCompilerOverview/index.html) and higher
 - [GCC](http://gcc.gnu.org/) 4.6 and higher
 - [Intel C++ Composer](https://software.intel.com/en-us/intel-compilers) XE 2013 and higher
 - [LLVM](http://llvm.org/) 3.2 and higher
-- [Visual C++](http://www.visualstudio.com/) 2012 and higher
+- [Visual C++](http://www.visualstudio.com/) 2010 and higher
 - Any conform C++11 compiler
+
+For more information about *GLI*, please have a look at the [API reference documentation](http://gli.g-truc.net/0.7.0/api/index.html).
+The source code and the documentation are licensed under the [Happy Bunny License (Modified MIT) or the MIT License](./copying.txt).
 
 Thanks for contributing to the project by <link href="https://github.com/g-truc/gli/issues">submitting issues</link> for bug reports and feature requests. Any feedback is welcome at <link href="mailto://gli@g-truc.net">gli@g-truc.net</link>.
 
 ```c++
 #include <gli/gli.hpp>
-GLuint CreateTextureArray(char const* Filename)
+
+/// Filename can be KTX or DDS files
+GLuint createTexture(char const* Filename)
 {
-	gli::texture2D Texture(gli::load_dds(Filename));
-	assert(!Texture.empty());
+	gli::texture Texture = gli::load(Filename);
+	if(Texture.empty())
+		return 0;
+
 	gli::gl GL;
 	gli::gl::format const Format = GL.translate(Texture.format());
-	GLint const MaxLevels = static_cast<GLint>(Texture.levels() - 1);
+	GLenum Target = GL.translate(Texture.target());
 
 	GLuint TextureName = 0;
 	glGenTextures(1, &TextureName);
-	glBindTexture(GL_TEXTURE_2D_ARRAY, TextureName);
-	glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_BASE_LEVEL, 0);
-	glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_MAX_LEVEL, MaxLevels);
-	glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_SWIZZLE_R, Format.Swizzle[0]);
-	glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_SWIZZLE_G, Format.Swizzle[1]);
-	glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_SWIZZLE_B, Format.Swizzle[2]);
-	glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_SWIZZLE_A, Format.Swizzle[3]);
-	glTexStorage3D(GL_TEXTURE_2D_ARRAY, static_cast<GLint>(Texture.levels()),
-		Format.Internal,
-		static_cast<GLsizei>(Texture.dimensions().x),
-		static_cast<GLsizei>(Texture.dimensions().y),
-		static_cast<GLsizei>(1));
-	if(gli::is_compressed(Texture.format()))
+	glBindTexture(Target, TextureName);
+	glTexParameteri(Target, GL_TEXTURE_BASE_LEVEL, 0);
+	glTexParameteri(Target, GL_TEXTURE_MAX_LEVEL, static_cast<GLint>(Texture.levels() - 1));
+	glTexParameteri(Target, GL_TEXTURE_SWIZZLE_R, Format.Swizzle[0]);
+	glTexParameteri(Target, GL_TEXTURE_SWIZZLE_G, Format.Swizzle[1]);
+	glTexParameteri(Target, GL_TEXTURE_SWIZZLE_B, Format.Swizzle[2]);
+	glTexParameteri(Target, GL_TEXTURE_SWIZZLE_A, Format.Swizzle[3]);
+
+	glm::tvec3<GLsizei> const Dimensions(Texture.dimensions());
+	GLsizei const FaceTotal = static_cast<GLsizei>(Texture.layers() * Texture.faces());
+
+	switch(Texture.target())
 	{
-		for(std::size_t Level = 0; Level < Texture.levels(); ++Level)
-		{
-			glCompressedTexSubImage3D(GL_TEXTURE_2D_ARRAY, static_cast<GLint>(Level),
-				0, 0, 0,
-				static_cast<GLsizei>(Texture[Level].dimensions().x),
-				static_cast<GLsizei>(Texture[Level].dimensions().y),
-				static_cast<GLsizei>(1),
-				Format.External,
-				static_cast<GLsizei>(Texture[Level].size()),
-				Texture[Level].data());
-		}
+	case gli::TARGET_1D:
+		glTexStorage1D(
+			Target, static_cast<GLint>(Texture.levels()), Format.Internal, Dimensions.x);
+		break;
+	case gli::TARGET_1D_ARRAY:
+	case gli::TARGET_2D:
+	case gli::TARGET_CUBE:
+		glTexStorage2D(
+			Target, static_cast<GLint>(Texture.levels()), Format.Internal,
+			Dimensions.x, Texture.target() == gli::TARGET_2D ? Dimensions.y : FaceTotal);
+		break;
+	case gli::TARGET_2D_ARRAY:
+	case gli::TARGET_3D:
+	case gli::TARGET_CUBE_ARRAY:
+		glTexStorage3D(
+			Target, static_cast<GLint>(Texture.levels()), Format.Internal,
+			Dimensions.x, Dimensions.y,
+			Texture.target() == gli::TARGET_3D ? Dimensions.z : FaceTotal);
+		break;
+	default:
+		assert(0);
+		break;
 	}
-	else
+
+	for(std::size_t Layer = 0; Layer < Texture.layers(); ++Layer)
+	for(std::size_t Face = 0; Face < Texture.faces(); ++Face)
+	for(std::size_t Level = 0; Level < Texture.levels(); ++Level)
 	{
-		for(std::size_t Level = 0; Level < Texture.levels(); ++Level)
+		GLsizei const LayerGL = static_cast<GLsizei>(Layer);
+		glm::tvec3<GLsizei> Dimensions(Texture.dimensions(Level));
+		Target = gli::is_target_cube(Texture.target())
+			? static_cast<GLenum>(GL_TEXTURE_CUBE_MAP_POSITIVE_X + Face)
+			: Target;
+
+		switch(Texture.target())
 		{
-			glTexSubImage3D(GL_TEXTURE_2D_ARRAY, static_cast<GLint>(Level),
-				0, 0, 0,
-				static_cast<GLsizei>(Texture[Level].dimensions().x),
-				static_cast<GLsizei>(Texture[Level].dimensions().y),
-				static_cast<GLsizei>(1),
-				Format.External, Format.Type,
-				Texture[Level].data());
+		case gli::TARGET_1D:
+			if(gli::is_compressed(Texture.format()))
+				glCompressedTexSubImage1D(
+					Target, static_cast<GLint>(Level), 0, Dimensions.x,
+					Format.Internal, static_cast<GLsizei>(Texture.size(Level)),
+					Texture.data(Layer, Face, Level));
+			else
+				glTexSubImage1D(
+					Target, static_cast<GLint>(Level), 0, Dimensions.x,
+					Format.External, Format.Type,
+					Texture.data(Layer, Face, Level));
+			break;
+		case gli::TARGET_1D_ARRAY:
+		case gli::TARGET_2D:
+		case gli::TARGET_CUBE:
+			if(gli::is_compressed(Texture.format()))
+				glCompressedTexSubImage2D(
+					Target, static_cast<GLint>(Level),
+					0, 0,
+					Dimensions.x,
+					Texture.target() == gli::TARGET_1D_ARRAY ? : Dimensions.y,
+					Format.Internal, static_cast<GLsizei>(Texture.size(Level)),
+					Texture.data(Layer, Face, Level));
+			else
+				glTexSubImage2D(
+					Target, static_cast<GLint>(Level),
+					0, 0,
+					Dimensions.x,
+					Texture.target() == gli::TARGET_1D_ARRAY ? LayerGL : Dimensions.y,
+					Format.External, Format.Type,
+					Texture.data(Layer, Face, Level));
+			break;
+		case gli::TARGET_2D_ARRAY:
+		case gli::TARGET_3D:
+		case gli::TARGET_CUBE_ARRAY:
+			if(gli::is_compressed(Texture.format()))
+				glCompressedTexSubImage3D(
+					Target, static_cast<GLint>(Level),
+					0, 0, 0,
+					Dimensions.x, Dimensions.y,
+					Texture.target() == gli::TARGET_3D ? Dimensions.z : LayerGL,
+					Format.Internal, static_cast<GLsizei>(Texture.size(Level)),
+					Texture.data(Layer, Face, Level));
+			else
+				glTexSubImage3D(
+					Target, static_cast<GLint>(Level),
+					0, 0, 0,
+					Dimensions.x, Dimensions.y,
+					Texture.target() == gli::TARGET_3D ? Dimensions.z : LayerGL,
+					Format.External, Format.Type,
+					Texture.data(Layer, Face, Level));
+			break;
+		default: assert(0); break;
 		}
 	}
 	return TextureName;
@@ -82,18 +153,31 @@ GLuint CreateTextureArray(char const* Filename)
 
 ## Release notes
 
-#### GLI 0.6.1.1: 2015-07-18
+#### [GLI 0.7.0.0](https://github.com/g-truc/gli/releases/latest) - 2015-09-XX
+- Added KTX loading and saving
+- Added gli::load for generic file loading, either DDS or KTX files depending on filename extensions
+- Added gli::save for generic file saving, either DDS or KTX files depending on filename extensions
+- Added texture views using different texture format, including compressed texture formats
+- Added fine granularity includes
+- Improved API documentation
+- Much faster texture comparisons is non optimal cases. (Measured ~21x faster on Intel IVB)
+- Explicitly handling of texture targets: fixed various cases of cubemap and texture arrays failing to load with DDS
+- Fixed GCC
+- Fixed warnings
+- Fixed saved DDS header size on #52
+
+#### [GLI 0.6.1.1](https://github.com/g-truc/glm/releases/tag/0.6.1.1) - 2015-07-18
 - Updated API documentation
 - Fixed link error
 
-#### GLI 0.6.1.0: 2015-07-18
+#### [GLI 0.6.1.0](https://github.com/g-truc/glm/releases/tag/0.6.1.0) - 2015-07-18
 - Fixed interface inconsistencies
 - Improved clear(), data() and size() performance using caching
 - Removed internal dependence to std::fstream
 - Added FORMAT_BGRX8_UNORM and FORMAT_BGRX8_SRGB support #48, #43
 - Improved FORMAT_RGB8_UNORM loading
 
-#### GLI 0.6.0.0: 2015-06-28
+#### [GLI 0.6.0.0](https://github.com/g-truc/glm/releases/tag/0.6.0.0) - 2015-06-28
 - Large refactoring
 - Added loading DDS from memory
 - Added saving DDS to memory
@@ -102,17 +186,17 @@ GLuint CreateTextureArray(char const* Filename)
 - Added DDS alpha, luminance and alpha luminance support
 - Added PVRTC2, ETC2 and EAC formats
 
-#### GLI 0.5.1.1: 2014-01-20
+#### [GLI 0.5.1.1](https://github.com/g-truc/glm/releases/tag/0.5.1.1) - 2014-01-20
 - Fixed swizzled RGB channel when reading back a DDS
 - Fixed getMask* link error
 
-#### GLI 0.5.1.0: 2014-01-18
+#### [GLI 0.5.1.0](https://github.com/g-truc/glm/releases/tag/0.5.1.0) - 2014-01-18
 - Added flip function
 - Added level_count function
 - Fixed interaction with std::map (#33)
 - Added texelFetch and texelWrite functions
 
-#### GLI 0.5.0.0: 2013-11-24
+#### [GLI 0.5.0.0](https://github.com/g-truc/glm/releases/tag/0.5.0.0) - 2013-11-24
 - Essencially a rewrite of the library
 - Added explicit copies
 - Added single memory allocation per texture storage

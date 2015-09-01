@@ -29,7 +29,7 @@
 namespace gli
 {
 	template <typename genType>
-	inline genType texelFetch
+	inline genType texel_fetch
 	(
 		texture2D const & Texture,
 		texture2D::dim_type const & TexCoord,
@@ -38,6 +38,7 @@ namespace gli
 	{
 		assert(!Texture.empty());
 		assert(!is_compressed(Texture.format()));
+		assert(block_size(Texture.format()) == sizeof(genType));
 
 		image::dim_type Dimensions = Texture[Level].dimensions();
 		genType const * const Data = reinterpret_cast<genType const * const >(Texture[Level].data());
@@ -46,7 +47,7 @@ namespace gli
 	}
 
 	template <typename genType>
-	void texelWrite
+	void texel_write
 	(
 		texture2D & Texture,
 		texture2D::dim_type const & Texcoord,
@@ -56,6 +57,7 @@ namespace gli
 	{
 		assert(!Texture.empty());
 		assert(!is_compressed(Texture.format()));
+		assert(block_size(Texture.format()) == sizeof(genType));
 
 		genType * Data = Texture[Level].data<genType>();
 		std::size_t Index = Texcoord.x + Texcoord.y * Texture[Level].dimensions().x;
@@ -67,7 +69,7 @@ namespace gli
 	}
 
 	template <typename genType>
-	inline genType textureLod
+	inline genType texture_lod
 	(
 		texture2D const & Texture,
 		texture2D::texcoord_type const & Texcoord,
@@ -84,13 +86,8 @@ namespace gli
 		std::size_t t_below = std::size_t(glm::floor(Texcoord.t * float(Dimensions.y - 1)));
 		std::size_t t_above = std::size_t(glm::ceil( Texcoord.t * float(Dimensions.y - 1)));
 
-		float s_step = 1.0f / float(Dimensions.x);
-		float t_step = 1.0f / float(Dimensions.y);
-
 		float s_below_normalized = s_below / float(Dimensions.x);
-		float s_above_normalized = s_above / float(Dimensions.x);
 		float t_below_normalized = t_below / float(Dimensions.y);
-		float t_above_normalized = t_above / float(Dimensions.y);
 
 		genType Value1 = reinterpret_cast<genType const * const>(Data)[s_below + t_below * Dimensions.x];
 		genType Value2 = reinterpret_cast<genType const * const>(Data)[s_above + t_below * Dimensions.x];

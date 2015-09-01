@@ -28,8 +28,8 @@
 
 #pragma once
 
-#include "texture2d.hpp"
-#include "texture2d_array.hpp"
+#include "../texture2d.hpp"
+#include "../texture2d_array.hpp"
 
 namespace gli
 {

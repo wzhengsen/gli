@@ -22,7 +22,7 @@
 ///
 /// @ref core
 /// @file gli/gli.hpp
-/// @date 2008-12-19 / 2013-01-11
+/// @date 2008-12-19 / 2015-08-08
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
@@ -32,21 +32,38 @@
 
 #pragma once
 
-#define GLI_VERSION					61
+#define GLI_VERSION					70
 #define GLI_VERSION_MAJOR			0
-#define GLI_VERSION_MINOR			6
-#define GLI_VERSION_PATCH			1
-#define GLI_VERSION_REVISION		1
+#define GLI_VERSION_MINOR			7
+#define GLI_VERSION_PATCH			0
+#define GLI_VERSION_REVISION		0
 
-#include "./core/storage.hpp"
-#include "./core/texture.hpp"
-#include "./core/clear.hpp"
-#include "./core/comparison.hpp"
-#include "./core/copy.hpp"
+#include "format.hpp"
+#include "target.hpp"
+#include "levels.hpp"
+
+#include "image.hpp"
+#include "texture.hpp"
+#include "texture1d.hpp"
+#include "texture1d_array.hpp"
+#include "texture2d.hpp"
+#include "texture2d_array.hpp"
+#include "texture3d.hpp"
+#include "texture_cube.hpp"
+#include "texture_cube_array.hpp"
+
+#include "copy.hpp"
+#include "view.hpp"
+#include "comparison.hpp"
+
+#include "load.hpp"
+#include "save.hpp"
+
+#include "gl.hpp"
+#include "dx.hpp"
+
 #include "./core/flip.hpp"
 #include "./core/fetch.hpp"
-#include "./core/load_dds.hpp"
-#include "./core/save_dds.hpp"
-#include "./core/view.hpp"
-#include "./core/gl.hpp"
-#include "./core/dx.hpp"
+
+
+

@@ -94,8 +94,8 @@ int test_reset_loop_zero()
 
 	std::clock_t LastTime = std::clock();
 
-	for(std::size_t j = 0; j < (1 << 4); ++j)
-	for(std::size_t i = 0; i < Data.size(); ++i)
+	for(std::size_t j = 0, n = (1 << 4); j < n; ++j)
+	for(std::size_t i = 0, m = Data.size(); i < m; ++i)
 		Data[i] = 0;
 
 	std::clock_t Time = std::clock();
@@ -112,8 +112,8 @@ int test_reset_loop_ff()
 
 	std::clock_t LastTime = std::clock();
 
-	for(std::size_t j = 0; j < (1 << 4); ++j)
-	for(std::size_t i = 0; i < Data.size(); ++i)
+	for(std::size_t j = 0, n = (1 << 4); j < n; ++j)
+	for(std::size_t i = 0, m = Data.size(); i < m; ++i)
 		Data[i] = 0xFFFFFFFF;
 
 	std::clock_t Time = std::clock();

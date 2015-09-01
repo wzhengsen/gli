@@ -27,24 +27,25 @@
 ///////////////////////////////////////////////////////////////////////////////////
 
 #include <gli/gli.hpp>
+#include <glm/gtx/gradient_paint.hpp>
 
 inline gli::texture2D radial
 (
-	gli::texture2D::dim_type const & Size, 
+	gli::texture2D::dim_type const & Size,
 	gli::texture2D::texcoord_type const & Center,
 	float const & Radius,
 	gli::texture2D::texcoord_type const & Focal
 )
 {
-	gli::texture2D Result(1, gli::FORMAT_RGB8_UINT, gli::texture2D::dim_type(Size));
+	gli::texture2D Result(gli::FORMAT_RGB8_UINT, Size, 1);
 	glm::u8vec3 * DstData = (glm::u8vec3*)Result.data();
 
 	for(std::size_t y = 0; y < Result.dimensions().y; ++y)
 	for(std::size_t x = 0; x < Result.dimensions().x; ++x)
 	{
 		float Value = glm::radialGradient(
-			Center * glm::vec2(Size), 
-			Radius, 
+			Center * glm::vec2(Size),
+			Radius,
 			Focal * glm::vec2(Size),
 			glm::vec2(x, y));
 
@@ -58,19 +59,19 @@ inline gli::texture2D radial
 
 inline gli::texture2D linear
 (
-	gli::texture2D::dim_type const & Size, 
-	gli::texture2D::texcoord_type const & Point0, 
+	gli::texture2D::dim_type const & Size,
+	gli::texture2D::texcoord_type const & Point0,
 	gli::texture2D::texcoord_type const & Point1
 )
 {
-	gli::texture2D Result(1, gli::FORMAT_RGB8_UINT, gli::texture2D::dim_type(Size));
+	gli::texture2D Result(gli::FORMAT_RGB8_UINT, gli::texture2D::dim_type(Size), 1);
 	glm::u8vec3 * DstData = (glm::u8vec3*)Result.data();
 
 	for(std::size_t y = 0; y < Result.dimensions().y; ++y)
 	for(std::size_t x = 0; x < Result.dimensions().x; ++x)
 	{
 		float Value = glm::linearGradient(
-			Point0 * glm::vec2(Size), 
+			Point0 * glm::vec2(Size),
 			Point1 * glm::vec2(Size),
 			gli::texture2D::texcoord_type(x, y));
 
@@ -121,7 +122,7 @@ int test_alloc()
 	{
 		gli::texture2D::dim_type Size(Sizes[SizeIndex]);
 
-		gli::texture2D TextureA(gli::levels(Size), Formats[FormatIndex], Size);
+		gli::texture2D TextureA(Formats[FormatIndex], Size, gli::levels(Size));
 		gli::texture2D TextureB(Formats[FormatIndex], Size);
 
 		Error += TextureA == TextureB ? 0 : 1;
@@ -137,9 +138,9 @@ int test_texture2d_clear()
 	glm::u8vec4 const Orange(255, 127, 0, 255);
 
 	gli::texture2D Texture(
-		gli::texture2D::size_type(glm::log2(16u) + 1),
 		gli::FORMAT_RGBA8_UINT,
-		gli::texture2D::dim_type(16));
+		gli::texture2D::dim_type(16),
+		gli::texture2D::size_type(glm::log2(16u) + 1));
 
 	//Texture.clear<glm::u8vec4>(Orange);
 	Texture.clear(Orange);
@@ -151,7 +152,7 @@ int test_texture2d_query()
 {
 	int Error(0);
 
-	gli::texture2D Texture(2, gli::FORMAT_RGBA8_UINT, gli::texture2D::dim_type(2));
+	gli::texture2D Texture(gli::FORMAT_RGBA8_UINT, gli::texture2D::dim_type(2), 2);
 
 	Error += Texture.size() == sizeof(glm::u8vec4) * 5 ? 0 : 1;
 	Error += Texture.format() == gli::FORMAT_RGBA8_UINT ? 0 : 1;
@@ -178,7 +179,7 @@ int test_texture2d_image_access()
 		for(std::size_t i = 0; i < Image1.size(); ++i)
 			*(Image1.data<glm::byte>() + i) = glm::byte(i + 100);
 
-		gli::texture2D Texture(2, gli::FORMAT_RGBA8_UINT, gli::texture2D::dim_type(2));
+		gli::texture2D Texture(gli::FORMAT_RGBA8_UINT, gli::texture2D::dim_type(2), 2);
 
 		/// TODO copy function
 		/// Texture[0] = Image0;
@@ -189,7 +190,7 @@ int test_texture2d_image_access()
 	}
 
 	{
-		gli::texture2D Texture(gli::texture2D::size_type(2), gli::FORMAT_RGBA8_UINT, gli::texture2D::dim_type(2));
+		gli::texture2D Texture(gli::FORMAT_RGBA8_UINT, gli::texture2D::dim_type(2), 2);
 		assert(!Texture.empty());
 
 		gli::image Image0 = Texture[0];
@@ -224,7 +225,7 @@ int test_texture2d_image_access()
 	}
 
 	{
-		gli::texture2D Texture(1, gli::FORMAT_RGBA8_UINT, gli::texture2D::dim_type(2));
+		gli::texture2D Texture(gli::FORMAT_RGBA8_UINT, gli::texture2D::dim_type(2), 1);
 
 		std::size_t SizeA = Texture.size();
 		Error += SizeA == sizeof(glm::u8vec4) * 4 ? 0 : 1;
@@ -279,9 +280,9 @@ int test_texture2d_image_size()
 	for(std::size_t i = 0; i < Tests.size(); ++i)
 	{
 		gli::texture2D Texture(
-			gli::texture2D::size_type(1),
 			Tests[i].Format,
-			gli::texture2D::dim_type(4));
+			gli::texture2D::dim_type(4),
+			1);
 
 		gli::image Image = Texture[0];
 
@@ -300,7 +301,7 @@ namespace fetch
 	{
 		int Error(0);
 
-		gli::texture2D Texture(1, gli::FORMAT_RGBA8_UINT, gli::texture2D::dim_type(4, 2));
+		gli::texture2D Texture(gli::FORMAT_RGBA8_UINT, gli::texture2D::dim_type(4, 2), 1);
 		*(Texture.data<glm::u8vec4>() + 0) = glm::u8vec4(255,   0,   0, 255);
 		*(Texture.data<glm::u8vec4>() + 1) = glm::u8vec4(255, 128,   0, 255);
 		*(Texture.data<glm::u8vec4>() + 2) = glm::u8vec4(255, 255,   0, 255);
@@ -323,6 +324,37 @@ namespace fetch
 	}
 }//namespace fetch
 
+namespace level
+{
+	int test_format(gli::format Format)
+	{
+		int Error(0);
+
+		gli::texture2D Texture(Format, gli::texture2D::dim_type(16));
+
+		for(gli::texture2D::size_type Level = 0; Level < Texture.levels(); ++Level)
+		{
+			gli::image::dim_type const & DimensionsL = Texture[Level].dimensions();
+			gli::image::dim_type const & Dimensions0 = glm::max(gli::image::dim_type(Texture[0].dimensions() >> Level), gli::image::dim_type(1));
+
+			Error += DimensionsL == Dimensions0 ? 0 : 1;
+			assert(!Error);
+		}
+
+		return Error;
+	}
+
+	int test()
+	{
+		int Error(0);
+
+		for(gli::texture2D::size_type FormatIndex = gli::FORMAT_FIRST; FormatIndex <= gli::FORMAT_LAST; ++FormatIndex)
+			Error += test_format(static_cast<gli::format>(FormatIndex));
+
+		return Error;
+	}
+}//namespace level
+
 int main()
 {
 	int Error(0);
@@ -334,6 +366,7 @@ int main()
 	Error += test_texture2d_image_access();
 	Error += test_create();
 	Error += fetch::test();
+	Error += level::test();
 
 	return Error;
 }

@@ -26,7 +26,7 @@
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
-#include "levels.hpp"
+#include "../levels.hpp"
 
 namespace gli
 {
@@ -35,37 +35,38 @@ namespace gli
 
 	inline texture2DArray::texture2DArray
 	(
-		size_type const & Layers,
-		format_type const & Format,
-		dim_type const & Dimensions
+		format_type Format,
+		dim_type const & Dimensions,
+		size_type Layers
 	)
-		: texture(Layers, 1, gli::levels(Dimensions), Format, storage::dim_type(Dimensions, 1))
+		: texture(gli::TARGET_2D_ARRAY, Format, texture::dim_type(Dimensions, 1), Layers, 1, gli::levels(Dimensions))
 	{}
 
 	inline texture2DArray::texture2DArray
 	(
-		size_type const & Layers,
-		size_type const & Levels,
-		format_type const & Format,
-		dim_type const & Dimensions
+		format_type Format,
+		dim_type const & Dimensions,
+		size_type Layers,
+		size_type Levels
 	)
-		: texture(Layers, 1, Levels, Format, storage::dim_type(Dimensions, 1))
+		: texture(gli::TARGET_2D_ARRAY, Format, texture::dim_type(Dimensions, 1), Layers, 1, Levels)
 	{}
 
-	inline texture2DArray::texture2DArray(storage const & Storage)
-		: texture(Storage)
+	inline texture2DArray::texture2DArray(texture const & Texture)
+		: texture(Texture, gli::TARGET_2D_ARRAY, Texture.format())
 	{}
 
 	inline texture2DArray::texture2DArray
 	(
-		storage const & Storage,
-		format_type const & Format,
+		texture const & Texture,
+		format_type Format,
 		size_type BaseLayer, size_type MaxLayer,
 		size_type BaseFace, size_type MaxFace,
 		size_type BaseLevel, size_type MaxLevel
 	)
 		: texture(
-			Storage, Format,
+			Texture, gli::TARGET_2D_ARRAY,
+			Format,
 			BaseLayer, MaxLayer,
 			BaseFace, MaxFace,
 			BaseLevel, MaxLevel)
@@ -74,48 +75,35 @@ namespace gli
 	inline texture2DArray::texture2DArray
 	(
 		texture2DArray const & Texture,
-		size_type const & BaseLayer, size_type const & MaxLayer,
-		size_type const & BaseLevel, size_type const & MaxLevel
+		size_type BaseLayer, size_type MaxLayer,
+		size_type BaseLevel, size_type MaxLevel
 	)
 		: texture(
-			Texture, Texture.format(),
-			Texture.baseLayer() + BaseLayer, Texture.baseLayer() + MaxLayer,
-			Texture.baseFace(), Texture.maxFace(),
-			Texture.baseLevel() + BaseLevel, Texture.baseLevel() + MaxLevel)
+			Texture, gli::TARGET_2D_ARRAY,
+			Texture.format(),
+			Texture.base_layer() + BaseLayer, Texture.base_layer() + MaxLayer,
+			Texture.base_face(), Texture.max_face(),
+			Texture.base_level() + BaseLevel, Texture.base_level() + MaxLevel)
 	{}
 
-	inline texture2DArray::texture2DArray
-	(
-		texture2D const & Texture,
-		size_type const & BaseLevel, size_type const & MaxLevel
-	)
-		: texture(
-			Texture, Texture.format(),
-			Texture.baseLayer(), Texture.maxLayer(),
-			Texture.baseFace(), Texture.maxFace(),
-			Texture.baseLevel() + BaseLevel, Texture.baseLevel() + MaxLevel)
-	{}
-
-	inline texture2DArray::operator storage() const
-	{
-		return this->Storage;
-	}
-
-	inline texture2D texture2DArray::operator[](size_type const & Layer) const
+	inline texture2D texture2DArray::operator[](size_type Layer) const
 	{
 		assert(Layer < this->layers());
 
 		return texture2D(
-			this->Storage, this->format(),
-			this->baseLayer() + Layer, this->baseLayer() + Layer,
-			this->baseFace(), this->maxFace(),
-			this->baseLevel(), this->maxLevel());
+			*this, this->format(),
+			this->base_layer() + Layer, this->base_layer() + Layer,
+			this->base_face(), this->max_face(),
+			this->base_level(), this->max_level());
 	}
 
 	inline texture2DArray::dim_type texture2DArray::dimensions() const
 	{
 		assert(!this->empty());
 
-		return texture2DArray::dim_type(this->Storage.dimensions(this->baseLevel()));
+		return texture2DArray::dim_type(
+			this->Storage->block_count(this->base_level()) * block_dimensions(this->format()));
+
+		//return texture2DArray::dim_type(this->Storage.dimensions(this->base_level()));
 	}
 }//namespace gli

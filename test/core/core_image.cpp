@@ -26,7 +26,8 @@
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
-#include <gli/gli.hpp>
+#include <gli/image.hpp>
+#include <gli/comparison.hpp>
 
 int test_image_ctor()
 {
@@ -35,9 +36,12 @@ int test_image_ctor()
 	gli::image ImageA(gli::FORMAT_RGBA8_UINT, gli::image::dim_type(4, 4, 1));
 	gli::image ImageB(gli::FORMAT_RGBA8_UINT, gli::image::dim_type(4, 4, 1));
 	gli::image ImageC = ImageA;
+	gli::image ImageD(ImageA, gli::FORMAT_RGBA8_UNORM);
+	gli::image ImageE(ImageD, gli::FORMAT_RGBA8_UNORM);
 
 	Error += ImageA == ImageB ? 0 : 1;
 	Error += ImageC == ImageB ? 0 : 1;
+	Error += ImageA == ImageE ? 0 : 1;
 
 	return Error;
 }
@@ -50,33 +54,11 @@ int test_image_data()
 	Error += ImageA.empty() ? 0 : 1;
 	assert(!Error);
 
-	gli::image ImageB(gli::FORMAT_RGBA8_UINT, gli::image::dim_type(1, 1, 1));
+	gli::image ImageB(gli::FORMAT_RGBA8_UNORM, gli::image::dim_type(1, 1, 1));
 	Error += ImageB.size() == sizeof(glm::u8vec4) ? 0 : 1;
 
 	*ImageB.data<glm::u8vec4>() = glm::u8vec4(255, 127, 0, 255);
 	Error += !ImageB.empty() ? 0 : 1;
-	assert(!Error);
-
-	gli::storage Storage(
-		2, 1, 1,
-		gli::FORMAT_RGBA8_UNORM,
-		gli::storage::dim_type(1));
-
-	std::vector<glm::u8vec4> Data(2);
-	Data[0] = glm::u8vec4(  0, 127, 255, 255);
-	Data[1] = glm::u8vec4(255, 127,   0, 255);
-
-	memcpy(Storage.data(), &Data[0][0], Data.size() * sizeof(glm::u8vec4));
-
-	gli::image ImageC(Storage, 0, 0, 0, 0, 0, 1);
-	Error += !ImageC.empty() ? 0 : 1;
-	assert(!Error);
-
-	glm::u8vec4 ValueB = *(ImageB.data<glm::u8vec4>() + 0);
-	glm::u8vec4 ValueC = *(ImageC.data<glm::u8vec4>() + 1);
-	glm::u8vec4 ValueD = *(ImageC.data<glm::u8vec4>() + 0);
-
-	Error += glm::all(glm::equal(ValueB, ValueC)) ? 0 : 1;
 	assert(!Error);
 
 	return Error;
