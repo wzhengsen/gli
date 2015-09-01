@@ -94,6 +94,8 @@ namespace detail
 		std::uint32_t reserved2[3];
 	};
 
+	static_assert(sizeof(ddsHeader) == 124, "DDS Header size mismatch");
+
 	enum D3D10_RESOURCE_DIMENSION 
 	{
 		D3D10_RESOURCE_DIMENSION_UNKNOWN     = 0,
@@ -137,6 +139,8 @@ namespace detail
 		std::uint32_t				arraySize;
 		std::uint32_t				reserved;
 	};
+
+	static_assert(sizeof(ddsHeader10) == 20, "DDS DX10 Extended Header size mismatch");
 }//namespace detail
 
 inline storage load_dds(char const * Data, std::size_t Size)
