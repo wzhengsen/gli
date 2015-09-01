@@ -153,7 +153,7 @@ GLuint createTexture(char const* Filename)
 
 ## Release notes
 
-#### [GLI 0.7.0.0](https://github.com/g-truc/gli/releases/latest) - 2015-09-XX
+#### [GLI 0.7.0.0](https://github.com/g-truc/gli/releases/latest) - 2015-09-01
 - Added KTX loading and saving
 - Added gli::load for generic file loading, either DDS or KTX files depending on filename extensions
 - Added gli::save for generic file saving, either DDS or KTX files depending on filename extensions
@@ -166,18 +166,18 @@ GLuint createTexture(char const* Filename)
 - Fixed warnings
 - Fixed saved DDS header size on #52
 
-#### [GLI 0.6.1.1](https://github.com/g-truc/glm/releases/tag/0.6.1.1) - 2015-07-18
+#### [GLI 0.6.1.1](https://github.com/g-truc/gli/releases/tag/0.6.1.1) - 2015-07-18
 - Updated API documentation
 - Fixed link error
 
-#### [GLI 0.6.1.0](https://github.com/g-truc/glm/releases/tag/0.6.1.0) - 2015-07-18
+#### [GLI 0.6.1.0](https://github.com/g-truc/gli/releases/tag/0.6.1.0) - 2015-07-18
 - Fixed interface inconsistencies
 - Improved clear(), data() and size() performance using caching
 - Removed internal dependence to std::fstream
 - Added FORMAT_BGRX8_UNORM and FORMAT_BGRX8_SRGB support #48, #43
 - Improved FORMAT_RGB8_UNORM loading
 
-#### [GLI 0.6.0.0](https://github.com/g-truc/glm/releases/tag/0.6.0.0) - 2015-06-28
+#### [GLI 0.6.0.0](https://github.com/g-truc/gli/releases/tag/0.6.0.0) - 2015-06-28
 - Large refactoring
 - Added loading DDS from memory
 - Added saving DDS to memory
@@ -186,17 +186,17 @@ GLuint createTexture(char const* Filename)
 - Added DDS alpha, luminance and alpha luminance support
 - Added PVRTC2, ETC2 and EAC formats
 
-#### [GLI 0.5.1.1](https://github.com/g-truc/glm/releases/tag/0.5.1.1) - 2014-01-20
+#### [GLI 0.5.1.1](https://github.com/g-truc/gli/releases/tag/0.5.1.1) - 2014-01-20
 - Fixed swizzled RGB channel when reading back a DDS
 - Fixed getMask* link error
 
-#### [GLI 0.5.1.0](https://github.com/g-truc/glm/releases/tag/0.5.1.0) - 2014-01-18
+#### [GLI 0.5.1.0](https://github.com/g-truc/gli/releases/tag/0.5.1.0) - 2014-01-18
 - Added flip function
 - Added level_count function
 - Fixed interaction with std::map (#33)
 - Added texelFetch and texelWrite functions
 
-#### [GLI 0.5.0.0](https://github.com/g-truc/glm/releases/tag/0.5.0.0) - 2013-11-24
+#### [GLI 0.5.0.0](https://github.com/g-truc/gli/releases/tag/0.5.0.0) - 2013-11-24
 - Essencially a rewrite of the library
 - Added explicit copies
 - Added single memory allocation per texture storage
