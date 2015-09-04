@@ -35,7 +35,7 @@ namespace detail
 	inline std::size_t compute_ktx_storage_size(texture const & Texture)
 	{
 		std::uint32_t const BlockSize = block_size(Texture.format());
-		std::size_t TotalSize = sizeof(detail::ktxHeader);
+		std::size_t TotalSize = sizeof(detail::FOURCC_KTX10) + sizeof(detail::ktxHeader10);
 
 		for(std::size_t Level = 0, Levels = Texture.levels(); Level < Levels; ++Level)
 		{
@@ -69,16 +69,13 @@ namespace detail
 
 		detail::formatInfo const & Desc = detail::get_format_info(Texture.format());
 
-		Memory.resize(detail::compute_ktx_storage_size(Texture) + sizeof(detail::ktxHeader));
+		Memory.resize(detail::compute_ktx_storage_size(Texture));
 
-		detail::ktxHeader & Header = *reinterpret_cast<detail::ktxHeader*>(&Memory[0]);
+		std::memcpy(&Memory[0], detail::FOURCC_KTX10, sizeof(detail::FOURCC_KTX10));
 
-		static unsigned char const Identifier[] =
-		{
-		   0xAB, 0x4B, 0x54, 0x58, 0x20, 0x31, 0x31, 0xBB, 0x0D, 0x0A, 0x1A, 0x0A
-		};
+		std::size_t Offset = sizeof(detail::FOURCC_KTX10);
 
-		memcpy(Header.Identifier, Identifier, sizeof(Header.Identifier));
+		detail::ktxHeader10 & Header = *reinterpret_cast<detail::ktxHeader10*>(&Memory[0] + Offset);
 		Header.Endianness = 0x04030201;
 		Header.GLType = Format.Type;
 		Header.GLTypeSize = Format.Type == gl::TYPE_NONE ? 1 : Desc.BlockSize;
@@ -93,7 +90,7 @@ namespace detail
 		Header.NumberOfMipmapLevels = static_cast<std::uint32_t>(Texture.levels());
 		Header.BytesOfKeyValueData = 0;
 
-		std::size_t Offset = sizeof(detail::ktxHeader);
+		Offset += sizeof(detail::ktxHeader10);
 
 		for(std::size_t Level = 0, Levels = Texture.levels(); Level < Levels; ++Level)
 		{

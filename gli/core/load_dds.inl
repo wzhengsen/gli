@@ -33,6 +33,8 @@
 namespace gli{
 namespace detail
 {
+	static char const FOURCC_DDS[] = {'D', 'D', 'S', ' '};
+
 	enum ddsCubemapflag
 	{
 		DDSCAPS2_CUBEMAP				= 0x00000200,
@@ -80,7 +82,6 @@ namespace detail
 
 	struct ddsHeader
 	{
-		char Magic[4];
 		std::uint32_t Size;
 		std::uint32_t Flags;
 		std::uint32_t Height;
@@ -95,7 +96,7 @@ namespace detail
 		std::uint32_t Reserved2[3];
 	};
 
-	static_assert(sizeof(ddsHeader) == 128, "DDS Header size mismatch");
+	static_assert(sizeof(ddsHeader) == 124, "DDS Header size mismatch");
 
 	enum D3D10_RESOURCE_DIMENSION 
 	{
@@ -170,14 +171,16 @@ namespace detail
 
 	inline texture load_dds(char const * Data, std::size_t Size)
 	{
-		assert(Data && (Size >= sizeof(detail::ddsHeader)));
+		assert(Data && (Size >= sizeof(detail::FOURCC_DDS)));
 
-		detail::ddsHeader const & Header(*reinterpret_cast<detail::ddsHeader const *>(Data));
-
-		if(strncmp(Header.Magic, "DDS ", 4) != 0)
+		if(strncmp(Data, detail::FOURCC_DDS, 4) != 0)
 			return texture();
+		std::size_t Offset = sizeof(detail::FOURCC_DDS);
 
-		size_t Offset = sizeof(detail::ddsHeader);
+		assert(Size >= sizeof(detail::ddsHeader));
+
+		detail::ddsHeader const & Header(*reinterpret_cast<detail::ddsHeader const *>(Data + Offset));
+		Offset += sizeof(detail::ddsHeader);
 
 		detail::ddsHeader10 Header10;
 		if(Header.Format.flags & dx::DDPF_FOURCC && Header.Format.fourCC == dx::D3DFMT_DX10)

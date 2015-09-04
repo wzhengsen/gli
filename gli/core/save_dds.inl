@@ -56,12 +56,15 @@ namespace detail
 
 		dx DX;
 		dx::format const & DXFormat = DX.translate(Texture.format());
-
 		dx::D3DFORMAT const FourCC = Texture.layers() > 1 ? dx::D3DFMT_DX10 : DXFormat.D3DFormat;
 
-		Memory.resize(Texture.size() + sizeof(detail::ddsHeader) + (FourCC == dx::D3DFMT_DX10 ? sizeof(detail::ddsHeader10) : 0));
+		Memory.resize(Texture.size() + sizeof(detail::FOURCC_DDS) + sizeof(detail::ddsHeader) + (FourCC == dx::D3DFMT_DX10 ? sizeof(detail::ddsHeader10) : 0));
 
-		detail::ddsHeader & Header = *reinterpret_cast<detail::ddsHeader*>(&Memory[0]);
+		memcpy(&Memory[0], detail::FOURCC_DDS, sizeof(detail::FOURCC_DDS));
+		std::size_t Offset = sizeof(detail::FOURCC_DDS);
+
+		detail::ddsHeader & Header = *reinterpret_cast<detail::ddsHeader*>(&Memory[0] + Offset);
+		Offset += sizeof(detail::ddsHeader);
 
 		detail::formatInfo const & Desc = detail::get_format_info(Texture.format());
 
@@ -73,10 +76,9 @@ namespace detail
 
 		bool const RequireFOURCCDX10 = is_target_array(Texture.target()) || is_target_1d(Texture.target());
 
-		memcpy(Header.Magic, "DDS ", sizeof(Header.Magic));
 		memset(Header.Reserved1, 0, sizeof(Header.Reserved1));
 		memset(Header.Reserved2, 0, sizeof(Header.Reserved2));
-		Header.Size = sizeof(detail::ddsHeader) - sizeof(Header.Magic);
+		Header.Size = sizeof(detail::ddsHeader);
 		Header.Flags = Caps;
 		assert(Texture.dimensions().x < std::numeric_limits<glm::uint32>::max());
 		Header.Width = static_cast<std::uint32_t>(Texture.dimensions().x);
@@ -106,10 +108,9 @@ namespace detail
 		if(Texture.dimensions().z > 1)
 			Header.CubemapFlags |= detail::DDSCAPS2_VOLUME;
 
-		size_t Offset = sizeof(detail::ddsHeader);
 		if(Header.Format.fourCC == dx::D3DFMT_DX10)
 		{
-			detail::ddsHeader10 & Header10 = *reinterpret_cast<detail::ddsHeader10*>(&Memory[0] + sizeof(detail::ddsHeader));
+			detail::ddsHeader10 & Header10 = *reinterpret_cast<detail::ddsHeader10*>(&Memory[0] + Offset);
 			Offset += sizeof(detail::ddsHeader10);
 
 			Header10.ArraySize = static_cast<std::uint32_t>(Texture.layers());

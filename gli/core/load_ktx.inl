@@ -33,9 +33,10 @@
 namespace gli{
 namespace detail
 {
-	struct ktxHeader
+	static unsigned char const FOURCC_KTX10[] = {0xAB, 0x4B, 0x54, 0x58, 0x20, 0x31, 0x31, 0xBB, 0x0D, 0x0A, 0x1A, 0x0A};
+
+	struct ktxHeader10
 	{
-		char Identifier[12];
 		std::uint32_t Endianness;
 		std::uint32_t GLType;
 		std::uint32_t GLTypeSize;
@@ -51,7 +52,7 @@ namespace detail
 		std::uint32_t BytesOfKeyValueData;
 	};
 
-	inline target getTarget(ktxHeader const & Header)
+	inline target getTarget(ktxHeader10 const & Header)
 	{
 		if(Header.NumberOfFaces > 1)
 		{
@@ -74,23 +75,12 @@ namespace detail
 		else
 			return TARGET_2D;
 	}
-}//namespace detail
 
-	inline texture load_ktx(char const * Data, std::size_t Size)
+	inline texture load_ktx10(char const * Data, std::size_t Size)
 	{
-		assert(Data && (Size >= sizeof(detail::ktxHeader)));
+		detail::ktxHeader10 const & Header(*reinterpret_cast<detail::ktxHeader10 const *>(Data));
 
-		detail::ktxHeader const & Header(*reinterpret_cast<detail::ktxHeader const *>(Data));
-
-		static unsigned char const Identifier[] =
-		{
-			0xAB, 0x4B, 0x54, 0x58, 0x20, 0x31, 0x31, 0xBB, 0x0D, 0x0A, 0x1A, 0x0A
-		};
-
-		if(memcmp(Header.Identifier, Identifier, sizeof(Identifier)) != 0)
-			return texture();
-
-		size_t Offset = sizeof(detail::ktxHeader);
+		size_t Offset = sizeof(detail::ktxHeader10);
 
 		// Skip key value data
 		Offset += Header.BytesOfKeyValueData;
@@ -133,6 +123,20 @@ namespace detail
 		}
 
 		return Texture;
+	}
+}//namespace detail
+
+	inline texture load_ktx(char const * Data, std::size_t Size)
+	{
+		assert(Data && (Size >= sizeof(detail::ktxHeader10)));
+
+		// KTX10
+		{
+			if(memcmp(Data, detail::FOURCC_KTX10, sizeof(detail::FOURCC_KTX10)) == 0)
+				return detail::load_ktx10(Data + sizeof(detail::FOURCC_KTX10), Size - sizeof(detail::FOURCC_KTX10));
+		}
+
+		return texture();
 	}
 
 	inline texture load_ktx(char const * Filename)
