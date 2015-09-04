@@ -154,7 +154,7 @@ GLuint createTexture(char const* Filename)
 ## Release notes
 
 #### [GLI 0.7.1.0](https://github.com/g-truc/gli/releases/latest) - 2015-XX-X
-- Added many new formats
+- Added support for many new formats
 - Reordered formats
 
 #### [GLI 0.7.0.0](https://github.com/g-truc/gli/releases/tag/0.7.0.0) - 2015-09-01
