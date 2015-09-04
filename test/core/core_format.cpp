@@ -52,6 +52,7 @@ namespace component
 		{
 			std::uint32_t const Components = gli::component_count(static_cast<gli::format>(FormatIndex));
 			Error += Components > 0 && Components <= 4 ? 0 : 1;
+			assert(!Error);
 		}
 
 		return Error;

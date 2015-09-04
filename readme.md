@@ -153,7 +153,11 @@ GLuint createTexture(char const* Filename)
 
 ## Release notes
 
-#### [GLI 0.7.0.0](https://github.com/g-truc/gli/releases/latest) - 2015-09-01
+#### [GLI 0.7.1.0](https://github.com/g-truc/gli/releases/latest) - 2015-XX-X
+- Added many new formats
+- Reordered formats
+
+#### [GLI 0.7.0.0](https://github.com/g-truc/gli/releases/tag/0.7.0.0) - 2015-09-01
 - Added KTX loading and saving
 - Added gli::load for generic file loading, either DDS or KTX files depending on filename extensions
 - Added gli::save for generic file saving, either DDS or KTX files depending on filename extensions

@@ -269,7 +269,8 @@ namespace detail
 			texture::dim_type(Header.Width, Header.Height, DepthCount),
 			std::max<std::size_t>(Header10.ArraySize, 1), FaceCount, MipMapCount);
 
-		assert(Offset + Texture.size() == Size);
+		std::size_t const SourceSize = Offset + Texture.size();
+		assert(SourceSize == Size);
 
 		std::memcpy(Texture.data(), Data + Offset, Texture.size());
 
