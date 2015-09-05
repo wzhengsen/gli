@@ -113,8 +113,8 @@ int main()
 	Filenames.push_back("kueken7_rg_eac_unorm.ktx");
 	Filenames.push_back("kueken7_rgb_pvrtc_2bpp_srgb.ktx");
 	Filenames.push_back("kueken7_rgb_pvrtc_4bpp_srgb.ktx");
-	Filenames.push_back("kueken7_rgb_pvrtc2_2bpp_srgb.ktx");
-	Filenames.push_back("kueken7_rgb_pvrtc2_4bpp_srgb.ktx");
+	Filenames.push_back("kueken7_rgba_pvrtc2_2bpp_srgb.ktx");
+	Filenames.push_back("kueken7_rgba_pvrtc2_4bpp_srgb.ktx");
 
 	int Error(0);
 
