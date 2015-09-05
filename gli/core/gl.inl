@@ -291,7 +291,7 @@ namespace gli
 		return this->Translation[Format - FORMAT_FIRST];
 	}
 
-	inline gl::swizzles const & gl::translate(gli::swizzles const & Swizzles) const
+	inline gl::swizzles gl::translate(gli::swizzles const & Swizzles) const
 	{
 		static gl::swizzle const Table[] =
 		{
