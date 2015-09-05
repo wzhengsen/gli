@@ -157,6 +157,7 @@ GLuint createTexture(char const* Filename)
 - Added texture swizzle support
 - Added support for many new formats
 - Reordered formats
+- Fixed PVRTC2 support
 
 #### [GLI 0.7.0.0](https://github.com/g-truc/gli/releases/tag/0.7.0.0) - 2015-09-01
 - Added KTX loading and saving
