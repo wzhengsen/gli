@@ -136,7 +136,7 @@ namespace gli
 		return this->Format;
 	}
 
-	texture::swizzles_type texture::swizzles() const
+	inline texture::swizzles_type texture::swizzles() const
 	{
 		swizzles_type const FormatSwizzle = detail::get_format_info(this->format()).Swizzles;
 		swizzles_type const CustomSwizzle = this->Swizzles;
