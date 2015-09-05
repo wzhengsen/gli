@@ -154,6 +154,7 @@ GLuint createTexture(char const* Filename)
 ## Release notes
 
 #### [GLI 0.7.1.0](https://github.com/g-truc/gli/releases/latest) - 2015-XX-X
+- Added texture swizzle support
 - Added support for many new formats
 - Reordered formats
 

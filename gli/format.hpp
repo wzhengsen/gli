@@ -246,16 +246,34 @@ namespace gli
 		FORMAT_LAST = FORMAT_RGBA_ATC_INTERPOLATED_UNORM
 	};
 
+	enum swizzle
+	{
+		SWIZZLE_RED, SWIZZLE_FIRST = SWIZZLE_RED, SWIZZLE_CHANNEL_FIRST = SWIZZLE_RED,
+		SWIZZLE_GREEN,
+		SWIZZLE_BLUE,
+		SWIZZLE_ALPHA, SWIZZLE_CHANNEL_LAST = SWIZZLE_ALPHA,
+		SWIZZLE_ZERO,
+		SWIZZLE_ONE, SWIZZLE_LAST = SWIZZLE_ONE
+	};
+
+	inline bool is_channel(swizzle Swizzle)
+	{
+		return Swizzle >= SWIZZLE_CHANNEL_FIRST && Swizzle <= SWIZZLE_CHANNEL_LAST;
+	}
+
 	enum
 	{
 		FORMAT_INVALID = -1,
 		FORMAT_COUNT = FORMAT_LAST - FORMAT_FIRST + 1,
+		SWIZZLE_COUNT = SWIZZLE_LAST - SWIZZLE_FIRST + 1
 	};
 
 	inline bool is_valid(format Format)
 	{
 		return Format >= FORMAT_FIRST && Format <= FORMAT_LAST;
 	}
+
+	typedef glm::tvec4<swizzle> swizzles;
 
 	bool is_compressed(format Format);
 	std::uint32_t block_size(format Format);

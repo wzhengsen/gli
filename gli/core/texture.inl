@@ -37,6 +37,7 @@ namespace gli
 		, BaseLayer(0), MaxLayer(0)
 		, BaseFace(0), MaxFace(0)
 		, BaseLevel(0), MaxLevel(0)
+		, Swizzles(SWIZZLE_ZERO)
 	{}
 
 	inline texture::texture
@@ -46,7 +47,8 @@ namespace gli
 		dim_type const & Dimensions,
 		size_type Layers,
 		size_type Faces,
-		size_type Levels
+		size_type Levels,
+		swizzles_type const & Swizzles
 	)
 		: Storage(std::make_shared<storage>(Format, Dimensions, Layers, Faces, Levels))
 		, Target(Target)
@@ -54,6 +56,7 @@ namespace gli
 		, BaseLayer(0), MaxLayer(Layers - 1)
 		, BaseFace(0), MaxFace(Faces - 1)
 		, BaseLevel(0), MaxLevel(Levels - 1)
+		, Swizzles(Swizzles)
 	{
 		assert(Target != TARGET_CUBE || (Target == TARGET_CUBE && Dimensions.x == Dimensions.y));
 		assert(Target != TARGET_CUBE_ARRAY || (Target == TARGET_CUBE_ARRAY && Dimensions.x == Dimensions.y));
@@ -65,7 +68,38 @@ namespace gli
 	(
 		texture const & Texture,
 		target_type Target,
-		format_type Format
+		format_type Format,
+		size_type BaseLayer, size_type MaxLayer,
+		size_type BaseFace, size_type MaxFace,
+		size_type BaseLevel, size_type MaxLevel,
+		swizzles_type const & Swizzles
+	)
+		: Storage(Texture.Storage)
+		, Target(Target)
+		, Format(Format)
+		, BaseLayer(BaseLayer), MaxLayer(MaxLayer)
+		, BaseFace(BaseFace), MaxFace(MaxFace)
+		, BaseLevel(BaseLevel), MaxLevel(MaxLevel)
+		, Swizzles(Swizzles)
+	{
+		assert(block_size(Format) == block_size(Texture.format()));
+		assert(Target != TARGET_1D || (Target == TARGET_1D && this->layers() == 1 && this->faces() == 1 && this->dimensions().y == 1 && this->dimensions().z == 1));
+		assert(Target != TARGET_1D_ARRAY || (Target == TARGET_1D_ARRAY && this->layers() >= 1 && this->faces() == 1 && this->dimensions().y == 1 && this->dimensions().z == 1));
+		assert(Target != TARGET_2D || (Target == TARGET_2D && this->layers() == 1 && this->faces() == 1 && this->dimensions().y >= 1 && this->dimensions().z == 1));
+		assert(Target != TARGET_2D_ARRAY || (Target == TARGET_2D_ARRAY && this->layers() >= 1 && this->faces() == 1 && this->dimensions().y >= 1 && this->dimensions().z == 1));
+		assert(Target != TARGET_3D || (Target == TARGET_3D && this->layers() == 1 && this->faces() == 1 && this->dimensions().y >= 1 && this->dimensions().z >= 1));
+		assert(Target != TARGET_CUBE || (Target == TARGET_CUBE && this->layers() == 1 && this->faces() >= 1 && this->dimensions().y >= 1 && this->dimensions().z == 1));
+		assert(Target != TARGET_CUBE_ARRAY || (Target == TARGET_CUBE_ARRAY && this->layers() >= 1 && this->faces() >= 1 && this->dimensions().y >= 1 && this->dimensions().z == 1));
+
+		this->build_cache();
+	}
+
+	inline texture::texture
+	(
+		texture const & Texture,
+		target_type Target,
+		format_type Format,
+		swizzles_type const & Swizzles
 	)
 		: Storage(Texture.Storage)
 		, Target(Target)
@@ -73,6 +107,7 @@ namespace gli
 		, BaseLayer(Texture.base_layer()), MaxLayer(Texture.max_layer())
 		, BaseFace(Texture.base_face()), MaxFace(Texture.max_face())
 		, BaseLevel(Texture.base_level()), MaxLevel(Texture.max_level())
+		, Swizzles(Swizzles)
 	{
 		if(this->empty())
 			return;
@@ -88,32 +123,73 @@ namespace gli
 		this->build_cache();
 	}
 
-	inline texture::texture
-	(
-		texture const & Texture,
-		target_type Target,
-		format_type Format,
-		size_type BaseLayer, size_type MaxLayer,
-		size_type BaseFace, size_type MaxFace,
-		size_type BaseLevel, size_type MaxLevel
-	)
-		: Storage(Texture.Storage)
-		, Target(Target)
-		, Format(Format)
-		, BaseLayer(BaseLayer), MaxLayer(MaxLayer)
-		, BaseFace(BaseFace), MaxFace(MaxFace)
-		, BaseLevel(BaseLevel), MaxLevel(MaxLevel)
+	inline bool texture::empty() const
 	{
-		assert(block_size(Format) == block_size(Texture.format()));
-		assert(Target != TARGET_1D || (Target == TARGET_1D && this->layers() == 1 && this->faces() == 1 && this->dimensions().y == 1 && this->dimensions().z == 1));
-		assert(Target != TARGET_1D_ARRAY || (Target == TARGET_1D_ARRAY && this->layers() >= 1 && this->faces() == 1 && this->dimensions().y == 1 && this->dimensions().z == 1));
-		assert(Target != TARGET_2D || (Target == TARGET_2D && this->layers() == 1 && this->faces() == 1 && this->dimensions().y >= 1 && this->dimensions().z == 1));
-		assert(Target != TARGET_2D_ARRAY || (Target == TARGET_2D_ARRAY && this->layers() >= 1 && this->faces() == 1 && this->dimensions().y >= 1 && this->dimensions().z == 1));
-		assert(Target != TARGET_3D || (Target == TARGET_3D && this->layers() == 1 && this->faces() == 1 && this->dimensions().y >= 1 && this->dimensions().z >= 1));
-		assert(Target != TARGET_CUBE || (Target == TARGET_CUBE && this->layers() == 1 && this->faces() >= 1 && this->dimensions().y >= 1 && this->dimensions().z == 1));
-		assert(Target != TARGET_CUBE_ARRAY || (Target == TARGET_CUBE_ARRAY && this->layers() >= 1 && this->faces() >= 1 && this->dimensions().y >= 1 && this->dimensions().z == 1));
+		if(this->Storage.get() == nullptr)
+			return true;
 
-		this->build_cache();
+		return this->Storage->empty();
+	}
+
+	inline texture::format_type texture::format() const
+	{
+		return this->Format;
+	}
+
+	texture::swizzles_type texture::swizzles() const
+	{
+		swizzles_type const FormatSwizzle = detail::get_format_info(this->format()).Swizzles;
+		swizzles_type const CustomSwizzle = this->Swizzles;
+		return swizzles_type(
+			is_channel(CustomSwizzle.r) ? FormatSwizzle[CustomSwizzle.r] : CustomSwizzle.r,
+			is_channel(CustomSwizzle.g) ? FormatSwizzle[CustomSwizzle.g] : CustomSwizzle.g,
+			is_channel(CustomSwizzle.b) ? FormatSwizzle[CustomSwizzle.b] : CustomSwizzle.b,
+			is_channel(CustomSwizzle.a) ? FormatSwizzle[CustomSwizzle.a] : CustomSwizzle.a);
+	}
+
+	inline texture::size_type texture::base_layer() const
+	{
+		return this->BaseLayer;
+	}
+
+	inline texture::size_type texture::max_layer() const
+	{
+		return this->MaxLayer;
+	}
+
+	inline texture::size_type texture::layers() const
+	{
+		return this->max_layer() - this->base_layer() + 1;
+	}
+
+	inline texture::size_type texture::base_face() const
+	{
+		return this->BaseFace;
+	}
+
+	inline texture::size_type texture::max_face() const
+	{
+		return this->MaxFace;
+	}
+
+	inline texture::size_type texture::faces() const
+	{
+		return this->max_face() - this->base_face() + 1;
+	}
+
+	inline texture::size_type texture::base_level() const
+	{
+		return this->BaseLevel;
+	}
+
+	inline texture::size_type texture::max_level() const
+	{
+		return this->MaxLevel;
+	}
+
+	inline texture::size_type texture::levels() const
+	{
+		return this->max_level() - this->base_level() + 1;
 	}
 
 	inline texture::size_type texture::size() const
@@ -212,71 +288,12 @@ namespace gli
 		return reinterpret_cast<genType const *>(this->data(Layer, Face, Level));
 	}
 
-	inline bool texture::empty() const
-	{
-		if(this->Storage.get() == nullptr)
-			return true;
-
-		return this->Storage->empty();
-	}
-
-	inline texture::format_type texture::format() const
-	{
-		return this->Format;
-	}
-
 	inline texture::dim_type texture::dimensions(size_type Level) const
 	{
 		assert(!this->empty());
 
 		return this->Storage->dimensions(this->base_level() + Level);
 		//return this->Storage->block_count(this->base_level() + Level) * block_dimensions(this->format());
-	}
-
-	inline texture::size_type texture::base_layer() const
-	{
-		return this->BaseLayer;
-	}
-
-	inline texture::size_type texture::max_layer() const
-	{
-		return this->MaxLayer;
-	}
-
-	inline texture::size_type texture::layers() const
-	{
-		return this->max_layer() - this->base_layer() + 1;
-	}
-
-	inline texture::size_type texture::base_face() const
-	{
-		return this->BaseFace;
-	}
-
-	inline texture::size_type texture::max_face() const
-	{
-		return this->MaxFace;
-	}
-
-	inline texture::size_type texture::faces() const
-	{
-		//assert(this->max_face() - this->base_face() + 1 == 1);
-		return this->max_face() - this->base_face() + 1;
-	}
-
-	inline texture::size_type texture::base_level() const
-	{
-		return this->BaseLevel;
-	}
-
-	inline texture::size_type texture::max_level() const
-	{
-		return this->MaxLevel;
-	}
-
-	inline texture::size_type texture::levels() const
-	{
-		return this->max_level() - this->base_level() + 1;
 	}
 
 	inline void texture::clear()

@@ -38,8 +38,9 @@ namespace gli
 	{
 	public:
 		typedef size_t size_type;
-		typedef gli::format format_type;
 		typedef gli::target target_type;
+		typedef gli::format format_type;
+		typedef gli::swizzles swizzles_type;
 		typedef storage::dim_type dim_type;
 		typedef storage::data_type data_type;
 
@@ -53,7 +54,8 @@ namespace gli
 			dim_type const & Dimensions,
 			size_type Layers,
 			size_type Faces,
-			size_type Levels);
+			size_type Levels,
+			swizzles_type const & Swizzles = swizzles_type(SWIZZLE_RED, SWIZZLE_GREEN, SWIZZLE_BLUE, SWIZZLE_ALPHA));
 
 		/// Create a texture object by sharing an existing texture storage from another texture instance.
 		/// This texture object is effectively a texture view where the layer, the face and the level allows identifying
@@ -66,7 +68,8 @@ namespace gli
 			format_type Format,
 			size_type BaseLayer, size_type MaxLayer,
 			size_type BaseFace, size_type MaxFace,
-			size_type BaseLevel, size_type MaxLevel);
+			size_type BaseLevel, size_type MaxLevel,
+			swizzles_type const & Swizzles = swizzles_type(SWIZZLE_RED, SWIZZLE_GREEN, SWIZZLE_BLUE, SWIZZLE_ALPHA));
 
 		/// Create a texture object by sharing an existing texture storage from another texture instance.
 		/// This texture object is effectively a texture view where the target and format can be reinterpreted
@@ -74,7 +77,8 @@ namespace gli
 		texture(
 			texture const & Texture,
 			target_type Target,
-			format_type Format);
+			format_type Format,
+			swizzles_type const & Swizzles = swizzles_type(SWIZZLE_RED, SWIZZLE_GREEN, SWIZZLE_BLUE, SWIZZLE_ALPHA));
 
 		virtual ~texture(){}
 
@@ -86,6 +90,8 @@ namespace gli
 
 		/// Return the texture instance format
 		format_type format() const;
+
+		swizzles_type swizzles() const;
 
 		/// Return the base layer of the texture instance, effectively a memory offset in the actual texture storage to identify where to start reading the layers. 
 		size_type base_layer() const;
@@ -188,6 +194,7 @@ namespace gli
 		size_type const MaxFace;
 		size_type const BaseLevel;
 		size_type const MaxLevel;
+		swizzles_type const Swizzles;
 		cache Cache;
 
 	private:

@@ -52,6 +52,23 @@ namespace detail
 		std::uint32_t BytesOfKeyValueData;
 	};
 
+	struct ktxHeader20
+	{
+		std::uint32_t Endianness;
+		std::uint32_t Format;
+		std::uint32_t Target;
+		std::uint32_t SwizzleRed;
+		std::uint32_t SwizzleGreen;
+		std::uint32_t SwizzleBlue;
+		std::uint32_t SwizzleAlpha;
+		std::uint32_t PixelWidth;
+		std::uint32_t PixelHeight;
+		std::uint32_t PixelDepth;
+		std::uint32_t NumberOfLayers;
+		std::uint32_t NumberOfFaces;
+		std::uint32_t NumberOfLevels;
+	};
+
 	inline target getTarget(ktxHeader10 const & Header)
 	{
 		if(Header.NumberOfFaces > 1)

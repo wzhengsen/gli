@@ -300,18 +300,21 @@ namespace gli
 			SWIZZLE_ONE = 0x0001,		//GL_ONE
 		};
 
+		typedef glm::tvec4<int> swizzles;
+
 		struct format
 		{
 			internalFormat Internal;
 			externalFormat External;
 			typeFormat Type;
-			swizzle Swizzle[4];
+			swizzles Swizzles;
 		};
 
 		gl();
 
 		target const & translate(gli::target Target) const;
 		format const & translate(gli::format Format) const;
+		swizzles const & translate(gli::swizzles const & Swizzle) const;
 		gli::format find(internalFormat internalFormat, externalFormat externalFormat, typeFormat type);
 
 	private:
