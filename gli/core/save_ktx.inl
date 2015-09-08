@@ -28,6 +28,7 @@
 
 #include <cstdio>
 #include <glm/gtc/round.hpp>
+#include "../load_ktx.hpp"
 
 namespace gli{
 namespace detail
@@ -55,7 +56,6 @@ namespace detail
 
 		return TotalSize;
 	}
-	
 }//namespace detail
 
 	inline bool save_ktx(texture const & Texture, std::vector<char> & Memory)

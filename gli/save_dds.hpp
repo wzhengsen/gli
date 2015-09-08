@@ -28,7 +28,7 @@
 
 #pragma once
 
-#include "load_dds.hpp"
+#include "texture.hpp"
 
 namespace gli
 {

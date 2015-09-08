@@ -27,6 +27,7 @@
 ///////////////////////////////////////////////////////////////////////////////////
 
 #include "../load_dds.hpp"
+#include "../load_kim.hpp"
 #include "../load_ktx.hpp"
 
 namespace gli
@@ -39,7 +40,14 @@ namespace gli
 				return Texture;
 		}
 		{
-			return load_ktx(Data, Size);
+			texture Texture = load_kim(Data, Size);
+			if(!Texture.empty())
+				return Texture;
+		}
+		{
+			texture Texture = load_ktx(Data, Size);
+			if(!Texture.empty())
+				return Texture;
 		}
 	}
 
