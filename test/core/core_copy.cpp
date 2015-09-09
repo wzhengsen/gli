@@ -422,7 +422,7 @@ int main()
 	FormatsA.push_back(gli::FORMAT_RGBA8_UNORM);
 	FormatsA.push_back(gli::FORMAT_RGB8_UNORM);
 	FormatsA.push_back(gli::FORMAT_RGB_DXT1_UNORM);
-	FormatsA.push_back(gli::FORMAT_RGB_BP_UNORM);
+	FormatsA.push_back(gli::FORMAT_RGBA_BP_UNORM);
 	FormatsA.push_back(gli::FORMAT_RGBA32_SFLOAT);
 
 	std::vector<gli::format> FormatsB;

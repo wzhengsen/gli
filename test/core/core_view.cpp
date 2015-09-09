@@ -441,7 +441,7 @@ namespace dim
 		FormatsA.push_back(gli::FORMAT_R8_SNORM);
 		FormatsA.push_back(gli::FORMAT_RGBA32_SFLOAT);
 		FormatsA.push_back(gli::FORMAT_RGB_DXT1_UNORM);
-		FormatsA.push_back(gli::FORMAT_RGB_BP_UNORM);
+		FormatsA.push_back(gli::FORMAT_RGBA_BP_UNORM);
 
 		// 1D textures don't support compressed formats
 		std::vector<gli::format> FormatsB;

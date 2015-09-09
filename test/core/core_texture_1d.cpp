@@ -37,7 +37,7 @@ int test_alloc()
 	Formats.push_back(gli::FORMAT_RGB8_UNORM);
 	Formats.push_back(gli::FORMAT_R8_SNORM);
 	Formats.push_back(gli::FORMAT_RGB_DXT1_UNORM);
-	Formats.push_back(gli::FORMAT_RGB_BP_UNORM);
+	Formats.push_back(gli::FORMAT_RGBA_BP_UNORM);
 	Formats.push_back(gli::FORMAT_RGBA32_SFLOAT);
 
 	std::vector<std::size_t> Sizes;
