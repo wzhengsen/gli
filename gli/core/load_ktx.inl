@@ -54,9 +54,8 @@ namespace detail
 
 	struct ktxHeader20
 	{
-		std::uint32_t Endianness;
-		std::uint32_t Format;
 		std::uint32_t Target;
+		std::uint32_t Format;
 		std::uint32_t SwizzleRed;
 		std::uint32_t SwizzleGreen;
 		std::uint32_t SwizzleBlue;
@@ -67,6 +66,7 @@ namespace detail
 		std::uint32_t NumberOfLayers;
 		std::uint32_t NumberOfFaces;
 		std::uint32_t NumberOfLevels;
+		std::uint32_t BytesOfKeyValueData;
 	};
 
 	inline target getTarget(ktxHeader10 const & Header)
