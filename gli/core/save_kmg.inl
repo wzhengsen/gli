@@ -29,6 +29,7 @@
 #include <cstdio>
 #include <glm/gtc/round.hpp>
 #include "../load_kmg.hpp"
+#include "../filter.hpp"
 
 namespace gli
 {
@@ -59,6 +60,9 @@ namespace gli
 		Header.Layers = static_cast<std::uint32_t>(Texture.layers());
 		Header.Levels = static_cast<std::uint32_t>(Texture.levels());
 		Header.Faces = static_cast<std::uint32_t>(Texture.faces());
+		Header.GenerateMipmaps = FILTER_NONE;
+		Header.BaseLevel = Texture.base_level();
+		Header.MaxLevel = Texture.max_level();
 
 		Offset += sizeof(detail::kmgHeader10);
 

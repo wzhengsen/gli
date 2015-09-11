@@ -50,6 +50,8 @@ namespace detail
 		std::uint32_t Levels;
 		std::uint32_t Faces;
 		std::uint32_t GenerateMipmaps;
+		std::uint32_t BaseLevel;
+		std::uint32_t MaxLevel;
 	};
 
 	inline texture load_kmg100(char const * Data, std::size_t Size)
@@ -84,7 +86,12 @@ namespace detail
 			}
 		}
 
-		return Texture;
+		return texture(
+			Texture, Texture.target(), Texture.format(),
+			Texture.base_layer(), Texture.max_layer(),
+			Texture.base_face(), Texture.max_face(),
+			Header.BaseLevel, Header.MaxLevel, 
+			Texture.swizzles());
 	}
 }//namespace detail
 
