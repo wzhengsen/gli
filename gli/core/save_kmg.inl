@@ -21,31 +21,32 @@
 /// THE SOFTWARE.
 ///
 /// @ref core
-/// @file gli/core/save_ktx.inl
+/// @file gli/core/save_kmg.inl
 /// @date 2015-08-05 / 2015-08-05
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
 #include <cstdio>
 #include <glm/gtc/round.hpp>
-#include "../load_kim.hpp"
+#include "../load_kmg.hpp"
 
 namespace gli
 {
-	inline bool save_kim(texture const & Texture, std::vector<char> & Memory)
+	inline bool save_kmg(texture const & Texture, std::vector<char> & Memory)
 	{
 		if(Texture.empty())
 			return false;
 
-		Memory.resize(sizeof(detail::FOURCC_KIM10) + sizeof(detail::kimHeader10) + Texture.size());
+		Memory.resize(sizeof(detail::FOURCC_KMG100) + sizeof(detail::kmgHeader10) + Texture.size());
 
-		std::memcpy(&Memory[0], detail::FOURCC_KIM10, sizeof(detail::FOURCC_KIM10));
+		std::memcpy(&Memory[0], detail::FOURCC_KMG100, sizeof(detail::FOURCC_KMG100));
 
-		std::size_t Offset = sizeof(detail::FOURCC_KIM10);
+		std::size_t Offset = sizeof(detail::FOURCC_KMG100);
 
 		texture::swizzles_type Swizzle = Texture.swizzles();
 
-		detail::kimHeader10 & Header = *reinterpret_cast<detail::kimHeader10*>(&Memory[0] + Offset);
+		detail::kmgHeader10 & Header = *reinterpret_cast<detail::kmgHeader10*>(&Memory[0] + Offset);
+		Header.Endianness = 0x04030201;
 		Header.Format = Texture.format();
 		Header.Target = Texture.target();
 		Header.SwizzleRed = Swizzle[0];
@@ -59,7 +60,7 @@ namespace gli
 		Header.Levels = static_cast<std::uint32_t>(Texture.levels());
 		Header.Faces = static_cast<std::uint32_t>(Texture.faces());
 
-		Offset += sizeof(detail::kimHeader10);
+		Offset += sizeof(detail::kmgHeader10);
 
 		for(std::size_t Layer = 0, Layers = Texture.layers(); Layer < Layers; ++Layer)
 		for(std::size_t Level = 0, Levels = Texture.levels(); Level < Levels; ++Level)
@@ -78,7 +79,7 @@ namespace gli
 		return true;
 	}
 
-	inline bool save_kim(texture const & Texture, char const * Filename)
+	inline bool save_kmg(texture const & Texture, char const * Filename)
 	{
 		if(Texture.empty())
 			return false;
@@ -88,7 +89,7 @@ namespace gli
 			return false;
 
 		std::vector<char> Memory;
-		bool const Result = save_kim(Texture, Memory);
+		bool const Result = save_kmg(Texture, Memory);
 
 		std::fwrite(&Memory[0], 1, Memory.size(), File);
 		std::fclose(File);
@@ -96,8 +97,8 @@ namespace gli
 		return Result;
 	}
 
-	inline bool save_kim(texture const & Texture, std::string const & Filename)
+	inline bool save_kmg(texture const & Texture, std::string const & Filename)
 	{
-		return save_kim(Texture, Filename.c_str());
+		return save_kmg(Texture, Filename.c_str());
 	}
 }//namespace gli

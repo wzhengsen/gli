@@ -21,7 +21,7 @@
 /// THE SOFTWARE.
 ///
 /// @ref core
-/// @file gli/load_kim.hpp
+/// @file gli/save_kmg.hpp
 /// @date 2015-08-05 / 2015-08-05
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
@@ -32,20 +32,25 @@
 
 namespace gli
 {
-	/// Loads a texture storage from KIM (Khronos Image) file. Returns an empty storage in case of failure.
-	///
-	/// @param Path Path of the file to open including filaname and filename extension
-	texture load_kim(char const * Path);
+	/// Save a texture storage to a KMG (Khronos Image) file.
+	/// 
+	/// @param Path Path for where to save the file. It must include the filaname and filename extension.
+	/// This function ignores the filename extension in the path and save to KMG anyway but keep the requested filename extension.
+	/// @return Returns false if the function fails to save the file.
+	bool save_kmg(texture const & Texture, char const * Path);
 
-	/// Loads a texture storage from KIM (Khronos Image) file. Returns an empty storage in case of failure.
-	///
-	/// @param Path Path of the file to open including filaname and filename extension
-	texture load_kim(std::string const & Filename);
+	/// Save a texture storage to a KMG (Khronos Image) file.
+	/// 
+	/// @param Path Path for where to save the file. It must include the filaname and filename extension.
+	/// This function ignores the filename extension in the path and save to KMG anyway but keep the requested filename extension.
+	/// @return Returns false if the function fails to save the file.
+	bool save_kmg(texture const & Texture, std::string const & Path);
 
-	/// Loads a texture storage from KIM (Khronos Image) memory. Returns an empty storage in case of failure.
-	///
-	/// @param Path Path of the file to open including filaname and filename extension
-	texture load_kim(char const * Data, std::size_t Size);
+	/// Save a texture storage to a KMG (Khronos Image) file.
+	/// 
+	/// @param Memory Storage for the KMG container. The function resizes the containers to fit the necessary storage.
+	/// @return Returns false if the function fails to save the file.
+	bool save_kmg(texture const & Texture, std::vector<char> & Memory);
 }//namespace gli
 
-#include "./core/load_kim.inl"
+#include "./core/save_kmg.inl"

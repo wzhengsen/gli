@@ -81,6 +81,7 @@
 <h2>File Structure</h2>
 <pre class="pseudo-code">
 Byte[12] Identifier
+UInt32 Endianness
 UInt32 Target
 UInt32 Format
 UInt32 SwizzleRed
@@ -150,6 +151,11 @@ end
   <li>Byte [11] is a final line feed, which checks for the inverse of the CR-LF 
     translation problem.</li>
 </ul>
+
+<h3>Endianness</h3>
+<p>
+  <code>Endianness</code> contains the number <code>0x04030201</code> written as a 32 bit integer. If the file is little endian then this is represented as the bytes <code>0x01 0x02 0x03 0x04</code>. If the file is big endian then this is represented as the bytes <code>0x04 0x03 0x02 0x01</code>. When reading endianness as a 32 bit integer produces the value 0x04030201 then the endianness of the file matches the endianness of the program that is reading the file and no conversion is necessary. When reading endianness as a 32 bit integer produces the value <code>0x01020304</code> then the endianness of the file is opposite the endianness of the program that is reading the file, and in that case the program reading the file must endian convert all header bytes to the endianness of the program (i.e. a little endian program must convert from big endian, and a big endian program must convert to little endian).
+</p>
 
 <h3>Target</h3>
 <p>

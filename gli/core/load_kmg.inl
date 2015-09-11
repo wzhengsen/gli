@@ -21,7 +21,7 @@
 /// THE SOFTWARE.
 ///
 /// @ref core
-/// @file gli/core/load_kim.inl
+/// @file gli/core/load_kmg.inl
 /// @date 2015-09-08 / 2015-09-08
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
@@ -32,9 +32,9 @@
 namespace gli{
 namespace detail
 {
-	static unsigned char const FOURCC_KIM10[] = {0xAB, 0x4B, 0x49, 0x4D, 0x20, 0x31, 0x31, 0xBB, 0x0D, 0x0A, 0x1A, 0x0A};
+	static unsigned char const FOURCC_KMG100[] = {0xAB, 0x4B, 0x49, 0x4D, 0x20, 0x31, 0x31, 0xBB, 0x0D, 0x0A, 0x1A, 0x0A};
 
-	struct kimHeader10
+	struct kmgHeader10
 	{
 		std::uint32_t Endianness;
 		std::uint32_t Format;
@@ -52,11 +52,11 @@ namespace detail
 		std::uint32_t GenerateMipmaps;
 	};
 
-	inline texture load_kim10(char const * Data, std::size_t Size)
+	inline texture load_kmg100(char const * Data, std::size_t Size)
 	{
-		detail::kimHeader10 const & Header(*reinterpret_cast<detail::kimHeader10 const *>(Data));
+		detail::kmgHeader10 const & Header(*reinterpret_cast<detail::kmgHeader10 const *>(Data));
 
-		size_t Offset = sizeof(detail::kimHeader10);
+		size_t Offset = sizeof(detail::kmgHeader10);
 
 		texture Texture(
 			static_cast<target>(Header.Target),
@@ -88,20 +88,20 @@ namespace detail
 	}
 }//namespace detail
 
-	inline texture load_kim(char const * Data, std::size_t Size)
+	inline texture load_kmg(char const * Data, std::size_t Size)
 	{
-		assert(Data && (Size >= sizeof(detail::kimHeader10)));
+		assert(Data && (Size >= sizeof(detail::kmgHeader10)));
 
-		// KIM10
+		// KMG100
 		{
-			if(memcmp(Data, detail::FOURCC_KIM10, sizeof(detail::FOURCC_KIM10)) == 0)
-				return detail::load_kim10(Data + sizeof(detail::FOURCC_KIM10), Size - sizeof(detail::FOURCC_KIM10));
+			if(memcmp(Data, detail::FOURCC_KMG100, sizeof(detail::FOURCC_KMG100)) == 0)
+				return detail::load_kmg100(Data + sizeof(detail::FOURCC_KMG100), Size - sizeof(detail::FOURCC_KMG100));
 		}
 
 		return texture();
 	}
 
-	inline texture load_kim(char const * Filename)
+	inline texture load_kmg(char const * Filename)
 	{
 		FILE* File = std::fopen(Filename, "rb");
 		if(!File)
@@ -117,11 +117,11 @@ namespace detail
 		std::fread(&Data[0], 1, Data.size(), File);
 		std::fclose(File);
 
-		return load_kim(&Data[0], Data.size());
+		return load_kmg(&Data[0], Data.size());
 	}
 
-	inline texture load_kim(std::string const & Filename)
+	inline texture load_kmg(std::string const & Filename)
 	{
-		return load_kim(Filename.c_str());
+		return load_kmg(Filename.c_str());
 	}
 }//namespace gli

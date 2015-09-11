@@ -27,7 +27,7 @@
 ///////////////////////////////////////////////////////////////////////////////////
 
 #include "../save_dds.hpp"
-#include "../save_kim.hpp"
+#include "../save_kmg.hpp"
 #include "../save_ktx.hpp"
 
 namespace gli
@@ -41,8 +41,8 @@ namespace gli
 	{
 		if(Path.rfind(".dds") != std::string::npos)
 			return save_dds(Texture, Path);
-		if(Path.rfind(".kim") != std::string::npos)
-			return save_kim(Texture, Path);
+		if(Path.rfind(".kmg") != std::string::npos)
+			return save_kmg(Texture, Path);
 		if(Path.rfind(".ktx") != std::string::npos)
 			return save_ktx(Texture, Path);
 		return false;
