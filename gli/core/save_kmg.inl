@@ -61,8 +61,8 @@ namespace gli
 		Header.Levels = static_cast<std::uint32_t>(Texture.levels());
 		Header.Faces = static_cast<std::uint32_t>(Texture.faces());
 		Header.GenerateMipmaps = FILTER_NONE;
-		Header.BaseLevel = Texture.base_level();
-		Header.MaxLevel = Texture.max_level();
+		Header.BaseLevel = static_cast<std::uint32_t>(Texture.base_level());
+		Header.MaxLevel = static_cast<std::uint32_t>(Texture.max_level());
 
 		Offset += sizeof(detail::kmgHeader10);
 
@@ -75,7 +75,6 @@ namespace gli
 				std::memcpy(&Memory[0] + Offset, Texture.data(Layer, Face, Level), FaceSize);
 
 				Offset += FaceSize;
-
 				assert(Offset <= Memory.size());
 			}
 		}

@@ -41,7 +41,7 @@ namespace
 	}
 }//namespace
 
-namespace load_file
+namespace load_file_ktx
 {
 	int test(std::string const & Filename)
 	{
@@ -58,7 +58,45 @@ namespace load_file
 
 		return Error;
 	}
-}//namespace load_file
+}//namespace load_file_ktx
+
+namespace load_file_kmg
+{
+	int test(std::string const & Filename)
+	{
+		int Error(0);
+
+		gli::texture2D TextureKTX(gli::load(path(Filename, ".ktx")));
+		gli::save(TextureKTX, Filename + ".kmg");
+		gli::texture2D TextureSavedKMG(gli::load(Filename + ".kmg"));
+		gli::save(TextureKTX, Filename + ".ktx");
+		gli::texture2D TextureSavedKTX(gli::load(Filename + ".ktx"));
+
+		Error += TextureSavedKMG == TextureKTX ? 0 : 1;
+		Error += TextureSavedKTX == TextureKTX ? 0 : 1;
+
+		return Error;
+	}
+}//namespace load_file_kmg
+
+namespace load_file_dds
+{
+	int test(std::string const & Filename)
+	{
+		int Error(0);
+
+		gli::texture2D TextureDDS(gli::load(path(Filename, ".dds")));
+		gli::save(TextureDDS, Filename + ".kmg");
+		gli::texture2D TextureSavedKMG(gli::load(Filename + ".kmg"));
+		gli::save(TextureDDS, Filename + ".dds");
+		gli::texture2D TextureSavedDDS(gli::load(Filename + ".dds"));
+
+		Error += TextureSavedKMG == TextureDDS ? 0 : 1;
+		Error += TextureSavedDDS == TextureDDS ? 0 : 1;
+
+		return Error;
+	}
+}//namespace load_file_dds
 
 int main()
 {
@@ -74,7 +112,11 @@ int main()
 
 	{
 		for(std::size_t Index = 0; Index < Filenames.size(); ++Index)
-			Error += load_file::test(Filenames[Index]);
+		{
+			Error += load_file_ktx::test(Filenames[Index]);
+			Error += load_file_kmg::test(Filenames[Index]);
+			Error += load_file_dds::test(Filenames[Index]);
+		}
 	}
 
 	return Error;

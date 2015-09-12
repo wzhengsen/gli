@@ -179,7 +179,7 @@ end
   <code>Format</code> must be one of the following values:
 </p>
 <table class="foo">
-    <tr><th>Name</th><th>Value</th><th>Description</th><th>Reference</th></tr>
+    <tr><th>Name</th><th>Value</th><th>Comment</th><th>Reference</th></tr>
     <tr><td><code>FORMAT_RG4_UNORM</code></td><td>1</td><td></td><td></td></tr>
     <tr><td><code>FORMAT_RG4_USCALED</code></td><td>2</td><td></td><td></td></tr>
     <tr><td><code>FORMAT_RGBA4_UNORM</code></td><td>3</td><td></td><td></td></tr>
@@ -368,23 +368,54 @@ end
     <tr><td><code>FORMAT_L16_UNORM</code></td><td>182</td><td></td><td></td></tr>
     <tr><td><code>FORMAT_A16_UNORM</code></td><td>183</td><td></td><td></td></tr>
     <tr><td><code>FORMAT_LA16_UNORM</code></td><td>184</td><td></td><td></td></tr>
-    <tr><td><code>FORMAT_RGB_PVRTC1_8X8_UNORM</code></td><td>185</td><td></td><td> <a href="#refsPVRTC1">[PVRTC1]</a></td></tr>
-    <tr><td><code>FORMAT_RGB_PVRTC1_8X8_SRGB</code></td><td>186</td><td></td><td> <a href="#refsPVRTC1SRGB">[PVRTC1_SRGB]</a></td></tr>
-    <tr><td><code>FORMAT_RGB_PVRTC1_16X8_UNORM</code></td><td>187</td><td></td><td> <a href="#refsPVRTC1">[PVRTC1]</a></td></tr>
-    <tr><td><code>FORMAT_RGB_PVRTC1_16X8_SRGB</code></td><td>188</td><td></td><td> <a href="#refsPVRTC1SRGB">[PVRTC1_SRGB]</a></td></tr>
-    <tr><td><code>FORMAT_RGBA_PVRTC1_8X8_UNORM</code></td><td>189</td><td></td><td> <a href="#refsPVRTC1">[PVRTC1]</a></td></tr>
-    <tr><td><code>FORMAT_RGBA_PVRTC1_8X8_SRGB</code></td><td>190</td><td></td><td> <a href="#refsPVRTC1SRGB">[PVRTC1_SRGB]</a></td></tr>
-    <tr><td><code>FORMAT_RGBA_PVRTC1_16X8_UNORM</code></td><td>191</td><td></td><td> <a href="#refsPVRTC1">[PVRTC1]</a></td></tr>
-    <tr><td><code>FORMAT_RGBA_PVRTC1_16X8_SRGB</code></td><td>192</td><td></td><td> <a href="#refsPVRTC1SRGB">[PVRTC1_SRGB]</a></td></tr>
-    <tr><td><code>FORMAT_RGBA_PVRTC2_4X4_UNORM</code></td><td>193</td><td></td><td> <a href="#refsPVRTC2">[PVRTC2]</a></td></tr>
-    <tr><td><code>FORMAT_RGBA_PVRTC2_4X4_SRGB</code></td><td>194</td><td></td><td> <a href="#refsPVRTC2SRGB">[PVRTC2_SRGB]</a></td></tr>
-    <tr><td><code>FORMAT_RGBA_PVRTC2_8X4_UNORM</code></td><td>195</td><td></td><td> <a href="#refsPVRTC2">[PVRTC2]</a></td></tr>
-    <tr><td><code>FORMAT_RGBA_PVRTC2_8X4_SRGB</code></td><td>196</td><td></td><td> <a href="#refsPVRTC2SRGB">[PVRTC2_SRGB]</a></td></tr>
+    <tr><td><code>FORMAT_RGB_PVRTC1_8X8_UNORM</code></td><td>185</td><td>4 bits per pixel format</td><td> <a href="#refsPVRTC1">[PVRTC1]</a></td></tr>
+    <tr><td><code>FORMAT_RGB_PVRTC1_8X8_SRGB</code></td><td>186</td><td>4 bits per pixel format</td><td> <a href="#refsPVRTC1SRGB">[PVRTC1_SRGB]</a></td></tr>
+    <tr><td><code>FORMAT_RGB_PVRTC1_16X8_UNORM</code></td><td>187</td><td>2 bits per pixel format</td><td> <a href="#refsPVRTC1">[PVRTC1]</a></td></tr>
+    <tr><td><code>FORMAT_RGB_PVRTC1_16X8_SRGB</code></td><td>188</td><td>2 bits per pixel format</td><td> <a href="#refsPVRTC1SRGB">[PVRTC1_SRGB]</a></td></tr>
+    <tr><td><code>FORMAT_RGBA_PVRTC1_8X8_UNORM</code></td><td>189</td><td>4 bits per pixel format</td><td> <a href="#refsPVRTC1">[PVRTC1]</a></td></tr>
+    <tr><td><code>FORMAT_RGBA_PVRTC1_8X8_SRGB</code></td><td>190</td><td>4 bits per pixel format</td><td> <a href="#refsPVRTC1SRGB">[PVRTC1_SRGB]</a></td></tr>
+    <tr><td><code>FORMAT_RGBA_PVRTC1_16X8_UNORM</code></td><td>191</td><td>2 bits per pixel format</td><td> <a href="#refsPVRTC1">[PVRTC1]</a></td></tr>
+    <tr><td><code>FORMAT_RGBA_PVRTC1_16X8_SRGB</code></td><td>192</td><td>2 bits per pixel format</td><td> <a href="#refsPVRTC1SRGB">[PVRTC1_SRGB]</a></td></tr>
+    <tr><td><code>FORMAT_RGBA_PVRTC2_4X4_UNORM</code></td><td>193</td><td>4 bits per pixel format</td><td> <a href="#refsPVRTC2">[PVRTC2]</a></td></tr>
+    <tr><td><code>FORMAT_RGBA_PVRTC2_4X4_SRGB</code></td><td>194</td><td>4 bits per pixel format</td><td> <a href="#refsPVRTC2SRGB">[PVRTC2_SRGB]</a></td></tr>
+    <tr><td><code>FORMAT_RGBA_PVRTC2_8X4_UNORM</code></td><td>195</td><td>2 bits per pixel format</td><td> <a href="#refsPVRTC2">[PVRTC2]</a></td></tr>
+    <tr><td><code>FORMAT_RGBA_PVRTC2_8X4_SRGB</code></td><td>196</td><td>2 bits per pixel format</td><td> <a href="#refsPVRTC2SRGB">[PVRTC2_SRGB]</a></td></tr>
     <tr><td><code>FORMAT_RGB_ETC_UNORM</code></td><td>197</td><td></td><td> <a href="#refsETC1">[ETC1]</a></td></tr>
     <tr><td><code>FORMAT_RGB_ATC_UNORM</code></td><td>198</td><td></td><td> <a href="#refsATC">[ATC]</a></td></tr>
     <tr><td><code>FORMAT_RGBA_ATC_EXPLICIT_UNORM</code></td><td>199</td><td></td><td> <a href="#refsATC">[ATC]</a></td></tr>
     <tr><td><code>FORMAT_RGBA_ATC_INTERPOLATED_UNORM</code></td><td>200</td><td></td><td> <a href="#refsATC">[ATC]</a></td></tr>
 </table>
+<p>
+  The channels exposed by the formats are exposed using the following letters:
+</p>
+<ul>
+<li><code>R</code>: Red channel.</li>
+<li><code>G</code>: Green channel.</li>
+<li><code>B</code>: Blue channel.</li>
+<li><code>A</code>: Alpha channel.</li>
+<li><code>D</code>: Depth channel.</li>
+<li><code>S</code>: Stencil channel.</li>
+<li><code>L</code>: Luminance channel. When converted to RGB, the channel value is copied to each RGB component.</li>
+<li><code>X</code>: Memory padding, eg: BGR 8 bits per channel stored in 32 bits where 8 bits are meant to be ignored.</li>
+</ul>
+<p>
+  
+</p>
+
+<p>
+  The following postfixs are used to describ properties of the format:
+</p>
+<ul>
+<li><code>UNORM</code>: Unsigned interger data sampled with border values clamped as unsigned normalized float</li>
+<li><code>SNORM</code>: Signed interger data sampled with border values clamped as signed normalized float</li>
+<li><code>USCALE</code>: Unsigned interger data sampled with border values clamped as unsigned scaled float</li>
+<li><code>SSCALE</code>: Signed interger data sampled with border values clamped as signed scaled float</li>
+<li><code>UINT</code>: Unsigned interger data sampled as unsigned interger</li>
+<li><code>SINT</code>: Signed interger data sampled as signed interger</li>
+<li><code>UFLOAT</code>: Floating point value without signed bit data</li>
+<li><code>SFLOAT</code>: Floating point value data</li>
+<li><code>SRGB</code>: Standardized non-linear unsigned integer data with roughly a 2.2 gamma correction data (IEC 61966-2-1) sampled with border values clamped as unsigned normalized float</li>
+</ul>
 
 <h3>SwizzleRed, SwizzleGreen, SwizzleBlue, SwizzleAlpha</h3>
 <p>

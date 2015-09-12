@@ -69,20 +69,16 @@ namespace detail
 			Header.Faces,
 			texture::swizzles_type(Header.SwizzleRed, Header.SwizzleGreen, Header.SwizzleBlue, Header.SwizzleAlpha));
 
+		for(std::size_t Layer = 0, Layers = Texture.layers(); Layer < Layers; ++Layer)
 		for(std::size_t Level = 0, Levels = Texture.levels(); Level < Levels; ++Level)
 		{
-			Offset += sizeof(std::uint32_t);
-
-			for(std::size_t Layer = 0, Layers = Texture.layers(); Layer < Layers; ++Layer)
+			std::uint32_t const FaceSize = static_cast<std::uint32_t>(Texture.size(Level));
+			for(std::size_t Face = 0, Faces = Texture.faces(); Face < Faces; ++Face)
 			{
-				for(std::size_t Face = 0, Faces = Texture.faces(); Face < Faces; ++Face)
-				{
-					std::uint32_t const FaceSize = static_cast<std::uint32_t>(Texture.size(Level));
+				std::memcpy(Texture.data(Layer, Face, Level), Data + Offset, FaceSize);
 
-					std::memcpy(Texture.data(Layer, Face, Level), Data + Offset, FaceSize);
-
-					Offset += FaceSize;
-				}
+				Offset += FaceSize;
+				assert(Offset <= Size);
 			}
 		}
 
