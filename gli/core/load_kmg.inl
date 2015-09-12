@@ -65,8 +65,8 @@ namespace detail
 			static_cast<format>(Header.Format),
 			texture::dim_type(Header.PixelWidth, Header.PixelHeight, Header.PixelDepth),
 			Header.Layers,
-			Header.Levels,
 			Header.Faces,
+			Header.Levels,
 			texture::swizzles_type(Header.SwizzleRed, Header.SwizzleGreen, Header.SwizzleBlue, Header.SwizzleAlpha));
 
 		for(std::size_t Layer = 0, Layers = Texture.layers(); Layer < Layers; ++Layer)
