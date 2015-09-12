@@ -95,17 +95,6 @@ namespace detail
 		WRAP_COUNT = WRAP_LAST - WRAP_FIRST + 1
 	};
 
-	enum filter
-	{
-		FILTER_NEAREST, FILTER_FIRST = FILTER_NEAREST,
-		FILTER_LINEAR, FILTER_LAST = FILTER_LINEAR,
-	};
-
-	enum
-	{
-		FILTER_COUNT = FILTER_LAST - FILTER_FIRST + 1
-	};
-
 	template <typename genType>
 	class sampler
 	{
@@ -150,6 +139,7 @@ namespace detail
 		{
 			static textureLodFunc Table[] =
 			{
+				nullptr,
 				detail::textureLodNearest,
 				detail::textureLodLinear
 			};
