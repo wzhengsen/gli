@@ -148,105 +148,71 @@ namespace detail
 			return Table[Filter];
 		}
 
-		enum level
-		{
-			LEVEL_FIRST,
-			LEVEL_LAST
-		};
-
-		enum
-		{
-			LEVEL_COUNT = LEVEL_LAST - LEVEL_FIRST + 1
-		};
-
 		struct cache
 		{
-			genType* TexelData;
-			texture2D::size_type TexelSize;
-			texture2D::dim_type TexelDim;
-			texture2D::size_type TexelLevel;
+			genType* Data;
+			texture2D::size_type Size;
+			texture2D::dim_type Dim;
 		};
 
 	public:
-		sampler2D(texture2D const & Texture, wrap Wrap, filter Mip, filter Min, genType const & BorderColor/*, filter Mag, filter Min, filter Mip*/)
+		sampler2D(texture Texture, wrap Wrap, filter Mip, filter Min, genType const & BorderColor/*, filter Mag, filter Min, filter Mip*/)
 			: sampler<genType>(Wrap, Texture.levels() > 1 ? Mip : FILTER_NEAREST, Min)
 			, Texture(Texture)
-			, Level(0)
+			, Caches(Texture.levels())
 			, TextureLodFunc(getFunc(Min))
 			, BorderColor(BorderColor)
 		{
 			assert(!Texture.empty());
 			assert(!is_compressed(Texture.format()));
 
-			this->updateCacheLevel(0);
+			for(std::size_t Level = 0; Level < this->Caches.size(); ++Level)
+			{
+				this->Caches[Level].Data = Texture.data<genType>(0, 0, Level);
+				this->Caches[Level].Size = Texture.size<genType>(Level);
+				this->Caches[Level].Dim = texture2D::dim_type(Texture.dimensions(Level));
+			}
 		}
 
 		genType texel_fetch(texture2D::dim_type const & TexelCoord, texture2D::size_type const & Level)
 		{
-			if(this->Levels[LEVEL_FIRST] != Level)
-				this->updateCacheLevel(Level);
+			std::size_t const Offset = TexelCoord.x + TexelCoord.y * this->Caches[Level].Dim.x;
+			assert(Index < this->Caches[Level].Size);
 
-			std::size_t const Index = TexelCoord.x + TexelCoord.y * this->Caches[LEVEL_FIRST].TexelDim.x;
-			assert(Index < this->Caches[LEVEL_FIRST].TexelSize);
-
-			return *(this->Caches[LEVEL_FIRST].TexelData + Index);
+			return *(this->Caches[Level].Data + Offset);
 		}
 
 		void texel_write(texture2D::dim_type const & TexelCoord, texture2D::size_type const & Level, genType const & Color)
 		{
-			if(this->Levels[LEVEL_FIRST] != Level)
-				this->updateCacheLevel(Level);
+			std::size_t const Offset = TexelCoord.x + TexelCoord.y * this->Caches[Level].Dim.x;
+			assert(Offset < this->Caches[Level].Size);
 
-			std::size_t const Index = TexelCoord.x + TexelCoord.y * this->Caches[LEVEL_FIRST].TexelDim.x;
-			assert(Index < this->Caches[LEVEL_FIRST].TexelSize);
-
-			*(this->Caches[LEVEL_FIRST].TexelData + Index) = Color;
+			*(this->Caches[Level].Data + Offset) = Color;
 		}
 
 		genType texture_lod(texture2D::texcoord_type const & Texcoord, float Level)
 		{
 			texture2D::texcoord_type const TexcoordWrap(this->WrapFunc(Texcoord.x), this->WrapFunc(Texcoord.y));
 
-			if(this->Level != Level)
-				this->updateCacheMips(Level);
+			int const minLod = int(glm::floor(Level));
+			int const maxLod = int(glm::ceil(Level));
 
-			return this->TextureLodFunc(this->Caches[LEVEL_FIRST].TexelData, this->Caches[LEVEL_FIRST].TexelDim, TexcoordWrap, this->BorderColor);
+			if(this->Mip == FILTER_LINEAR)
+			{
+				genType const minTexel = this->TextureLodFunc(this->Caches[minLod].Data, this->Caches[minLod].Dim, TexcoordWrap, this->BorderColor);
+				genType const maxTexel = this->TextureLodFunc(this->Caches[maxLod].Data, this->Caches[maxLod].Dim, TexcoordWrap, this->BorderColor);
+				return genType(mix(minTexel, maxTexel, glm::fract(Level)));
+			}
+			else
+			{
+				int const lod = int(glm::round(Level));
+				return genType(this->TextureLodFunc(this->Caches[lod].Data, this->Caches[lod].Dim, TexcoordWrap, this->BorderColor));
+			}
 		}
 
 	private:
-		void updateCacheLevel(std::size_t Level)
-		{
-			this->Levels[LEVEL_FIRST] = Level;
-			this->Levels[LEVEL_LAST] = Level;
-
-			this->Caches[LEVEL_FIRST].TexelData = this->Caches[LEVEL_LAST].TexelData = Texture[Level].template data<genType>();
-			this->Caches[LEVEL_FIRST].TexelSize = this->Caches[LEVEL_LAST].TexelSize = Texture[Level].template size<genType>();
-			this->Caches[LEVEL_FIRST].TexelDim = this->Caches[LEVEL_LAST].TexelDim = texture2D::dim_type(Texture[Level].dimensions());
-		}
-
-		void updateCacheMips(float Level)
-		{
-			this->Level = Level;
-
-			std::size_t const LevelFirst = static_cast<std::size_t>(this->Mip == FILTER_NEAREST ? glm::round(Level) : glm::floor(Level));
-			std::size_t const LevelLast = static_cast<std::size_t>(this->Mip == FILTER_NEAREST ? glm::round(Level) : glm::ceil(Level));
-
-			this->Levels[LEVEL_FIRST] = LevelFirst;
-			this->Levels[LEVEL_LAST] = LevelLast;
-
-			this->Caches[LEVEL_FIRST].TexelData = Texture[LevelFirst].template data<genType>();
-			this->Caches[LEVEL_FIRST].TexelSize = Texture[LevelFirst].template size<genType>();
-			this->Caches[LEVEL_FIRST].TexelDim = texture2D::dim_type(Texture[LevelFirst].dimensions());
-
-			this->Caches[LEVEL_LAST].TexelData = LevelFirst == LevelLast ? this->Caches[LEVEL_FIRST].TexelData : Texture[LevelLast].template data<genType>();
-			this->Caches[LEVEL_LAST].TexelSize = LevelFirst == LevelLast ? this->Caches[LEVEL_FIRST].TexelSize : Texture[LevelLast].template size<genType>();
-			this->Caches[LEVEL_LAST].TexelDim = LevelFirst == LevelLast ? this->Caches[LEVEL_FIRST].TexelDim : texture2D::dim_type(Texture[LevelLast].dimensions());
-		}
-
-		texture2D const & Texture;
-		float Level;
-		std::array<std::size_t, LEVEL_COUNT> Levels;
-		std::array<cache, LEVEL_COUNT> Caches;
+		texture Texture;
+		std::vector<cache> Caches;
 		textureLodFunc TextureLodFunc;
 		genType BorderColor;
 	};
@@ -277,6 +243,15 @@ namespace fetch
 		glm::u8vec4 Data6 = Texture.fetch<glm::u8vec4>(gli::texture2D::dim_type(2, 1), 0);
 		glm::u8vec4 Data7 = Texture.fetch<glm::u8vec4>(gli::texture2D::dim_type(3, 1), 0);
 
+		Error += Data0 == glm::u8vec4(255,   0,   0, 255) ? 0 : 1;
+		Error += Data1 == glm::u8vec4(255, 128,   0, 255) ? 0 : 1;
+		Error += Data2 == glm::u8vec4(255, 255,   0, 255) ? 0 : 1;
+		Error += Data3 == glm::u8vec4(128, 255,   0, 255) ? 0 : 1;
+		Error += Data4 == glm::u8vec4(  0, 255,   0, 255) ? 0 : 1;
+		Error += Data5 == glm::u8vec4(  0, 255, 255, 255) ? 0 : 1;
+		Error += Data6 == glm::u8vec4(  0,   0, 255, 255) ? 0 : 1;
+		Error += Data7 == glm::u8vec4(255,   0, 255, 255) ? 0 : 1;
+
 		return Error;
 	}
 }//namespace fetch
@@ -301,7 +276,7 @@ namespace sampler
 
 			std::clock_t TimeEnd = std::clock();
 
-			printf("texelWrite(texture2D) - Time: %lu\n", TimeEnd - TimeStart);
+			printf("texel_write(texture2D) - Time: %lu\n", TimeEnd - TimeStart);
 		}
 
 		gli::texture2D TextureB(gli::FORMAT_RGBA8_UNORM, Size, 1);
@@ -320,7 +295,7 @@ namespace sampler
 
 				std::clock_t TimeEnd = std::clock();
 
-				printf("sampler2D::texelWrite - Time: %lu\n", TimeEnd - TimeStart);
+				printf("sampler2D::texel_write - Time: %lu\n", TimeEnd - TimeStart);
 			}
 
 			{
@@ -336,7 +311,7 @@ namespace sampler
 
 				std::clock_t TimeEnd = std::clock();
 
-				printf("sampler2D::textureLod - Time: %lu\n", TimeEnd - TimeStart);
+				printf("sampler2D::texture_lod - Time: %lu\n", TimeEnd - TimeStart);
 			}
 		}
 
