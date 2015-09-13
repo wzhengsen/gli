@@ -156,6 +156,7 @@ GLuint createTexture(char const* Filename)
 #### [GLI 0.7.1.0](https://github.com/g-truc/gli/releases/latest) - 2015-XX-X
 - Added texture swizzle support
 - Added support for many new formats
+- Added KMG support and spec proposal
 - Reordered formats
 - Fixed PVRTC2 support
 - Fixed luminance and alpha translation to OpenGL #56
