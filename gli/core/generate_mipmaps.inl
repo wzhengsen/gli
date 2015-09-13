@@ -42,9 +42,9 @@ namespace detail
 		this->generate_mipmaps<genType>(this->base_level(), this->max_level());
 	}
 
-
+/*
 	template <typename genType>
-	texture2D generate_mipmaps(texture2D const & Texture, texture2D::size_type BaseLevel, texture2D::size_type MaxLevel);
+	texture2D generate_mipmaps(texture2D const & Texture, texture2D::size_type BaseLevel, texture2D::size_type MaxLevel)
 	{
 		assert(!this->empty());
 		assert(!is_compressed(this->format()));
@@ -80,7 +80,7 @@ namespace detail
 
 		return Result;
 	}
-
+*/
 	template <>
 	inline texture2D generate_mipmaps(texture2D & Texture)
 	{

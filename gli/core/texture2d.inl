@@ -35,15 +35,24 @@ namespace gli
 
 	inline texture2D::texture2D(format_type Format, dim_type const & Dimensions)
 		: texture(gli::TARGET_2D, Format, texture::dim_type(Dimensions, 1), 1, 1, gli::levels(Dimensions))
-	{}
+		, Caches(this->levels())
+	{
+		this->build_cache();
+	}
 
 	inline texture2D::texture2D(format_type Format, dim_type const & Dimensions, size_type Levels)
 		: texture(gli::TARGET_2D, Format, texture::dim_type(Dimensions, 1), 1, 1, Levels)
-	{}
+		, Caches(this->levels())
+	{
+		this->build_cache();
+	}
 
 	inline texture2D::texture2D(texture const & Texture)
 		: texture(Texture, gli::TARGET_2D, Texture.format())
-	{}
+		, Caches(this->levels())
+	{
+		this->build_cache();
+	}
 
 	inline texture2D::texture2D
 	(
@@ -58,7 +67,10 @@ namespace gli
 			BaseLayer, MaxLayer,
 			BaseFace, MaxFace,
 			BaseLevel, MaxLevel)
-	{}
+		, Caches(this->levels())
+	{
+		this->build_cache();
+	}
 
 	inline texture2D::texture2D
 	(
@@ -70,7 +82,10 @@ namespace gli
 			Texture.base_layer(), Texture.max_layer(),
 			Texture.base_face(), Texture.max_face(),
 			Texture.base_level() + BaseLevel, Texture.base_level() + MaxLevel)
-	{}
+		, Caches(this->levels())
+	{
+		this->build_cache();
+	}
 
 	inline image texture2D::operator[](texture2D::size_type Level) const
 	{
@@ -99,13 +114,10 @@ namespace gli
 		assert(!is_compressed(this->format()));
 		assert(block_size(this->format()) == sizeof(genType));
 
-		image Image = this->operator[](Level);
+		std::size_t const Index = TexelCoord.x + TexelCoord.y * this->Caches[Level].Dim.x;
+		assert(Index < this->Caches[Level].Size / sizeof(genType));
 
-		genType const * const Data = Image.data<genType>();
-		std::size_t const Index = TexelCoord.x + TexelCoord.y * Image.dimensions().x;
-		assert(Index < Image.size());
-
-		return reinterpret_cast<genType const * const>(Data)[Index];
+		return reinterpret_cast<genType const * const>(this->Caches[Level].Data)[Index];
 	}
 
 	template <typename genType>
@@ -115,13 +127,20 @@ namespace gli
 		assert(!is_compressed(this->format()));
 		assert(block_size(this->format()) == sizeof(genType));
 
-		image Image = this->operator[](Level);
+		std::size_t const Offset = TexelCoord.x + TexelCoord.y * this->Caches[Level].Dim.x;
+		assert(Offset >= 0 && (Offset - sizeof(genType)) <= this->Caches[Level].Size);
 
-		genType * Data = Image.data<genType>();
-		std::size_t const Index = TexelCoord.x + TexelCoord.y * Image.dimensions().x;
-		assert(Index < Image.size());
+		reinterpret_cast<genType*>(this->Caches[Level].Data)[Index] = Color;
+	}
 
-		*(Data + Index) = Color;
+	void texture2D::build_cache()
+	{
+		for(size_type Level = 0; Level < this->levels(); ++Level)
+		{
+			this->Caches[Level].Data = this->data<std::uint8_t>(0, 0, Level);
+			this->Caches[Level].Size = this->size(Level);
+			this->Caches[Level].Dim = texture2D::dim_type(this->texture::dimensions(Level));
+		}
 	}
 
 /*
