@@ -127,8 +127,8 @@ namespace gli
 		assert(!is_compressed(this->format()));
 		assert(block_size(this->format()) == sizeof(genType));
 
-		std::size_t const Offset = TexelCoord.x + TexelCoord.y * this->Caches[Level].Dim.x;
-		assert(Offset >= 0 && (Offset - sizeof(genType)) <= this->Caches[Level].Size);
+		std::size_t const Index = TexelCoord.x + TexelCoord.y * this->Caches[Level].Dim.x;
+		assert(Index < this->Caches[Level].Size / sizeof(genType));
 
 		reinterpret_cast<genType*>(this->Caches[Level].Data)[Index] = Color;
 	}
