@@ -32,6 +32,55 @@ namespace detail
 
 }//namespace detail
 
+	template <typename genType>
+	texture2D generate_mipmaps(texture2D const & Texture)
+	{
+		assert(!this->empty());
+		assert(!is_compressed(this->format()));
+		assert(block_size(this->format()) == sizeof(genType));
+
+		this->generate_mipmaps<genType>(this->base_level(), this->max_level());
+	}
+
+
+	template <typename genType>
+	texture2D generate_mipmaps(texture2D const & Texture, texture2D::size_type BaseLevel, texture2D::size_type MaxLevel);
+	{
+		assert(!this->empty());
+		assert(!is_compressed(this->format()));
+		assert(block_size(this->format()) == sizeof(genType));
+
+		texture2D Result(Texture.format(), Texture.dimensions());
+
+		for(texture2D::size_type Level = BaseLevel; Level < MaxLevel; ++Level)
+		{
+			// Src
+			texture2D::dim_type const DimSrc = this->dimensions(Level + 0);
+			void* DataSrc = this->data(Level + 0);
+
+			// Dst
+			texture2D::dim_type const DimDst = this->dimensions(Level + 1);
+			void* DataDst = this->data(Level + 1);
+
+			for(std::size_t j = 0; j < DimDst.y; ++j)
+			for(std::size_t i = 0; i < DimDst.x;  ++i)
+			{
+				std::size_t const x = (i << 1);
+				std::size_t const y = (j << 1);
+
+				genType Texel00 = this->fetch<genType>(texture2D::dim_type(x + 0, y + 0), Level + 0);
+				genType Texel01 = this->fetch<genType>(texture2D::dim_type(x + 0, y + 1), Level + 0);
+				genType Texel11 = this->fetch<genType>(texture2D::dim_type(x + 1, y + 1), Level + 0);
+				genType Texel10 = this->fetch<genType>(texture2D::dim_type(x + 1, y + 0), Level + 0);
+
+				genType Texel;
+				this->write(texture2D::dim_type(x, y), Level + 1, Texel);
+			}
+		}
+
+		return Result;
+	}
+
 	template <>
 	inline texture2D generate_mipmaps(texture2D & Texture)
 	{
