@@ -99,12 +99,11 @@ namespace gli
 			this->base_level() + Level);
 	}
 
-	inline texture2D::dim_type texture2D::dimensions() const
+	inline texture2D::dim_type texture2D::dimensions(size_type Level) const
 	{
 		assert(!this->empty());
 
-		return texture2D::dim_type(
-			this->Storage->block_count(this->base_level()) * block_dimensions(this->format()));
+		return this->Caches[Level].Dim;
 	}
 
 	template <typename genType>
@@ -139,10 +138,10 @@ namespace gli
 		{
 			this->Caches[Level].Data = this->data<std::uint8_t>(0, 0, Level);
 			this->Caches[Level].Size = this->size(Level);
-			this->Caches[Level].Dim = texture2D::dim_type(this->texture::dimensions(Level));
+			this->Caches[Level].Dim = glm::max(texture2D::dim_type(this->texture::dimensions(Level)), texture2D::dim_type(1));
 		}
 	}
-
+	//return texture2D::dim_type(this->Storage->block_count(this->base_level()) * block_dimensions(this->format()));
 /*
 	template <typename genType>
 	inline void texture2D::swizzle(glm::comp X, glm::comp Y, glm::comp Z, glm::comp W)

@@ -77,6 +77,7 @@ namespace gli
 		size_type faces() const;
 
 		size_type block_size() const;
+		dim_type block_dimensions() const;
 		dim_type block_count(size_type Level) const;
 		dim_type dimensions(size_type Level) const;
 
@@ -102,6 +103,7 @@ namespace gli
 		size_type const Levels;
 		size_type const BlockSize;
 		dim_type const BlockCount;
+		dim_type const BlockDimensions;
 		dim_type const Dimensions;
 		std::vector<data_type> Data;
 	};

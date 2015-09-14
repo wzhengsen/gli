@@ -298,8 +298,16 @@ namespace gli
 	{
 		assert(!this->empty());
 
-		return this->Storage->dimensions(this->base_level() + Level);
+		//texture::dim_type const BlockDimensions = block_dimensions(this->format());
+
+		//return this->Storage->dimensions(this->base_level() + Level) * block_dimensions(this->format()) / this->Storage->block_dimensions();
+
+		//return (this->Storage->dimensions(this->base_level() + Level) + BlockDimensions - texture::dim_type(1)) / BlockDimensions;
 		//return this->Storage->block_count(this->base_level() + Level) * block_dimensions(this->format());
+
+		///return glm::max(this->Storage->block_count(this->base_level() + Level) / this->Storage->block_dimensions(), texture::dim_type(1)) * block_dimensions(this->format());
+
+		return glm::max(this->Storage->dimensions(this->base_level() + Level) / this->Storage->block_dimensions() * block_dimensions(this->format()), texture::dim_type(1));
 	}
 
 	inline void texture::clear()

@@ -483,12 +483,16 @@ namespace format
 			gli::texture2D TextureB(gli::view(TextureA, gli::FORMAT_RG32_UINT));
 			gli::texture2D TextureC(gli::FORMAT_RG32_UINT, gli::texture2D::dim_type(1), 3);
 
+			gli::texture::dim_type const DimensionsO = TextureA.texture::dimensions();
+			gli::texture2D::dim_type const DimensionsA = TextureA.dimensions();
+			gli::texture2D::dim_type const DimensionsB = TextureB.dimensions();
+
 			Error += TextureA.size() == TextureB.size() ? 0 : 1;
 			Error += TextureA.size() == TextureC.size() ? 0 : 1;
 			Error += TextureB == TextureC ? 0 : 1;
-			Error += TextureA.dimensions() == gli::texture2D::dim_type(4) ? 0 : 1;
-			Error += TextureB.dimensions() == gli::texture2D::dim_type(1) ? 0 : 1;
-			Error += TextureA.dimensions() != TextureB.dimensions() ? 0 : 1;
+			Error += DimensionsA == gli::texture2D::dim_type(4) ? 0 : 1;
+			Error += DimensionsB == gli::texture2D::dim_type(1) ? 0 : 1;
+			Error += DimensionsA != DimensionsB ? 0 : 1;
 		}
 
 		{
