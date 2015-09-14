@@ -45,21 +45,21 @@ namespace detail
 	template <typename genType>
 	texture2D generate_mipmaps(texture2D const & Texture, texture2D::size_type BaseLevel, texture2D::size_type MaxLevel)
 	{
-		assert(!this->empty());
-		assert(!is_compressed(this->format()));
-		assert(block_size(this->format()) == sizeof(genType));
+		assert(!Texture.empty());
+		assert(!is_compressed(Texture.format()));
+		assert(block_size(Texture.format()) == sizeof(genType));
 
 		texture2D Result(Texture.format(), Texture.dimensions());
 
 		for(texture2D::size_type Level = BaseLevel; Level < MaxLevel; ++Level)
 		{
 			// Src
-			texture2D::dim_type const DimSrc = this->dimensions(Level + 0);
-			void* DataSrc = this->data(Level + 0);
+			texture2D::dim_type const DimSrc = Texture.dimensions(Level + 0);
+			void* DataSrc = Texture.data(Level + 0);
 
 			// Dst
-			texture2D::dim_type const DimDst = this->dimensions(Level + 1);
-			void* DataDst = this->data(Level + 1);
+			texture2D::dim_type const DimDst = Texture.dimensions(Level + 1);
+			void* DataDst = Texture.data(Level + 1);
 
 			for(std::size_t j = 0; j < DimDst.y; ++j)
 			for(std::size_t i = 0; i < DimDst.x;  ++i)
