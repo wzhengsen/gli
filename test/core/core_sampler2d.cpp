@@ -177,7 +177,7 @@ namespace detail
 		genType texel_fetch(texture2D::dim_type const & TexelCoord, texture2D::size_type const & Level)
 		{
 			std::size_t const Offset = TexelCoord.x + TexelCoord.y * this->Caches[Level].Dim.x;
-			assert(Index < this->Caches[Level].Size);
+			assert(Offset < this->Caches[Level].Size);
 
 			return *(this->Caches[Level].Data + Offset);
 		}
