@@ -186,9 +186,10 @@ namespace detail
 	{
 		assert(!this->empty());
 
-		return this->Storage->dimensions(this->BaseLevel);
+		storage::dim_type const & SrcDimensions = this->Storage->dimensions(this->BaseLevel);
+		storage::dim_type const & DstDimensions = SrcDimensions * block_dimensions(this->format()) / this->Storage->block_dimensions();
 
-		//return this->Storage->block_count(this->BaseLevel) * block_dimensions(this->format());
+		return glm::max(DstDimensions, storage::dim_type(1));
 	}
 
 	inline void * image::data()

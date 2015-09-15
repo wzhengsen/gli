@@ -307,7 +307,10 @@ namespace gli
 
 		///return glm::max(this->Storage->block_count(this->base_level() + Level) / this->Storage->block_dimensions(), texture::dim_type(1)) * block_dimensions(this->format());
 
-		return glm::max(this->Storage->dimensions(this->base_level() + Level) / this->Storage->block_dimensions() * block_dimensions(this->format()), texture::dim_type(1));
+		storage::dim_type const & SrcDimensions = this->Storage->dimensions(this->base_level() + Level);
+		storage::dim_type const & DstDimensions = SrcDimensions * block_dimensions(this->format()) / this->Storage->block_dimensions();
+
+		return glm::max(DstDimensions, texture::dim_type(1));
 	}
 
 	inline void texture::clear()
