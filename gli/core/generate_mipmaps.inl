@@ -44,8 +44,10 @@ namespace gli
 		assert(!Texture.empty());
 		assert(!is_compressed(Texture.format()));
 		assert(block_size(Texture.format()) == sizeof(genType));
+		assert(Texture.max_level() >= MaxLevel);
+		assert(BaseLevel <= MaxLevel);
 
-		texture2D Result(Texture.format(), Texture.dimensions());
+		texture2D Result(Texture.format(), Texture.dimensions(BaseLevel), MaxLevel - BaseLevel + 1);
 
 		for(texture2D::size_type Level = BaseLevel; Level < MaxLevel; ++Level)
 		{
@@ -58,7 +60,7 @@ namespace gli
 			genType* DataDst = Result.data<genType>(0, 0, Level + 1);
 
 			for(std::size_t j = 0; j < DimDst.y; ++j)
-			for(std::size_t i = 0; i < DimDst.x;  ++i)
+			for(std::size_t i = 0; i < DimDst.x; ++i)
 			{
 				std::size_t const x = (i << 1);
 				std::size_t const y = (j << 1);
@@ -68,8 +70,8 @@ namespace gli
 				genType Texel11 = Texture.fetch<genType>(texture2D::dim_type(x + 1, y + 1), Level + 0);
 				genType Texel10 = Texture.fetch<genType>(texture2D::dim_type(x + 1, y + 0), Level + 0);
 
-				genType Texel;
-				Result.write(texture2D::dim_type(x, y), Level + 1, Texel);
+				genType const Texel = (Texel00 + Texel01 + Texel11 + Texel10) / genType(4);
+				Result.write(texture2D::dim_type(i, j), Level + 1, Texel);
 			}
 		}
 

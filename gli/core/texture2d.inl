@@ -125,6 +125,7 @@ namespace gli
 		assert(!this->empty());
 		assert(!is_compressed(this->format()));
 		assert(block_size(this->format()) == sizeof(genType));
+		assert(glm::all(glm::lessThan(TexelCoord, this->Caches[Level].Dim)));
 
 		std::size_t const Index = TexelCoord.x + TexelCoord.y * this->Caches[Level].Dim.x;
 		assert(Index < this->Caches[Level].Size / sizeof(genType));
