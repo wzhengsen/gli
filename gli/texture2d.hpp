@@ -79,7 +79,7 @@ namespace gli
 		dim_type dimensions(size_type Level = 0) const;
 
 		template <typename genType>
-		genType fetch(texture2D::dim_type const & TexelCoord, texture2D::size_type Level);
+		genType fetch(texture2D::dim_type const & TexelCoord, texture2D::size_type Level) const;
 
 		template <typename genType>
 		void write(texture2D::dim_type const & TexelCoord, texture2D::size_type Level, genType const & Color);

@@ -32,8 +32,8 @@
 
 namespace gli
 {
-	template <typename texture>
-	texture generate_mipmaps(texture & Texture);
+	template <typename genType>
+	texture2D generate_mipmaps(texture2D const & Texture);
 
 }//namespace gli
 

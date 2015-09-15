@@ -42,7 +42,7 @@ namespace texture2d
 			gli::texel_write<glm::u8vec3>(Texture, gli::texture2D::dim_type(1, 1), 0, glm::u8vec3(  0, 255,   0));
 			gli::texel_write<glm::u8vec3>(Texture, gli::texture2D::dim_type(0, 1), 0, glm::u8vec3(  0,   0, 255));
 			
-			gli::generate_mipmaps(Texture);
+			gli::texture2D TextureMipmaps = gli::generate_mipmaps<glm::u8vec3>(Texture);
 
 			gli::texture2D::size_type const Level(Texture.levels() - 1);
 			glm::u8vec3 const Color(*Texture[Level].data<glm::u8vec3>());
@@ -62,7 +62,7 @@ namespace texture2d
 			gli::texture2D Texture(gli::FORMAT_RGBA8_UNORM, gli::texture2D::dim_type(8, 8));
 			Texture.clear(glm::u8vec4(255, 128, 0, 255));
 
-			gli::generate_mipmaps(Texture);
+			gli::texture2D TextureMipmaps = gli::generate_mipmaps<glm::u8vec4>(Texture);
 
 			gli::texture2D::size_type const Level(Texture.levels() - 1);
 			glm::u8vec4 const Color(*Texture[Level].data<glm::u8vec4>());
@@ -78,7 +78,7 @@ int main()
 {
 	int Error(0);
 
-	//Error += texture2d::test();
+	Error += texture2d::test();
 
 	return Error;
 }

@@ -107,7 +107,7 @@ namespace gli
 	}
 
 	template <typename genType>
-	inline genType texture2D::fetch(texture2D::dim_type const & TexelCoord, texture2D::size_type Level)
+	inline genType texture2D::fetch(texture2D::dim_type const & TexelCoord, texture2D::size_type Level) const
 	{
 		assert(!this->empty());
 		assert(!is_compressed(this->format()));

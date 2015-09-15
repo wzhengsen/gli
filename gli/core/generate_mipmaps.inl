@@ -26,12 +26,8 @@
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
-namespace gli{
-namespace detail
+namespace gli
 {
-
-}//namespace detail
-
 	template <typename genType>
 	texture2D generate_mipmaps(texture2D const & Texture)
 	{
@@ -39,7 +35,7 @@ namespace detail
 		assert(!is_compressed(Texture.format()));
 		assert(block_size(Texture.format()) == sizeof(genType));
 
-		return generate_mipmaps<genType>(Texture.base_level(), Texture.max_level());
+		return generate_mipmaps<genType>(Texture, Texture.base_level(), Texture.max_level());
 	}
 
 	template <typename genType>
@@ -55,11 +51,11 @@ namespace detail
 		{
 			// Src
 			texture2D::dim_type const DimSrc = Texture.dimensions(Level + 0);
-			void* DataSrc = Texture.data(Level + 0);
+			genType const * const DataSrc = Texture.data<genType>(0, 0, Level + 0);
 
 			// Dst
-			texture2D::dim_type const DimDst = Texture.dimensions(Level + 1);
-			void* DataDst = Texture.data(Level + 1);
+			texture2D::dim_type const DimDst = Result.dimensions(Level + 1);
+			genType* DataDst = Result.data<genType>(0, 0, Level + 1);
 
 			for(std::size_t j = 0; j < DimDst.y; ++j)
 			for(std::size_t i = 0; i < DimDst.x;  ++i)
@@ -79,7 +75,7 @@ namespace detail
 
 		return Result;
 	}
-
+/*
 	template <>
 	inline texture2D generate_mipmaps(texture2D & Texture)
 	{
@@ -122,5 +118,5 @@ namespace detail
 
 		return Result;
 	}
-
+*/
 }//namespace gli
