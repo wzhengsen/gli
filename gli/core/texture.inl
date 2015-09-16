@@ -331,6 +331,21 @@ namespace gli
 			*(Data + TexelIndex) = Texel;
 	}
 
+	template <typename genType>
+	void texture::swizzle(gli::swizzles const & Swizzles)
+	{
+		for(size_type TexelIndex = 0, TexelCount = this->size<genType>(); TexelIndex < TexelCount; ++TexelIndex)
+		{
+			genType & TexelDst = *(this->data<genType>() + TexelIndex);
+			genType const TexelSrc = TexelDst;
+			for(typename genType::length_type Component = 0; Component < TexelDst.length(); ++Component)
+			{
+				assert(static_cast<typename genType::length_type>(Swizzles[Component]) < TexelDst.length());
+				TexelDst[Component] = TexelSrc[Swizzles[Component]];
+			}
+		}
+	}
+
 	inline void texture::build_cache()
 	{
 		size_type const Offset = this->Storage->offset(

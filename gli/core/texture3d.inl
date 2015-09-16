@@ -35,15 +35,24 @@ namespace gli
 
 	inline texture3D::texture3D(format_type Format, dim_type const & Dimensions)
 		: texture(gli::TARGET_3D, Format, Dimensions, 1, 1, gli::levels(Dimensions))
-	{}
+		, Caches(this->levels())
+	{
+		this->build_cache();
+	}
 
 	inline texture3D::texture3D(format_type Format, dim_type const & Dimensions, size_type Levels)
 		: texture(gli::TARGET_3D, Format, Dimensions, 1, 1, Levels)
-	{}
+		, Caches(this->levels())
+	{
+		this->build_cache();
+	}
 
 	inline texture3D::texture3D(texture const & Texture)
 		: texture(Texture, gli::TARGET_3D, Texture.format())
-	{}
+		, Caches(this->levels())
+	{
+		this->build_cache();
+	}
 
 	inline texture3D::texture3D
 	(
@@ -54,12 +63,14 @@ namespace gli
 		size_type BaseLevel, size_type MaxLevel
 	)
 		: texture(
-			Texture, gli::TARGET_3D,
-			Format,
+			Texture, gli::TARGET_3D, Format,
 			BaseLayer, MaxLayer,
 			BaseFace, MaxFace,
 			BaseLevel, MaxLevel)
-	{}
+		, Caches(this->levels())
+	{
+		this->build_cache();
+	}
  
 	inline texture3D::texture3D
 	(
@@ -67,12 +78,14 @@ namespace gli
 		size_type BaseLevel, size_type MaxLevel
 	)
 		: texture(
-			Texture, gli::TARGET_3D,
-			Texture.format(),
+			Texture, gli::TARGET_3D, Texture.format(),
 			Texture.base_layer(), Texture.max_layer(),
 			Texture.base_face(), Texture.max_face(),
 			Texture.base_level() + BaseLevel, Texture.base_level() + MaxLevel)
-	{}
+		, Caches(this->levels())
+	{
+		this->build_cache();
+	}
 
 	inline image texture3D::operator[](texture3D::size_type Level) const
 	{
@@ -86,13 +99,47 @@ namespace gli
 			this->base_level() + Level);
 	}
 
-	inline texture3D::dim_type texture3D::dimensions() const
+	inline texture3D::dim_type texture3D::dimensions(size_type Level) const
 	{
 		assert(!this->empty());
 
-		return texture3D::dim_type(
-			this->Storage->block_count(this->base_level()) * block_dimensions(this->format()));
+		return this->Caches[Level].Dim;
+	}
 
-		//return texture3D::dim_type(this->Storage.dimensions(this->base_level()));
+	template <typename genType>
+	inline genType texture3D::fetch(texture3D::dim_type const & TexelCoord, texture3D::size_type Level) const
+	{
+		assert(!this->empty());
+		assert(!is_compressed(this->format()));
+		assert(block_size(this->format()) == sizeof(genType));
+
+		std::size_t const Index = TexelCoord.x + TexelCoord.y * this->Caches[Level].Dim.x;
+		assert(Index < this->Caches[Level].Size / sizeof(genType));
+
+		return reinterpret_cast<genType const * const>(this->Caches[Level].Data)[Index];
+	}
+
+	template <typename genType>
+	void texture3D::write(texture3D::dim_type const & TexelCoord, texture3D::size_type Level, genType const & Color)
+	{
+		assert(!this->empty());
+		assert(!is_compressed(this->format()));
+		assert(block_size(this->format()) == sizeof(genType));
+		assert(glm::all(glm::lessThan(TexelCoord, this->Caches[Level].Dim)));
+
+		std::size_t const Index = TexelCoord.x + TexelCoord.y * this->Caches[Level].Dim.x;
+		assert(Index < this->Caches[Level].Size / sizeof(genType));
+
+		reinterpret_cast<genType*>(this->Caches[Level].Data)[Index] = Color;
+	}
+
+	void texture3D::build_cache()
+	{
+		for(size_type Level = 0; Level < this->levels(); ++Level)
+		{
+			this->Caches[Level].Data = this->data<std::uint8_t>(0, 0, Level);
+			this->Caches[Level].Size = this->size(Level);
+			this->Caches[Level].Dim = glm::max(texture3D::dim_type(this->texture::dimensions(Level)), texture3D::dim_type(1));
+		}
 	}
 }//namespace gli

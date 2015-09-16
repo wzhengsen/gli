@@ -27,6 +27,7 @@
 ///////////////////////////////////////////////////////////////////////////////////
 
 #include <gli/texture.hpp>
+#include <gli/comparison.hpp>
 
 namespace swizzle
 {
@@ -56,11 +57,34 @@ namespace swizzle
 	}
 }//namespace swizzle
 
+namespace texture
+{
+	int run()
+	{
+		int Error(0);
+
+		gli::texture TextureA(gli::TARGET_2D, gli::FORMAT_RGBA8_UNORM, gli::texture::dim_type(4, 4, 1), 1, 1, 1);
+		TextureA.clear(glm::u8vec4(255, 127, 0, 192));
+
+		gli::texture TextureB(gli::TARGET_2D, gli::FORMAT_RGBA8_UNORM, gli::texture::dim_type(4, 4, 1), 1, 1, 1);
+		TextureB.clear(glm::u8vec4(0, 127, 255, 192));
+
+		gli::swizzles Swizzles(gli::SWIZZLE_BLUE, gli::SWIZZLE_GREEN, gli::SWIZZLE_RED, gli::SWIZZLE_ALPHA);
+
+		TextureB.swizzle<glm::u8vec4>(Swizzles);
+
+		Error += TextureB == TextureA ? 0 : 1;
+
+		return Error;
+	}
+}//namespace texture
+
 int main()
 {
 	int Error(0);
 
 	Error += swizzle::run();
+	Error += texture::run();
 
 	assert(!Error);
 

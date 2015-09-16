@@ -175,6 +175,10 @@ namespace gli
 		template <typename genType>
 		void clear(genType const & Texel);
 
+		/// Reorder the component in texture memory.
+		template <typename genType>
+		void swizzle(gli::swizzles const & Swizzles);
+
 	protected:
 		/// Compute the relative memory offset to access the data for a specific layer, face and level
 		size_type offset(size_type Layer, size_type Face, size_type Level) const;

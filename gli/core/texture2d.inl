@@ -142,7 +142,6 @@ namespace gli
 			this->Caches[Level].Dim = glm::max(texture2D::dim_type(this->texture::dimensions(Level)), texture2D::dim_type(1));
 		}
 	}
-	//return texture2D::dim_type(this->Storage->block_count(this->base_level()) * block_dimensions(this->format()));
 /*
 	template <typename genType>
 	inline void texture2D::swizzle(glm::comp X, glm::comp Y, glm::comp Z, glm::comp W)

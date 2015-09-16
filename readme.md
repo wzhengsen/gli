@@ -157,6 +157,7 @@ GLuint createTexture(char const* Filename)
 - Added texture swizzle support
 - Added support for many new formats
 - Added KMG support and spec proposal
+- Added texture memory swizzle support
 - Reordered formats
 - Fixed PVRTC2 support
 - Fixed luminance and alpha translation to OpenGL #56

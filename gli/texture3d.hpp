@@ -76,7 +76,27 @@ namespace gli
 		image operator[](size_type Level) const;
 
 		/// Return the dimensions of a texture instance: width, height and depth 
-		dim_type dimensions() const;
+		dim_type dimensions(size_type Level = 0) const;
+
+		/// Fetch a texel from a texture. The texture format must be uncompressed.
+		template <typename genType>
+		genType fetch(texture3D::dim_type const & TexelCoord, texture3D::size_type Level) const;
+
+		/// Write a texel to a texture. The texture format must be uncompressed.
+		template <typename genType>
+		void write(texture3D::dim_type const & TexelCoord, texture3D::size_type Level, genType const & Color);
+
+	private:
+		void build_cache();
+
+		struct cache
+		{
+			std::uint8_t* Data;
+			texture3D::size_type Size;
+			texture3D::dim_type Dim;
+		};
+
+		std::vector<cache> Caches;
 	};
 }//namespace gli
 
