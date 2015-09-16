@@ -61,6 +61,30 @@ namespace fetch_r8_unorm
 			glm::u8vec1 E = gli::texel_fetch<glm::u8vec1>(TextureB, gli::texture2D::dim_type(0, 0), 1);
 			Error += glm::all(glm::equal(E, glm::u8vec1(5))) ? 0 : 1;
 		}
+		{
+			glm::u8vec1 A = TextureB.fetch<glm::u8vec1>(gli::texture2D::dim_type(0, 0), 0);
+			Error += glm::all(glm::equal(A, glm::u8vec1(1))) ? 0 : 1;
+			glm::u8vec1 B = TextureB.fetch<glm::u8vec1>(gli::texture2D::dim_type(1, 0), 0);
+			Error += glm::all(glm::equal(B, glm::u8vec1(2))) ? 0 : 1;
+			glm::u8vec1 C = TextureB.fetch<glm::u8vec1>(gli::texture2D::dim_type(1, 1), 0);
+			Error += glm::all(glm::equal(C, glm::u8vec1(3))) ? 0 : 1;
+			glm::u8vec1 D = TextureB.fetch<glm::u8vec1>(gli::texture2D::dim_type(0, 1), 0);
+			Error += glm::all(glm::equal(D, glm::u8vec1(4))) ? 0 : 1;
+			glm::u8vec1 E = TextureB.fetch<glm::u8vec1>(gli::texture2D::dim_type(0, 0), 1);
+			Error += glm::all(glm::equal(E, glm::u8vec1(5))) ? 0 : 1;
+		}
+
+		gli::texture2D TextureC(gli::FORMAT_R8_UNORM, gli::texture2D::dim_type(2, 2));
+		{
+			TextureC.write<glm::u8vec1>(gli::texture2D::dim_type(0, 0), 0, glm::u8vec1(1));
+			TextureC.write<glm::u8vec1>(gli::texture2D::dim_type(1, 0), 0, glm::u8vec1(2));
+			TextureC.write<glm::u8vec1>(gli::texture2D::dim_type(1, 1), 0, glm::u8vec1(3));
+			TextureC.write<glm::u8vec1>(gli::texture2D::dim_type(0, 1), 0, glm::u8vec1(4));
+			TextureC.write<glm::u8vec1>(gli::texture2D::dim_type(0, 0), 1, glm::u8vec1(5));
+		}
+
+		Error += TextureA == TextureB ? 0 : 1;
+		Error += TextureA == TextureC ? 0 : 1;
 
 		return Error;
 	}
@@ -95,8 +119,30 @@ namespace fetch_rg8_unorm
 			glm::u8vec2 E = gli::texel_fetch<glm::u8vec2>(TextureB, gli::texture2D::dim_type(0, 0), 1);
 			Error += glm::all(glm::equal(E, glm::u8vec2(9, 5))) ? 0 : 1;
 		}
+		{
+			glm::u8vec2 A = TextureB.fetch<glm::u8vec2>(gli::texture2D::dim_type(0, 0), 0);
+			Error += glm::all(glm::equal(A, glm::u8vec2(1, 2))) ? 0 : 1;
+			glm::u8vec2 B = TextureB.fetch<glm::u8vec2>(gli::texture2D::dim_type(1, 0), 0);
+			Error += glm::all(glm::equal(B, glm::u8vec2(3, 4))) ? 0 : 1;
+			glm::u8vec2 C = TextureB.fetch<glm::u8vec2>(gli::texture2D::dim_type(1, 1), 0);
+			Error += glm::all(glm::equal(C, glm::u8vec2(5, 6))) ? 0 : 1;
+			glm::u8vec2 D = TextureB.fetch<glm::u8vec2>(gli::texture2D::dim_type(0, 1), 0);
+			Error += glm::all(glm::equal(D, glm::u8vec2(7, 8))) ? 0 : 1;
+			glm::u8vec2 E = TextureB.fetch<glm::u8vec2>(gli::texture2D::dim_type(0, 0), 1);
+			Error += glm::all(glm::equal(E, glm::u8vec2(9, 5))) ? 0 : 1;
+		}
+
+		gli::texture2D TextureC(gli::FORMAT_RG8_UNORM, gli::texture2D::dim_type(2, 2));
+		{
+			TextureC.write<glm::u8vec2>(gli::texture2D::dim_type(0, 0), 0, glm::u8vec2(1, 2));
+			TextureC.write<glm::u8vec2>(gli::texture2D::dim_type(1, 0), 0, glm::u8vec2(3, 4));
+			TextureC.write<glm::u8vec2>(gli::texture2D::dim_type(1, 1), 0, glm::u8vec2(5, 6));
+			TextureC.write<glm::u8vec2>(gli::texture2D::dim_type(0, 1), 0, glm::u8vec2(7, 8));
+			TextureC.write<glm::u8vec2>(gli::texture2D::dim_type(0, 0), 1, glm::u8vec2(9, 5));
+		}
 
 		Error += TextureA == TextureB ? 0 : 1;
+		Error += TextureA == TextureC ? 0 : 1;
 
 		return Error;
 	}
@@ -131,8 +177,30 @@ namespace fetch_rgb8_unorm
 			glm::u8vec3 E = gli::texel_fetch<glm::u8vec3>(TextureB, gli::texture2D::dim_type(0, 0), 1);
 			Error += glm::all(glm::equal(E, glm::u8vec3(255, 128, 0))) ? 0 : 1;
 		}
+		{
+			glm::u8vec3 A = TextureB.fetch<glm::u8vec3>(gli::texture2D::dim_type(0, 0), 0);
+			Error += glm::all(glm::equal(A, glm::u8vec3(255, 0, 0))) ? 0 : 1;
+			glm::u8vec3 B = TextureB.fetch<glm::u8vec3>(gli::texture2D::dim_type(1, 0), 0);
+			Error += glm::all(glm::equal(B, glm::u8vec3(255, 255, 0))) ? 0 : 1;
+			glm::u8vec3 C = TextureB.fetch<glm::u8vec3>(gli::texture2D::dim_type(1, 1), 0);
+			Error += glm::all(glm::equal(C, glm::u8vec3(0, 255, 0))) ? 0 : 1;
+			glm::u8vec3 D = TextureB.fetch<glm::u8vec3>(gli::texture2D::dim_type(0, 1), 0);
+			Error += glm::all(glm::equal(D, glm::u8vec3(0, 0, 255))) ? 0 : 1;
+			glm::u8vec3 E = TextureB.fetch<glm::u8vec3>(gli::texture2D::dim_type(0, 0), 1);
+			Error += glm::all(glm::equal(E, glm::u8vec3(255, 128, 0))) ? 0 : 1;
+		}
+
+		gli::texture2D TextureC(gli::FORMAT_RGB8_UNORM, gli::texture2D::dim_type(2, 2));
+		{
+			TextureC.write<glm::u8vec3>(gli::texture2D::dim_type(0, 0), 0, glm::u8vec3(255, 0, 0));
+			TextureC.write<glm::u8vec3>(gli::texture2D::dim_type(1, 0), 0, glm::u8vec3(255, 255, 0));
+			TextureC.write<glm::u8vec3>(gli::texture2D::dim_type(1, 1), 0, glm::u8vec3(0, 255, 0));
+			TextureC.write<glm::u8vec3>(gli::texture2D::dim_type(0, 1), 0, glm::u8vec3(0, 0, 255));
+			TextureC.write<glm::u8vec3>(gli::texture2D::dim_type(0, 0), 1, glm::u8vec3(255, 128, 0));
+		}
 
 		Error += TextureA == TextureB ? 0 : 1;
+		Error += TextureA == TextureC ? 0 : 1;
 
 		return Error;
 	}
@@ -167,8 +235,30 @@ namespace fetch_rgba8_unorm
 			glm::u8vec4 E = gli::texel_fetch<glm::u8vec4>(TextureB, gli::texture2D::dim_type(0, 0), 1);
 			Error += glm::all(glm::equal(E, glm::u8vec4(255, 128, 0, 255))) ? 0 : 1;
 		}
+		{
+			glm::u8vec4 A = TextureB.fetch<glm::u8vec4>(gli::texture2D::dim_type(0, 0), 0);
+			Error += glm::all(glm::equal(A, glm::u8vec4(255, 0, 0, 255))) ? 0 : 1;
+			glm::u8vec4 B = TextureB.fetch<glm::u8vec4>(gli::texture2D::dim_type(1, 0), 0);
+			Error += glm::all(glm::equal(B, glm::u8vec4(255, 255, 0, 255))) ? 0 : 1;
+			glm::u8vec4 C = TextureB.fetch<glm::u8vec4>(gli::texture2D::dim_type(1, 1), 0);
+			Error += glm::all(glm::equal(C, glm::u8vec4(0, 255, 0, 255))) ? 0 : 1;
+			glm::u8vec4 D = TextureB.fetch<glm::u8vec4>(gli::texture2D::dim_type(0, 1), 0);
+			Error += glm::all(glm::equal(D, glm::u8vec4(0, 0, 255, 255))) ? 0 : 1;
+			glm::u8vec4 E = TextureB.fetch<glm::u8vec4>(gli::texture2D::dim_type(0, 0), 1);
+			Error += glm::all(glm::equal(E, glm::u8vec4(255, 128, 0, 255))) ? 0 : 1;
+		}
+
+		gli::texture2D TextureC(gli::FORMAT_RGBA8_UNORM, gli::texture2D::dim_type(2, 2));
+		{
+			TextureC.write<glm::u8vec4>(gli::texture2D::dim_type(0, 0), 0, glm::u8vec4(255, 0, 0, 255));
+			TextureC.write<glm::u8vec4>(gli::texture2D::dim_type(1, 0), 0, glm::u8vec4(255, 255, 0, 255));
+			TextureC.write<glm::u8vec4>(gli::texture2D::dim_type(1, 1), 0, glm::u8vec4(0, 255, 0, 255));
+			TextureC.write<glm::u8vec4>(gli::texture2D::dim_type(0, 1), 0, glm::u8vec4(0, 0, 255, 255));
+			TextureC.write<glm::u8vec4>(gli::texture2D::dim_type(0, 0), 1, glm::u8vec4(255, 128, 0, 255));
+		}
 
 		Error += TextureA == TextureB ? 0 : 1;
+		Error += TextureA == TextureC ? 0 : 1;
 
 		return Error;
 	}
@@ -209,8 +299,30 @@ namespace fetch_rgb10a2_unorm
 			glm::uint32 E = gli::texel_fetch<glm::uint32>(TextureB, gli::texture2D::dim_type(0, 0), 1);
 			Error += E == ColorO ? 0 : 1;
 		}
+		{
+			glm::uint32 A = TextureB.fetch<glm::uint32>(gli::texture2D::dim_type(0, 0), 0);
+			Error += A == ColorR ? 0 : 1;
+			glm::uint32 B = TextureB.fetch<glm::uint32>(gli::texture2D::dim_type(1, 0), 0);
+			Error += B == ColorY ? 0 : 1;
+			glm::uint32 C = TextureB.fetch<glm::uint32>(gli::texture2D::dim_type(1, 1), 0);
+			Error += C == ColorG ? 0 : 1;
+			glm::uint32 D = TextureB.fetch<glm::uint32>(gli::texture2D::dim_type(0, 1), 0);
+			Error += D == ColorB ? 0 : 1;
+			glm::uint32 E = TextureB.fetch<glm::uint32>(gli::texture2D::dim_type(0, 0), 1);
+			Error += E == ColorO ? 0 : 1;
+		}
+
+		gli::texture2D TextureC(gli::FORMAT_RGB10A2_UNORM, gli::texture2D::dim_type(2, 2));
+		{
+			TextureC.write<glm::uint32>(gli::texture2D::dim_type(0, 0), 0, ColorR);
+			TextureC.write<glm::uint32>(gli::texture2D::dim_type(1, 0), 0, ColorY);
+			TextureC.write<glm::uint32>(gli::texture2D::dim_type(1, 1), 0, ColorG);
+			TextureC.write<glm::uint32>(gli::texture2D::dim_type(0, 1), 0, ColorB);
+			TextureC.write<glm::uint32>(gli::texture2D::dim_type(0, 0), 1, ColorO);
+		}
 
 		Error += TextureA == TextureB ? 0 : 1;
+		Error += TextureA == TextureC ? 0 : 1;
 
 		return Error;
 	}
@@ -245,8 +357,30 @@ namespace fetch_srgb8_unorm
 			glm::u8vec3 E = gli::texel_fetch<glm::u8vec3>(TextureB, gli::texture2D::dim_type(0, 0), 1);
 			Error += glm::all(glm::equal(E, glm::u8vec3(glm::convertLinearToSRGB(glm::vec3(255, 128, 0))))) ? 0 : 1;
 		}
+		{
+			glm::u8vec3 A = TextureB.fetch<glm::u8vec3>(gli::texture2D::dim_type(0, 0), 0);
+			Error += glm::all(glm::equal(A, glm::u8vec3(glm::convertLinearToSRGB(glm::vec3(255, 0, 0))))) ? 0 : 1;
+			glm::u8vec3 B = TextureB.fetch<glm::u8vec3>(gli::texture2D::dim_type(1, 0), 0);
+			Error += glm::all(glm::equal(B, glm::u8vec3(glm::convertLinearToSRGB(glm::vec3(255, 255, 0))))) ? 0 : 1;
+			glm::u8vec3 C = TextureB.fetch<glm::u8vec3>(gli::texture2D::dim_type(1, 1), 0);
+			Error += glm::all(glm::equal(C, glm::u8vec3(glm::convertLinearToSRGB(glm::vec3(0, 255, 0))))) ? 0 : 1;
+			glm::u8vec3 D = TextureB.fetch<glm::u8vec3>(gli::texture2D::dim_type(0, 1), 0);
+			Error += glm::all(glm::equal(D, glm::u8vec3(glm::convertLinearToSRGB(glm::vec3(0, 0, 255))))) ? 0 : 1;
+			glm::u8vec3 E = TextureB.fetch<glm::u8vec3>(gli::texture2D::dim_type(0, 0), 1);
+			Error += glm::all(glm::equal(E, glm::u8vec3(glm::convertLinearToSRGB(glm::vec3(255, 128, 0))))) ? 0 : 1;
+		}
+
+		gli::texture2D TextureC(gli::FORMAT_RGB8_SRGB, gli::texture2D::dim_type(2, 2));
+		{
+			TextureC.write<glm::u8vec3>(gli::texture2D::dim_type(0, 0), 0, glm::u8vec3(glm::convertLinearToSRGB(glm::vec3(255, 0, 0))));
+			TextureC.write<glm::u8vec3>(gli::texture2D::dim_type(1, 0), 0, glm::u8vec3(glm::convertLinearToSRGB(glm::vec3(255, 255, 0))));
+			TextureC.write<glm::u8vec3>(gli::texture2D::dim_type(1, 1), 0, glm::u8vec3(glm::convertLinearToSRGB(glm::vec3(0, 255, 0))));
+			TextureC.write<glm::u8vec3>(gli::texture2D::dim_type(0, 1), 0, glm::u8vec3(glm::convertLinearToSRGB(glm::vec3(0, 0, 255))));
+			TextureC.write<glm::u8vec3>(gli::texture2D::dim_type(0, 0), 1, glm::u8vec3(glm::convertLinearToSRGB(glm::vec3(255, 128, 0))));
+		}
 
 		Error += TextureA == TextureB ? 0 : 1;
+		Error += TextureA == TextureC ? 0 : 1;
 
 		return Error;
 	}
@@ -281,8 +415,30 @@ namespace fetch_srgba8_unorm
 			glm::u8vec4 E = gli::texel_fetch<glm::u8vec4>(TextureB, gli::texture2D::dim_type(0, 0), 1);
 			Error += glm::all(glm::equal(E, glm::u8vec4(glm::convertLinearToSRGB(glm::vec4(1.0f, 0.5f, 0.0f, 1.0f))))) ? 0 : 1;
 		}
+		{
+			glm::u8vec4 A = TextureB.fetch<glm::u8vec4>(gli::texture2D::dim_type(0, 0), 0);
+			Error += glm::all(glm::equal(A, glm::u8vec4(glm::convertLinearToSRGB(glm::vec4(1.0f, 0.0f, 0.0f, 1.0f))))) ? 0 : 1;
+			glm::u8vec4 B = TextureB.fetch<glm::u8vec4>(gli::texture2D::dim_type(1, 0), 0);
+			Error += glm::all(glm::equal(B, glm::u8vec4(glm::convertLinearToSRGB(glm::vec4(1.0f, 1.0f, 0.0f, 1.0f))))) ? 0 : 1;
+			glm::u8vec4 C = TextureB.fetch<glm::u8vec4>(gli::texture2D::dim_type(1, 1), 0);
+			Error += glm::all(glm::equal(C, glm::u8vec4(glm::convertLinearToSRGB(glm::vec4(0.0f, 1.0f, 0.0f, 1.0f))))) ? 0 : 1;
+			glm::u8vec4 D = TextureB.fetch<glm::u8vec4>(gli::texture2D::dim_type(0, 1), 0);
+			Error += glm::all(glm::equal(D, glm::u8vec4(glm::convertLinearToSRGB(glm::vec4(0.0f, 0.0f, 1.0f, 1.0f))))) ? 0 : 1;
+			glm::u8vec4 E = TextureB.fetch<glm::u8vec4>(gli::texture2D::dim_type(0, 0), 1);
+			Error += glm::all(glm::equal(E, glm::u8vec4(glm::convertLinearToSRGB(glm::vec4(1.0f, 0.5f, 0.0f, 1.0f))))) ? 0 : 1;
+		}
+
+		gli::texture2D TextureC(gli::FORMAT_RGBA8_SRGB, gli::texture2D::dim_type(2, 2));
+		{
+			TextureC.write<glm::u8vec4>(gli::texture2D::dim_type(0, 0), 0, glm::u8vec4(glm::convertLinearToSRGB(glm::vec4(1.0f, 0.0f, 0.0f, 1.0f))));
+			TextureC.write<glm::u8vec4>(gli::texture2D::dim_type(1, 0), 0, glm::u8vec4(glm::convertLinearToSRGB(glm::vec4(1.0f, 1.0f, 0.0f, 1.0f))));
+			TextureC.write<glm::u8vec4>(gli::texture2D::dim_type(1, 1), 0, glm::u8vec4(glm::convertLinearToSRGB(glm::vec4(0.0f, 1.0f, 0.0f, 1.0f))));
+			TextureC.write<glm::u8vec4>(gli::texture2D::dim_type(0, 1), 0, glm::u8vec4(glm::convertLinearToSRGB(glm::vec4(0.0f, 0.0f, 1.0f, 1.0f))));
+			TextureC.write<glm::u8vec4>(gli::texture2D::dim_type(0, 0), 1, glm::u8vec4(glm::convertLinearToSRGB(glm::vec4(1.0f, 0.5f, 0.0f, 1.0f))));
+		}
 
 		Error += TextureA == TextureB ? 0 : 1;
+		Error += TextureA == TextureC ? 0 : 1;
 
 		return Error;
 	}
@@ -317,8 +473,30 @@ namespace fetch_bgr8_unorm
 			glm::u8vec3 E = gli::texel_fetch<glm::u8vec3>(TextureB, gli::texture2D::dim_type(0, 0), 1);
 			Error += glm::all(glm::equal(E, glm::u8vec3(0, 128, 255))) ? 0 : 1;
 		}
+		{
+			glm::u8vec3 A = TextureB.fetch<glm::u8vec3>(gli::texture2D::dim_type(0, 0), 0);
+			Error += glm::all(glm::equal(A, glm::u8vec3(0, 0, 255))) ? 0 : 1;
+			glm::u8vec3 B = TextureB.fetch<glm::u8vec3>(gli::texture2D::dim_type(1, 0), 0);
+			Error += glm::all(glm::equal(B, glm::u8vec3(0, 255, 255))) ? 0 : 1;
+			glm::u8vec3 C = TextureB.fetch<glm::u8vec3>(gli::texture2D::dim_type(1, 1), 0);
+			Error += glm::all(glm::equal(C, glm::u8vec3(0, 255, 0))) ? 0 : 1;
+			glm::u8vec3 D = TextureB.fetch<glm::u8vec3>(gli::texture2D::dim_type(0, 1), 0);
+			Error += glm::all(glm::equal(D, glm::u8vec3(255, 0, 0))) ? 0 : 1;
+			glm::u8vec3 E = TextureB.fetch<glm::u8vec3>(gli::texture2D::dim_type(0, 0), 1);
+			Error += glm::all(glm::equal(E, glm::u8vec3(0, 128, 255))) ? 0 : 1;
+		}
+
+		gli::texture2D TextureC(gli::FORMAT_RGB8_UNORM, gli::texture2D::dim_type(2, 2));
+		{
+			TextureC.write<glm::u8vec3>(gli::texture2D::dim_type(0, 0), 0, glm::u8vec3(0, 0, 255));
+			TextureC.write<glm::u8vec3>(gli::texture2D::dim_type(1, 0), 0, glm::u8vec3(0, 255, 255));
+			TextureC.write<glm::u8vec3>(gli::texture2D::dim_type(1, 1), 0, glm::u8vec3(0, 255, 0));
+			TextureC.write<glm::u8vec3>(gli::texture2D::dim_type(0, 1), 0, glm::u8vec3(255, 0, 0));
+			TextureC.write<glm::u8vec3>(gli::texture2D::dim_type(0, 0), 1, glm::u8vec3(0, 128, 255));
+		}
 
 		Error += TextureA == TextureB ? 0 : 1;
+		Error += TextureA == TextureC ? 0 : 1;
 
 		return Error;
 	}
@@ -353,8 +531,30 @@ namespace fetch_bgra8_unorm
 			glm::u8vec4 E = gli::texel_fetch<glm::u8vec4>(TextureB, gli::texture2D::dim_type(0, 0), 1);
 			Error += glm::all(glm::equal(E, glm::u8vec4(0, 128, 255, 255))) ? 0 : 1;
 		}
+		{
+			glm::u8vec4 A = TextureB.fetch<glm::u8vec4>(gli::texture2D::dim_type(0, 0), 0);
+			Error += glm::all(glm::equal(A, glm::u8vec4(0, 0, 255, 255))) ? 0 : 1;
+			glm::u8vec4 B = TextureB.fetch<glm::u8vec4>(gli::texture2D::dim_type(1, 0), 0);
+			Error += glm::all(glm::equal(B, glm::u8vec4(0, 255, 255, 255))) ? 0 : 1;
+			glm::u8vec4 C = TextureB.fetch<glm::u8vec4>(gli::texture2D::dim_type(1, 1), 0);
+			Error += glm::all(glm::equal(C, glm::u8vec4(0, 255, 0, 255))) ? 0 : 1;
+			glm::u8vec4 D = TextureB.fetch<glm::u8vec4>(gli::texture2D::dim_type(0, 1), 0);
+			Error += glm::all(glm::equal(D, glm::u8vec4(255, 0, 0, 255))) ? 0 : 1;
+			glm::u8vec4 E = TextureB.fetch<glm::u8vec4>(gli::texture2D::dim_type(0, 0), 1);
+			Error += glm::all(glm::equal(E, glm::u8vec4(0, 128, 255, 255))) ? 0 : 1;
+		}
+
+		gli::texture2D TextureC(gli::FORMAT_BGRA8_UNORM, gli::texture2D::dim_type(2, 2));
+		{
+			TextureC.write<glm::u8vec4>(gli::texture2D::dim_type(0, 0), 0, glm::u8vec4(0, 0, 255, 255));
+			TextureC.write<glm::u8vec4>(gli::texture2D::dim_type(1, 0), 0, glm::u8vec4(0, 255, 255, 255));
+			TextureC.write<glm::u8vec4>(gli::texture2D::dim_type(1, 1), 0, glm::u8vec4(0, 255, 0, 255));
+			TextureC.write<glm::u8vec4>(gli::texture2D::dim_type(0, 1), 0, glm::u8vec4(255, 0, 0, 255));
+			TextureC.write<glm::u8vec4>(gli::texture2D::dim_type(0, 0), 1, glm::u8vec4(0, 128, 255, 255));
+		}
 
 		Error += TextureA == TextureB ? 0 : 1;
+		Error += TextureA == TextureC ? 0 : 1;
 
 		return Error;
 	}
@@ -389,8 +589,30 @@ namespace fetch_rgba8u
 			glm::u8vec4 E = gli::texel_fetch<glm::u8vec4>(TextureB, gli::texture2D::dim_type(0, 0), 1);
 			Error += glm::all(glm::equal(E, glm::u8vec4(255, 128, 0, 255))) ? 0 : 1;
 		}
+		{
+			glm::u8vec4 A = TextureB.fetch<glm::u8vec4>(gli::texture2D::dim_type(0, 0), 0);
+			Error += glm::all(glm::equal(A, glm::u8vec4(255, 0, 0, 255))) ? 0 : 1;
+			glm::u8vec4 B = TextureB.fetch<glm::u8vec4>(gli::texture2D::dim_type(1, 0), 0);
+			Error += glm::all(glm::equal(B, glm::u8vec4(255, 255, 0, 255))) ? 0 : 1;
+			glm::u8vec4 C = TextureB.fetch<glm::u8vec4>(gli::texture2D::dim_type(1, 1), 0);
+			Error += glm::all(glm::equal(C, glm::u8vec4(0, 255, 0, 255))) ? 0 : 1;
+			glm::u8vec4 D = TextureB.fetch<glm::u8vec4>(gli::texture2D::dim_type(0, 1), 0);
+			Error += glm::all(glm::equal(D, glm::u8vec4(0, 0, 255, 255))) ? 0 : 1;
+			glm::u8vec4 E = TextureB.fetch<glm::u8vec4>(gli::texture2D::dim_type(0, 0), 1);
+			Error += glm::all(glm::equal(E, glm::u8vec4(255, 128, 0, 255))) ? 0 : 1;
+		}
+
+		gli::texture2D TextureC(gli::FORMAT_RGBA8_UINT, gli::texture2D::dim_type(2, 2));
+		{
+			TextureC.write<glm::u8vec4>(gli::texture2D::dim_type(0, 0), 0, glm::u8vec4(255, 0, 0, 255));
+			TextureC.write<glm::u8vec4>(gli::texture2D::dim_type(1, 0), 0, glm::u8vec4(255, 255, 0, 255));
+			TextureC.write<glm::u8vec4>(gli::texture2D::dim_type(1, 1), 0, glm::u8vec4(0, 255, 0, 255));
+			TextureC.write<glm::u8vec4>(gli::texture2D::dim_type(0, 1), 0, glm::u8vec4(0, 0, 255, 255));
+			TextureC.write<glm::u8vec4>(gli::texture2D::dim_type(0, 0), 1, glm::u8vec4(255, 128, 0, 255));
+		}
 
 		Error += TextureA == TextureB ? 0 : 1;
+		Error += TextureA == TextureC ? 0 : 1;
 
 		return Error;
 	}
@@ -425,8 +647,30 @@ namespace fetch_rgba16f
 			glm::u64 E = gli::texel_fetch<glm::u64>(TextureB, gli::texture2D::dim_type(0, 0), 1);
 			Error += E == glm::packHalf4x16(glm::vec4(1.0f, 0.5f, 0.0f, 1.0f)) ? 0 : 1;
 		}
+		{
+			glm::u64 A = TextureB.fetch<glm::u64>(gli::texture2D::dim_type(0, 0), 0);
+			Error += A == glm::packHalf4x16(glm::vec4(1.0f, 0.0f, 0.0f, 1.0f)) ? 0 : 1;
+			glm::u64 B = TextureB.fetch<glm::u64>(gli::texture2D::dim_type(1, 0), 0);
+			Error += B == glm::packHalf4x16(glm::vec4(1.0f, 1.0f, 0.0f, 1.0f)) ? 0 : 1;
+			glm::u64 C = TextureB.fetch<glm::u64>(gli::texture2D::dim_type(1, 1), 0);
+			Error += C  == glm::packHalf4x16(glm::vec4(0.0f, 1.0f, 0.0f, 1.0f)) ? 0 : 1;
+			glm::u64 D = TextureB.fetch<glm::u64>(gli::texture2D::dim_type(0, 1), 0);
+			Error += D ==  glm::packHalf4x16(glm::vec4(0.0f, 0.0f, 1.0f, 1.0f)) ? 0 : 1;
+			glm::u64 E = TextureB.fetch<glm::u64>(gli::texture2D::dim_type(0, 0), 1);
+			Error += E == glm::packHalf4x16(glm::vec4(1.0f, 0.5f, 0.0f, 1.0f)) ? 0 : 1;
+		}
+
+		gli::texture2D TextureC(gli::FORMAT_RGBA16_SFLOAT, gli::texture2D::dim_type(2, 2));
+		{
+			TextureC.write<glm::u64>(gli::texture2D::dim_type(0, 0), 0, glm::packHalf4x16(glm::vec4(1.0f, 0.0f, 0.0f, 1.0f)));
+			TextureC.write<glm::u64>(gli::texture2D::dim_type(1, 0), 0, glm::packHalf4x16(glm::vec4(1.0f, 1.0f, 0.0f, 1.0f)));
+			TextureC.write<glm::u64>(gli::texture2D::dim_type(1, 1), 0, glm::packHalf4x16(glm::vec4(0.0f, 1.0f, 0.0f, 1.0f)));
+			TextureC.write<glm::u64>(gli::texture2D::dim_type(0, 1), 0, glm::packHalf4x16(glm::vec4(0.0f, 0.0f, 1.0f, 1.0f)));
+			TextureC.write<glm::u64>(gli::texture2D::dim_type(0, 0), 1, glm::packHalf4x16(glm::vec4(1.0f, 0.5f, 0.0f, 1.0f)));
+		}
 
 		Error += TextureA == TextureB ? 0 : 1;
+		Error += TextureA == TextureC ? 0 : 1;
 
 		return Error;
 	}
@@ -461,8 +705,30 @@ namespace fetch_rgb32f
 			glm::vec3 E = gli::texel_fetch<glm::vec3>(TextureB, gli::texture2D::dim_type(0, 0), 1);
 			Error += glm::all(glm::epsilonEqual(E, glm::vec3(1.0f, 0.5f, 0.0f), 0.001f)) ? 0 : 1;
 		}
+		{
+			glm::vec3 A = TextureB.fetch<glm::vec3>(gli::texture2D::dim_type(0, 0), 0);
+			Error += glm::all(glm::epsilonEqual(A, glm::vec3(1.0f, 0.0f, 0.0f), 0.001f)) ? 0 : 1;
+			glm::vec3 B = TextureB.fetch<glm::vec3>(gli::texture2D::dim_type(1, 0), 0);
+			Error += glm::all(glm::epsilonEqual(B, glm::vec3(1.0f, 1.0f, 0.0f), 0.001f)) ? 0 : 1;
+			glm::vec3 C = TextureB.fetch<glm::vec3>(gli::texture2D::dim_type(1, 1), 0);
+			Error += glm::all(glm::epsilonEqual(C, glm::vec3(0.0f, 1.0f, 0.0f), 0.001f)) ? 0 : 1;
+			glm::vec3 D = TextureB.fetch<glm::vec3>(gli::texture2D::dim_type(0, 1), 0);
+			Error += glm::all(glm::epsilonEqual(D, glm::vec3(0.0f, 0.0f, 1.0f), 0.001f)) ? 0 : 1;
+			glm::vec3 E = TextureB.fetch<glm::vec3>(gli::texture2D::dim_type(0, 0), 1);
+			Error += glm::all(glm::epsilonEqual(E, glm::vec3(1.0f, 0.5f, 0.0f), 0.001f)) ? 0 : 1;
+		}
+
+		gli::texture2D TextureC(gli::FORMAT_RGB32_SFLOAT, gli::texture2D::dim_type(2, 2));
+		{
+			TextureC.write<glm::vec3>(gli::texture2D::dim_type(0, 0), 0, glm::vec3(1.0f, 0.0f, 0.0f));
+			TextureC.write<glm::vec3>(gli::texture2D::dim_type(1, 0), 0, glm::vec3(1.0f, 1.0f, 0.0f));
+			TextureC.write<glm::vec3>(gli::texture2D::dim_type(1, 1), 0, glm::vec3(0.0f, 1.0f, 0.0f));
+			TextureC.write<glm::vec3>(gli::texture2D::dim_type(0, 1), 0, glm::vec3(0.0f, 0.0f, 1.0f));
+			TextureC.write<glm::vec3>(gli::texture2D::dim_type(0, 0), 1, glm::vec3(1.0f, 0.5f, 0.0f));
+		}
 
 		Error += TextureA == TextureB ? 0 : 1;
+		Error += TextureA == TextureC ? 0 : 1;
 
 		return Error;
 	}
@@ -497,8 +763,30 @@ namespace fetch_rgb9e5
 			glm::uint32_t E = gli::texel_fetch<glm::uint32_t>(TextureB, gli::texture2D::dim_type(0, 0), 1);
 			Error += E == glm::uint32_t(9) ? 0 : 1;
 		}
+		{
+			glm::uint32_t A = TextureB.fetch<glm::uint32_t>(gli::texture2D::dim_type(0, 0), 0);
+			Error += A == glm::uint32_t(1) ? 0 : 1;
+			glm::uint32_t B = TextureB.fetch<glm::uint32_t>(gli::texture2D::dim_type(1, 0), 0);
+			Error += B == glm::uint32_t(3) ? 0 : 1;
+			glm::uint32_t C = TextureB.fetch<glm::uint32_t>(gli::texture2D::dim_type(1, 1), 0);
+			Error += C == glm::uint32_t(5) ? 0 : 1;
+			glm::uint32_t D = TextureB.fetch<glm::uint32_t>(gli::texture2D::dim_type(0, 1), 0);
+			Error += D == glm::uint32_t(7) ? 0 : 1;
+			glm::uint32_t E = TextureB.fetch<glm::uint32_t>(gli::texture2D::dim_type(0, 0), 1);
+			Error += E == glm::uint32_t(9) ? 0 : 1;
+		}
+
+		gli::texture2D TextureC(gli::FORMAT_RGB9E5_UFLOAT, gli::texture2D::dim_type(2, 2));
+		{
+			TextureC.write<glm::uint32_t>(gli::texture2D::dim_type(0, 0), 0, glm::uint32_t(1));
+			TextureC.write<glm::uint32_t>(gli::texture2D::dim_type(1, 0), 0, glm::uint32_t(3));
+			TextureC.write<glm::uint32_t>(gli::texture2D::dim_type(1, 1), 0, glm::uint32_t(5));
+			TextureC.write<glm::uint32_t>(gli::texture2D::dim_type(0, 1), 0, glm::uint32_t(7));
+			TextureC.write<glm::uint32_t>(gli::texture2D::dim_type(0, 0), 1, glm::uint32_t(9));
+		}
 
 		Error += TextureA == TextureB ? 0 : 1;
+		Error += TextureA == TextureC ? 0 : 1;
 
 		return Error;
 	}
@@ -533,8 +821,30 @@ namespace fetch_rg11b10f
 			glm::uint32_t E = gli::texel_fetch<glm::uint32_t>(TextureB, gli::texture2D::dim_type(0, 0), 1);
 			Error += E == glm::packF2x11_1x10(glm::vec3(1.0f, 0.5f, 0.0f)) ? 0 : 1;
 		}
+		{
+			glm::uint32_t A = TextureB.fetch<glm::uint32_t>(gli::texture2D::dim_type(0, 0), 0);
+			Error += A == glm::packF2x11_1x10(glm::vec3(1.0f, 0.0f, 0.0f)) ? 0 : 1;
+			glm::uint32_t B = TextureB.fetch<glm::uint32_t>(gli::texture2D::dim_type(1, 0), 0);
+			Error += B == glm::packF2x11_1x10(glm::vec3(1.0f, 1.0f, 0.0f)) ? 0 : 1;
+			glm::uint32_t C = TextureB.fetch<glm::uint32_t>(gli::texture2D::dim_type(1, 1), 0);
+			Error += C == glm::packF2x11_1x10(glm::vec3(0.0f, 1.0f, 0.0f)) ? 0 : 1;
+			glm::uint32_t D = TextureB.fetch<glm::uint32_t>(gli::texture2D::dim_type(0, 1), 0);
+			Error += D == glm::packF2x11_1x10(glm::vec3(0.0f, 0.0f, 1.0f)) ? 0 : 1;
+			glm::uint32_t E = TextureB.fetch<glm::uint32_t>(gli::texture2D::dim_type(0, 0), 1);
+			Error += E == glm::packF2x11_1x10(glm::vec3(1.0f, 0.5f, 0.0f)) ? 0 : 1;
+		}
+
+		gli::texture2D TextureC(gli::FORMAT_RG11B10_UFLOAT, gli::texture2D::dim_type(2, 2));
+		{
+			TextureC.write<glm::uint32_t>(gli::texture2D::dim_type(0, 0), 0, glm::packF2x11_1x10(glm::vec3(1.0f, 0.0f, 0.0f)));
+			TextureC.write<glm::uint32_t>(gli::texture2D::dim_type(1, 0), 0, glm::packF2x11_1x10(glm::vec3(1.0f, 1.0f, 0.0f)));
+			TextureC.write<glm::uint32_t>(gli::texture2D::dim_type(1, 1), 0, glm::packF2x11_1x10(glm::vec3(0.0f, 1.0f, 0.0f)));
+			TextureC.write<glm::uint32_t>(gli::texture2D::dim_type(0, 1), 0, glm::packF2x11_1x10(glm::vec3(0.0f, 0.0f, 1.0f)));
+			TextureC.write<glm::uint32_t>(gli::texture2D::dim_type(0, 0), 1, glm::packF2x11_1x10(glm::vec3(1.0f, 0.5f, 0.0f)));
+		}
 
 		Error += TextureA == TextureB ? 0 : 1;
+		Error += TextureA == TextureC ? 0 : 1;
 
 		return Error;
 	}
