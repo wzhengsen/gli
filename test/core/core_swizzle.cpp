@@ -57,34 +57,234 @@ namespace swizzle
 	}
 }//namespace swizzle
 
-namespace texture
+namespace texture1D
 {
 	int run()
 	{
 		int Error(0);
 
-		gli::texture TextureA(gli::TARGET_2D, gli::FORMAT_RGBA8_UNORM, gli::texture::dim_type(4, 4, 1), 1, 1, 1);
+		gli::texture TextureA(gli::TARGET_1D, gli::FORMAT_RGBA8_UNORM, gli::texture::dim_type(4, 1, 1), 1, 1, 1);
 		TextureA.clear(glm::u8vec4(255, 127, 0, 192));
 
-		gli::texture TextureB(gli::TARGET_2D, gli::FORMAT_RGBA8_UNORM, gli::texture::dim_type(4, 4, 1), 1, 1, 1);
+		gli::texture TextureB(gli::TARGET_1D, gli::FORMAT_RGBA8_UNORM, gli::texture::dim_type(4, 1, 1), 1, 1, 1);
 		TextureB.clear(glm::u8vec4(0, 127, 255, 192));
+		TextureB.swizzle<glm::u8vec4>(gli::swizzles(gli::SWIZZLE_BLUE, gli::SWIZZLE_GREEN, gli::SWIZZLE_RED, gli::SWIZZLE_ALPHA));
 
-		gli::swizzles Swizzles(gli::SWIZZLE_BLUE, gli::SWIZZLE_GREEN, gli::SWIZZLE_RED, gli::SWIZZLE_ALPHA);
+		Error += TextureA == TextureB ? 0 : 1;
 
-		TextureB.swizzle<glm::u8vec4>(Swizzles);
+		gli::texture1D TextureC(gli::FORMAT_RGBA8_UNORM, gli::texture1D::dim_type(4), 1);
+		TextureC.clear(glm::u8vec4(255, 127, 0, 192));
 
-		Error += TextureB == TextureA ? 0 : 1;
+		Error += TextureA == TextureC ? 0 : 1;
+
+		gli::texture1D TextureD(gli::FORMAT_RGBA8_UNORM, gli::texture1D::dim_type(4), 1);
+		TextureD.clear(glm::u8vec4(0, 127, 255, 192));
+		TextureD.swizzle<glm::u8vec4>(gli::swizzles(gli::SWIZZLE_BLUE, gli::SWIZZLE_GREEN, gli::SWIZZLE_RED, gli::SWIZZLE_ALPHA));
+
+		Error += TextureA == TextureD ? 0 : 1;
 
 		return Error;
 	}
-}//namespace texture
+}//namespace texture1D
+
+namespace texture1DArray
+{
+	int run()
+	{
+		int Error(0);
+
+		gli::texture TextureA(gli::TARGET_1D_ARRAY, gli::FORMAT_RGBA8_UNORM, gli::texture::dim_type(4, 1, 1), 2, 1, 4);
+		TextureA.clear(glm::u8vec4(255, 127, 0, 192));
+
+		gli::texture TextureB(gli::TARGET_1D_ARRAY, gli::FORMAT_RGBA8_UNORM, gli::texture::dim_type(4, 1, 1), 2, 1, 4);
+		TextureB.clear(glm::u8vec4(0, 127, 255, 192));
+		TextureB.swizzle<glm::u8vec4>(gli::swizzles(gli::SWIZZLE_BLUE, gli::SWIZZLE_GREEN, gli::SWIZZLE_RED, gli::SWIZZLE_ALPHA));
+
+		Error += TextureA == TextureB ? 0 : 1;
+
+		gli::texture1DArray TextureC(gli::FORMAT_RGBA8_UNORM, gli::texture1DArray::dim_type(4), 2, 4);
+		TextureC.clear(glm::u8vec4(255, 127, 0, 192));
+
+		Error += TextureA == TextureC ? 0 : 1;
+
+		gli::texture1DArray TextureD(gli::FORMAT_RGBA8_UNORM, gli::texture1DArray::dim_type(4), 2, 4);
+		TextureD.clear(glm::u8vec4(0, 127, 255, 192));
+		TextureD.swizzle<glm::u8vec4>(gli::swizzles(gli::SWIZZLE_BLUE, gli::SWIZZLE_GREEN, gli::SWIZZLE_RED, gli::SWIZZLE_ALPHA));
+
+		Error += TextureA == TextureD ? 0 : 1;
+		Error += TextureC == TextureD ? 0 : 1;
+
+		return Error;
+	}
+}//namespace texture1DArray
+
+namespace texture2D
+{
+	int run()
+	{
+		int Error(0);
+
+		gli::texture TextureA(gli::TARGET_2D, gli::FORMAT_RGBA8_UNORM, gli::texture::dim_type(4, 4, 1), 1, 1, 2);
+		TextureA.clear(glm::u8vec4(255, 127, 0, 192));
+
+		gli::texture TextureB(gli::TARGET_2D, gli::FORMAT_RGBA8_UNORM, gli::texture::dim_type(4, 4, 1), 1, 1, 2);
+		TextureB.clear(glm::u8vec4(0, 127, 255, 192));
+		TextureB.swizzle<glm::u8vec4>(gli::swizzles(gli::SWIZZLE_BLUE, gli::SWIZZLE_GREEN, gli::SWIZZLE_RED, gli::SWIZZLE_ALPHA));
+
+		Error += TextureA == TextureB ? 0 : 1;
+
+		gli::texture2D TextureC(gli::FORMAT_RGBA8_UNORM, gli::texture2D::dim_type(4, 4), 2);
+		TextureC.clear(glm::u8vec4(255, 127, 0, 192));
+
+		Error += TextureA == TextureC ? 0 : 1;
+
+		gli::texture2D TextureD(gli::FORMAT_RGBA8_UNORM, gli::texture2D::dim_type(4, 4), 2);
+		TextureD.clear(glm::u8vec4(0, 127, 255, 192));
+		TextureD.swizzle<glm::u8vec4>(gli::swizzles(gli::SWIZZLE_BLUE, gli::SWIZZLE_GREEN, gli::SWIZZLE_RED, gli::SWIZZLE_ALPHA));
+
+		Error += TextureA == TextureD ? 0 : 1;
+		Error += TextureC == TextureD ? 0 : 1;
+
+		return Error;
+	}
+}//namespace texture2D
+
+namespace texture2DArray
+{
+	int run()
+	{
+		int Error(0);
+
+		gli::texture TextureA(gli::TARGET_2D_ARRAY, gli::FORMAT_RGBA8_UNORM, gli::texture::dim_type(4, 4, 1), 2, 1, 4);
+		TextureA.clear(glm::u8vec4(255, 127, 0, 192));
+
+		gli::texture TextureB(gli::TARGET_2D_ARRAY, gli::FORMAT_RGBA8_UNORM, gli::texture::dim_type(4, 4, 1), 2, 1, 4);
+		TextureB.clear(glm::u8vec4(0, 127, 255, 192));
+		TextureB.swizzle<glm::u8vec4>(gli::swizzles(gli::SWIZZLE_BLUE, gli::SWIZZLE_GREEN, gli::SWIZZLE_RED, gli::SWIZZLE_ALPHA));
+
+		Error += TextureA == TextureB ? 0 : 1;
+
+		gli::texture2DArray TextureC(gli::FORMAT_RGBA8_UNORM, gli::texture2D::dim_type(4, 4), 2, 4);
+		TextureC.clear(glm::u8vec4(255, 127, 0, 192));
+
+		Error += TextureA == TextureC ? 0 : 1;
+
+		gli::texture2DArray TextureD(gli::FORMAT_RGBA8_UNORM, gli::texture2D::dim_type(4, 4), 2, 4);
+		TextureD.clear(glm::u8vec4(0, 127, 255, 192));
+		TextureD.swizzle<glm::u8vec4>(gli::swizzles(gli::SWIZZLE_BLUE, gli::SWIZZLE_GREEN, gli::SWIZZLE_RED, gli::SWIZZLE_ALPHA));
+
+		Error += TextureA == TextureD ? 0 : 1;
+		Error += TextureC == TextureD ? 0 : 1;
+
+		return Error;
+	}
+}//namespace texture2DArray
+
+namespace texture3D
+{
+	int run()
+	{
+		int Error(0);
+
+		gli::texture TextureA(gli::TARGET_3D, gli::FORMAT_RGBA8_UNORM, gli::texture::dim_type(4, 4, 4), 1, 1, 2);
+		TextureA.clear(glm::u8vec4(255, 127, 0, 192));
+
+		gli::texture TextureB(gli::TARGET_3D, gli::FORMAT_RGBA8_UNORM, gli::texture::dim_type(4, 4, 4), 1, 1, 2);
+		TextureB.clear(glm::u8vec4(0, 127, 255, 192));
+		TextureB.swizzle<glm::u8vec4>(gli::swizzles(gli::SWIZZLE_BLUE, gli::SWIZZLE_GREEN, gli::SWIZZLE_RED, gli::SWIZZLE_ALPHA));
+
+		Error += TextureA == TextureB ? 0 : 1;
+
+		gli::texture3D TextureC(gli::FORMAT_RGBA8_UNORM, gli::texture3D::dim_type(4, 4, 4), 2);
+		TextureC.clear(glm::u8vec4(255, 127, 0, 192));
+
+		Error += TextureA == TextureC ? 0 : 1;
+
+		gli::texture3D TextureD(gli::FORMAT_RGBA8_UNORM, gli::texture3D::dim_type(4, 4, 4), 2);
+		TextureD.clear(glm::u8vec4(0, 127, 255, 192));
+		TextureD.swizzle<glm::u8vec4>(gli::swizzles(gli::SWIZZLE_BLUE, gli::SWIZZLE_GREEN, gli::SWIZZLE_RED, gli::SWIZZLE_ALPHA));
+
+		Error += TextureA == TextureD ? 0 : 1;
+		Error += TextureC == TextureD ? 0 : 1;
+
+		return Error;
+	}
+}//namespace texture3D
+
+namespace textureCube
+{
+	int run()
+	{
+		int Error(0);
+
+		gli::texture TextureA(gli::TARGET_CUBE, gli::FORMAT_RGBA8_UNORM, gli::texture::dim_type(4, 4, 1), 1, 6, 2);
+		TextureA.clear(glm::u8vec4(255, 127, 0, 192));
+
+		gli::texture TextureB(gli::TARGET_CUBE, gli::FORMAT_RGBA8_UNORM, gli::texture::dim_type(4, 4, 1), 1, 6, 2);
+		TextureB.clear(glm::u8vec4(0, 127, 255, 192));
+		TextureB.swizzle<glm::u8vec4>(gli::swizzles(gli::SWIZZLE_BLUE, gli::SWIZZLE_GREEN, gli::SWIZZLE_RED, gli::SWIZZLE_ALPHA));
+
+		Error += TextureA == TextureB ? 0 : 1;
+
+		gli::textureCube TextureC(gli::FORMAT_RGBA8_UNORM, gli::textureCube::dim_type(4, 4), 2);
+		TextureC.clear(glm::u8vec4(255, 127, 0, 192));
+
+		Error += TextureA == TextureC ? 0 : 1;
+
+		gli::textureCube TextureD(gli::FORMAT_RGBA8_UNORM, gli::textureCube::dim_type(4, 4), 2);
+		TextureD.clear(glm::u8vec4(0, 127, 255, 192));
+		TextureD.swizzle<glm::u8vec4>(gli::swizzles(gli::SWIZZLE_BLUE, gli::SWIZZLE_GREEN, gli::SWIZZLE_RED, gli::SWIZZLE_ALPHA));
+
+		Error += TextureA == TextureD ? 0 : 1;
+		Error += TextureC == TextureD ? 0 : 1;
+
+		return Error;
+	}
+}//namespace textureCube
+
+namespace textureCubeArray
+{
+	int run()
+	{
+		int Error(0);
+
+		gli::texture TextureA(gli::TARGET_CUBE_ARRAY, gli::FORMAT_RGBA8_UNORM, gli::texture::dim_type(4, 4, 1), 3, 6, 2);
+		TextureA.clear(glm::u8vec4(255, 127, 0, 192));
+
+		gli::texture TextureB(gli::TARGET_CUBE_ARRAY, gli::FORMAT_RGBA8_UNORM, gli::texture::dim_type(4, 4, 1), 3, 6, 2);
+		TextureB.clear(glm::u8vec4(0, 127, 255, 192));
+		TextureB.swizzle<glm::u8vec4>(gli::swizzles(gli::SWIZZLE_BLUE, gli::SWIZZLE_GREEN, gli::SWIZZLE_RED, gli::SWIZZLE_ALPHA));
+
+		Error += TextureA == TextureB ? 0 : 1;
+
+		gli::textureCubeArray TextureC(gli::FORMAT_RGBA8_UNORM, gli::textureCube::dim_type(4, 4), 3, 2);
+		TextureC.clear(glm::u8vec4(255, 127, 0, 192));
+
+		Error += TextureA == TextureC ? 0 : 1;
+
+		gli::textureCubeArray TextureD(gli::FORMAT_RGBA8_UNORM, gli::textureCube::dim_type(4, 4), 3, 2);
+		TextureD.clear(glm::u8vec4(0, 127, 255, 192));
+		TextureD.swizzle<glm::u8vec4>(gli::swizzles(gli::SWIZZLE_BLUE, gli::SWIZZLE_GREEN, gli::SWIZZLE_RED, gli::SWIZZLE_ALPHA));
+
+		Error += TextureA == TextureD ? 0 : 1;
+		Error += TextureC == TextureD ? 0 : 1;
+
+		return Error;
+	}
+}//namespace textureCubeArray
 
 int main()
 {
 	int Error(0);
 
 	Error += swizzle::run();
-	Error += texture::run();
+	Error += texture1D::run();
+	Error += texture1DArray::run();
+	Error += texture2D::run();
+	Error += texture2DArray::run();
+	Error += texture3D::run();
+	Error += textureCube::run();
+	Error += textureCubeArray::run();
 
 	assert(!Error);
 
