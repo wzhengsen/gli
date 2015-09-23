@@ -277,6 +277,8 @@ namespace gli
 			gl::TARGET_2D,
 			gl::TARGET_2D_ARRAY,
 			gl::TARGET_3D,
+			gl::TARGET_RECT,
+			gl::TARGET_RECT_ARRAY,
 			gl::TARGET_CUBE,
 			gl::TARGET_CUBE_ARRAY
 		};

@@ -26,6 +26,8 @@
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
+#include <functional>
+
 namespace gli
 {
 	inline dx::dx()
@@ -271,7 +273,7 @@ namespace gli
 		return Translation[Format - FORMAT_FIRST];
 	}
 
-	inline gli::format dx::find(dx::D3DFORMAT FourCC)
+	inline gli::format dx::find(dx::D3DFORMAT FourCC) const
 	{
 		for(int FormatIndex = FORMAT_FIRST; FormatIndex <= FORMAT_LAST; ++FormatIndex)
 		{
@@ -282,7 +284,7 @@ namespace gli
 		return static_cast<gli::format>(FORMAT_INVALID);
 	}
 
-	inline gli::format dx::find(dx::dxgiFormat Format)
+	inline gli::format dx::find(dx::dxgiFormat Format) const
 	{
 		for(int FormatIndex = FORMAT_FIRST; FormatIndex <= FORMAT_LAST; ++FormatIndex)
 		{

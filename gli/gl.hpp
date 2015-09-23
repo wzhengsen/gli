@@ -286,6 +286,8 @@ namespace gli
 			TARGET_2D			= 0x0DE1,
 			TARGET_2D_ARRAY		= 0x8C1A,
 			TARGET_3D			= 0x806F,
+			TARGET_RECT			= 0x84F5,
+			TARGET_RECT_ARRAY	= 0x84F5, // Not supported by OpenGL
 			TARGET_CUBE			= 0x8513,
 			TARGET_CUBE_ARRAY	= 0x9009
 		};

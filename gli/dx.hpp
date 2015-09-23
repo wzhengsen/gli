@@ -342,8 +342,8 @@ namespace gli
 		dx();
 
 		format const & translate(gli::format const & Format) const;
-		gli::format find(D3DFORMAT FourCC);
-		gli::format find(dxgiFormat Format);
+		gli::format find(D3DFORMAT FourCC) const;
+		gli::format find(dxgiFormat Format) const;
 
 	private:
 		std::array<format, FORMAT_COUNT> Translation;
