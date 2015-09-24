@@ -234,14 +234,14 @@ namespace fetch
 		*(Texture.data<glm::u8vec4>() + 6) = glm::u8vec4(  0,   0, 255, 255);
 		*(Texture.data<glm::u8vec4>() + 7) = glm::u8vec4(255,   0, 255, 255);
 
-		glm::u8vec4 Data0 = Texture.fetch<glm::u8vec4>(gli::texture2D::dim_type(0, 0), 0);
-		glm::u8vec4 Data1 = Texture.fetch<glm::u8vec4>(gli::texture2D::dim_type(1, 0), 0);
-		glm::u8vec4 Data2 = Texture.fetch<glm::u8vec4>(gli::texture2D::dim_type(2, 0), 0);
-		glm::u8vec4 Data3 = Texture.fetch<glm::u8vec4>(gli::texture2D::dim_type(3, 0), 0);
-		glm::u8vec4 Data4 = Texture.fetch<glm::u8vec4>(gli::texture2D::dim_type(0, 1), 0);
-		glm::u8vec4 Data5 = Texture.fetch<glm::u8vec4>(gli::texture2D::dim_type(1, 1), 0);
-		glm::u8vec4 Data6 = Texture.fetch<glm::u8vec4>(gli::texture2D::dim_type(2, 1), 0);
-		glm::u8vec4 Data7 = Texture.fetch<glm::u8vec4>(gli::texture2D::dim_type(3, 1), 0);
+		glm::u8vec4 Data0 = Texture.load<glm::u8vec4>(gli::texture2D::dim_type(0, 0), 0);
+		glm::u8vec4 Data1 = Texture.load<glm::u8vec4>(gli::texture2D::dim_type(1, 0), 0);
+		glm::u8vec4 Data2 = Texture.load<glm::u8vec4>(gli::texture2D::dim_type(2, 0), 0);
+		glm::u8vec4 Data3 = Texture.load<glm::u8vec4>(gli::texture2D::dim_type(3, 0), 0);
+		glm::u8vec4 Data4 = Texture.load<glm::u8vec4>(gli::texture2D::dim_type(0, 1), 0);
+		glm::u8vec4 Data5 = Texture.load<glm::u8vec4>(gli::texture2D::dim_type(1, 1), 0);
+		glm::u8vec4 Data6 = Texture.load<glm::u8vec4>(gli::texture2D::dim_type(2, 1), 0);
+		glm::u8vec4 Data7 = Texture.load<glm::u8vec4>(gli::texture2D::dim_type(3, 1), 0);
 
 		Error += Data0 == glm::u8vec4(255,   0,   0, 255) ? 0 : 1;
 		Error += Data1 == glm::u8vec4(255, 128,   0, 255) ? 0 : 1;

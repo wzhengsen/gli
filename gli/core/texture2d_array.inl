@@ -115,7 +115,7 @@ namespace gli
 	}
 
 	template <typename genType>
-	inline genType texture2DArray::fetch(texture2DArray::dim_type const & TexelCoord, texture2DArray::size_type Layer, texture2DArray::size_type Level) const
+	inline genType texture2DArray::load(texture2DArray::dim_type const & TexelCoord, texture2DArray::size_type Layer, texture2DArray::size_type Level) const
 	{
 		assert(!this->empty());
 		assert(!is_compressed(this->format()));
@@ -130,7 +130,7 @@ namespace gli
 	}
 
 	template <typename genType>
-	void texture2DArray::write(texture2DArray::dim_type const & TexelCoord, texture2DArray::size_type Layer, texture2DArray::size_type Level, genType const & Color)
+	void texture2DArray::save(texture2DArray::dim_type const & TexelCoord, texture2DArray::size_type Layer, texture2DArray::size_type Level, genType const & Color)
 	{
 		assert(!this->empty());
 		assert(!is_compressed(this->format()));

@@ -82,11 +82,11 @@ namespace gli
 
 		/// Fetch a texel from a texture. The texture format must be uncompressed.
 		template <typename genType>
-		genType fetch(texture2DArray::dim_type const & TexelCoord, texture2DArray::size_type Layer, texture2DArray::size_type Level) const;
+		genType load(texture2DArray::dim_type const & TexelCoord, texture2DArray::size_type Layer, texture2DArray::size_type Level) const;
 
 		/// Write a texel to a texture. The texture format must be uncompressed.
 		template <typename genType>
-		void write(texture2DArray::dim_type const & TexelCoord, texture2DArray::size_type Layer, texture2DArray::size_type Level, genType const & Color);
+		void save(texture2DArray::dim_type const & TexelCoord, texture2DArray::size_type Layer, texture2DArray::size_type Level, genType const & Color);
 
 	private:
 		struct cache

@@ -65,13 +65,13 @@ namespace gli
 				std::size_t const x = (i << 1);
 				std::size_t const y = (j << 1);
 
-				genType Texel00 = Texture.fetch<genType>(texture2D::dim_type(x + 0, y + 0), Level + 0);
-				genType Texel01 = Texture.fetch<genType>(texture2D::dim_type(x + 0, y + 1), Level + 0);
-				genType Texel11 = Texture.fetch<genType>(texture2D::dim_type(x + 1, y + 1), Level + 0);
-				genType Texel10 = Texture.fetch<genType>(texture2D::dim_type(x + 1, y + 0), Level + 0);
+				genType Texel00 = Texture.load<genType>(texture2D::dim_type(x + 0, y + 0), Level + 0);
+				genType Texel01 = Texture.load<genType>(texture2D::dim_type(x + 0, y + 1), Level + 0);
+				genType Texel11 = Texture.load<genType>(texture2D::dim_type(x + 1, y + 1), Level + 0);
+				genType Texel10 = Texture.load<genType>(texture2D::dim_type(x + 1, y + 0), Level + 0);
 
 				genType const Texel = (Texel00 + Texel01 + Texel11 + Texel10) / genType(4);
-				Result.write(texture2D::dim_type(i, j), Level + 1, Texel);
+				Result.save(texture2D::dim_type(i, j), Level + 1, Texel);
 			}
 		}
 
