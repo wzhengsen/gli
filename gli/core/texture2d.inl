@@ -35,21 +35,18 @@ namespace gli
 
 	inline texture2D::texture2D(format_type Format, dim_type const & Dimensions)
 		: texture(gli::TARGET_2D, Format, texture::dim_type(Dimensions, 1), 1, 1, gli::levels(Dimensions))
-		, Caches(this->levels())
 	{
 		this->build_cache();
 	}
 
 	inline texture2D::texture2D(format_type Format, dim_type const & Dimensions, size_type Levels)
 		: texture(gli::TARGET_2D, Format, texture::dim_type(Dimensions, 1), 1, 1, Levels)
-		, Caches(this->levels())
 	{
 		this->build_cache();
 	}
 
 	inline texture2D::texture2D(texture const & Texture)
 		: texture(Texture, gli::TARGET_2D, Texture.format())
-		, Caches(this->levels())
 	{
 		this->build_cache();
 	}
@@ -67,7 +64,6 @@ namespace gli
 			BaseLayer, MaxLayer,
 			BaseFace, MaxFace,
 			BaseLevel, MaxLevel)
-		, Caches(this->levels())
 	{
 		this->build_cache();
 	}
@@ -82,7 +78,6 @@ namespace gli
 			Texture.base_layer(), Texture.max_layer(),
 			Texture.base_face(), Texture.max_face(),
 			Texture.base_level() + BaseLevel, Texture.base_level() + MaxLevel)
-		, Caches(this->levels())
 	{
 		this->build_cache();
 	}
@@ -133,41 +128,24 @@ namespace gli
 		reinterpret_cast<genType*>(this->Caches[Level].Data)[Index] = Color;
 	}
 
+	texture2D::size_type texture2D::index_cache(size_type Level) const
+	{
+		return Level;
+	}
+
 	void texture2D::build_cache()
 	{
+		this->Caches.resize(this->levels());
+
 		for(size_type Level = 0; Level < this->levels(); ++Level)
 		{
-			this->Caches[Level].Data = this->data<std::uint8_t>(0, 0, Level);
-			this->Caches[Level].Size = this->size(Level);
-			this->Caches[Level].Dim = glm::max(texture2D::dim_type(this->texture::dimensions(Level)), texture2D::dim_type(1));
+			cache& Cache = this->Caches[this->index_cache(Level)];
+			Cache.Data = this->data<std::uint8_t>(0, 0, Level);
+			Cache.Size = this->size(Level);
+			Cache.Dim = glm::max(texture2D::dim_type(this->texture::dimensions(Level)), texture2D::dim_type(1));
 		}
 	}
-/*
-	template <typename genType>
-	inline void texture2D::swizzle(glm::comp X, glm::comp Y, glm::comp Z, glm::comp W)
-	{
-		for(texture2D::level_type Level = 0; Level < this->levels(); ++Level)
-		{
-			genType * Data = reinterpret_cast<genType*>(this->Images[Level].data());
-			texture2D::size_type Components = this->Images[Level].components();
-			//gli::detail::getComponents(this->Images[Level].format());
-			texture2D::size_type Size = (glm::compMul(this->Images[Level].dimensions()) * Components) / sizeof(genType);
 
-			for(texture2D::size_type i = 0; i < Size; ++i)
-			{
-				genType Copy = Data[i];
-				if(Components > 0)
-					Data[i][0] = Copy[X];
-				if(Components > 1)
-					Data[i][1] = Copy[Y];
-				if(Components > 2)
-					Data[i][2] = Copy[Z];
-				if(Components > 3)
-					Data[i][3] = Copy[W];
-			}
-		}
-	}
-*/
 /*
 	template <typename T>
 	inline T texture<T>::texture(float x, float y) const

@@ -93,14 +93,15 @@ namespace gli
 		void generate_mipmaps(texture2D::size_type BaseLevel, texture2D::size_type MaxLevel);
 
 	private:
-		void build_cache();
-
 		struct cache
 		{
 			std::uint8_t* Data;
 			texture2D::size_type Size;
 			texture2D::dim_type Dim;
 		};
+
+		void build_cache();
+		size_type index_cache(size_type Level) const;
 
 		std::vector<cache> Caches;
 	};

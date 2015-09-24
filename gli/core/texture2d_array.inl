@@ -40,7 +40,9 @@ namespace gli
 		size_type Layers
 	)
 		: texture(gli::TARGET_2D_ARRAY, Format, texture::dim_type(Dimensions, 1), Layers, 1, gli::levels(Dimensions))
-	{}
+	{
+		this->build_cache();
+	}
 
 	inline texture2DArray::texture2DArray
 	(
@@ -50,11 +52,15 @@ namespace gli
 		size_type Levels
 	)
 		: texture(gli::TARGET_2D_ARRAY, Format, texture::dim_type(Dimensions, 1), Layers, 1, Levels)
-	{}
+	{
+		this->build_cache();
+	}
 
 	inline texture2DArray::texture2DArray(texture const & Texture)
 		: texture(Texture, gli::TARGET_2D_ARRAY, Texture.format())
-	{}
+	{
+		this->build_cache();
+	}
 
 	inline texture2DArray::texture2DArray
 	(
@@ -70,7 +76,9 @@ namespace gli
 			BaseLayer, MaxLayer,
 			BaseFace, MaxFace,
 			BaseLevel, MaxLevel)
-	{}
+	{
+		this->build_cache();
+	}
 
 	inline texture2DArray::texture2DArray
 	(
@@ -84,7 +92,9 @@ namespace gli
 			Texture.base_layer() + BaseLayer, Texture.base_layer() + MaxLayer,
 			Texture.base_face(), Texture.max_face(),
 			Texture.base_level() + BaseLevel, Texture.base_level() + MaxLevel)
-	{}
+	{
+		this->build_cache();
+	}
 
 	inline texture2D texture2DArray::operator[](size_type Layer) const
 	{
@@ -97,13 +107,60 @@ namespace gli
 			this->base_level(), this->max_level());
 	}
 
-	inline texture2DArray::dim_type texture2DArray::dimensions() const
+	inline texture2DArray::dim_type texture2DArray::dimensions(size_type Level) const
 	{
 		assert(!this->empty());
 
-		return texture2DArray::dim_type(
-			this->Storage->block_count(this->base_level()) * block_dimensions(this->format()));
+		return this->Caches[this->index_cache(0, Level)].Dim;
+	}
 
-		//return texture2DArray::dim_type(this->Storage.dimensions(this->base_level()));
+	template <typename genType>
+	inline genType texture2DArray::fetch(texture2DArray::dim_type const & TexelCoord, texture2DArray::size_type Layer, texture2DArray::size_type Level) const
+	{
+		assert(!this->empty());
+		assert(!is_compressed(this->format()));
+		assert(block_size(this->format()) == sizeof(genType));
+
+		cache const & Cache = this->Caches[this->index_cache(Layer, Level)];
+
+		std::size_t const Index = TexelCoord.x + TexelCoord.y * Cache.Dim.x;
+		assert(Index < Cache.Size / sizeof(genType));
+
+		return reinterpret_cast<genType const * const>(Cache.Data)[Index];
+	}
+
+	template <typename genType>
+	void texture2DArray::write(texture2DArray::dim_type const & TexelCoord, texture2DArray::size_type Layer, texture2DArray::size_type Level, genType const & Color)
+	{
+		assert(!this->empty());
+		assert(!is_compressed(this->format()));
+		assert(block_size(this->format()) == sizeof(genType));
+
+		cache& Cache = this->Caches[this->index_cache(Layer, Level)];
+		assert(glm::all(glm::lessThan(TexelCoord, Cache.Dim)));
+
+		std::size_t const Index = TexelCoord.x + TexelCoord.y * Cache.Dim.x;
+		assert(Index < Cache.Size / sizeof(genType));
+
+		reinterpret_cast<genType*>(Cache.Data)[Index] = Color;
+	}
+
+	texture2DArray::size_type texture2DArray::index_cache(size_type Layer, size_type Level) const
+	{
+		return Layer * this->levels() + Level;
+	}
+
+	void texture2DArray::build_cache()
+	{
+		this->Caches.resize(this->layers() * this->levels());
+
+		for(size_type Layer = 0; Layer < this->layers(); ++Layer)
+		for(size_type Level = 0; Level < this->levels(); ++Level)
+		{
+			cache& Cache = this->Caches[this->index_cache(Layer, Level)];
+			Cache.Data = this->data<std::uint8_t>(Layer, 0, Level);
+			Cache.Size = this->size(Level);
+			Cache.Dim = glm::max(texture2D::dim_type(this->texture::dimensions(Level)), texture2D::dim_type(1));
+		}
 	}
 }//namespace gli

@@ -27,6 +27,7 @@
 ///////////////////////////////////////////////////////////////////////////////////
 
 #include <gli/gli.hpp>
+#include <glm/gtc/color_space.hpp>
 
 namespace
 {
@@ -286,6 +287,43 @@ namespace load
 	}
 }//namespace load
 
+namespace fetch_srgba8_unorm
+{
+	int test()
+	{
+		int Error(0);
+
+		gli::texture2DArray TextureA(gli::FORMAT_RGBA8_UNORM, gli::texture2D::dim_type(2, 2), 2);
+		{
+			TextureA.clear(glm::u8vec4(255, 127, 0, 255));
+			TextureA.write<glm::u8vec4>(gli::texture2DArray::dim_type(0, 0), 1, 0, glm::u8vec4(255, 0, 0, 255));
+			TextureA.write<glm::u8vec4>(gli::texture2DArray::dim_type(1, 0), 1, 0, glm::u8vec4(255, 255, 0, 255));
+			TextureA.write<glm::u8vec4>(gli::texture2DArray::dim_type(1, 1), 1, 0, glm::u8vec4(0, 255, 0, 255));
+			TextureA.write<glm::u8vec4>(gli::texture2DArray::dim_type(0, 1), 1, 0, glm::u8vec4(0, 0, 255, 255));
+			TextureA.write<glm::u8vec4>(gli::texture2DArray::dim_type(0, 0), 1, 1, glm::u8vec4(0, 0, 0, 255));
+			gli::save_dds(TextureA, "srgba8_unorm_4pixels.dds");
+		}
+
+		gli::texture2DArray TextureB(gli::load_dds("srgba8_unorm_4pixels.dds"));
+		{
+			glm::u8vec4 A = TextureB.fetch<glm::u8vec4>(gli::texture2D::dim_type(0, 0), 1, 0);
+			Error += glm::all(glm::equal(A, glm::u8vec4(255, 0, 0, 255))) ? 0 : 1;
+			glm::u8vec4 B = TextureB.fetch<glm::u8vec4>(gli::texture2D::dim_type(1, 0), 1, 0);
+			Error += glm::all(glm::equal(B, glm::u8vec4(255, 255, 0, 255))) ? 0 : 1;
+			glm::u8vec4 C = TextureB.fetch<glm::u8vec4>(gli::texture2D::dim_type(1, 1), 1, 0);
+			Error += glm::all(glm::equal(C, glm::u8vec4(0, 255, 0, 255))) ? 0 : 1;
+			glm::u8vec4 D = TextureB.fetch<glm::u8vec4>(gli::texture2D::dim_type(0, 1), 1, 0);
+			Error += glm::all(glm::equal(D, glm::u8vec4(0, 0, 255, 255))) ? 0 : 1;
+			glm::u8vec4 E = TextureB.fetch<glm::u8vec4>(gli::texture2D::dim_type(0, 0), 1, 1);
+			Error += glm::all(glm::equal(E, glm::u8vec4(0, 0, 0, 255))) ? 0 : 1;
+		}
+
+		Error += TextureA == TextureB ? 0 : 1;
+
+		return Error;
+	}
+}//namespace fetch_srgba8_unorm
+
 int main()
 {
 	int Error(0);
@@ -297,6 +335,7 @@ int main()
 	Error += access_map::test();
 	Error += loader::test();
 	Error += load::test();
+	Error += fetch_srgba8_unorm::test();
 
 	return Error;
 }

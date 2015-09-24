@@ -78,7 +78,28 @@ namespace gli
 		texture2D operator[](size_type Layer) const;
 
 		/// Return the dimensions of a texture instance: width and height 
-		dim_type dimensions() const;
+		dim_type dimensions(size_type Level = 0) const;
+
+		/// Fetch a texel from a texture. The texture format must be uncompressed.
+		template <typename genType>
+		genType fetch(texture2DArray::dim_type const & TexelCoord, texture2DArray::size_type Layer, texture2DArray::size_type Level) const;
+
+		/// Write a texel to a texture. The texture format must be uncompressed.
+		template <typename genType>
+		void write(texture2DArray::dim_type const & TexelCoord, texture2DArray::size_type Layer, texture2DArray::size_type Level, genType const & Color);
+
+	private:
+		struct cache
+		{
+			std::uint8_t* Data;
+			texture2D::size_type Size;
+			texture2D::dim_type Dim;
+		};
+
+		void build_cache();
+		size_type index_cache(size_type Layer, size_type Level) const;
+
+		std::vector<cache> Caches;
 	};
 }//namespace gli
 
