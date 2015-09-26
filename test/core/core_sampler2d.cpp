@@ -29,7 +29,10 @@
 #include <gli/gli.hpp>
 #include <glm/gtx/component_wise.hpp>
 #include <glm/gtc/color_space.hpp>
+#include <glm/gtc/epsilon.hpp>
+#include <glm/gtc/packing.hpp>
 #include <ctime>
+#include <limits>
 
 namespace gli{
 namespace detail
@@ -38,6 +41,180 @@ namespace detail
 	{
 		return texcoord;
 	}
+
+	enum data_kind
+	{
+		DATA_KIND_UNDEFINED,
+		DATA_KIND_PACKED,
+		DATA_KIND_UNORM,
+		DATA_KIND_SNORM,
+		DATA_KIND_USCALED,
+		DATA_KIND_SSCALED,
+		DATA_KIND_UINT,
+		DATA_KIND_SINT,
+		DATA_KIND_SRGB
+	};
+
+	// Default
+	template <typename floatType, glm::precision P>
+	struct texelFetchDefault{
+	static glm::tvec4<floatType, P> call(texture2D const & Texture, texture2D::dim_type const & TexelCoord, texture2D::size_type Level)
+	{
+		return glm::tvec4<floatType, P>(0.0f, 0.0f, 0.0f, 1.0f);
+	}};
+
+	template <typename floatType, glm::precision P, gli::format Format = FORMAT_UNDEFINED>
+	struct texelFetch{
+	static glm::tvec4<floatType, P> call(texture2D const & Texture, texture2D::dim_type const & TexelCoord, texture2D::size_type Level)
+	{
+		return glm::tvec4<floatType, P>(0.0f, 0.0f, 0.0f, 1.0f);
+	}};
+
+	// Half
+	template <typename floatType, glm::precision P>
+	struct texelFetch<floatType, P, FORMAT_R16_SFLOAT>{
+	static glm::tvec4<floatType, P> call(texture2D const & Texture, texture2D::dim_type const & TexelCoord, texture2D::size_type Level)
+	{
+		return glm::tvec4<floatType, P>(glm::unpackHalf1x16(Texture.load<glm::uint16>(TexelCoord, Level)), 0.0f, 0.0f, 1.0f);
+	}};
+
+	template <typename floatType, glm::precision P>
+	struct texelFetch<floatType, P, FORMAT_RG16_SFLOAT>{
+	static glm::tvec4<floatType, P> call(texture2D const & Texture, texture2D::dim_type const & TexelCoord, texture2D::size_type Level)
+	{
+		return glm::tvec4<floatType, P>(glm::unpackHalf2x16(Texture.load<glm::uint16>(TexelCoord, Level)), 0.0f, 1.0f);
+	}};
+
+	template <typename floatType, glm::precision P>
+	struct texelFetch<floatType, P, FORMAT_RGB16_SFLOAT>{
+	static glm::tvec4<floatType, P> call(texture2D const & Texture, texture2D::dim_type const & TexelCoord, texture2D::size_type Level)
+	{
+		glm::u16vec3 const Packed = Texture.load<glm::u16vec3>(TexelCoord, Level);
+		return glm::tvec4<floatType, P>(glm::unpackHalf1x16(Packed.x), glm::unpackHalf1x16(Packed.y), glm::unpackHalf1x16(Packed.z), 1.0f);
+	}};
+
+	template <typename floatType, glm::precision P>
+	struct texelFetch<floatType, P, FORMAT_RGBA16_SFLOAT>{
+	static glm::tvec4<floatType, P> call(texture2D const & Texture, texture2D::dim_type const & TexelCoord, texture2D::size_type Level)
+	{
+		return glm::unpackHalf4x16(Texture.load<glm::uint64>(TexelCoord, Level));
+	}};
+
+	// Normalize
+	template <typename floatType, glm::precision P, typename valType>
+	struct texelFetchNorm1{
+	static glm::tvec4<floatType, P> call(texture2D const & Texture, texture2D::dim_type const & TexelCoord, texture2D::size_type Level)
+	{
+		return glm::tvec4<floatType, P>(glm::compNormalize<floatType>(Texture.load<glm::tvec1<valType, P> >(TexelCoord, Level)).x, 0.0f, 0.0f, 1.0f);
+	}};
+
+	template <typename floatType, glm::precision P, typename valType>
+	struct texelFetchNorm2{
+	static glm::tvec4<floatType, P> call(texture2D const & Texture, texture2D::dim_type const & TexelCoord, texture2D::size_type Level)
+	{
+		return glm::tvec4<floatType, P>(glm::compNormalize<floatType>(Texture.load<glm::tvec2<valType, P> >(TexelCoord, Level)), 0.0f, 1.0f);
+	}};
+
+	template <typename floatType, glm::precision P, typename valType>
+	struct texelFetchNorm3{
+	static glm::tvec4<floatType, P> call(texture2D const & Texture, texture2D::dim_type const & TexelCoord, texture2D::size_type Level)
+	{
+		return glm::tvec4<floatType, P>(glm::compNormalize<floatType>(Texture.load<glm::tvec3<valType, P> >(TexelCoord, Level)), 1.0f);
+	}};
+
+	template <typename floatType, glm::precision P, typename valType>
+	struct texelFetchNorm4{
+	static glm::tvec4<floatType, P> call(texture2D const & Texture, texture2D::dim_type const & TexelCoord, texture2D::size_type Level)
+	{
+		return glm::compNormalize<floatType>(Texture.load<glm::tvec4<valType, P> >(TexelCoord, Level));
+	}};
+
+	// sRGB
+	template <typename floatType, glm::precision P>
+	struct texelFetchSRGB1{
+	static glm::tvec4<floatType, P> call(texture2D const & Texture, texture2D::dim_type const & TexelCoord, texture2D::size_type Level)
+	{
+		return glm::tvec4<floatType, P>(glm::convertLinearToSRGB(glm::compNormalize<floatType>(Texture.load<glm::tvec1<glm::u8, P> >(TexelCoord, Level))).x, 0.0f, 0.0f, 1.0f);
+	}};
+
+	template <typename floatType, glm::precision P>
+	struct texelFetchSRGB2{
+	static glm::tvec4<floatType, P> call(texture2D const & Texture, texture2D::dim_type const & TexelCoord, texture2D::size_type Level)
+	{
+		return glm::tvec4<floatType, P>(glm::convertLinearToSRGB(glm::compNormalize<floatType>(Texture.load<glm::tvec2<glm::u8, P> >(TexelCoord, Level))), 0.0f, 1.0f);
+	}};
+
+	template <typename floatType, glm::precision P>
+	struct texelFetchSRGB3{
+	static glm::tvec4<floatType, P> call(texture2D const & Texture, texture2D::dim_type const & TexelCoord, texture2D::size_type Level)
+	{
+		return glm::tvec4<floatType, P>(glm::convertLinearToSRGB(glm::compNormalize<floatType>(Texture.load<glm::tvec3<glm::u8, P> >(TexelCoord, Level))), 1.0f);
+	}};
+
+	template <typename floatType, glm::precision P>
+	struct texelFetchSRGB4{
+	static glm::tvec4<floatType, P> call(texture2D const & Texture, texture2D::dim_type const & TexelCoord, texture2D::size_type Level)
+	{
+		return glm::convertLinearToSRGB(glm::compNormalize<floatType>(Texture.load<glm::tvec4<glm::u8, P> >(TexelCoord, Level)));
+	}};
+
+	// Cast
+	template <typename floatType, glm::precision P, typename valType>
+	struct texelFetchCast1{
+	static glm::tvec4<floatType, P> call(texture2D const & Texture, texture2D::dim_type const & TexelCoord, texture2D::size_type Level)
+	{
+		return glm::tvec4<floatType, P>(static_cast<floatType>(Texture.load<glm::tvec1<valType, P> >(TexelCoord, Level).x), static_cast<floatType>(0), static_cast<floatType>(0), static_cast<floatType>(1));
+	}};
+
+	template <typename floatType, glm::precision P, typename valType>
+	struct texelFetchCast2{
+	static glm::tvec4<floatType, P> call(texture2D const & Texture, texture2D::dim_type const & TexelCoord, texture2D::size_type Level)
+	{
+		return glm::tvec4<floatType, P>(glm::tvec2<floatType, P>(Texture.load<glm::tvec2<valType, P> >(TexelCoord, Level)), static_cast<floatType>(0), static_cast<floatType>(1));
+	}};
+
+	template <typename floatType, glm::precision P, typename valType>
+	struct texelFetchCast3{
+	static glm::tvec4<floatType, P> call(texture2D const & Texture, texture2D::dim_type const & TexelCoord, texture2D::size_type Level)
+	{
+		return glm::tvec4<floatType, P>(glm::tvec3<floatType, P>(Texture.load<glm::tvec3<valType, P> >(TexelCoord, Level)), static_cast<floatType>(1));
+	}};
+
+	template <typename floatType, glm::precision P, typename valType>
+	struct texelFetchCast4{
+	static glm::tvec4<floatType, P> call(texture2D const & Texture, texture2D::dim_type const & TexelCoord, texture2D::size_type Level)
+	{
+		return glm::tvec4<floatType, P>(Texture.load<glm::tvec4<valType, P> >(TexelCoord, Level));
+	}};
+
+	// Read
+	template <typename floatType, glm::precision P, typename valType>
+	struct texelFetchRead1{
+	static glm::tvec4<floatType, P> call(texture2D const & Texture, texture2D::dim_type const & TexelCoord, texture2D::size_type Level)
+	{
+		return glm::tvec4<floatType, P>(static_cast<floatType>(Texture.load<glm::tvec1<valType, P> >(TexelCoord, Level).x), static_cast<floatType>(0), static_cast<floatType>(0), static_cast<floatType>(1));
+	}};
+
+	template <typename floatType, glm::precision P, typename valType>
+	struct texelFetchRead2{
+	static glm::tvec4<floatType, P> call(texture2D const & Texture, texture2D::dim_type const & TexelCoord, texture2D::size_type Level)
+	{
+		return glm::tvec4<floatType, P>(glm::tvec2<floatType, P>(Texture.load<glm::tvec2<valType, P> >(TexelCoord, Level)), static_cast<floatType>(0), static_cast<floatType>(1));
+	}};
+
+	template <typename floatType, glm::precision P, typename valType>
+	struct texelFetchRead3{
+	static glm::tvec4<floatType, P> call(texture2D const & Texture, texture2D::dim_type const & TexelCoord, texture2D::size_type Level)
+	{
+		return glm::tvec4<floatType, P>(Texture.load<glm::tvec3<valType, P>>(TexelCoord, Level), static_cast<valType>(1));
+	}};
+
+	template <typename floatType, glm::precision P, typename valType>
+	struct texelFetchRead4{
+	static glm::tvec4<floatType, P> call(texture2D const & Texture, texture2D::dim_type const & TexelCoord, texture2D::size_type Level)
+	{
+		return glm::tvec4<floatType, P>(Texture.load<glm::tvec4<valType, P>>(TexelCoord, Level));
+	}};
 }//namespace detail
 
 	enum wrap
@@ -94,7 +271,240 @@ namespace detail
 	template <typename floatType, glm::precision P = glm::defaultp>
 	class sampler2D : public sampler
 	{
-		//typedef glm::tvec4<floatType, P> (*textureLodFunc)(texture2D::texcoord_type const & Texcoord, texture2D::size_type Level);
+		typedef glm::tvec4<floatType, P> (*texelFetchFunc)(texture2D const & Texture, texture2D::dim_type const & TexelCoord, texture2D::size_type Level);
+
+		texelFetchFunc GetTexelFetchFunc(format Format) const
+		{
+			static texelFetchFunc Table[] =
+			{
+				detail::texelFetch<floatType, P, FORMAT_RG4_UNORM>::call,				// FORMAT_RG4_UNORM
+				detail::texelFetch<floatType, P, FORMAT_RG4_USCALED>::call,				// FORMAT_RG4_USCALED
+				detail::texelFetch<floatType, P, FORMAT_RGBA4_UNORM>::call,				// FORMAT_RGBA4_UNORM
+				detail::texelFetch<floatType, P, FORMAT_RGBA4_USCALED>::call,			// FORMAT_RGBA4_USCALED
+				detail::texelFetch<floatType, P, FORMAT_R5G6B5_UNORM>::call,			// FORMAT_R5G6B5_UNORM
+				detail::texelFetch<floatType, P, FORMAT_R5G6B5_USCALED>::call,			// FORMAT_R5G6B5_USCALED
+				detail::texelFetch<floatType, P, FORMAT_RGB5A1_UNORM>::call,			// FORMAT_RGB5A1_UNORM
+				detail::texelFetch<floatType, P, FORMAT_RGB5A1_USCALED>::call,			// FORMAT_RGB5A1_USCALED
+
+				detail::texelFetchNorm1<floatType, P, glm::u8>::call,					// FORMAT_R8_UNORM
+				detail::texelFetchNorm1<floatType, P, glm::i8>::call,					// FORMAT_R8_SNORM
+				detail::texelFetchCast1<floatType, P, glm::u8>::call,					// FORMAT_R8_USCALED
+				detail::texelFetchCast1<floatType, P, glm::i8>::call,					// FORMAT_R8_SSCALED
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_R8_UINT
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_R8_SINT
+				detail::texelFetchSRGB1<floatType, P>::call,							// FORMAT_R8_SRGB
+
+				detail::texelFetchNorm2<floatType, P, glm::u8>::call,					// FORMAT_RG8_UNORM
+				detail::texelFetchNorm2<floatType, P, glm::i8>::call,					// FORMAT_RG8_SNORM
+				detail::texelFetchCast2<floatType, P, glm::u8>::call,					// FORMAT_RG8_USCALED
+				detail::texelFetchCast2<floatType, P, glm::i8>::call,					// FORMAT_RG8_SSCALED
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_RG8_UINT
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_RG8_SINT
+				detail::texelFetchSRGB2<floatType, P>::call,							// FORMAT_RG8_SRGB
+
+				detail::texelFetchNorm3<floatType, P, glm::u8>::call,					// FORMAT_RGB8_UNORM
+				detail::texelFetchNorm3<floatType, P, glm::i8>::call,					// FORMAT_RGB8_SNORM
+				detail::texelFetchCast3<floatType, P, glm::u8>::call,					// FORMAT_RGB8_USCALED
+				detail::texelFetchCast3<floatType, P, glm::i8>::call,					// FORMAT_RGB8_SSCALED
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_RGB8_UINT
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_RGB8_SINT
+				detail::texelFetchSRGB3<floatType, P>::call,							// FORMAT_RGB8_SRGB
+
+				detail::texelFetchNorm4<floatType, P, glm::u8>::call,					// FORMAT_RGBA8_UNORM
+				detail::texelFetchNorm4<floatType, P, glm::i8>::call,					// FORMAT_RGBA8_SNORM
+				detail::texelFetchCast4<floatType, P, glm::u8>::call,					// FORMAT_RGBA8_USCALED
+				detail::texelFetchCast4<floatType, P, glm::i8>::call,					// FORMAT_RGBA8_SSCALED
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_RGBA8_UINT
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_RGBA8_SINT
+				detail::texelFetchSRGB4<floatType, P>::call,							// FORMAT_RGBA8_SRGB
+
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_RGB10A2_UNORM
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_RGB10A2_SNORM
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_RGB10A2_USCALED
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_RGB10A2_SSCALED
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_RGB10A2_UINT
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_RGB10A2_SINT
+
+				detail::texelFetchNorm1<floatType, P, glm::u16>::call,					// FORMAT_R16_UNORM
+				detail::texelFetchNorm1<floatType, P, glm::i16>::call,					// FORMAT_R16_SNORM
+				detail::texelFetchCast1<floatType, P, glm::u16>::call,					// FORMAT_R16_USCALED
+				detail::texelFetchCast1<floatType, P, glm::i16>::call,					// FORMAT_R16_SSCALED
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_R16_UINT
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_R16_SINT
+				detail::texelFetch<floatType, P, FORMAT_R16_SFLOAT>::call,				// FORMAT_R16_SFLOAT
+
+				detail::texelFetchNorm2<floatType, P, glm::u16>::call,					// FORMAT_RG16_UNORM
+				detail::texelFetchNorm2<floatType, P, glm::i16>::call,					// FORMAT_RG16_SNORM
+				detail::texelFetchCast2<floatType, P, glm::u16>::call,					// FORMAT_RG16_USCALED
+				detail::texelFetchCast2<floatType, P, glm::i16>::call,					// FORMAT_RG16_SSCALED
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_RG16_UINT
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_RG16_SINT
+				detail::texelFetch<floatType, P, FORMAT_RG16_SFLOAT>::call,				// FORMAT_RG16_SFLOAT
+
+				detail::texelFetchNorm3<floatType, P, glm::u16>::call,					// FORMAT_RGB16_UNORM
+				detail::texelFetchNorm3<floatType, P, glm::i16>::call,					// FORMAT_RGB16_SNORM
+				detail::texelFetchCast3<floatType, P, glm::u16>::call,					// FORMAT_RGB16_USCALED
+				detail::texelFetchCast3<floatType, P, glm::i16>::call,					// FORMAT_RGB16_SSCALED
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_RGB16_UINT
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_RGB16_SINT
+				detail::texelFetch<floatType, P, FORMAT_RGB16_SFLOAT>::call,			// FORMAT_RGB16_SFLOAT
+
+				detail::texelFetchNorm4<floatType, P, glm::u16>::call,					// FORMAT_RGBA16_UNORM
+				detail::texelFetchNorm4<floatType, P, glm::i16>::call,					// FORMAT_RGBA16_SNORM
+				detail::texelFetchCast4<floatType, P, glm::u16>::call,					// FORMAT_RGBA16_USCALED
+				detail::texelFetchCast4<floatType, P, glm::i16>::call,					// FORMAT_RGBA16_SSCALED
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_RGBA16_UINT
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_RGBA16_SINT
+				detail::texelFetch<floatType, P, FORMAT_RGBA16_SFLOAT>::call,			// FORMAT_RGBA16_SFLOAT
+
+				detail::texelFetchRead1<floatType, P, glm::u32>::call,					// FORMAT_R32_UINT
+				detail::texelFetchRead1<floatType, P, glm::i32>::call,					// FORMAT_R32_SINT
+				detail::texelFetchRead1<floatType, P, glm::f32>::call,					// FORMAT_R32_SFLOAT
+				detail::texelFetchRead2<floatType, P, glm::u32>::call,					// FORMAT_RG32_UINT
+				detail::texelFetchRead2<floatType, P, glm::i32>::call,					// FORMAT_RG32_SINT
+				detail::texelFetchRead2<floatType, P, glm::f32>::call,					// FORMAT_RG32_SFLOAT
+				detail::texelFetchRead3<floatType, P, glm::u32>::call,					// FORMAT_RGB32_UINT
+				detail::texelFetchRead3<floatType, P, glm::i32>::call,					// FORMAT_RGB32_SINT
+				detail::texelFetchRead3<floatType, P, glm::f32>::call,					// FORMAT_RGB32_SFLOAT
+				detail::texelFetchRead4<floatType, P, glm::u32>::call,					// FORMAT_RGBA32_UINT
+				detail::texelFetchRead4<floatType, P, glm::i32>::call,					// FORMAT_RGBA32_SINT
+				detail::texelFetchRead4<floatType, P, glm::f32>::call,					// FORMAT_RGBA32_SFLOAT
+
+				detail::texelFetchRead1<floatType, P, glm::f64>::call,					// FORMAT_R64_SFLOAT
+				detail::texelFetchRead2<floatType, P, glm::f64>::call,					// FORMAT_RG64_SFLOAT
+				detail::texelFetchRead3<floatType, P, glm::f64>::call,					// FORMAT_RGB64_SFLOAT
+				detail::texelFetchRead4<floatType, P, glm::f64>::call,					// FORMAT_RGBA64_SFLOAT
+
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_RG11B10_UFLOAT
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_RGB9E5_UFLOAT
+
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_D16_UNORM
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_D24_UNORM
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_D32_SFLOAT
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_S8_UINT
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_D16_UNORM_S8_UINT
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_D24_UNORM_S8_UINT
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_D32_SFLOAT_S8_UINT
+
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_RGB_DXT1_UNORM
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_RGB_DXT1_SRGB
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_RGBA_DXT1_UNORM
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_RGBA_DXT1_SRGB
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_RGBA_DXT3_UNORM
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_RGBA_DXT3_SRGB
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_RGBA_DXT5_UNORM
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_RGBA_DXT5_SRGB
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_R_ATI1N_UNORM
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_R_ATI1N_SNORM
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_RG_ATI2N_UNORM
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_RG_ATI2N_SNORM
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_RGB_BP_UFLOAT
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_RGB_BP_SFLOAT
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_RGBA_BP_UNORM
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_RGBA_BP_SRGB
+
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_RGB_ETC2_UNORM
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_RGB_ETC2_SRGB
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_RGBA_ETC2_A1_UNORM
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_RGBA_ETC2_A1_SRGB
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_RGBA_ETC2_UNORM
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_RGBA_ETC2_SRGB
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_R_EAC_UNORM
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_R_EAC_SNORM
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_RG_EAC_UNORM
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_RG_EAC_SNORM
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_ASTC_4x4_UNORM
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_ASTC_4x4_SRGB
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_ASTC_5x4_UNORM
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_ASTC_5x4_SRGB
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_ASTC_5x5_UNORM
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_ASTC_5x5_SRGB
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_ASTC_6x5_UNORM
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_ASTC_6x5_SRGB
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_ASTC_6x6_UNORM
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_ASTC_6x6_SRGB
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_ASTC_8x5_UNORM
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_ASTC_8x5_SRGB
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_ASTC_8x6_UNORM
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_ASTC_8x6_SRGB
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_ASTC_8x8_UNORM
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_ASTC_8x8_SRGB
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_ASTC_10x5_UNORM
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_ASTC_10x5_SRGB
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_ASTC_10x6_UNORM
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_ASTC_10x6_SRGB
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_ASTC_10x8_UNORM
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_ASTC_10x8_SRGB
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_ASTC_10x10_UNORM
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_ASTC_10x10_SRGB
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_ASTC_12x10_UNORM
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_ASTC_12x10_SRGB
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_ASTC_12x12_UNORM
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_ASTC_12x12_SRGB
+
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_BGRA4_UNORM
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_BGRA4_USCALED
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_B5G6R5_UNORM
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_B5G6R5_USCALED
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_BGR5A1_UNORM
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_BGR5A1_USCALED
+
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_BGR8_UNORM
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_BGR8_SNORM
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_BGR8_USCALED
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_BGR8_SSCALED
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_BGR8_UINT
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_BGR8_SINT
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_BGR8_SRGB
+
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_BGRA8_UNORM
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_BGRA8_SNORM
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_BGRA8_USCALED
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_BGRA8_SSCALED
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_BGRA8_UINT
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_BGRA8_SINT
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_BGRA8_SRGB
+
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_BGR10A2_UNORM
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_BGR10A2_SNORM
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_BGR10A2_USCALED
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_BGR10A2_SSCALED
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_BGR10A2_UINT
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_BGR10A2_SINT
+
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_RG3B2_UNORM
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_BGRX8_UNORM
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_BGRX8_SRGB
+
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_L8_UNORM
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_A8_UNORM
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_LA8_UNORM
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_L16_UNORM
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_A16_UNORM
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_LA16_UNORM
+
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_RGB_PVRTC1_8X8_UNORM
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_RGB_PVRTC1_8X8_SRGB
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_RGB_PVRTC1_16X8_UNORM
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_RGB_PVRTC1_16X8_SRGB
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_RGBA_PVRTC1_8X8_UNORM
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_RGBA_PVRTC1_8X8_SRGB
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_RGBA_PVRTC1_16X8_UNORM
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_RGBA_PVRTC1_16X8_SRGB
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_RGBA_PVRTC2_4X4_UNORM
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_RGBA_PVRTC2_4X4_SRGB
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_RGBA_PVRTC2_8X4_UNORM
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_RGBA_PVRTC2_8X4_SRGB
+
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_RGB_ETC_UNORM
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_RGB_ATC_UNORM
+				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_RGBA_ATC_EXPLICIT_UNORM
+				detail::texelFetchDefault<floatType, P>::call							// FORMAT_RGBA_ATC_INTERPOLATED_UNORM
+			};
+			static_assert(sizeof(Table) / sizeof(Table[0]) == FORMAT_COUNT, "Texel fetch functions need to be updated");
+
+			return Table[Format - FORMAT_FIRST];
+		};
 
 	public:
 		sampler2D(texture2D const & Texture, wrap Wrap, filter Mip, filter Min, glm::tvec4<floatType, P> const & BorderColor)
@@ -107,18 +517,9 @@ namespace detail
 			assert(!is_compressed(Texture.format()));
 		}
 
-		template <template <typename, glm::precision> class vecType, typename valType>
 		glm::tvec4<floatType, P> texel_fetch(texture2D::dim_type const & TexelCoord, texture2D::size_type const & Level) const
 		{
-			vecType<floatType, P> Texel = glm::compNormalize<floatType>(this->Texture.load<vecType<valType, P> >(TexelCoord, Level));
-
-			if(gli::is_srgb(Texture.format()))
-				Texel = glm::convertSRGBToLinear(Texel);
-
-			glm::tvec4<floatType, P> Result(0.0f, 0.0f, 0.0f, 1.0f);
-			for(glm::length_t i = 0, n = Texel.length(); i < n; ++i)
-				Result[i] = Texel[i];
-			return Result;
+			return this->GetTexelFetchFunc(this->Texture.format())(this->Texture, TexelCoord, Level);
 		}
 
 		template <template <typename, glm::precision> class vecType, typename valType>
@@ -133,7 +534,7 @@ namespace detail
 
 			this->Texture.store<vecType<valType, P> >(TexelCoord, Level, storedTexel);
 		}
-
+/*
 		template <template <typename, glm::precision> class vecType, typename valType>
 		glm::tvec4<floatType, P> texture_lod(texture2D::texcoord_type const & Texcoord, float Level) const
 		{
@@ -215,13 +616,14 @@ namespace detail
 
 			return UseBorderColor ? this->BorderColor : glm::compNormalize<floatType>(this->Texture.load<vecType<valType, P> >(gli::dim2_t(s, t), Level));
 		}
-
+*/
+	private:
 		texture2D Texture;
 		glm::tvec4<floatType, P> BorderColor;
 	};
 }//namespace gli
 
-namespace fetch
+namespace load
 {
 	int test()
 	{
@@ -257,8 +659,48 @@ namespace fetch
 
 		return Error;
 	}
-}//namespace fetch
+}//namespace load
 
+namespace fetch
+{
+	int test()
+	{
+		int Error(0);
+
+		gli::texture2D Texture(gli::FORMAT_RGBA8_UNORM, gli::texture2D::dim_type(4, 2), 1);
+		*(Texture.data<glm::u8vec4>() + 0) = glm::u8vec4(255,   0,   0, 255);
+		*(Texture.data<glm::u8vec4>() + 1) = glm::u8vec4(255, 128,   0, 255);
+		*(Texture.data<glm::u8vec4>() + 2) = glm::u8vec4(255, 255,   0, 255);
+		*(Texture.data<glm::u8vec4>() + 3) = glm::u8vec4(128, 255,   0, 255);
+		*(Texture.data<glm::u8vec4>() + 4) = glm::u8vec4(  0, 255,   0, 255);
+		*(Texture.data<glm::u8vec4>() + 5) = glm::u8vec4(  0, 255, 255, 255);
+		*(Texture.data<glm::u8vec4>() + 6) = glm::u8vec4(  0,   0, 255, 255);
+		*(Texture.data<glm::u8vec4>() + 7) = glm::u8vec4(255,   0, 255, 255);
+
+		gli::sampler2D<float> Sampler(Texture, gli::WRAP_CLAMP_TO_EDGE, gli::FILTER_LINEAR, gli::FILTER_LINEAR, glm::vec4(0.0f, 0.5f, 1.0f, 1.0f));
+
+		glm::vec4 Data0 = Sampler.texel_fetch(gli::texture2D::dim_type(0, 0), 0);
+		glm::vec4 Data1 = Sampler.texel_fetch(gli::texture2D::dim_type(1, 0), 0);
+		glm::vec4 Data2 = Sampler.texel_fetch(gli::texture2D::dim_type(2, 0), 0);
+		glm::vec4 Data3 = Sampler.texel_fetch(gli::texture2D::dim_type(3, 0), 0);
+		glm::vec4 Data4 = Sampler.texel_fetch(gli::texture2D::dim_type(0, 1), 0);
+		glm::vec4 Data5 = Sampler.texel_fetch(gli::texture2D::dim_type(1, 1), 0);
+		glm::vec4 Data6 = Sampler.texel_fetch(gli::texture2D::dim_type(2, 1), 0);
+		glm::vec4 Data7 = Sampler.texel_fetch(gli::texture2D::dim_type(3, 1), 0);
+
+		Error += glm::all(glm::epsilonEqual(Data0, glm::vec4(1.0f, 0.0f, 0.0f, 1.0f), glm::epsilon<float>())) ? 0 : 1;
+		Error += glm::all(glm::epsilonEqual(Data1, glm::vec4(1.0f, 0.5f, 0.0f, 1.0f), 0.01f)) ? 0 : 1;
+		Error += glm::all(glm::epsilonEqual(Data2, glm::vec4(1.0f, 1.0f, 0.0f, 1.0f), glm::epsilon<float>())) ? 0 : 1;
+		Error += glm::all(glm::epsilonEqual(Data3, glm::vec4(0.5f, 1.0f, 0.0f, 1.0f), 0.01f)) ? 0 : 1;
+		Error += glm::all(glm::epsilonEqual(Data4, glm::vec4(0.0f, 1.0f, 0.0f, 1.0f), glm::epsilon<float>())) ? 0 : 1;
+		Error += glm::all(glm::epsilonEqual(Data5, glm::vec4(0.0f, 1.0f, 1.0f, 1.0f), glm::epsilon<float>())) ? 0 : 1;
+		Error += glm::all(glm::epsilonEqual(Data6, glm::vec4(0.0f, 0.0f, 1.0f, 1.0f), glm::epsilon<float>())) ? 0 : 1;
+		Error += glm::all(glm::epsilonEqual(Data7, glm::vec4(1.0f, 0.0f, 1.0f, 1.0f), glm::epsilon<float>())) ? 0 : 1;
+
+		return Error;
+	}
+}//namespace fetch
+/*
 namespace sampler
 {
 	int test()
@@ -358,14 +800,15 @@ namespace clamp_to_border
 		return Error;
 	}
 }//namespace clamp_to_border
-
+*/
 int main()
 {
 	int Error(0);
 
-	Error += clamp_to_border::test();
+	Error += load::test();
 	Error += fetch::test();
-	Error += sampler::test();
+	//Error += sampler::test();
+	//Error += clamp_to_border::test();
 
 	return Error;
 }
