@@ -42,19 +42,6 @@ namespace detail
 		return texcoord;
 	}
 
-	enum data_kind
-	{
-		DATA_KIND_UNDEFINED,
-		DATA_KIND_PACKED,
-		DATA_KIND_UNORM,
-		DATA_KIND_SNORM,
-		DATA_KIND_USCALED,
-		DATA_KIND_SSCALED,
-		DATA_KIND_UINT,
-		DATA_KIND_SINT,
-		DATA_KIND_SRGB
-	};
-
 	// Default
 	template <typename floatType, glm::precision P>
 	struct texelFetchDefault{
@@ -272,6 +259,7 @@ namespace detail
 	class sampler2D : public sampler
 	{
 		typedef glm::tvec4<floatType, P> (*texelFetchFunc)(texture2D const & Texture, texture2D::dim_type const & TexelCoord, texture2D::size_type Level);
+		typedef void (*texelWriteFunc)(texture2D const & Texture, texture2D::dim_type const & TexelCoord, texture2D::size_type Level, glm::tvec4<floatType, P> const & Texel);
 
 		texelFetchFunc GetTexelFetchFunc(format Format) const
 		{
@@ -521,7 +509,7 @@ namespace detail
 		{
 			return this->GetTexelFetchFunc(this->Texture.format())(this->Texture, TexelCoord, Level);
 		}
-
+/*
 		template <template <typename, glm::precision> class vecType, typename valType>
 		void texel_write(texture2D::dim_type const & TexelCoord, texture2D::size_type const & Level, glm::tvec4<floatType, P> const & Texel)
 		{
@@ -534,6 +522,7 @@ namespace detail
 
 			this->Texture.store<vecType<valType, P> >(TexelCoord, Level, storedTexel);
 		}
+*/
 /*
 		template <template <typename, glm::precision> class vecType, typename valType>
 		glm::tvec4<floatType, P> texture_lod(texture2D::texcoord_type const & Texcoord, float Level) const
