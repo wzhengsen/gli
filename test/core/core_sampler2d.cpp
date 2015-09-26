@@ -84,7 +84,7 @@ namespace detail
 	struct texelFetch<floatType, P, FORMAT_RGBA16_SFLOAT>{
 	static glm::tvec4<floatType, P> call(texture2D const & Texture, texture2D::dim_type const & TexelCoord, texture2D::size_type Level)
 	{
-		return glm::unpackHalf4x16(Texture.load<glm::uint64>(TexelCoord, Level));
+		return glm::tvec4<floatType, P>(glm::unpackHalf4x16(Texture.load<glm::uint64>(TexelCoord, Level)));
 	}};
 
 	// Normalize
@@ -202,6 +202,21 @@ namespace detail
 	{
 		return glm::tvec4<floatType, P>(Texture.load<glm::tvec4<valType, P>>(TexelCoord, Level));
 	}};
+
+
+
+
+	template <typename floatType, glm::precision P>
+	struct texelWriteSRGB4{
+	static void call(texture2D const & Texture, texture2D::dim_type const & TexelCoord, texture2D::size_type Level, glm::tvec4<floatType, P> const & Texel)
+	{
+		Texture.store<glm::tvec4<glm::u8, P> >(TexelCoord, Level, glm::compScale(glm::convertLinearToSRGB(Texel)));
+	}};
+
+
+
+
+
 }//namespace detail
 
 	enum wrap
@@ -610,6 +625,10 @@ namespace detail
 		texture2D Texture;
 		glm::tvec4<floatType, P> BorderColor;
 	};
+
+	typedef sampler2D<float> fsampler2D;
+	typedef sampler2D<double> dsampler2D;
+
 }//namespace gli
 
 namespace load
@@ -678,7 +697,7 @@ namespace fetch_rgba8_unorm
 		*(Texture.data<glm::u8vec4>() + 6) = glm::u8vec4(Colors[6] * 255.f);
 		*(Texture.data<glm::u8vec4>() + 7) = glm::u8vec4(Colors[7] * 255.f);
 
-		gli::sampler2D<float> Sampler(Texture, gli::WRAP_CLAMP_TO_EDGE, gli::FILTER_LINEAR, gli::FILTER_LINEAR, glm::vec4(0.0f, 0.5f, 1.0f, 1.0f));
+		gli::fsampler2D Sampler(Texture, gli::WRAP_CLAMP_TO_EDGE, gli::FILTER_LINEAR, gli::FILTER_LINEAR, glm::vec4(0.0f, 0.5f, 1.0f, 1.0f));
 
 		glm::vec4 Data0 = Sampler.texel_fetch(gli::texture2D::dim_type(0, 0), 0);
 		glm::vec4 Data1 = Sampler.texel_fetch(gli::texture2D::dim_type(1, 0), 0);
@@ -741,25 +760,49 @@ namespace fetch_rgba8_srgb
 		Texture.store(gli::dim2_t(2, 1), 0, StoreSRGB21);
 		Texture.store(gli::dim2_t(3, 1), 0, StoreSRGB31);
 
-		gli::sampler2D<float> Sampler(Texture, gli::WRAP_CLAMP_TO_EDGE, gli::FILTER_LINEAR, gli::FILTER_LINEAR, glm::vec4(0.0f, 0.5f, 1.0f, 1.0f));
+		{
+			gli::fsampler2D Sampler(Texture, gli::WRAP_CLAMP_TO_EDGE, gli::FILTER_LINEAR, gli::FILTER_LINEAR, glm::vec4(0.0f, 0.5f, 1.0f, 1.0f));
 
-		glm::vec4 Data0 = Sampler.texel_fetch(gli::texture2D::dim_type(0, 0), 0);
-		glm::vec4 Data1 = Sampler.texel_fetch(gli::texture2D::dim_type(1, 0), 0);
-		glm::vec4 Data2 = Sampler.texel_fetch(gli::texture2D::dim_type(2, 0), 0);
-		glm::vec4 Data3 = Sampler.texel_fetch(gli::texture2D::dim_type(3, 0), 0);
-		glm::vec4 Data4 = Sampler.texel_fetch(gli::texture2D::dim_type(0, 1), 0);
-		glm::vec4 Data5 = Sampler.texel_fetch(gli::texture2D::dim_type(1, 1), 0);
-		glm::vec4 Data6 = Sampler.texel_fetch(gli::texture2D::dim_type(2, 1), 0);
-		glm::vec4 Data7 = Sampler.texel_fetch(gli::texture2D::dim_type(3, 1), 0);
+			glm::vec4 Data0 = Sampler.texel_fetch(gli::texture2D::dim_type(0, 0), 0);
+			glm::vec4 Data1 = Sampler.texel_fetch(gli::texture2D::dim_type(1, 0), 0);
+			glm::vec4 Data2 = Sampler.texel_fetch(gli::texture2D::dim_type(2, 0), 0);
+			glm::vec4 Data3 = Sampler.texel_fetch(gli::texture2D::dim_type(3, 0), 0);
+			glm::vec4 Data4 = Sampler.texel_fetch(gli::texture2D::dim_type(0, 1), 0);
+			glm::vec4 Data5 = Sampler.texel_fetch(gli::texture2D::dim_type(1, 1), 0);
+			glm::vec4 Data6 = Sampler.texel_fetch(gli::texture2D::dim_type(2, 1), 0);
+			glm::vec4 Data7 = Sampler.texel_fetch(gli::texture2D::dim_type(3, 1), 0);
 
-		Error += glm::all(glm::epsilonEqual(Data0, Colors[0], 0.01f)) ? 0 : 1;
-		Error += glm::all(glm::epsilonEqual(Data1, Colors[1], 0.01f)) ? 0 : 1;
-		Error += glm::all(glm::epsilonEqual(Data2, Colors[2], 0.01f)) ? 0 : 1;
-		Error += glm::all(glm::epsilonEqual(Data3, Colors[3], 0.01f)) ? 0 : 1;
-		Error += glm::all(glm::epsilonEqual(Data4, Colors[4], 0.01f)) ? 0 : 1;
-		Error += glm::all(glm::epsilonEqual(Data5, Colors[5], 0.01f)) ? 0 : 1;
-		Error += glm::all(glm::epsilonEqual(Data6, Colors[6], 0.01f)) ? 0 : 1;
-		Error += glm::all(glm::epsilonEqual(Data7, Colors[7], 0.01f)) ? 0 : 1;
+			Error += glm::all(glm::epsilonEqual(Data0, Colors[0], 0.01f)) ? 0 : 1;
+			Error += glm::all(glm::epsilonEqual(Data1, Colors[1], 0.01f)) ? 0 : 1;
+			Error += glm::all(glm::epsilonEqual(Data2, Colors[2], 0.01f)) ? 0 : 1;
+			Error += glm::all(glm::epsilonEqual(Data3, Colors[3], 0.01f)) ? 0 : 1;
+			Error += glm::all(glm::epsilonEqual(Data4, Colors[4], 0.01f)) ? 0 : 1;
+			Error += glm::all(glm::epsilonEqual(Data5, Colors[5], 0.01f)) ? 0 : 1;
+			Error += glm::all(glm::epsilonEqual(Data6, Colors[6], 0.01f)) ? 0 : 1;
+			Error += glm::all(glm::epsilonEqual(Data7, Colors[7], 0.01f)) ? 0 : 1;
+		}
+
+		{
+			gli::dsampler2D Sampler(Texture, gli::WRAP_CLAMP_TO_EDGE, gli::FILTER_LINEAR, gli::FILTER_LINEAR, glm::dvec4(0.0f, 0.5f, 1.0f, 1.0f));
+
+			glm::dvec4 Data0 = Sampler.texel_fetch(gli::texture2D::dim_type(0, 0), 0);
+			glm::dvec4 Data1 = Sampler.texel_fetch(gli::texture2D::dim_type(1, 0), 0);
+			glm::dvec4 Data2 = Sampler.texel_fetch(gli::texture2D::dim_type(2, 0), 0);
+			glm::dvec4 Data3 = Sampler.texel_fetch(gli::texture2D::dim_type(3, 0), 0);
+			glm::dvec4 Data4 = Sampler.texel_fetch(gli::texture2D::dim_type(0, 1), 0);
+			glm::dvec4 Data5 = Sampler.texel_fetch(gli::texture2D::dim_type(1, 1), 0);
+			glm::dvec4 Data6 = Sampler.texel_fetch(gli::texture2D::dim_type(2, 1), 0);
+			glm::dvec4 Data7 = Sampler.texel_fetch(gli::texture2D::dim_type(3, 1), 0);
+
+			Error += glm::all(glm::epsilonEqual(Data0, glm::dvec4(Colors[0]), 0.01)) ? 0 : 1;
+			Error += glm::all(glm::epsilonEqual(Data1, glm::dvec4(Colors[1]), 0.01)) ? 0 : 1;
+			Error += glm::all(glm::epsilonEqual(Data2, glm::dvec4(Colors[2]), 0.01)) ? 0 : 1;
+			Error += glm::all(glm::epsilonEqual(Data3, glm::dvec4(Colors[3]), 0.01)) ? 0 : 1;
+			Error += glm::all(glm::epsilonEqual(Data4, glm::dvec4(Colors[4]), 0.01)) ? 0 : 1;
+			Error += glm::all(glm::epsilonEqual(Data5, glm::dvec4(Colors[5]), 0.01)) ? 0 : 1;
+			Error += glm::all(glm::epsilonEqual(Data6, glm::dvec4(Colors[6]), 0.01)) ? 0 : 1;
+			Error += glm::all(glm::epsilonEqual(Data7, glm::dvec4(Colors[7]), 0.01)) ? 0 : 1;
+		}
 
 		return Error;
 	}
