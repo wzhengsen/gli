@@ -76,11 +76,11 @@ namespace fetch_r8_unorm
 
 		gli::texture2D TextureC(gli::FORMAT_R8_UNORM, gli::texture2D::dim_type(2, 2));
 		{
-			TextureC.save<glm::u8vec1>(gli::texture2D::dim_type(0, 0), 0, glm::u8vec1(1));
-			TextureC.save<glm::u8vec1>(gli::texture2D::dim_type(1, 0), 0, glm::u8vec1(2));
-			TextureC.save<glm::u8vec1>(gli::texture2D::dim_type(1, 1), 0, glm::u8vec1(3));
-			TextureC.save<glm::u8vec1>(gli::texture2D::dim_type(0, 1), 0, glm::u8vec1(4));
-			TextureC.save<glm::u8vec1>(gli::texture2D::dim_type(0, 0), 1, glm::u8vec1(5));
+			TextureC.store<glm::u8vec1>(gli::texture2D::dim_type(0, 0), 0, glm::u8vec1(1));
+			TextureC.store<glm::u8vec1>(gli::texture2D::dim_type(1, 0), 0, glm::u8vec1(2));
+			TextureC.store<glm::u8vec1>(gli::texture2D::dim_type(1, 1), 0, glm::u8vec1(3));
+			TextureC.store<glm::u8vec1>(gli::texture2D::dim_type(0, 1), 0, glm::u8vec1(4));
+			TextureC.store<glm::u8vec1>(gli::texture2D::dim_type(0, 0), 1, glm::u8vec1(5));
 		}
 
 		Error += TextureA == TextureB ? 0 : 1;
@@ -134,11 +134,11 @@ namespace fetch_rg8_unorm
 
 		gli::texture2D TextureC(gli::FORMAT_RG8_UNORM, gli::texture2D::dim_type(2, 2));
 		{
-			TextureC.save<glm::u8vec2>(gli::texture2D::dim_type(0, 0), 0, glm::u8vec2(1, 2));
-			TextureC.save<glm::u8vec2>(gli::texture2D::dim_type(1, 0), 0, glm::u8vec2(3, 4));
-			TextureC.save<glm::u8vec2>(gli::texture2D::dim_type(1, 1), 0, glm::u8vec2(5, 6));
-			TextureC.save<glm::u8vec2>(gli::texture2D::dim_type(0, 1), 0, glm::u8vec2(7, 8));
-			TextureC.save<glm::u8vec2>(gli::texture2D::dim_type(0, 0), 1, glm::u8vec2(9, 5));
+			TextureC.store<glm::u8vec2>(gli::texture2D::dim_type(0, 0), 0, glm::u8vec2(1, 2));
+			TextureC.store<glm::u8vec2>(gli::texture2D::dim_type(1, 0), 0, glm::u8vec2(3, 4));
+			TextureC.store<glm::u8vec2>(gli::texture2D::dim_type(1, 1), 0, glm::u8vec2(5, 6));
+			TextureC.store<glm::u8vec2>(gli::texture2D::dim_type(0, 1), 0, glm::u8vec2(7, 8));
+			TextureC.store<glm::u8vec2>(gli::texture2D::dim_type(0, 0), 1, glm::u8vec2(9, 5));
 		}
 
 		Error += TextureA == TextureB ? 0 : 1;
@@ -192,11 +192,11 @@ namespace fetch_rgb8_unorm
 
 		gli::texture2D TextureC(gli::FORMAT_RGB8_UNORM, gli::texture2D::dim_type(2, 2));
 		{
-			TextureC.save<glm::u8vec3>(gli::texture2D::dim_type(0, 0), 0, glm::u8vec3(255, 0, 0));
-			TextureC.save<glm::u8vec3>(gli::texture2D::dim_type(1, 0), 0, glm::u8vec3(255, 255, 0));
-			TextureC.save<glm::u8vec3>(gli::texture2D::dim_type(1, 1), 0, glm::u8vec3(0, 255, 0));
-			TextureC.save<glm::u8vec3>(gli::texture2D::dim_type(0, 1), 0, glm::u8vec3(0, 0, 255));
-			TextureC.save<glm::u8vec3>(gli::texture2D::dim_type(0, 0), 1, glm::u8vec3(255, 128, 0));
+			TextureC.store<glm::u8vec3>(gli::texture2D::dim_type(0, 0), 0, glm::u8vec3(255, 0, 0));
+			TextureC.store<glm::u8vec3>(gli::texture2D::dim_type(1, 0), 0, glm::u8vec3(255, 255, 0));
+			TextureC.store<glm::u8vec3>(gli::texture2D::dim_type(1, 1), 0, glm::u8vec3(0, 255, 0));
+			TextureC.store<glm::u8vec3>(gli::texture2D::dim_type(0, 1), 0, glm::u8vec3(0, 0, 255));
+			TextureC.store<glm::u8vec3>(gli::texture2D::dim_type(0, 0), 1, glm::u8vec3(255, 128, 0));
 		}
 
 		Error += TextureA == TextureB ? 0 : 1;
@@ -250,11 +250,11 @@ namespace fetch_rgba8_unorm
 
 		gli::texture2D TextureC(gli::FORMAT_RGBA8_UNORM, gli::texture2D::dim_type(2, 2));
 		{
-			TextureC.save<glm::u8vec4>(gli::texture2D::dim_type(0, 0), 0, glm::u8vec4(255, 0, 0, 255));
-			TextureC.save<glm::u8vec4>(gli::texture2D::dim_type(1, 0), 0, glm::u8vec4(255, 255, 0, 255));
-			TextureC.save<glm::u8vec4>(gli::texture2D::dim_type(1, 1), 0, glm::u8vec4(0, 255, 0, 255));
-			TextureC.save<glm::u8vec4>(gli::texture2D::dim_type(0, 1), 0, glm::u8vec4(0, 0, 255, 255));
-			TextureC.save<glm::u8vec4>(gli::texture2D::dim_type(0, 0), 1, glm::u8vec4(255, 128, 0, 255));
+			TextureC.store<glm::u8vec4>(gli::texture2D::dim_type(0, 0), 0, glm::u8vec4(255, 0, 0, 255));
+			TextureC.store<glm::u8vec4>(gli::texture2D::dim_type(1, 0), 0, glm::u8vec4(255, 255, 0, 255));
+			TextureC.store<glm::u8vec4>(gli::texture2D::dim_type(1, 1), 0, glm::u8vec4(0, 255, 0, 255));
+			TextureC.store<glm::u8vec4>(gli::texture2D::dim_type(0, 1), 0, glm::u8vec4(0, 0, 255, 255));
+			TextureC.store<glm::u8vec4>(gli::texture2D::dim_type(0, 0), 1, glm::u8vec4(255, 128, 0, 255));
 		}
 
 		Error += TextureA == TextureB ? 0 : 1;
@@ -314,11 +314,11 @@ namespace fetch_rgb10a2_unorm
 
 		gli::texture2D TextureC(gli::FORMAT_RGB10A2_UNORM, gli::texture2D::dim_type(2, 2));
 		{
-			TextureC.save<glm::uint32>(gli::texture2D::dim_type(0, 0), 0, ColorR);
-			TextureC.save<glm::uint32>(gli::texture2D::dim_type(1, 0), 0, ColorY);
-			TextureC.save<glm::uint32>(gli::texture2D::dim_type(1, 1), 0, ColorG);
-			TextureC.save<glm::uint32>(gli::texture2D::dim_type(0, 1), 0, ColorB);
-			TextureC.save<glm::uint32>(gli::texture2D::dim_type(0, 0), 1, ColorO);
+			TextureC.store<glm::uint32>(gli::texture2D::dim_type(0, 0), 0, ColorR);
+			TextureC.store<glm::uint32>(gli::texture2D::dim_type(1, 0), 0, ColorY);
+			TextureC.store<glm::uint32>(gli::texture2D::dim_type(1, 1), 0, ColorG);
+			TextureC.store<glm::uint32>(gli::texture2D::dim_type(0, 1), 0, ColorB);
+			TextureC.store<glm::uint32>(gli::texture2D::dim_type(0, 0), 1, ColorO);
 		}
 
 		Error += TextureA == TextureB ? 0 : 1;
@@ -372,11 +372,11 @@ namespace fetch_srgb8_unorm
 
 		gli::texture2D TextureC(gli::FORMAT_RGB8_SRGB, gli::texture2D::dim_type(2, 2));
 		{
-			TextureC.save<glm::u8vec3>(gli::texture2D::dim_type(0, 0), 0, glm::u8vec3(glm::convertLinearToSRGB(glm::vec3(255, 0, 0))));
-			TextureC.save<glm::u8vec3>(gli::texture2D::dim_type(1, 0), 0, glm::u8vec3(glm::convertLinearToSRGB(glm::vec3(255, 255, 0))));
-			TextureC.save<glm::u8vec3>(gli::texture2D::dim_type(1, 1), 0, glm::u8vec3(glm::convertLinearToSRGB(glm::vec3(0, 255, 0))));
-			TextureC.save<glm::u8vec3>(gli::texture2D::dim_type(0, 1), 0, glm::u8vec3(glm::convertLinearToSRGB(glm::vec3(0, 0, 255))));
-			TextureC.save<glm::u8vec3>(gli::texture2D::dim_type(0, 0), 1, glm::u8vec3(glm::convertLinearToSRGB(glm::vec3(255, 128, 0))));
+			TextureC.store<glm::u8vec3>(gli::texture2D::dim_type(0, 0), 0, glm::u8vec3(glm::convertLinearToSRGB(glm::vec3(255, 0, 0))));
+			TextureC.store<glm::u8vec3>(gli::texture2D::dim_type(1, 0), 0, glm::u8vec3(glm::convertLinearToSRGB(glm::vec3(255, 255, 0))));
+			TextureC.store<glm::u8vec3>(gli::texture2D::dim_type(1, 1), 0, glm::u8vec3(glm::convertLinearToSRGB(glm::vec3(0, 255, 0))));
+			TextureC.store<glm::u8vec3>(gli::texture2D::dim_type(0, 1), 0, glm::u8vec3(glm::convertLinearToSRGB(glm::vec3(0, 0, 255))));
+			TextureC.store<glm::u8vec3>(gli::texture2D::dim_type(0, 0), 1, glm::u8vec3(glm::convertLinearToSRGB(glm::vec3(255, 128, 0))));
 		}
 
 		Error += TextureA == TextureB ? 0 : 1;
@@ -430,11 +430,11 @@ namespace fetch_srgba8_unorm
 
 		gli::texture2D TextureC(gli::FORMAT_RGBA8_SRGB, gli::texture2D::dim_type(2, 2));
 		{
-			TextureC.save<glm::u8vec4>(gli::texture2D::dim_type(0, 0), 0, glm::u8vec4(glm::convertLinearToSRGB(glm::vec4(1.0f, 0.0f, 0.0f, 1.0f))));
-			TextureC.save<glm::u8vec4>(gli::texture2D::dim_type(1, 0), 0, glm::u8vec4(glm::convertLinearToSRGB(glm::vec4(1.0f, 1.0f, 0.0f, 1.0f))));
-			TextureC.save<glm::u8vec4>(gli::texture2D::dim_type(1, 1), 0, glm::u8vec4(glm::convertLinearToSRGB(glm::vec4(0.0f, 1.0f, 0.0f, 1.0f))));
-			TextureC.save<glm::u8vec4>(gli::texture2D::dim_type(0, 1), 0, glm::u8vec4(glm::convertLinearToSRGB(glm::vec4(0.0f, 0.0f, 1.0f, 1.0f))));
-			TextureC.save<glm::u8vec4>(gli::texture2D::dim_type(0, 0), 1, glm::u8vec4(glm::convertLinearToSRGB(glm::vec4(1.0f, 0.5f, 0.0f, 1.0f))));
+			TextureC.store<glm::u8vec4>(gli::texture2D::dim_type(0, 0), 0, glm::u8vec4(glm::convertLinearToSRGB(glm::vec4(1.0f, 0.0f, 0.0f, 1.0f))));
+			TextureC.store<glm::u8vec4>(gli::texture2D::dim_type(1, 0), 0, glm::u8vec4(glm::convertLinearToSRGB(glm::vec4(1.0f, 1.0f, 0.0f, 1.0f))));
+			TextureC.store<glm::u8vec4>(gli::texture2D::dim_type(1, 1), 0, glm::u8vec4(glm::convertLinearToSRGB(glm::vec4(0.0f, 1.0f, 0.0f, 1.0f))));
+			TextureC.store<glm::u8vec4>(gli::texture2D::dim_type(0, 1), 0, glm::u8vec4(glm::convertLinearToSRGB(glm::vec4(0.0f, 0.0f, 1.0f, 1.0f))));
+			TextureC.store<glm::u8vec4>(gli::texture2D::dim_type(0, 0), 1, glm::u8vec4(glm::convertLinearToSRGB(glm::vec4(1.0f, 0.5f, 0.0f, 1.0f))));
 		}
 
 		Error += TextureA == TextureB ? 0 : 1;
@@ -488,11 +488,11 @@ namespace fetch_bgr8_unorm
 
 		gli::texture2D TextureC(gli::FORMAT_RGB8_UNORM, gli::texture2D::dim_type(2, 2));
 		{
-			TextureC.save<glm::u8vec3>(gli::texture2D::dim_type(0, 0), 0, glm::u8vec3(0, 0, 255));
-			TextureC.save<glm::u8vec3>(gli::texture2D::dim_type(1, 0), 0, glm::u8vec3(0, 255, 255));
-			TextureC.save<glm::u8vec3>(gli::texture2D::dim_type(1, 1), 0, glm::u8vec3(0, 255, 0));
-			TextureC.save<glm::u8vec3>(gli::texture2D::dim_type(0, 1), 0, glm::u8vec3(255, 0, 0));
-			TextureC.save<glm::u8vec3>(gli::texture2D::dim_type(0, 0), 1, glm::u8vec3(0, 128, 255));
+			TextureC.store<glm::u8vec3>(gli::texture2D::dim_type(0, 0), 0, glm::u8vec3(0, 0, 255));
+			TextureC.store<glm::u8vec3>(gli::texture2D::dim_type(1, 0), 0, glm::u8vec3(0, 255, 255));
+			TextureC.store<glm::u8vec3>(gli::texture2D::dim_type(1, 1), 0, glm::u8vec3(0, 255, 0));
+			TextureC.store<glm::u8vec3>(gli::texture2D::dim_type(0, 1), 0, glm::u8vec3(255, 0, 0));
+			TextureC.store<glm::u8vec3>(gli::texture2D::dim_type(0, 0), 1, glm::u8vec3(0, 128, 255));
 		}
 
 		Error += TextureA == TextureB ? 0 : 1;
@@ -546,11 +546,11 @@ namespace fetch_bgra8_unorm
 
 		gli::texture2D TextureC(gli::FORMAT_BGRA8_UNORM, gli::texture2D::dim_type(2, 2));
 		{
-			TextureC.save<glm::u8vec4>(gli::texture2D::dim_type(0, 0), 0, glm::u8vec4(0, 0, 255, 255));
-			TextureC.save<glm::u8vec4>(gli::texture2D::dim_type(1, 0), 0, glm::u8vec4(0, 255, 255, 255));
-			TextureC.save<glm::u8vec4>(gli::texture2D::dim_type(1, 1), 0, glm::u8vec4(0, 255, 0, 255));
-			TextureC.save<glm::u8vec4>(gli::texture2D::dim_type(0, 1), 0, glm::u8vec4(255, 0, 0, 255));
-			TextureC.save<glm::u8vec4>(gli::texture2D::dim_type(0, 0), 1, glm::u8vec4(0, 128, 255, 255));
+			TextureC.store<glm::u8vec4>(gli::texture2D::dim_type(0, 0), 0, glm::u8vec4(0, 0, 255, 255));
+			TextureC.store<glm::u8vec4>(gli::texture2D::dim_type(1, 0), 0, glm::u8vec4(0, 255, 255, 255));
+			TextureC.store<glm::u8vec4>(gli::texture2D::dim_type(1, 1), 0, glm::u8vec4(0, 255, 0, 255));
+			TextureC.store<glm::u8vec4>(gli::texture2D::dim_type(0, 1), 0, glm::u8vec4(255, 0, 0, 255));
+			TextureC.store<glm::u8vec4>(gli::texture2D::dim_type(0, 0), 1, glm::u8vec4(0, 128, 255, 255));
 		}
 
 		Error += TextureA == TextureB ? 0 : 1;
@@ -604,11 +604,11 @@ namespace fetch_rgba8u
 
 		gli::texture2D TextureC(gli::FORMAT_RGBA8_UINT, gli::texture2D::dim_type(2, 2));
 		{
-			TextureC.save<glm::u8vec4>(gli::texture2D::dim_type(0, 0), 0, glm::u8vec4(255, 0, 0, 255));
-			TextureC.save<glm::u8vec4>(gli::texture2D::dim_type(1, 0), 0, glm::u8vec4(255, 255, 0, 255));
-			TextureC.save<glm::u8vec4>(gli::texture2D::dim_type(1, 1), 0, glm::u8vec4(0, 255, 0, 255));
-			TextureC.save<glm::u8vec4>(gli::texture2D::dim_type(0, 1), 0, glm::u8vec4(0, 0, 255, 255));
-			TextureC.save<glm::u8vec4>(gli::texture2D::dim_type(0, 0), 1, glm::u8vec4(255, 128, 0, 255));
+			TextureC.store<glm::u8vec4>(gli::texture2D::dim_type(0, 0), 0, glm::u8vec4(255, 0, 0, 255));
+			TextureC.store<glm::u8vec4>(gli::texture2D::dim_type(1, 0), 0, glm::u8vec4(255, 255, 0, 255));
+			TextureC.store<glm::u8vec4>(gli::texture2D::dim_type(1, 1), 0, glm::u8vec4(0, 255, 0, 255));
+			TextureC.store<glm::u8vec4>(gli::texture2D::dim_type(0, 1), 0, glm::u8vec4(0, 0, 255, 255));
+			TextureC.store<glm::u8vec4>(gli::texture2D::dim_type(0, 0), 1, glm::u8vec4(255, 128, 0, 255));
 		}
 
 		Error += TextureA == TextureB ? 0 : 1;
@@ -662,11 +662,11 @@ namespace fetch_rgba16f
 
 		gli::texture2D TextureC(gli::FORMAT_RGBA16_SFLOAT, gli::texture2D::dim_type(2, 2));
 		{
-			TextureC.save<glm::u64>(gli::texture2D::dim_type(0, 0), 0, glm::packHalf4x16(glm::vec4(1.0f, 0.0f, 0.0f, 1.0f)));
-			TextureC.save<glm::u64>(gli::texture2D::dim_type(1, 0), 0, glm::packHalf4x16(glm::vec4(1.0f, 1.0f, 0.0f, 1.0f)));
-			TextureC.save<glm::u64>(gli::texture2D::dim_type(1, 1), 0, glm::packHalf4x16(glm::vec4(0.0f, 1.0f, 0.0f, 1.0f)));
-			TextureC.save<glm::u64>(gli::texture2D::dim_type(0, 1), 0, glm::packHalf4x16(glm::vec4(0.0f, 0.0f, 1.0f, 1.0f)));
-			TextureC.save<glm::u64>(gli::texture2D::dim_type(0, 0), 1, glm::packHalf4x16(glm::vec4(1.0f, 0.5f, 0.0f, 1.0f)));
+			TextureC.store<glm::u64>(gli::texture2D::dim_type(0, 0), 0, glm::packHalf4x16(glm::vec4(1.0f, 0.0f, 0.0f, 1.0f)));
+			TextureC.store<glm::u64>(gli::texture2D::dim_type(1, 0), 0, glm::packHalf4x16(glm::vec4(1.0f, 1.0f, 0.0f, 1.0f)));
+			TextureC.store<glm::u64>(gli::texture2D::dim_type(1, 1), 0, glm::packHalf4x16(glm::vec4(0.0f, 1.0f, 0.0f, 1.0f)));
+			TextureC.store<glm::u64>(gli::texture2D::dim_type(0, 1), 0, glm::packHalf4x16(glm::vec4(0.0f, 0.0f, 1.0f, 1.0f)));
+			TextureC.store<glm::u64>(gli::texture2D::dim_type(0, 0), 1, glm::packHalf4x16(glm::vec4(1.0f, 0.5f, 0.0f, 1.0f)));
 		}
 
 		Error += TextureA == TextureB ? 0 : 1;
@@ -720,11 +720,11 @@ namespace fetch_rgb32f
 
 		gli::texture2D TextureC(gli::FORMAT_RGB32_SFLOAT, gli::texture2D::dim_type(2, 2));
 		{
-			TextureC.save<glm::vec3>(gli::texture2D::dim_type(0, 0), 0, glm::vec3(1.0f, 0.0f, 0.0f));
-			TextureC.save<glm::vec3>(gli::texture2D::dim_type(1, 0), 0, glm::vec3(1.0f, 1.0f, 0.0f));
-			TextureC.save<glm::vec3>(gli::texture2D::dim_type(1, 1), 0, glm::vec3(0.0f, 1.0f, 0.0f));
-			TextureC.save<glm::vec3>(gli::texture2D::dim_type(0, 1), 0, glm::vec3(0.0f, 0.0f, 1.0f));
-			TextureC.save<glm::vec3>(gli::texture2D::dim_type(0, 0), 1, glm::vec3(1.0f, 0.5f, 0.0f));
+			TextureC.store<glm::vec3>(gli::texture2D::dim_type(0, 0), 0, glm::vec3(1.0f, 0.0f, 0.0f));
+			TextureC.store<glm::vec3>(gli::texture2D::dim_type(1, 0), 0, glm::vec3(1.0f, 1.0f, 0.0f));
+			TextureC.store<glm::vec3>(gli::texture2D::dim_type(1, 1), 0, glm::vec3(0.0f, 1.0f, 0.0f));
+			TextureC.store<glm::vec3>(gli::texture2D::dim_type(0, 1), 0, glm::vec3(0.0f, 0.0f, 1.0f));
+			TextureC.store<glm::vec3>(gli::texture2D::dim_type(0, 0), 1, glm::vec3(1.0f, 0.5f, 0.0f));
 		}
 
 		Error += TextureA == TextureB ? 0 : 1;
@@ -778,11 +778,11 @@ namespace fetch_rgb9e5
 
 		gli::texture2D TextureC(gli::FORMAT_RGB9E5_UFLOAT, gli::texture2D::dim_type(2, 2));
 		{
-			TextureC.save<glm::uint32_t>(gli::texture2D::dim_type(0, 0), 0, glm::uint32_t(1));
-			TextureC.save<glm::uint32_t>(gli::texture2D::dim_type(1, 0), 0, glm::uint32_t(3));
-			TextureC.save<glm::uint32_t>(gli::texture2D::dim_type(1, 1), 0, glm::uint32_t(5));
-			TextureC.save<glm::uint32_t>(gli::texture2D::dim_type(0, 1), 0, glm::uint32_t(7));
-			TextureC.save<glm::uint32_t>(gli::texture2D::dim_type(0, 0), 1, glm::uint32_t(9));
+			TextureC.store<glm::uint32_t>(gli::texture2D::dim_type(0, 0), 0, glm::uint32_t(1));
+			TextureC.store<glm::uint32_t>(gli::texture2D::dim_type(1, 0), 0, glm::uint32_t(3));
+			TextureC.store<glm::uint32_t>(gli::texture2D::dim_type(1, 1), 0, glm::uint32_t(5));
+			TextureC.store<glm::uint32_t>(gli::texture2D::dim_type(0, 1), 0, glm::uint32_t(7));
+			TextureC.store<glm::uint32_t>(gli::texture2D::dim_type(0, 0), 1, glm::uint32_t(9));
 		}
 
 		Error += TextureA == TextureB ? 0 : 1;
@@ -836,11 +836,11 @@ namespace fetch_rg11b10f
 
 		gli::texture2D TextureC(gli::FORMAT_RG11B10_UFLOAT, gli::texture2D::dim_type(2, 2));
 		{
-			TextureC.save<glm::uint32_t>(gli::texture2D::dim_type(0, 0), 0, glm::packF2x11_1x10(glm::vec3(1.0f, 0.0f, 0.0f)));
-			TextureC.save<glm::uint32_t>(gli::texture2D::dim_type(1, 0), 0, glm::packF2x11_1x10(glm::vec3(1.0f, 1.0f, 0.0f)));
-			TextureC.save<glm::uint32_t>(gli::texture2D::dim_type(1, 1), 0, glm::packF2x11_1x10(glm::vec3(0.0f, 1.0f, 0.0f)));
-			TextureC.save<glm::uint32_t>(gli::texture2D::dim_type(0, 1), 0, glm::packF2x11_1x10(glm::vec3(0.0f, 0.0f, 1.0f)));
-			TextureC.save<glm::uint32_t>(gli::texture2D::dim_type(0, 0), 1, glm::packF2x11_1x10(glm::vec3(1.0f, 0.5f, 0.0f)));
+			TextureC.store<glm::uint32_t>(gli::texture2D::dim_type(0, 0), 0, glm::packF2x11_1x10(glm::vec3(1.0f, 0.0f, 0.0f)));
+			TextureC.store<glm::uint32_t>(gli::texture2D::dim_type(1, 0), 0, glm::packF2x11_1x10(glm::vec3(1.0f, 1.0f, 0.0f)));
+			TextureC.store<glm::uint32_t>(gli::texture2D::dim_type(1, 1), 0, glm::packF2x11_1x10(glm::vec3(0.0f, 1.0f, 0.0f)));
+			TextureC.store<glm::uint32_t>(gli::texture2D::dim_type(0, 1), 0, glm::packF2x11_1x10(glm::vec3(0.0f, 0.0f, 1.0f)));
+			TextureC.store<glm::uint32_t>(gli::texture2D::dim_type(0, 0), 1, glm::packF2x11_1x10(glm::vec3(1.0f, 0.5f, 0.0f)));
 		}
 
 		Error += TextureA == TextureB ? 0 : 1;

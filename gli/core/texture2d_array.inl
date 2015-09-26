@@ -130,7 +130,7 @@ namespace gli
 	}
 
 	template <typename genType>
-	void texture2DArray::save(texture2DArray::dim_type const & TexelCoord, texture2DArray::size_type Layer, texture2DArray::size_type Level, genType const & Color)
+	void texture2DArray::store(texture2DArray::dim_type const & TexelCoord, texture2DArray::size_type Layer, texture2DArray::size_type Level, genType const & Color)
 	{
 		assert(!this->empty());
 		assert(!is_compressed(this->format()));

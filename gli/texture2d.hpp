@@ -84,7 +84,7 @@ namespace gli
 
 		/// Write a texel to a texture. The texture format must be uncompressed.
 		template <typename genType>
-		void save(texture2D::dim_type const & TexelCoord, texture2D::size_type Level, genType const & Color);
+		void store(texture2D::dim_type const & TexelCoord, texture2D::size_type Level, genType const & Color);
 
 		template <typename genType>
 		void generate_mipmaps();

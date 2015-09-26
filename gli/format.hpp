@@ -276,6 +276,7 @@ namespace gli
 	typedef glm::tvec4<swizzle> swizzles;
 
 	bool is_compressed(format Format);
+	bool is_srgb(format Format);
 	std::uint32_t block_size(format Format);
 	gli::dim3_t block_dimensions(format Format);
 	std::uint32_t component_count(format Format);

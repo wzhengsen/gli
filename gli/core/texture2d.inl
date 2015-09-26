@@ -115,7 +115,7 @@ namespace gli
 	}
 
 	template <typename genType>
-	void texture2D::save(texture2D::dim_type const & TexelCoord, texture2D::size_type Level, genType const & Color)
+	void texture2D::store(texture2D::dim_type const & TexelCoord, texture2D::size_type Level, genType const & Color)
 	{
 		assert(!this->empty());
 		assert(!is_compressed(this->format()));

@@ -296,11 +296,11 @@ namespace fetch_srgba8_unorm
 		gli::texture2DArray TextureA(gli::FORMAT_RGBA8_UNORM, gli::texture2D::dim_type(2, 2), 2);
 		{
 			TextureA.clear(glm::u8vec4(255, 127, 0, 255));
-			TextureA.save<glm::u8vec4>(gli::texture2DArray::dim_type(0, 0), 1, 0, glm::u8vec4(255, 0, 0, 255));
-			TextureA.save<glm::u8vec4>(gli::texture2DArray::dim_type(1, 0), 1, 0, glm::u8vec4(255, 255, 0, 255));
-			TextureA.save<glm::u8vec4>(gli::texture2DArray::dim_type(1, 1), 1, 0, glm::u8vec4(0, 255, 0, 255));
-			TextureA.save<glm::u8vec4>(gli::texture2DArray::dim_type(0, 1), 1, 0, glm::u8vec4(0, 0, 255, 255));
-			TextureA.save<glm::u8vec4>(gli::texture2DArray::dim_type(0, 0), 1, 1, glm::u8vec4(0, 0, 0, 255));
+			TextureA.store<glm::u8vec4>(gli::texture2DArray::dim_type(0, 0), 1, 0, glm::u8vec4(255, 0, 0, 255));
+			TextureA.store<glm::u8vec4>(gli::texture2DArray::dim_type(1, 0), 1, 0, glm::u8vec4(255, 255, 0, 255));
+			TextureA.store<glm::u8vec4>(gli::texture2DArray::dim_type(1, 1), 1, 0, glm::u8vec4(0, 255, 0, 255));
+			TextureA.store<glm::u8vec4>(gli::texture2DArray::dim_type(0, 1), 1, 0, glm::u8vec4(0, 0, 255, 255));
+			TextureA.store<glm::u8vec4>(gli::texture2DArray::dim_type(0, 0), 1, 1, glm::u8vec4(0, 0, 0, 255));
 			gli::save_dds(TextureA, "srgba8_unorm_4pixels.dds");
 		}
 

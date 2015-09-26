@@ -86,7 +86,7 @@ namespace gli
 
 		/// Write a texel to a texture. The texture format must be uncompressed.
 		template <typename genType>
-		void save(texture2DArray::dim_type const & TexelCoord, texture2DArray::size_type Layer, texture2DArray::size_type Level, genType const & Color);
+		void store(texture2DArray::dim_type const & TexelCoord, texture2DArray::size_type Layer, texture2DArray::size_type Level, genType const & Color);
 
 	private:
 		struct cache

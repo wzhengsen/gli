@@ -306,7 +306,12 @@ namespace detail
 
 	inline bool is_compressed(format Format)
 	{
-		return detail::get_format_info(Format).Flags & detail::CAP_COMPRESSED_BIT;
+		return detail::get_format_info(Format).Flags & detail::CAP_COMPRESSED_BIT ? true : false;
+	}
+
+	inline bool is_srgb(format Format)
+	{
+		return detail::get_format_info(Format).Flags & detail::CAP_COLORSPACE_SRGB_BIT ? true : false;
 	}
 
 	inline std::uint32_t block_size(format Format)
