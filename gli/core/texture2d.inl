@@ -98,7 +98,7 @@ namespace gli
 	{
 		assert(!this->empty());
 
-		return this->Caches[Level].Dim;
+		return this->Caches[this->index_cache(Level)].Dim;
 	}
 
 	template <typename genType>
@@ -108,24 +108,28 @@ namespace gli
 		assert(!is_compressed(this->format()));
 		assert(block_size(this->format()) == sizeof(genType));
 
-		std::size_t const Index = TexelCoord.x + TexelCoord.y * this->Caches[Level].Dim.x;
-		assert(Index < this->Caches[Level].Size / sizeof(genType));
+		cache const & Cache = this->Caches[this->index_cache(Level)];
 
-		return reinterpret_cast<genType const * const>(this->Caches[Level].Data)[Index];
+		std::size_t const Index = TexelCoord.x + TexelCoord.y * Cache.Dim.x;
+		assert(Index < Cache.Size / sizeof(genType));
+
+		return reinterpret_cast<genType const * const>(Cache.Data)[Index];
 	}
 
 	template <typename genType>
-	void texture2D::store(texture2D::dim_type const & TexelCoord, texture2D::size_type Level, genType const & Color)
+	void texture2D::store(texture2D::dim_type const & TexelCoord, texture2D::size_type Level, genType const & Texel)
 	{
 		assert(!this->empty());
 		assert(!is_compressed(this->format()));
 		assert(block_size(this->format()) == sizeof(genType));
-		assert(glm::all(glm::lessThan(TexelCoord, this->Caches[Level].Dim)));
 
-		std::size_t const Index = TexelCoord.x + TexelCoord.y * this->Caches[Level].Dim.x;
-		assert(Index < this->Caches[Level].Size / sizeof(genType));
+		cache const & Cache = this->Caches[this->index_cache(Level)];
+		assert(glm::all(glm::lessThan(TexelCoord, Cache.Dim)));
 
-		reinterpret_cast<genType*>(this->Caches[Level].Data)[Index] = Color;
+		std::size_t const Index = TexelCoord.x + TexelCoord.y * Cache.Dim.x;
+		assert(Index < Cache.Size / sizeof(genType));
+
+		reinterpret_cast<genType*>(Cache.Data)[Index] = Texel;
 	}
 
 	texture2D::size_type texture2D::index_cache(size_type Level) const
@@ -137,7 +141,7 @@ namespace gli
 	{
 		this->Caches.resize(this->levels());
 
-		for(size_type Level = 0; Level < this->levels(); ++Level)
+		for(size_type Level = 0, Levels = this->levels(); Level < Levels; ++Level)
 		{
 			cache& Cache = this->Caches[this->index_cache(Level)];
 			Cache.Data = this->data<std::uint8_t>(0, 0, Level);

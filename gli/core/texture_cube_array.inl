@@ -31,28 +31,23 @@ namespace gli
 	inline textureCubeArray::textureCubeArray()
 	{}
 
-	inline textureCubeArray::textureCubeArray
-	(
-		format_type Format,
-		dim_type const & Dimensions,
-		size_type Layers
-	)
+	inline textureCubeArray::textureCubeArray(format_type Format, dim_type const & Dimensions, size_type Layers)
 		: texture(gli::TARGET_CUBE_ARRAY, Format, texture::dim_type(Dimensions, 1), Layers, 6, gli::levels(Dimensions))
-	{}
+	{
+		this->build_cache();
+	}
 
-	inline textureCubeArray::textureCubeArray
-	(
-		format_type Format,
-		dim_type const & Dimensions,
-		size_type Layers,
-		size_type Levels
-	)
+	inline textureCubeArray::textureCubeArray(format_type Format, dim_type const & Dimensions, size_type Layers, size_type Levels)
 		: texture(gli::TARGET_CUBE_ARRAY, Format, texture::dim_type(Dimensions, 1), Layers, 6, Levels)
-	{}
+	{
+		this->build_cache();
+	}
 
 	inline textureCubeArray::textureCubeArray(texture const & Texture)
 		: texture(Texture, gli::TARGET_CUBE_ARRAY, Texture.format())
-	{}
+	{
+		this->build_cache();
+	}
 
 	inline textureCubeArray::textureCubeArray
 	(
@@ -68,7 +63,9 @@ namespace gli
 			BaseLayer, MaxLayer,
 			BaseFace, MaxFace,
 			BaseLevel, MaxLevel)
-	{}
+	{
+		this->build_cache();
+	}
 
 	inline textureCubeArray::textureCubeArray
 	(
@@ -82,7 +79,9 @@ namespace gli
 			Texture.base_layer() + BaseLayer, Texture.base_layer() + MaxLayer,
 			Texture.base_face() + BaseFace, Texture.base_face() + MaxFace,
 			Texture.base_level() + BaseLevel, Texture.base_level() + MaxLevel)
-	{}
+	{
+		this->build_cache();
+	}
 
 	inline textureCube textureCubeArray::operator[](size_type Layer) const
 	{
@@ -95,13 +94,61 @@ namespace gli
 			this->base_level(), this->max_level());
 	}
 
-	inline textureCubeArray::dim_type textureCubeArray::dimensions() const
+	inline textureCubeArray::dim_type textureCubeArray::dimensions(size_type Level) const
 	{
 		assert(!this->empty());
 
-		return textureCubeArray::dim_type(
-			this->Storage->block_count(this->base_level()) * block_dimensions(this->format()));
+		return this->Caches[this->index_cache(0, 0, Level)].Dim;
+	}
 
-		//return textureCubeArray::dim_type(this->Storage.dimensions(this->base_level()));
+	template <typename genType>
+	inline genType textureCubeArray::load(textureCubeArray::dim_type const & TexelCoord, textureCubeArray::size_type Layer,  textureCubeArray::size_type Face, textureCubeArray::size_type Level) const
+	{
+		assert(!this->empty());
+		assert(!is_compressed(this->format()));
+		assert(block_size(this->format()) == sizeof(genType));
+
+		cache const & Cache = this->Caches[this->index_cache(Level)];
+
+		std::size_t const Index = TexelCoord.x + TexelCoord.y * Cache.Dim.x;
+		assert(Index < Cache.Size / sizeof(genType));
+
+		return reinterpret_cast<genType const * const>(Cache.Data)[Index];
+	}
+
+	template <typename genType>
+	void textureCubeArray::store(textureCubeArray::dim_type const & TexelCoord, textureCubeArray::size_type Layer,  textureCubeArray::size_type Face, textureCubeArray::size_type Level, genType const & Texel)
+	{
+		assert(!this->empty());
+		assert(!is_compressed(this->format()));
+		assert(block_size(this->format()) == sizeof(genType));
+
+		cache const & Cache = this->Caches[this->index_cache(Level)];
+		assert(glm::all(glm::lessThan(TexelCoord, Cache.Dim)));
+
+		std::size_t const Index = TexelCoord.x + TexelCoord.y * Cache.Dim.x;
+		assert(Index < Cache.Size / sizeof(genType));
+
+		reinterpret_cast<genType*>(Cache.Data)[Index] = Texel;
+	}
+
+	textureCubeArray::size_type textureCubeArray::index_cache(size_type Layer, size_type Face, size_type Level) const
+	{
+		return (Layer * this->levels() * this->faces()) + (Face * this->levels()) + Level;
+	}
+
+	void textureCubeArray::build_cache()
+	{
+		this->Caches.resize(this->layers() * this->faces() * this->levels());
+
+		for (size_type Layer = 0; Layer < this->layers(); ++Layer)
+		for (size_type Face = 0; Face < this->faces(); ++Face)
+		for (size_type Level = 0, Levels = this->levels(); Level < Levels; ++Level)
+		{
+			cache& Cache = this->Caches[this->index_cache(Layer, Face, Level)];
+			Cache.Data = this->data<std::uint8_t>(Layer, Face, Level);
+			Cache.Size = this->size(Level);
+			Cache.Dim = glm::max(texture2D::dim_type(this->texture::dimensions(Level)), texture2D::dim_type(1));
+		}
 	}
 }//namespace gli

@@ -80,21 +80,22 @@ namespace gli
 
 		/// Fetch a texel from a texture. The texture format must be uncompressed.
 		template <typename genType>
-		genType fetch(texture3D::dim_type const & TexelCoord, texture3D::size_type Level) const;
+		genType load(texture3D::dim_type const & TexelCoord, texture3D::size_type Level) const;
 
 		/// Write a texel to a texture. The texture format must be uncompressed.
 		template <typename genType>
-		void write(texture3D::dim_type const & TexelCoord, texture3D::size_type Level, genType const & Color);
+		void store(texture3D::dim_type const & TexelCoord, texture3D::size_type Level, genType const & Texel);
 
 	private:
-		void build_cache();
-
 		struct cache
 		{
 			std::uint8_t* Data;
 			texture3D::size_type Size;
 			texture3D::dim_type Dim;
 		};
+
+		void build_cache();
+		size_type index_cache(size_type Level) const;
 
 		std::vector<cache> Caches;
 	};

@@ -295,34 +295,119 @@ int test_texture2d_image_size()
 	return Error;
 }
 
-namespace fetch
+namespace load_store
 {
-	int test()
+	template <typename genType>
+	int run(gli::format Format, std::array<genType, 8> const & TestSamples)
 	{
-		int Error(0);
+		int Error = 0;
 
-		gli::texture2D Texture(gli::FORMAT_RGBA8_UINT, gli::texture2D::dim_type(4, 2), 1);
-		*(Texture.data<glm::u8vec4>() + 0) = glm::u8vec4(255,   0,   0, 255);
-		*(Texture.data<glm::u8vec4>() + 1) = glm::u8vec4(255, 128,   0, 255);
-		*(Texture.data<glm::u8vec4>() + 2) = glm::u8vec4(255, 255,   0, 255);
-		*(Texture.data<glm::u8vec4>() + 3) = glm::u8vec4(128, 255,   0, 255);
-		*(Texture.data<glm::u8vec4>() + 4) = glm::u8vec4(  0, 255,   0, 255);
-		*(Texture.data<glm::u8vec4>() + 5) = glm::u8vec4(  0, 255, 255, 255);
-		*(Texture.data<glm::u8vec4>() + 6) = glm::u8vec4(  0,   0, 255, 255);
-		*(Texture.data<glm::u8vec4>() + 7) = glm::u8vec4(255,   0, 255, 255);
+		gli::texture2D TextureA(Format, gli::texture2D::dim_type(4, 2), 1);
+		for (std::size_t i = 0, n = 8; i < n; ++i)
+			*(TextureA.data<genType>() + i) = TestSamples[i];
 
-		glm::u8vec4 Data0 = Texture.load<glm::u8vec4>(gli::texture2D::dim_type(0, 0), 0);
-		glm::u8vec4 Data1 = Texture.load<glm::u8vec4>(gli::texture2D::dim_type(1, 0), 0);
-		glm::u8vec4 Data2 = Texture.load<glm::u8vec4>(gli::texture2D::dim_type(2, 0), 0);
-		glm::u8vec4 Data3 = Texture.load<glm::u8vec4>(gli::texture2D::dim_type(3, 0), 0);
-		glm::u8vec4 Data4 = Texture.load<glm::u8vec4>(gli::texture2D::dim_type(0, 1), 0);
-		glm::u8vec4 Data5 = Texture.load<glm::u8vec4>(gli::texture2D::dim_type(1, 1), 0);
-		glm::u8vec4 Data6 = Texture.load<glm::u8vec4>(gli::texture2D::dim_type(2, 1), 0);
-		glm::u8vec4 Data7 = Texture.load<glm::u8vec4>(gli::texture2D::dim_type(3, 1), 0);
+		gli::texture2D TextureB(Format, gli::texture2D::dim_type(4, 2), 1);
+		for (std::size_t i = 0, n = 8; i < n; ++i)
+			TextureB.store(gli::texture2D::dim_type(i % 4, i / 4), 0, TestSamples[i]);
+
+		std::array<genType, 8> LoadedSamplesA;
+		for (std::size_t i = 0, n = 8; i < n; ++i)
+			LoadedSamplesA[i] = TextureA.load<genType>(gli::texture2D::dim_type(i % 4, i / 4), 0);
+
+		std::array<genType, 8> LoadedSamplesB;
+		for (std::size_t i = 0, n = 8; i < n; ++i)
+			LoadedSamplesB[i] = TextureB.load<genType>(gli::texture2D::dim_type(i % 4, i / 4), 0);
+
+		for (std::size_t i = 0, n = 8; i < n; ++i)
+			Error += LoadedSamplesA[i] == TestSamples[i] ? 0 : 1;
+
+		for (std::size_t i = 0, n = 8; i < n; ++i)
+			Error += LoadedSamplesB[i] == TestSamples[i] ? 0 : 1;
+
+		Error += TextureA == TextureB ? 0 : 1;
 
 		return Error;
 	}
-}//namespace fetch
+
+	int test()
+	{
+		int Error = 0;
+
+		{
+			std::array<glm::u8vec1, 8> TestSamples
+			{
+				glm::u8vec1(255),
+				glm::u8vec1(224),
+				glm::u8vec1(192),
+				glm::u8vec1(128),
+				glm::u8vec1( 64),
+				glm::u8vec1( 32),
+				glm::u8vec1( 16),
+				glm::u8vec1(  0)
+			};
+
+			Error += run(gli::FORMAT_R8_UINT, TestSamples);
+			Error += run(gli::FORMAT_R8_UNORM, TestSamples);
+			Error += run(gli::FORMAT_R8_SRGB, TestSamples);
+		}
+
+		{
+			std::array<glm::u8vec2, 8> TestSamples
+			{
+				glm::u8vec2(255,   0),
+				glm::u8vec2(255, 128),
+				glm::u8vec2(255, 255),
+				glm::u8vec2(128, 255),
+				glm::u8vec2(  0, 255),
+				glm::u8vec2(  0, 255),
+				glm::u8vec2(  0,   0),
+				glm::u8vec2(255,   0)
+			};
+
+			Error += run(gli::FORMAT_RG8_UINT, TestSamples);
+			Error += run(gli::FORMAT_RG8_UNORM, TestSamples);
+			Error += run(gli::FORMAT_RG8_SRGB, TestSamples);
+		}
+
+		{
+			std::array<glm::u8vec3, 8> TestSamples
+			{
+				glm::u8vec3(255,   0,   0),
+				glm::u8vec3(255, 128,   0),
+				glm::u8vec3(255, 255,   0),
+				glm::u8vec3(128, 255,   0),
+				glm::u8vec3(  0, 255,   0),
+				glm::u8vec3(  0, 255, 255),
+				glm::u8vec3(  0,   0, 255),
+				glm::u8vec3(255,   0, 255)
+			};
+
+			Error += run(gli::FORMAT_RGB8_UINT, TestSamples);
+			Error += run(gli::FORMAT_RGB8_UNORM, TestSamples);
+			Error += run(gli::FORMAT_RGB8_SRGB, TestSamples);
+		}
+
+		{
+			std::array<glm::u8vec4, 8> TestSamples
+			{
+				glm::u8vec4(255,   0,   0, 255),
+				glm::u8vec4(255, 128,   0, 255),
+				glm::u8vec4(255, 255,   0, 255),
+				glm::u8vec4(128, 255,   0, 255),
+				glm::u8vec4(  0, 255,   0, 255),
+				glm::u8vec4(  0, 255, 255, 255),
+				glm::u8vec4(  0,   0, 255, 255),
+				glm::u8vec4(255,   0, 255, 255)
+			};
+
+			Error += run(gli::FORMAT_RGBA8_UINT, TestSamples);
+			Error += run(gli::FORMAT_RGBA8_UNORM, TestSamples);
+			Error += run(gli::FORMAT_RGBA8_SRGB, TestSamples);
+		}
+
+		return Error;
+	}
+}//namespace load_store
 
 namespace level
 {
@@ -365,7 +450,7 @@ int main()
 	Error += test_texture2d_clear();
 	Error += test_texture2d_image_access();
 	Error += test_create();
-	Error += fetch::test();
+	Error += load_store::test();
 	Error += level::test();
 
 	return Error;

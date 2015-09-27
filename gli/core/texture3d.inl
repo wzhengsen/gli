@@ -35,21 +35,18 @@ namespace gli
 
 	inline texture3D::texture3D(format_type Format, dim_type const & Dimensions)
 		: texture(gli::TARGET_3D, Format, Dimensions, 1, 1, gli::levels(Dimensions))
-		, Caches(this->levels())
 	{
 		this->build_cache();
 	}
 
 	inline texture3D::texture3D(format_type Format, dim_type const & Dimensions, size_type Levels)
 		: texture(gli::TARGET_3D, Format, Dimensions, 1, 1, Levels)
-		, Caches(this->levels())
 	{
 		this->build_cache();
 	}
 
 	inline texture3D::texture3D(texture const & Texture)
 		: texture(Texture, gli::TARGET_3D, Texture.format())
-		, Caches(this->levels())
 	{
 		this->build_cache();
 	}
@@ -67,7 +64,6 @@ namespace gli
 			BaseLayer, MaxLayer,
 			BaseFace, MaxFace,
 			BaseLevel, MaxLevel)
-		, Caches(this->levels())
 	{
 		this->build_cache();
 	}
@@ -82,7 +78,6 @@ namespace gli
 			Texture.base_layer(), Texture.max_layer(),
 			Texture.base_face(), Texture.max_face(),
 			Texture.base_level() + BaseLevel, Texture.base_level() + MaxLevel)
-		, Caches(this->levels())
 	{
 		this->build_cache();
 	}
@@ -103,43 +98,55 @@ namespace gli
 	{
 		assert(!this->empty());
 
-		return this->Caches[Level].Dim;
+		return this->Caches[this->index_cache(Level)].Dim;
 	}
 
 	template <typename genType>
-	inline genType texture3D::fetch(texture3D::dim_type const & TexelCoord, texture3D::size_type Level) const
+	inline genType texture3D::load(texture3D::dim_type const & TexelCoord, texture3D::size_type Level) const
 	{
 		assert(!this->empty());
 		assert(!is_compressed(this->format()));
 		assert(block_size(this->format()) == sizeof(genType));
 
-		std::size_t const Index = TexelCoord.x + TexelCoord.y * this->Caches[Level].Dim.x;
-		assert(Index < this->Caches[Level].Size / sizeof(genType));
+		cache const & Cache = this->Caches[this->index_cache(Level)];
 
-		return reinterpret_cast<genType const * const>(this->Caches[Level].Data)[Index];
+		std::size_t const Index = TexelCoord.x + TexelCoord.y * Cache.Dim.x;
+		assert(Index < Cache.Size / sizeof(genType));
+
+		return reinterpret_cast<genType const * const>(Cache.Data)[Index];
 	}
 
 	template <typename genType>
-	void texture3D::write(texture3D::dim_type const & TexelCoord, texture3D::size_type Level, genType const & Color)
+	void texture3D::store(texture3D::dim_type const & TexelCoord, texture3D::size_type Level, genType const & Texel)
 	{
 		assert(!this->empty());
 		assert(!is_compressed(this->format()));
 		assert(block_size(this->format()) == sizeof(genType));
-		assert(glm::all(glm::lessThan(TexelCoord, this->Caches[Level].Dim)));
 
-		std::size_t const Index = TexelCoord.x + TexelCoord.y * this->Caches[Level].Dim.x;
-		assert(Index < this->Caches[Level].Size / sizeof(genType));
+		cache const & Cache = this->Caches[this->index_cache(Level)];
+		assert(glm::all(glm::lessThan(TexelCoord, Cache.Dim)));
 
-		reinterpret_cast<genType*>(this->Caches[Level].Data)[Index] = Color;
+		std::size_t const Index = TexelCoord.x + TexelCoord.y * Cache.Dim.x;
+		assert(Index < Cache.Size / sizeof(genType));
+
+		reinterpret_cast<genType*>(Cache.Data)[Index] = Texel;
+	}
+
+	texture3D::size_type texture3D::index_cache(size_type Level) const
+	{
+		return Level;
 	}
 
 	void texture3D::build_cache()
 	{
-		for(size_type Level = 0; Level < this->levels(); ++Level)
+		this->Caches.resize(this->levels());
+
+		for(size_type Level = 0, Levels = this->levels(); Level < Levels; ++Level)
 		{
-			this->Caches[Level].Data = this->data<std::uint8_t>(0, 0, Level);
-			this->Caches[Level].Size = this->size(Level);
-			this->Caches[Level].Dim = glm::max(texture3D::dim_type(this->texture::dimensions(Level)), texture3D::dim_type(1));
+			cache& Cache = this->Caches[this->index_cache(Level)];
+			Cache.Data = this->data<std::uint8_t>(0, 0, Level);
+			Cache.Size = this->size(Level);
+			Cache.Dim = glm::max(texture3D::dim_type(this->texture::dimensions(Level)), texture3D::dim_type(1));
 		}
 	}
 }//namespace gli

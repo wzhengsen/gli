@@ -76,7 +76,29 @@ namespace gli
 		texture2D operator[](size_type Face) const;
 
 		/// Return the dimensions of a texture instance: width and height where both should be equal.
-		dim_type dimensions() const;
+		dim_type dimensions(size_type Level = 0) const;
+
+		/// Fetch a texel from a texture. The texture format must be uncompressed.
+		template <typename genType>
+		genType load(textureCube::dim_type const & TexelCoord, textureCube::size_type Face, textureCube::size_type Level) const;
+
+		/// Write a texel to a texture. The texture format must be uncompressed.
+		template <typename genType>
+		void store(textureCube::dim_type const & TexelCoord, textureCube::size_type Face, textureCube::size_type Level, genType const & Texel);
+
+	private:
+		struct cache
+		{
+			std::uint8_t* Data;
+			textureCube::size_type Size;
+			textureCube::dim_type Dim;
+		};
+
+		void build_cache();
+		size_type index_cache(size_type Face, size_type Level) const;
+
+		std::vector<cache> Caches;
+
 	};
 }//namespace gli
 

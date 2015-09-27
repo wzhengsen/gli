@@ -40,7 +40,6 @@ namespace gli
 		typedef dim2_t dim_type;
 		typedef vec2 texcoord_type;
 
-	public:
 		/// Create an empty texture 2D.
 		texture2D();
 
@@ -84,7 +83,7 @@ namespace gli
 
 		/// Write a texel to a texture. The texture format must be uncompressed.
 		template <typename genType>
-		void store(texture2D::dim_type const & TexelCoord, texture2D::size_type Level, genType const & Color);
+		void store(texture2D::dim_type const & TexelCoord, texture2D::size_type Level, genType const & Texel);
 
 		template <typename genType>
 		void generate_mipmaps();

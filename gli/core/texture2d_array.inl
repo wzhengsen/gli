@@ -33,24 +33,13 @@ namespace gli
 	inline texture2DArray::texture2DArray()
 	{}
 
-	inline texture2DArray::texture2DArray
-	(
-		format_type Format,
-		dim_type const & Dimensions,
-		size_type Layers
-	)
+	inline texture2DArray::texture2DArray(format_type Format, dim_type const & Dimensions, size_type Layers)
 		: texture(gli::TARGET_2D_ARRAY, Format, texture::dim_type(Dimensions, 1), Layers, 1, gli::levels(Dimensions))
 	{
 		this->build_cache();
 	}
 
-	inline texture2DArray::texture2DArray
-	(
-		format_type Format,
-		dim_type const & Dimensions,
-		size_type Layers,
-		size_type Levels
-	)
+	inline texture2DArray::texture2DArray(format_type Format, dim_type const & Dimensions, size_type Layers, size_type Levels)
 		: texture(gli::TARGET_2D_ARRAY, Format, texture::dim_type(Dimensions, 1), Layers, 1, Levels)
 	{
 		this->build_cache();
@@ -130,7 +119,7 @@ namespace gli
 	}
 
 	template <typename genType>
-	void texture2DArray::store(texture2DArray::dim_type const & TexelCoord, texture2DArray::size_type Layer, texture2DArray::size_type Level, genType const & Color)
+	void texture2DArray::store(texture2DArray::dim_type const & TexelCoord, texture2DArray::size_type Layer, texture2DArray::size_type Level, genType const & Texel)
 	{
 		assert(!this->empty());
 		assert(!is_compressed(this->format()));
@@ -142,7 +131,7 @@ namespace gli
 		std::size_t const Index = TexelCoord.x + TexelCoord.y * Cache.Dim.x;
 		assert(Index < Cache.Size / sizeof(genType));
 
-		reinterpret_cast<genType*>(Cache.Data)[Index] = Color;
+		reinterpret_cast<genType*>(Cache.Data)[Index] = Texel;
 	}
 
 	texture2DArray::size_type texture2DArray::index_cache(size_type Layer, size_type Level) const
