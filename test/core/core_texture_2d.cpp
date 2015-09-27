@@ -302,21 +302,25 @@ namespace load_store
 	{
 		int Error = 0;
 
-		gli::texture2D TextureA(Format, gli::texture2D::dim_type(4, 2), 1);
-		for (std::size_t i = 0, n = 8; i < n; ++i)
-			*(TextureA.data<genType>() + i) = TestSamples[i];
+		gli::texture2D::dim_type const Dimensions(8, 4);
 
-		gli::texture2D TextureB(Format, gli::texture2D::dim_type(4, 2), 1);
+		gli::texture2D TextureA(Format, Dimensions);
+		TextureA.clear();
 		for (std::size_t i = 0, n = 8; i < n; ++i)
-			TextureB.store(gli::texture2D::dim_type(i % 4, i / 4), 0, TestSamples[i]);
+			*(TextureA.data<genType>(0, 0, 1) + i) = TestSamples[i];
+
+		gli::texture2D TextureB(Format, Dimensions);
+		TextureB.clear();
+		for (std::size_t i = 0, n = 8; i < n; ++i)
+			TextureB.store(gli::texture2D::dim_type(i % 4, i / 4), 1, TestSamples[i]);
 
 		std::array<genType, 8> LoadedSamplesA;
 		for (std::size_t i = 0, n = 8; i < n; ++i)
-			LoadedSamplesA[i] = TextureA.load<genType>(gli::texture2D::dim_type(i % 4, i / 4), 0);
+			LoadedSamplesA[i] = TextureA.load<genType>(gli::texture2D::dim_type(i % 4, i / 4), 1);
 
 		std::array<genType, 8> LoadedSamplesB;
 		for (std::size_t i = 0, n = 8; i < n; ++i)
-			LoadedSamplesB[i] = TextureB.load<genType>(gli::texture2D::dim_type(i % 4, i / 4), 0);
+			LoadedSamplesB[i] = TextureB.load<genType>(gli::texture2D::dim_type(i % 4, i / 4), 1);
 
 		for (std::size_t i = 0, n = 8; i < n; ++i)
 			Error += LoadedSamplesA[i] == TestSamples[i] ? 0 : 1;
@@ -325,6 +329,11 @@ namespace load_store
 			Error += LoadedSamplesB[i] == TestSamples[i] ? 0 : 1;
 
 		Error += TextureA == TextureB ? 0 : 1;
+
+		gli::texture2D TextureC(TextureA, 1, 1);
+		gli::texture2D TextureD(TextureB, 1, 1);
+
+		Error += TextureC == TextureD ? 0 : 1;
 
 		return Error;
 	}
