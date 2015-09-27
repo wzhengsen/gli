@@ -129,7 +129,7 @@ namespace gli
 		cache& Cache = this->Caches[this->index_cache(Layer, Level)];
 		assert(glm::all(glm::lessThan(TexelCoord, Cache.Dim)));
 
-		std::size_t const Index = TexelCoord.x + TexelCoord.y * Cache.Dim.x;
+		std::size_t const Index = TexelCoord.x;
 		assert(Index < Cache.Size / sizeof(genType));
 
 		reinterpret_cast<genType*>(Cache.Data)[Index] = Texel;
