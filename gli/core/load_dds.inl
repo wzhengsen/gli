@@ -239,6 +239,8 @@ namespace detail
 						Format = FORMAT_BGRX8_UNORM;
 					else if(glm::all(glm::equal(Header.Format.Mask, DX.translate(FORMAT_BGRA8_UNORM).Mask)))
 						Format = FORMAT_BGRA8_UNORM;
+					else if (glm::all(glm::equal(Header.Format.Mask, DX.translate(FORMAT_RGBA8_UNORM).Mask)))
+						Format = FORMAT_RGBA8_UNORM;
 					else if(glm::all(glm::equal(Header.Format.Mask, DX.translate(FORMAT_RGB10A2_UNORM).Mask)))
 						Format = FORMAT_RGB10A2_UNORM;
 					else if(glm::all(glm::equal(Header.Format.Mask, DX.translate(FORMAT_LA16_UNORM).Mask)))
