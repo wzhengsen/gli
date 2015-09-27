@@ -343,6 +343,70 @@ namespace load_store
 		int Error = 0;
 
 		{
+			std::array<glm::f32vec1, 8> TestSamples
+			{
+				glm::f32vec1( 0.0f),
+				glm::f32vec1( 1.0f),
+				glm::f32vec1(-1.0f),
+				glm::f32vec1( 0.5f),
+				glm::f32vec1(-0.5f),
+				glm::f32vec1( 0.2f),
+				glm::f32vec1(-0.2f),
+				glm::f32vec1( 0.9f)
+			};
+
+			Error += run(gli::FORMAT_R32_SFLOAT, TestSamples);
+		}
+
+		{
+			std::array<glm::f32vec2, 8> TestSamples
+			{
+				glm::f32vec2(-1.0f,-1.0f),
+				glm::f32vec2(-0.5f,-0.5f),
+				glm::f32vec2( 0.0f, 0.0f),
+				glm::f32vec2( 0.5f, 0.5f),
+				glm::f32vec2( 1.0f, 1.0f),
+				glm::f32vec2(-1.0f, 1.0f),
+				glm::f32vec2(-0.5f, 0.5f),
+				glm::f32vec2( 0.0f, 0.0f)
+			};
+
+			Error += run(gli::FORMAT_RG32_SFLOAT, TestSamples);
+		}
+
+		{
+			std::array<glm::f32vec3, 8> TestSamples
+			{
+				glm::f32vec3(-1.0f, 0.0f, 1.0f),
+				glm::f32vec3(-0.5f, 0.0f, 0.5f),
+				glm::f32vec3(-0.2f, 0.0f, 0.2f),
+				glm::f32vec3(-0.0f, 0.0f, 0.0f),
+				glm::f32vec3( 0.1f, 0.2f, 0.3f),
+				glm::f32vec3(-0.1f,-0.2f,-0.3f),
+				glm::f32vec3( 0.7f, 0.8f, 0.9f),
+				glm::f32vec3(-0.7f,-0.8f,-0.9f)
+			};
+
+			Error += run(gli::FORMAT_RGB32_SFLOAT, TestSamples);
+		}
+
+		{
+			std::array<glm::f32vec4, 8> TestSamples
+			{
+				glm::f32vec4(-1.0f, 0.0f, 1.0f, 1.0f),
+				glm::f32vec4(-0.5f, 0.0f, 0.5f, 1.0f),
+				glm::f32vec4(-0.2f, 0.0f, 0.2f, 1.0f),
+				glm::f32vec4(-0.0f, 0.0f, 0.0f, 1.0f),
+				glm::f32vec4( 0.1f, 0.2f, 0.3f, 1.0f),
+				glm::f32vec4(-0.1f,-0.2f,-0.3f, 1.0f),
+				glm::f32vec4( 0.7f, 0.8f, 0.9f, 1.0f),
+				glm::f32vec4(-0.7f,-0.8f,-0.9f, 1.0f)
+			};
+
+			Error += run(gli::FORMAT_RGBA32_SFLOAT, TestSamples);
+		}
+
+		{
 			std::array<glm::i8vec1, 8> TestSamples
 			{
 				glm::i8vec1(-128),
