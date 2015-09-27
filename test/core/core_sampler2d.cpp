@@ -321,12 +321,12 @@ namespace detail
 				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_RGBA8_SINT
 				detail::texelFetchSRGB4<floatType, P>::call,							// FORMAT_RGBA8_SRGB
 
-				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_RGB10A2_UNORM
-				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_RGB10A2_SNORM
-				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_RGB10A2_USCALED
-				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_RGB10A2_SSCALED
-				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_RGB10A2_UINT
-				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_RGB10A2_SINT
+				detail::texelFetch<floatType, P, FORMAT_RGB10A2_UNORM>::call,			// FORMAT_RGB10A2_UNORM
+				detail::texelFetch<floatType, P, FORMAT_RGB10A2_SNORM>::call,			// FORMAT_RGB10A2_SNORM
+				detail::texelFetch<floatType, P, FORMAT_RGB10A2_USCALED>::call,			// FORMAT_RGB10A2_USCALED
+				detail::texelFetch<floatType, P, FORMAT_RGB10A2_SSCALED>::call,			// FORMAT_RGB10A2_SSCALED
+				detail::texelFetch<floatType, P, FORMAT_RGB10A2_UINT>::call,			// FORMAT_RGB10A2_UINT
+				detail::texelFetch<floatType, P, FORMAT_RGB10A2_SINT>::call,			// FORMAT_RGB10A2_SINT
 
 				detail::texelFetchNorm1<floatType, P, glm::u16>::call,					// FORMAT_R16_UNORM
 				detail::texelFetchNorm1<floatType, P, glm::i16>::call,					// FORMAT_R16_SNORM
@@ -452,39 +452,39 @@ namespace detail
 				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_BGR5A1_UNORM
 				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_BGR5A1_USCALED
 
-				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_BGR8_UNORM
-				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_BGR8_SNORM
-				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_BGR8_USCALED
-				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_BGR8_SSCALED
+				detail::texelFetchNorm3<floatType, P, glm::u8>::call,					// FORMAT_BGR8_UNORM
+				detail::texelFetchNorm3<floatType, P, glm::i8>::call,					// FORMAT_BGR8_SNORM
+				detail::texelFetchCast3<floatType, P, glm::u8>::call,					// FORMAT_BGR8_USCALED
+				detail::texelFetchCast3<floatType, P, glm::i8>::call,					// FORMAT_BGR8_SSCALED
 				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_BGR8_UINT
 				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_BGR8_SINT
-				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_BGR8_SRGB
+				detail::texelFetchSRGB3<floatType, P>::call,							// FORMAT_BGR8_SRGB
 
-				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_BGRA8_UNORM
-				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_BGRA8_SNORM
-				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_BGRA8_USCALED
-				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_BGRA8_SSCALED
+				detail::texelFetchNorm4<floatType, P, glm::u8>::call,					// FORMAT_BGRA8_UNORM
+				detail::texelFetchNorm4<floatType, P, glm::i8>::call,					// FORMAT_BGRA8_SNORM
+				detail::texelFetchCast4<floatType, P, glm::u8>::call,					// FORMAT_BGRA8_USCALED
+				detail::texelFetchCast4<floatType, P, glm::i8>::call,					// FORMAT_BGRA8_SSCALED
 				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_BGRA8_UINT
 				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_BGRA8_SINT
-				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_BGRA8_SRGB
+				detail::texelFetchSRGB4<floatType, P>::call,							// FORMAT_BGRA8_SRGB
 
-				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_BGR10A2_UNORM
-				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_BGR10A2_SNORM
-				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_BGR10A2_USCALED
-				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_BGR10A2_SSCALED
-				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_BGR10A2_UINT
-				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_BGR10A2_SINT
+				detail::texelFetch<floatType, P, FORMAT_BGR10A2_UNORM>::call,			// FORMAT_BGR10A2_UNORM
+				detail::texelFetch<floatType, P, FORMAT_BGR10A2_SNORM>::call,			// FORMAT_BGR10A2_SNORM
+				detail::texelFetch<floatType, P, FORMAT_BGR10A2_USCALED>::call,			// FORMAT_BGR10A2_USCALED
+				detail::texelFetch<floatType, P, FORMAT_BGR10A2_SSCALED>::call,			// FORMAT_BGR10A2_SSCALED
+				detail::texelFetch<floatType, P, FORMAT_BGR10A2_UINT>::call,			// FORMAT_BGR10A2_UINT
+				detail::texelFetch<floatType, P, FORMAT_BGR10A2_SINT>::call,			// FORMAT_BGR10A2_SINT
 
 				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_RG3B2_UNORM
-				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_BGRX8_UNORM
-				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_BGRX8_SRGB
+				detail::texelFetchNorm4<floatType, P, glm::u8>::call,					// FORMAT_BGRX8_UNORM
+				detail::texelFetchSRGB4<floatType, P>::call,							// FORMAT_BGRX8_SRGB
 
-				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_L8_UNORM
-				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_A8_UNORM
-				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_LA8_UNORM
-				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_L16_UNORM
-				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_A16_UNORM
-				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_LA16_UNORM
+				detail::texelFetchNorm1<floatType, P, glm::u8>::call,					// FORMAT_L8_UNORM
+				detail::texelFetchNorm1<floatType, P, glm::u8>::call,					// FORMAT_A8_UNORM
+				detail::texelFetchNorm2<floatType, P, glm::u8>::call,					// FORMAT_LA8_UNORM
+				detail::texelFetchNorm1<floatType, P, glm::u16>::call,					// FORMAT_L16_UNORM
+				detail::texelFetchNorm1<floatType, P, glm::u16>::call,					// FORMAT_A16_UNORM
+				detail::texelFetchNorm2<floatType, P, glm::u16>::call,					// FORMAT_LA16_UNORM
 
 				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_RGB_PVRTC1_8X8_UNORM
 				detail::texelFetchDefault<floatType, P>::call,							// FORMAT_RGB_PVRTC1_8X8_SRGB
@@ -513,6 +513,7 @@ namespace detail
 		sampler2D(texture2D const & Texture, wrap Wrap, filter Mip, filter Min, glm::tvec4<floatType, P> const & BorderColor)
 			: sampler(Wrap, Texture.levels() > 1 ? Mip : FILTER_NEAREST, Min)
 			, Texture(Texture)
+			, TexelFetch(this->GetTexelFetchFunc(this->Texture.format()))
 			, BorderColor(BorderColor)
 		{
 			static_assert(std::numeric_limits<floatType>::is_iec559, "'sampler2D' accepts only floating-point types for 'floatType' template parameter");
@@ -522,7 +523,8 @@ namespace detail
 
 		glm::tvec4<floatType, P> texel_fetch(texture2D::dim_type const & TexelCoord, texture2D::size_type const & Level) const
 		{
-			return this->GetTexelFetchFunc(this->Texture.format())(this->Texture, TexelCoord, Level);
+			//return this->GetTexelFetchFunc(this->Texture.format())(this->Texture, TexelCoord, Level);
+			return this->TexelFetch(this->Texture, TexelCoord, Level);
 		}
 /*
 		template <template <typename, glm::precision> class vecType, typename valType>
@@ -623,6 +625,7 @@ namespace detail
 */
 	private:
 		texture2D Texture;
+		texelFetchFunc TexelFetch;
 		glm::tvec4<floatType, P> BorderColor;
 	};
 
