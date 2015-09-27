@@ -30,19 +30,19 @@
 
 namespace gli
 {
-	inline std::size_t index(dim1_t Coord, dim1_t Dimensions)
+	inline std::size_t linear_index(dim1_t Coord, dim1_t Dimensions)
 	{
 		assert(glm::all(glm::lessThan(Coord, Dimensions)));
 		return Coord.x;
 	}
 
-	inline std::size_t index(dim2_t Coord, dim2_t Dimensions)
+	inline std::size_t linear_index(dim2_t Coord, dim2_t Dimensions)
 	{
 		assert(glm::all(glm::lessThan(Coord, Dimensions)));
 		return Coord.x + Coord.y * Dimensions.x;
 	}
 
-	inline std::size_t index(dim3_t Coord, dim3_t Dimensions)
+	inline std::size_t linear_index(dim3_t Coord, dim3_t Dimensions)
 	{
 		assert(glm::all(glm::lessThan(Coord, Dimensions)));
 		return Coord.x + Coord.y * Dimensions.x + Coord.z * Dimensions.x * Dimensions.y;
