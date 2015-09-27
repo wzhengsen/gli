@@ -72,7 +72,7 @@ namespace gli
 	inline genType texture_lod
 	(
 		texture2D const & Texture,
-		texture2D::texcoord_type const & Texcoord,
+		texture2D::samplecoord_type const & SampleCoord,
 		texture2D::size_type const & Level
 	)
 	{
@@ -81,10 +81,10 @@ namespace gli
 		image::dim_type Dimensions = Texture[Level].dimensions();
 		genType const * const Data = reinterpret_cast<genType const * const>(Texture[Level].data());
 
-		std::size_t s_below = std::size_t(glm::floor(Texcoord.s * float(Dimensions.x - 1)));
-		std::size_t s_above = std::size_t(glm::ceil( Texcoord.s * float(Dimensions.x - 1)));
-		std::size_t t_below = std::size_t(glm::floor(Texcoord.t * float(Dimensions.y - 1)));
-		std::size_t t_above = std::size_t(glm::ceil( Texcoord.t * float(Dimensions.y - 1)));
+		std::size_t s_below = std::size_t(glm::floor(SampleCoord.s * float(Dimensions.x - 1)));
+		std::size_t s_above = std::size_t(glm::ceil( SampleCoord.s * float(Dimensions.x - 1)));
+		std::size_t t_below = std::size_t(glm::floor(SampleCoord.t * float(Dimensions.y - 1)));
+		std::size_t t_above = std::size_t(glm::ceil( SampleCoord.t * float(Dimensions.y - 1)));
 
 		float s_below_normalized = s_below / float(Dimensions.x);
 		float t_below_normalized = t_below / float(Dimensions.y);
