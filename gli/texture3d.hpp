@@ -38,7 +38,7 @@ namespace gli
 	{
 	public:
 		typedef dim3_t dim_type;
-		typedef vec3 texcoord_type;
+		typedef vec3 samplecoord_type;
 
 	public:
 		/// Create an empty texture 3D

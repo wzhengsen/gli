@@ -38,7 +38,7 @@ namespace gli
 	{
 	public:
 		typedef dim2_t dim_type;
-		typedef vec2 texcoord_type;
+		typedef vec2 samplecoord_type;
 
 		/// Create an empty texture 2D.
 		texture2D();
