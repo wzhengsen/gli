@@ -123,7 +123,7 @@ namespace gli
 		assert(!is_compressed(this->format()));
 		assert(block_size(this->format()) == sizeof(genType));
 
-		cache& Cache = this->Caches[this->index_cache(Layer, Level)];
+		cache& Cache = this->Caches[this->index_cache(Face, Level)];
 		assert(glm::all(glm::lessThan(TexelCoord, Cache.Dim)));
 
 		std::size_t const Index = TexelCoord.x + TexelCoord.y * Cache.Dim.x;

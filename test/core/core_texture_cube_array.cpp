@@ -279,6 +279,355 @@ namespace load
 	}
 }//namespace load
 
+namespace load_store
+{
+	template <typename genType>
+	int run(gli::format Format, std::array<genType, 6> const & TestSamples)
+	{
+		int Error = 0;
+
+		gli::textureCubeArray::dim_type const Dimensions(2, 2);
+		gli::textureCubeArray::size_type const Layer(1);
+		gli::textureCubeArray::size_type const Level(1);
+
+		gli::textureCubeArray TextureA(Format, Dimensions, 3);
+		TextureA.clear();
+		for (std::size_t FaceIndex = 0, FaceCount = 6; FaceIndex < FaceCount; ++FaceIndex)
+			*TextureA.data<genType>(Layer, FaceIndex, Level) = TestSamples[FaceIndex];
+
+		gli::textureCubeArray TextureB(Format, Dimensions, 3);
+		TextureB.clear();
+		for (std::size_t FaceIndex = 0, FaceCount = 6; FaceIndex < FaceCount; ++FaceIndex)
+			TextureB.store(gli::textureCube::dim_type(0, 0), Layer, FaceIndex, Level, TestSamples[FaceIndex]);
+
+		std::array<genType, 6> LoadedSamplesA;
+		for (std::size_t FaceIndex = 0, FaceCount = 6; FaceIndex < FaceCount; ++FaceIndex)
+			LoadedSamplesA[FaceIndex] = TextureA.load<genType>(gli::textureCubeArray::dim_type(0), Layer, FaceIndex, Level);
+
+		std::array<genType, 6> LoadedSamplesB;
+		for (std::size_t FaceIndex = 0, FaceCount = 6; FaceIndex < FaceCount; ++FaceIndex)
+			LoadedSamplesB[FaceIndex] = TextureB.load<genType>(gli::textureCubeArray::dim_type(0), Layer, FaceIndex, Level);
+
+		for (std::size_t FaceIndex = 0, FaceCount = 6; FaceIndex < FaceCount; ++FaceIndex)
+			Error += LoadedSamplesA[FaceIndex] == TestSamples[FaceIndex] ? 0 : 1;
+
+		for (std::size_t FaceIndex = 0, FaceCount = 6; FaceIndex < FaceCount; ++FaceIndex)
+			Error += LoadedSamplesB[FaceIndex] == TestSamples[FaceIndex] ? 0 : 1;
+
+		Error += TextureA == TextureB ? 0 : 1;
+
+		gli::textureCubeArray TextureC(TextureA, Layer, Layer, 0, 5, Level, Level);
+		gli::textureCubeArray TextureD(TextureB, Layer, Layer, 0, 5, Level, Level);
+
+		Error += TextureC == TextureD ? 0 : 1;
+
+		return Error;
+	}
+
+	int test()
+	{
+		int Error = 0;
+
+		{
+			std::array<glm::f32vec1, 6> TestSamples
+			{
+				glm::f32vec1(0.0f),
+				glm::f32vec1(1.0f),
+				glm::f32vec1(-1.0f),
+				glm::f32vec1(0.5f),
+				glm::f32vec1(-0.5f),
+				glm::f32vec1(0.2f)
+			};
+
+			Error += run(gli::FORMAT_R32_SFLOAT, TestSamples);
+		}
+
+		{
+			std::array<glm::f32vec2, 6> TestSamples
+			{
+				glm::f32vec2(-1.0f,-1.0f),
+				glm::f32vec2(-0.5f,-0.5f),
+				glm::f32vec2(0.0f, 0.0f),
+				glm::f32vec2(0.5f, 0.5f),
+				glm::f32vec2(1.0f, 1.0f),
+				glm::f32vec2(-1.0f, 1.0f)
+			};
+
+			Error += run(gli::FORMAT_RG32_SFLOAT, TestSamples);
+		}
+
+		{
+			std::array<glm::f32vec3, 6> TestSamples
+			{
+				glm::f32vec3(-1.0f, 0.0f, 1.0f),
+				glm::f32vec3(-0.5f, 0.0f, 0.5f),
+				glm::f32vec3(-0.2f, 0.0f, 0.2f),
+				glm::f32vec3(-0.0f, 0.0f, 0.0f),
+				glm::f32vec3(0.1f, 0.2f, 0.3f),
+				glm::f32vec3(-0.1f,-0.2f,-0.3f)
+			};
+
+			Error += run(gli::FORMAT_RGB32_SFLOAT, TestSamples);
+		}
+
+		{
+			std::array<glm::f32vec4, 6> TestSamples
+			{
+				glm::f32vec4(-1.0f, 0.0f, 1.0f, 1.0f),
+				glm::f32vec4(-0.5f, 0.0f, 0.5f, 1.0f),
+				glm::f32vec4(-0.2f, 0.0f, 0.2f, 1.0f),
+				glm::f32vec4(-0.0f, 0.0f, 0.0f, 1.0f),
+				glm::f32vec4(0.1f, 0.2f, 0.3f, 1.0f),
+				glm::f32vec4(-0.1f,-0.2f,-0.3f, 1.0f)
+			};
+
+			Error += run(gli::FORMAT_RGBA32_SFLOAT, TestSamples);
+		}
+
+		{
+			std::array<glm::i8vec1, 6> TestSamples
+			{
+				glm::i8vec1(-128),
+				glm::i8vec1(-127),
+				glm::i8vec1(127),
+				glm::i8vec1(64),
+				glm::i8vec1(-64),
+				glm::i8vec1(1)
+			};
+
+			Error += run(gli::FORMAT_R8_SINT, TestSamples);
+			Error += run(gli::FORMAT_R8_SNORM, TestSamples);
+		}
+
+		{
+			std::array<glm::i8vec2, 6> TestSamples
+			{
+				glm::i8vec2(-128, -96),
+				glm::i8vec2(-64,  96),
+				glm::i8vec2(-128,  64),
+				glm::i8vec2(127,  32),
+				glm::i8vec2(0, 126),
+				glm::i8vec2(-48,  48)
+			};
+
+			Error += run(gli::FORMAT_RG8_UINT, TestSamples);
+			Error += run(gli::FORMAT_RG8_UNORM, TestSamples);
+		}
+
+		{
+			std::array<glm::i8vec3, 6> TestSamples
+			{
+				glm::i8vec3(-128,   0,   0),
+				glm::i8vec3(-128, 127,   0),
+				glm::i8vec3(-128, -96,   0),
+				glm::i8vec3(127,-128,   0),
+				glm::i8vec3(0, 127,   0),
+				glm::i8vec3(0, 127,-127)
+			};
+
+			Error += run(gli::FORMAT_RGB8_SINT, TestSamples);
+			Error += run(gli::FORMAT_RGB8_SNORM, TestSamples);
+		}
+
+		{
+			std::array<glm::i8vec4, 6> TestSamples
+			{
+				glm::i8vec4(-127,   0,   0, 127),
+				glm::i8vec4(-128,  96,   0,-128),
+				glm::i8vec4(127,  64,   0,   1),
+				glm::i8vec4(0, -64,   0,   2),
+				glm::i8vec4(-95,  32,   0,   3),
+				glm::i8vec4(95, -32, 127,   4)
+			};
+
+			Error += run(gli::FORMAT_RGBA8_SINT, TestSamples);
+			Error += run(gli::FORMAT_RGBA8_SNORM, TestSamples);
+		}
+
+		{
+			std::array<glm::u8vec1, 6> TestSamples
+			{
+				glm::u8vec1(255),
+				glm::u8vec1(224),
+				glm::u8vec1(192),
+				glm::u8vec1(128),
+				glm::u8vec1(64),
+				glm::u8vec1(32)
+			};
+
+			Error += run(gli::FORMAT_R8_UINT, TestSamples);
+			Error += run(gli::FORMAT_R8_UNORM, TestSamples);
+			Error += run(gli::FORMAT_R8_SRGB, TestSamples);
+		}
+
+		{
+			std::array<glm::u8vec2, 6> TestSamples
+			{
+				glm::u8vec2(255,   0),
+				glm::u8vec2(255, 128),
+				glm::u8vec2(255, 255),
+				glm::u8vec2(128, 255),
+				glm::u8vec2(0, 255),
+				glm::u8vec2(0, 255)
+			};
+
+			Error += run(gli::FORMAT_RG8_UINT, TestSamples);
+			Error += run(gli::FORMAT_RG8_UNORM, TestSamples);
+			Error += run(gli::FORMAT_RG8_SRGB, TestSamples);
+		}
+
+		{
+			std::array<glm::u8vec3, 6> TestSamples
+			{
+				glm::u8vec3(255,   0,   0),
+				glm::u8vec3(255, 128,   0),
+				glm::u8vec3(255, 255,   0),
+				glm::u8vec3(128, 255,   0),
+				glm::u8vec3(0, 255,   0),
+				glm::u8vec3(0, 255, 255)
+			};
+
+			Error += run(gli::FORMAT_RGB8_UINT, TestSamples);
+			Error += run(gli::FORMAT_RGB8_UNORM, TestSamples);
+			Error += run(gli::FORMAT_RGB8_SRGB, TestSamples);
+		}
+
+		{
+			std::array<glm::u8vec4, 6> TestSamples
+			{
+				glm::u8vec4(255,   0,   0, 255),
+				glm::u8vec4(255, 128,   0, 255),
+				glm::u8vec4(255, 255,   0, 255),
+				glm::u8vec4(128, 255,   0, 255),
+				glm::u8vec4(0, 255,   0, 255),
+				glm::u8vec4(0, 255, 255, 255)
+			};
+
+			Error += run(gli::FORMAT_RGBA8_UINT, TestSamples);
+			Error += run(gli::FORMAT_RGBA8_UNORM, TestSamples);
+			Error += run(gli::FORMAT_RGBA8_SRGB, TestSamples);
+		}
+
+		{
+			std::array<glm::u16vec1, 6> TestSamples
+			{
+				glm::u16vec1(65535),
+				glm::u16vec1(32767),
+				glm::u16vec1(192),
+				glm::u16vec1(128),
+				glm::u16vec1(64),
+				glm::u16vec1(32)
+			};
+
+			Error += run(gli::FORMAT_R16_UINT, TestSamples);
+			Error += run(gli::FORMAT_R16_UNORM, TestSamples);
+		}
+
+		{
+			std::array<glm::u16vec2, 6> TestSamples
+			{
+				glm::u16vec2(255,   0),
+				glm::u16vec2(255, 128),
+				glm::u16vec2(255, 255),
+				glm::u16vec2(128, 255),
+				glm::u16vec2(0, 255),
+				glm::u16vec2(0, 255)
+			};
+
+			Error += run(gli::FORMAT_RG16_UINT, TestSamples);
+			Error += run(gli::FORMAT_RG16_UNORM, TestSamples);
+		}
+
+		{
+			std::array<glm::u16vec3, 6> TestSamples
+			{
+				glm::u16vec3(255,   0,   0),
+				glm::u16vec3(255, 128,   0),
+				glm::u16vec3(255, 255,   0),
+				glm::u16vec3(128, 255,   0),
+				glm::u16vec3(0, 255,   0),
+				glm::u16vec3(0, 255, 255)
+			};
+
+			Error += run(gli::FORMAT_RGB16_UINT, TestSamples);
+			Error += run(gli::FORMAT_RGB16_UNORM, TestSamples);
+		}
+
+		{
+			std::array<glm::u16vec4, 6> TestSamples
+			{
+				glm::u16vec4(255,   0,   0, 255),
+				glm::u16vec4(255, 128,   0, 255),
+				glm::u16vec4(255, 255,   0, 255),
+				glm::u16vec4(128, 255,   0, 255),
+				glm::u16vec4(0, 255,   0, 255),
+				glm::u16vec4(0, 255, 255, 255)
+			};
+
+			Error += run(gli::FORMAT_RGBA16_UINT, TestSamples);
+			Error += run(gli::FORMAT_RGBA16_UNORM, TestSamples);
+		}
+
+		{
+			std::array<glm::u32vec1, 6> TestSamples
+			{
+				glm::u32vec1(65535),
+				glm::u32vec1(32767),
+				glm::u32vec1(192),
+				glm::u32vec1(128),
+				glm::u32vec1(64),
+				glm::u32vec1(32)
+			};
+
+			Error += run(gli::FORMAT_R32_UINT, TestSamples);
+		}
+
+		{
+			std::array<glm::u32vec2, 6> TestSamples
+			{
+				glm::u32vec2(255,   0),
+				glm::u32vec2(255, 128),
+				glm::u32vec2(255, 255),
+				glm::u32vec2(128, 255),
+				glm::u32vec2(0, 255),
+				glm::u32vec2(0, 255)
+			};
+
+			Error += run(gli::FORMAT_RG32_UINT, TestSamples);
+		}
+
+		{
+			std::array<glm::u32vec3, 6> TestSamples
+			{
+				glm::u32vec3(255,   0,   0),
+				glm::u32vec3(255, 128,   0),
+				glm::u32vec3(255, 255,   0),
+				glm::u32vec3(128, 255,   0),
+				glm::u32vec3(0, 255,   0),
+				glm::u32vec3(0, 255, 255)
+			};
+
+			Error += run(gli::FORMAT_RGB32_UINT, TestSamples);
+		}
+
+		{
+			std::array<glm::u32vec4, 6> TestSamples
+			{
+				glm::u32vec4(255,   0,   0, 255),
+				glm::u32vec4(255, 128,   0, 255),
+				glm::u32vec4(255, 255,   0, 255),
+				glm::u32vec4(128, 255,   0, 255),
+				glm::u32vec4(0, 255,   0, 255),
+				glm::u32vec4(0, 255, 255, 255)
+			};
+
+			Error += run(gli::FORMAT_RGBA32_UINT, TestSamples);
+		}
+
+		return Error;
+	}
+}//namespace load_store
+
 int main()
 {
 	int Error(0);
@@ -289,6 +638,7 @@ int main()
 	Error += test_textureCubeArray_textureCube_access();
 	Error += clear::run();
 	Error += load::run();
+	Error += load_store::test();
 
 	return Error;
 }
