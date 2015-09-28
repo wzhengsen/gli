@@ -28,6 +28,7 @@
 
 #include <gli/gli.hpp>
 #include <glm/gtx/gradient_paint.hpp>
+#include <glm/gtc/packing.hpp>
 
 inline gli::texture2D radial
 (
@@ -544,6 +545,22 @@ namespace load_store
 			Error += run(gli::FORMAT_RGBA8_UINT, TestSamples);
 			Error += run(gli::FORMAT_RGBA8_UNORM, TestSamples);
 			Error += run(gli::FORMAT_RGBA8_SRGB, TestSamples);
+		}
+
+		{
+			std::array<glm::uint32, 8> TestSamples
+			{
+				glm::packUnorm3x10_1x2(glm::vec4(1.0f, 0.0f, 0.0f, 1.0f)),
+				glm::packUnorm3x10_1x2(glm::vec4(1.0f, 0.5f, 0.0f, 1.0f)),
+				glm::packUnorm3x10_1x2(glm::vec4(1.0f, 1.0f, 0.0f, 1.0f)),
+				glm::packUnorm3x10_1x2(glm::vec4(0.0f, 1.0f, 0.0f, 1.0f)),
+				glm::packUnorm3x10_1x2(glm::vec4(0.0f, 1.0f, 0.5f, 1.0f)),
+				glm::packUnorm3x10_1x2(glm::vec4(0.0f, 1.0f, 1.0f, 1.0f)),
+				glm::packUnorm3x10_1x2(glm::vec4(0.0f, 0.0f, 1.0f, 1.0f)),
+				glm::packUnorm3x10_1x2(glm::vec4(1.0f, 0.0f, 1.0f, 1.0f))
+			};
+
+			Error += run(gli::FORMAT_RGB10A2_UNORM, TestSamples);
 		}
 
 		{
