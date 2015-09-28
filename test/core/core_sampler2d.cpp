@@ -696,6 +696,78 @@ namespace load
 	}
 }//namespace load
 
+namespace fetch_rgb10a2_snorm
+{
+	int test()
+	{
+		int Error(0);
+
+		glm::vec4 Colors[] =
+		{
+			glm::vec4(1.0f, 0.0f, 0.0f, 1.0f),
+			glm::vec4(1.0f, 0.5f, 0.0f, 1.0f),
+			glm::vec4(1.0f, 1.0f, 0.0f, 1.0f),
+			glm::vec4(0.0f, 1.0f, 0.0f, 1.0f),
+			glm::vec4(0.0f, 1.0f, 1.0f, 1.0f),
+			glm::vec4(0.0f, 0.5f, 1.0f, 1.0f),
+			glm::vec4(0.0f, 0.0f, 1.0f, 1.0f),
+			glm::vec4(1.0f, 0.0f, 1.0f, 1.0f)
+		};
+
+		glm::uint32 Packed[8];
+		for (std::size_t i = 0; i < 8; ++i)
+			Packed[i] = glm::packSnorm3x10_1x2(Colors[i]);
+
+		gli::texture2D Texture(gli::FORMAT_RGB10A2_SNORM, gli::texture2D::dim_type(4, 2), 1);
+		for (std::size_t i = 0; i < 8; ++i)
+			*(Texture.data<glm::uint32>() + i) = Packed[i];
+
+		glm::uint32 Loaded[8];
+		Loaded[0] = Texture.load<glm::uint32>(gli::texture2D::dim_type(0, 0), 0);
+		Loaded[1] = Texture.load<glm::uint32>(gli::texture2D::dim_type(1, 0), 0);
+		Loaded[2] = Texture.load<glm::uint32>(gli::texture2D::dim_type(2, 0), 0);
+		Loaded[3] = Texture.load<glm::uint32>(gli::texture2D::dim_type(3, 0), 0);
+		Loaded[4] = Texture.load<glm::uint32>(gli::texture2D::dim_type(0, 1), 0);
+		Loaded[5] = Texture.load<glm::uint32>(gli::texture2D::dim_type(1, 1), 0);
+		Loaded[6] = Texture.load<glm::uint32>(gli::texture2D::dim_type(2, 1), 0);
+		Loaded[7] = Texture.load<glm::uint32>(gli::texture2D::dim_type(3, 1), 0);
+
+		for (std::size_t i = 0; i < 8; ++i)
+			Error += Packed[i] == Loaded[i] ? 0 : 1;
+
+		glm::vec4 Unpacked[8];
+		for (std::size_t i = 0; i < 8; ++i)
+			Unpacked[i] = glm::unpackSnorm3x10_1x2(Loaded[i]);
+
+		for (std::size_t i = 0; i < 8; ++i)
+			Error += glm::all(glm::epsilonEqual(Unpacked[i], Colors[i], 0.01f)) ? 0 : 1;
+
+		gli::fsampler2D Sampler(Texture, gli::WRAP_CLAMP_TO_EDGE, gli::FILTER_LINEAR, gli::FILTER_LINEAR, glm::vec4(0.0f, 0.5f, 1.0f, 1.0f));
+
+		glm::vec4 Data0 = Sampler.texel_fetch(gli::texture2D::dim_type(0, 0), 0);
+		glm::vec4 Data1 = Sampler.texel_fetch(gli::texture2D::dim_type(1, 0), 0);
+		glm::vec4 Data2 = Sampler.texel_fetch(gli::texture2D::dim_type(2, 0), 0);
+		glm::vec4 Data3 = Sampler.texel_fetch(gli::texture2D::dim_type(3, 0), 0);
+		glm::vec4 Data4 = Sampler.texel_fetch(gli::texture2D::dim_type(0, 1), 0);
+		glm::vec4 Data5 = Sampler.texel_fetch(gli::texture2D::dim_type(1, 1), 0);
+		glm::vec4 Data6 = Sampler.texel_fetch(gli::texture2D::dim_type(2, 1), 0);
+		glm::vec4 Data7 = Sampler.texel_fetch(gli::texture2D::dim_type(3, 1), 0);
+
+		float const Epsilon = 1.f / 255.f * 0.5f;
+
+		Error += glm::all(glm::epsilonEqual(Data0, Colors[0], Epsilon)) ? 0 : 1;
+		Error += glm::all(glm::epsilonEqual(Data1, Colors[1], Epsilon)) ? 0 : 1;
+		Error += glm::all(glm::epsilonEqual(Data2, Colors[2], Epsilon)) ? 0 : 1;
+		Error += glm::all(glm::epsilonEqual(Data3, Colors[3], Epsilon)) ? 0 : 1;
+		Error += glm::all(glm::epsilonEqual(Data4, Colors[4], Epsilon)) ? 0 : 1;
+		Error += glm::all(glm::epsilonEqual(Data5, Colors[5], Epsilon)) ? 0 : 1;
+		Error += glm::all(glm::epsilonEqual(Data6, Colors[6], Epsilon)) ? 0 : 1;
+		Error += glm::all(glm::epsilonEqual(Data7, Colors[7], Epsilon)) ? 0 : 1;
+
+		return Error;
+	}
+}//namespace fetch_rgb10a2_snorm
+
 namespace fetch_rgb10a2_unorm
 {
 	int test()
@@ -740,7 +812,7 @@ namespace fetch_rgb10a2_unorm
 			Unpacked[i] = glm::unpackUnorm3x10_1x2(Loaded[i]);
 
 		for (std::size_t i = 0; i < 8; ++i)
-			Error += Unpacked[i] == Colors[i] ? 0 : 1;
+			Error += glm::all(glm::epsilonEqual(Unpacked[i], Colors[i], 0.01f)) ? 0 : 1;
 
 		gli::fsampler2D Sampler(Texture, gli::WRAP_CLAMP_TO_EDGE, gli::FILTER_LINEAR, gli::FILTER_LINEAR, glm::vec4(0.0f, 0.5f, 1.0f, 1.0f));
 
@@ -1016,6 +1088,7 @@ int main()
 	Error += fetch_rgba8_unorm::test();
 	Error += fetch_rgba8_srgb::test();
 	Error += fetch_rgb10a2_unorm::test();
+	Error += fetch_rgb10a2_snorm::test();
 	//Error += sampler::test();
 	//Error += clamp_to_border::test();
 
