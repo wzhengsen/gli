@@ -8,10 +8,10 @@
 /// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 /// copies of the Software, and to permit persons to whom the Software is
 /// furnished to do so, subject to the following conditions:
-///
+/// 
 /// The above copyright notice and this permission notice shall be included in
 /// all copies or substantial portions of the Software.
-///
+/// 
 /// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 /// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 /// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -21,51 +21,12 @@
 /// THE SOFTWARE.
 ///
 /// @ref core
-/// @file gli/gli.hpp
-/// @date 2008-12-19 / 2015-08-08
+/// @file gli/core/sampler.inl
+/// @date 2015-09-29 / 2015-09-29
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
-/*! @mainpage OpenGL Image
- *
- */
+namespace gli
+{
 
-#pragma once
-
-#define GLI_VERSION					71
-#define GLI_VERSION_MAJOR			0
-#define GLI_VERSION_MINOR			7
-#define GLI_VERSION_PATCH			1
-#define GLI_VERSION_REVISION		0
-
-#include "format.hpp"
-#include "target.hpp"
-#include "levels.hpp"
-
-#include "image.hpp"
-#include "texture.hpp"
-#include "texture1d.hpp"
-#include "texture1d_array.hpp"
-#include "texture2d.hpp"
-#include "texture2d_array.hpp"
-#include "texture3d.hpp"
-#include "texture_cube.hpp"
-#include "texture_cube_array.hpp"
-
-#include "sampler2d.hpp"
-
-#include "copy.hpp"
-#include "view.hpp"
-#include "comparison.hpp"
-
-#include "load.hpp"
-#include "save.hpp"
-
-#include "gl.hpp"
-#include "dx.hpp"
-
-#include "./core/flip.hpp"
-#include "./core/fetch.hpp"
-
-
-
+}//namespace gli
