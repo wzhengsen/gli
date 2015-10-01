@@ -378,37 +378,37 @@ namespace detail
 				detail::texelFetch<T, P, FORMAT_RGB5A1_UNORM>::call,			// FORMAT_RGB5A1_UNORM
 				detail::texelFetch<T, P, FORMAT_RGB5A1_USCALED>::call,			// FORMAT_RGB5A1_USCALED
 
-				detail::texelFetchNorm1<T, P, glm::u8>::call,					// FORMAT_R8_UNORM
-				detail::texelFetchNorm1<T, P, glm::i8>::call,					// FORMAT_R8_SNORM
+				detail::texelFetchNorm1<T, P, glm::u8, std::numeric_limits<T>::is_iec559>::call,			// FORMAT_R8_UNORM
+				detail::texelFetchNorm1<T, P, glm::i8, std::numeric_limits<T>::is_iec559>::call,			// FORMAT_R8_SNORM
 				detail::texelFetchCast1<T, P, glm::u8>::call,					// FORMAT_R8_USCALED
 				detail::texelFetchCast1<T, P, glm::i8>::call,					// FORMAT_R8_SSCALED
 				detail::texelFetchDefault<T, P>::call,							// FORMAT_R8_UINT
 				detail::texelFetchDefault<T, P>::call,							// FORMAT_R8_SINT
-				detail::texelFetchSRGB1<T, P>::call,							// FORMAT_R8_SRGB
+				detail::texelFetchSRGB1<T, P, std::numeric_limits<T>::is_iec559>::call,							// FORMAT_R8_SRGB
 
-				detail::texelFetchNorm2<T, P, glm::u8>::call,					// FORMAT_RG8_UNORM
-				detail::texelFetchNorm2<T, P, glm::i8>::call,					// FORMAT_RG8_SNORM
+				detail::texelFetchNorm2<T, P, glm::u8, std::numeric_limits<T>::is_iec559>::call,			// FORMAT_RG8_UNORM
+				detail::texelFetchNorm2<T, P, glm::i8, std::numeric_limits<T>::is_iec559>::call,			// FORMAT_RG8_SNORM
 				detail::texelFetchCast2<T, P, glm::u8>::call,					// FORMAT_RG8_USCALED
 				detail::texelFetchCast2<T, P, glm::i8>::call,					// FORMAT_RG8_SSCALED
 				detail::texelFetchDefault<T, P>::call,							// FORMAT_RG8_UINT
 				detail::texelFetchDefault<T, P>::call,							// FORMAT_RG8_SINT
-				detail::texelFetchSRGB2<T, P>::call,							// FORMAT_RG8_SRGB
+				detail::texelFetchSRGB2<T, P, std::numeric_limits<T>::is_iec559>::call,							// FORMAT_RG8_SRGB
 
-				detail::texelFetchNorm3<T, P, glm::u8>::call,					// FORMAT_RGB8_UNORM
-				detail::texelFetchNorm3<T, P, glm::i8>::call,					// FORMAT_RGB8_SNORM
+				detail::texelFetchNorm3<T, P, glm::u8, std::numeric_limits<T>::is_iec559>::call,			// FORMAT_RGB8_UNORM
+				detail::texelFetchNorm3<T, P, glm::i8, std::numeric_limits<T>::is_iec559>::call,			// FORMAT_RGB8_SNORM
 				detail::texelFetchCast3<T, P, glm::u8>::call,					// FORMAT_RGB8_USCALED
 				detail::texelFetchCast3<T, P, glm::i8>::call,					// FORMAT_RGB8_SSCALED
 				detail::texelFetchDefault<T, P>::call,							// FORMAT_RGB8_UINT
 				detail::texelFetchDefault<T, P>::call,							// FORMAT_RGB8_SINT
-				detail::texelFetchSRGB3<T, P>::call,							// FORMAT_RGB8_SRGB
+				detail::texelFetchSRGB3<T, P, std::numeric_limits<T>::is_iec559>::call,							// FORMAT_RGB8_SRGB
 
-				detail::texelFetchNorm4<T, P, glm::u8>::call,					// FORMAT_RGBA8_UNORM
-				detail::texelFetchNorm4<T, P, glm::i8>::call,					// FORMAT_RGBA8_SNORM
+				detail::texelFetchNorm4<T, P, glm::u8, std::numeric_limits<T>::is_iec559>::call,			// FORMAT_RGBA8_UNORM
+				detail::texelFetchNorm4<T, P, glm::i8, std::numeric_limits<T>::is_iec559>::call,			// FORMAT_RGBA8_SNORM
 				detail::texelFetchCast4<T, P, glm::u8>::call,					// FORMAT_RGBA8_USCALED
 				detail::texelFetchCast4<T, P, glm::i8>::call,					// FORMAT_RGBA8_SSCALED
 				detail::texelFetchDefault<T, P>::call,							// FORMAT_RGBA8_UINT
 				detail::texelFetchDefault<T, P>::call,							// FORMAT_RGBA8_SINT
-				detail::texelFetchSRGB4<T, P>::call,							// FORMAT_RGBA8_SRGB
+				detail::texelFetchSRGB4<T, P, std::numeric_limits<T>::is_iec559>::call,							// FORMAT_RGBA8_SRGB
 
 				detail::texelFetch<T, P, FORMAT_RGB10A2_UNORM>::call,			// FORMAT_RGB10A2_UNORM
 				detail::texelFetch<T, P, FORMAT_RGB10A2_SNORM>::call,			// FORMAT_RGB10A2_SNORM
@@ -417,32 +417,32 @@ namespace detail
 				detail::texelFetch<T, P, FORMAT_RGB10A2_UINT>::call,			// FORMAT_RGB10A2_UINT
 				detail::texelFetch<T, P, FORMAT_RGB10A2_SINT>::call,			// FORMAT_RGB10A2_SINT
 
-				detail::texelFetchNorm1<T, P, glm::u16>::call,					// FORMAT_R16_UNORM
-				detail::texelFetchNorm1<T, P, glm::i16>::call,					// FORMAT_R16_SNORM
+				detail::texelFetchNorm1<T, P, glm::u16, std::numeric_limits<T>::is_iec559>::call,			// FORMAT_R16_UNORM
+				detail::texelFetchNorm1<T, P, glm::i16, std::numeric_limits<T>::is_iec559>::call,			// FORMAT_R16_SNORM
 				detail::texelFetchCast1<T, P, glm::u16>::call,					// FORMAT_R16_USCALED
 				detail::texelFetchCast1<T, P, glm::i16>::call,					// FORMAT_R16_SSCALED
 				detail::texelFetchDefault<T, P>::call,							// FORMAT_R16_UINT
 				detail::texelFetchDefault<T, P>::call,							// FORMAT_R16_SINT
 				detail::texelFetch<T, P, FORMAT_R16_SFLOAT>::call,				// FORMAT_R16_SFLOAT
 
-				detail::texelFetchNorm2<T, P, glm::u16>::call,					// FORMAT_RG16_UNORM
-				detail::texelFetchNorm2<T, P, glm::i16>::call,					// FORMAT_RG16_SNORM
+				detail::texelFetchNorm2<T, P, glm::u16, std::numeric_limits<T>::is_iec559>::call,			// FORMAT_RG16_UNORM
+				detail::texelFetchNorm2<T, P, glm::i16, std::numeric_limits<T>::is_iec559>::call,			// FORMAT_RG16_SNORM
 				detail::texelFetchCast2<T, P, glm::u16>::call,					// FORMAT_RG16_USCALED
 				detail::texelFetchCast2<T, P, glm::i16>::call,					// FORMAT_RG16_SSCALED
 				detail::texelFetchDefault<T, P>::call,							// FORMAT_RG16_UINT
 				detail::texelFetchDefault<T, P>::call,							// FORMAT_RG16_SINT
 				detail::texelFetch<T, P, FORMAT_RG16_SFLOAT>::call,				// FORMAT_RG16_SFLOAT
 
-				detail::texelFetchNorm3<T, P, glm::u16>::call,					// FORMAT_RGB16_UNORM
-				detail::texelFetchNorm3<T, P, glm::i16>::call,					// FORMAT_RGB16_SNORM
+				detail::texelFetchNorm3<T, P, glm::u16, std::numeric_limits<T>::is_iec559>::call,			// FORMAT_RGB16_UNORM
+				detail::texelFetchNorm3<T, P, glm::i16, std::numeric_limits<T>::is_iec559>::call,			// FORMAT_RGB16_SNORM
 				detail::texelFetchCast3<T, P, glm::u16>::call,					// FORMAT_RGB16_USCALED
 				detail::texelFetchCast3<T, P, glm::i16>::call,					// FORMAT_RGB16_SSCALED
 				detail::texelFetchDefault<T, P>::call,							// FORMAT_RGB16_UINT
 				detail::texelFetchDefault<T, P>::call,							// FORMAT_RGB16_SINT
 				detail::texelFetch<T, P, FORMAT_RGB16_SFLOAT>::call,			// FORMAT_RGB16_SFLOAT
 
-				detail::texelFetchNorm4<T, P, glm::u16>::call,					// FORMAT_RGBA16_UNORM
-				detail::texelFetchNorm4<T, P, glm::i16>::call,					// FORMAT_RGBA16_SNORM
+				detail::texelFetchNorm4<T, P, glm::u16, std::numeric_limits<T>::is_iec559>::call,			// FORMAT_RGBA16_UNORM
+				detail::texelFetchNorm4<T, P, glm::i16, std::numeric_limits<T>::is_iec559>::call,			// FORMAT_RGBA16_SNORM
 				detail::texelFetchCast4<T, P, glm::u16>::call,					// FORMAT_RGBA16_USCALED
 				detail::texelFetchCast4<T, P, glm::i16>::call,					// FORMAT_RGBA16_SSCALED
 				detail::texelFetchDefault<T, P>::call,							// FORMAT_RGBA16_UINT
@@ -541,21 +541,21 @@ namespace detail
 				detail::texelFetchDefault<T, P>::call,							// FORMAT_BGR5A1_UNORM
 				detail::texelFetchDefault<T, P>::call,							// FORMAT_BGR5A1_USCALED
 
-				detail::texelFetchNorm3<T, P, glm::u8>::call,					// FORMAT_BGR8_UNORM
-				detail::texelFetchNorm3<T, P, glm::i8>::call,					// FORMAT_BGR8_SNORM
+				detail::texelFetchNorm3<T, P, glm::u8, std::numeric_limits<T>::is_iec559>::call,					// FORMAT_BGR8_UNORM
+				detail::texelFetchNorm3<T, P, glm::i8, std::numeric_limits<T>::is_iec559>::call,					// FORMAT_BGR8_SNORM
 				detail::texelFetchCast3<T, P, glm::u8>::call,					// FORMAT_BGR8_USCALED
 				detail::texelFetchCast3<T, P, glm::i8>::call,					// FORMAT_BGR8_SSCALED
 				detail::texelFetchDefault<T, P>::call,							// FORMAT_BGR8_UINT
 				detail::texelFetchDefault<T, P>::call,							// FORMAT_BGR8_SINT
-				detail::texelFetchSRGB3<T, P>::call,							// FORMAT_BGR8_SRGB
+				detail::texelFetchSRGB3<T, P, std::numeric_limits<T>::is_iec559>::call,							// FORMAT_BGR8_SRGB
 
-				detail::texelFetchNorm4<T, P, glm::u8>::call,					// FORMAT_BGRA8_UNORM
-				detail::texelFetchNorm4<T, P, glm::i8>::call,					// FORMAT_BGRA8_SNORM
+				detail::texelFetchNorm4<T, P, glm::u8, std::numeric_limits<T>::is_iec559>::call,			// FORMAT_BGRA8_UNORM
+				detail::texelFetchNorm4<T, P, glm::i8, std::numeric_limits<T>::is_iec559>::call,			// FORMAT_BGRA8_SNORM
 				detail::texelFetchCast4<T, P, glm::u8>::call,					// FORMAT_BGRA8_USCALED
 				detail::texelFetchCast4<T, P, glm::i8>::call,					// FORMAT_BGRA8_SSCALED
 				detail::texelFetchDefault<T, P>::call,							// FORMAT_BGRA8_UINT
 				detail::texelFetchDefault<T, P>::call,							// FORMAT_BGRA8_SINT
-				detail::texelFetchSRGB4<T, P>::call,							// FORMAT_BGRA8_SRGB
+				detail::texelFetchSRGB4<T, P, std::numeric_limits<T>::is_iec559>::call,							// FORMAT_BGRA8_SRGB
 
 				detail::texelFetch<T, P, FORMAT_BGR10A2_UNORM>::call,			// FORMAT_BGR10A2_UNORM
 				detail::texelFetch<T, P, FORMAT_BGR10A2_SNORM>::call,			// FORMAT_BGR10A2_SNORM
@@ -565,15 +565,15 @@ namespace detail
 				detail::texelFetch<T, P, FORMAT_BGR10A2_SINT>::call,			// FORMAT_BGR10A2_SINT
 
 				detail::texelFetchDefault<T, P>::call,							// FORMAT_RG3B2_UNORM
-				detail::texelFetchNorm4<T, P, glm::u8>::call,					// FORMAT_BGRX8_UNORM
-				detail::texelFetchSRGB4<T, P>::call,							// FORMAT_BGRX8_SRGB
+				detail::texelFetchNorm4<T, P, glm::u8, std::numeric_limits<T>::is_iec559>::call,					// FORMAT_BGRX8_UNORM
+				detail::texelFetchSRGB4<T, P, std::numeric_limits<T>::is_iec559>::call,							// FORMAT_BGRX8_SRGB
 
-				detail::texelFetchNorm1<T, P, glm::u8>::call,					// FORMAT_L8_UNORM
-				detail::texelFetchNorm1<T, P, glm::u8>::call,					// FORMAT_A8_UNORM
-				detail::texelFetchNorm2<T, P, glm::u8>::call,					// FORMAT_LA8_UNORM
-				detail::texelFetchNorm1<T, P, glm::u16>::call,					// FORMAT_L16_UNORM
-				detail::texelFetchNorm1<T, P, glm::u16>::call,					// FORMAT_A16_UNORM
-				detail::texelFetchNorm2<T, P, glm::u16>::call,					// FORMAT_LA16_UNORM
+				detail::texelFetchNorm1<T, P, glm::u8, std::numeric_limits<T>::is_iec559>::call,					// FORMAT_L8_UNORM
+				detail::texelFetchNorm1<T, P, glm::u8, std::numeric_limits<T>::is_iec559>::call,					// FORMAT_A8_UNORM
+				detail::texelFetchNorm2<T, P, glm::u8, std::numeric_limits<T>::is_iec559>::call,					// FORMAT_LA8_UNORM
+				detail::texelFetchNorm1<T, P, glm::u16, std::numeric_limits<T>::is_iec559>::call,					// FORMAT_L16_UNORM
+				detail::texelFetchNorm1<T, P, glm::u16, std::numeric_limits<T>::is_iec559>::call,					// FORMAT_A16_UNORM
+				detail::texelFetchNorm2<T, P, glm::u16, std::numeric_limits<T>::is_iec559>::call,					// FORMAT_LA16_UNORM
 
 				detail::texelFetchDefault<T, P>::call,							// FORMAT_RGB_PVRTC1_8X8_UNORM
 				detail::texelFetchDefault<T, P>::call,							// FORMAT_RGB_PVRTC1_8X8_SRGB
