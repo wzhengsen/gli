@@ -117,7 +117,7 @@ namespace gli
 	}
 
 	template <typename genType>
-	void texture2D::store(texture2D::dim_type const & TexelCoord, texture2D::size_type Level, genType const & Texel)
+	inline void texture2D::store(texture2D::dim_type const & TexelCoord, texture2D::size_type Level, genType const & Texel)
 	{
 		assert(!this->empty());
 		assert(!is_compressed(this->format()));
@@ -132,12 +132,12 @@ namespace gli
 		reinterpret_cast<genType*>(Cache.Data)[Index] = Texel;
 	}
 
-	texture2D::size_type texture2D::index_cache(size_type Level) const
+	inline texture2D::size_type texture2D::index_cache(size_type Level) const
 	{
 		return Level;
 	}
 
-	void texture2D::build_cache()
+	inline void texture2D::build_cache()
 	{
 		this->Caches.resize(this->levels());
 

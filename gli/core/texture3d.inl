@@ -118,7 +118,7 @@ namespace gli
 	}
 
 	template <typename genType>
-	void texture3D::store(texture3D::dim_type const & TexelCoord, texture3D::size_type Level, genType const & Texel)
+	inline void texture3D::store(texture3D::dim_type const & TexelCoord, texture3D::size_type Level, genType const & Texel)
 	{
 		assert(!this->empty());
 		assert(!is_compressed(this->format()));
@@ -133,12 +133,12 @@ namespace gli
 		reinterpret_cast<genType*>(Cache.Data)[Index] = Texel;
 	}
 
-	texture3D::size_type texture3D::index_cache(size_type Level) const
+	inline texture3D::size_type texture3D::index_cache(size_type Level) const
 	{
 		return Level;
 	}
 
-	void texture3D::build_cache()
+	inline void texture3D::build_cache()
 	{
 		this->Caches.resize(this->levels());
 

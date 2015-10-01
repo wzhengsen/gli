@@ -117,7 +117,7 @@ namespace gli
 	}
 
 	template <typename genType>
-	void textureCubeArray::store(textureCubeArray::dim_type const & TexelCoord, textureCubeArray::size_type Layer,  textureCubeArray::size_type Face, textureCubeArray::size_type Level, genType const & Texel)
+	inline void textureCubeArray::store(textureCubeArray::dim_type const & TexelCoord, textureCubeArray::size_type Layer,  textureCubeArray::size_type Face, textureCubeArray::size_type Level, genType const & Texel)
 	{
 		assert(!this->empty());
 		assert(!is_compressed(this->format()));
@@ -132,12 +132,12 @@ namespace gli
 		reinterpret_cast<genType*>(Cache.Data)[Index] = Texel;
 	}
 
-	textureCubeArray::size_type textureCubeArray::index_cache(size_type Layer, size_type Face, size_type Level) const
+	inline textureCubeArray::size_type textureCubeArray::index_cache(size_type Layer, size_type Face, size_type Level) const
 	{
 		return (Layer * this->levels() * this->faces()) + (Face * this->levels()) + Level;
 	}
 
-	void textureCubeArray::build_cache()
+	inline void textureCubeArray::build_cache()
 	{
 		this->Caches.resize(this->layers() * this->faces() * this->levels());
 

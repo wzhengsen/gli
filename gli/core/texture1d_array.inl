@@ -120,7 +120,7 @@ namespace gli
 	}
 
 	template <typename genType>
-	void texture1DArray::store(texture1DArray::dim_type const & TexelCoord, texture1DArray::size_type Layer, texture1DArray::size_type Level, genType const & Texel)
+	inline void texture1DArray::store(texture1DArray::dim_type const & TexelCoord, texture1DArray::size_type Layer, texture1DArray::size_type Level, genType const & Texel)
 	{
 		assert(!this->empty());
 		assert(!is_compressed(this->format()));
@@ -135,12 +135,12 @@ namespace gli
 		reinterpret_cast<genType*>(Cache.Data)[Index] = Texel;
 	}
 
-	texture1DArray::size_type texture1DArray::index_cache(size_type Layer, size_type Level) const
+	inline texture1DArray::size_type texture1DArray::index_cache(size_type Layer, size_type Level) const
 	{
 		return Layer * this->levels() + Level;
 	}
 
-	void texture1DArray::build_cache()
+	inline void texture1DArray::build_cache()
 	{
 		this->Caches.resize(this->layers() * this->levels());
 
