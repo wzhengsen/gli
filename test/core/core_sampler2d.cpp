@@ -186,7 +186,7 @@ namespace detail
 	struct texelFetchSRGB1<T, P, true>{
 	static glm::tvec4<T, P> call(texture2D const & Texture, texture2D::dim_type const & TexelCoord, texture2D::size_type Level)
 	{
-		return glm::tvec4<T, P>(glm::convertSRGBToLinear(glm::compNormalize<floatType>(Texture.load<glm::tvec1<glm::u8, P> >(TexelCoord, Level))).x, 0.0f, 0.0f, 1.0f);
+		return glm::tvec4<T, P>(glm::convertSRGBToLinear(glm::compNormalize<T>(Texture.load<glm::tvec1<glm::u8, P> >(TexelCoord, Level))).x, 0.0f, 0.0f, 1.0f);
 	}};
 
 	template <typename T, glm::precision P, bool isFloatSampler = false>
@@ -200,7 +200,7 @@ namespace detail
 	struct texelFetchSRGB2<T, P, true>{
 	static glm::tvec4<T, P> call(texture2D const & Texture, texture2D::dim_type const & TexelCoord, texture2D::size_type Level)
 	{
-		return glm::tvec4<T, P>(glm::convertSRGBToLinear(glm::compNormalize<floatType>(Texture.load<glm::tvec2<glm::u8, P> >(TexelCoord, Level))), 0.0f, 1.0f);
+		return glm::tvec4<T, P>(glm::convertSRGBToLinear(glm::compNormalize<T>(Texture.load<glm::tvec2<glm::u8, P> >(TexelCoord, Level))), 0.0f, 1.0f);
 	}};
 
 	template <typename T, glm::precision P, bool isFloatSampler = false>
@@ -214,7 +214,7 @@ namespace detail
 	struct texelFetchSRGB3<T, P, true>{
 	static glm::tvec4<T, P> call(texture2D const & Texture, texture2D::dim_type const & TexelCoord, texture2D::size_type Level)
 	{
-		return glm::tvec4<T, P>(glm::convertSRGBToLinear(glm::compNormalize<floatType>(Texture.load<glm::tvec3<glm::u8, P> >(TexelCoord, Level))), 1.0f);
+		return glm::tvec4<T, P>(glm::convertSRGBToLinear(glm::compNormalize<T>(Texture.load<glm::tvec3<glm::u8, P> >(TexelCoord, Level))), 1.0f);
 	}};
 
 	template <typename T, glm::precision P, bool isFloatSampler = false>
@@ -228,7 +228,7 @@ namespace detail
 	struct texelFetchSRGB4<T, P, true> {
 	static glm::tvec4<T, P> call(texture2D const & Texture, texture2D::dim_type const & TexelCoord, texture2D::size_type Level)
 	{
-		return glm::convertSRGBToLinear(glm::compNormalize<floatType>(Texture.load<glm::tvec4<glm::u8, P> >(TexelCoord, Level)));
+		return glm::convertSRGBToLinear(glm::compNormalize<T>(Texture.load<glm::tvec4<glm::u8, P> >(TexelCoord, Level)));
 	}};
 
 	// Cast
