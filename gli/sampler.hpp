@@ -28,9 +28,40 @@
 
 #pragma once
 
+#include <gli/filter.hpp>
+
 namespace gli
 {
+	enum wrap
+	{
+		WRAP_CLAMP_TO_EDGE, WRAP_FIRST = WRAP_CLAMP_TO_EDGE,
+		WRAP_CLAMP_TO_BORDER,
+		WRAP_REPEAT,
+		WRAP_MIRROR_REPEAT,
+		WRAP_MIRROR_CLAMP_TO_EDGE,
+		WRAP_MIRROR_CLAMP_TO_BORDER, WRAP_LAST = WRAP_MIRROR_CLAMP_TO_BORDER
+	};
 
+	enum
+	{
+		WRAP_COUNT = WRAP_LAST - WRAP_FIRST + 1
+	};
+
+	class sampler
+	{
+	public:
+		sampler(wrap Wrap, filter Mip, filter Min);
+
+	protected:
+		typedef float(*wrapFunc)(float const & texcoord);
+
+		wrapFunc getFunc(wrap WrapMode) const;
+
+		wrap WrapMode;
+		wrapFunc WrapFunc;
+		filter Mip;
+		filter Min;
+	};
 }//namespace gli
 
 #include "./core/sampler.inl"

@@ -22,11 +22,41 @@
 ///
 /// @ref core
 /// @file gli/core/sampler.inl
-/// @date 2015-09-29 / 2015-09-29
+/// @date 2015-09-29 / 2015-10-03
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
-namespace gli
-{
+#include <glm/gtx/wrap.hpp>
 
+namespace gli{
+namespace detail
+{
+	inline float passThrought(float const & texcoord)
+	{
+		return texcoord;
+	}
+}//namespace detail
+
+	sampler::sampler(wrap Wrap, filter Mip, filter Min)
+		: WrapMode(Wrap)
+		, WrapFunc(getFunc(Wrap))
+		, Mip(Mip)
+		, Min(Min)
+	{}
+
+	sampler::wrapFunc sampler::getFunc(wrap WrapMode) const
+	{
+		static wrapFunc Table[] =
+		{
+			glm::clamp,
+			detail::passThrought,
+			glm::repeat,
+			glm::mirrorRepeat,
+			glm::mirrorClamp,
+			glm::mirrorClamp
+		};
+		static_assert(sizeof(Table) / sizeof(Table[0]) == WRAP_COUNT, "Table needs to be updated");
+
+		return Table[WrapMode];
+	}
 }//namespace gli
