@@ -117,12 +117,12 @@ namespace detail
 		return !detail::equalData(TextureA, TextureB);
 	}
 
-	inline bool operator==(gli::texture const & A, gli::texture const & B)
+	inline bool operator==(texture const & A, texture const & B)
 	{
 		return gli::equal(A, B);
 	}
 
-	inline bool operator!=(gli::texture const & A, gli::texture const & B)
+	inline bool operator!=(texture const & A, texture const & B)
 	{
 		return gli::notEqual(A, B);
 	}

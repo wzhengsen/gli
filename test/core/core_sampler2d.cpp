@@ -339,37 +339,28 @@ namespace fetch_rgba8_unorm
 			glm::vec4(1.0f, 0.0f, 1.0f, 1.0f)
 		};
 
-		gli::texture2D Texture(gli::FORMAT_RGBA8_UNORM, gli::texture2D::dim_type(4, 2), 1);
-		*(Texture.data<glm::u8vec4>() + 0) = glm::u8vec4(Colors[0] * 255.f);
-		*(Texture.data<glm::u8vec4>() + 1) = glm::u8vec4(Colors[1] * 255.f);
-		*(Texture.data<glm::u8vec4>() + 2) = glm::u8vec4(Colors[2] * 255.f);
-		*(Texture.data<glm::u8vec4>() + 3) = glm::u8vec4(Colors[3] * 255.f);
-		*(Texture.data<glm::u8vec4>() + 4) = glm::u8vec4(Colors[4] * 255.f);
-		*(Texture.data<glm::u8vec4>() + 5) = glm::u8vec4(Colors[5] * 255.f);
-		*(Texture.data<glm::u8vec4>() + 6) = glm::u8vec4(Colors[6] * 255.f);
-		*(Texture.data<glm::u8vec4>() + 7) = glm::u8vec4(Colors[7] * 255.f);
+		gli::texture2D TextureA(gli::FORMAT_RGBA8_UNORM, gli::texture2D::dim_type(4, 2), 1);
+		for (std::size_t i = 0, n = sizeof(Colors) / sizeof(Colors[0]); i < n; ++i)
+			*(TextureA.data<glm::u8vec4>() + i) = glm::u8vec4(Colors[i] * 255.f);
 
-		gli::fsampler2D Sampler(Texture, gli::WRAP_CLAMP_TO_EDGE, gli::FILTER_LINEAR, gli::FILTER_LINEAR, glm::vec4(0.0f, 0.5f, 1.0f, 1.0f));
+		gli::fsampler2D SamplerA(TextureA, gli::WRAP_CLAMP_TO_EDGE, gli::FILTER_LINEAR, gli::FILTER_LINEAR, glm::vec4(0.0f, 0.5f, 1.0f, 1.0f));
 
-		glm::vec4 Data0 = Sampler.texel_fetch(gli::texture2D::dim_type(0, 0), 0);
-		glm::vec4 Data1 = Sampler.texel_fetch(gli::texture2D::dim_type(1, 0), 0);
-		glm::vec4 Data2 = Sampler.texel_fetch(gli::texture2D::dim_type(2, 0), 0);
-		glm::vec4 Data3 = Sampler.texel_fetch(gli::texture2D::dim_type(3, 0), 0);
-		glm::vec4 Data4 = Sampler.texel_fetch(gli::texture2D::dim_type(0, 1), 0);
-		glm::vec4 Data5 = Sampler.texel_fetch(gli::texture2D::dim_type(1, 1), 0);
-		glm::vec4 Data6 = Sampler.texel_fetch(gli::texture2D::dim_type(2, 1), 0);
-		glm::vec4 Data7 = Sampler.texel_fetch(gli::texture2D::dim_type(3, 1), 0);
+		glm::vec4 Data[sizeof(Colors) / sizeof(Colors[0])];
+		for(std::size_t i = 0, n = sizeof(Colors) / sizeof(Colors[0]); i < n; ++i)
+			Data[i] = SamplerA.texel_fetch(gli::texture2D::dim_type(i % 4, i / 4), 0);
 
 		float const Epsilon = 1.f / 255.f * 0.5f;
+		for(std::size_t i = 0, n = sizeof(Colors) / sizeof(Colors[0]); i < n; ++i)
+			Error += glm::all(glm::epsilonEqual(Data[i], Colors[i], Epsilon)) ? 0 : 1;
 
-		Error += glm::all(glm::epsilonEqual(Data0, Colors[0], Epsilon)) ? 0 : 1;
-		Error += glm::all(glm::epsilonEqual(Data1, Colors[1], Epsilon)) ? 0 : 1;
-		Error += glm::all(glm::epsilonEqual(Data2, Colors[2], Epsilon)) ? 0 : 1;
-		Error += glm::all(glm::epsilonEqual(Data3, Colors[3], Epsilon)) ? 0 : 1;
-		Error += glm::all(glm::epsilonEqual(Data4, Colors[4], Epsilon)) ? 0 : 1;
-		Error += glm::all(glm::epsilonEqual(Data5, Colors[5], Epsilon)) ? 0 : 1;
-		Error += glm::all(glm::epsilonEqual(Data6, Colors[6], Epsilon)) ? 0 : 1;
-		Error += glm::all(glm::epsilonEqual(Data7, Colors[7], Epsilon)) ? 0 : 1;
+		gli::texture2D TextureB(gli::FORMAT_RGBA8_UNORM, gli::texture2D::dim_type(4, 2), 1);
+		TextureB.clear(gli::u8vec4(0, 0, 0, 255));
+
+		gli::fsampler2D SamplerB(TextureB, gli::WRAP_CLAMP_TO_EDGE, gli::FILTER_LINEAR, gli::FILTER_LINEAR, glm::vec4(0.0f, 0.5f, 1.0f, 1.0f));
+		for(std::size_t i = 0, n = sizeof(Colors) / sizeof(Colors[0]); i < n; ++i)
+			SamplerB.texel_write(gli::texture2D::dim_type(i % 4, i / 4), 0, Data[i]);
+
+		Error += TextureA == TextureB ? 0 : 1;
 
 		return Error;
 	}

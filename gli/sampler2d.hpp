@@ -44,12 +44,24 @@ namespace gli
 
 		glm::tvec4<T, P> texel_fetch(texture2D::dim_type const & TexelCoord, texture2D::size_type const & Level) const;
 
-	private:
-		/// Unimplemented
 		void texel_write(texture2D::dim_type const & TexelCoord, texture2D::size_type const & Level, glm::tvec4<T, P> const & Texel);
+
+	private:
+		typedef glm::tvec4<T, P>(*texelFetchFunc)(texture2D const & Texture, texture2D::dim_type const & TexelCoord, texture2D::size_type Level);
+		typedef void(*texelWriteFunc)(texture2D & Texture, texture2D::dim_type const & TexelCoord, texture2D::size_type Level, glm::tvec4<T, P> const & Texel);
+
+		struct texelFunc
+		{
+			texelFetchFunc Fetch;
+			texelWriteFunc Write;
+		};
 
 		/// Unimplemented
 		glm::tvec4<T, P> texture_lod(samplecoord_type const & Texcoord, float Level) const;
+
+		glm::tvec4<T, P> texture_lod_nearest(texture2D::samplecoord_type const & Texcoord, texture2D::size_type Level) const;
+
+		glm::tvec4<T, P> texture_lod_linear(texture2D::samplecoord_type const & Texcoord, texture2D::size_type Level) const;
 
 		/// Unimplemented
 		void generate_mipmaps();
@@ -57,15 +69,10 @@ namespace gli
 		/// Unimplemented
 		void generate_mipmaps(texture2D::size_type BaseLevel, texture2D::size_type MaxLevel);
 
-		typedef glm::tvec4<T, P>(*texelFetchFunc)(texture2D const & Texture, texture2D::dim_type const & TexelCoord, texture2D::size_type Level);
-		typedef void(*texelWriteFunc)(texture2D const & Texture, texture2D::dim_type const & TexelCoord, texture2D::size_type Level, glm::tvec4<T, P> const & Texel);
-
-		texelFetchFunc get_texel_fetch_func(format Format) const;
-		texelWriteFunc get_texel_write_func(format Format) const;
+		texelFunc get_texel_func(format Format) const;
 
 		texture2D Texture;
-		texelFetchFunc TexelFetch;
-		texelWriteFunc TexelWrite;
+		texelFunc TexelFunc;
 		glm::tvec4<T, P> BorderColor;
 	};
 
