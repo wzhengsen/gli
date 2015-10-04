@@ -260,7 +260,7 @@ namespace load_store
 		int Error = 0;
 
 		{
-			std::array<glm::f32vec1, 8> TestSamples =
+			std::array<glm::f32vec1, 8> TestSamples{
 			{
 				glm::f32vec1(0.0f),
 				glm::f32vec1(1.0f),
@@ -270,7 +270,7 @@ namespace load_store
 				glm::f32vec1(0.2f),
 				glm::f32vec1(-0.2f),
 				glm::f32vec1(0.9f)
-			};
+			}};
 
 			Error += run(gli::FORMAT_R32_SFLOAT, TestSamples);
 		}
