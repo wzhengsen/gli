@@ -421,7 +421,7 @@ namespace detail
 			Texel11 = this->texel_fetch(gli::dim2_t(s_above, t_above), Level);
 
 		if (!UseBorderColor[0] && !UseBorderColor[3])
-			Texel11 = this->texel_fetch(gli::dim2_t(s_below, t_above), Level);
+			Texel01 = this->texel_fetch(gli::dim2_t(s_below, t_above), Level);
 
 		T const BlendA = static_cast<T>(Texcoord.s - s_below_normalized) * static_cast<T>(TexelDim.x - 1);
 		T const BlendB = static_cast<T>(Texcoord.s - s_below_normalized) * static_cast<T>(TexelDim.x - 1);
@@ -429,8 +429,8 @@ namespace detail
 
 		glm::tvec4<T, P> const ValueA(glm::mix(Texel00, Texel10, BlendA));
 		glm::tvec4<T, P> const ValueB(glm::mix(Texel01, Texel11, BlendB));
-
-		return glm::mix(ValueA, ValueB, BlendC);
+		glm::tvec4<T, P> const Texel(glm::mix(ValueA, ValueB, BlendC));
+		return Texel;
 	}
 
 	template <typename T, glm::precision P>

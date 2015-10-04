@@ -362,8 +362,6 @@ namespace fetch_rgba8_unorm
 
 		Error += TextureA == TextureB ? 0 : 1;
 
-		gli::vec4 Sample = SamplerB.texture_lod(gli::fsampler2D::samplecoord_type(0.5f), 0.0f);
-
 		return Error;
 	}
 }//namespace fetch_rgba8_unorm
@@ -596,6 +594,40 @@ namespace clamp_to_border
 }//namespace clamp_to_border
 */
 
+namespace texture_lod
+{
+	int test()
+	{
+		int Error = 0;
+
+		{
+			gli::texture2D Texture(gli::FORMAT_RGBA8_UNORM, gli::texture2D::dim_type(4), 1);
+			Texture.clear(gli::u8vec4(0, 0, 0, 255));
+			Texture.store(gli::dim2_t(0, 0), 0, gli::u8vec4(255, 127,   0, 255));
+			Texture.store(gli::dim2_t(1, 0), 0, gli::u8vec4(255, 127,   0, 255));
+			Texture.store(gli::dim2_t(0, 1), 0, gli::u8vec4(255, 127,   0, 255));
+			Texture.store(gli::dim2_t(1, 1), 0, gli::u8vec4(255, 127,   0, 255));
+			Texture.store(gli::dim2_t(2, 2), 0, gli::u8vec4(  0, 127, 255, 255));
+			Texture.store(gli::dim2_t(3, 2), 0, gli::u8vec4(  0, 127, 255, 255));
+			Texture.store(gli::dim2_t(2, 3), 0, gli::u8vec4(  0, 127, 255, 255));
+			Texture.store(gli::dim2_t(3, 3), 0, gli::u8vec4(  0, 127, 255, 255));
+
+			gli::sampler2D<float> Sampler(Texture, gli::WRAP_CLAMP_TO_EDGE, gli::FILTER_LINEAR, gli::FILTER_LINEAR, gli::vec4(1.0f, 0.5f, 0.0f, 1.0f));
+
+			gli::vec4 SampleA = Sampler.texture_lod(gli::fsampler2D::samplecoord_type(0.25f), 0.0f);
+			Error += gli::all(gli::epsilonEqual(SampleA, gli::vec4(1.0f, 0.5f, 0.0f, 1.0f), 0.01f)) ? 0 : 1;
+
+			gli::vec4 SampleB = Sampler.texture_lod(gli::fsampler2D::samplecoord_type(0.8f), 0.0f);
+			Error += gli::all(gli::epsilonEqual(SampleB, gli::vec4(0.0f, 0.5f, 1.0f, 1.0f), 0.01f)) ? 0 : 1;
+
+			gli::vec4 SampleC = Sampler.texture_lod(gli::fsampler2D::samplecoord_type(0.20f, 0.8f), 0.0f);
+			Error += gli::all(gli::epsilonEqual(SampleC, gli::vec4(0.0f, 0.0f, 0.0f, 1.0f), 0.01f)) ? 0 : 1;
+		}
+
+		return Error;
+	}
+}//namespace texture_lod
+
 namespace sampler_type
 {
 	int test()
@@ -625,6 +657,7 @@ int main()
 {
 	int Error(0);
 
+	Error += texture_lod::test();
 	Error += load::test();
 	Error += sampler_type::test();
 
