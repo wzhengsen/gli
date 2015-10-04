@@ -26,6 +26,9 @@
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
+#include <glm/gtc/packing.hpp>
+#include <glm/gtc/color_space.hpp>
+
 namespace gli{
 namespace detail
 {

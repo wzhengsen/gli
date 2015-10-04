@@ -29,9 +29,7 @@
 #include <gli/sampler2d.hpp>
 #include <gli/comparison.hpp>
 #include <glm/gtx/component_wise.hpp>
-#include <glm/gtc/color_space.hpp>
 #include <glm/gtc/epsilon.hpp>
-#include <glm/gtc/packing.hpp>
 #include <ctime>
 #include <limits>
 
