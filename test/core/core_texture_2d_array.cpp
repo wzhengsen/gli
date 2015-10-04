@@ -372,7 +372,7 @@ namespace load_store
 		int Error = 0;
 
 		{
-			std::array<glm::f32vec1, 8> TestSamples
+			std::array<glm::f32vec1, 8> TestSamples{
 			{
 				glm::f32vec1(0.0f),
 				glm::f32vec1(1.0f),
@@ -382,13 +382,13 @@ namespace load_store
 				glm::f32vec1(0.2f),
 				glm::f32vec1(-0.2f),
 				glm::f32vec1(0.9f)
-			};
+			}};
 
 			Error += run(gli::FORMAT_R32_SFLOAT, TestSamples);
 		}
 
 		{
-			std::array<glm::f32vec2, 8> TestSamples
+			std::array<glm::f32vec2, 8> TestSamples{
 			{
 				glm::f32vec2(-1.0f,-1.0f),
 				glm::f32vec2(-0.5f,-0.5f),
@@ -398,13 +398,13 @@ namespace load_store
 				glm::f32vec2(-1.0f, 1.0f),
 				glm::f32vec2(-0.5f, 0.5f),
 				glm::f32vec2(0.0f, 0.0f)
-			};
+			}};
 
 			Error += run(gli::FORMAT_RG32_SFLOAT, TestSamples);
 		}
 
 		{
-			std::array<glm::f32vec3, 8> TestSamples
+			std::array<glm::f32vec3, 8> TestSamples{
 			{
 				glm::f32vec3(-1.0f, 0.0f, 1.0f),
 				glm::f32vec3(-0.5f, 0.0f, 0.5f),
@@ -414,13 +414,13 @@ namespace load_store
 				glm::f32vec3(-0.1f,-0.2f,-0.3f),
 				glm::f32vec3(0.7f, 0.8f, 0.9f),
 				glm::f32vec3(-0.7f,-0.8f,-0.9f)
-			};
+			}};
 
 			Error += run(gli::FORMAT_RGB32_SFLOAT, TestSamples);
 		}
 
 		{
-			std::array<glm::f32vec4, 8> TestSamples
+			std::array<glm::f32vec4, 8> TestSamples{
 			{
 				glm::f32vec4(-1.0f, 0.0f, 1.0f, 1.0f),
 				glm::f32vec4(-0.5f, 0.0f, 0.5f, 1.0f),
@@ -430,13 +430,13 @@ namespace load_store
 				glm::f32vec4(-0.1f,-0.2f,-0.3f, 1.0f),
 				glm::f32vec4(0.7f, 0.8f, 0.9f, 1.0f),
 				glm::f32vec4(-0.7f,-0.8f,-0.9f, 1.0f)
-			};
+			}};
 
 			Error += run(gli::FORMAT_RGBA32_SFLOAT, TestSamples);
 		}
 
 		{
-			std::array<glm::i8vec1, 8> TestSamples
+			std::array<glm::i8vec1, 8> TestSamples{
 			{
 				glm::i8vec1(-128),
 				glm::i8vec1(-127),
@@ -446,14 +446,14 @@ namespace load_store
 				glm::i8vec1(1),
 				glm::i8vec1(-1),
 				glm::i8vec1(0)
-			};
+			}};
 
 			Error += run(gli::FORMAT_R8_SINT, TestSamples);
 			Error += run(gli::FORMAT_R8_SNORM, TestSamples);
 		}
 
 		{
-			std::array<glm::i8vec2, 8> TestSamples
+			std::array<glm::i8vec2, 8> TestSamples{
 			{
 				glm::i8vec2(-128, -96),
 				glm::i8vec2(-64,  96),
@@ -463,14 +463,14 @@ namespace load_store
 				glm::i8vec2(-48,  48),
 				glm::i8vec2(-127, 127),
 				glm::i8vec2(64,   0)
-			};
+			}};
 
 			Error += run(gli::FORMAT_RG8_UINT, TestSamples);
 			Error += run(gli::FORMAT_RG8_UNORM, TestSamples);
 		}
 
 		{
-			std::array<glm::i8vec3, 8> TestSamples
+			std::array<glm::i8vec3, 8> TestSamples{
 			{
 				glm::i8vec3(-128,   0,   0),
 				glm::i8vec3(-128, 127,   0),
@@ -480,14 +480,14 @@ namespace load_store
 				glm::i8vec3(0, 127,-127),
 				glm::i8vec3(0,  64, -64),
 				glm::i8vec3(-32,  32,  96)
-			};
+			}};
 
 			Error += run(gli::FORMAT_RGB8_SINT, TestSamples);
 			Error += run(gli::FORMAT_RGB8_SNORM, TestSamples);
 		}
 
 		{
-			std::array<glm::i8vec4, 8> TestSamples
+			std::array<glm::i8vec4, 8> TestSamples{
 			{
 				glm::i8vec4(-127,   0,   0, 127),
 				glm::i8vec4(-128,  96,   0,-128),
@@ -497,14 +497,14 @@ namespace load_store
 				glm::i8vec4(95, -32, 127,   4),
 				glm::i8vec4(-63,  16,-128,  -1),
 				glm::i8vec4(63, -16,-127,  -2)
-			};
+			}};
 
 			Error += run(gli::FORMAT_RGBA8_SINT, TestSamples);
 			Error += run(gli::FORMAT_RGBA8_SNORM, TestSamples);
 		}
 
 		{
-			std::array<glm::u8vec1, 8> TestSamples
+			std::array<glm::u8vec1, 8> TestSamples{
 			{
 				glm::u8vec1(255),
 				glm::u8vec1(224),
@@ -514,7 +514,7 @@ namespace load_store
 				glm::u8vec1(32),
 				glm::u8vec1(16),
 				glm::u8vec1(0)
-			};
+			}};
 
 			Error += run(gli::FORMAT_R8_UINT, TestSamples);
 			Error += run(gli::FORMAT_R8_UNORM, TestSamples);
@@ -522,7 +522,7 @@ namespace load_store
 		}
 
 		{
-			std::array<glm::u8vec2, 8> TestSamples
+			std::array<glm::u8vec2, 8> TestSamples{
 			{
 				glm::u8vec2(255,   0),
 				glm::u8vec2(255, 128),
@@ -532,7 +532,7 @@ namespace load_store
 				glm::u8vec2(0, 255),
 				glm::u8vec2(0,   0),
 				glm::u8vec2(255,   0)
-			};
+			}};
 
 			Error += run(gli::FORMAT_RG8_UINT, TestSamples);
 			Error += run(gli::FORMAT_RG8_UNORM, TestSamples);
@@ -540,7 +540,7 @@ namespace load_store
 		}
 
 		{
-			std::array<glm::u8vec3, 8> TestSamples
+			std::array<glm::u8vec3, 8> TestSamples{
 			{
 				glm::u8vec3(255,   0,   0),
 				glm::u8vec3(255, 128,   0),
@@ -550,7 +550,7 @@ namespace load_store
 				glm::u8vec3(0, 255, 255),
 				glm::u8vec3(0,   0, 255),
 				glm::u8vec3(255,   0, 255)
-			};
+			}};
 
 			Error += run(gli::FORMAT_RGB8_UINT, TestSamples);
 			Error += run(gli::FORMAT_RGB8_UNORM, TestSamples);
@@ -558,7 +558,7 @@ namespace load_store
 		}
 
 		{
-			std::array<glm::u8vec4, 8> TestSamples
+			std::array<glm::u8vec4, 8> TestSamples{
 			{
 				glm::u8vec4(255,   0,   0, 255),
 				glm::u8vec4(255, 128,   0, 255),
@@ -568,7 +568,7 @@ namespace load_store
 				glm::u8vec4(0, 255, 255, 255),
 				glm::u8vec4(0,   0, 255, 255),
 				glm::u8vec4(255,   0, 255, 255)
-			};
+			}};
 
 			Error += run(gli::FORMAT_RGBA8_UINT, TestSamples);
 			Error += run(gli::FORMAT_RGBA8_UNORM, TestSamples);
@@ -576,7 +576,7 @@ namespace load_store
 		}
 
 		{
-			std::array<glm::u16vec1, 8> TestSamples
+			std::array<glm::u16vec1, 8> TestSamples{
 			{
 				glm::u16vec1(65535),
 				glm::u16vec1(32767),
@@ -586,14 +586,14 @@ namespace load_store
 				glm::u16vec1(32),
 				glm::u16vec1(16),
 				glm::u16vec1(0)
-			};
+			}};
 
 			Error += run(gli::FORMAT_R16_UINT, TestSamples);
 			Error += run(gli::FORMAT_R16_UNORM, TestSamples);
 		}
 
 		{
-			std::array<glm::u16vec2, 8> TestSamples
+			std::array<glm::u16vec2, 8> TestSamples{
 			{
 				glm::u16vec2(255,   0),
 				glm::u16vec2(255, 128),
@@ -603,14 +603,14 @@ namespace load_store
 				glm::u16vec2(0, 255),
 				glm::u16vec2(0,   0),
 				glm::u16vec2(255,   0)
-			};
+			}};
 
 			Error += run(gli::FORMAT_RG16_UINT, TestSamples);
 			Error += run(gli::FORMAT_RG16_UNORM, TestSamples);
 		}
 
 		{
-			std::array<glm::u16vec3, 8> TestSamples
+			std::array<glm::u16vec3, 8> TestSamples{
 			{
 				glm::u16vec3(255,   0,   0),
 				glm::u16vec3(255, 128,   0),
@@ -620,14 +620,14 @@ namespace load_store
 				glm::u16vec3(0, 255, 255),
 				glm::u16vec3(0,   0, 255),
 				glm::u16vec3(255,   0, 255)
-			};
+			}};
 
 			Error += run(gli::FORMAT_RGB16_UINT, TestSamples);
 			Error += run(gli::FORMAT_RGB16_UNORM, TestSamples);
 		}
 
 		{
-			std::array<glm::u16vec4, 8> TestSamples
+			std::array<glm::u16vec4, 8> TestSamples{
 			{
 				glm::u16vec4(255,   0,   0, 255),
 				glm::u16vec4(255, 128,   0, 255),
@@ -637,14 +637,14 @@ namespace load_store
 				glm::u16vec4(0, 255, 255, 255),
 				glm::u16vec4(0,   0, 255, 255),
 				glm::u16vec4(255,   0, 255, 255)
-			};
+			}};
 
 			Error += run(gli::FORMAT_RGBA16_UINT, TestSamples);
 			Error += run(gli::FORMAT_RGBA16_UNORM, TestSamples);
 		}
 
 		{
-			std::array<glm::u32vec1, 8> TestSamples
+			std::array<glm::u32vec1, 8> TestSamples{
 			{
 				glm::u32vec1(65535),
 				glm::u32vec1(32767),
@@ -654,13 +654,13 @@ namespace load_store
 				glm::u32vec1(32),
 				glm::u32vec1(16),
 				glm::u32vec1(0)
-			};
+			}};
 
 			Error += run(gli::FORMAT_R32_UINT, TestSamples);
 		}
 
 		{
-			std::array<glm::u32vec2, 8> TestSamples
+			std::array<glm::u32vec2, 8> TestSamples{
 			{
 				glm::u32vec2(255,   0),
 				glm::u32vec2(255, 128),
@@ -670,13 +670,13 @@ namespace load_store
 				glm::u32vec2(0, 255),
 				glm::u32vec2(0,   0),
 				glm::u32vec2(255,   0)
-			};
+			}};
 
 			Error += run(gli::FORMAT_RG32_UINT, TestSamples);
 		}
 
 		{
-			std::array<glm::u32vec3, 8> TestSamples
+			std::array<glm::u32vec3, 8> TestSamples{
 			{
 				glm::u32vec3(255,   0,   0),
 				glm::u32vec3(255, 128,   0),
@@ -686,13 +686,13 @@ namespace load_store
 				glm::u32vec3(0, 255, 255),
 				glm::u32vec3(0,   0, 255),
 				glm::u32vec3(255,   0, 255)
-			};
+			}};
 
 			Error += run(gli::FORMAT_RGB32_UINT, TestSamples);
 		}
 
 		{
-			std::array<glm::u32vec4, 8> TestSamples
+			std::array<glm::u32vec4, 8> TestSamples{
 			{
 				glm::u32vec4(255,   0,   0, 255),
 				glm::u32vec4(255, 128,   0, 255),
@@ -702,7 +702,7 @@ namespace load_store
 				glm::u32vec4(0, 255, 255, 255),
 				glm::u32vec4(0,   0, 255, 255),
 				glm::u32vec4(255,   0, 255, 255)
-			};
+			}};
 
 			Error += run(gli::FORMAT_RGBA32_UINT, TestSamples);
 		}
