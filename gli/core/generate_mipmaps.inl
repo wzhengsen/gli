@@ -51,11 +51,6 @@ namespace gli
 
 		for(texture2D::size_type Level = BaseLevel; Level < MaxLevel; ++Level)
 		{
-			// Src
-			texture2D::dim_type const DimSrc = Texture.dimensions(Level + 0);
-			genType const * const DataSrc = Texture.data<genType>(0, 0, Level + 0);
-
-			// Dst
 			texture2D::dim_type const DimDst = Result.dimensions(Level + 1);
 			genType* DataDst = Result.data<genType>(0, 0, Level + 1);
 

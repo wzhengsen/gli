@@ -35,6 +35,7 @@ int test_create_texture_storage()
 	int Error(0);
 
 	gli::texture2D Texture(gli::FORMAT_RGBA8_UINT, gli::texture2D::dim_type(256));
+	Texture.clear(gli::u8vec4(255, 127, 0, 255));
 	gli::texture2D::size_type Levels = Texture.levels();
 
 	Error += Levels > 1 ? 0 : 1;
@@ -49,6 +50,11 @@ int test_create_texture_storage()
 	glm::u8vec4 TexelB = Texture[0].data<glm::u8vec4>()[1];
 	glm::u8vec4 TexelC = Texture[0].data<glm::u8vec4>()[2];
 	glm::u8vec4 TexelD = Texture[0].data<glm::u8vec4>()[3];
+
+	Error += TexelA == gli::u8vec4(255, 127, 0, 255) ? 0 : 1;
+	Error += TexelB == gli::u8vec4(255, 127, 0, 255) ? 0 : 1;
+	Error += TexelC == gli::u8vec4(255, 127, 0, 255) ? 0 : 1;
+	Error += TexelD == gli::u8vec4(255, 127, 0, 255) ? 0 : 1;
 
 	return Error;
 }

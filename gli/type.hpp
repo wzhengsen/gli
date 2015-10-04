@@ -39,6 +39,8 @@
 
 namespace gli
 {
+	using namespace glm;
+
 	using std::size_t;
 
 	typedef glm::tvec1<size_t> dim1_t;
