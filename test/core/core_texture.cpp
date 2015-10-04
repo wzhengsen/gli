@@ -142,6 +142,9 @@ namespace tex_access
 			glm::u8vec4 Color0 = *Pointer0;
 			glm::u8vec4 Color1 = *Pointer1;
 
+			Error += ColorA == Color0 ? 0 : 1;
+			Error += ColorB == Color1 ? 0 : 1;
+
 			Error += glm::all(glm::equal(Color0, glm::u8vec4(255, 127, 0, 255))) ? 0 : 1;
 			Error += glm::all(glm::equal(Color1, glm::u8vec4(0, 127, 255, 255))) ? 0 : 1;
 		}
