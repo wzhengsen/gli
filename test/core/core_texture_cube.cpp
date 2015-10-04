@@ -392,7 +392,7 @@ namespace load_store
 		}
 
 		{
-			std::array<glm::i8vec1, 6> TestSamples
+			std::array<glm::i8vec1, 6> TestSamples{
 			{
 				glm::i8vec1(-128),
 				glm::i8vec1(-127),
