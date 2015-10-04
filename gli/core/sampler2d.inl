@@ -334,7 +334,7 @@ namespace detail
 	inline sampler2D<T, P>::sampler2D(texture2D const & Texture, wrap Wrap, filter Mip, filter Min, glm::tvec4<T, P> const & BorderColor)
 		: sampler(Wrap, Texture.levels() > 1 ? Mip : FILTER_NEAREST, Min)
 		, Texture(Texture)
-		, TexelFetch(this->GetTexelFetchFunc(this->Texture.format()))
+		, TexelFetch(this->get_texel_fetch_func(this->Texture.format()))
 		, BorderColor(BorderColor)
 	{
 		assert(!Texture.empty());
@@ -375,6 +375,7 @@ namespace detail
 		for(texture2D::size_type Level = BaseLevel; Level < MaxLevel; ++Level)
 		{
 			texture2D::dim_type const DimDst = Result.dimensions(Level + 1);
+			samplecoord_type const SampleDimDst(DimDst);
 
 			for(std::size_t j = 0; j < DimDst.y; ++j)
 			for(std::size_t i = 0; i < DimDst.x; ++i)
@@ -382,12 +383,12 @@ namespace detail
 				std::size_t const x = (i << 1);
 				std::size_t const y = (j << 1);
 
-				glm::tvec4<T, P> Texel00 = Texture.fetch(texture2D::dim_type(x + 0, y + 0), Level + 0);
-				glm::tvec4<T, P> Texel01 = Texture.fetch(texture2D::dim_type(x + 0, y + 1), Level + 0);
-				glm::tvec4<T, P> Texel11 = Texture.fetch(texture2D::dim_type(x + 1, y + 1), Level + 0);
-				glm::tvec4<T, P> Texel10 = Texture.fetch(texture2D::dim_type(x + 1, y + 0), Level + 0);
+				glm::tvec4<T, P> Texel00 = this->texture_lod(samplecoord_type(x + 0, y + 0) / SampleDimDst, static_cast<float>(Level));
+				glm::tvec4<T, P> Texel01 = this->texture_lod(samplecoord_type(x + 0, y + 1) / SampleDimDst, static_cast<float>(Level));
+				glm::tvec4<T, P> Texel11 = this->texture_lod(samplecoord_type(x + 1, y + 1) / SampleDimDst, static_cast<float>(Level));
+				glm::tvec4<T, P> Texel10 = this->texture_lod(samplecoord_type(x + 1, y + 0) / SampleDimDst, static_cast<float>(Level));
 
-				glm::tvec4<T, P> const Texel = (Texel00 + Texel01 + Texel11 + Texel10) / genType(4);
+				glm::tvec4<T, P> const Texel = (Texel00 + Texel01 + Texel11 + Texel10) * static_cast<float>(0.25);
 				Result.store(texture2D::dim_type(i, j), Level + 1, Texel);
 			}
 		}
@@ -396,7 +397,7 @@ namespace detail
 	}
 
 	template <typename T, glm::precision P>
-	inline typename sampler2D<T, P>::texelFetchFunc sampler2D<T, P>::GetTexelFetchFunc(format Format) const
+	inline typename sampler2D<T, P>::texelFetchFunc sampler2D<T, P>::get_texel_fetch_func(format Format) const
 	{
 		static texelFetchFunc Table[] =
 		{
@@ -630,7 +631,7 @@ namespace detail
 	};
 
 	template <typename T, glm::precision P>
-	inline typename sampler2D<T, P>::texelWriteFunc sampler2D<T, P>::GetTexelWriteFunc(format Format) const
+	inline typename sampler2D<T, P>::texelWriteFunc sampler2D<T, P>::get_texel_write_func(format Format) const
 	{
 		// Unimplemeted
 		return nullptr;
@@ -638,7 +639,7 @@ namespace detail
 
 /*
 		template <typename T, glm::precision P>
-		glm::tvec4<T, P> sampler2D<T, P>::texture_lod(texture2D::texcoord_type const & Texcoord, float Level) const
+		glm::tvec4<T, P> sampler2D<T, P>::texture_lod(texture2D::samplecoord_type const & Texcoord, float Level) const
 		{
 			texture2D::texcoord_type const TexcoordWrap(this->WrapFunc(Texcoord.x), this->WrapFunc(Texcoord.y));
 
