@@ -362,6 +362,8 @@ namespace fetch_rgba8_unorm
 
 		Error += TextureA == TextureB ? 0 : 1;
 
+		gli::vec4 Sample = SamplerB.texture_lod(gli::fsampler2D::samplecoord_type(0.5f), 0.0f);
+
 		return Error;
 	}
 }//namespace fetch_rgba8_unorm

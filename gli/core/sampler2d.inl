@@ -366,33 +366,37 @@ namespace detail
 	template <typename T, glm::precision P>
 	inline glm::tvec4<T, P> sampler2D<T, P>::texture_lod(texture2D::samplecoord_type const & Texcoord, float Level) const
 	{
-		texture2D::texcoord_type const TexcoordWrap(this->WrapFunc(Texcoord.x), this->WrapFunc(Texcoord.y));
+		assert(std::numeric_limits<T>::is_iec559);
+
+		texture2D::samplecoord_type const TexcoordWrap(this->WrapFunc(Texcoord.x), this->WrapFunc(Texcoord.y));
 
 		texture2D::size_type const minLevel = texture2D::size_type(glm::floor(Level));
 		texture2D::size_type const maxLevel = texture2D::size_type(glm::ceil(Level));
 
 		if (this->Mip == FILTER_LINEAR)
 		{
-			glm::tvec4<T, P> const minTexel = this->Min == FILTER_LINEAR ? this->texture_lod_linear<vecType, valType>(TexcoordWrap, minLevel) : this->texture_lod_nearest<vecType, valType>(TexcoordWrap, minLevel);
-			glm::tvec4<T, P> const maxTexel = this->Min == FILTER_LINEAR ? this->texture_lod_linear<vecType, valType>(TexcoordWrap, maxLevel) : this->texture_lod_nearest<vecType, valType>(TexcoordWrap, minLevel);
+			glm::tvec4<T, P> const minTexel = this->Min == FILTER_LINEAR ? this->texture_lod_linear(TexcoordWrap, minLevel) : this->texture_lod_nearest(TexcoordWrap, minLevel);
+			glm::tvec4<T, P> const maxTexel = this->Min == FILTER_LINEAR ? this->texture_lod_linear(TexcoordWrap, maxLevel) : this->texture_lod_nearest(TexcoordWrap, minLevel);
 			return mix(minTexel, maxTexel, glm::fract(Level));
 		} else
 		{
 			texture2D::size_type const level = texture2D::size_type(glm::round(Level));
-			return this->Min == FILTER_LINEAR ? this->texture_lod_linear<vecType, valType>(TexcoordWrap, level) : this->texture_lod_nearest<vecType, valType>(TexcoordWrap, minLevel);
+			return this->Min == FILTER_LINEAR ? this->texture_lod_linear(TexcoordWrap, level) : this->texture_lod_nearest(TexcoordWrap, minLevel);
 		}
 	}
 
 	template <typename T, glm::precision P>
 	inline glm::tvec4<T, P> sampler2D<T, P>::texture_lod_linear(texture2D::samplecoord_type const & Texcoord, texture2D::size_type Level) const
 	{
+		assert(std::numeric_limits<T>::is_iec559);
+
 		texture2D::dim_type const TexelDim = this->Texture.dimensions(Level);
 		bool const IsSRGB = gli::is_srgb(Texture.format());
 
-		int const s_below = int(glm::floor(Texcoord.s * static_cast<floatType>(TexelDim.x - 1)));
-		int const s_above = int(glm::ceil(Texcoord.s * static_cast<floatType>(TexelDim.x - 1)));
-		int const t_below = int(glm::floor(Texcoord.t * static_cast<floatType>(TexelDim.y - 1)));
-		int const t_above = int(glm::ceil(Texcoord.t * static_cast<floatType>(TexelDim.y - 1)));
+		int const s_below = int(glm::floor(Texcoord.s * static_cast<T>(TexelDim.x - 1)));
+		int const s_above = int(glm::ceil(Texcoord.s * static_cast<T>(TexelDim.x - 1)));
+		int const t_below = int(glm::floor(Texcoord.t * static_cast<T>(TexelDim.y - 1)));
+		int const t_above = int(glm::ceil(Texcoord.t * static_cast<T>(TexelDim.y - 1)));
 
 		glm::bvec4 UseBorderColor(
 			s_below < 0 || s_below > static_cast<int>(TexelDim.x),
@@ -400,8 +404,8 @@ namespace detail
 			t_below < 0 || t_below > static_cast<int>(TexelDim.y),
 			t_above < 0 || t_above > static_cast<int>(TexelDim.y));
 
-		floatType const s_below_normalized = s_below / static_cast<floatType>(TexelDim.x);
-		floatType const t_below_normalized = t_below / static_cast<floatType>(TexelDim.y);
+		T const s_below_normalized = s_below / static_cast<T>(TexelDim.x);
+		T const t_below_normalized = t_below / static_cast<T>(TexelDim.y);
 
 		glm::tvec4<T, P> Texel00(this->BorderColor);
 		glm::tvec4<T, P> Texel10(this->BorderColor);
@@ -409,20 +413,20 @@ namespace detail
 		glm::tvec4<T, P> Texel01(this->BorderColor);
 
 		if (!UseBorderColor[0] && !UseBorderColor[2])
-			Texel00 = this->texel_fetch<vecType, valType>(gli::dim2_t(s_below, t_below), Level);
+			Texel00 = this->texel_fetch(gli::dim2_t(s_below, t_below), Level);
 
 		if (!UseBorderColor[1] && !UseBorderColor[2])
-			Texel10 = this->texel_fetch<vecType, valType>(gli::dim2_t(s_above, t_below), Level);
+			Texel10 = this->texel_fetch(gli::dim2_t(s_above, t_below), Level);
 
 		if (!UseBorderColor[1] && !UseBorderColor[3])
-			Texel11 = this->texel_fetch<vecType, valType>(gli::dim2_t(s_above, t_above), Level);
+			Texel11 = this->texel_fetch(gli::dim2_t(s_above, t_above), Level);
 
 		if (!UseBorderColor[0] && !UseBorderColor[3])
-			Texel11 = this->texel_fetch<vecType, valType>(gli::dim2_t(s_below, t_above), Level);
+			Texel11 = this->texel_fetch(gli::dim2_t(s_below, t_above), Level);
 
-		floatType const BlendA = static_cast<floatType>(Texcoord.s - s_below_normalized) * static_cast<floatType>(TexelDim.x - 1);
-		floatType const BlendB = static_cast<floatType>(Texcoord.s - s_below_normalized) * static_cast<floatType>(TexelDim.x - 1);
-		floatType const BlendC = static_cast<floatType>(Texcoord.t - t_below_normalized) * static_cast<floatType>(TexelDim.y - 1);
+		T const BlendA = static_cast<T>(Texcoord.s - s_below_normalized) * static_cast<T>(TexelDim.x - 1);
+		T const BlendB = static_cast<T>(Texcoord.s - s_below_normalized) * static_cast<T>(TexelDim.x - 1);
+		T const BlendC = static_cast<T>(Texcoord.t - t_below_normalized) * static_cast<T>(TexelDim.y - 1);
 
 		glm::tvec4<T, P> const ValueA(glm::mix(Texel00, Texel10, BlendA));
 		glm::tvec4<T, P> const ValueB(glm::mix(Texel01, Texel11, BlendB));
@@ -433,14 +437,16 @@ namespace detail
 	template <typename T, glm::precision P>
 	inline glm::tvec4<T, P> sampler2D<T, P>::texture_lod_nearest(texture2D::samplecoord_type const & Texcoord, texture2D::size_type Level) const
 	{
+		assert(std::numeric_limits<T>::is_iec559);
+
 		texture2D::dim_type const TexelDim = this->Texture.dimensions(Level);
 
-		int const s = int(glm::floor(Texcoord.s * static_cast<floatType>(TexelDim.x - 1)));
-		int const t = int(glm::floor(Texcoord.t * static_cast<floatType>(TexelDim.y - 1)));
+		int const s = int(glm::floor(Texcoord.s * static_cast<T>(TexelDim.x - 1)));
+		int const t = int(glm::floor(Texcoord.t * static_cast<T>(TexelDim.y - 1)));
 
 		bool const UseBorderColor = s > static_cast<int>(TexelDim.x) || s < 0 || t > static_cast<int>(TexelDim.y) || t < 0;
 
-		return UseBorderColor ? this->BorderColor : glm::compNormalize<floatType>(this->Texture.load<vecType<valType, P> >(gli::dim2_t(s, t), Level));
+		return UseBorderColor ? this->BorderColor : this->TexelFunc.Fetch(this->Texture, gli::dim2_t(s, t), Level);
 	}
 
 	template <typename T, glm::precision P>
