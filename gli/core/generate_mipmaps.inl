@@ -29,7 +29,7 @@
 namespace gli
 {
 	template <typename genType>
-	texture2D generate_mipmaps(texture2D const & Texture)
+	inline texture2D generate_mipmaps(texture2D const & Texture)
 	{
 		assert(!Texture.empty());
 		assert(!is_compressed(Texture.format()));
@@ -39,7 +39,7 @@ namespace gli
 	}
 
 	template <typename genType>
-	texture2D generate_mipmaps(texture2D const & Texture, texture2D::size_type BaseLevel, texture2D::size_type MaxLevel)
+	inline texture2D generate_mipmaps(texture2D const & Texture, texture2D::size_type BaseLevel, texture2D::size_type MaxLevel)
 	{
 		assert(!Texture.empty());
 		assert(!is_compressed(Texture.format()));
@@ -52,7 +52,6 @@ namespace gli
 		for(texture2D::size_type Level = BaseLevel; Level < MaxLevel; ++Level)
 		{
 			texture2D::dim_type const DimDst = Result.dimensions(Level + 1);
-			genType* DataDst = Result.data<genType>(0, 0, Level + 1);
 
 			for(std::size_t j = 0; j < DimDst.y; ++j)
 			for(std::size_t i = 0; i < DimDst.x; ++i)
