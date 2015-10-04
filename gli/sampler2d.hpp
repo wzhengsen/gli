@@ -46,7 +46,7 @@ namespace gli
 		void texel_write(texture2D::dim_type const & TexelCoord, texture2D::size_type const & Level, glm::tvec4<T, P> const & Texel);
 
 		/// Unimplemented
-		glm::tvec4<T, P> sampler2D<T, P>::texture_lod(texture2D::texcoord_type const & Texcoord, float Level) const
+		glm::tvec4<T, P> sampler2D<T, P>::texture_lod(texture2D::samplecoord_type const & Texcoord, float Level) const
 
 		typedef glm::tvec4<T, P>(*texelFetchFunc)(texture2D const & Texture, texture2D::dim_type const & TexelCoord, texture2D::size_type Level);
 		typedef void(*texelWriteFunc)(texture2D const & Texture, texture2D::dim_type const & TexelCoord, texture2D::size_type Level, glm::tvec4<T, P> const & Texel);
