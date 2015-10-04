@@ -391,7 +391,6 @@ namespace detail
 		assert(std::numeric_limits<T>::is_iec559);
 
 		texture2D::dim_type const TexelDim = this->Texture.dimensions(Level);
-		bool const IsSRGB = gli::is_srgb(Texture.format());
 
 		int const s_below = int(glm::floor(Texcoord.s * static_cast<T>(TexelDim.x - 1)));
 		int const s_above = int(glm::ceil(Texcoord.s * static_cast<T>(TexelDim.x - 1)));
