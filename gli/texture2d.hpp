@@ -86,12 +86,6 @@ namespace gli
 		template <typename genType>
 		void store(texture2D::dim_type const & TexelCoord, texture2D::size_type Level, genType const & Texel);
 
-		template <typename genType>
-		void generate_mipmaps();
-
-		template <typename genType>
-		void generate_mipmaps(texture2D::size_type BaseLevel, texture2D::size_type MaxLevel);
-
 	private:
 		struct cache
 		{

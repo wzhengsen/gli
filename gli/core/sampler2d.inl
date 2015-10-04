@@ -354,6 +354,48 @@ namespace detail
 	}
 
 	template <typename T, glm::precision P>
+	inline void sampler2D<T, P>::generate_mipmaps()
+	{
+		assert(!this->Texture.empty());
+		assert(!is_compressed(this->Texture.format()));
+
+		this->generate_mipmaps(this->Texture.base_level(), this->Texture.max_level());
+	}
+
+	template <typename T, glm::precision P>
+	inline void sampler2D<T, P>::generate_mipmaps(typename sampler2D<T, P>::size_type BaseLevel, typename sampler2D<T, P>::size_type MaxLevel)
+	{
+		assert(!this->Texture.empty());
+		assert(!is_compressed(this->Texture.format()));
+		assert(this->Texture.max_level() >= MaxLevel);
+		assert(BaseLevel <= MaxLevel);
+
+		texture2D Result(this->Texture.format(), this->Texture.dimensions(BaseLevel), MaxLevel - BaseLevel + 1);
+
+		for(texture2D::size_type Level = BaseLevel; Level < MaxLevel; ++Level)
+		{
+			texture2D::dim_type const DimDst = Result.dimensions(Level + 1);
+
+			for(std::size_t j = 0; j < DimDst.y; ++j)
+			for(std::size_t i = 0; i < DimDst.x; ++i)
+			{
+				std::size_t const x = (i << 1);
+				std::size_t const y = (j << 1);
+
+				glm::tvec4<T, P> Texel00 = Texture.fetch(texture2D::dim_type(x + 0, y + 0), Level + 0);
+				glm::tvec4<T, P> Texel01 = Texture.fetch(texture2D::dim_type(x + 0, y + 1), Level + 0);
+				glm::tvec4<T, P> Texel11 = Texture.fetch(texture2D::dim_type(x + 1, y + 1), Level + 0);
+				glm::tvec4<T, P> Texel10 = Texture.fetch(texture2D::dim_type(x + 1, y + 0), Level + 0);
+
+				glm::tvec4<T, P> const Texel = (Texel00 + Texel01 + Texel11 + Texel10) / genType(4);
+				Result.store(texture2D::dim_type(i, j), Level + 1, Texel);
+			}
+		}
+
+		this->Texture = Result;
+	}
+
+	template <typename T, glm::precision P>
 	inline typename sampler2D<T, P>::texelFetchFunc sampler2D<T, P>::GetTexelFetchFunc(format Format) const
 	{
 		static texelFetchFunc Table[] =

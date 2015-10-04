@@ -30,6 +30,14 @@
 #include <glm/gtx/gradient_paint.hpp>
 #include <glm/gtc/packing.hpp>
 
+namespace
+{
+	std::string path(const char* filename)
+	{
+		return std::string(SOURCE_DIR) + "/data/" + filename;
+	}
+}//namespace
+
 inline gli::texture2D radial
 (
 	gli::texture2D::dim_type const & Size,
@@ -735,6 +743,38 @@ namespace level
 		return Error;
 	}
 }//namespace level
+
+namespace mipmaps
+{
+	int test()
+	{
+		int Error = 0;
+
+		{
+			gli::texture2D Texture(gli::load(::path("npot.ktx")));
+			assert(!Texture.empty());
+		}
+
+		{
+			gli::texture2D Texture(gli::FORMAT_RGBA8_UNORM, gli::texture2D::dim_type(40, 30));
+			assert(!Texture.empty());
+
+			Error += Texture.dimensions(0) == gli::texture2D::dim_type(40, 30) ? 0 : 1;
+			Error += Texture.dimensions(1) == gli::texture2D::dim_type(20, 15) ? 0 : 1;
+			Error += Texture.dimensions(2) == gli::texture2D::dim_type(10, 7) ? 0 : 1;
+			Error += Texture.dimensions(3) == gli::texture2D::dim_type(5, 3) ? 0 : 1;
+			Error += Texture.dimensions(4) == gli::texture2D::dim_type(2, 1) ? 0 : 1;
+
+			Error += Texture[0].dimensions() == gli::texture::dim_type(40, 30, 1) ? 0 : 1;
+			Error += Texture[1].dimensions() == gli::texture::dim_type(20, 15, 1) ? 0 : 1;
+			Error += Texture[2].dimensions() == gli::texture::dim_type(10, 7, 1) ? 0 : 1;
+			Error += Texture[3].dimensions() == gli::texture::dim_type(5, 3, 1) ? 0 : 1;
+			Error += Texture[4].dimensions() == gli::texture::dim_type(2, 1, 1) ? 0 : 1;
+		}
+
+		return Error;
+	}
+}//namespace mipmaps
 
 int main()
 {

@@ -37,11 +37,19 @@ namespace gli
 	class sampler2D : public sampler
 	{
 	public:
+		typedef texture2D::size_type size_type;
+
 		sampler2D(texture2D const & Texture, wrap Wrap, filter Mip, filter Min, glm::tvec4<T, P> const & BorderColor = glm::tvec4<T, P>(0, 0, 0, 1));
 
 		glm::tvec4<T, P> texel_fetch(texture2D::dim_type const & TexelCoord, texture2D::size_type const & Level) const;
 
 	private:
+		/// Unimplemented
+		void generate_mipmaps();
+
+		/// Unimplemented
+		void generate_mipmaps(texture2D::size_type BaseLevel, texture2D::size_type MaxLevel);
+
 		/// Unimplemented
 		void texel_write(texture2D::dim_type const & TexelCoord, texture2D::size_type const & Level, glm::tvec4<T, P> const & Texel);
 
