@@ -317,7 +317,7 @@ namespace gli
 		target const & translate(gli::target Target) const;
 		format const & translate(gli::format Format) const;
 		swizzles translate(gli::swizzles const & Swizzle) const;
-		gli::format find(internalFormat internalFormat, externalFormat externalFormat, typeFormat type);
+		gli::format find(internalFormat InternalFormat, externalFormat ExternalFormat, typeFormat Type);
 
 	private:
 		std::array<format, FORMAT_COUNT> Translation;

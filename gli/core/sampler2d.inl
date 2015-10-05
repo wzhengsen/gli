@@ -352,6 +352,12 @@ namespace detail
 	}
 
 	template <typename T, glm::precision P>
+	inline texture2D const & sampler2D<T, P>::operator()() const
+	{
+		return this->Texture;
+	}
+
+	template <typename T, glm::precision P>
 	inline glm::tvec4<T, P> sampler2D<T, P>::texel_fetch(dim_type const & TexelCoord, size_type const & Level) const
 	{
 		return this->TexelFunc.Fetch(this->Texture, TexelCoord, Level);
@@ -465,11 +471,9 @@ namespace detail
 		assert(this->Texture.max_level() >= MaxLevel);
 		assert(BaseLevel <= MaxLevel);
 
-		texture2D Result(this->Texture.format(), this->Texture.dimensions(BaseLevel), MaxLevel - BaseLevel + 1);
-
 		for(size_type Level = BaseLevel; Level < MaxLevel; ++Level)
 		{
-			dim_type const DimDst = Result.dimensions(Level + 1);
+			dim_type const DimDst = this->Texture.dimensions(Level + 1);
 			samplecoord_type const SampleDimDst(DimDst);
 
 			for(size_t j = 0; j < DimDst.y; ++j)
@@ -484,11 +488,9 @@ namespace detail
 				tvec4<T, P> Texel10 = this->texture_lod(samplecoord_type(x + 1, y + 0) / SampleDimDst, static_cast<float>(Level));
 
 				tvec4<T, P> const Texel = (Texel00 + Texel01 + Texel11 + Texel10) * static_cast<float>(0.25);
-				Result.store(dim_type(i, j), Level + 1, Texel);
+				this->texel_write(dim_type(i, j), Level + 1, Texel);
 			}
 		}
-
-		this->Texture = Result;
 	}
 
 	template <typename T, glm::precision P>

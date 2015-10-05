@@ -43,6 +43,8 @@ namespace gli
 
 		sampler2D(texture2D const & Texture, wrap Wrap, filter Mip, filter Min, glm::tvec4<T, P> const & BorderColor = glm::tvec4<T, P>(0, 0, 0, 1));
 
+		texture2D const & operator()() const;
+
 		glm::tvec4<T, P> texel_fetch(dim_type const & TexelCoord, size_type const & Level) const;
 
 		void texel_write(dim_type const & TexelCoord, size_type const & Level, glm::tvec4<T, P> const & Texel);
@@ -52,6 +54,12 @@ namespace gli
 		void clear(glm::tvec4<T, P> const & Color, dim_type const & TexelOffset, dim_type const & TexelDim, size_type Level);
 
 		glm::tvec4<T, P> texture_lod(samplecoord_type const & Texcoord, float Level) const;
+
+		/// 
+		void generate_mipmaps();
+
+		/// 
+		void generate_mipmaps(size_type BaseLevel, size_type MaxLevel);
 
 	private:
 		typedef glm::tvec4<T, P>(*texelFetchFunc)(texture2D const & Texture, dim_type const & TexelCoord, size_type Level);
@@ -66,12 +74,6 @@ namespace gli
 		glm::tvec4<T, P> texture_lod_nearest(samplecoord_type const & Texcoord, size_type Level) const;
 
 		glm::tvec4<T, P> texture_lod_linear(samplecoord_type const & Texcoord, size_type Level) const;
-
-		/// Unimplemented
-		void generate_mipmaps();
-
-		/// Unimplemented
-		void generate_mipmaps(size_type BaseLevel, size_type MaxLevel);
 
 		texelFunc get_texel_func(format Format) const;
 
