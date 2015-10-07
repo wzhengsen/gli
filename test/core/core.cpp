@@ -62,7 +62,7 @@ int test_create_texture_storage()
 int test_reset_memset_zero()
 {
 	std::vector<int> Data;
-	Data.resize(1 << 24);
+	Data.resize(1 << 21);
 
 	std::clock_t LastTime = std::clock();
 
@@ -76,27 +76,10 @@ int test_reset_memset_zero()
 	return 0;
 }
 
-int test_reset_memset_ff()
-{
-	std::vector<int> Data;
-	Data.resize(1 << 24);
-
-	std::clock_t LastTime = std::clock();
-
-	for(std::size_t j = 0; j < (1 << 4); ++j)
-		memset(&Data[0], 0x12345678, Data.size());
-
-	std::clock_t Time = std::clock();
-
-	printf("test_reset_memset_zero: %lu\n", Time - LastTime);
-
-	return 0;
-}
-
 int test_reset_loop_zero()
 {
 	std::vector<int> Data;
-	Data.resize(1 << 24);
+	Data.resize(1 << 21);
 
 	std::clock_t LastTime = std::clock();
 
@@ -107,24 +90,6 @@ int test_reset_loop_zero()
 	std::clock_t Time = std::clock();
 
 	printf("test_reset_loop_zero: %lu\n", Time - LastTime);
-
-	return 0;
-}
-
-int test_reset_loop_ff()
-{
-	std::vector<int> Data;
-	Data.resize(1 << 24);
-
-	std::clock_t LastTime = std::clock();
-
-	for(std::size_t j = 0, n = (1 << 4); j < n; ++j)
-	for(std::size_t i = 0, m = Data.size(); i < m; ++i)
-		Data[i] = 0xFFFFFFFF;
-
-	std::clock_t Time = std::clock();
-
-	printf("test_reset_loop_ff: %lu\n", Time - LastTime);
 
 	return 0;
 }
@@ -152,9 +117,7 @@ int main()
 
 	Error += test_floorMultiple();
 	Error += test_reset_memset_zero();
-	Error += test_reset_memset_ff();
 	Error += test_reset_loop_zero();
-	Error += test_reset_loop_ff();
 	Error += test_create_texture_storage();
 	
 	return Error;
