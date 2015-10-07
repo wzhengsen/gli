@@ -262,7 +262,7 @@ namespace loader
 	{
 		int Error(0);
 
-		gli::textureCube TextureA(gli::FORMAT_RGBA8_UNORM, gli::textureCube::dim_type(256), 1);
+		gli::textureCube TextureA(gli::FORMAT_RGBA8_UNORM, gli::textureCube::dim_type(8), 1);
 
 		{
 			std::vector<glm::u8vec4> Color;
@@ -274,7 +274,7 @@ namespace loader
 			Color.push_back(glm::u8vec4(  0,   0, 255, 255));
 
 			for(gli::textureCube::size_type FaceIndex = 0; FaceIndex < TextureA.faces(); ++FaceIndex)
-			for(gli::texture2D::size_type TexelIndex = 0; TexelIndex < TextureA[FaceIndex].size<glm::u8vec4>(); ++TexelIndex)
+			for(gli::texture2D::size_type TexelIndex = 0, TexelCount = TextureA[FaceIndex].size<glm::u8vec4>(); TexelIndex < TexelCount; ++TexelIndex)
 				*(TextureA[FaceIndex].data<glm::u8vec4>() + TexelIndex) = Color[FaceIndex];
 
 			gli::save_dds(TextureA, "textureCubeA_rgba8_unorm.dds");
