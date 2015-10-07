@@ -32,6 +32,7 @@
 #include <glm/gtc/epsilon.hpp>
 #include <ctime>
 #include <limits>
+#include <array>
 
 namespace load
 {
@@ -556,8 +557,8 @@ namespace sampler
 		return Error;
 	}
 }//namespace sampler
-
-namespace clamp_to_border
+*/
+namespace wrap_clamp_to_border
 {
 	int test()
 	{
@@ -566,33 +567,99 @@ namespace clamp_to_border
 		glm::vec4 const Orange(1.0f, 0.5f, 0.0f, 1.0f);
 		glm::vec4 const Blue(0.0f, 0.5f, 1.0f, 1.0f);
 
-		gli::texture2D::dim_type const Size(32);
-		gli::texture2D Texture(gli::FORMAT_RGBA8_UNORM, Size, 1);
-		Texture.clear(Orange);
+		gli::texture2D Texture(gli::FORMAT_RGBA8_UNORM, gli::texture2D::dim_type(32), 1);
+		Texture.clear(glm::packUnorm4x8(Orange));
 
-		gli::sampler2D<float> Sampler(Texture, gli::WRAP_CLAMP_TO_BORDER, gli::FILTER_LINEAR, gli::FILTER_LINEAR, Blue);
+		gli::fsampler2D SamplerA(Texture, gli::WRAP_CLAMP_TO_BORDER, gli::FILTER_LINEAR, gli::FILTER_LINEAR, Blue);
 
 		{
-			glm::vec4 const Texel = Sampler.texture_lod<glm::tvec4, glm::u8>(gli::vec2(0.5f, 0.5f), 0.0f);
-			Error += glm::all(glm::equal(Texel, Orange)) ? 0 : 1;
+			std::array<gli::fsampler2D::samplecoord_type, 8> SampleCoord{
+			{
+				gli::fsampler2D::samplecoord_type( 0.5f, 0.5f),
+				gli::fsampler2D::samplecoord_type( 0.1f, 0.1f),
+				gli::fsampler2D::samplecoord_type( 0.5f, 0.1f),
+				gli::fsampler2D::samplecoord_type( 0.1f, 0.5f),
+				gli::fsampler2D::samplecoord_type( 0.5f, 0.9f),
+				gli::fsampler2D::samplecoord_type( 0.9f, 0.9f),
+				gli::fsampler2D::samplecoord_type( 0.9f, 0.5f),
+				gli::fsampler2D::samplecoord_type( 0.1f, 0.9f)
+			}};
+
+			for(std::size_t i = 0, n = SampleCoord.size(); i < n; ++i)
+			{
+				gli::vec4 const Texel = SamplerA.texture_lod(SampleCoord[i], 0.0f);
+				Error += glm::all(glm::epsilonEqual(Texel, Orange, 0.01f)) ? 0 : 1;
+			}
 		}
 		{
-			glm::vec4 const Texel = Sampler.texture_lod<glm::tvec4, glm::u8>(gli::vec2(-0.5f, -0.5f), 0.0f);
-			Error += glm::all(glm::equal(Texel, Blue)) ? 0 : 1;
-		}
-		{
-			glm::vec4 const Texel = Sampler.texture_lod<glm::tvec4, glm::u8>(gli::vec2(1.5f,-0.5f), 0.0f);
-			Error += glm::all(glm::equal(Texel, Blue)) ? 0 : 1;
-		}
-		{
-			glm::vec4 const Texel = Sampler.texture_lod<glm::tvec4, glm::u8>(gli::vec2(1.5f, 1.5f), 0.0f);
-			Error += glm::all(glm::equal(Texel, Blue)) ? 0 : 1;
+			std::array<gli::fsampler2D::samplecoord_type, 8> SampleCoord{
+			{
+				gli::fsampler2D::samplecoord_type( 0.5f,-0.5f),
+				gli::fsampler2D::samplecoord_type(-0.5f,-0.5f),
+				gli::fsampler2D::samplecoord_type(-0.5f, 0.5f),
+				gli::fsampler2D::samplecoord_type( 1.5f, 0.5f),
+				gli::fsampler2D::samplecoord_type( 1.5f, 1.5f),
+				gli::fsampler2D::samplecoord_type( 0.5f, 1.5f),
+				gli::fsampler2D::samplecoord_type( 1.5f,-0.5f),
+				gli::fsampler2D::samplecoord_type(-0.5f, 1.5f)
+			}};
+
+			for(std::size_t i = 0, n = SampleCoord.size(); i < n; ++i)
+			{
+				gli::vec4 const Texel = SamplerA.texture_lod(SampleCoord[i], 0.0f);
+				Error += glm::all(glm::epsilonEqual(Texel, Blue, 0.01f)) ? 0 : 1;
+			}
 		}
 
 		return Error;
 	}
-}//namespace clamp_to_border
-*/
+}//namespace wrap_clamp_to_border
+
+namespace wrap_mirror
+{
+	int test()
+	{
+		int Error(0);
+
+		glm::vec4 const Orange(1.0f, 0.5f, 0.0f, 1.0f);
+		glm::vec4 const Blue(0.0f, 0.5f, 1.0f, 1.0f);
+
+		gli::texture2D Texture(gli::FORMAT_RGBA8_UNORM, gli::texture2D::dim_type(32), 1);
+		Texture.clear(glm::packUnorm4x8(Orange));
+
+		gli::fsampler2D Sampler(Texture, gli::WRAP_REPEAT, gli::FILTER_LINEAR, gli::FILTER_LINEAR, Blue);
+
+		{
+			std::array<gli::fsampler2D::samplecoord_type, 16> SampleCoord{
+			{
+				gli::fsampler2D::samplecoord_type( 0.5f, 0.5f),
+				gli::fsampler2D::samplecoord_type( 0.1f, 0.1f),
+				gli::fsampler2D::samplecoord_type( 0.5f, 0.1f),
+				gli::fsampler2D::samplecoord_type( 0.1f, 0.5f),
+				gli::fsampler2D::samplecoord_type( 0.5f, 0.9f),
+				gli::fsampler2D::samplecoord_type( 0.9f, 0.9f),
+				gli::fsampler2D::samplecoord_type( 0.9f, 0.5f),
+				gli::fsampler2D::samplecoord_type( 0.1f, 0.9f),
+				gli::fsampler2D::samplecoord_type( 0.5f,-0.5f),
+				gli::fsampler2D::samplecoord_type(-0.5f,-0.5f),
+				gli::fsampler2D::samplecoord_type(-0.5f, 0.5f),
+				gli::fsampler2D::samplecoord_type( 1.5f, 0.5f),
+				gli::fsampler2D::samplecoord_type( 1.5f, 1.5f),
+				gli::fsampler2D::samplecoord_type( 0.5f, 1.5f),
+				gli::fsampler2D::samplecoord_type( 1.5f,-0.5f),
+				gli::fsampler2D::samplecoord_type(-0.5f, 1.5f)
+			}};
+
+			for(std::size_t i = 0, n = SampleCoord.size(); i < n; ++i)
+			{
+				gli::vec4 const Texel = Sampler.texture_lod(SampleCoord[i], 0.0f);
+				Error += glm::all(glm::epsilonEqual(Texel, Orange, 0.01f)) ? 0 : 1;
+			}
+		}
+
+		return Error;
+	}
+}//namespace wrap_mirror
 
 namespace texture_lod
 {
@@ -669,7 +736,8 @@ int main()
 	Error += fetch_rgb10a2_unorm::test();
 	Error += fetch_rgb10a2_snorm::test();
 	//Error += sampler::test();
-	//Error += clamp_to_border::test();
+	Error += wrap_clamp_to_border::test();
+	Error += wrap_mirror::test();
 
 	return Error;
 }

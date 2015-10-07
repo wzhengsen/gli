@@ -370,6 +370,12 @@ namespace detail
 	}
 
 	template <typename T, glm::precision P>
+	inline void sampler2D<T, P>::clear(glm::tvec4<T, P> const & Color)
+	{
+
+	}
+
+	template <typename T, glm::precision P>
 	inline glm::tvec4<T, P> sampler2D<T, P>::texture_lod(samplecoord_type const & Texcoord, float Level) const
 	{
 		assert(std::numeric_limits<T>::is_iec559);
