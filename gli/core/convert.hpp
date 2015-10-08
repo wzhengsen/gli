@@ -43,12 +43,12 @@ namespace detail
 	{
 		static vecType<retType, P> fetch(textureType const & Texture, typename textureType::dim_type const & TexelCoord, typename textureType::size_type Level)
 		{
-			return vecType<retType, P>(Texture.load<vecType<T, P> >(TexelCoord, Level));
+			return vecType<retType, P>(Texture.template load<vecType<T, P> >(TexelCoord, Level));
 		}
 
 		static void write(textureType & Texture, typename textureType::dim_type const & TexelCoord, typename textureType::size_type Level, vecType<retType, P> const & Texel)
 		{
-			Texture.store<vecType<T, P> >(TexelCoord, Level, vecType<T, P>(Texel));
+			Texture.template store<vecType<T, P> >(TexelCoord, Level, vecType<T, P>(Texel));
 		}
 	};
 
@@ -57,14 +57,14 @@ namespace detail
 	{
 		static vecType<retType, P> fetch(textureType const & Texture, typename textureType::dim_type const & TexelCoord, typename textureType::size_type Level)
 		{
-			vecType<T, P> const Load(Texture.load<vecType<T, P> >(TexelCoord, Level));
+			vecType<T, P> const Load(Texture.template load<vecType<T, P> >(TexelCoord, Level));
 			return compNormalize<retType>(Load);
 		}
 
 		static void write(textureType & Texture, typename textureType::dim_type const & TexelCoord, typename textureType::size_type Level, vecType<retType, P> const & Texel)
 		{
 			vecType<T, P> const Store(compScale<T>(Texel));
-			Texture.store<vecType<T, P> >(TexelCoord, Level, Store);
+			Texture.template store<vecType<T, P> >(TexelCoord, Level, Store);
 		}
 	};
 
@@ -73,12 +73,12 @@ namespace detail
 	{
 		static vecType<retType, P> fetch(textureType const & Texture, typename textureType::dim_type const & TexelCoord, typename textureType::size_type Level)
 		{
-			return convertSRGBToLinear(compNormalize<retType>(Texture.load<vecType<T, P> >(TexelCoord, Level)));
+			return convertSRGBToLinear(compNormalize<retType>(Texture.template load<vecType<T, P> >(TexelCoord, Level)));
 		}
 
 		static void write(textureType & Texture, typename textureType::dim_type const & TexelCoord, typename textureType::size_type Level, vecType<retType, P> const & Texel)
 		{
-			Texture.store<vecType<T, P> >(TexelCoord, Level, gli::compScale<T>(convertLinearToSRGB(Texel)));
+			Texture.template store<vecType<T, P> >(TexelCoord, Level, gli::compScale<T>(convertLinearToSRGB(Texel)));
 		}
 	};
 }//namespace detail
