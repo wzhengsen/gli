@@ -35,7 +35,9 @@ namespace detail
 	{
 		CONVERT_MODE_CAST,
 		CONVERT_MODE_NORM,
-		CONVERT_MODE_SRGB
+		CONVERT_MODE_SRGB,
+		CONVERT_MODE_RGB9E5,
+		CONVERT_MODE_RG11B10F,
 	};
 
 	template <typename textureType, typename retType, typename T, precision P, template <typename, precision> class vecType, convertMode mode = CONVERT_MODE_CAST>
@@ -79,6 +81,34 @@ namespace detail
 		static void write(textureType & Texture, typename textureType::dim_type const & TexelCoord, typename textureType::size_type Level, vecType<retType, P> const & Texel)
 		{
 			Texture.template store<vecType<T, P> >(TexelCoord, Level, gli::compScale<T>(convertLinearToSRGB(Texel)));
+		}
+	};
+
+	template <typename textureType, typename retType, typename T, precision P>
+	struct convert<textureType, retType, T, P, tvec3, CONVERT_MODE_RGB9E5>
+	{
+		static tvec3<retType, P> fetch(textureType const & Texture, typename textureType::dim_type const & TexelCoord, typename textureType::size_type Level)
+		{
+			return tvec3<retType, P>(unpackF3x9_E1x5(Texture.template load<uint32>(TexelCoord, Level)));
+		}
+
+		static void write(textureType & Texture, typename textureType::dim_type const & TexelCoord, typename textureType::size_type Level, tvec3<retType, P> const & Texel)
+		{
+			Texture.template store<uint32>(TexelCoord, Level, packF3x9_E1x5(tvec3<float, P>(Texel)));
+		}
+	};
+
+	template <typename textureType, typename retType, typename T, precision P>
+	struct convert<textureType, retType, T, P, tvec3, CONVERT_MODE_RG11B10F>
+	{
+		static tvec3<retType, P> fetch(textureType const & Texture, typename textureType::dim_type const & TexelCoord, typename textureType::size_type Level)
+		{
+			return tvec3<retType, P>(unpackF2x11_1x10(Texture.template load<uint32>(TexelCoord, Level)));
+		}
+
+		static void write(textureType & Texture, typename textureType::dim_type const & TexelCoord, typename textureType::size_type Level, tvec3<retType, P> const & Texel)
+		{
+			Texture.template store<uint32>(TexelCoord, Level, packF2x11_1x10(tvec3<float, P>(Texel)));
 		}
 	};
 }//namespace detail
