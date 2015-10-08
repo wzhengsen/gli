@@ -1,6 +1,7 @@
 glmCreateTestGTC(core)
 glmCreateTestGTC(core_addressing)
 glmCreateTestGTC(core_comparison)
+glmCreateTestGTC(core_convert)
 glmCreateTestGTC(core_generate_mipmaps)
 glmCreateTestGTC(core_format)
 glmCreateTestGTC(core_sample)

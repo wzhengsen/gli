@@ -30,6 +30,7 @@
 
 #include "sampler.hpp"
 #include "texture2d.hpp"
+#include "convert.hpp"
 
 namespace gli
 {
