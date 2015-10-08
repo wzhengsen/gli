@@ -28,7 +28,7 @@ Thanks for contributing to the project by [submitting issues](https://github.com
 #include <glm/vec4.hpp> // glm::vec4
 #include <glm/mat4x4.hpp> // glm::mat4
 #include <glm/gtc/matrix_transform.hpp> // glm::translate, glm::rotate, glm::scale, glm::perspective
-#include <glm/gtc/constant.hpp> // glm::pi
+#include <glm/gtc/constants.hpp> // glm::pi
 
 glm::mat4 camera(float Translate, glm::vec2 const & Rotate)
 {
@@ -51,11 +51,19 @@ glm::mat4 camera(float Translate, glm::vec2 const & Rotate)
 
 ## Release notes
 
-#### [GLM 0.9.7.2](https://github.com/g-truc/glm/releases/latest) - 2015-XX-XX
-##### Improvements:
+#### [GLM 0.9.8.0](https://github.com/g-truc/glm/releases/latest) - 201X-XX-XX
+##### Features:
 - Added compNormalize and compScale functions to GTX_component_wise
 - Added packF3x9_E1x5 and unpackF3x9_E1x5 to GTC_packing for RGB9E5 #416
 
+##### Improvements:
+- Improved GTC_random linearRand documentation
+- Improved GTC_reciprocal documentation
+
+##### Fixes:
+- Fixed GTX_extended_min_max filename typo #386
+
+#### [GLM 0.9.7.2](https://github.com/g-truc/glm/tree/0.9.7) - 2015-XX-XX
 ##### Fixes:
 - Fixed GTC_round floorMultiple/ceilMultiple #412
 - Fixed GTC_packing unpackUnorm3x10_1x2 #414

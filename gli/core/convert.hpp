@@ -26,48 +26,59 @@
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
+#include "../type.hpp"
+
 namespace gli{
 namespace detail
 {
-	template <typename retType, typename T, gli::precision P, template <typename, gli::precision> class vecType, bool normalize = false, bool srgb = false>
+	enum convertMode
+	{
+		CONVERT_MODE_CAST,
+		CONVERT_MODE_NORM,
+		CONVERT_MODE_SRGB
+	};
+
+	template <typename textureType, typename retType, typename T, precision P, template <typename, precision> class vecType, convertMode mode = CONVERT_MODE_CAST>
 	struct convert
 	{
-		static vecType<retType, P> fetch(gli::texture2D const & Texture, gli::texture2D::dim_type const & TexelCoord, gli::texture2D::size_type Level)
+		static vecType<retType, P> fetch(textureType const & Texture, typename textureType::dim_type const & TexelCoord, typename textureType::size_type Level)
 		{
 			return vecType<retType, P>(Texture.load<vecType<T, P> >(TexelCoord, Level));
 		}
 
-		static void write(gli::texture2D & Texture, gli::texture2D::dim_type const & TexelCoord, gli::texture2D::size_type Level, vecType<retType, P> const & Texel)
+		static void write(textureType & Texture, typename textureType::dim_type const & TexelCoord, typename textureType::size_type Level, vecType<retType, P> const & Texel)
 		{
 			Texture.store<vecType<T, P> >(TexelCoord, Level, vecType<T, P>(Texel));
 		}
 	};
 
-	template <typename retType, typename T, gli::precision P, template <typename, gli::precision> class vecType>
-	struct convert<retType, T, P, vecType, true, false>
+	template <typename textureType, typename retType, typename T, precision P, template <typename, precision> class vecType>
+	struct convert<textureType, retType, T, P, vecType, CONVERT_MODE_NORM>
 	{
-		static vecType<retType, P> fetch(gli::texture2D const & Texture, gli::texture2D::dim_type const & TexelCoord, gli::texture2D::size_type Level)
+		static vecType<retType, P> fetch(textureType const & Texture, typename textureType::dim_type const & TexelCoord, typename textureType::size_type Level)
 		{
-			return gli::compNormalize<retType>(Texture.load<vecType<T, P> >(TexelCoord, Level));
+			vecType<T, P> const Load(Texture.load<vecType<T, P> >(TexelCoord, Level));
+			return compNormalize<retType>(Load);
 		}
 
-		static void write(gli::texture2D & Texture, gli::texture2D::dim_type const & TexelCoord, gli::texture2D::size_type Level, vecType<retType, P> const & Texel)
+		static void write(textureType & Texture, typename textureType::dim_type const & TexelCoord, typename textureType::size_type Level, vecType<retType, P> const & Texel)
 		{
-			Texture.store<vecType<T, P> >(TexelCoord, Level, glm::compScale<T>(Texel));
+			vecType<T, P> const Store(compScale<T>(Texel));
+			Texture.store<vecType<T, P> >(TexelCoord, Level, Store);
 		}
 	};
 
-	template <typename retType, typename T, gli::precision P, template <typename, gli::precision> class vecType>
-	struct convert<retType, T, P, vecType, true, true>
+	template <typename textureType, typename retType, typename T, precision P, template <typename, precision> class vecType>
+	struct convert<textureType, retType, T, P, vecType, CONVERT_MODE_SRGB>
 	{
-		static vecType<retType, P> fetch(gli::texture2D const & Texture, gli::texture2D::dim_type const & TexelCoord, gli::texture2D::size_type Level)
+		static vecType<retType, P> fetch(textureType const & Texture, typename textureType::dim_type const & TexelCoord, typename textureType::size_type Level)
 		{
-			return gli::convertSRGBToLinear(gli::compNormalize<retType>(Texture.load<vecType<T, P> >(TexelCoord, Level)));
+			return convertSRGBToLinear(compNormalize<retType>(Texture.load<vecType<T, P> >(TexelCoord, Level)));
 		}
 
-		static void write(gli::texture2D & Texture, gli::texture2D::dim_type const & TexelCoord, gli::texture2D::size_type Level, vecType<retType, P> const & Texel)
+		static void write(textureType & Texture, typename textureType::dim_type const & TexelCoord, typename textureType::size_type Level, vecType<retType, P> const & Texel)
 		{
-			Texture.store<vecType<T, P> >(TexelCoord, Level, gli::compScale<T>(gli::convertLinearToSRGB(Texel)));
+			Texture.store<vecType<T, P> >(TexelCoord, Level, gli::compScale<T>(convertLinearToSRGB(Texel)));
 		}
 	};
 }//namespace detail
