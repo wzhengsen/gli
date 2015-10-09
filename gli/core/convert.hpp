@@ -27,6 +27,7 @@
 ///////////////////////////////////////////////////////////////////////////////////
 
 #include "../type.hpp"
+#include <limits>
 
 namespace gli{
 namespace detail
@@ -38,6 +39,10 @@ namespace detail
 		CONVERT_MODE_SRGB,
 		CONVERT_MODE_RGB9E5,
 		CONVERT_MODE_RG11B10F,
+		CONVERT_MODE_RGB10A2UNORM,
+		CONVERT_MODE_RGB10A2SNORM,
+		CONVERT_MODE_RGB10A2UINT,
+		CONVERT_MODE_RGB10A2SINT,
 	};
 
 	template <typename textureType, typename retType, typename T, precision P, template <typename, precision> class vecType, convertMode mode = CONVERT_MODE_CAST>
@@ -59,12 +64,14 @@ namespace detail
 	{
 		static vecType<retType, P> fetch(textureType const & Texture, typename textureType::dim_type const & TexelCoord, typename textureType::size_type Level)
 		{
+			static_assert(std::numeric_limits<retType>::is_iec559, "CONVERT_MODE_NORM requires a float sampler");
 			vecType<T, P> const Load(Texture.template load<vecType<T, P> >(TexelCoord, Level));
 			return compNormalize<retType>(Load);
 		}
 
 		static void write(textureType & Texture, typename textureType::dim_type const & TexelCoord, typename textureType::size_type Level, vecType<retType, P> const & Texel)
 		{
+			static_assert(std::numeric_limits<retType>::is_iec559, "CONVERT_MODE_NORM requires a float sampler");
 			vecType<T, P> const Store(compScale<T>(Texel));
 			Texture.template store<vecType<T, P> >(TexelCoord, Level, Store);
 		}
@@ -75,11 +82,13 @@ namespace detail
 	{
 		static vecType<retType, P> fetch(textureType const & Texture, typename textureType::dim_type const & TexelCoord, typename textureType::size_type Level)
 		{
+			static_assert(std::numeric_limits<retType>::is_iec559, "CONVERT_MODE_SRGB requires a float sampler");
 			return convertSRGBToLinear(compNormalize<retType>(Texture.template load<vecType<T, P> >(TexelCoord, Level)));
 		}
 
 		static void write(textureType & Texture, typename textureType::dim_type const & TexelCoord, typename textureType::size_type Level, vecType<retType, P> const & Texel)
 		{
+			static_assert(std::numeric_limits<retType>::is_iec559, "CONVERT_MODE_SRGB requires a float sampler");
 			Texture.template store<vecType<T, P> >(TexelCoord, Level, gli::compScale<T>(convertLinearToSRGB(Texel)));
 		}
 	};
@@ -89,11 +98,13 @@ namespace detail
 	{
 		static tvec3<retType, P> fetch(textureType const & Texture, typename textureType::dim_type const & TexelCoord, typename textureType::size_type Level)
 		{
+			static_assert(std::numeric_limits<retType>::is_iec559, "CONVERT_MODE_RGB9E5 requires a float sampler");
 			return tvec3<retType, P>(unpackF3x9_E1x5(Texture.template load<uint32>(TexelCoord, Level)));
 		}
 
 		static void write(textureType & Texture, typename textureType::dim_type const & TexelCoord, typename textureType::size_type Level, tvec3<retType, P> const & Texel)
 		{
+			static_assert(std::numeric_limits<retType>::is_iec559, "CONVERT_MODE_RGB9E5 requires a float sampler");
 			Texture.template store<uint32>(TexelCoord, Level, packF3x9_E1x5(tvec3<float, P>(Texel)));
 		}
 	};
@@ -103,12 +114,78 @@ namespace detail
 	{
 		static tvec3<retType, P> fetch(textureType const & Texture, typename textureType::dim_type const & TexelCoord, typename textureType::size_type Level)
 		{
+			static_assert(std::numeric_limits<retType>::is_iec559, "CONVERT_MODE_RG11B10F requires a float sampler");
 			return tvec3<retType, P>(unpackF2x11_1x10(Texture.template load<uint32>(TexelCoord, Level)));
 		}
 
 		static void write(textureType & Texture, typename textureType::dim_type const & TexelCoord, typename textureType::size_type Level, tvec3<retType, P> const & Texel)
 		{
+			static_assert(std::numeric_limits<retType>::is_iec559, "CONVERT_MODE_RG11B10F requires a float sampler");
 			Texture.template store<uint32>(TexelCoord, Level, packF2x11_1x10(tvec3<float, P>(Texel)));
+		}
+	};
+
+	template <typename textureType, typename retType, typename T, precision P>
+	struct convert<textureType, retType, T, P, tvec4, CONVERT_MODE_RGB10A2UNORM>
+	{
+		static tvec4<retType, P> fetch(textureType const & Texture, typename textureType::dim_type const & TexelCoord, typename textureType::size_type Level)
+		{
+			static_assert(std::numeric_limits<retType>::is_iec559, "CONVERT_MODE_RGB10A2UNORM requires a float sampler");
+			return tvec4<retType, P>(unpackUnorm3x10_1x2(Texture.template load<uint32>(TexelCoord, Level)));
+		}
+
+		static void write(textureType & Texture, typename textureType::dim_type const & TexelCoord, typename textureType::size_type Level, tvec4<retType, P> const & Texel)
+		{
+			static_assert(std::numeric_limits<retType>::is_iec559, "CONVERT_MODE_RGB10A2UNORM requires a float sampler");
+			Texture.template store<uint32>(TexelCoord, Level, packUnorm3x10_1x2(tvec4<float, P>(Texel)));
+		}
+	};
+
+	template <typename textureType, typename retType, typename T, precision P>
+	struct convert<textureType, retType, T, P, tvec4, CONVERT_MODE_RGB10A2SNORM>
+	{
+		static tvec4<retType, P> fetch(textureType const & Texture, typename textureType::dim_type const & TexelCoord, typename textureType::size_type Level)
+		{
+			static_assert(std::numeric_limits<retType>::is_iec559, "CONVERT_MODE_RGB10A2SNORM requires a float sampler");
+			return tvec4<retType, P>(unpackSnorm3x10_1x2(Texture.template load<uint32>(TexelCoord, Level)));
+		}
+
+		static void write(textureType & Texture, typename textureType::dim_type const & TexelCoord, typename textureType::size_type Level, tvec4<retType, P> const & Texel)
+		{
+			static_assert(std::numeric_limits<retType>::is_iec559, "CONVERT_MODE_RGB10A2SNORM requires a float sampler");
+			Texture.template store<uint32>(TexelCoord, Level, packSnorm3x10_1x2(Texel));
+		}
+	};
+
+	template <typename textureType, typename retType, typename T, precision P>
+	struct convert<textureType, retType, T, P, tvec4, CONVERT_MODE_RGB10A2UINT>
+	{
+		static tvec4<retType, P> fetch(textureType const & Texture, typename textureType::dim_type const & TexelCoord, typename textureType::size_type Level)
+		{
+			static_assert(std::numeric_limits<retType>::is_integer, "CONVERT_MODE_RGB10A2UINT requires an integer sampler");
+			return tvec4<retType, P>(unpackU3x10_1x2(Texture.template load<uint32>(TexelCoord, Level)));
+		}
+
+		static void write(textureType & Texture, typename textureType::dim_type const & TexelCoord, typename textureType::size_type Level, tvec4<retType, P> const & Texel)
+		{
+			static_assert(std::numeric_limits<retType>::is_integer, "CONVERT_MODE_RGB10A2UINT requires an integer sampler");
+			Texture.template store<uint32>(TexelCoord, Level, packU3x10_1x2(Texel));
+		}
+	};
+
+	template <typename textureType, typename retType, typename T, precision P>
+	struct convert<textureType, retType, T, P, tvec4, CONVERT_MODE_RGB10A2SINT>
+	{
+		static tvec4<retType, P> fetch(textureType const & Texture, typename textureType::dim_type const & TexelCoord, typename textureType::size_type Level)
+		{
+			static_assert(std::numeric_limits<retType>::is_integer, "CONVERT_MODE_RGB10A2SINT requires an integer sampler");
+			return tvec4<retType, P>(unpackI3x10_1x2(Texture.template load<uint32>(TexelCoord, Level)));
+		}
+
+		static void write(textureType & Texture, typename textureType::dim_type const & TexelCoord, typename textureType::size_type Level, tvec4<retType, P> const & Texel)
+		{
+			static_assert(std::numeric_limits<retType>::is_integer, "CONVERT_MODE_RGB10A2SINT requires an integer sampler");
+			Texture.template store<uint32>(TexelCoord, Level, packI3x10_1x2(Texel));
 		}
 	};
 }//namespace detail
