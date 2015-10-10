@@ -53,4 +53,28 @@ namespace gli
 	typedef glm::vec4 vec4;
 
 	typedef glm::ivec4 ivec4;
+
+	template <typename T, precision P>
+	inline tvec4<T, P> make_vec4(tvec1<T, P> const & v)
+	{
+		return tvec4<T, P>(v.x, static_cast<T>(0), static_cast<T>(0), static_cast<T>(1));
+	}
+
+	template <typename T, precision P>
+	inline tvec4<T, P> make_vec4(tvec2<T, P> const & v)
+	{
+		return tvec4<T, P>(v.x, v.y, static_cast<T>(0), static_cast<T>(1));
+	}
+
+	template <typename T, precision P>
+	inline tvec4<T, P> make_vec4(tvec3<T, P> const & v)
+	{
+		return tvec4<T, P>(v.x, v.y, v.z, static_cast<T>(1));
+	}
+
+	template <typename T, precision P>
+	inline tvec4<T, P> make_vec4(tvec4<T, P> const & v)
+	{
+		return v;
+	}
 }//namespace gli

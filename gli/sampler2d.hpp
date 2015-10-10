@@ -63,23 +63,12 @@ namespace gli
 		void generate_mipmaps(size_type BaseLevel, size_type MaxLevel);
 
 	private:
-		typedef glm::tvec4<T, P>(*texelFetchFunc)(texture2D const & Texture, dim_type const & TexelCoord, size_type Level);
-		typedef void(*texelWriteFunc)(texture2D & Texture, dim_type const & TexelCoord, size_type Level, glm::tvec4<T, P> const & Texel);
-
-		struct texelFunc
-		{
-			texelFetchFunc Fetch;
-			texelWriteFunc Write;
-		};
-
 		glm::tvec4<T, P> texture_lod_nearest(samplecoord_type const & Texcoord, size_type Level) const;
 
 		glm::tvec4<T, P> texture_lod_linear(samplecoord_type const & Texcoord, size_type Level) const;
 
-		texelFunc get_texel_func(format Format) const;
-
 		texture2D Texture;
-		texelFunc TexelFunc;
+		typename detail::convert<texture2D, T, P>::func Convert;
 		glm::tvec4<T, P> BorderColor;
 	};
 
