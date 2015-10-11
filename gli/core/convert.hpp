@@ -28,6 +28,8 @@
 
 #include "../type.hpp"
 #include "../texture2d.hpp"
+#include <glm/gtc/packing.hpp>
+#include <glm/gtc/color_space.hpp>
 #include <limits>
 
 namespace gli{
