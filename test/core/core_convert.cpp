@@ -370,6 +370,17 @@ namespace rgba_16packed
 
 		{
 			gli::vec4 const Color(1.0f, 0.5f, 0.0f, 1.0f);
+			gli::texture2D Texture(gli::FORMAT_RG3B2_UNORM, gli::texture2D::dim_type(1), 1);
+			gli::detail::convertFunc<gli::texture2D, float, glm::u8, gli::defaultp, gli::tvec3, gli::detail::CONVERT_MODE_332UNORM, true>::write(Texture, gli::texture2D::dim_type(0), 0, 0, 0, Color);
+			gli::vec4 Texel = gli::detail::convertFunc<gli::texture2D, float, glm::u8, gli::defaultp, gli::tvec3, gli::detail::CONVERT_MODE_332UNORM, true>::fetch(Texture, gli::texture2D::dim_type(0), 0, 0, 0);
+
+			Error += gli::epsilonEqual(Texel.x, Color.x, 1.f / 7.f) ? 0 : 1;
+			Error += gli::epsilonEqual(Texel.y, Color.y, 1.f / 7.f) ? 0 : 1;
+			Error += gli::epsilonEqual(Texel.z, Color.z, 1.f / 3.f) ? 0 : 1;
+		}
+
+		{
+			gli::vec4 const Color(1.0f, 0.5f, 0.0f, 1.0f);
 			gli::texture2D Texture(gli::FORMAT_RG4_UNORM, gli::texture2D::dim_type(1), 1);
 			gli::detail::convertFunc<gli::texture2D, float, glm::u8, gli::defaultp, gli::tvec2, gli::detail::CONVERT_MODE_44UNORM, true>::write(Texture, gli::texture2D::dim_type(0), 0, 0, 0, Color);
 			gli::vec4 Texel = gli::detail::convertFunc<gli::texture2D, float, glm::u8, gli::defaultp, gli::tvec2, gli::detail::CONVERT_MODE_44UNORM, true>::fetch(Texture, gli::texture2D::dim_type(0), 0, 0, 0);
