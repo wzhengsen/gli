@@ -44,9 +44,9 @@ struct texture
 		{
 			textureType Texture(gli::FORMAT_R8_UNORM, typename textureType::dim_type(1), 1);
 
-			u8vec1access::genType const Color(127);
+			typename u8vec1access::genType const Color(127);
 			u8vec1access::store(Texture, typename textureType::dim_type(0), 0, 0, 0, Color);
-			u8vec1access::genType const Texel = u8vec1access::load(Texture, typename textureType::dim_type(0), 0, 0, 0);
+			typename u8vec1access::genType const Texel = u8vec1access::load(Texture, typename textureType::dim_type(0), 0, 0, 0);
 
 			Error += Color == Texel ? 0 : 1;
 		}
@@ -54,9 +54,9 @@ struct texture
 		{
 			textureType Texture(gli::FORMAT_RG8_UNORM, typename textureType::dim_type(1), 1);
 
-			u8vec2access::genType const Color(255, 127);
+			typename u8vec2access::genType const Color(255, 127);
 			u8vec2access::store(Texture, typename textureType::dim_type(0), 0, 0, 0, Color);
-			u8vec2access::genType const Texel = u8vec2access::load(Texture, typename textureType::dim_type(0), 0, 0, 0);
+			typename u8vec2access::genType const Texel = u8vec2access::load(Texture, typename textureType::dim_type(0), 0, 0, 0);
 
 			Error += Color == Texel ? 0 : 1;
 		}
@@ -64,9 +64,9 @@ struct texture
 		{
 			textureType Texture(gli::FORMAT_RGB8_UNORM, typename textureType::dim_type(1), 1);
 
-			u8vec3access::genType const Color(255, 127, 0);
+			typename u8vec3access::genType const Color(255, 127, 0);
 			u8vec3access::store(Texture, typename textureType::dim_type(0), 0, 0, 0, Color);
-			u8vec3access::genType const Texel = u8vec3access::load(Texture, typename textureType::dim_type(0), 0, 0, 0);
+			typename u8vec3access::genType const Texel = u8vec3access::load(Texture, typename textureType::dim_type(0), 0, 0, 0);
 
 			Error += Color == Texel ? 0 : 1;
 		}
@@ -74,9 +74,9 @@ struct texture
 		{
 			textureType Texture(gli::FORMAT_RGBA8_UNORM, typename textureType::dim_type(1), 1);
 
-			u8vec4access::genType const Color(255, 127, 0, 255);
+			typename u8vec4access::genType const Color(255, 127, 0, 255);
 			u8vec4access::store(Texture, typename textureType::dim_type(0), 0, 0, 0, Color);
-			u8vec4access::genType const Texel = u8vec4access::load(Texture, typename textureType::dim_type(0), 0, 0, 0);
+			typename u8vec4access::genType const Texel = u8vec4access::load(Texture, typename textureType::dim_type(0), 0, 0, 0);
 
 			Error += Color == Texel ? 0 : 1;
 		}
