@@ -50,21 +50,6 @@ namespace detail
 	};
 
 	// Packed
-	template <typename floatType, glm::precision P>
-	struct texelFetch<floatType, P, FORMAT_RGB10A2_UNORM> {
-		static glm::tvec4<floatType, P> call(texture2D const & Texture, texture2D::dim_type const & TexelCoord, texture2D::size_type Layer, texture2D::size_type Face, texture2D::size_type Level)
-		{
-			return glm::tvec4<floatType, P>(glm::unpackUnorm3x10_1x2(Texture.load<glm::uint32>(TexelCoord, Level)));
-		}
-	};
-
-	template <typename floatType, glm::precision P>
-	struct texelFetch<floatType, P, FORMAT_RGB10A2_SNORM> {
-		static glm::tvec4<floatType, P> call(texture2D const & Texture, texture2D::dim_type const & TexelCoord, texture2D::size_type Layer, texture2D::size_type Face, texture2D::size_type Level)
-		{
-			return glm::tvec4<floatType, P>(glm::unpackSnorm3x10_1x2(Texture.load<glm::uint32>(TexelCoord, Level)));
-		}
-	};
 
 	template <typename floatType, glm::precision P>
 	struct texelFetch<floatType, P, FORMAT_RGB10A2_USCALED> {
@@ -79,40 +64,6 @@ namespace detail
 		static glm::tvec4<floatType, P> call(texture2D const & Texture, texture2D::dim_type const & TexelCoord, texture2D::size_type Layer, texture2D::size_type Face, texture2D::size_type Level)
 		{
 			return glm::tvec4<floatType, P>(glm::unpackI3x10_1x2(Texture.load<glm::uint32>(TexelCoord, Level)));
-		}
-	};
-
-	// Half
-	template <typename floatType, glm::precision P>
-	struct texelFetch<floatType, P, FORMAT_R16_SFLOAT> {
-		static glm::tvec4<floatType, P> call(texture2D const & Texture, texture2D::dim_type const & TexelCoord, texture2D::size_type Layer, texture2D::size_type Face, texture2D::size_type Level)
-		{
-			return glm::tvec4<floatType, P>(glm::unpackHalf1x16(Texture.load<glm::uint16>(TexelCoord, Level)), 0.0f, 0.0f, 1.0f);
-		}
-	};
-
-	template <typename floatType, glm::precision P>
-	struct texelFetch<floatType, P, FORMAT_RG16_SFLOAT> {
-		static glm::tvec4<floatType, P> call(texture2D const & Texture, texture2D::dim_type const & TexelCoord, texture2D::size_type Layer, texture2D::size_type Face, texture2D::size_type Level)
-		{
-			return glm::tvec4<floatType, P>(glm::unpackHalf2x16(Texture.load<glm::uint16>(TexelCoord, Level)), 0.0f, 1.0f);
-		}
-	};
-
-	template <typename floatType, glm::precision P>
-	struct texelFetch<floatType, P, FORMAT_RGB16_SFLOAT> {
-		static glm::tvec4<floatType, P> call(texture2D const & Texture, texture2D::dim_type const & TexelCoord, texture2D::size_type Layer, texture2D::size_type Face, texture2D::size_type Level)
-		{
-			glm::u16vec3 const Packed = Texture.load<glm::u16vec3>(TexelCoord, Level);
-			return glm::tvec4<floatType, P>(glm::unpackHalf1x16(Packed.x), glm::unpackHalf1x16(Packed.y), glm::unpackHalf1x16(Packed.z), 1.0f);
-		}
-	};
-
-	template <typename floatType, glm::precision P>
-	struct texelFetch<floatType, P, FORMAT_RGBA16_SFLOAT> {
-		static glm::tvec4<floatType, P> call(texture2D const & Texture, texture2D::dim_type const & TexelCoord, texture2D::size_type Layer, texture2D::size_type Face, texture2D::size_type Level)
-		{
-			return glm::tvec4<floatType, P>(glm::unpackHalf4x16(Texture.load<glm::uint64>(TexelCoord, Level)));
 		}
 	};
 }//namespace detail
@@ -132,6 +83,10 @@ namespace detail
 		CONVERT_MODE_RGB10A2SNORM,
 		CONVERT_MODE_RGB10A2UINT,
 		CONVERT_MODE_RGB10A2SINT,
+		CONVERT_MODE_44UNORM,
+		CONVERT_MODE_4444UNORM,
+		CONVERT_MODE_565UNORM,
+		CONVERT_MODE_5551UNORM
 	};
 
 	template <typename textureType, typename genType>
@@ -333,24 +288,6 @@ namespace detail
 	};
 
 	template <typename textureType, typename retType, typename T, precision P, template <typename, precision> class vecType>
-	struct convertFunc<textureType, retType, T, P, vecType, CONVERT_MODE_HALF, true>
-	{
-		typedef accessFunc<textureType, vecType<u16, P> > access;
-
-		static tvec4<retType, P> fetch(textureType const & Texture, typename textureType::dim_type const & TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level)
-		{
-			static_assert(std::numeric_limits<retType>::is_iec559, "CONVERT_MODE_HALF requires a float sampler");
-			return tvec4<retType, P>(make_vec4<retType, P>(unpackHalf(access::load(Texture, TexelCoord, Layer, Face, Level))));
-		}
-
-		static void write(textureType & Texture, typename textureType::dim_type const & TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level, tvec4<retType, P> const & Texel)
-		{
-			static_assert(std::numeric_limits<retType>::is_iec559, "CONVERT_MODE_HALF requires a float sampler");
-			access::store(Texture, TexelCoord, Layer, Face, Level, packHalf(vecType<float, P>(Texel)));
-		}
-	};
-
-	template <typename textureType, typename retType, typename T, precision P, template <typename, precision> class vecType>
 	struct convertFunc<textureType, retType, T, P, vecType, CONVERT_MODE_RG11B10F, true>
 	{
 		typedef accessFunc<textureType, uint32> access;
@@ -365,6 +302,96 @@ namespace detail
 		{
 			static_assert(std::numeric_limits<retType>::is_iec559, "CONVERT_MODE_RG11B10F requires a float sampler");
 			access::store(Texture, TexelCoord, Layer, Face, Level, packF2x11_1x10(tvec3<float, P>(Texel)));
+		}
+	};
+
+	template <typename textureType, typename retType, typename T, precision P, template <typename, precision> class vecType>
+	struct convertFunc<textureType, retType, T, P, vecType, CONVERT_MODE_HALF, true>
+	{
+		typedef accessFunc<textureType, vecType<u16, P> > access;
+
+		static tvec4<retType, P> fetch(textureType const & Texture, typename textureType::dim_type const & TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level)
+		{
+			static_assert(std::numeric_limits<retType>::is_iec559, "CONVERT_MODE_HALF requires a float sampler");
+			return make_vec4<retType, P>(unpackHalf(access::load(Texture, TexelCoord, Layer, Face, Level)));
+		}
+
+		static void write(textureType & Texture, typename textureType::dim_type const & TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level, tvec4<retType, P> const & Texel)
+		{
+			static_assert(std::numeric_limits<retType>::is_iec559, "CONVERT_MODE_HALF requires a float sampler");
+			access::store(Texture, TexelCoord, Layer, Face, Level, packHalf(vecType<float, P>(Texel)));
+		}
+	};
+
+	template <typename textureType, typename retType, typename T, precision P, template <typename, precision> class vecType>
+	struct convertFunc<textureType, retType, T, P, vecType, CONVERT_MODE_44UNORM, true>
+	{
+		typedef accessFunc<textureType, uint8> access;
+
+		static tvec4<retType, P> fetch(textureType const & Texture, typename textureType::dim_type const & TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level)
+		{
+			static_assert(std::numeric_limits<retType>::is_iec559, "CONVERT_MODE_44UNORM requires a float sampler");
+			return tvec4<retType, P>(tvec2<retType, P>(unpackUnorm2x4(access::load(Texture, TexelCoord, Layer, Face, Level))), static_cast<retType>(0), static_cast<retType>(1));
+		}
+
+		static void write(textureType & Texture, typename textureType::dim_type const & TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level, tvec4<retType, P> const & Texel)
+		{
+			static_assert(std::numeric_limits<retType>::is_iec559, "CONVERT_MODE_44UNORM requires a float sampler");
+			access::store(Texture, TexelCoord, Layer, Face, Level, packUnorm2x4(tvec2<float, P>(Texel)));
+		}
+	};
+
+	template <typename textureType, typename retType, typename T, precision P, template <typename, precision> class vecType>
+	struct convertFunc<textureType, retType, T, P, vecType, CONVERT_MODE_4444UNORM, true>
+	{
+		typedef accessFunc<textureType, uint16> access;
+
+		static tvec4<retType, P> fetch(textureType const & Texture, typename textureType::dim_type const & TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level)
+		{
+			static_assert(std::numeric_limits<retType>::is_iec559, "CONVERT_MODE_4444UNORM requires a float sampler");
+			return tvec4<retType, P>(unpackUnorm4x4(access::load(Texture, TexelCoord, Layer, Face, Level)));
+		}
+
+		static void write(textureType & Texture, typename textureType::dim_type const & TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level, tvec4<retType, P> const & Texel)
+		{
+			static_assert(std::numeric_limits<retType>::is_iec559, "CONVERT_MODE_4444UNORM requires a float sampler");
+			access::store(Texture, TexelCoord, Layer, Face, Level, packUnorm4x4(tvec4<float, P>(Texel)));
+		}
+	};
+
+	template <typename textureType, typename retType, typename T, precision P, template <typename, precision> class vecType>
+	struct convertFunc<textureType, retType, T, P, vecType, CONVERT_MODE_565UNORM, true>
+	{
+		typedef accessFunc<textureType, uint16> access;
+
+		static tvec4<retType, P> fetch(textureType const & Texture, typename textureType::dim_type const & TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level)
+		{
+			static_assert(std::numeric_limits<retType>::is_iec559, "CONVERT_MODE_565UNORM requires a float sampler");
+			return tvec4<retType, P>(unpackUnorm1x5_1x6_1x5(access::load(Texture, TexelCoord, Layer, Face, Level)), static_cast<retType>(1));
+		}
+
+		static void write(textureType & Texture, typename textureType::dim_type const & TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level, tvec4<retType, P> const & Texel)
+		{
+			static_assert(std::numeric_limits<retType>::is_iec559, "CONVERT_MODE_565UNORM requires a float sampler");
+			access::store(Texture, TexelCoord, Layer, Face, Level, packUnorm1x5_1x6_1x5(tvec3<float, P>(Texel)));
+		}
+	};
+
+	template <typename textureType, typename retType, typename T, precision P, template <typename, precision> class vecType>
+	struct convertFunc<textureType, retType, T, P, vecType, CONVERT_MODE_5551UNORM, true>
+	{
+		typedef accessFunc<textureType, uint16> access;
+
+		static tvec4<retType, P> fetch(textureType const & Texture, typename textureType::dim_type const & TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level)
+		{
+			static_assert(std::numeric_limits<retType>::is_iec559, "CONVERT_MODE_5551UNORM requires a float sampler");
+			return tvec4<retType, P>(unpackUnorm3x5_1x1(access::load(Texture, TexelCoord, Layer, Face, Level)));
+		}
+
+		static void write(textureType & Texture, typename textureType::dim_type const & TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level, tvec4<retType, P> const & Texel)
+		{
+			static_assert(std::numeric_limits<retType>::is_iec559, "CONVERT_MODE_5551UNORM requires a float sampler");
+			access::store(Texture, TexelCoord, Layer, Face, Level, packUnorm3x5_1x1(tvec4<float, P>(Texel)));
 		}
 	};
 
