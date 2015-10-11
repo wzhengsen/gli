@@ -27,7 +27,13 @@
 ///////////////////////////////////////////////////////////////////////////////////
 
 #include "../type.hpp"
+#include "../texture1d.hpp"
+#include "../texture1d_array.hpp"
 #include "../texture2d.hpp"
+#include "../texture2d_array.hpp"
+#include "../texture3d.hpp"
+#include "../texture_cube.hpp"
+#include "../texture_cube_array.hpp"
 #include <glm/gtc/packing.hpp>
 #include <glm/gtc/color_space.hpp>
 #include <limits>
@@ -241,6 +247,126 @@ namespace detail
 		CONVERT_MODE_RGB10A2UINT,
 		CONVERT_MODE_RGB10A2SINT,
 	};
+
+	template <typename textureType, typename T, precision P, template <typename, precision> class vecType>
+	struct accessFunc
+	{};
+
+	template <typename T, precision P, template <typename, precision> class vecType>
+	struct accessFunc<texture1D, T, P, vecType>
+	{
+		typedef vecType<T, P> genType;
+
+		static genType load(texture1D const & Texture, texture1D::dim_type const & TexelCoord, texture1D::size_type Layer, texture1D::size_type Face, texture1D::size_type Level)
+		{
+			return Texture.load<genType>(TexelCoord, Level);
+		}
+
+		static void store(texture1D & Texture, texture1D::dim_type const & TexelCoord, texture1D::size_type Layer, texture1D::size_type Face, texture1D::size_type Level, genType const & Texel)
+		{
+			Texture.store<genType>(TexelCoord, Level, Texel);
+		}
+	};
+
+	template <typename T, precision P, template <typename, precision> class vecType>
+	struct accessFunc<texture1DArray, T, P, vecType>
+	{
+		typedef vecType<T, P> genType;
+
+		static genType load(texture1DArray const & Texture, texture1DArray::dim_type const & TexelCoord, texture1DArray::size_type Layer, texture1DArray::size_type Face, texture1DArray::size_type Level)
+		{
+			return Texture.load<genType>(TexelCoord, Layer, Level);
+		}
+
+		static void store(texture1DArray & Texture, texture1DArray::dim_type const & TexelCoord, texture1DArray::size_type Layer, texture1DArray::size_type Face, texture1DArray::size_type Level, genType const & Texel)
+		{
+			Texture.store<genType>(TexelCoord, Layer, Level, Texel);
+		}
+	};
+
+	template <typename T, precision P, template <typename, precision> class vecType>
+	struct accessFunc<texture2D, T, P, vecType>
+	{
+		typedef vecType<T, P> genType;
+
+		static genType load(texture2D const & Texture, texture2D::dim_type const & TexelCoord, texture2D::size_type Layer, texture2D::size_type Face, texture2D::size_type Level)
+		{
+			return Texture.load<genType>(TexelCoord, Level);
+		}
+
+		static void store(texture2D & Texture, texture2D::dim_type const & TexelCoord, texture2D::size_type Layer, texture2D::size_type Face, texture2D::size_type Level, genType const & Texel)
+		{
+			Texture.store<genType>(TexelCoord, Level, Texel);
+		}
+	};
+
+	template <typename T, precision P, template <typename, precision> class vecType>
+	struct accessFunc<texture2DArray, T, P, vecType>
+	{
+		typedef vecType<T, P> genType;
+
+		static genType load(texture2DArray const & Texture, texture2DArray::dim_type const & TexelCoord, texture2DArray::size_type Layer, texture2DArray::size_type Face, texture2DArray::size_type Level)
+		{
+			return Texture.load<genType>(TexelCoord, Layer, Level);
+		}
+
+		static void store(texture2DArray & Texture, texture2DArray::dim_type const & TexelCoord, texture2DArray::size_type Layer, texture2DArray::size_type Face, texture2DArray::size_type Level, genType const & Texel)
+		{
+			Texture.store<genType>(TexelCoord, Layer, Level, Texel);
+		}
+	};
+
+	template <typename T, precision P, template <typename, precision> class vecType>
+	struct accessFunc<texture3D, T, P, vecType>
+	{
+		typedef vecType<T, P> genType;
+
+		static genType load(texture3D const & Texture, texture3D::dim_type const & TexelCoord, texture3D::size_type Layer, texture3D::size_type Face, texture3D::size_type Level)
+		{
+			return Texture.load<genType>(TexelCoord, Level);
+		}
+
+		static void store(texture3D & Texture, texture3D::dim_type const & TexelCoord, texture3D::size_type Layer, texture3D::size_type Face, texture3D::size_type Level, genType const & Texel)
+		{
+			Texture.store<genType>(TexelCoord, Level, Texel);
+		}
+	};
+
+	template <typename T, precision P, template <typename, precision> class vecType>
+	struct accessFunc<textureCube, T, P, vecType>
+	{
+		typedef vecType<T, P> genType;
+
+		static genType load(textureCube const & Texture, textureCube::dim_type const & TexelCoord, textureCube::size_type Layer, textureCube::size_type Face, textureCube::size_type Level)
+		{
+			assert(Layer == 0);
+			return Texture.load<genType>(TexelCoord, Face, Level);
+		}
+
+		static void store(textureCube & Texture, textureCube::dim_type const & TexelCoord, textureCube::size_type Layer, textureCube::size_type Face, textureCube::size_type Level, genType const & Texel)
+		{
+			assert(Layer == 0);
+			Texture.store<genType>(TexelCoord, Face, Level, Texel);
+		}
+	};
+
+	template <typename T, precision P, template <typename, precision> class vecType>
+	struct accessFunc<textureCubeArray, T, P, vecType>
+	{
+		typedef vecType<T, P> genType;
+
+		static genType load(textureCubeArray const & Texture, textureCubeArray::dim_type const & TexelCoord, textureCubeArray::size_type Layer, textureCubeArray::size_type Face, textureCubeArray::size_type Level)
+		{
+			return Texture.load<genType>(TexelCoord, Layer, Face, Level);
+		}
+
+		static void store(textureCubeArray & Texture, textureCubeArray::dim_type const & TexelCoord, textureCubeArray::size_type Layer, textureCubeArray::size_type Face, textureCubeArray::size_type Level, genType const & Texel)
+		{
+			Texture.store<genType>(TexelCoord, Layer, Face, Level, Texel);
+		}
+	};
+
+	// convertFunc class
 
 	template <typename textureType, typename retType, typename T, precision P, template <typename, precision> class vecType, convertMode mode = CONVERT_MODE_CAST, bool isSamplerFloat = false>
 	struct convertFunc
