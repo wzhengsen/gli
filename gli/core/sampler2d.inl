@@ -49,14 +49,14 @@ namespace gli
 	inline glm::tvec4<T, P> sampler2D<T, P>::texel_fetch(dim_type const & TexelCoord, size_type const & Level) const
 	{
 		assert(this->Convert.Fetch);
-		return this->Convert.Fetch(this->Texture, TexelCoord, Level);
+		return this->Convert.Fetch(this->Texture, TexelCoord, 0, 0, Level);
 	}
 
 	template <typename T, glm::precision P>
 	inline void sampler2D<T, P>::texel_write(dim_type const & TexelCoord, size_type const & Level, tvec4<T, P> const & Texel)
 	{
 		assert(this->Convert.Write);
-		this->Convert.Write(this->Texture, TexelCoord, Level, Texel);
+		this->Convert.Write(this->Texture, TexelCoord, 0, 0, Level, Texel);
 	}
 
 	template <typename T, glm::precision P>
