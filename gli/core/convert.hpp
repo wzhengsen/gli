@@ -41,35 +41,6 @@
 namespace gli{
 namespace detail
 {
-	template <typename floatType, glm::precision P, gli::format Format = FORMAT_UNDEFINED>
-	struct texelFetch {
-		static glm::tvec4<floatType, P> call(texture2D const & Texture, texture2D::dim_type const & TexelCoord, texture2D::size_type Layer, texture2D::size_type Face, texture2D::size_type Level)
-		{
-			return glm::tvec4<floatType, P>(0.0f, 0.0f, 0.0f, 1.0f);
-		}
-	};
-
-	// Packed
-
-	template <typename floatType, glm::precision P>
-	struct texelFetch<floatType, P, FORMAT_RGB10A2_USCALED> {
-		static glm::tvec4<floatType, P> call(texture2D const & Texture, texture2D::dim_type const & TexelCoord, texture2D::size_type Layer, texture2D::size_type Face, texture2D::size_type Level)
-		{
-			return glm::tvec4<floatType, P>(glm::unpackU3x10_1x2(Texture.load<glm::uint32>(TexelCoord, Level)));
-		}
-	};
-
-	template <typename floatType, glm::precision P>
-	struct texelFetch<floatType, P, FORMAT_RGB10A2_SSCALED> {
-		static glm::tvec4<floatType, P> call(texture2D const & Texture, texture2D::dim_type const & TexelCoord, texture2D::size_type Layer, texture2D::size_type Face, texture2D::size_type Level)
-		{
-			return glm::tvec4<floatType, P>(glm::unpackI3x10_1x2(Texture.load<glm::uint32>(TexelCoord, Level)));
-		}
-	};
-}//namespace detail
-
-namespace detail
-{
 	enum convertMode
 	{
 		CONVERT_MODE_DEFAULT,
@@ -81,12 +52,18 @@ namespace detail
 		CONVERT_MODE_RG11B10F,
 		CONVERT_MODE_RGB10A2UNORM,
 		CONVERT_MODE_RGB10A2SNORM,
+		CONVERT_MODE_RGB10A2USCALE,
+		CONVERT_MODE_RGB10A2SSCALE,
 		CONVERT_MODE_RGB10A2UINT,
 		CONVERT_MODE_RGB10A2SINT,
 		CONVERT_MODE_44UNORM,
+		CONVERT_MODE_44SCALED,
 		CONVERT_MODE_4444UNORM,
+		CONVERT_MODE_4444SCALED,
 		CONVERT_MODE_565UNORM,
+		CONVERT_MODE_565SCALED,
 		CONVERT_MODE_5551UNORM,
+		CONVERT_MODE_5551SCALED,
 		CONVERT_MODE_332UNORM
 	};
 
@@ -451,6 +428,56 @@ namespace detail
 	};
 
 	template <typename textureType, typename retType, typename T, precision P, template <typename, precision> class vecType>
+	struct convertFunc<textureType, retType, T, P, vecType, CONVERT_MODE_RGB10A2USCALE, true>
+	{
+		typedef accessFunc<textureType, uint32> access;
+
+		static tvec4<retType, P> fetch(textureType const & Texture, typename textureType::dim_type const & TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level)
+		{
+			static_assert(std::numeric_limits<retType>::is_iec559, "CONVERT_MODE_RGB10A2USCALE requires a float sampler");
+			glm::detail::u10u10u10u2 Unpack;
+			Unpack.pack = access::load(Texture, TexelCoord, Layer, Face, Level);
+			return tvec4<retType, P>(Unpack.data.x, Unpack.data.y, Unpack.data.z, Unpack.data.w);
+		}
+
+		static void write(textureType & Texture, typename textureType::dim_type const & TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level, tvec4<retType, P> const & Texel)
+		{
+			static_assert(std::numeric_limits<retType>::is_iec559, "CONVERT_MODE_RGB10A2USCALE requires a float sampler");
+			glm::detail::u10u10u10u2 Unpack;
+			Unpack.data.x = static_cast<uint>(Texel.x);
+			Unpack.data.y = static_cast<uint>(Texel.y);
+			Unpack.data.z = static_cast<uint>(Texel.z);
+			Unpack.data.w = static_cast<uint>(Texel.w);
+			access::store(Texture, TexelCoord, Layer, Face, Level, Unpack.pack);
+		}
+	};
+
+	template <typename textureType, typename retType, typename T, precision P, template <typename, precision> class vecType>
+	struct convertFunc<textureType, retType, T, P, vecType, CONVERT_MODE_RGB10A2SSCALE, true>
+	{
+		typedef accessFunc<textureType, uint32> access;
+
+		static tvec4<retType, P> fetch(textureType const & Texture, typename textureType::dim_type const & TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level)
+		{
+			static_assert(std::numeric_limits<retType>::is_iec559, "CONVERT_MODE_RGB10A2SSCALE requires a float sampler");
+			glm::detail::i10i10i10i2 Unpack;
+			Unpack.pack = access::load(Texture, TexelCoord, Layer, Face, Level);
+			return tvec4<retType, P>(Unpack.data.x, Unpack.data.y, Unpack.data.z, Unpack.data.w);
+		}
+
+		static void write(textureType & Texture, typename textureType::dim_type const & TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level, tvec4<retType, P> const & Texel)
+		{
+			static_assert(std::numeric_limits<retType>::is_iec559, "CONVERT_MODE_RGB10A2SSCALE requires a float sampler");
+			glm::detail::i10i10i10i2 Unpack;
+			Unpack.data.x = static_cast<int>(Texel.x);
+			Unpack.data.y = static_cast<int>(Texel.y);
+			Unpack.data.z = static_cast<int>(Texel.z);
+			Unpack.data.w = static_cast<int>(Texel.w);
+			access::store(Texture, TexelCoord, Layer, Face, Level, Unpack.pack);
+		}
+	};
+
+	template <typename textureType, typename retType, typename T, precision P, template <typename, precision> class vecType>
 	struct convertFunc<textureType, retType, T, P, vecType, CONVERT_MODE_RGB10A2UINT, false>
 	{
 		typedef accessFunc<textureType, uint32> access;
@@ -503,13 +530,13 @@ namespace detail
 			static func Table[] =
 			{
 				{convertFunc<textureType, samplerValType, u8, P, tvec2, CONVERT_MODE_44UNORM, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec2, CONVERT_MODE_44UNORM, std::numeric_limits<samplerValType>::is_iec559>::write},				// FORMAT_RG4_UNORM
-				{nullptr, nullptr},			// FORMAT_RG4_USCALED
+				{convertFunc<textureType, samplerValType, u8, P, tvec2, CONVERT_MODE_44SCALED, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec2, CONVERT_MODE_44SCALED, std::numeric_limits<samplerValType>::is_iec559>::write},			// FORMAT_RG4_USCALED
 				{convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_4444UNORM, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_4444UNORM, std::numeric_limits<samplerValType>::is_iec559>::write},			// FORMAT_RGBA4_UNORM
-				{nullptr, nullptr},			// FORMAT_RGBA4_USCALED
+				{convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_4444SCALED, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_4444SCALED, std::numeric_limits<samplerValType>::is_iec559>::write},		// FORMAT_RGBA4_USCALED
 				{convertFunc<textureType, samplerValType, u8, P, tvec3, CONVERT_MODE_565UNORM, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec3, CONVERT_MODE_565UNORM, std::numeric_limits<samplerValType>::is_iec559>::write},			// FORMAT_R5G6B5_UNORM
-				{nullptr, nullptr},			// FORMAT_R5G6B5_USCALED
+				{convertFunc<textureType, samplerValType, u8, P, tvec3, CONVERT_MODE_565SCALED, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec3, CONVERT_MODE_565SCALED, std::numeric_limits<samplerValType>::is_iec559>::write},			// FORMAT_R5G6B5_USCALED
 				{convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_5551UNORM, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_5551UNORM, std::numeric_limits<samplerValType>::is_iec559>::write},			// FORMAT_RGB5A1_UNORM
-				{nullptr, nullptr},			// FORMAT_RGB5A1_USCALED
+				{convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_5551SCALED, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_5551SCALED, std::numeric_limits<samplerValType>::is_iec559>::write},		// FORMAT_RGB5A1_USCALED
 
 				{convertFunc<textureType, samplerValType, u8, P, tvec1, CONVERT_MODE_NORM, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec1, CONVERT_MODE_NORM, std::numeric_limits<samplerValType>::is_iec559>::write},					// FORMAT_R8_UNORM
 				{convertFunc<textureType, samplerValType, i8, P, tvec1, CONVERT_MODE_NORM, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, i8, P, tvec1, CONVERT_MODE_NORM, std::numeric_limits<samplerValType>::is_iec559>::write},					// FORMAT_R8_SNORM
@@ -545,8 +572,8 @@ namespace detail
 
 				{convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_RGB10A2UNORM, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_RGB10A2UNORM, std::numeric_limits<samplerValType>::is_iec559>::write},	// FORMAT_RGB10A2_UNORM
 				{convertFunc<textureType, samplerValType, i8, P, tvec4, CONVERT_MODE_RGB10A2SNORM, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, i8, P, tvec4, CONVERT_MODE_RGB10A2SNORM, std::numeric_limits<samplerValType>::is_iec559>::write},	// FORMAT_RGB10A2_SNORM
-				{detail::texelFetch<samplerValType, P, FORMAT_RGB10A2_USCALED>::call, nullptr},			// FORMAT_RGB10A2_USCALED
-				{detail::texelFetch<samplerValType, P, FORMAT_RGB10A2_SSCALED>::call, nullptr},			// FORMAT_RGB10A2_SSCALED
+				{convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_RGB10A2USCALE, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_RGB10A2USCALE, std::numeric_limits<samplerValType>::is_iec559>::write},	// FORMAT_RGB10A2_USCALED
+				{convertFunc<textureType, samplerValType, i8, P, tvec4, CONVERT_MODE_RGB10A2SSCALE, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, i8, P, tvec4, CONVERT_MODE_RGB10A2SSCALE, std::numeric_limits<samplerValType>::is_iec559>::write},	// FORMAT_RGB10A2_SSCALED
 				{convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_RGB10A2UINT, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_RGB10A2UINT, std::numeric_limits<samplerValType>::is_iec559>::write},		// FORMAT_RGB10A2_UINT
 				{convertFunc<textureType, samplerValType, i8, P, tvec4, CONVERT_MODE_RGB10A2SINT, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, i8, P, tvec4, CONVERT_MODE_RGB10A2SINT, std::numeric_limits<samplerValType>::is_iec559>::write},		// FORMAT_RGB10A2_SINT
 
@@ -668,11 +695,11 @@ namespace detail
 				{convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_DEFAULT>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_DEFAULT>::write},							// FORMAT_ASTC_12x12_SRGB
 
 				{convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_4444UNORM, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_4444UNORM, std::numeric_limits<samplerValType>::is_iec559>::write},			// FORMAT_BGRA4_UNORM
-				{nullptr, nullptr},			// FORMAT_BGRA4_USCALED
+				{convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_4444SCALED, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_4444SCALED, std::numeric_limits<samplerValType>::is_iec559>::write},		// FORMAT_BGRA4_USCALED
 				{convertFunc<textureType, samplerValType, u8, P, tvec3, CONVERT_MODE_565UNORM, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec3, CONVERT_MODE_565UNORM, std::numeric_limits<samplerValType>::is_iec559>::write},			// FORMAT_B5G6R5_UNORM
-				{nullptr, nullptr},			// FORMAT_B5G6R5_USCALED
+				{convertFunc<textureType, samplerValType, u8, P, tvec3, CONVERT_MODE_565SCALED, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec3, CONVERT_MODE_565SCALED, std::numeric_limits<samplerValType>::is_iec559>::write},			// FORMAT_B5G6R5_USCALED
 				{convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_5551UNORM, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_5551UNORM, std::numeric_limits<samplerValType>::is_iec559>::write},			// FORMAT_BGR5A1_UNORM
-				{nullptr, nullptr},			// FORMAT_BGR5A1_USCALED
+				{convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_5551SCALED, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_5551SCALED, std::numeric_limits<samplerValType>::is_iec559>::write},		// FORMAT_BGR5A1_USCALED
 
 				{convertFunc<textureType, samplerValType, u8, P, tvec3, CONVERT_MODE_NORM, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec3, CONVERT_MODE_NORM, std::numeric_limits<samplerValType>::is_iec559>::write},					// FORMAT_BGR8_UNORM
 				{convertFunc<textureType, samplerValType, i8, P, tvec3, CONVERT_MODE_NORM, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec3, CONVERT_MODE_NORM, std::numeric_limits<samplerValType>::is_iec559>::write},					// FORMAT_BGR8_SNORM
@@ -692,8 +719,8 @@ namespace detail
 
 				{convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_RGB10A2UNORM, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_RGB10A2UNORM, std::numeric_limits<samplerValType>::is_iec559>::write},	// FORMAT_BGR10A2_UNORM
 				{convertFunc<textureType, samplerValType, i8, P, tvec4, CONVERT_MODE_RGB10A2SNORM, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, i8, P, tvec4, CONVERT_MODE_RGB10A2SNORM, std::numeric_limits<samplerValType>::is_iec559>::write},	// FORMAT_BGR10A2_SNORM
-				{detail::texelFetch<samplerValType, P, FORMAT_BGR10A2_USCALED>::call, nullptr},			// FORMAT_BGR10A2_USCALED
-				{detail::texelFetch<samplerValType, P, FORMAT_BGR10A2_SSCALED>::call, nullptr},			// FORMAT_BGR10A2_SSCALED
+				{convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_RGB10A2USCALE, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_RGB10A2USCALE, std::numeric_limits<samplerValType>::is_iec559>::write},	// FORMAT_BGR10A2_USCALED
+				{convertFunc<textureType, samplerValType, i8, P, tvec4, CONVERT_MODE_RGB10A2SSCALE, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, i8, P, tvec4, CONVERT_MODE_RGB10A2SSCALE, std::numeric_limits<samplerValType>::is_iec559>::write},	// FORMAT_BGR10A2_SSCALED
 				{convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_RGB10A2UINT, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_RGB10A2UINT, std::numeric_limits<samplerValType>::is_iec559>::write},		// FORMAT_BGR10A2_UINT
 				{convertFunc<textureType, samplerValType, i8, P, tvec4, CONVERT_MODE_RGB10A2SINT, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, i8, P, tvec4, CONVERT_MODE_RGB10A2SINT, std::numeric_limits<samplerValType>::is_iec559>::write},		// FORMAT_BGR10A2_SINT
 
