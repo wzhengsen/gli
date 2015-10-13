@@ -32,10 +32,10 @@
 
 #pragma once
 
-#define GLI_VERSION					71
+#define GLI_VERSION					80
 #define GLI_VERSION_MAJOR			0
-#define GLI_VERSION_MINOR			7
-#define GLI_VERSION_PATCH			1
+#define GLI_VERSION_MINOR			8
+#define GLI_VERSION_PATCH			0
 #define GLI_VERSION_REVISION		0
 
 #include "format.hpp"
