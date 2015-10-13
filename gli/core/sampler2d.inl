@@ -28,8 +28,8 @@
 
 namespace gli
 {
-	template <typename T, glm::precision P>
-	inline sampler2D<T, P>::sampler2D(texture2D const & Texture, wrap Wrap, filter Mip, filter Min, glm::tvec4<T, P> const & BorderColor)
+	template <typename T, precision P>
+	inline sampler2D<T, P>::sampler2D(texture2D const & Texture, wrap Wrap, filter Mip, filter Min, tvec4<T, P> const & BorderColor)
 		: sampler(Wrap, Texture.levels() > 1 ? Mip : FILTER_NEAREST, Min)
 		, Texture(Texture)
 		, Convert(detail::convert<texture2D, T, P>::call(this->Texture.format()))
@@ -39,14 +39,14 @@ namespace gli
 		assert(!is_compressed(Texture.format()));
 	}
 
-	template <typename T, glm::precision P>
+	template <typename T, precision P>
 	inline texture2D const & sampler2D<T, P>::operator()() const
 	{
 		return this->Texture;
 	}
 
 	template <typename T, glm::precision P>
-	inline glm::tvec4<T, P> sampler2D<T, P>::texel_fetch(dim_type const & TexelCoord, size_type const & Level) const
+	inline tvec4<T, P> sampler2D<T, P>::texel_fetch(dim_type const & TexelCoord, size_type const & Level) const
 	{
 		assert(this->Convert.Fetch);
 		return this->Convert.Fetch(this->Texture, TexelCoord, 0, 0, Level);
@@ -59,45 +59,52 @@ namespace gli
 		this->Convert.Write(this->Texture, TexelCoord, 0, 0, Level, Texel);
 	}
 
-	template <typename T, glm::precision P>
-	inline void sampler2D<T, P>::clear(glm::tvec4<T, P> const & Color)
+	template <typename T, precision P>
+	inline void sampler2D<T, P>::clear(tvec4<T, P> const & Color)
 	{
+		assert(this->Convert.Write);
 
+		texture2D Texel(this->Texture.format(), dim2_t(1), 1);
+		this->Convert.Write(Texel, dim2_t(0), 0, 0, 0, Color);
+
+		std::uint32_t const BlockSize = block_size(this->Texture.format());
+		for(std::size_t BlockIndex = 0, BlockCount = this->Texture.size() / BlockSize; BlockIndex < BlockCount; ++BlockIndex)
+			memcpy(static_cast<std::uint8_t*>(this->Texture.data()) + BlockSize * BlockIndex, Texel.data(), BlockSize);
 	}
 
 	template <typename T, glm::precision P>
-	inline glm::tvec4<T, P> sampler2D<T, P>::texture_lod(samplecoord_type const & Texcoord, float Level) const
+	inline tvec4<T, P> sampler2D<T, P>::texture_lod(samplecoord_type const & Texcoord, float Level) const
 	{
 		assert(std::numeric_limits<T>::is_iec559);
 
 		samplecoord_type const TexcoordWrap(this->WrapFunc(Texcoord.x), this->WrapFunc(Texcoord.y));
 
-		size_type const minLevel = size_type(glm::floor(Level));
-		size_type const maxLevel = size_type(glm::ceil(Level));
+		size_type const minLevel = size_type(floor(Level));
+		size_type const maxLevel = size_type(ceil(Level));
 
 		if (this->Mip == FILTER_LINEAR)
 		{
 			tvec4<T, P> const minTexel = this->Min == FILTER_LINEAR ? this->texture_lod_linear(TexcoordWrap, minLevel) : this->texture_lod_nearest(TexcoordWrap, minLevel);
 			tvec4<T, P> const maxTexel = this->Min == FILTER_LINEAR ? this->texture_lod_linear(TexcoordWrap, maxLevel) : this->texture_lod_nearest(TexcoordWrap, minLevel);
-			return mix(minTexel, maxTexel, glm::fract(Level));
+			return mix(minTexel, maxTexel, fract(Level));
 		} else
 		{
-			texture2D::size_type const level = texture2D::size_type(glm::round(Level));
+			texture2D::size_type const level = texture2D::size_type(round(Level));
 			return this->Min == FILTER_LINEAR ? this->texture_lod_linear(TexcoordWrap, level) : this->texture_lod_nearest(TexcoordWrap, minLevel);
 		}
 	}
 
-	template <typename T, glm::precision P>
+	template <typename T, precision P>
 	inline tvec4<T, P> sampler2D<T, P>::texture_lod_linear(samplecoord_type const & Texcoord, size_type Level) const
 	{
 		assert(std::numeric_limits<T>::is_iec559);
 
 		dim_type const TexelDim = this->Texture.dimensions(Level);
 
-		int const s_below = int(glm::floor(Texcoord.s * static_cast<T>(TexelDim.x - 1)));
-		int const s_above = int(glm::ceil(Texcoord.s * static_cast<T>(TexelDim.x - 1)));
-		int const t_below = int(glm::floor(Texcoord.t * static_cast<T>(TexelDim.y - 1)));
-		int const t_above = int(glm::ceil(Texcoord.t * static_cast<T>(TexelDim.y - 1)));
+		int const s_below = int(floor(Texcoord.s * static_cast<T>(TexelDim.x - 1)));
+		int const s_above = int(ceil(Texcoord.s * static_cast<T>(TexelDim.x - 1)));
+		int const t_below = int(floor(Texcoord.t * static_cast<T>(TexelDim.y - 1)));
+		int const t_above = int(ceil(Texcoord.t * static_cast<T>(TexelDim.y - 1)));
 
 		bvec4 UseBorderColor(
 			s_below < 0 || s_below > static_cast<int>(TexelDim.x),
@@ -135,8 +142,8 @@ namespace gli
 		return Texel;
 	}
 
-	template <typename T, glm::precision P>
-	inline glm::tvec4<T, P> sampler2D<T, P>::texture_lod_nearest(samplecoord_type const & Texcoord, size_type Level) const
+	template <typename T, precision P>
+	inline tvec4<T, P> sampler2D<T, P>::texture_lod_nearest(samplecoord_type const & Texcoord, size_type Level) const
 	{
 		assert(std::numeric_limits<T>::is_iec559);
 
@@ -150,7 +157,7 @@ namespace gli
 		return UseBorderColor ? this->BorderColor : this->texel_fetch(dim_type(s, t), Level);
 	}
 
-	template <typename T, glm::precision P>
+	template <typename T, precision P>
 	inline void sampler2D<T, P>::generate_mipmaps()
 	{
 		assert(!this->Texture.empty());
@@ -159,7 +166,7 @@ namespace gli
 		this->generate_mipmaps(this->Texture.base_level(), this->Texture.max_level());
 	}
 
-	template <typename T, glm::precision P>
+	template <typename T, precision P>
 	inline void sampler2D<T, P>::generate_mipmaps(typename sampler2D<T, P>::size_type BaseLevel, typename sampler2D<T, P>::size_type MaxLevel)
 	{
 		assert(!this->Texture.empty());
@@ -173,19 +180,19 @@ namespace gli
 			dim_type const DimDst = this->Texture.dimensions(Level + 1);
 
 			for(size_t j = 0; j < DimDst.y; ++j)
-				for(size_t i = 0; i < DimDst.x; ++i)
-				{
-					size_t const x = (i << 1);
-					size_t const y = (j << 1);
+			for(size_t i = 0; i < DimDst.x; ++i)
+			{
+				size_t const x = (i << 1);
+				size_t const y = (j << 1);
 
-					tvec4<T, P> Texel00 = this->texture_lod(samplecoord_type(x + 0, y + 0) * SampleCoordScale, static_cast<float>(Level));
-					tvec4<T, P> Texel01 = this->texture_lod(samplecoord_type(x + 0, y + 1) * SampleCoordScale, static_cast<float>(Level));
-					tvec4<T, P> Texel11 = this->texture_lod(samplecoord_type(x + 1, y + 1) * SampleCoordScale, static_cast<float>(Level));
-					tvec4<T, P> Texel10 = this->texture_lod(samplecoord_type(x + 1, y + 0) * SampleCoordScale, static_cast<float>(Level));
+				tvec4<T, P> Texel00 = this->texture_lod(samplecoord_type(x + 0, y + 0) * SampleCoordScale, static_cast<float>(Level));
+				tvec4<T, P> Texel01 = this->texture_lod(samplecoord_type(x + 0, y + 1) * SampleCoordScale, static_cast<float>(Level));
+				tvec4<T, P> Texel11 = this->texture_lod(samplecoord_type(x + 1, y + 1) * SampleCoordScale, static_cast<float>(Level));
+				tvec4<T, P> Texel10 = this->texture_lod(samplecoord_type(x + 1, y + 0) * SampleCoordScale, static_cast<float>(Level));
 
-					tvec4<T, P> const Texel = (Texel00 + Texel01 + Texel11 + Texel10) * static_cast<float>(0.25);
-					this->texel_write(dim_type(i, j), Level + 1, Texel);
-				}
+				tvec4<T, P> const Texel = (Texel00 + Texel01 + Texel11 + Texel10) * static_cast<float>(0.25);
+				this->texel_write(dim_type(i, j), Level + 1, Texel);
+			}
 		}
 	}
 }//namespace gli

@@ -161,6 +161,9 @@ GLuint createTexture(char const* Filename)
 - Added texture memory swizzle support
 - Added TARGET_RECT and TARGET_RECT_ARRAY texture target support
 - Added generate_mipmaps for uncompressed formats
+- Added sampler texel fetch and texel write
+- Added texture lod
+- Added sampler clear
 - Reordered formats
 - Fixed PVRTC2 support
 - Fixed luminance and alpha translation to OpenGL #56
