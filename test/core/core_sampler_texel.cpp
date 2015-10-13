@@ -178,6 +178,61 @@ namespace fetch_rgb10a2_unorm
 	}
 }//namespace fetch_rgb10a2_unorm
 
+namespace fetch_rgb10a2_uint
+{
+	int test()
+	{
+		int Error(0);
+
+		glm::uvec4 Colors[] =
+		{
+			glm::uvec4(1023,  511,    0, 0),
+			glm::uvec4( 511,    0,  255, 3),
+			glm::uvec4(   0,   31,   15, 1),
+			glm::uvec4( 255, 1023,    1, 0),
+			glm::uvec4(1023,  511,    0, 0),
+			glm::uvec4( 511,    0,  255, 3),
+			glm::uvec4(   0,   31,   15, 1),
+			glm::uvec4( 255, 1023,    1, 0)
+		};
+
+		glm::uint32 Packed[8];
+		for(std::size_t i = 0; i < 8; ++i)
+			Packed[i] = gli::packU3x10_1x2(Colors[i]);
+
+		gli::texture2D Texture(gli::FORMAT_RGB10A2_UINT, gli::texture2D::dim_type(4, 2), 1);
+		for(std::size_t i = 0; i < 8; ++i)
+			*(Texture.data<glm::uint32>() + i) = Packed[i];
+
+		glm::uint32 Loaded[8];
+		for(std::size_t i = 0; i < 8; ++i)
+			Loaded[i] = Texture.load<glm::uint32>(gli::texture2D::dim_type(i % 4, i / 4), 0);
+
+		for(std::size_t i = 0; i < 8; ++i)
+			Error += Packed[i] == Loaded[i] ? 0 : 1;
+
+		glm::uvec4 Unpacked[8];
+		for(std::size_t i = 0; i < 8; ++i)
+			Unpacked[i] = gli::unpackU3x10_1x2(Loaded[i]);
+
+		for (std::size_t i = 0; i < 8; ++i)
+			Error += Unpacked[i] == Colors[i] ? 0 : 1;
+
+		gli::usampler2D Sampler(Texture, gli::WRAP_CLAMP_TO_EDGE, gli::FILTER_LINEAR, gli::FILTER_LINEAR);
+
+		glm::uvec4 Data[8];
+		for(std::size_t i = 0; i < 8; ++i)
+			Data[i] = Sampler.texel_fetch(gli::texture2D::dim_type(i % 4, i / 4), 0);
+
+		float const Epsilon = 1.f / 255.f * 0.5f;
+
+		for(std::size_t i = 0; i < 8; ++i)
+			Error += Data[i] == Colors[i] ? 0 : 1;
+
+		return Error;
+	}
+}//namespace fetch_rgb10a2_uint
+
 namespace fetch_rgba32_sfloat
 {
 	int test()
@@ -466,6 +521,7 @@ int main()
 	Error += fetch_rgba8_srgb::test();
 	Error += fetch_rgb10a2_unorm::test();
 	Error += fetch_rgb10a2_snorm::test();
+	Error += fetch_rgb10a2_uint::test();
 
 	return Error;
 }
