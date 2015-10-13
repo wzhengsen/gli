@@ -169,23 +169,23 @@ namespace gli
 
 		for(size_type Level = BaseLevel; Level < MaxLevel; ++Level)
 		{
+			samplecoord_type const SampleCoordScale(static_cast<T>(1) / samplecoord_type(this->Texture.dimensions(Level + 0)));
 			dim_type const DimDst = this->Texture.dimensions(Level + 1);
-			samplecoord_type const SampleDimDst(DimDst);
 
 			for(size_t j = 0; j < DimDst.y; ++j)
-			for(size_t i = 0; i < DimDst.x; ++i)
-			{
-				size_t const x = (i << 1);
-				size_t const y = (j << 1);
+				for(size_t i = 0; i < DimDst.x; ++i)
+				{
+					size_t const x = (i << 1);
+					size_t const y = (j << 1);
 
-				tvec4<T, P> Texel00 = this->texture_lod(samplecoord_type(x + 0, y + 0) / SampleDimDst, static_cast<float>(Level));
-				tvec4<T, P> Texel01 = this->texture_lod(samplecoord_type(x + 0, y + 1) / SampleDimDst, static_cast<float>(Level));
-				tvec4<T, P> Texel11 = this->texture_lod(samplecoord_type(x + 1, y + 1) / SampleDimDst, static_cast<float>(Level));
-				tvec4<T, P> Texel10 = this->texture_lod(samplecoord_type(x + 1, y + 0) / SampleDimDst, static_cast<float>(Level));
+					tvec4<T, P> Texel00 = this->texture_lod(samplecoord_type(x + 0, y + 0) * SampleCoordScale, static_cast<float>(Level));
+					tvec4<T, P> Texel01 = this->texture_lod(samplecoord_type(x + 0, y + 1) * SampleCoordScale, static_cast<float>(Level));
+					tvec4<T, P> Texel11 = this->texture_lod(samplecoord_type(x + 1, y + 1) * SampleCoordScale, static_cast<float>(Level));
+					tvec4<T, P> Texel10 = this->texture_lod(samplecoord_type(x + 1, y + 0) * SampleCoordScale, static_cast<float>(Level));
 
-				tvec4<T, P> const Texel = (Texel00 + Texel01 + Texel11 + Texel10) * static_cast<float>(0.25);
-				this->texel_write(dim_type(i, j), Level + 1, Texel);
-			}
+					tvec4<T, P> const Texel = (Texel00 + Texel01 + Texel11 + Texel10) * static_cast<float>(0.25);
+					this->texel_write(dim_type(i, j), Level + 1, Texel);
+				}
 		}
 	}
 }//namespace gli

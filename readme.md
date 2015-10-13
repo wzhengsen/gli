@@ -153,13 +153,14 @@ GLuint createTexture(char const* Filename)
 
 ## Release notes
 
-#### [GLI 0.7.1.0](https://github.com/g-truc/gli/releases/latest) - 2015-XX-X
+#### [GLI 0.8.0.0](https://github.com/g-truc/gli/releases/latest) - 2015-XX-XX
 - Added texture swizzle support
 - Added support for load and store
 - Added support for many new formats
 - Added KMG support and spec proposal
 - Added texture memory swizzle support
 - Added TARGET_RECT and TARGET_RECT_ARRAY texture target support
+- Added generate_mipmaps for uncompressed formats
 - Reordered formats
 - Fixed PVRTC2 support
 - Fixed luminance and alpha translation to OpenGL #56
