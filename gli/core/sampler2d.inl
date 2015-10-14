@@ -65,16 +65,6 @@ namespace gli
 	inline void sampler2D<T, P>::clear(tvec4<T, P> const & Color)
 	{
 		detail::clear<texture_type, T, P>::call(this->Texture, this->Convert.Write, Color);
-/*
-		assert(this->Convert.Write);
-
-		texture_type Texel(texture(this->Texture.target(), this->Texture.format(), texture::dim_type(1), 1, 1, 1));
-		this->Convert.Write(Texel, dim_type(0), 0, 0, 0, Color);
-
-		std::uint32_t const BlockSize = block_size(this->Texture.format());
-		for(std::size_t BlockIndex = 0, BlockCount = this->Texture.size() / BlockSize; BlockIndex < BlockCount; ++BlockIndex)
-			memcpy(static_cast<std::uint8_t*>(this->Texture.data()) + BlockSize * BlockIndex, Texel.data(), BlockSize);
-*/
 	}
 
 	template <typename T, glm::precision P>
