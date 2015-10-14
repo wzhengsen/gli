@@ -38,14 +38,15 @@ namespace gli
 	class sampler2D : public sampler
 	{
 	public:
-		typedef texture2D::size_type size_type;
-		typedef texture2D::dim_type dim_type;
+		typedef texture2D texture_type;
+		typedef typename texture_type::size_type size_type;
+		typedef typename texture_type::dim_type dim_type;
 		typedef vec2 samplecoord_type;
 
-		sampler2D(texture2D const & Texture, wrap Wrap, filter Mip, filter Min, tvec4<T, P> const & BorderColor = tvec4<T, P>(0, 0, 0, 1));
+		sampler2D(texture_type const & Texture, wrap Wrap, filter Mip, filter Min, tvec4<T, P> const & BorderColor = tvec4<T, P>(0, 0, 0, 1));
 
 		/// Access the sampler texture object
-		texture2D const & operator()() const;
+		texture_type const & operator()() const;
 
 		/// Fetch a texel from the sampler texture
 		tvec4<T, P> texel_fetch(dim_type const & TexelCoord, size_type const & Level) const;
@@ -70,8 +71,8 @@ namespace gli
 
 		tvec4<T, P> texture_lod_linear(samplecoord_type const & Texcoord, size_type Level) const;
 
-		texture2D Texture;
-		typename detail::convert<texture2D, T, P>::func Convert;
+		texture_type Texture;
+		typename detail::convert<texture_type, T, P>::func Convert;
 		tvec4<T, P> BorderColor;
 	};
 

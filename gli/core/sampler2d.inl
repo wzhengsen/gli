@@ -26,6 +26,8 @@
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
+#include "clear.hpp"
+
 namespace gli
 {
 	template <typename T, precision P>
@@ -62,14 +64,17 @@ namespace gli
 	template <typename T, precision P>
 	inline void sampler2D<T, P>::clear(tvec4<T, P> const & Color)
 	{
+		detail::clear<texture_type, T, P>::call(this->Texture, this->Convert.Write, Color);
+/*
 		assert(this->Convert.Write);
 
-		texture2D Texel(this->Texture.format(), dim2_t(1), 1);
-		this->Convert.Write(Texel, dim2_t(0), 0, 0, 0, Color);
+		texture_type Texel(texture(this->Texture.target(), this->Texture.format(), texture::dim_type(1), 1, 1, 1));
+		this->Convert.Write(Texel, dim_type(0), 0, 0, 0, Color);
 
 		std::uint32_t const BlockSize = block_size(this->Texture.format());
 		for(std::size_t BlockIndex = 0, BlockCount = this->Texture.size() / BlockSize; BlockIndex < BlockCount; ++BlockIndex)
 			memcpy(static_cast<std::uint8_t*>(this->Texture.data()) + BlockSize * BlockIndex, Texel.data(), BlockSize);
+*/
 	}
 
 	template <typename T, glm::precision P>
@@ -107,10 +112,10 @@ namespace gli
 		int const t_above = int(ceil(Texcoord.t * static_cast<T>(TexelDim.y - 1)));
 
 		bvec4 UseBorderColor(
-			s_below < 0 || s_below > static_cast<int>(TexelDim.x),
-			s_above < 0 || s_above > static_cast<int>(TexelDim.x),
-			t_below < 0 || t_below > static_cast<int>(TexelDim.y),
-			t_above < 0 || t_above > static_cast<int>(TexelDim.y));
+			s_below < 0 || s_below > static_cast<int>(TexelDim.x - 1),
+			s_above < 0 || s_above > static_cast<int>(TexelDim.x - 1),
+			t_below < 0 || t_below > static_cast<int>(TexelDim.y - 1),
+			t_above < 0 || t_above > static_cast<int>(TexelDim.y - 1));
 
 		T const s_below_normalized = s_below / static_cast<T>(TexelDim.x);
 		T const t_below_normalized = t_below / static_cast<T>(TexelDim.y);

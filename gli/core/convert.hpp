@@ -26,6 +26,8 @@
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
+#pragma once
+
 #include "../type.hpp"
 #include "../texture1d.hpp"
 #include "../texture1d_array.hpp"
@@ -516,13 +518,13 @@ namespace detail
 	template <typename textureType, typename samplerValType, precision P>
 	struct convert
 	{
-		typedef glm::tvec4<samplerValType, P>(*convertFetchFunc)(textureType const & Texture, typename textureType::dim_type const & TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level);
-		typedef void(*convertWriteFunc)(textureType & Texture, typename textureType::dim_type const & TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level, glm::tvec4<samplerValType, P> const & Texel);
+		typedef glm::tvec4<samplerValType, P>(*fetchFunc)(textureType const & Texture, typename textureType::dim_type const & TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level);
+		typedef void(*writeFunc)(textureType & Texture, typename textureType::dim_type const & TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level, glm::tvec4<samplerValType, P> const & Texel);
 
 		struct func
 		{
-			convertFetchFunc Fetch;
-			convertWriteFunc Write;
+			fetchFunc Fetch;
+			writeFunc Write;
 		};
 
 		static func call(format Format)
