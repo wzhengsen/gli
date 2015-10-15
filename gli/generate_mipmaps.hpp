@@ -33,10 +33,10 @@
 namespace gli
 {
 	/// 
-	gli::texture2D generate_mipmaps(gli::texture2D const & Texture, gli::texture2D::size_type BaseLevel, gli::texture2D::size_type MaxLevel);
+	texture2D generate_mipmaps(texture2D const & Texture, texture2D::size_type BaseLevel, texture2D::size_type MaxLevel);
 
 	/// 
-	gli::texture2D generate_mipmaps(gli::texture2D const & Texture);
+	texture2D generate_mipmaps(texture2D const & Texture);
 }//namespace gli
 
 #include "./core/generate_mipmaps.inl"

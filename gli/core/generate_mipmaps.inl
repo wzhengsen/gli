@@ -30,15 +30,15 @@
 
 namespace gli
 {
-	inline gli::texture2D generate_mipmaps(gli::texture2D const & Texture, gli::texture2D::size_type BaseLevel, gli::texture2D::size_type MaxLevel)
+	inline texture2D generate_mipmaps(texture2D const & Texture, texture2D::size_type BaseLevel, texture2D::size_type MaxLevel)
 	{
-		gli::fsampler2D Sampler(Texture, gli::WRAP_CLAMP_TO_EDGE, gli::FILTER_LINEAR, gli::FILTER_LINEAR);
+		fsampler2D Sampler(Texture, WRAP_CLAMP_TO_EDGE, FILTER_LINEAR, FILTER_LINEAR);
 		Sampler.generate_mipmaps(BaseLevel, MaxLevel);
 
 		return Sampler();
 	}
 
-	inline gli::texture2D generate_mipmaps(gli::texture2D const & Texture)
+	inline texture2D generate_mipmaps(texture2D const & Texture)
 	{
 		return generate_mipmaps(Texture, Texture.base_level(), Texture.max_level());
 	}

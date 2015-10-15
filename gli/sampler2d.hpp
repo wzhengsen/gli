@@ -41,9 +41,10 @@ namespace gli
 		typedef texture2D texture_type;
 		typedef typename texture_type::size_type size_type;
 		typedef typename texture_type::dim_type dim_type;
-		typedef vec2 samplecoord_type;
+		typedef tvec2<T, P> samplecoord_type;
+		typedef tvec4<T, P> texel_type;
 
-		sampler2D(texture_type const & Texture, wrap Wrap, filter Mip, filter Min, tvec4<T, P> const & BorderColor = tvec4<T, P>(0, 0, 0, 1));
+		sampler2D(texture_type const & Texture, wrap Wrap, filter Mip, filter Min, texel_type const & BorderColor = tvec4<T, P>(0, 0, 0, 1));
 
 		/// Access the sampler texture object
 		texture_type const & operator()() const;
@@ -52,13 +53,13 @@ namespace gli
 		tvec4<T, P> texel_fetch(dim_type const & TexelCoord, size_type const & Level) const;
 
 		/// Write a texel in the sampler texture
-		void texel_write(dim_type const & TexelCoord, size_type const & Level, tvec4<T, P> const & Texel);
+		void texel_write(dim_type const & TexelCoord, size_type const & Level, texel_type const & Texel);
 
 		/// Clear the sampler texture with a uniform texel
-		void clear(tvec4<T, P> const & Texel);
+		void clear(texel_type const & Texel);
 
 		/// Sample the sampler texture at a specific level
-		tvec4<T, P> texture_lod(samplecoord_type const & Texcoord, float Level) const;
+		texel_type texture_lod(samplecoord_type const & Texcoord, float Level) const;
 
 		/// Generate all the mipmaps of the sampler texture from the texture base level
 		void generate_mipmaps();
@@ -67,13 +68,13 @@ namespace gli
 		void generate_mipmaps(size_type BaseLevel, size_type MaxLevel);
 
 	private:
-		tvec4<T, P> texture_lod_nearest(samplecoord_type const & Texcoord, size_type Level) const;
+		texel_type texture_lod_nearest(samplecoord_type const & Texcoord, size_type Level) const;
 
-		tvec4<T, P> texture_lod_linear(samplecoord_type const & Texcoord, size_type Level) const;
+		texel_type texture_lod_linear(samplecoord_type const & Texcoord, size_type Level) const;
 
 		texture_type Texture;
 		typename detail::convert<texture_type, T, P>::func Convert;
-		tvec4<T, P> BorderColor;
+		texel_type BorderColor;
 	};
 
 	typedef sampler2D<float> fsampler2D;
