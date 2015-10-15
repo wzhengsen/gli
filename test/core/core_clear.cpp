@@ -38,7 +38,7 @@ namespace clear
 
 		texture TextureA(Format, Size);
 
-		for(texture::size_type Level = 0; Level < TextureA.levels(); ++Level)
+		for(typename texture::size_type Level = 0; Level < TextureA.levels(); ++Level)
 			TextureA[Level].clear(Colors[Level]);
 
 		texture TextureB = TextureA;
