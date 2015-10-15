@@ -141,8 +141,8 @@ int main()
 {
 	int Error(0);
 
-	Error += wrap_clamp_to_border::test();
-	//Error += wrap_mirror::test();
+	//Error += wrap_clamp_to_border::test();
+	Error += wrap_mirror::test();
 
 	return Error;
 }
