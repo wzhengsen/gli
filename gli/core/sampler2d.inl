@@ -90,25 +90,22 @@ namespace gli
 	}
 
 	template <typename T, precision P>
-	inline tvec4<T, P> sampler2D<T, P>::texture_lod_linear(samplecoord_type const & Texcoord, size_type Level) const
+	inline tvec4<T, P> sampler2D<T, P>::texture_lod_linear(samplecoord_type const & SampleCoord, size_type Level) const
 	{
 		assert(std::numeric_limits<T>::is_iec559);
 
-		dim_type const TexelDim = this->Texture.dimensions(Level);
+		dim_type const TexelDim(this->Texture.dimensions(Level));
+		tvec2<T, P> const TexelDimF(TexelDim);
+		tvec2<T, P> const TexelLast(TexelDimF - static_cast<T>(1));
 
-		int const s_below = int(floor(Texcoord.s * static_cast<T>(TexelDim.x - 1)));
-		int const s_above = int(ceil(Texcoord.s * static_cast<T>(TexelDim.x - 1)));
-		int const t_below = int(floor(Texcoord.t * static_cast<T>(TexelDim.y - 1)));
-		int const t_above = int(ceil(Texcoord.t * static_cast<T>(TexelDim.y - 1)));
+		tvec2<int, P> const TexelCoordFloor(floor(SampleCoord * TexelLast));
+		tvec2<int, P> const TexelCoordCeil(ceil(SampleCoord * TexelLast));
 
-		bvec4 UseBorderColor(
-			s_below < 0 || s_below > static_cast<int>(TexelDim.x - 1),
-			s_above < 0 || s_above > static_cast<int>(TexelDim.x - 1),
-			t_below < 0 || t_below > static_cast<int>(TexelDim.y - 1),
-			t_above < 0 || t_above > static_cast<int>(TexelDim.y - 1));
-
-		T const s_below_normalized = s_below / static_cast<T>(TexelDim.x);
-		T const t_below_normalized = t_below / static_cast<T>(TexelDim.y);
+		bvec4 const UseBorderColor(
+			TexelCoordFloor.s < 0 || TexelCoordFloor.s > static_cast<int>(TexelDim.x - 1),
+			TexelCoordCeil.s < 0 || TexelCoordCeil.s > static_cast<int>(TexelDim.x - 1),
+			TexelCoordFloor.t < 0 || TexelCoordFloor.t > static_cast<int>(TexelDim.y - 1),
+			TexelCoordCeil.t < 0 || TexelCoordCeil.t > static_cast<int>(TexelDim.y - 1));
 
 		tvec4<T, P> Texel00(this->BorderColor);
 		tvec4<T, P> Texel10(this->BorderColor);
@@ -116,24 +113,23 @@ namespace gli
 		tvec4<T, P> Texel01(this->BorderColor);
 
 		if (!UseBorderColor[0] && !UseBorderColor[2])
-			Texel00 = this->texel_fetch(dim_type(s_below, t_below), Level);
+			Texel00 = this->texel_fetch(dim_type(TexelCoordFloor.s, TexelCoordFloor.t), Level);
 
 		if (!UseBorderColor[1] && !UseBorderColor[2])
-			Texel10 = this->texel_fetch(dim_type(s_above, t_below), Level);
+			Texel10 = this->texel_fetch(dim_type(TexelCoordCeil.s, TexelCoordFloor.t), Level);
 
 		if (!UseBorderColor[1] && !UseBorderColor[3])
-			Texel11 = this->texel_fetch(dim_type(s_above, t_above), Level);
+			Texel11 = this->texel_fetch(dim_type(TexelCoordCeil.s, TexelCoordCeil.t), Level);
 
 		if (!UseBorderColor[0] && !UseBorderColor[3])
-			Texel01 = this->texel_fetch(dim_type(s_below, t_above), Level);
+			Texel01 = this->texel_fetch(dim_type(TexelCoordFloor.s, TexelCoordCeil.t), Level);
 
-		T const BlendA = static_cast<T>(Texcoord.s - s_below_normalized) * static_cast<T>(TexelDim.x - 1);
-		T const BlendB = static_cast<T>(Texcoord.s - s_below_normalized) * static_cast<T>(TexelDim.x - 1);
-		T const BlendC = static_cast<T>(Texcoord.t - t_below_normalized) * static_cast<T>(TexelDim.y - 1);
+		tvec2<T, P> const SampleCoordFloor(tvec2<T, P>(TexelCoordFloor) / TexelLast);
+		tvec2<T, P> const BlendFactor((SampleCoord - SampleCoordFloor) * TexelLast);
 
-		tvec4<T, P> const ValueA(mix(Texel00, Texel10, BlendA));
-		tvec4<T, P> const ValueB(mix(Texel01, Texel11, BlendB));
-		tvec4<T, P> const Texel(mix(ValueA, ValueB, BlendC));
+		tvec4<T, P> const ValueA(mix(Texel00, Texel10, BlendFactor.s));
+		tvec4<T, P> const ValueB(mix(Texel01, Texel11, BlendFactor.s));
+		tvec4<T, P> const Texel(mix(ValueA, ValueB, BlendFactor.t));
 		return Texel;
 	}
 

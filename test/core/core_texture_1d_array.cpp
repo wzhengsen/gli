@@ -201,26 +201,26 @@ namespace load_store
 
 		gli::texture1DArray TextureA(Format, Dimensions, 3);
 		TextureA.clear();
-		for (std::size_t i = 0, n = 8; i < n; ++i)
+		for(std::size_t i = 0, n = 8; i < n; ++i)
 			*(TextureA.data<genType>(2, 0, 1) + i) = TestSamples[i];
 
 		gli::texture1DArray TextureB(Format, Dimensions, 3);
 		TextureB.clear();
-		for (std::size_t i = 0, n = 8; i < n; ++i)
+		for(std::size_t i = 0, n = 8; i < n; ++i)
 			TextureB.store(gli::texture1DArray::dim_type(i), 2, 1, TestSamples[i]);
 
 		std::array<genType, 8> LoadedSamplesA;
-		for (std::size_t i = 0, n = 8; i < n; ++i)
+		for(std::size_t i = 0, n = 8; i < n; ++i)
 			LoadedSamplesA[i] = TextureA.load<genType>(gli::texture1DArray::dim_type(i), 2, 1);
 
 		std::array<genType, 8> LoadedSamplesB;
-		for (std::size_t i = 0, n = 8; i < n; ++i)
+		for(std::size_t i = 0, n = 8; i < n; ++i)
 			LoadedSamplesB[i] = TextureB.load<genType>(gli::texture1DArray::dim_type(i), 2, 1);
 
-		for (std::size_t i = 0, n = 8; i < n; ++i)
+		for(std::size_t i = 0, n = 8; i < n; ++i)
 			Error += LoadedSamplesA[i] == TestSamples[i] ? 0 : 1;
 
-		for (std::size_t i = 0, n = 8; i < n; ++i)
+		for(std::size_t i = 0, n = 8; i < n; ++i)
 			Error += LoadedSamplesB[i] == TestSamples[i] ? 0 : 1;
 
 		Error += TextureA == TextureB ? 0 : 1;

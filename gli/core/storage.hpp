@@ -56,7 +56,7 @@ namespace gli
 	{
 	public:
 		typedef dim3_t dim_type;
-		typedef size_t size_type;
+		typedef dim_type::value_type size_type;
 		typedef gli::format format_type;
 		typedef glm::byte data_type;
 

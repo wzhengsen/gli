@@ -82,8 +82,8 @@ namespace detail
 		dim2_t const & TexelCoord
 	)
 	{
-		assert(TexelCoord.x < Dimensions.x && TexelCoord.x < std::numeric_limits<std::uint32_t>::max());
-		assert(TexelCoord.y < Dimensions.y && TexelCoord.y < std::numeric_limits<std::uint32_t>::max());
+		assert(TexelCoord.x < Dimensions.x && TexelCoord.x >= 0 && TexelCoord.x < std::numeric_limits<dim2_t::value_type>::max());
+		assert(TexelCoord.y < Dimensions.y && TexelCoord.y >= 0 && TexelCoord.y < std::numeric_limits<dim2_t::value_type>::max());
 
 		glm::u32vec2 const Input(TexelCoord);
 

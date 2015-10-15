@@ -108,7 +108,7 @@ namespace gli
 	{
 		assert(!this->empty());
 
-		return this->Data.size();
+		return static_cast<size_type>(this->Data.size());
 	}
 
 	inline storage::data_type * storage::data()
@@ -129,11 +129,11 @@ namespace gli
 		assert(Face < this->faces());
 		assert(Level < this->levels());
 
-		size_t const LayerSize = this->layer_size(0, this->faces() - 1, 0, this->levels() - 1);
-		size_t const FaceSize = this->face_size(0, this->levels() - 1);
-		size_t BaseOffset = LayerSize * Layer + FaceSize * Face;
+		size_type const LayerSize = this->layer_size(0, this->faces() - 1, 0, this->levels() - 1);
+		size_type const FaceSize = this->face_size(0, this->levels() - 1);
+		size_type BaseOffset = LayerSize * Layer + FaceSize * Face;
 
-		for(size_t LevelIndex = 0, LevelCount = Level; LevelIndex < LevelCount; ++LevelIndex)
+		for(size_type LevelIndex = 0, LevelCount = Level; LevelIndex < LevelCount; ++LevelIndex)
 			BaseOffset += this->level_size(LevelIndex);
 
 		return BaseOffset;

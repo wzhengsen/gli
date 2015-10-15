@@ -42,11 +42,12 @@ namespace gli
 	using namespace glm;
 
 	using std::size_t;
+	//typedef int size_t;
 
-	typedef glm::tvec1<size_t> dim1_t;
-	typedef glm::tvec2<size_t> dim2_t;
-	typedef glm::tvec3<size_t> dim3_t;
-	typedef glm::tvec4<size_t> dim4_t;
+	typedef tvec1<size_t> dim1_t;
+	typedef tvec2<size_t> dim2_t;
+	typedef tvec3<size_t> dim3_t;
+	typedef tvec4<size_t> dim4_t;
 	typedef glm::vec1 vec1;
 	typedef glm::vec2 vec2;
 	typedef glm::vec3 vec3;
