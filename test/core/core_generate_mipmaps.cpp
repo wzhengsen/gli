@@ -42,7 +42,7 @@ namespace mipmaps_rgba4unorm
 
 		gli::texture2D Texture(gli::FORMAT_RGBA4_UNORM, gli::texture2D::dim_type(64));
 		for(std::size_t j = 0, n = Texture.dimensions().y; j < n; ++j)
-		for(std::size_t i = 0, m = Texture.dimensions().x; i < n; ++i)
+		for(std::size_t i = 0, m = Texture.dimensions().x; i < m; ++i)
 		{
 			gli::uint16 const Color = gli::packUnorm4x4(gli::vec4(gli::vec2(i, j) / glm::vec2(Texture.dimensions()), 0.0f, 1.0f));
 			Texture.store<gli::uint16>(gli::dim2_t(i, j), 0, Color);
@@ -81,7 +81,7 @@ namespace mipmaps_rgba8unorm
 
 		gli::texture2D Texture(gli::FORMAT_RGBA8_UNORM, gli::texture2D::dim_type(64));
 		for(std::size_t j = 0, n = Texture.dimensions().y; j < n; ++j)
-		for(std::size_t i = 0, m = Texture.dimensions().x; i < n; ++i)
+		for(std::size_t i = 0, m = Texture.dimensions().x; i < m; ++i)
 			Texture.store<gli::u8vec4>(gli::dim2_t(i , j), 0, gli::u8vec4(i * 4, j * 4, 0, 255));
 
 		gli::texture2D TextureView(gli::view(Texture, 0, 0));
@@ -117,8 +117,8 @@ namespace mipmaps_rgba8snorm
 
 		gli::texture2D Texture(gli::FORMAT_RGBA8_SNORM, gli::texture2D::dim_type(64));
 		for(std::size_t j = 0, n = Texture.dimensions().y; j < n; ++j)
-			for(std::size_t i = 0, m = Texture.dimensions().x; i < n; ++i)
-				Texture.store<gli::i8vec4>(gli::dim2_t(i , j), 0, gli::i8vec4(i * 2, j * 2, 0, 127));
+		for(std::size_t i = 0, m = Texture.dimensions().x; i < m; ++i)
+			Texture.store<gli::i8vec4>(gli::dim2_t(i , j), 0, gli::i8vec4(i * 2, j * 2, 0, 127));
 
 		gli::texture2D TextureView(gli::view(Texture, 0, 0));
 

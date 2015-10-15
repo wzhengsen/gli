@@ -27,9 +27,18 @@
 ///////////////////////////////////////////////////////////////////////////////////
 
 #include "clear.hpp"
+#include <glm/vector_relational.hpp>
 
-namespace gli
+namespace gli{
+namespace detail
 {
+	template <typename T, precision P, template <typename, glm::precision> class vecType>
+	inline vecType<bool, P> in_interval(vecType<T, P> const & Value, vecType<T, P> const & Min, vecType<T, P> const & Max)
+	{
+		return greaterThanEqual(Value, Min) && lessThanEqual(Value, Max);
+	}
+}//namespace detail
+
 	template <typename T, precision P>
 	inline sampler2D<T, P>::sampler2D(texture2D const & Texture, wrap Wrap, filter Mip, filter Min, tvec4<T, P> const & BorderColor)
 		: sampler(Wrap, Texture.levels() > 1 ? Mip : FILTER_NEAREST, Min)
@@ -104,8 +113,8 @@ namespace gli
 		tvec2<int, P> const TexelCoordFloor(ScaledCoordFloor);
 		tvec2<int, P> const TexelCoordCeil(ScaledCoordCeil);
 
-		bvec2 const UseTexelFloor(inRange(TexelCoordFloor, tvec2<int, P>(0), tvec2<int, P>(TexelDim) - 1));
-		bvec2 const UseTexelCeil(inRange(TexelCoordCeil, tvec2<int, P>(0), tvec2<int, P>(TexelDim) - 1));
+		bvec2 const UseTexelFloor(detail::in_interval(TexelCoordFloor, tvec2<int, P>(0), tvec2<int, P>(TexelDim) - 1));
+		bvec2 const UseTexelCeil(detail::in_interval(TexelCoordCeil, tvec2<int, P>(0), tvec2<int, P>(TexelDim) - 1));
 
 		tvec4<T, P> Texel00(this->BorderColor);
 		if(UseTexelFloor.s && UseTexelFloor.t)
