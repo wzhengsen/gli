@@ -98,34 +98,32 @@ namespace gli
 		tvec2<T, P> const TexelDimF(TexelDim);
 		tvec2<T, P> const TexelLast(TexelDimF - static_cast<T>(1));
 
-		tvec2<int, P> const TexelCoordFloor(floor(SampleCoord * TexelLast));
-		tvec2<int, P> const TexelCoordCeil(ceil(SampleCoord * TexelLast));
+		tvec2<float, P> const ScaledCoordFloor(floor(SampleCoord * TexelLast));
+		tvec2<float, P> const ScaledCoordCeil(ceil(SampleCoord * TexelLast));
 
-		bvec4 const UseBorderColor(
-			TexelCoordFloor.s < 0 || TexelCoordFloor.s > static_cast<int>(TexelDim.x - 1),
-			TexelCoordCeil.s < 0 || TexelCoordCeil.s > static_cast<int>(TexelDim.x - 1),
-			TexelCoordFloor.t < 0 || TexelCoordFloor.t > static_cast<int>(TexelDim.y - 1),
-			TexelCoordCeil.t < 0 || TexelCoordCeil.t > static_cast<int>(TexelDim.y - 1));
+		tvec2<int, P> const TexelCoordFloor(ScaledCoordFloor);
+		tvec2<int, P> const TexelCoordCeil(ScaledCoordCeil);
+
+		bvec2 const UseTexelFloor(inRange(TexelCoordFloor, tvec2<int, P>(0), tvec2<int, P>(TexelDim) - 1));
+		bvec2 const UseTexelCeil(inRange(TexelCoordCeil, tvec2<int, P>(0), tvec2<int, P>(TexelDim) - 1));
 
 		tvec4<T, P> Texel00(this->BorderColor);
-		tvec4<T, P> Texel10(this->BorderColor);
-		tvec4<T, P> Texel11(this->BorderColor);
-		tvec4<T, P> Texel01(this->BorderColor);
-
-		if (!UseBorderColor[0] && !UseBorderColor[2])
+		if(UseTexelFloor.s && UseTexelFloor.t)
 			Texel00 = this->texel_fetch(dim_type(TexelCoordFloor.s, TexelCoordFloor.t), Level);
 
-		if (!UseBorderColor[1] && !UseBorderColor[2])
+		tvec4<T, P> Texel10(this->BorderColor);
+		if(UseTexelCeil.s && UseTexelFloor.t)
 			Texel10 = this->texel_fetch(dim_type(TexelCoordCeil.s, TexelCoordFloor.t), Level);
 
-		if (!UseBorderColor[1] && !UseBorderColor[3])
+		tvec4<T, P> Texel11(this->BorderColor);
+		if(UseTexelCeil.s && UseTexelCeil.t)
 			Texel11 = this->texel_fetch(dim_type(TexelCoordCeil.s, TexelCoordCeil.t), Level);
 
-		if (!UseBorderColor[0] && !UseBorderColor[3])
+		tvec4<T, P> Texel01(this->BorderColor);
+		if(UseTexelFloor.s && TexelCoordCeil.t)
 			Texel01 = this->texel_fetch(dim_type(TexelCoordFloor.s, TexelCoordCeil.t), Level);
 
-		tvec2<T, P> const SampleCoordFloor(tvec2<T, P>(TexelCoordFloor) / TexelLast);
-		tvec2<T, P> const BlendFactor((SampleCoord - SampleCoordFloor) * TexelLast);
+		tvec2<T, P> const BlendFactor((SampleCoord - ScaledCoordFloor / TexelLast) * TexelLast);
 
 		tvec4<T, P> const ValueA(mix(Texel00, Texel10, BlendFactor.s));
 		tvec4<T, P> const ValueB(mix(Texel01, Texel11, BlendFactor.s));
