@@ -224,8 +224,6 @@ namespace fetch_rgb10a2_uint
 		for(std::size_t i = 0; i < 8; ++i)
 			Data[i] = Sampler.texel_fetch(gli::texture2D::dim_type(i % 4, i / 4), 0);
 
-		float const Epsilon = 1.f / 255.f * 0.5f;
-
 		for(std::size_t i = 0; i < 8; ++i)
 			Error += Data[i] == Colors[i] ? 0 : 1;
 
