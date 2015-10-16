@@ -29,14 +29,14 @@
 namespace gli{
 namespace detail
 {
-	inline void flip(image ImageDst, image ImageSrc, std::size_t BlockSize)
+	inline void flip(image ImageDst, image ImageSrc, size_t BlockSize)
 	{
-		std::size_t const LineSize = BlockSize * ImageDst.dimensions().x;
+		size_t const LineSize = BlockSize * ImageDst.dimensions().x;
 
-		for(std::size_t y = 0; y < ImageDst.dimensions().y; ++y)
+		for(int y = 0; y < ImageDst.dimensions().y; ++y)
 		{
-			std::size_t OffsetDst = LineSize * y;
-			std::size_t OffsetSrc = ImageSrc.size() - (LineSize * (y + 1));
+			size_t OffsetDst = LineSize * y;
+			size_t OffsetSrc = ImageSrc.size() - (LineSize * (y + 1));
 
 			memcpy(
 				ImageDst.data<glm::byte>() + OffsetDst,
