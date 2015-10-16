@@ -149,49 +149,10 @@ namespace clear
 	}
 }//namespace clear
 
-namespace data
-{
-	int test()
-	{
-		int Error(0);
-
-		gli::texture2DArray::texelcoord_type const Size(16);
-		gli::texture2D TextureA(gli::FORMAT_RGBA8_UNORM, Size, 1);
-		gli::texture2D TextureB(gli::FORMAT_RGBA8_UNORM, Size, 1);
-
-		{
-			std::clock_t TimeStart = std::clock();
-
-			TextureA.clear<glm::u8vec4>(glm::u8vec4(255, 127, 0, 255));
-
-			std::clock_t TimeEnd = std::clock();
-
-			printf(".clear() - Time: %lu\n", TimeEnd - TimeStart);
-		}
-
-		{
-			std::clock_t TimeStart = std::clock();
-
-			for(std::size_t y = 0; y < TextureB.dimensions().y; ++y)
-			for(std::size_t x = 0; x < TextureB.dimensions().x; ++x)
-				gli::texel_write<glm::u8vec4>(TextureB, gli::texture2D::texelcoord_type(x, y), 0, glm::u8vec4(255, 127, 0, 255));
-
-			std::clock_t TimeEnd = std::clock();
-
-			printf("texelWrite - Time: %lu\n", TimeEnd - TimeStart);
-		}
-
-		Error += TextureA == TextureB ? 0 : 1;
-
-		return Error;
-	}
-}//namespace data
-
 int main()
 {
 	int Error(0);
 
-	Error += data::test();
 	Error += clear::test();
 
 	return Error;
