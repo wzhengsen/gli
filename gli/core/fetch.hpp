@@ -37,7 +37,7 @@ namespace gli
 	template <typename genType>
 	genType texel_fetch(
 		texture2D const & Texture,
-		texture2D::dim_type const & TexelCoord,
+		texture2D::texelcoord_type const & TexelCoord,
 		texture2D::size_type const & Level);
 
 	/// Write a texel to a texture
@@ -45,7 +45,7 @@ namespace gli
 	template <typename genType>
 	void texel_write(
 		texture2D & Texture,
-		texture2D::dim_type const & TexelCoord,
+		texture2D::texelcoord_type const & TexelCoord,
 		texture2D::size_type const & Level,
 		genType const & Color);
 

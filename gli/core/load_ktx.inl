@@ -98,7 +98,7 @@ namespace detail
 		texture Texture(
 			detail::getTarget(Header),
 			Format,
-			texture::dim_type(
+			texture::texelcoord_type(
 				Header.PixelWidth,
 				std::max<texture::size_type>(Header.PixelHeight, 1),
 				std::max<texture::size_type>(Header.PixelDepth, 1)),

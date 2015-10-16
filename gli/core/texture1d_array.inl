@@ -33,20 +33,20 @@ namespace gli
 	inline texture1DArray::texture1DArray()
 	{}
 
-	inline texture1DArray::texture1DArray(format_type Format, dim_type const & Dimensions, size_type Layers)
-		: texture(gli::TARGET_1D_ARRAY, Format, texture::dim_type(Dimensions.x, 1, 1), Layers, 1, gli::levels(Dimensions))
+	inline texture1DArray::texture1DArray(format_type Format, texelcoord_type const & Dimensions, size_type Layers)
+		: texture(TARGET_1D_ARRAY, Format, texture::texelcoord_type(Dimensions.x, 1, 1), Layers, 1, gli::levels(Dimensions))
 	{
 		this->build_cache();
 	}
 
-	inline texture1DArray::texture1DArray(format_type Format, dim_type const & Dimensions, size_type Layers, size_type Levels)
-		: texture(gli::TARGET_1D_ARRAY, Format, texture::dim_type(Dimensions.x, 1, 1), Layers, 1, Levels)
+	inline texture1DArray::texture1DArray(format_type Format, texelcoord_type const & Dimensions, size_type Layers, size_type Levels)
+		: texture(TARGET_1D_ARRAY, Format, texture::texelcoord_type(Dimensions.x, 1, 1), Layers, 1, Levels)
 	{
 		this->build_cache();
 	}
 
 	inline texture1DArray::texture1DArray(texture const & Texture)
-		: texture(Texture, gli::TARGET_1D_ARRAY, Texture.format())
+		: texture(Texture, TARGET_1D_ARRAY, Texture.format())
 	{
 		this->build_cache();
 	}
@@ -60,8 +60,7 @@ namespace gli
 		size_type BaseLevel, size_type MaxLevel
 	)
 		: texture(
-			Texture, gli::TARGET_1D_ARRAY,
-			Format,
+			Texture, TARGET_1D_ARRAY, Format,
 			BaseLayer, MaxLayer,
 			BaseFace, MaxFace,
 			BaseLevel, MaxLevel)
@@ -76,7 +75,7 @@ namespace gli
 		size_type BaseLevel, size_type MaxLevel
 	)
 		: texture(
-			Texture, gli::TARGET_1D_ARRAY,
+			Texture, TARGET_1D_ARRAY,
 			Texture.format(),
 			Texture.base_layer() + BaseLayer, Texture.base_layer() + MaxLayer,
 			Texture.base_face(), Texture.max_face(),
@@ -97,7 +96,7 @@ namespace gli
 			this->base_level(), this->max_level());
 	}
 
-	inline texture1DArray::dim_type texture1DArray::dimensions(size_type Level) const
+	inline texture1DArray::texelcoord_type texture1DArray::dimensions(size_type Level) const
 	{
 		assert(!this->empty());
 
@@ -105,7 +104,7 @@ namespace gli
 	}
 
 	template <typename genType>
-	inline genType texture1DArray::load(texture1DArray::dim_type const & TexelCoord, texture1DArray::size_type Layer, texture1DArray::size_type Level) const
+	inline genType texture1DArray::load(texelcoord_type const & TexelCoord, size_type Layer, size_type Level) const
 	{
 		assert(!this->empty());
 		assert(!is_compressed(this->format()));
@@ -120,7 +119,7 @@ namespace gli
 	}
 
 	template <typename genType>
-	inline void texture1DArray::store(texture1DArray::dim_type const & TexelCoord, texture1DArray::size_type Layer, texture1DArray::size_type Level, genType const & Texel)
+	inline void texture1DArray::store(texelcoord_type const & TexelCoord, size_type Layer, size_type Level, genType const & Texel)
 	{
 		assert(!this->empty());
 		assert(!is_compressed(this->format()));
@@ -144,13 +143,13 @@ namespace gli
 	{
 		this->Caches.resize(this->layers() * this->levels());
 
-		for (size_type Layer = 0; Layer < this->layers(); ++Layer)
-		for (size_type Level = 0; Level < this->levels(); ++Level)
+		for(size_type Layer = 0; Layer < this->layers(); ++Layer)
+		for(size_type Level = 0; Level < this->levels(); ++Level)
 		{
 			cache& Cache = this->Caches[this->index_cache(Layer, Level)];
 			Cache.Data = this->data<std::uint8_t>(Layer, 0, Level);
 			Cache.Size = this->size(Level);
-			Cache.Dim = glm::max(texture1D::dim_type(this->texture::dimensions(Level)), texture1D::dim_type(1));
+			Cache.Dim = glm::max(texelcoord_type(this->texture::dimensions(Level)), texelcoord_type(1));
 		}
 	}
 }//namespace gli

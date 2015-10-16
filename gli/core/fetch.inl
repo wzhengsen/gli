@@ -32,7 +32,7 @@ namespace gli
 	inline genType texel_fetch
 	(
 		texture2D const & Texture,
-		texture2D::dim_type const & TexCoord,
+		texture2D::texelcoord_type const & TexCoord,
 		texture2D::size_type const & Level
 	)
 	{
@@ -40,7 +40,7 @@ namespace gli
 		assert(!is_compressed(Texture.format()));
 		assert(block_size(Texture.format()) == sizeof(genType));
 
-		image::dim_type Dimensions = Texture[Level].dimensions();
+		texture2D::texelcoord_type const Dimensions = Texture.dimensions(Level);
 		genType const * const Data = reinterpret_cast<genType const * const >(Texture[Level].data());
 
 		return reinterpret_cast<genType const * const>(Data)[TexCoord.x + TexCoord.y * Dimensions.x];
@@ -50,7 +50,7 @@ namespace gli
 	void texel_write
 	(
 		texture2D & Texture,
-		texture2D::dim_type const & Texcoord,
+		texture2D::texelcoord_type const & Texcoord,
 		texture2D::size_type const & Level,
 		genType const & Color
 	)
@@ -60,9 +60,9 @@ namespace gli
 		assert(block_size(Texture.format()) == sizeof(genType));
 
 		genType * Data = Texture[Level].data<genType>();
-		std::size_t Index = Texcoord.x + Texcoord.y * Texture[Level].dimensions().x;
+		std::size_t const Index = Texcoord.x + Texcoord.y * Texture[Level].dimensions().x;
 		
-		std::size_t Capacity = Texture[Level].size();
+		std::size_t const Capacity = Texture[Level].size();
 		assert(Index < Capacity);
 
 		*(Data + Index) = Color;

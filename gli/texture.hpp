@@ -41,8 +41,8 @@ namespace gli
 		typedef gli::target target_type;
 		typedef gli::format format_type;
 		typedef gli::swizzles swizzles_type;
-		typedef storage::dim_type dim_type;
 		typedef storage::data_type data_type;
+		typedef storage::texelcoord_type texelcoord_type;
 
 		/// Create an empty texture instance
 		texture();
@@ -51,7 +51,7 @@ namespace gli
 		texture(
 			target_type Target,
 			format_type Format,
-			dim_type const & Dimensions,
+			texelcoord_type const & Dimensions,
 			size_type Layers,
 			size_type Faces,
 			size_type Levels,
@@ -121,7 +121,7 @@ namespace gli
 		size_type levels() const;
 
 		/// Return the dimensions of a texture instance: width, height and depth.
-		dim_type dimensions(size_type Level = 0) const;
+		texelcoord_type dimensions(size_type Level = 0) const;
 
 		/// Return the memory size of a texture instance storage in bytes.
 		size_type size() const;

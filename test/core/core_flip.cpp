@@ -55,8 +55,8 @@ int main()
 {
 	int Error(0);
 
-	gli::texture2D::dim_type const TextureSize(32);
-	std::size_t const Levels = gli::levels(TextureSize);
+	gli::texture2D::texelcoord_type const TextureSize(32);
+	gli::size_t const Levels = gli::levels(TextureSize);
 
 	Error += test_texture(
 		gli::texture2D(gli::FORMAT_R8_UNORM, TextureSize, Levels),

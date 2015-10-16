@@ -98,7 +98,7 @@ namespace gli
 	
 		texture1D Copy(
 			Texture.format(),
-			texture1D::dim_type(Texture[BaseLevel].dimensions().x), 
+			Texture.dimensions(BaseLevel),
 			MaxLevel - BaseLevel + 1);
 
 		memcpy(Copy.data(), Texture[BaseLevel].data(), Copy.size());
@@ -122,7 +122,7 @@ namespace gli
 
 		texture1DArray Copy(
 			Texture.format(),
-			texture1DArray::dim_type(Texture[BaseLayer][BaseLevel].dimensions().x), 
+			Texture[BaseLayer].dimensions(BaseLevel),
 			MaxMayer - BaseLayer + 1,
 			MaxLevel - BaseLevel + 1);
 
@@ -144,7 +144,7 @@ namespace gli
 	
 		texture2D Copy(
 			Texture.format(),
-			texture2D::dim_type(Texture[BaseLevel].dimensions().x),
+			Texture.dimensions(BaseLevel),
 			MaxLevel - BaseLevel + 1);
 
 		memcpy(Copy.data(), Texture[BaseLevel].data(), Copy.size());
@@ -168,7 +168,7 @@ namespace gli
 
 		texture2DArray Copy(
 			Texture.format(),
-			texture2DArray::dim_type(Texture[BaseLayer][BaseLevel].dimensions()),
+			Texture[BaseLayer].dimensions(BaseLevel),
 			MaxMayer - BaseLayer + 1,
 			MaxLevel - BaseLevel + 1);
 
@@ -190,7 +190,7 @@ namespace gli
 
 		texture3D Copy(
 			Texture.format(),
-			texture3D::dim_type(Texture[BaseLevel].dimensions()),
+			Texture.dimensions(BaseLevel),
 			MaxLevel - BaseLevel + 1);
 
 		memcpy(Copy.data(), Texture[BaseLevel].data(), Copy.size());
@@ -214,7 +214,7 @@ namespace gli
 
 		textureCube Copy(
 			Texture.format(),
-			textureCube::dim_type(Texture[BaseFace][BaseLevel].dimensions()),
+			Texture[BaseFace].dimensions(BaseLevel),
 			MaxLevel - BaseLevel + 1);
 
 		for(textureCube::size_type Face = 0; Face < Copy.faces(); ++Face)
@@ -243,7 +243,7 @@ namespace gli
 
 		textureCubeArray Copy(
 			Texture.format(),
-			textureCubeArray::dim_type(Texture[BaseLayer][BaseFace][BaseLevel].dimensions()),
+			Texture[BaseLayer][BaseFace].dimensions(BaseLevel),
 			MaxLayer - BaseLayer + 1,
 			MaxLevel - BaseLevel + 1);
 

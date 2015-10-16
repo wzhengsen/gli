@@ -40,20 +40,20 @@ namespace gli
 	public:
 		typedef texture2D texture_type;
 		typedef typename texture_type::size_type size_type;
-		typedef typename texture_type::dim_type dim_type;
+		typedef typename texture_type::texelcoord_type texelcoord_type;
 		typedef tvec2<T, P> samplecoord_type;
 		typedef tvec4<T, P> texel_type;
 
-		sampler2D(texture_type const & Texture, wrap Wrap, filter Mip, filter Min, texel_type const & BorderColor = tvec4<T, P>(0, 0, 0, 1));
+		sampler2D(texture_type const & Texture, wrap Wrap, filter Mip, filter Min, texel_type const & BorderColor = texel_type(0, 0, 0, 1));
 
 		/// Access the sampler texture object
 		texture_type const & operator()() const;
 
 		/// Fetch a texel from the sampler texture
-		tvec4<T, P> texel_fetch(dim_type const & TexelCoord, size_type const & Level) const;
+		texel_type texel_fetch(texelcoord_type const & TexelCoord, size_type const & Level) const;
 
 		/// Write a texel in the sampler texture
-		void texel_write(dim_type const & TexelCoord, size_type const & Level, texel_type const & Texel);
+		void texel_write(texelcoord_type const & TexelCoord, size_type const & Level, texel_type const & Texel);
 
 		/// Clear the sampler texture with a uniform texel
 		void clear(texel_type const & Texel);

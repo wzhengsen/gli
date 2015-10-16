@@ -314,17 +314,17 @@ namespace detail
 		return detail::get_format_info(Format).Flags & detail::CAP_COLORSPACE_SRGB_BIT ? true : false;
 	}
 
-	inline std::uint32_t block_size(format Format)
+	inline size_t block_size(format Format)
 	{
 		return detail::get_format_info(Format).BlockSize;
 	}
 
-	inline gli::dim3_t block_dimensions(format Format)
+	inline ivec3 block_dimensions(format Format)
 	{
-		return gli::dim3_t(detail::get_format_info(Format).BlockDimensions);
+		return gli::ivec3(detail::get_format_info(Format).BlockDimensions);
 	}
 
-	inline std::uint32_t component_count(format Format)
+	inline size_t component_count(format Format)
 	{
 		return detail::get_format_info(Format).Component;
 	}

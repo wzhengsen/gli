@@ -40,7 +40,7 @@ int test_alloc()
 	Formats.push_back(gli::FORMAT_RGBA_BP_UNORM);
 	Formats.push_back(gli::FORMAT_RGBA32_SFLOAT);
 
-	std::vector<std::size_t> Sizes;
+	std::vector<gli::storage::texelcoord_type::value_type> Sizes;
 	Sizes.push_back(16);
 	Sizes.push_back(32);
 	Sizes.push_back(15);
@@ -50,7 +50,7 @@ int test_alloc()
 	for(std::size_t FormatIndex = 0; FormatIndex < Formats.size(); ++FormatIndex)
 	for(std::size_t SizeIndex = 0; SizeIndex < Sizes.size(); ++SizeIndex)
 	{
-		gli::texture1D::dim_type Size(Sizes[SizeIndex]);
+		gli::texture1D::texelcoord_type const Size(Sizes[SizeIndex]);
 
 		gli::texture1D TextureA(Formats[FormatIndex], Size, gli::levels(Size));
 		gli::texture1D TextureB(Formats[FormatIndex], Size);
@@ -69,7 +69,7 @@ namespace clear
 
 		glm::u8vec4 const Orange(255, 127, 0, 255);
 
-		gli::texture1D::dim_type Size(16u);
+		gli::texture1D::texelcoord_type Size(16u);
 		gli::texture1D Texture(gli::FORMAT_RGBA8_UINT, Size, gli::levels(Size));
 
 		Texture.clear<glm::u8vec4>(Orange);
@@ -84,13 +84,13 @@ namespace query
 	{
 		int Error(0);
 
-		gli::texture1D Texture(gli::FORMAT_RGBA8_UINT, gli::texture1D::dim_type(2), 2);
+		gli::texture1D Texture(gli::FORMAT_RGBA8_UINT, gli::texture1D::texelcoord_type(2), 2);
 
 		Error += Texture.size() == sizeof(glm::u8vec4) * 3 ? 0 : 1;
 		Error += Texture.format() == gli::FORMAT_RGBA8_UINT ? 0 : 1;
 		Error += Texture.levels() == 2 ? 0 : 1;
 		Error += !Texture.empty() ? 0 : 1;
-		Error += Texture.dimensions() == static_cast<gli::dim1_t>(2) ? 0 : 1;
+		Error += Texture.dimensions() == gli::texture1D::texelcoord_type(2) ? 0 : 1;
 
 		return Error;
 	}
@@ -103,7 +103,7 @@ namespace tex_access
 		int Error(0);
 
 		{
-			gli::texture1D Texture(gli::FORMAT_RGBA8_UINT, gli::texture1D::dim_type(2), 2);
+			gli::texture1D Texture(gli::FORMAT_RGBA8_UINT, gli::texture1D::texelcoord_type(2), 2);
 			assert(!Texture.empty());
 
 			gli::image Image0 = Texture[0];
@@ -141,7 +141,7 @@ namespace tex_access
 		}
 
 		{
-			gli::texture1D Texture(gli::FORMAT_RGBA8_UINT, gli::texture1D::dim_type(2), 1);
+			gli::texture1D Texture(gli::FORMAT_RGBA8_UINT, gli::texture1D::texelcoord_type(2), 1);
 
 			std::size_t SizeA = Texture.size();
 			Error += SizeA == sizeof(glm::u8vec4) * 2 ? 0 : 1;
@@ -174,7 +174,7 @@ namespace size
 	{
 		test(
 			gli::format const & Format,
-			gli::texture1D::dim_type const & Dimensions,
+			gli::texture1D::texelcoord_type const & Dimensions,
 			gli::texture1D::size_type const & Size) :
 			Format(Format),
 			Dimensions(Dimensions),
@@ -182,7 +182,7 @@ namespace size
 		{}
 
 		gli::format Format;
-		gli::texture1D::dim_type Dimensions;
+		gli::texture1D::texelcoord_type Dimensions;
 		gli::texture1D::size_type Size;
 	};
 
@@ -191,14 +191,14 @@ namespace size
 		int Error(0);
 
 		std::vector<test> Tests;
-		Tests.push_back(test(gli::FORMAT_RGBA8_UINT, gli::texture1D::dim_type(4), 16));
-		Tests.push_back(test(gli::FORMAT_R8_UINT, gli::texture1D::dim_type(4), 4));
+		Tests.push_back(test(gli::FORMAT_RGBA8_UINT, gli::texture1D::texelcoord_type(4), 16));
+		Tests.push_back(test(gli::FORMAT_R8_UINT, gli::texture1D::texelcoord_type(4), 4));
 
 		for(std::size_t i = 0; i < Tests.size(); ++i)
 		{
 			gli::texture1D Texture(
 				Tests[i].Format,
-				gli::texture1D::dim_type(4),
+				gli::texture1D::texelcoord_type(4),
 				1);
 
 			gli::image Image = Texture[0];
@@ -219,30 +219,33 @@ namespace load_store
 	{
 		int Error = 0;
 
-		gli::texture1D::dim_type const Dimensions(16);
+		gli::texture1D::texelcoord_type const Dimensions(16);
+		std::array<gli::texture1D::texelcoord_type, 8> TexelCoord;
+		for (gli::size_t i = 0, n = 8; i < n; ++i)
+			TexelCoord[i] = gli::texture1D::texelcoord_type(static_cast<int>(i));
 
 		gli::texture1D TextureA(Format, Dimensions);
 		TextureA.clear();
-		for (std::size_t i = 0, n = 8; i < n; ++i)
+		for (gli::size_t i = 0, n = 8; i < n; ++i)
 			*(TextureA.data<genType>(0, 0, 1) + i) = TestSamples[i];
 
 		gli::texture1D TextureB(Format, Dimensions);
 		TextureB.clear();
-		for (std::size_t i = 0, n = 8; i < n; ++i)
-			TextureB.store(gli::texture1D::dim_type(i), 1, TestSamples[i]);
+		for (gli::size_t i = 0, n = 8; i < n; ++i)
+			TextureB.store(TexelCoord[i], 1, TestSamples[i]);
 
-		std::array<genType, 16> LoadedSamplesA;
-		for (std::size_t i = 0, n = 8; i < n; ++i)
-			LoadedSamplesA[i] = TextureA.load<genType>(gli::texture1D::dim_type(i), 1);
+		std::array<genType, 8> LoadedSamplesA;
+		for (gli::size_t i = 0, n = 8; i < n; ++i)
+			LoadedSamplesA[i] = TextureA.load<genType>(TexelCoord[i], 1);
 
-		std::array<genType, 16> LoadedSamplesB;
-		for (std::size_t i = 0, n = 8; i < n; ++i)
-			LoadedSamplesB[i] = TextureB.load<genType>(gli::texture1D::dim_type(i), 1);
+		std::array<genType, 8> LoadedSamplesB;
+		for (gli::size_t i = 0, n = 8; i < n; ++i)
+			LoadedSamplesB[i] = TextureB.load<genType>(TexelCoord[i], 1);
 
-		for (std::size_t i = 0, n = 8; i < n; ++i)
+		for (gli::size_t i = 0, n = 8; i < n; ++i)
 			Error += LoadedSamplesA[i] == TestSamples[i] ? 0 : 1;
 
-		for (std::size_t i = 0, n = 8; i < n; ++i)
+		for (gli::size_t i = 0, n = 8; i < n; ++i)
 			Error += LoadedSamplesB[i] == TestSamples[i] ? 0 : 1;
 
 		Error += TextureA == TextureB ? 0 : 1;

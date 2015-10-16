@@ -44,7 +44,7 @@ namespace gli
 	(
 		target_type Target,
 		format_type Format,
-		dim_type const & Dimensions,
+		texelcoord_type const & Dimensions,
 		size_type Layers,
 		size_type Faces,
 		size_type Levels,
@@ -294,7 +294,7 @@ namespace gli
 		return reinterpret_cast<genType const *>(this->data(Layer, Face, Level));
 	}
 
-	inline texture::dim_type texture::dimensions(size_type Level) const
+	inline texture::texelcoord_type texture::dimensions(size_type Level) const
 	{
 		assert(!this->empty());
 
@@ -307,10 +307,10 @@ namespace gli
 
 		///return glm::max(this->Storage->block_count(this->base_level() + Level) / this->Storage->block_dimensions(), texture::dim_type(1)) * block_dimensions(this->format());
 
-		storage::dim_type const & SrcDimensions = this->Storage->dimensions(this->base_level() + Level);
-		storage::dim_type const & DstDimensions = SrcDimensions * block_dimensions(this->format()) / this->Storage->block_dimensions();
+		storage::texelcoord_type const & SrcDimensions = this->Storage->dimensions(this->base_level() + Level);
+		storage::texelcoord_type const & DstDimensions = SrcDimensions * block_dimensions(this->format()) / this->Storage->block_dimensions();
 
-		return glm::max(DstDimensions, texture::dim_type(1));
+		return glm::max(DstDimensions, texture::texelcoord_type(1));
 	}
 
 	inline void texture::clear()

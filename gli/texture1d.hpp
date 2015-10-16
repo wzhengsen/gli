@@ -38,7 +38,7 @@ namespace gli
 	class texture1D : public texture
 	{
 	public:
-		typedef dim1_t dim_type;
+		typedef ivec1 texelcoord_type;
 		typedef vec1 samplecoord_type;
 
 		/// Create an empty texture 1D
@@ -47,13 +47,13 @@ namespace gli
 		/// Create a texture1D and allocate a new storage
 		explicit texture1D(
 			format_type Format,
-			dim_type const & Dimensions,
+			texelcoord_type const & Dimensions,
 			size_type Levels);
 
 		/// Create a texture1D and allocate a new storage with a complete mipmap chain
 		explicit texture1D(
 			format_type Format,
-			dim_type const & Dimensions);
+			texelcoord_type const & Dimensions);
 
 		/// Create a texture1D view with an existing storage
 		explicit texture1D(
@@ -76,22 +76,22 @@ namespace gli
 		image operator[](size_type Level) const;
 
 		/// Return the width of a texture instance 
-		dim_type dimensions(size_type Level = 0) const;
+		texelcoord_type dimensions(size_type Level = 0) const;
 
 		/// Fetch a texel from a texture. The texture format must be uncompressed.
 		template <typename genType>
-		genType load(texture1D::dim_type const & TexelCoord, texture1D::size_type Level) const;
+		genType load(texelcoord_type const & TexelCoord, size_type Level) const;
 
 		/// Write a texel to a texture. The texture format must be uncompressed.
 		template <typename genType>
-		void store(texture1D::dim_type const & TexelCoord, texture1D::size_type Level, genType const & Texel);
+		void store(texelcoord_type const & TexelCoord, size_type Level, genType const & Texel);
 
 	private:
 		struct cache
 		{
 			std::uint8_t* Data;
-			texture1D::size_type Size;
-			texture1D::dim_type Dim;
+			size_type Size;
+			texelcoord_type Dim;
 		};
 
 		void build_cache();

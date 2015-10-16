@@ -40,12 +40,12 @@ namespace mipmaps_rgba4unorm
 	{
 		int Error = 0;
 
-		gli::texture2D Texture(gli::FORMAT_RGBA4_UNORM, gli::texture2D::dim_type(64));
+		gli::texture2D Texture(gli::FORMAT_RGBA4_UNORM, gli::texture2D::texelcoord_type(64));
 		for(std::size_t j = 0, n = Texture.dimensions().y; j < n; ++j)
 		for(std::size_t i = 0, m = Texture.dimensions().x; i < m; ++i)
 		{
 			gli::uint16 const Color = gli::packUnorm4x4(gli::vec4(gli::vec2(i, j) / glm::vec2(Texture.dimensions()), 0.0f, 1.0f));
-			Texture.store<gli::uint16>(gli::dim2_t(i, j), 0, Color);
+			Texture.store<gli::uint16>(gli::texture2D::texelcoord_type(i, j), 0, Color);
 		}
 
 		gli::texture2D TextureView(gli::view(Texture, 0, 0));
@@ -79,10 +79,10 @@ namespace mipmaps_rgba8unorm
 	{
 		int Error = 0;
 
-		gli::texture2D Texture(gli::FORMAT_RGBA8_UNORM, gli::texture2D::dim_type(64));
+		gli::texture2D Texture(gli::FORMAT_RGBA8_UNORM, gli::texture2D::texelcoord_type(64));
 		for(std::size_t j = 0, n = Texture.dimensions().y; j < n; ++j)
 		for(std::size_t i = 0, m = Texture.dimensions().x; i < m; ++i)
-			Texture.store<gli::u8vec4>(gli::dim2_t(i , j), 0, gli::u8vec4(i * 4, j * 4, 0, 255));
+			Texture.store<gli::u8vec4>(gli::texture2D::texelcoord_type(i , j), 0, gli::u8vec4(i * 4, j * 4, 0, 255));
 
 		gli::texture2D TextureView(gli::view(Texture, 0, 0));
 
@@ -115,10 +115,10 @@ namespace mipmaps_rgba8snorm
 	{
 		int Error = 0;
 
-		gli::texture2D Texture(gli::FORMAT_RGBA8_SNORM, gli::texture2D::dim_type(64));
+		gli::texture2D Texture(gli::FORMAT_RGBA8_SNORM, gli::texture2D::texelcoord_type(64));
 		for(std::size_t j = 0, n = Texture.dimensions().y; j < n; ++j)
 		for(std::size_t i = 0, m = Texture.dimensions().x; i < m; ++i)
-			Texture.store<gli::i8vec4>(gli::dim2_t(i , j), 0, gli::i8vec4(i * 2, j * 2, 0, 127));
+			Texture.store<gli::i8vec4>(gli::texture2D::texelcoord_type(i , j), 0, gli::i8vec4(i * 2, j * 2, 0, 127));
 
 		gli::texture2D TextureView(gli::view(Texture, 0, 0));
 
@@ -151,12 +151,12 @@ namespace mipmaps_rgb10a2unorm
 	{
 		int Error = 0;
 
-		gli::texture2D Texture(gli::FORMAT_RGB10A2_UNORM, gli::texture2D::dim_type(64));
+		gli::texture2D Texture(gli::FORMAT_RGB10A2_UNORM, gli::texture2D::texelcoord_type(64));
 		for(std::size_t j = 0, n = Texture.dimensions().y; j < n; ++j)
 		for(std::size_t i = 0, m = Texture.dimensions().x; i < m; ++i)
 		{
 			gli::vec4 const Color(static_cast<float>(i) / static_cast<float>(Texture.dimensions().x), static_cast<float>(j) / static_cast<float>(Texture.dimensions().y), 0.f, 1.f);
-			Texture.store<gli::uint32>(gli::dim2_t(i , j), 0, gli::packUnorm3x10_1x2(Color));
+			Texture.store<gli::uint32>(gli::texture2D::texelcoord_type(i , j), 0, gli::packUnorm3x10_1x2(Color));
 		}
 
 		gli::texture2D TextureView(gli::view(Texture, 0, 0));

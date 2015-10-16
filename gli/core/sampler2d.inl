@@ -57,14 +57,14 @@ namespace detail
 	}
 
 	template <typename T, glm::precision P>
-	inline typename sampler2D<T, P>::texel_type sampler2D<T, P>::texel_fetch(dim_type const & TexelCoord, size_type const & Level) const
+	inline typename sampler2D<T, P>::texel_type sampler2D<T, P>::texel_fetch(texelcoord_type const & TexelCoord, size_type const & Level) const
 	{
 		assert(this->Convert.Fetch);
 		return this->Convert.Fetch(this->Texture, TexelCoord, 0, 0, Level);
 	}
 
 	template <typename T, glm::precision P>
-	inline void sampler2D<T, P>::texel_write(dim_type const & TexelCoord, size_type const & Level, texel_type const & Texel)
+	inline void sampler2D<T, P>::texel_write(texelcoord_type const & TexelCoord, size_type const & Level, texel_type const & Texel)
 	{
 		assert(this->Convert.Write);
 		this->Convert.Write(this->Texture, TexelCoord, 0, 0, Level, Texel);
@@ -104,34 +104,34 @@ namespace detail
 		assert(std::numeric_limits<T>::is_iec559);
 		assert(this->Convert.Fetch);
 
-		dim_type const TexelDim(this->Texture.dimensions(Level));
+		texelcoord_type const TexelDim(this->Texture.dimensions(Level));
 		samplecoord_type const TexelDimF(TexelDim);
 		samplecoord_type const TexelLast(TexelDimF - static_cast<T>(1));
 
 		samplecoord_type const ScaledCoordFloor(floor(SampleCoord * TexelLast));
 		samplecoord_type const ScaledCoordCeil(ceil(SampleCoord * TexelLast));
 
-		tvec2<int, P> const TexelCoordFloor(ScaledCoordFloor);
-		tvec2<int, P> const TexelCoordCeil(ScaledCoordCeil);
+		texelcoord_type const TexelCoordFloor(ScaledCoordFloor);
+		texelcoord_type const TexelCoordCeil(ScaledCoordCeil);
 
-		bvec2 const UseTexelFloor(detail::in_interval(TexelCoordFloor, tvec2<int, P>(0), tvec2<int, P>(TexelDim) - 1));
-		bvec2 const UseTexelCeil(detail::in_interval(TexelCoordCeil, tvec2<int, P>(0), tvec2<int, P>(TexelDim) - 1));
+		bvec2 const UseTexelFloor(detail::in_interval(TexelCoordFloor, texelcoord_type(0), TexelDim - 1));
+		bvec2 const UseTexelCeil(detail::in_interval(TexelCoordCeil, texelcoord_type(0), TexelDim - 1));
 
 		texel_type Texel00(this->BorderColor);
 		if(UseTexelFloor.s && UseTexelFloor.t)
-			Texel00 = this->Convert.Fetch(this->Texture, dim_type(TexelCoordFloor.s, TexelCoordFloor.t), 0, 0, Level);
+			Texel00 = this->Convert.Fetch(this->Texture, texelcoord_type(TexelCoordFloor.s, TexelCoordFloor.t), 0, 0, Level);
 
 		texel_type Texel10(this->BorderColor);
 		if(UseTexelCeil.s && UseTexelFloor.t)
-			Texel10 = this->Convert.Fetch(this->Texture, dim_type(TexelCoordCeil.s, TexelCoordFloor.t), 0, 0, Level);
+			Texel10 = this->Convert.Fetch(this->Texture, texelcoord_type(TexelCoordCeil.s, TexelCoordFloor.t), 0, 0, Level);
 
 		texel_type Texel11(this->BorderColor);
 		if(UseTexelCeil.s && UseTexelCeil.t)
-			Texel11 = this->Convert.Fetch(this->Texture, dim_type(TexelCoordCeil.s, TexelCoordCeil.t), 0, 0, Level);
+			Texel11 = this->Convert.Fetch(this->Texture, texelcoord_type(TexelCoordCeil.s, TexelCoordCeil.t), 0, 0, Level);
 
 		texel_type Texel01(this->BorderColor);
 		if(UseTexelFloor.s && TexelCoordCeil.t)
-			Texel01 = this->Convert.Fetch(this->Texture, dim_type(TexelCoordFloor.s, TexelCoordCeil.t), 0, 0, Level);
+			Texel01 = this->Convert.Fetch(this->Texture, texelcoord_type(TexelCoordFloor.s, TexelCoordCeil.t), 0, 0, Level);
 
 		samplecoord_type const BlendFactor((SampleCoord - ScaledCoordFloor / TexelLast) * TexelLast);
 
@@ -146,14 +146,14 @@ namespace detail
 	{
 		assert(std::numeric_limits<T>::is_iec559);
 
-		dim_type const TexelDim = this->Texture.dimensions(Level);
+		texelcoord_type const TexelDim = this->Texture.dimensions(Level);
 
 		samplecoord_type const TexelLast(samplecoord_type(TexelDim) - static_cast<T>(1));
-		tvec2<int, P> const SampleCoordFloor(floor(SampleCoord * TexelLast));
+		texelcoord_type const SampleCoordFloor(floor(SampleCoord * TexelLast));
 
 		bool const UseBorderColor = SampleCoordFloor.s > static_cast<int>(TexelDim.x) || SampleCoordFloor.s < 0 || SampleCoordFloor.t > static_cast<int>(TexelDim.y) || SampleCoordFloor.t < 0;
 
-		return UseBorderColor ? this->BorderColor : this->texel_fetch(dim_type(SampleCoordFloor), Level);
+		return UseBorderColor ? this->BorderColor : this->texel_fetch(texelcoord_type(SampleCoordFloor), Level);
 	}
 
 	template <typename T, precision P>
@@ -176,7 +176,7 @@ namespace detail
 		for(size_type Level = BaseLevel; Level < MaxLevel; ++Level)
 		{
 			samplecoord_type const SampleCoordScale(static_cast<T>(1) / samplecoord_type(this->Texture.dimensions(Level + 0)));
-			dim_type const DimDst = this->Texture.dimensions(Level + 1);
+			texelcoord_type const DimDst = this->Texture.dimensions(Level + 1);
 
 			for(size_type j = 0; j < DimDst.y; ++j)
 			for(size_type i = 0; i < DimDst.x; ++i)
@@ -189,8 +189,8 @@ namespace detail
 				texel_type const Texel11 = this->texture_lod(samplecoord_type(x + 1, y + 1) * SampleCoordScale, static_cast<T>(Level));
 				texel_type const Texel10 = this->texture_lod(samplecoord_type(x + 1, y + 0) * SampleCoordScale, static_cast<T>(Level));
 
-				tvec4<T, P> const Texel = (Texel00 + Texel01 + Texel11 + Texel10) * static_cast<T>(0.25);
-				this->texel_write(dim_type(i, j), Level + 1, Texel);
+				texel_type const Texel = (Texel00 + Texel01 + Texel11 + Texel10) * static_cast<T>(0.25);
+				this->texel_write(texelcoord_type(i, j), Level + 1, Texel);
 			}
 		}
 	}

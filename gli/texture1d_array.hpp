@@ -36,7 +36,7 @@ namespace gli
 	class texture1DArray : public texture
 	{
 	public:
-		typedef dim1_t dim_type;
+		typedef ivec1 texelcoord_type;
 		typedef vec1 samplecoord_type;
 
 	public:
@@ -46,14 +46,14 @@ namespace gli
 		/// Create a texture1DArray and allocate a new storage
 		explicit texture1DArray(
 			format_type Format,
-			dim_type const & Dimensions,
+			texelcoord_type const & Dimensions,
 			size_type Layers,
 			size_type Levels);
 
 		/// Create a texture1DArray and allocate a new storage with a complete mipmap chain
 		explicit texture1DArray(
 			format_type Format,
-			dim_type const & Dimensions,
+			texelcoord_type const & Dimensions,
 			size_type Layers);
 
 		/// Create a texture1DArray view with an existing storage
@@ -78,22 +78,22 @@ namespace gli
 		texture1D operator[](size_type Layer) const;
 
 		/// Return the width of a texture instance
-		dim_type dimensions(size_type Level = 0) const;
+		texelcoord_type dimensions(size_type Level = 0) const;
 
 		/// Fetch a texel from a texture. The texture format must be uncompressed.
 		template <typename genType>
-		genType load(texture1DArray::dim_type const & TexelCoord, texture1DArray::size_type Layer, texture1DArray::size_type Level) const;
+		genType load(texelcoord_type const & TexelCoord, size_type Layer, size_type Level) const;
 
 		/// Write a texel to a texture. The texture format must be uncompressed.
 		template <typename genType>
-		void store(texture1DArray::dim_type const & TexelCoord, texture1DArray::size_type Layer, texture1DArray::size_type Level, genType const & Texel);
+		void store(texelcoord_type const & TexelCoord, size_type Layer, size_type Level, genType const & Texel);
 
 	private:
 		struct cache
 		{
 			std::uint8_t* Data;
-			texture1DArray::size_type Size;
-			texture1DArray::dim_type Dim;
+			size_type Size;
+			texelcoord_type Dim;
 		};
 
 		void build_cache();

@@ -29,40 +29,43 @@
 namespace gli{
 namespace detail
 {
+	template <typename T, precision P>
 	inline size_t texelLinearAdressing
 	(
-		dim1_t const & Dimensions,
-		dim1_t const & TexelCoord
+		tvec1<T, P> const & Dimensions,
+		tvec1<T, P> const & TexelCoord
 	)
 	{
 		assert(glm::all(glm::lessThan(TexelCoord, Dimensions)));
 
-		return TexelCoord.x;
+		return static_cast<size_t>(TexelCoord.x);
 	}
 
+	template <typename T, precision P>
 	inline size_t texelLinearAdressing
 	(
-		dim2_t const & Dimensions,
-		dim2_t const & TexelCoord
+		tvec2<T, P> const & Dimensions,
+		tvec2<T, P> const & TexelCoord
 	)
 	{
 		assert(TexelCoord.x < Dimensions.x);
 		assert(TexelCoord.y < Dimensions.y);
 
-		return TexelCoord.x + Dimensions.x * TexelCoord.y;
+		return static_cast<size_t>(TexelCoord.x + Dimensions.x * TexelCoord.y);
 	}
 
+	template <typename T, precision P>
 	inline size_t texelLinearAdressing
 	(
-		dim3_t const & Dimensions,
-		dim3_t const & TexelCoord
+		tvec3<T, P> const & Dimensions,
+		tvec3<T, P> const & TexelCoord
 	)
 	{
 		assert(TexelCoord.x < Dimensions.x);
 		assert(TexelCoord.y < Dimensions.y);
 		assert(TexelCoord.z < Dimensions.z);
 
-		return TexelCoord.x + Dimensions.x * (TexelCoord.y + Dimensions.y * TexelCoord.z);
+		return static_cast<size_t>(TexelCoord.x + Dimensions.x * (TexelCoord.y + Dimensions.y * TexelCoord.z));
 	}
 
 	inline size_t texelMortonAdressing
@@ -116,7 +119,7 @@ namespace detail
 	inline image::image
 	(
 		format_type Format,
-		dim_type const & Dimensions
+		texelcoord_type const & Dimensions
 	)
 		: Storage(std::make_shared<storage>(Format, Dimensions, 1, 1, 1))
 		, Format(Format)
@@ -182,14 +185,14 @@ namespace detail
 		return this->Format;
 	}
 
-	inline image::dim_type image::dimensions() const
+	inline image::texelcoord_type image::dimensions() const
 	{
 		assert(!this->empty());
 
-		storage::dim_type const & SrcDimensions = this->Storage->dimensions(this->BaseLevel);
-		storage::dim_type const & DstDimensions = SrcDimensions * block_dimensions(this->format()) / this->Storage->block_dimensions();
+		storage::texelcoord_type const & SrcDimensions = this->Storage->dimensions(this->BaseLevel);
+		storage::texelcoord_type const & DstDimensions = SrcDimensions * block_dimensions(this->format()) / this->Storage->block_dimensions();
 
-		return glm::max(DstDimensions, storage::dim_type(1));
+		return glm::max(DstDimensions, storage::texelcoord_type(1));
 	}
 
 	inline void * image::data()
@@ -256,7 +259,7 @@ namespace detail
 	}
 
 	template <typename genType>
-	genType image::load(dim_type const & TexelCoord)
+	genType image::load(texelcoord_type const & TexelCoord)
 	{
 		assert(!this->empty());
 		assert(!is_compressed(this->format()));
@@ -267,7 +270,7 @@ namespace detail
 	}
 
 	template <typename genType>
-	void image::store(dim_type const & TexelCoord, genType const & Data)
+	void image::store(texelcoord_type const & TexelCoord, genType const & Data)
 	{
 		assert(!this->empty());
 		assert(!is_compressed(this->format()));

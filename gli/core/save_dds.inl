@@ -83,12 +83,9 @@ namespace detail
 		memset(Header.Reserved2, 0, sizeof(Header.Reserved2));
 		Header.Size = sizeof(detail::ddsHeader);
 		Header.Flags = Caps;
-		assert(Texture.dimensions().x < std::numeric_limits<glm::uint32>::max());
 		Header.Width = static_cast<std::uint32_t>(Texture.dimensions().x);
-		assert(Texture.dimensions().y < std::numeric_limits<glm::uint32>::max());
 		Header.Height = static_cast<std::uint32_t>(Texture.dimensions().y);
 		Header.Pitch = static_cast<std::uint32_t>((Desc.Flags & detail::CAP_COMPRESSED_BIT) ? Texture.size() / Texture.faces() : 32);
-		assert(Texture.dimensions().z < std::numeric_limits<glm::uint32>::max());
 		Header.Depth = static_cast<std::uint32_t>(Texture.dimensions().z > 1 ? Texture.dimensions().z : 0);
 		Header.MipMapLevels = static_cast<std::uint32_t>(Texture.levels());
 		Header.Format.size = sizeof(detail::ddsPixelFormat);

@@ -48,12 +48,6 @@ namespace gli
 	typedef tvec2<size_t> dim2_t;
 	typedef tvec3<size_t> dim3_t;
 	typedef tvec4<size_t> dim4_t;
-	typedef glm::vec1 vec1;
-	typedef glm::vec2 vec2;
-	typedef glm::vec3 vec3;
-	typedef glm::vec4 vec4;
-
-	typedef glm::ivec4 ivec4;
 
 	template <typename T, precision P>
 	inline tvec4<T, P> make_vec4(tvec1<T, P> const & v)

@@ -41,7 +41,7 @@ namespace gli
 	inline storage::storage
 	(
 		format_type Format,
-		dim_type const & Dimensions,
+		texelcoord_type const & Dimensions,
 		size_type Layers,
 		size_type Faces,
 		size_type Levels
@@ -50,14 +50,14 @@ namespace gli
 		, Faces(Faces)
 		, Levels(Levels)
 		, BlockSize(gli::block_size(Format))
-		, BlockCount(glm::max(Dimensions / gli::block_dimensions(Format), gli::dim3_t(1)))
+		, BlockCount(glm::max(Dimensions / gli::block_dimensions(Format), texelcoord_type(1)))
 		, BlockDimensions(gli::block_dimensions(Format))
 		, Dimensions(Dimensions)
 	{
 		assert(Layers > 0);
 		assert(Faces > 0);
 		assert(Levels > 0);
-		assert(glm::all(glm::greaterThan(Dimensions, dim_type(0))));
+		assert(glm::all(glm::greaterThan(Dimensions, texelcoord_type(0))));
 
 		this->Data.resize(this->layer_size(0, Faces - 1, 0, Levels - 1) * Layers, 0);
 	}
@@ -87,21 +87,21 @@ namespace gli
 		return this->BlockSize;
 	}
 
-	inline storage::dim_type storage::block_dimensions() const
+	inline storage::texelcoord_type storage::block_dimensions() const
 	{
 		return this->BlockDimensions;
 	}
 
-	inline storage::dim_type storage::block_count(size_type Level) const
+	inline storage::texelcoord_type storage::block_count(size_type Level) const
 	{
 		assert(Level < this->Levels);
 
-		return glm::max(this->BlockCount >> storage::dim_type(static_cast<glm::uint>(Level)), storage::dim_type(static_cast<glm::uint>(1)));
+		return glm::max(this->BlockCount >> storage::texelcoord_type(static_cast<storage::texelcoord_type::value_type>(Level)), storage::texelcoord_type(1));
 	}
 
-	inline storage::dim_type storage::dimensions(size_type Level) const
+	inline storage::texelcoord_type storage::dimensions(size_type Level) const
 	{
-		return glm::max(this->Dimensions >> Level, storage::dim_type(1));
+		return glm::max(this->Dimensions >> storage::texelcoord_type(static_cast<storage::texelcoord_type::value_type>(Level)), storage::texelcoord_type(1));
 	}
 
 	inline storage::size_type storage::size() const

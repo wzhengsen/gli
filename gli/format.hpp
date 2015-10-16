@@ -292,9 +292,9 @@ namespace gli
 
 	bool is_compressed(format Format);
 	bool is_srgb(format Format);
-	std::uint32_t block_size(format Format);
-	gli::dim3_t block_dimensions(format Format);
-	std::uint32_t component_count(format Format);
+	size_t block_size(format Format);
+	ivec3 block_dimensions(format Format);
+	size_t component_count(format Format);
 }//namespace gli
 
 #include "./core/format.inl"
