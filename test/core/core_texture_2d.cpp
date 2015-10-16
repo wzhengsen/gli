@@ -76,8 +76,8 @@ inline gli::texture2D linear
 	gli::texture2D Result(gli::FORMAT_RGB8_UINT, gli::texture2D::texelcoord_type(Size), 1);
 	glm::u8vec3 * DstData = (glm::u8vec3*)Result.data();
 
-	for(std::size_t y = 0; y < Result.dimensions().y; ++y)
-	for(std::size_t x = 0; x < Result.dimensions().x; ++x)
+	for(int y = 0; y < Result.dimensions().y; ++y)
+	for(int x = 0; x < Result.dimensions().x; ++x)
 	{
 		float Value = glm::linearGradient(
 			Point0 * glm::vec2(Size),
