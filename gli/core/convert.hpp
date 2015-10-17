@@ -521,6 +521,20 @@ namespace detail
 		typedef glm::tvec4<samplerValType, P>(*fetchFunc)(textureType const & Texture, typename textureType::texelcoord_type const & TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level);
 		typedef void(*writeFunc)(textureType & Texture, typename textureType::texelcoord_type const & TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level, glm::tvec4<samplerValType, P> const & Texel);
 
+		template <typename T, template <typename, precision> class vecType, convertMode mode>
+		struct conv
+		{
+			static tvec4<samplerValType, P> fetch(textureType const & Texture, typename textureType::texelcoord_type const & TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level)
+			{
+				return convertFunc<textureType, samplerValType, T, P, vecType, mode, std::numeric_limits<samplerValType>::is_iec559>::fetch(Texture, TexelCoord, Layer, Face, Level);
+			}
+
+			static void write(textureType & Texture, typename textureType::texelcoord_type const & TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level, tvec4<samplerValType, P> const & Texel)
+			{
+				convertFunc<textureType, samplerValType, T, P, vecType, mode, std::numeric_limits<samplerValType>::is_iec559>::write(Texture, TexelCoord, Layer, Face, Level, Texel);
+			}
+		};
+
 		struct func
 		{
 			fetchFunc Fetch;
@@ -531,229 +545,229 @@ namespace detail
 		{
 			static func Table[] =
 			{
-				{convertFunc<textureType, samplerValType, u8, P, tvec2, CONVERT_MODE_44UNORM, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec2, CONVERT_MODE_44UNORM, std::numeric_limits<samplerValType>::is_iec559>::write},				// FORMAT_RG4_UNORM
-				{convertFunc<textureType, samplerValType, u8, P, tvec2, CONVERT_MODE_44SCALED, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec2, CONVERT_MODE_44SCALED, std::numeric_limits<samplerValType>::is_iec559>::write},			// FORMAT_RG4_USCALED
-				{convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_4444UNORM, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_4444UNORM, std::numeric_limits<samplerValType>::is_iec559>::write},			// FORMAT_RGBA4_UNORM
-				{convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_4444SCALED, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_4444SCALED, std::numeric_limits<samplerValType>::is_iec559>::write},		// FORMAT_RGBA4_USCALED
-				{convertFunc<textureType, samplerValType, u8, P, tvec3, CONVERT_MODE_565UNORM, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec3, CONVERT_MODE_565UNORM, std::numeric_limits<samplerValType>::is_iec559>::write},			// FORMAT_R5G6B5_UNORM
-				{convertFunc<textureType, samplerValType, u8, P, tvec3, CONVERT_MODE_565SCALED, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec3, CONVERT_MODE_565SCALED, std::numeric_limits<samplerValType>::is_iec559>::write},			// FORMAT_R5G6B5_USCALED
-				{convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_5551UNORM, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_5551UNORM, std::numeric_limits<samplerValType>::is_iec559>::write},			// FORMAT_RGB5A1_UNORM
-				{convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_5551SCALED, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_5551SCALED, std::numeric_limits<samplerValType>::is_iec559>::write},		// FORMAT_RGB5A1_USCALED
+				{conv<u8, tvec2, CONVERT_MODE_44UNORM>::fetch, conv<u8, tvec2, CONVERT_MODE_44UNORM>::write},				// FORMAT_RG4_UNORM
+				{conv<u8, tvec2, CONVERT_MODE_44SCALED>::fetch, conv<u8, tvec2, CONVERT_MODE_44SCALED>::write},				// FORMAT_RG4_USCALED
+				{conv<u8, tvec4, CONVERT_MODE_4444UNORM>::fetch, conv<u8, tvec4, CONVERT_MODE_4444UNORM>::write},			// FORMAT_RGBA4_UNORM
+				{conv<u8, tvec4, CONVERT_MODE_4444SCALED>::fetch, conv<u8, tvec4, CONVERT_MODE_4444SCALED>::write},			// FORMAT_RGBA4_USCALED
+				{conv<u8, tvec3, CONVERT_MODE_565UNORM>::fetch, conv<u8, tvec3, CONVERT_MODE_565UNORM>::write},				// FORMAT_R5G6B5_UNORM
+				{conv<u8, tvec3, CONVERT_MODE_565SCALED>::fetch, conv<u8, tvec3, CONVERT_MODE_565SCALED>::write},			// FORMAT_R5G6B5_USCALED
+				{conv<u8, tvec4, CONVERT_MODE_5551UNORM>::fetch, conv<u8, tvec4, CONVERT_MODE_5551UNORM>::write},			// FORMAT_RGB5A1_UNORM
+				{conv<u8, tvec4, CONVERT_MODE_5551SCALED>::fetch, conv<u8, tvec4, CONVERT_MODE_5551SCALED>::write},			// FORMAT_RGB5A1_USCALED
 
-				{convertFunc<textureType, samplerValType, u8, P, tvec1, CONVERT_MODE_NORM, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec1, CONVERT_MODE_NORM, std::numeric_limits<samplerValType>::is_iec559>::write},					// FORMAT_R8_UNORM
-				{convertFunc<textureType, samplerValType, i8, P, tvec1, CONVERT_MODE_NORM, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, i8, P, tvec1, CONVERT_MODE_NORM, std::numeric_limits<samplerValType>::is_iec559>::write},					// FORMAT_R8_SNORM
-				{convertFunc<textureType, samplerValType, u8, P, tvec1, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec1, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::write},					// FORMAT_R8_USCALED
-				{convertFunc<textureType, samplerValType, i8, P, tvec1, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, i8, P, tvec1, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::write},					// FORMAT_R8_SSCALED
-				{convertFunc<textureType, samplerValType, u8, P, tvec1, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec1, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::write},					// FORMAT_R8_UINT
-				{convertFunc<textureType, samplerValType, i8, P, tvec1, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, i8, P, tvec1, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::write},					// FORMAT_R8_SINT
-				{convertFunc<textureType, samplerValType, u8, P, tvec1, CONVERT_MODE_SRGB, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec1, CONVERT_MODE_SRGB, std::numeric_limits<samplerValType>::is_iec559>::write},					// FORMAT_R8_SRGB
+				{conv<u8, tvec1, CONVERT_MODE_NORM>::fetch, conv<u8, tvec1, CONVERT_MODE_NORM>::write},						// FORMAT_R8_UNORM
+				{conv<i8, tvec1, CONVERT_MODE_NORM>::fetch, conv<i8, tvec1, CONVERT_MODE_NORM>::write},						// FORMAT_R8_SNORM
+				{conv<u8, tvec1, CONVERT_MODE_CAST>::fetch, conv<u8, tvec1, CONVERT_MODE_CAST>::write},						// FORMAT_R8_USCALED
+				{conv<i8, tvec1, CONVERT_MODE_CAST>::fetch, conv<i8, tvec1, CONVERT_MODE_CAST>::write},						// FORMAT_R8_SSCALED
+				{conv<u8, tvec1, CONVERT_MODE_CAST>::fetch, conv<u8, tvec1, CONVERT_MODE_CAST>::write},						// FORMAT_R8_UINT
+				{conv<i8, tvec1, CONVERT_MODE_CAST>::fetch, conv<i8, tvec1, CONVERT_MODE_CAST>::write},						// FORMAT_R8_SINT
+				{conv<u8, tvec1, CONVERT_MODE_SRGB>::fetch, conv<u8, tvec1, CONVERT_MODE_SRGB>::write},						// FORMAT_R8_SRGB
 
-				{convertFunc<textureType, samplerValType, u8, P, tvec2, CONVERT_MODE_NORM, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec2, CONVERT_MODE_NORM, std::numeric_limits<samplerValType>::is_iec559>::write},					// FORMAT_RG8_UNORM
-				{convertFunc<textureType, samplerValType, i8, P, tvec2, CONVERT_MODE_NORM, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec2, CONVERT_MODE_NORM, std::numeric_limits<samplerValType>::is_iec559>::write},					// FORMAT_RG8_SNORM
-				{convertFunc<textureType, samplerValType, u8, P, tvec2, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec2, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::write},					// FORMAT_RG8_USCALED
-				{convertFunc<textureType, samplerValType, i8, P, tvec2, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, i8, P, tvec2, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::write},					// FORMAT_RG8_SSCALED
-				{convertFunc<textureType, samplerValType, u8, P, tvec2, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec2, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::write},					// FORMAT_RG8_UINT
-				{convertFunc<textureType, samplerValType, i8, P, tvec2, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, i8, P, tvec2, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::write},					// FORMAT_RG8_SINT
-				{convertFunc<textureType, samplerValType, u8, P, tvec2, CONVERT_MODE_SRGB, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec2, CONVERT_MODE_SRGB, std::numeric_limits<samplerValType>::is_iec559>::write},					// FORMAT_RG8_SRGB
+				{conv<u8, tvec2, CONVERT_MODE_NORM>::fetch, conv<u8, tvec2, CONVERT_MODE_NORM>::write},						// FORMAT_RG8_UNORM
+				{conv<i8, tvec2, CONVERT_MODE_NORM>::fetch, conv<u8, tvec2, CONVERT_MODE_NORM>::write},						// FORMAT_RG8_SNORM
+				{conv<u8, tvec2, CONVERT_MODE_CAST>::fetch, conv<u8, tvec2, CONVERT_MODE_CAST>::write},						// FORMAT_RG8_USCALED
+				{conv<i8, tvec2, CONVERT_MODE_CAST>::fetch, conv<i8, tvec2, CONVERT_MODE_CAST>::write},						// FORMAT_RG8_SSCALED
+				{conv<u8, tvec2, CONVERT_MODE_CAST>::fetch, conv<u8, tvec2, CONVERT_MODE_CAST>::write},						// FORMAT_RG8_UINT
+				{conv<i8, tvec2, CONVERT_MODE_CAST>::fetch, conv<i8, tvec2, CONVERT_MODE_CAST>::write},						// FORMAT_RG8_SINT
+				{conv<u8, tvec2, CONVERT_MODE_SRGB>::fetch, conv<u8, tvec2, CONVERT_MODE_SRGB>::write},						// FORMAT_RG8_SRGB
 
-				{convertFunc<textureType, samplerValType, u8, P, tvec3, CONVERT_MODE_NORM, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec3, CONVERT_MODE_NORM, std::numeric_limits<samplerValType>::is_iec559>::write},					// FORMAT_RGB8_UNORM
-				{convertFunc<textureType, samplerValType, i8, P, tvec3, CONVERT_MODE_NORM, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec3, CONVERT_MODE_NORM, std::numeric_limits<samplerValType>::is_iec559>::write},					// FORMAT_RGB8_SNORM
-				{convertFunc<textureType, samplerValType, u8, P, tvec3, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec3, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::write},					// FORMAT_RGB8_USCALED
-				{convertFunc<textureType, samplerValType, i8, P, tvec3, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, i8, P, tvec3, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::write},					// FORMAT_RGB8_SSCALED
-				{convertFunc<textureType, samplerValType, u8, P, tvec3, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec3, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::write},					// FORMAT_RGB8_UINT
-				{convertFunc<textureType, samplerValType, i8, P, tvec3, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, i8, P, tvec3, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::write},					// FORMAT_RGB8_SINT
-				{convertFunc<textureType, samplerValType, u8, P, tvec3, CONVERT_MODE_SRGB, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec3, CONVERT_MODE_SRGB, std::numeric_limits<samplerValType>::is_iec559>::write},					// FORMAT_RGB8_SRGB
+				{conv<u8, tvec3, CONVERT_MODE_NORM>::fetch, conv<u8, tvec3, CONVERT_MODE_NORM>::write},						// FORMAT_RGB8_UNORM
+				{conv<i8, tvec3, CONVERT_MODE_NORM>::fetch, conv<u8, tvec3, CONVERT_MODE_NORM>::write},						// FORMAT_RGB8_SNORM
+				{conv<u8, tvec3, CONVERT_MODE_CAST>::fetch, conv<u8, tvec3, CONVERT_MODE_CAST>::write},						// FORMAT_RGB8_USCALED
+				{conv<i8, tvec3, CONVERT_MODE_CAST>::fetch, conv<i8, tvec3, CONVERT_MODE_CAST>::write},						// FORMAT_RGB8_SSCALED
+				{conv<u8, tvec3, CONVERT_MODE_CAST>::fetch, conv<u8, tvec3, CONVERT_MODE_CAST>::write},						// FORMAT_RGB8_UINT
+				{conv<i8, tvec3, CONVERT_MODE_CAST>::fetch, conv<i8, tvec3, CONVERT_MODE_CAST>::write},						// FORMAT_RGB8_SINT
+				{conv<u8, tvec3, CONVERT_MODE_SRGB>::fetch, conv<u8, tvec3, CONVERT_MODE_SRGB>::write},						// FORMAT_RGB8_SRGB
 
-				{convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_NORM, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_NORM, std::numeric_limits<samplerValType>::is_iec559>::write},					// FORMAT_RGBA8_UNORM
-				{convertFunc<textureType, samplerValType, i8, P, tvec4, CONVERT_MODE_NORM, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_NORM, std::numeric_limits<samplerValType>::is_iec559>::write},					// FORMAT_RGBA8_SNORM
-				{convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::write},					// FORMAT_RGBA8_USCALED
-				{convertFunc<textureType, samplerValType, i8, P, tvec4, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, i8, P, tvec4, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::write},					// FORMAT_RGBA8_SSCALED
-				{convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::write},					// FORMAT_RGBA8_UINT
-				{convertFunc<textureType, samplerValType, i8, P, tvec4, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, i8, P, tvec4, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::write},					// FORMAT_RGBA8_SINT
-				{convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_SRGB, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_SRGB, std::numeric_limits<samplerValType>::is_iec559>::write},					// FORMAT_RGBA8_SRGB
+				{conv<u8, tvec4, CONVERT_MODE_NORM>::fetch, conv<u8, tvec4, CONVERT_MODE_NORM>::write},						// FORMAT_RGBA8_UNORM
+				{conv<i8, tvec4, CONVERT_MODE_NORM>::fetch, conv<u8, tvec4, CONVERT_MODE_NORM>::write},						// FORMAT_RGBA8_SNORM
+				{conv<u8, tvec4, CONVERT_MODE_CAST>::fetch, conv<u8, tvec4, CONVERT_MODE_CAST>::write},						// FORMAT_RGBA8_USCALED
+				{conv<i8, tvec4, CONVERT_MODE_CAST>::fetch, conv<i8, tvec4, CONVERT_MODE_CAST>::write},						// FORMAT_RGBA8_SSCALED
+				{conv<u8, tvec4, CONVERT_MODE_CAST>::fetch, conv<u8, tvec4, CONVERT_MODE_CAST>::write},						// FORMAT_RGBA8_UINT
+				{conv<i8, tvec4, CONVERT_MODE_CAST>::fetch, conv<i8, tvec4, CONVERT_MODE_CAST>::write},						// FORMAT_RGBA8_SINT
+				{conv<u8, tvec4, CONVERT_MODE_SRGB>::fetch, conv<u8, tvec4, CONVERT_MODE_SRGB>::write},						// FORMAT_RGBA8_SRGB
 
-				{convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_RGB10A2UNORM, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_RGB10A2UNORM, std::numeric_limits<samplerValType>::is_iec559>::write},	// FORMAT_RGB10A2_UNORM
-				{convertFunc<textureType, samplerValType, i8, P, tvec4, CONVERT_MODE_RGB10A2SNORM, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, i8, P, tvec4, CONVERT_MODE_RGB10A2SNORM, std::numeric_limits<samplerValType>::is_iec559>::write},	// FORMAT_RGB10A2_SNORM
-				{convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_RGB10A2USCALE, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_RGB10A2USCALE, std::numeric_limits<samplerValType>::is_iec559>::write},	// FORMAT_RGB10A2_USCALED
-				{convertFunc<textureType, samplerValType, i8, P, tvec4, CONVERT_MODE_RGB10A2SSCALE, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, i8, P, tvec4, CONVERT_MODE_RGB10A2SSCALE, std::numeric_limits<samplerValType>::is_iec559>::write},	// FORMAT_RGB10A2_SSCALED
-				{convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_RGB10A2UINT, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_RGB10A2UINT, std::numeric_limits<samplerValType>::is_iec559>::write},		// FORMAT_RGB10A2_UINT
-				{convertFunc<textureType, samplerValType, i8, P, tvec4, CONVERT_MODE_RGB10A2SINT, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, i8, P, tvec4, CONVERT_MODE_RGB10A2SINT, std::numeric_limits<samplerValType>::is_iec559>::write},		// FORMAT_RGB10A2_SINT
+				{conv<u8, tvec4, CONVERT_MODE_RGB10A2UNORM>::fetch, conv<u8, tvec4, CONVERT_MODE_RGB10A2UNORM>::write},		// FORMAT_RGB10A2_UNORM
+				{conv<i8, tvec4, CONVERT_MODE_RGB10A2SNORM>::fetch, conv<i8, tvec4, CONVERT_MODE_RGB10A2SNORM>::write},		// FORMAT_RGB10A2_SNORM
+				{conv<u8, tvec4, CONVERT_MODE_RGB10A2USCALE>::fetch, conv<u8, tvec4, CONVERT_MODE_RGB10A2USCALE>::write},	// FORMAT_RGB10A2_USCALED
+				{conv<i8, tvec4, CONVERT_MODE_RGB10A2SSCALE>::fetch, conv<i8, tvec4, CONVERT_MODE_RGB10A2SSCALE>::write},	// FORMAT_RGB10A2_SSCALED
+				{conv<u8, tvec4, CONVERT_MODE_RGB10A2UINT>::fetch, conv<u8, tvec4, CONVERT_MODE_RGB10A2UINT>::write},		// FORMAT_RGB10A2_UINT
+				{conv<i8, tvec4, CONVERT_MODE_RGB10A2SINT>::fetch, conv<i8, tvec4, CONVERT_MODE_RGB10A2SINT>::write},		// FORMAT_RGB10A2_SINT
 
-				{convertFunc<textureType, samplerValType, u16, P, tvec1, CONVERT_MODE_NORM, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, u16, P, tvec1, CONVERT_MODE_NORM, std::numeric_limits<samplerValType>::is_iec559>::write},					// FORMAT_R16_UNORM
-				{convertFunc<textureType, samplerValType, i16, P, tvec1, CONVERT_MODE_NORM, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, i16, P, tvec1, CONVERT_MODE_NORM, std::numeric_limits<samplerValType>::is_iec559>::write},					// FORMAT_R16_SNORM
-				{convertFunc<textureType, samplerValType, u16, P, tvec1, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, u16, P, tvec1, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::write},					// FORMAT_R16_USCALED
-				{convertFunc<textureType, samplerValType, i16, P, tvec1, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, i16, P, tvec1, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::write},					// FORMAT_R16_SSCALED
-				{convertFunc<textureType, samplerValType, u16, P, tvec1, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, u16, P, tvec1, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::write},					// FORMAT_R16_UINT
-				{convertFunc<textureType, samplerValType, i16, P, tvec1, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, i16, P, tvec1, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::write},					// FORMAT_R16_SINT
-				{convertFunc<textureType, samplerValType, u16, P, tvec1, CONVERT_MODE_HALF, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, u16, P, tvec1, CONVERT_MODE_HALF, std::numeric_limits<samplerValType>::is_iec559>::write},					// FORMAT_R16_SFLOAT
+				{conv<u16, tvec1, CONVERT_MODE_NORM>::fetch, conv<u16, tvec1, CONVERT_MODE_NORM>::write},					// FORMAT_R16_UNORM
+				{conv<i16, tvec1, CONVERT_MODE_NORM>::fetch, conv<i16, tvec1, CONVERT_MODE_NORM>::write},					// FORMAT_R16_SNORM
+				{conv<u16, tvec1, CONVERT_MODE_CAST>::fetch, conv<u16, tvec1, CONVERT_MODE_CAST>::write},					// FORMAT_R16_USCALED
+				{conv<i16, tvec1, CONVERT_MODE_CAST>::fetch, conv<i16, tvec1, CONVERT_MODE_CAST>::write},					// FORMAT_R16_SSCALED
+				{conv<u16, tvec1, CONVERT_MODE_CAST>::fetch, conv<u16, tvec1, CONVERT_MODE_CAST>::write},					// FORMAT_R16_UINT
+				{conv<i16, tvec1, CONVERT_MODE_CAST>::fetch, conv<i16, tvec1, CONVERT_MODE_CAST>::write},					// FORMAT_R16_SINT
+				{conv<u16, tvec1, CONVERT_MODE_HALF>::fetch, conv<u16, tvec1, CONVERT_MODE_HALF>::write},					// FORMAT_R16_SFLOAT
 
-				{convertFunc<textureType, samplerValType, u16, P, tvec2, CONVERT_MODE_NORM, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, u16, P, tvec2, CONVERT_MODE_NORM, std::numeric_limits<samplerValType>::is_iec559>::write},					// FORMAT_RG16_UNORM
-				{convertFunc<textureType, samplerValType, i16, P, tvec2, CONVERT_MODE_NORM, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, i16, P, tvec2, CONVERT_MODE_NORM, std::numeric_limits<samplerValType>::is_iec559>::write},					// FORMAT_RG16_SNORM
-				{convertFunc<textureType, samplerValType, u16, P, tvec2, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, u16, P, tvec2, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::write},					// FORMAT_RG16_USCALED
-				{convertFunc<textureType, samplerValType, i16, P, tvec2, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, i16, P, tvec2, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::write},					// FORMAT_RG16_SSCALED
-				{convertFunc<textureType, samplerValType, u16, P, tvec2, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, u16, P, tvec2, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::write},					// FORMAT_RG16_UINT
-				{convertFunc<textureType, samplerValType, i16, P, tvec2, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, i16, P, tvec2, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::write},					// FORMAT_RG16_SINT
-				{convertFunc<textureType, samplerValType, u16, P, tvec2, CONVERT_MODE_HALF, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, u16, P, tvec2, CONVERT_MODE_HALF, std::numeric_limits<samplerValType>::is_iec559>::write},					// FORMAT_RG16_SFLOAT
+				{conv<u16, tvec2, CONVERT_MODE_NORM>::fetch, conv<u16, tvec2, CONVERT_MODE_NORM>::write},					// FORMAT_RG16_UNORM
+				{conv<i16, tvec2, CONVERT_MODE_NORM>::fetch, conv<i16, tvec2, CONVERT_MODE_NORM>::write},					// FORMAT_RG16_SNORM
+				{conv<u16, tvec2, CONVERT_MODE_CAST>::fetch, conv<u16, tvec2, CONVERT_MODE_CAST>::write},					// FORMAT_RG16_USCALED
+				{conv<i16, tvec2, CONVERT_MODE_CAST>::fetch, conv<i16, tvec2, CONVERT_MODE_CAST>::write},					// FORMAT_RG16_SSCALED
+				{conv<u16, tvec2, CONVERT_MODE_CAST>::fetch, conv<u16, tvec2, CONVERT_MODE_CAST>::write},					// FORMAT_RG16_UINT
+				{conv<i16, tvec2, CONVERT_MODE_CAST>::fetch, conv<i16, tvec2, CONVERT_MODE_CAST>::write},					// FORMAT_RG16_SINT
+				{conv<u16, tvec2, CONVERT_MODE_HALF>::fetch, conv<u16, tvec2, CONVERT_MODE_HALF>::write},					// FORMAT_RG16_SFLOAT
 
-				{convertFunc<textureType, samplerValType, u16, P, tvec3, CONVERT_MODE_NORM, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, u16, P, tvec3, CONVERT_MODE_NORM, std::numeric_limits<samplerValType>::is_iec559>::write},					// FORMAT_RGB16_UNORM
-				{convertFunc<textureType, samplerValType, i16, P, tvec3, CONVERT_MODE_NORM, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, i16, P, tvec3, CONVERT_MODE_NORM, std::numeric_limits<samplerValType>::is_iec559>::write},					// FORMAT_RGB16_SNORM
-				{convertFunc<textureType, samplerValType, u16, P, tvec3, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, u16, P, tvec3, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::write},					// FORMAT_RGB16_USCALED
-				{convertFunc<textureType, samplerValType, i16, P, tvec3, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, i16, P, tvec3, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::write},					// FORMAT_RGB16_SSCALED
-				{convertFunc<textureType, samplerValType, u16, P, tvec3, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, u16, P, tvec3, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::write},					// FORMAT_RGB16_UINT
-				{convertFunc<textureType, samplerValType, i16, P, tvec3, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, i16, P, tvec3, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::write},					// FORMAT_RGB16_SINT
-				{convertFunc<textureType, samplerValType, u16, P, tvec3, CONVERT_MODE_HALF, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, u16, P, tvec3, CONVERT_MODE_HALF, std::numeric_limits<samplerValType>::is_iec559>::write},					// FORMAT_RGB16_SFLOAT
+				{conv<u16, tvec3, CONVERT_MODE_NORM>::fetch, conv<u16, tvec3, CONVERT_MODE_NORM>::write},					// FORMAT_RGB16_UNORM
+				{conv<i16, tvec3, CONVERT_MODE_NORM>::fetch, conv<i16, tvec3, CONVERT_MODE_NORM>::write},					// FORMAT_RGB16_SNORM
+				{conv<u16, tvec3, CONVERT_MODE_CAST>::fetch, conv<u16, tvec3, CONVERT_MODE_CAST>::write},					// FORMAT_RGB16_USCALED
+				{conv<i16, tvec3, CONVERT_MODE_CAST>::fetch, conv<i16, tvec3, CONVERT_MODE_CAST>::write},					// FORMAT_RGB16_SSCALED
+				{conv<u16, tvec3, CONVERT_MODE_CAST>::fetch, conv<u16, tvec3, CONVERT_MODE_CAST>::write},					// FORMAT_RGB16_UINT
+				{conv<i16, tvec3, CONVERT_MODE_CAST>::fetch, conv<i16, tvec3, CONVERT_MODE_CAST>::write},					// FORMAT_RGB16_SINT
+				{conv<u16, tvec3, CONVERT_MODE_HALF>::fetch, conv<u16, tvec3, CONVERT_MODE_HALF>::write},					// FORMAT_RGB16_SFLOAT
 
-				{convertFunc<textureType, samplerValType, u16, P, tvec4, CONVERT_MODE_NORM, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, u16, P, tvec4, CONVERT_MODE_NORM, std::numeric_limits<samplerValType>::is_iec559>::write},					// FORMAT_RGBA16_UNORM
-				{convertFunc<textureType, samplerValType, i16, P, tvec4, CONVERT_MODE_NORM, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, i16, P, tvec4, CONVERT_MODE_NORM, std::numeric_limits<samplerValType>::is_iec559>::write},					// FORMAT_RGBA16_SNORM
-				{convertFunc<textureType, samplerValType, u16, P, tvec4, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, u16, P, tvec4, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::write},					// FORMAT_RGBA16_USCALED
-				{convertFunc<textureType, samplerValType, i16, P, tvec4, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, i16, P, tvec4, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::write},					// FORMAT_RGBA16_SSCALED
-				{convertFunc<textureType, samplerValType, u16, P, tvec4, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, u16, P, tvec4, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::write},					// FORMAT_RGBA16_UINT
-				{convertFunc<textureType, samplerValType, i16, P, tvec4, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, i16, P, tvec4, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::write},					// FORMAT_RGBA16_SINT
-				{convertFunc<textureType, samplerValType, u16, P, tvec4, CONVERT_MODE_HALF, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, u16, P, tvec4, CONVERT_MODE_HALF, std::numeric_limits<samplerValType>::is_iec559>::write},					// FORMAT_RGBA16_SFLOAT
+				{conv<u16, tvec4, CONVERT_MODE_NORM>::fetch, conv<u16, tvec4, CONVERT_MODE_NORM>::write},					// FORMAT_RGBA16_UNORM
+				{conv<i16, tvec4, CONVERT_MODE_NORM>::fetch, conv<i16, tvec4, CONVERT_MODE_NORM>::write},					// FORMAT_RGBA16_SNORM
+				{conv<u16, tvec4, CONVERT_MODE_CAST>::fetch, conv<u16, tvec4, CONVERT_MODE_CAST>::write},					// FORMAT_RGBA16_USCALED
+				{conv<i16, tvec4, CONVERT_MODE_CAST>::fetch, conv<i16, tvec4, CONVERT_MODE_CAST>::write},					// FORMAT_RGBA16_SSCALED
+				{conv<u16, tvec4, CONVERT_MODE_CAST>::fetch, conv<u16, tvec4, CONVERT_MODE_CAST>::write},					// FORMAT_RGBA16_UINT
+				{conv<i16, tvec4, CONVERT_MODE_CAST>::fetch, conv<i16, tvec4, CONVERT_MODE_CAST>::write},					// FORMAT_RGBA16_SINT
+				{conv<u16, tvec4, CONVERT_MODE_HALF>::fetch, conv<u16, tvec4, CONVERT_MODE_HALF>::write},					// FORMAT_RGBA16_SFLOAT
 
-				{convertFunc<textureType, samplerValType, u32, P, tvec1, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, u32, P, tvec1, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::write},					// FORMAT_R32_UINT
-				{convertFunc<textureType, samplerValType, i32, P, tvec1, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, i32, P, tvec1, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::write},					// FORMAT_R32_SINT
-				{convertFunc<textureType, samplerValType, f32, P, tvec1, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, f32, P, tvec1, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::write},					// FORMAT_R32_SFLOAT
-				{convertFunc<textureType, samplerValType, u32, P, tvec2, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, u32, P, tvec2, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::write},					// FORMAT_RG32_UINT
-				{convertFunc<textureType, samplerValType, i32, P, tvec2, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, i32, P, tvec2, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::write},					// FORMAT_RG32_SINT
-				{convertFunc<textureType, samplerValType, f32, P, tvec2, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, f32, P, tvec2, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::write},					// FORMAT_RG32_SFLOAT
-				{convertFunc<textureType, samplerValType, u32, P, tvec3, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, u32, P, tvec3, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::write},					// FORMAT_RGB32_UINT
-				{convertFunc<textureType, samplerValType, i32, P, tvec3, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, i32, P, tvec3, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::write},					// FORMAT_RGB32_SINT
-				{convertFunc<textureType, samplerValType, f32, P, tvec3, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, f32, P, tvec3, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::write},					// FORMAT_RGB32_SFLOAT
-				{convertFunc<textureType, samplerValType, u32, P, tvec4, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, u32, P, tvec4, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::write},					// FORMAT_RGBA32_UINT
-				{convertFunc<textureType, samplerValType, i32, P, tvec4, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, i32, P, tvec4, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::write},					// FORMAT_RGBA32_SINT
-				{convertFunc<textureType, samplerValType, f32, P, tvec4, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, f32, P, tvec4, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::write},					// FORMAT_RGBA32_SFLOAT
+				{conv<u32, tvec1, CONVERT_MODE_CAST>::fetch, conv<u32, tvec1, CONVERT_MODE_CAST>::write},					// FORMAT_R32_UINT
+				{conv<i32, tvec1, CONVERT_MODE_CAST>::fetch, conv<i32, tvec1, CONVERT_MODE_CAST>::write},					// FORMAT_R32_SINT
+				{conv<f32, tvec1, CONVERT_MODE_CAST>::fetch, conv<f32, tvec1, CONVERT_MODE_CAST>::write},					// FORMAT_R32_SFLOAT
+				{conv<u32, tvec2, CONVERT_MODE_CAST>::fetch, conv<u32, tvec2, CONVERT_MODE_CAST>::write},					// FORMAT_RG32_UINT
+				{conv<i32, tvec2, CONVERT_MODE_CAST>::fetch, conv<i32, tvec2, CONVERT_MODE_CAST>::write},					// FORMAT_RG32_SINT
+				{conv<f32, tvec2, CONVERT_MODE_CAST>::fetch, conv<f32, tvec2, CONVERT_MODE_CAST>::write},					// FORMAT_RG32_SFLOAT
+				{conv<u32, tvec3, CONVERT_MODE_CAST>::fetch, conv<u32, tvec3, CONVERT_MODE_CAST>::write},					// FORMAT_RGB32_UINT
+				{conv<i32, tvec3, CONVERT_MODE_CAST>::fetch, conv<i32, tvec3, CONVERT_MODE_CAST>::write},					// FORMAT_RGB32_SINT
+				{conv<f32, tvec3, CONVERT_MODE_CAST>::fetch, conv<f32, tvec3, CONVERT_MODE_CAST>::write},					// FORMAT_RGB32_SFLOAT
+				{conv<u32, tvec4, CONVERT_MODE_CAST>::fetch, conv<u32, tvec4, CONVERT_MODE_CAST>::write},					// FORMAT_RGBA32_UINT
+				{conv<i32, tvec4, CONVERT_MODE_CAST>::fetch, conv<i32, tvec4, CONVERT_MODE_CAST>::write},					// FORMAT_RGBA32_SINT
+				{conv<f32, tvec4, CONVERT_MODE_CAST>::fetch, conv<f32, tvec4, CONVERT_MODE_CAST>::write},					// FORMAT_RGBA32_SFLOAT
 
-				{convertFunc<textureType, samplerValType, f64, P, tvec1, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, f64, P, tvec1, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::write},					// FORMAT_R64_SFLOAT
-				{convertFunc<textureType, samplerValType, f64, P, tvec2, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, f64, P, tvec2, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::write},					// FORMAT_RG64_SFLOAT
-				{convertFunc<textureType, samplerValType, f64, P, tvec3, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, f64, P, tvec3, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::write},					// FORMAT_RGB64_SFLOAT
-				{convertFunc<textureType, samplerValType, f64, P, tvec4, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, f64, P, tvec4, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::write},					// FORMAT_RGBA64_SFLOAT
+				{conv<f64, tvec1, CONVERT_MODE_CAST>::fetch, conv<f64, tvec1, CONVERT_MODE_CAST>::write},					// FORMAT_R64_SFLOAT
+				{conv<f64, tvec2, CONVERT_MODE_CAST>::fetch, conv<f64, tvec2, CONVERT_MODE_CAST>::write},					// FORMAT_RG64_SFLOAT
+				{conv<f64, tvec3, CONVERT_MODE_CAST>::fetch, conv<f64, tvec3, CONVERT_MODE_CAST>::write},					// FORMAT_RGB64_SFLOAT
+				{conv<f64, tvec4, CONVERT_MODE_CAST>::fetch, conv<f64, tvec4, CONVERT_MODE_CAST>::write},					// FORMAT_RGBA64_SFLOAT
 
-				{convertFunc<textureType, samplerValType, u32, P, tvec1, CONVERT_MODE_RG11B10F, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, u32, P, tvec1, CONVERT_MODE_RG11B10F, std::numeric_limits<samplerValType>::is_iec559>::write},			// FORMAT_RG11B10_UFLOAT
-				{convertFunc<textureType, samplerValType, u32, P, tvec1, CONVERT_MODE_RGB9E5, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, u32, P, tvec1, CONVERT_MODE_RGB9E5, std::numeric_limits<samplerValType>::is_iec559>::write},				// FORMAT_RGB9E5_UFLOAT
+				{conv<u32, tvec1, CONVERT_MODE_RG11B10F>::fetch, conv<u32, tvec1, CONVERT_MODE_RG11B10F>::write},			// FORMAT_RG11B10_UFLOAT
+				{conv<u32, tvec1, CONVERT_MODE_RGB9E5>::fetch, conv<u32, tvec1, CONVERT_MODE_RGB9E5>::write},				// FORMAT_RGB9E5_UFLOAT
 
-				{convertFunc<textureType, samplerValType, u16, P, tvec1, CONVERT_MODE_DEFAULT>::fetch, convertFunc<textureType, samplerValType, u16, P, tvec1, CONVERT_MODE_DEFAULT>::write},						// FORMAT_D16_UNORM
-				{convertFunc<textureType, samplerValType, u32, P, tvec1, CONVERT_MODE_DEFAULT>::fetch, convertFunc<textureType, samplerValType, u32, P, tvec1, CONVERT_MODE_DEFAULT>::write},						// FORMAT_D24_UNORM
-				{convertFunc<textureType, samplerValType, float, P, tvec1, CONVERT_MODE_DEFAULT>::fetch, convertFunc<textureType, samplerValType, float, P, tvec1, CONVERT_MODE_DEFAULT>::write},					// FORMAT_D32_SFLOAT
-				{convertFunc<textureType, samplerValType, u8, P, tvec1, CONVERT_MODE_DEFAULT>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec1, CONVERT_MODE_DEFAULT>::write},							// FORMAT_S8_UINT
-				{convertFunc<textureType, samplerValType, u16, P, tvec2, CONVERT_MODE_DEFAULT>::fetch, convertFunc<textureType, samplerValType, u16, P, tvec2, CONVERT_MODE_DEFAULT>::write},						// FORMAT_D16_UNORM_S8_UINT
-				{convertFunc<textureType, samplerValType, u32, P, tvec2, CONVERT_MODE_DEFAULT>::fetch, convertFunc<textureType, samplerValType, u32, P, tvec2, CONVERT_MODE_DEFAULT>::write},						// FORMAT_D24_UNORM_S8_UINT
-				{convertFunc<textureType, samplerValType, u32, P, tvec2, CONVERT_MODE_DEFAULT>::fetch, convertFunc<textureType, samplerValType, u32, P, tvec2, CONVERT_MODE_DEFAULT>::write},						// FORMAT_D32_SFLOAT_S8_UINT
+				{conv<u16, tvec1, CONVERT_MODE_DEFAULT>::fetch, conv<u16, tvec1, CONVERT_MODE_DEFAULT>::write},				// FORMAT_D16_UNORM
+				{conv<u32, tvec1, CONVERT_MODE_DEFAULT>::fetch, conv<u32, tvec1, CONVERT_MODE_DEFAULT>::write},				// FORMAT_D24_UNORM
+				{conv<float, tvec1, CONVERT_MODE_DEFAULT>::fetch, conv<float, tvec1, CONVERT_MODE_DEFAULT>::write},			// FORMAT_D32_SFLOAT
+				{conv<u8, tvec1, CONVERT_MODE_DEFAULT>::fetch, conv<u8, tvec1, CONVERT_MODE_DEFAULT>::write},				// FORMAT_S8_UINT
+				{conv<u16, tvec2, CONVERT_MODE_DEFAULT>::fetch, conv<u16, tvec2, CONVERT_MODE_DEFAULT>::write},				// FORMAT_D16_UNORM_S8_UINT
+				{conv<u32, tvec2, CONVERT_MODE_DEFAULT>::fetch, conv<u32, tvec2, CONVERT_MODE_DEFAULT>::write},				// FORMAT_D24_UNORM_S8_UINT
+				{conv<u32, tvec2, CONVERT_MODE_DEFAULT>::fetch, conv<u32, tvec2, CONVERT_MODE_DEFAULT>::write},				// FORMAT_D32_SFLOAT_S8_UINT
 
-				{convertFunc<textureType, samplerValType, u8, P, tvec3, CONVERT_MODE_DEFAULT>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec3, CONVERT_MODE_DEFAULT>::write},							// FORMAT_RGB_DXT1_UNORM
-				{convertFunc<textureType, samplerValType, u8, P, tvec3, CONVERT_MODE_DEFAULT>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec3, CONVERT_MODE_DEFAULT>::write},							// FORMAT_RGB_DXT1_SRGB
-				{convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_DEFAULT>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_DEFAULT>::write},							// FORMAT_RGBA_DXT1_UNORM
-				{convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_DEFAULT>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_DEFAULT>::write},							// FORMAT_RGBA_DXT1_SRGB
-				{convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_DEFAULT>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_DEFAULT>::write},							// FORMAT_RGBA_DXT3_UNORM
-				{convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_DEFAULT>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_DEFAULT>::write},							// FORMAT_RGBA_DXT3_SRGB
-				{convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_DEFAULT>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_DEFAULT>::write},							// FORMAT_RGBA_DXT5_UNORM
-				{convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_DEFAULT>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_DEFAULT>::write},							// FORMAT_RGBA_DXT5_SRGB
-				{convertFunc<textureType, samplerValType, u8, P, tvec1, CONVERT_MODE_DEFAULT>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec1, CONVERT_MODE_DEFAULT>::write},							// FORMAT_R_ATI1N_UNORM
-				{convertFunc<textureType, samplerValType, u8, P, tvec1, CONVERT_MODE_DEFAULT>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec1, CONVERT_MODE_DEFAULT>::write},							// FORMAT_R_ATI1N_SNORM
-				{convertFunc<textureType, samplerValType, u8, P, tvec2, CONVERT_MODE_DEFAULT>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec2, CONVERT_MODE_DEFAULT>::write},							// FORMAT_RG_ATI2N_UNORM
-				{convertFunc<textureType, samplerValType, u8, P, tvec2, CONVERT_MODE_DEFAULT>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec2, CONVERT_MODE_DEFAULT>::write},							// FORMAT_RG_ATI2N_SNORM
-				{convertFunc<textureType, samplerValType, u8, P, tvec3, CONVERT_MODE_DEFAULT>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec3, CONVERT_MODE_DEFAULT>::write},							// FORMAT_RGB_BP_UFLOAT
-				{convertFunc<textureType, samplerValType, u8, P, tvec3, CONVERT_MODE_DEFAULT>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec3, CONVERT_MODE_DEFAULT>::write},							// FORMAT_RGB_BP_SFLOAT
-				{convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_DEFAULT>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_DEFAULT>::write},							// FORMAT_RGBA_BP_UNORM
-				{convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_DEFAULT>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_DEFAULT>::write},							// FORMAT_RGBA_BP_SRGB
+				{conv<u8, tvec3, CONVERT_MODE_DEFAULT>::fetch, conv<u8, tvec3, CONVERT_MODE_DEFAULT>::write},				// FORMAT_RGB_DXT1_UNORM
+				{conv<u8, tvec3, CONVERT_MODE_DEFAULT>::fetch, conv<u8, tvec3, CONVERT_MODE_DEFAULT>::write},				// FORMAT_RGB_DXT1_SRGB
+				{conv<u8, tvec4, CONVERT_MODE_DEFAULT>::fetch, conv<u8, tvec4, CONVERT_MODE_DEFAULT>::write},				// FORMAT_RGBA_DXT1_UNORM
+				{conv<u8, tvec4, CONVERT_MODE_DEFAULT>::fetch, conv<u8, tvec4, CONVERT_MODE_DEFAULT>::write},				// FORMAT_RGBA_DXT1_SRGB
+				{conv<u8, tvec4, CONVERT_MODE_DEFAULT>::fetch, conv<u8, tvec4, CONVERT_MODE_DEFAULT>::write},				// FORMAT_RGBA_DXT3_UNORM
+				{conv<u8, tvec4, CONVERT_MODE_DEFAULT>::fetch, conv<u8, tvec4, CONVERT_MODE_DEFAULT>::write},				// FORMAT_RGBA_DXT3_SRGB
+				{conv<u8, tvec4, CONVERT_MODE_DEFAULT>::fetch, conv<u8, tvec4, CONVERT_MODE_DEFAULT>::write},				// FORMAT_RGBA_DXT5_UNORM
+				{conv<u8, tvec4, CONVERT_MODE_DEFAULT>::fetch, conv<u8, tvec4, CONVERT_MODE_DEFAULT>::write},				// FORMAT_RGBA_DXT5_SRGB
+				{conv<u8, tvec1, CONVERT_MODE_DEFAULT>::fetch, conv<u8, tvec1, CONVERT_MODE_DEFAULT>::write},				// FORMAT_R_ATI1N_UNORM
+				{conv<u8, tvec1, CONVERT_MODE_DEFAULT>::fetch, conv<u8, tvec1, CONVERT_MODE_DEFAULT>::write},				// FORMAT_R_ATI1N_SNORM
+				{conv<u8, tvec2, CONVERT_MODE_DEFAULT>::fetch, conv<u8, tvec2, CONVERT_MODE_DEFAULT>::write},				// FORMAT_RG_ATI2N_UNORM
+				{conv<u8, tvec2, CONVERT_MODE_DEFAULT>::fetch, conv<u8, tvec2, CONVERT_MODE_DEFAULT>::write},				// FORMAT_RG_ATI2N_SNORM
+				{conv<u8, tvec3, CONVERT_MODE_DEFAULT>::fetch, conv<u8, tvec3, CONVERT_MODE_DEFAULT>::write},				// FORMAT_RGB_BP_UFLOAT
+				{conv<u8, tvec3, CONVERT_MODE_DEFAULT>::fetch, conv<u8, tvec3, CONVERT_MODE_DEFAULT>::write},				// FORMAT_RGB_BP_SFLOAT
+				{conv<u8, tvec4, CONVERT_MODE_DEFAULT>::fetch, conv<u8, tvec4, CONVERT_MODE_DEFAULT>::write},				// FORMAT_RGBA_BP_UNORM
+				{conv<u8, tvec4, CONVERT_MODE_DEFAULT>::fetch, conv<u8, tvec4, CONVERT_MODE_DEFAULT>::write},				// FORMAT_RGBA_BP_SRGB
 
-				{convertFunc<textureType, samplerValType, u8, P, tvec3, CONVERT_MODE_DEFAULT>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec3, CONVERT_MODE_DEFAULT>::write},							// FORMAT_RGB_ETC2_UNORM
-				{convertFunc<textureType, samplerValType, u8, P, tvec3, CONVERT_MODE_DEFAULT>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec3, CONVERT_MODE_DEFAULT>::write},							// FORMAT_RGB_ETC2_SRGB
-				{convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_DEFAULT>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_DEFAULT>::write},							// FORMAT_RGBA_ETC2_A1_UNORM
-				{convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_DEFAULT>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_DEFAULT>::write},							// FORMAT_RGBA_ETC2_A1_SRGB
-				{convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_DEFAULT>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_DEFAULT>::write},							// FORMAT_RGBA_ETC2_UNORM
-				{convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_DEFAULT>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_DEFAULT>::write},							// FORMAT_RGBA_ETC2_SRGB
-				{convertFunc<textureType, samplerValType, u8, P, tvec1, CONVERT_MODE_DEFAULT>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec1, CONVERT_MODE_DEFAULT>::write},							// FORMAT_R_EAC_UNORM
-				{convertFunc<textureType, samplerValType, u8, P, tvec1, CONVERT_MODE_DEFAULT>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec1, CONVERT_MODE_DEFAULT>::write},							// FORMAT_R_EAC_SNORM
-				{convertFunc<textureType, samplerValType, u8, P, tvec2, CONVERT_MODE_DEFAULT>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec2, CONVERT_MODE_DEFAULT>::write},							// FORMAT_RG_EAC_UNORM
-				{convertFunc<textureType, samplerValType, u8, P, tvec2, CONVERT_MODE_DEFAULT>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec2, CONVERT_MODE_DEFAULT>::write},							// FORMAT_RG_EAC_SNORM
-				{convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_DEFAULT>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_DEFAULT>::write},							// FORMAT_ASTC_4x4_UNORM
-				{convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_DEFAULT>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_DEFAULT>::write},							// FORMAT_ASTC_4x4_SRGB
-				{convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_DEFAULT>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_DEFAULT>::write},							// FORMAT_ASTC_5x4_UNORM
-				{convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_DEFAULT>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_DEFAULT>::write},							// FORMAT_ASTC_5x4_SRGB
-				{convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_DEFAULT>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_DEFAULT>::write},							// FORMAT_ASTC_5x5_UNORM
-				{convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_DEFAULT>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_DEFAULT>::write},							// FORMAT_ASTC_5x5_SRGB
-				{convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_DEFAULT>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_DEFAULT>::write},							// FORMAT_ASTC_6x5_UNORM
-				{convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_DEFAULT>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_DEFAULT>::write},							// FORMAT_ASTC_6x5_SRGB
-				{convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_DEFAULT>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_DEFAULT>::write},							// FORMAT_ASTC_6x6_UNORM
-				{convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_DEFAULT>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_DEFAULT>::write},							// FORMAT_ASTC_6x6_SRGB
-				{convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_DEFAULT>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_DEFAULT>::write},							// FORMAT_ASTC_8x5_UNORM
-				{convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_DEFAULT>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_DEFAULT>::write},							// FORMAT_ASTC_8x5_SRGB
-				{convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_DEFAULT>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_DEFAULT>::write},							// FORMAT_ASTC_8x6_UNORM
-				{convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_DEFAULT>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_DEFAULT>::write},							// FORMAT_ASTC_8x6_SRGB
-				{convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_DEFAULT>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_DEFAULT>::write},							// FORMAT_ASTC_8x8_UNORM
-				{convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_DEFAULT>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_DEFAULT>::write},							// FORMAT_ASTC_8x8_SRGB
-				{convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_DEFAULT>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_DEFAULT>::write},							// FORMAT_ASTC_10x5_UNORM
-				{convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_DEFAULT>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_DEFAULT>::write},							// FORMAT_ASTC_10x5_SRGB
-				{convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_DEFAULT>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_DEFAULT>::write},							// FORMAT_ASTC_10x6_UNORM
-				{convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_DEFAULT>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_DEFAULT>::write},							// FORMAT_ASTC_10x6_SRGB
-				{convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_DEFAULT>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_DEFAULT>::write},							// FORMAT_ASTC_10x8_UNORM
-				{convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_DEFAULT>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_DEFAULT>::write},							// FORMAT_ASTC_10x8_SRGB
-				{convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_DEFAULT>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_DEFAULT>::write},							// FORMAT_ASTC_10x10_UNORM
-				{convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_DEFAULT>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_DEFAULT>::write},							// FORMAT_ASTC_10x10_SRGB
-				{convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_DEFAULT>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_DEFAULT>::write},							// FORMAT_ASTC_12x10_UNORM
-				{convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_DEFAULT>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_DEFAULT>::write},							// FORMAT_ASTC_12x10_SRGB
-				{convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_DEFAULT>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_DEFAULT>::write},							// FORMAT_ASTC_12x12_UNORM
-				{convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_DEFAULT>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_DEFAULT>::write},							// FORMAT_ASTC_12x12_SRGB
+				{conv<u8, tvec3, CONVERT_MODE_DEFAULT>::fetch, conv<u8, tvec3, CONVERT_MODE_DEFAULT>::write},				// FORMAT_RGB_ETC2_UNORM
+				{conv<u8, tvec3, CONVERT_MODE_DEFAULT>::fetch, conv<u8, tvec3, CONVERT_MODE_DEFAULT>::write},				// FORMAT_RGB_ETC2_SRGB
+				{conv<u8, tvec4, CONVERT_MODE_DEFAULT>::fetch, conv<u8, tvec4, CONVERT_MODE_DEFAULT>::write},				// FORMAT_RGBA_ETC2_A1_UNORM
+				{conv<u8, tvec4, CONVERT_MODE_DEFAULT>::fetch, conv<u8, tvec4, CONVERT_MODE_DEFAULT>::write},				// FORMAT_RGBA_ETC2_A1_SRGB
+				{conv<u8, tvec4, CONVERT_MODE_DEFAULT>::fetch, conv<u8, tvec4, CONVERT_MODE_DEFAULT>::write},				// FORMAT_RGBA_ETC2_UNORM
+				{conv<u8, tvec4, CONVERT_MODE_DEFAULT>::fetch, conv<u8, tvec4, CONVERT_MODE_DEFAULT>::write},				// FORMAT_RGBA_ETC2_SRGB
+				{conv<u8, tvec1, CONVERT_MODE_DEFAULT>::fetch, conv<u8, tvec1, CONVERT_MODE_DEFAULT>::write},				// FORMAT_R_EAC_UNORM
+				{conv<u8, tvec1, CONVERT_MODE_DEFAULT>::fetch, conv<u8, tvec1, CONVERT_MODE_DEFAULT>::write},				// FORMAT_R_EAC_SNORM
+				{conv<u8, tvec2, CONVERT_MODE_DEFAULT>::fetch, conv<u8, tvec2, CONVERT_MODE_DEFAULT>::write},				// FORMAT_RG_EAC_UNORM
+				{conv<u8, tvec2, CONVERT_MODE_DEFAULT>::fetch, conv<u8, tvec2, CONVERT_MODE_DEFAULT>::write},				// FORMAT_RG_EAC_SNORM
+				{conv<u8, tvec4, CONVERT_MODE_DEFAULT>::fetch, conv<u8, tvec4, CONVERT_MODE_DEFAULT>::write},				// FORMAT_ASTC_4x4_UNORM
+				{conv<u8, tvec4, CONVERT_MODE_DEFAULT>::fetch, conv<u8, tvec4, CONVERT_MODE_DEFAULT>::write},				// FORMAT_ASTC_4x4_SRGB
+				{conv<u8, tvec4, CONVERT_MODE_DEFAULT>::fetch, conv<u8, tvec4, CONVERT_MODE_DEFAULT>::write},				// FORMAT_ASTC_5x4_UNORM
+				{conv<u8, tvec4, CONVERT_MODE_DEFAULT>::fetch, conv<u8, tvec4, CONVERT_MODE_DEFAULT>::write},				// FORMAT_ASTC_5x4_SRGB
+				{conv<u8, tvec4, CONVERT_MODE_DEFAULT>::fetch, conv<u8, tvec4, CONVERT_MODE_DEFAULT>::write},				// FORMAT_ASTC_5x5_UNORM
+				{conv<u8, tvec4, CONVERT_MODE_DEFAULT>::fetch, conv<u8, tvec4, CONVERT_MODE_DEFAULT>::write},				// FORMAT_ASTC_5x5_SRGB
+				{conv<u8, tvec4, CONVERT_MODE_DEFAULT>::fetch, conv<u8, tvec4, CONVERT_MODE_DEFAULT>::write},				// FORMAT_ASTC_6x5_UNORM
+				{conv<u8, tvec4, CONVERT_MODE_DEFAULT>::fetch, conv<u8, tvec4, CONVERT_MODE_DEFAULT>::write},				// FORMAT_ASTC_6x5_SRGB
+				{conv<u8, tvec4, CONVERT_MODE_DEFAULT>::fetch, conv<u8, tvec4, CONVERT_MODE_DEFAULT>::write},				// FORMAT_ASTC_6x6_UNORM
+				{conv<u8, tvec4, CONVERT_MODE_DEFAULT>::fetch, conv<u8, tvec4, CONVERT_MODE_DEFAULT>::write},				// FORMAT_ASTC_6x6_SRGB
+				{conv<u8, tvec4, CONVERT_MODE_DEFAULT>::fetch, conv<u8, tvec4, CONVERT_MODE_DEFAULT>::write},				// FORMAT_ASTC_8x5_UNORM
+				{conv<u8, tvec4, CONVERT_MODE_DEFAULT>::fetch, conv<u8, tvec4, CONVERT_MODE_DEFAULT>::write},				// FORMAT_ASTC_8x5_SRGB
+				{conv<u8, tvec4, CONVERT_MODE_DEFAULT>::fetch, conv<u8, tvec4, CONVERT_MODE_DEFAULT>::write},				// FORMAT_ASTC_8x6_UNORM
+				{conv<u8, tvec4, CONVERT_MODE_DEFAULT>::fetch, conv<u8, tvec4, CONVERT_MODE_DEFAULT>::write},				// FORMAT_ASTC_8x6_SRGB
+				{conv<u8, tvec4, CONVERT_MODE_DEFAULT>::fetch, conv<u8, tvec4, CONVERT_MODE_DEFAULT>::write},				// FORMAT_ASTC_8x8_UNORM
+				{conv<u8, tvec4, CONVERT_MODE_DEFAULT>::fetch, conv<u8, tvec4, CONVERT_MODE_DEFAULT>::write},				// FORMAT_ASTC_8x8_SRGB
+				{conv<u8, tvec4, CONVERT_MODE_DEFAULT>::fetch, conv<u8, tvec4, CONVERT_MODE_DEFAULT>::write},				// FORMAT_ASTC_10x5_UNORM
+				{conv<u8, tvec4, CONVERT_MODE_DEFAULT>::fetch, conv<u8, tvec4, CONVERT_MODE_DEFAULT>::write},				// FORMAT_ASTC_10x5_SRGB
+				{conv<u8, tvec4, CONVERT_MODE_DEFAULT>::fetch, conv<u8, tvec4, CONVERT_MODE_DEFAULT>::write},				// FORMAT_ASTC_10x6_UNORM
+				{conv<u8, tvec4, CONVERT_MODE_DEFAULT>::fetch, conv<u8, tvec4, CONVERT_MODE_DEFAULT>::write},				// FORMAT_ASTC_10x6_SRGB
+				{conv<u8, tvec4, CONVERT_MODE_DEFAULT>::fetch, conv<u8, tvec4, CONVERT_MODE_DEFAULT>::write},				// FORMAT_ASTC_10x8_UNORM
+				{conv<u8, tvec4, CONVERT_MODE_DEFAULT>::fetch, conv<u8, tvec4, CONVERT_MODE_DEFAULT>::write},				// FORMAT_ASTC_10x8_SRGB
+				{conv<u8, tvec4, CONVERT_MODE_DEFAULT>::fetch, conv<u8, tvec4, CONVERT_MODE_DEFAULT>::write},				// FORMAT_ASTC_10x10_UNORM
+				{conv<u8, tvec4, CONVERT_MODE_DEFAULT>::fetch, conv<u8, tvec4, CONVERT_MODE_DEFAULT>::write},				// FORMAT_ASTC_10x10_SRGB
+				{conv<u8, tvec4, CONVERT_MODE_DEFAULT>::fetch, conv<u8, tvec4, CONVERT_MODE_DEFAULT>::write},				// FORMAT_ASTC_12x10_UNORM
+				{conv<u8, tvec4, CONVERT_MODE_DEFAULT>::fetch, conv<u8, tvec4, CONVERT_MODE_DEFAULT>::write},				// FORMAT_ASTC_12x10_SRGB
+				{conv<u8, tvec4, CONVERT_MODE_DEFAULT>::fetch, conv<u8, tvec4, CONVERT_MODE_DEFAULT>::write},				// FORMAT_ASTC_12x12_UNORM
+				{conv<u8, tvec4, CONVERT_MODE_DEFAULT>::fetch, conv<u8, tvec4, CONVERT_MODE_DEFAULT>::write},				// FORMAT_ASTC_12x12_SRGB
 
-				{convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_4444UNORM, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_4444UNORM, std::numeric_limits<samplerValType>::is_iec559>::write},			// FORMAT_BGRA4_UNORM
-				{convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_4444SCALED, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_4444SCALED, std::numeric_limits<samplerValType>::is_iec559>::write},		// FORMAT_BGRA4_USCALED
-				{convertFunc<textureType, samplerValType, u8, P, tvec3, CONVERT_MODE_565UNORM, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec3, CONVERT_MODE_565UNORM, std::numeric_limits<samplerValType>::is_iec559>::write},			// FORMAT_B5G6R5_UNORM
-				{convertFunc<textureType, samplerValType, u8, P, tvec3, CONVERT_MODE_565SCALED, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec3, CONVERT_MODE_565SCALED, std::numeric_limits<samplerValType>::is_iec559>::write},			// FORMAT_B5G6R5_USCALED
-				{convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_5551UNORM, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_5551UNORM, std::numeric_limits<samplerValType>::is_iec559>::write},			// FORMAT_BGR5A1_UNORM
-				{convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_5551SCALED, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_5551SCALED, std::numeric_limits<samplerValType>::is_iec559>::write},		// FORMAT_BGR5A1_USCALED
+				{conv<u8, tvec4, CONVERT_MODE_4444UNORM>::fetch, conv<u8, tvec4, CONVERT_MODE_4444UNORM>::write},			// FORMAT_BGRA4_UNORM
+				{conv<u8, tvec4, CONVERT_MODE_4444SCALED>::fetch, conv<u8, tvec4, CONVERT_MODE_4444SCALED>::write},			// FORMAT_BGRA4_USCALED
+				{conv<u8, tvec3, CONVERT_MODE_565UNORM>::fetch, conv<u8, tvec3, CONVERT_MODE_565UNORM>::write},				// FORMAT_B5G6R5_UNORM
+				{conv<u8, tvec3, CONVERT_MODE_565SCALED>::fetch, conv<u8, tvec3, CONVERT_MODE_565SCALED>::write},			// FORMAT_B5G6R5_USCALED
+				{conv<u8, tvec4, CONVERT_MODE_5551UNORM>::fetch, conv<u8, tvec4, CONVERT_MODE_5551UNORM>::write},			// FORMAT_BGR5A1_UNORM
+				{conv<u8, tvec4, CONVERT_MODE_5551SCALED>::fetch, conv<u8, tvec4, CONVERT_MODE_5551SCALED>::write},			// FORMAT_BGR5A1_USCALED
 
-				{convertFunc<textureType, samplerValType, u8, P, tvec3, CONVERT_MODE_NORM, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec3, CONVERT_MODE_NORM, std::numeric_limits<samplerValType>::is_iec559>::write},					// FORMAT_BGR8_UNORM
-				{convertFunc<textureType, samplerValType, i8, P, tvec3, CONVERT_MODE_NORM, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec3, CONVERT_MODE_NORM, std::numeric_limits<samplerValType>::is_iec559>::write},					// FORMAT_BGR8_SNORM
-				{convertFunc<textureType, samplerValType, u8, P, tvec3, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec3, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::write},					// FORMAT_BGR8_USCALED
-				{convertFunc<textureType, samplerValType, i8, P, tvec3, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, i8, P, tvec3, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::write},					// FORMAT_BGR8_SSCALED
-				{convertFunc<textureType, samplerValType, u32, P, tvec3, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, u32, P, tvec3, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::write},					// FORMAT_BGR8_UINT
-				{convertFunc<textureType, samplerValType, i32, P, tvec3, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, i32, P, tvec3, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::write},					// FORMAT_BGR8_SINT
-				{convertFunc<textureType, samplerValType, u8, P, tvec3, CONVERT_MODE_SRGB, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec3, CONVERT_MODE_SRGB, std::numeric_limits<samplerValType>::is_iec559>::write},					// FORMAT_BGR8_SRGB
+				{conv<u8, tvec3, CONVERT_MODE_NORM>::fetch, conv<u8, tvec3, CONVERT_MODE_NORM>::write},						// FORMAT_BGR8_UNORM
+				{conv<i8, tvec3, CONVERT_MODE_NORM>::fetch, conv<u8, tvec3, CONVERT_MODE_NORM>::write},						// FORMAT_BGR8_SNORM
+				{conv<u8, tvec3, CONVERT_MODE_CAST>::fetch, conv<u8, tvec3, CONVERT_MODE_CAST>::write},						// FORMAT_BGR8_USCALED
+				{conv<i8, tvec3, CONVERT_MODE_CAST>::fetch, conv<i8, tvec3, CONVERT_MODE_CAST>::write},						// FORMAT_BGR8_SSCALED
+				{conv<u32, tvec3, CONVERT_MODE_CAST>::fetch, conv<u32, tvec3, CONVERT_MODE_CAST>::write},					// FORMAT_BGR8_UINT
+				{conv<i32, tvec3, CONVERT_MODE_CAST>::fetch, conv<i32, tvec3, CONVERT_MODE_CAST>::write},					// FORMAT_BGR8_SINT
+				{conv<u8, tvec3, CONVERT_MODE_SRGB>::fetch, conv<u8, tvec3, CONVERT_MODE_SRGB>::write},						// FORMAT_BGR8_SRGB
 
-				{convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_NORM, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_NORM, std::numeric_limits<samplerValType>::is_iec559>::write},					// FORMAT_BGRA8_UNORM
-				{convertFunc<textureType, samplerValType, i8, P, tvec4, CONVERT_MODE_NORM, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_NORM, std::numeric_limits<samplerValType>::is_iec559>::write},					// FORMAT_BGRA8_SNORM
-				{convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::write},					// FORMAT_BGRA8_USCALED
-				{convertFunc<textureType, samplerValType, i8, P, tvec4, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, i8, P, tvec4, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::write},					// FORMAT_BGRA8_SSCALED
-				{convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::write},					// FORMAT_BGRA8_UINT
-				{convertFunc<textureType, samplerValType, i8, P, tvec4, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, i8, P, tvec4, CONVERT_MODE_CAST, std::numeric_limits<samplerValType>::is_iec559>::write},					// FORMAT_BGRA8_SINT
-				{convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_SRGB, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_SRGB, std::numeric_limits<samplerValType>::is_iec559>::write},					// FORMAT_BGRA8_SRGB
+				{conv<u8, tvec4, CONVERT_MODE_NORM>::fetch, conv<u8, tvec4, CONVERT_MODE_NORM>::write},						// FORMAT_BGRA8_UNORM
+				{conv<i8, tvec4, CONVERT_MODE_NORM>::fetch, conv<u8, tvec4, CONVERT_MODE_NORM>::write},						// FORMAT_BGRA8_SNORM
+				{conv<u8, tvec4, CONVERT_MODE_CAST>::fetch, conv<u8, tvec4, CONVERT_MODE_CAST>::write},						// FORMAT_BGRA8_USCALED
+				{conv<i8, tvec4, CONVERT_MODE_CAST>::fetch, conv<i8, tvec4, CONVERT_MODE_CAST>::write},						// FORMAT_BGRA8_SSCALED
+				{conv<u8, tvec4, CONVERT_MODE_CAST>::fetch, conv<u8, tvec4, CONVERT_MODE_CAST>::write},						// FORMAT_BGRA8_UINT
+				{conv<i8, tvec4, CONVERT_MODE_CAST>::fetch, conv<i8, tvec4, CONVERT_MODE_CAST>::write},						// FORMAT_BGRA8_SINT
+				{conv<u8, tvec4, CONVERT_MODE_SRGB>::fetch, conv<u8, tvec4, CONVERT_MODE_SRGB>::write},						// FORMAT_BGRA8_SRGB
 
-				{convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_RGB10A2UNORM, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_RGB10A2UNORM, std::numeric_limits<samplerValType>::is_iec559>::write},	// FORMAT_BGR10A2_UNORM
-				{convertFunc<textureType, samplerValType, i8, P, tvec4, CONVERT_MODE_RGB10A2SNORM, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, i8, P, tvec4, CONVERT_MODE_RGB10A2SNORM, std::numeric_limits<samplerValType>::is_iec559>::write},	// FORMAT_BGR10A2_SNORM
-				{convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_RGB10A2USCALE, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_RGB10A2USCALE, std::numeric_limits<samplerValType>::is_iec559>::write},	// FORMAT_BGR10A2_USCALED
-				{convertFunc<textureType, samplerValType, i8, P, tvec4, CONVERT_MODE_RGB10A2SSCALE, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, i8, P, tvec4, CONVERT_MODE_RGB10A2SSCALE, std::numeric_limits<samplerValType>::is_iec559>::write},	// FORMAT_BGR10A2_SSCALED
-				{convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_RGB10A2UINT, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_RGB10A2UINT, std::numeric_limits<samplerValType>::is_iec559>::write},		// FORMAT_BGR10A2_UINT
-				{convertFunc<textureType, samplerValType, i8, P, tvec4, CONVERT_MODE_RGB10A2SINT, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, i8, P, tvec4, CONVERT_MODE_RGB10A2SINT, std::numeric_limits<samplerValType>::is_iec559>::write},		// FORMAT_BGR10A2_SINT
+				{conv<u8, tvec4, CONVERT_MODE_RGB10A2UNORM>::fetch, conv<u8, tvec4, CONVERT_MODE_RGB10A2UNORM>::write},		// FORMAT_BGR10A2_UNORM
+				{conv<i8, tvec4, CONVERT_MODE_RGB10A2SNORM>::fetch, conv<i8, tvec4, CONVERT_MODE_RGB10A2SNORM>::write},		// FORMAT_BGR10A2_SNORM
+				{conv<u8, tvec4, CONVERT_MODE_RGB10A2USCALE>::fetch, conv<u8, tvec4, CONVERT_MODE_RGB10A2USCALE>::write},	// FORMAT_BGR10A2_USCALED
+				{conv<i8, tvec4, CONVERT_MODE_RGB10A2SSCALE>::fetch, conv<i8, tvec4, CONVERT_MODE_RGB10A2SSCALE>::write},	// FORMAT_BGR10A2_SSCALED
+				{conv<u8, tvec4, CONVERT_MODE_RGB10A2UINT>::fetch, conv<u8, tvec4, CONVERT_MODE_RGB10A2UINT>::write},		// FORMAT_BGR10A2_UINT
+				{conv<i8, tvec4, CONVERT_MODE_RGB10A2SINT>::fetch, conv<i8, tvec4, CONVERT_MODE_RGB10A2SINT>::write},		// FORMAT_BGR10A2_SINT
 
-				{convertFunc<textureType, samplerValType, u8, P, tvec3, CONVERT_MODE_332UNORM, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec3, CONVERT_MODE_332UNORM, std::numeric_limits<samplerValType>::is_iec559>::write},			// FORMAT_RG3B2_UNORM
-				{convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_NORM, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_NORM, std::numeric_limits<samplerValType>::is_iec559>::write},					// FORMAT_BGRX8_UNORM
-				{convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_SRGB, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_SRGB, std::numeric_limits<samplerValType>::is_iec559>::write},					// FORMAT_BGRX8_SRGB
+				{conv<u8, tvec3, CONVERT_MODE_332UNORM>::fetch, conv<u8, tvec3, CONVERT_MODE_332UNORM>::write},				// FORMAT_RG3B2_UNORM
+				{conv<u8, tvec4, CONVERT_MODE_NORM>::fetch, conv<u8, tvec4, CONVERT_MODE_NORM>::write},						// FORMAT_BGRX8_UNORM
+				{conv<u8, tvec4, CONVERT_MODE_SRGB>::fetch, conv<u8, tvec4, CONVERT_MODE_SRGB>::write},						// FORMAT_BGRX8_SRGB
 
-				{convertFunc<textureType, samplerValType, u8, P, tvec1, CONVERT_MODE_NORM, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec1, CONVERT_MODE_NORM, std::numeric_limits<samplerValType>::is_iec559>::write},					// FORMAT_L8_UNORM
-				{convertFunc<textureType, samplerValType, u8, P, tvec1, CONVERT_MODE_NORM, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec1, CONVERT_MODE_NORM, std::numeric_limits<samplerValType>::is_iec559>::write},					// FORMAT_A8_UNORM
-				{convertFunc<textureType, samplerValType, u8, P, tvec2, CONVERT_MODE_NORM, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec2, CONVERT_MODE_NORM, std::numeric_limits<samplerValType>::is_iec559>::write},					// FORMAT_LA8_UNORM
-				{convertFunc<textureType, samplerValType, u16, P, tvec1, CONVERT_MODE_NORM, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, u16, P, tvec1, CONVERT_MODE_NORM, std::numeric_limits<samplerValType>::is_iec559>::write},					// FORMAT_L16_UNORM
-				{convertFunc<textureType, samplerValType, u16, P, tvec1, CONVERT_MODE_NORM, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, u16, P, tvec1, CONVERT_MODE_NORM, std::numeric_limits<samplerValType>::is_iec559>::write},					// FORMAT_A16_UNORM
-				{convertFunc<textureType, samplerValType, u16, P, tvec2, CONVERT_MODE_NORM, std::numeric_limits<samplerValType>::is_iec559>::fetch, convertFunc<textureType, samplerValType, u16, P, tvec2, CONVERT_MODE_NORM, std::numeric_limits<samplerValType>::is_iec559>::write},					// FORMAT_LA16_UNORM
+				{conv<u8, tvec1, CONVERT_MODE_NORM>::fetch, conv<u8, tvec1, CONVERT_MODE_NORM>::write},						// FORMAT_L8_UNORM
+				{conv<u8, tvec1, CONVERT_MODE_NORM>::fetch, conv<u8, tvec1, CONVERT_MODE_NORM>::write},						// FORMAT_A8_UNORM
+				{conv<u8, tvec2, CONVERT_MODE_NORM>::fetch, conv<u8, tvec2, CONVERT_MODE_NORM>::write},						// FORMAT_LA8_UNORM
+				{conv<u16, tvec1, CONVERT_MODE_NORM>::fetch, conv<u16, tvec1, CONVERT_MODE_NORM>::write},					// FORMAT_L16_UNORM
+				{conv<u16, tvec1, CONVERT_MODE_NORM>::fetch, conv<u16, tvec1, CONVERT_MODE_NORM>::write},					// FORMAT_A16_UNORM
+				{conv<u16, tvec2, CONVERT_MODE_NORM>::fetch, conv<u16, tvec2, CONVERT_MODE_NORM>::write},					// FORMAT_LA16_UNORM
 
-				{convertFunc<textureType, samplerValType, u8, P, tvec3, CONVERT_MODE_DEFAULT>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec3, CONVERT_MODE_DEFAULT>::write},							// FORMAT_RGB_PVRTC1_8X8_UNORM
-				{convertFunc<textureType, samplerValType, u8, P, tvec3, CONVERT_MODE_DEFAULT>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec3, CONVERT_MODE_DEFAULT>::write},							// FORMAT_RGB_PVRTC1_8X8_SRGB
-				{convertFunc<textureType, samplerValType, u8, P, tvec3, CONVERT_MODE_DEFAULT>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec3, CONVERT_MODE_DEFAULT>::write},							// FORMAT_RGB_PVRTC1_16X8_UNORM
-				{convertFunc<textureType, samplerValType, u8, P, tvec3, CONVERT_MODE_DEFAULT>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec3, CONVERT_MODE_DEFAULT>::write},							// FORMAT_RGB_PVRTC1_16X8_SRGB
-				{convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_DEFAULT>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_DEFAULT>::write},							// FORMAT_RGBA_PVRTC1_8X8_UNORM
-				{convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_DEFAULT>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_DEFAULT>::write},							// FORMAT_RGBA_PVRTC1_8X8_SRGB
-				{convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_DEFAULT>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_DEFAULT>::write},							// FORMAT_RGBA_PVRTC1_16X8_UNORM
-				{convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_DEFAULT>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_DEFAULT>::write},							// FORMAT_RGBA_PVRTC1_16X8_SRGB
-				{convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_DEFAULT>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_DEFAULT>::write},							// FORMAT_RGBA_PVRTC2_4X4_UNORM
-				{convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_DEFAULT>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_DEFAULT>::write},							// FORMAT_RGBA_PVRTC2_4X4_SRGB
-				{convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_DEFAULT>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_DEFAULT>::write},							// FORMAT_RGBA_PVRTC2_8X4_UNORM
-				{convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_DEFAULT>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_DEFAULT>::write},							// FORMAT_RGBA_PVRTC2_8X4_SRGB
+				{conv<u8, tvec3, CONVERT_MODE_DEFAULT>::fetch, conv<u8, tvec3, CONVERT_MODE_DEFAULT>::write},				// FORMAT_RGB_PVRTC1_8X8_UNORM
+				{conv<u8, tvec3, CONVERT_MODE_DEFAULT>::fetch, conv<u8, tvec3, CONVERT_MODE_DEFAULT>::write},				// FORMAT_RGB_PVRTC1_8X8_SRGB
+				{conv<u8, tvec3, CONVERT_MODE_DEFAULT>::fetch, conv<u8, tvec3, CONVERT_MODE_DEFAULT>::write},				// FORMAT_RGB_PVRTC1_16X8_UNORM
+				{conv<u8, tvec3, CONVERT_MODE_DEFAULT>::fetch, conv<u8, tvec3, CONVERT_MODE_DEFAULT>::write},				// FORMAT_RGB_PVRTC1_16X8_SRGB
+				{conv<u8, tvec4, CONVERT_MODE_DEFAULT>::fetch, conv<u8, tvec4, CONVERT_MODE_DEFAULT>::write},				// FORMAT_RGBA_PVRTC1_8X8_UNORM
+				{conv<u8, tvec4, CONVERT_MODE_DEFAULT>::fetch, conv<u8, tvec4, CONVERT_MODE_DEFAULT>::write},				// FORMAT_RGBA_PVRTC1_8X8_SRGB
+				{conv<u8, tvec4, CONVERT_MODE_DEFAULT>::fetch, conv<u8, tvec4, CONVERT_MODE_DEFAULT>::write},				// FORMAT_RGBA_PVRTC1_16X8_UNORM
+				{conv<u8, tvec4, CONVERT_MODE_DEFAULT>::fetch, conv<u8, tvec4, CONVERT_MODE_DEFAULT>::write},				// FORMAT_RGBA_PVRTC1_16X8_SRGB
+				{conv<u8, tvec4, CONVERT_MODE_DEFAULT>::fetch, conv<u8, tvec4, CONVERT_MODE_DEFAULT>::write},				// FORMAT_RGBA_PVRTC2_4X4_UNORM
+				{conv<u8, tvec4, CONVERT_MODE_DEFAULT>::fetch, conv<u8, tvec4, CONVERT_MODE_DEFAULT>::write},				// FORMAT_RGBA_PVRTC2_4X4_SRGB
+				{conv<u8, tvec4, CONVERT_MODE_DEFAULT>::fetch, conv<u8, tvec4, CONVERT_MODE_DEFAULT>::write},				// FORMAT_RGBA_PVRTC2_8X4_UNORM
+				{conv<u8, tvec4, CONVERT_MODE_DEFAULT>::fetch, conv<u8, tvec4, CONVERT_MODE_DEFAULT>::write},				// FORMAT_RGBA_PVRTC2_8X4_SRGB
 
-				{convertFunc<textureType, samplerValType, u8, P, tvec3, CONVERT_MODE_DEFAULT>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec3, CONVERT_MODE_DEFAULT>::write},							// FORMAT_RGB_ETC_UNORM
-				{convertFunc<textureType, samplerValType, u8, P, tvec3, CONVERT_MODE_DEFAULT>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec3, CONVERT_MODE_DEFAULT>::write},							// FORMAT_RGB_ATC_UNORM
-				{convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_DEFAULT>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_DEFAULT>::write},							// FORMAT_RGBA_ATC_EXPLICIT_UNORM
-				{convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_DEFAULT>::fetch, convertFunc<textureType, samplerValType, u8, P, tvec4, CONVERT_MODE_DEFAULT>::write}							// FORMAT_RGBA_ATC_INTERPOLATED_UNORM
+				{conv<u8, tvec3, CONVERT_MODE_DEFAULT>::fetch, conv<u8, tvec3, CONVERT_MODE_DEFAULT>::write},				// FORMAT_RGB_ETC_UNORM
+				{conv<u8, tvec3, CONVERT_MODE_DEFAULT>::fetch, conv<u8, tvec3, CONVERT_MODE_DEFAULT>::write},				// FORMAT_RGB_ATC_UNORM
+				{conv<u8, tvec4, CONVERT_MODE_DEFAULT>::fetch, conv<u8, tvec4, CONVERT_MODE_DEFAULT>::write},				// FORMAT_RGBA_ATC_EXPLICIT_UNORM
+				{conv<u8, tvec4, CONVERT_MODE_DEFAULT>::fetch, conv<u8, tvec4, CONVERT_MODE_DEFAULT>::write}				// FORMAT_RGBA_ATC_INTERPOLATED_UNORM
 			};
 			static_assert(sizeof(Table) / sizeof(Table[0]) == FORMAT_COUNT, "Texel functions need to be updated");
 
