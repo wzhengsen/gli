@@ -34,7 +34,7 @@ namespace gli{
 namespace detail
 {
 	template <typename texture_type, typename fetch_type, typename texel_type>
-	texel_type filter2D_linear
+	static texel_type filter2D_nearest
 	(
 		texture_type const & Texture,
 		fetch_type Fetch,
@@ -42,7 +42,29 @@ namespace detail
 		typename texture_type::size_type Layer,
 		typename texture_type::size_type Face,
 		typename texture_type::size_type Level,
-		texel_type const & BorderColor)
+		texel_type const & BorderColor
+	)
+	{
+		coord_nearest<typename texture_type::texelcoord_type, typename texture_type::samplecoord_type> const & Coord = make_coord_nearest(Texture.dimensions(Level), SampleCoord);
+
+		texel_type Texel(BorderColor);
+		if(Coord.UseTexel.s && Coord.UseTexel.t)
+			Texel = Fetch(Texture, Coord.Texel, Layer, Face, Level);
+
+		return Texel;
+	}
+
+	template <typename texture_type, typename fetch_type, typename texel_type>
+	static texel_type filter2D_linear
+	(
+		texture_type const & Texture,
+		fetch_type Fetch,
+		typename texture_type::samplecoord_type const & SampleCoord,
+		typename texture_type::size_type Layer,
+		typename texture_type::size_type Face,
+		typename texture_type::size_type Level,
+		texel_type const & BorderColor
+	)
 	{
 		coord_linear<typename texture_type::texelcoord_type, typename texture_type::samplecoord_type> const & Coord = make_coord_linear(Texture.dimensions(Level), SampleCoord);
 

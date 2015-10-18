@@ -73,6 +73,7 @@ namespace gli
 	inline typename sampler2D<T, P>::texel_type sampler2D<T, P>::texture_lod(samplecoord_type const & Texcoord, T Level) const
 	{
 		assert(std::numeric_limits<T>::is_iec559);
+		assert(this->Convert.Fetch);
 
 		samplecoord_type const TexcoordWrap(this->WrapFunc(Texcoord.x), this->WrapFunc(Texcoord.y));
 
@@ -94,7 +95,6 @@ namespace gli
 	template <typename T, precision P>
 	inline typename sampler2D<T, P>::texel_type sampler2D<T, P>::texture_lod_linear(samplecoord_type const & SampleCoord, size_type Level) const
 	{
-
 		assert(std::numeric_limits<T>::is_iec559);
 		assert(this->Convert.Fetch);
 
@@ -105,15 +105,9 @@ namespace gli
 	inline typename sampler2D<T, P>::texel_type sampler2D<T, P>::texture_lod_nearest(samplecoord_type const & SampleCoord, size_type Level) const
 	{
 		assert(std::numeric_limits<T>::is_iec559);
+		assert(this->Convert.Fetch);
 
-		texelcoord_type const TexelDim = this->Texture.dimensions(Level);
-
-		samplecoord_type const TexelLast(samplecoord_type(TexelDim) - static_cast<T>(1));
-		texelcoord_type const SampleCoordFloor(floor(SampleCoord * TexelLast));
-
-		bool const UseBorderColor = SampleCoordFloor.s > static_cast<int>(TexelDim.x) || SampleCoordFloor.s < 0 || SampleCoordFloor.t > static_cast<int>(TexelDim.y) || SampleCoordFloor.t < 0;
-
-		return UseBorderColor ? this->BorderColor : this->texel_fetch(texelcoord_type(SampleCoordFloor), Level);
+		return detail::filter2D_nearest(this->Texture, this->Convert.Fetch, SampleCoord, 0, 0, Level, this->BorderColor);
 	}
 
 	template <typename T, precision P>

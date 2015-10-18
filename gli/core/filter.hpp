@@ -38,6 +38,26 @@ namespace detail
 	}
 
 	template <typename texelcoord_type, typename samplecoord_type>
+	struct coord_nearest
+	{
+		texelcoord_type Texel;
+		typename texelcoord_type::bool_type UseTexel;
+	};
+
+	template <typename texelcoord_type, typename samplecoord_type>
+	inline coord_nearest<texelcoord_type, samplecoord_type> make_coord_nearest(texelcoord_type const & TexelDim, samplecoord_type const & SampleCoord)
+	{
+		coord_nearest<texelcoord_type, samplecoord_type> Coord;
+
+		samplecoord_type const TexelLast(samplecoord_type(TexelDim) - samplecoord_type(1));
+
+		Coord.Texel = texelcoord_type(round(SampleCoord * TexelLast));
+		Coord.UseTexel = in_interval(Coord.Texel, texelcoord_type(0), TexelDim - 1);
+
+		return Coord;
+	}
+
+	template <typename texelcoord_type, typename samplecoord_type>
 	struct coord_linear
 	{
 		samplecoord_type TexelLast;
