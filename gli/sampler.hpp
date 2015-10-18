@@ -53,12 +53,11 @@ namespace gli
 		sampler(wrap Wrap, filter Mip, filter Min);
 
 	protected:
-		typedef float(*wrapFunc)(float const & texcoord);
+		typedef float(*wrap_type)(float const & SamplerCoord);
 
-		wrapFunc getFunc(wrap WrapMode) const;
+		wrap_type getFunc(wrap WrapMode) const;
 
-		wrap WrapMode;
-		wrapFunc WrapFunc;
+		wrap_type Wrap;
 		filter Mip;
 		filter Min;
 	};

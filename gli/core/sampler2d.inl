@@ -26,18 +26,18 @@
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
-#include "filter2d.hpp"
 #include "clear.hpp"
 #include <glm/vector_relational.hpp>
 
 namespace gli
 {
 	template <typename T, precision P>
-	inline sampler2D<T, P>::sampler2D(texture2D const & Texture, wrap Wrap, filter Mip, filter Min, texel_type const & BorderColor)
+	inline sampler2D<T, P>::sampler2D(texture2D const & Texture, gli::wrap Wrap, filter Mip, filter Min, texel_type const & BorderColor)
 		: sampler(Wrap, Texture.levels() > 1 ? Mip : FILTER_NEAREST, Min)
 		, Texture(Texture)
 		, Convert(detail::convert<texture2D, T, P>::call(this->Texture.format()))
 		, BorderColor(BorderColor)
+		, Filter(Min == FILTER_LINEAR ? detail::filter2D<texture_type, fetch_type, texel_type>::linear : detail::filter2D<texture_type, fetch_type, texel_type>::nearest)
 	{
 		assert(!Texture.empty());
 		assert(!is_compressed(Texture.format()));
@@ -75,39 +75,18 @@ namespace gli
 		assert(std::numeric_limits<T>::is_iec559);
 		assert(this->Convert.Fetch);
 
-		samplecoord_type const TexcoordWrap(this->WrapFunc(Texcoord.x), this->WrapFunc(Texcoord.y));
-
-		size_type const minLevel = size_type(floor(Level));
-		size_type const maxLevel = size_type(ceil(Level));
+		samplecoord_type const TexcoordWrap(this->Wrap(Texcoord.x), this->Wrap(Texcoord.y));
 
 		if (this->Mip == FILTER_LINEAR)
 		{
-			texel_type const minTexel = this->Min == FILTER_LINEAR ? this->texture_lod_linear(TexcoordWrap, minLevel) : this->texture_lod_nearest(TexcoordWrap, minLevel);
-			texel_type const maxTexel = this->Min == FILTER_LINEAR ? this->texture_lod_linear(TexcoordWrap, maxLevel) : this->texture_lod_nearest(TexcoordWrap, minLevel);
-			return mix(minTexel, maxTexel, fract(Level));
+			texel_type const MinTexel = this->Filter(this->Texture, this->Convert.Fetch, TexcoordWrap, size_type(0), size_type(0), size_type(floor(Level)), this->BorderColor);
+			texel_type const MaxTexel = this->Filter(this->Texture, this->Convert.Fetch, TexcoordWrap, size_type(0), size_type(0), size_type(ceil(Level)), this->BorderColor);
+			return mix(MinTexel, MaxTexel, fract(Level));
 		} else
 		{
-			texture2D::size_type const level = texture2D::size_type(round(Level));
-			return this->Min == FILTER_LINEAR ? this->texture_lod_linear(TexcoordWrap, level) : this->texture_lod_nearest(TexcoordWrap, minLevel);
+			texture2D::size_type const level = size_type(round(Level));
+			return this->Filter(this->Texture, this->Convert.Fetch, TexcoordWrap, size_type(0), size_type(0), size_type(round(Level)), this->BorderColor);
 		}
-	}
-
-	template <typename T, precision P>
-	inline typename sampler2D<T, P>::texel_type sampler2D<T, P>::texture_lod_linear(samplecoord_type const & SampleCoord, size_type Level) const
-	{
-		assert(std::numeric_limits<T>::is_iec559);
-		assert(this->Convert.Fetch);
-
-		return detail::filter2D_linear(this->Texture, this->Convert.Fetch, SampleCoord, 0, 0, Level, this->BorderColor);
-	}
-
-	template <typename T, precision P>
-	inline typename sampler2D<T, P>::texel_type sampler2D<T, P>::texture_lod_nearest(samplecoord_type const & SampleCoord, size_type Level) const
-	{
-		assert(std::numeric_limits<T>::is_iec559);
-		assert(this->Convert.Fetch);
-
-		return detail::filter2D_nearest(this->Texture, this->Convert.Fetch, SampleCoord, 0, 0, Level, this->BorderColor);
 	}
 
 	template <typename T, precision P>
