@@ -26,19 +26,12 @@
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
+#include "filter2d.hpp"
 #include "clear.hpp"
 #include <glm/vector_relational.hpp>
 
-namespace gli{
-namespace detail
+namespace gli
 {
-	template <typename T, precision P, template <typename, glm::precision> class vecType>
-	inline vecType<bool, P> in_interval(vecType<T, P> const & Value, vecType<T, P> const & Min, vecType<T, P> const & Max)
-	{
-		return greaterThanEqual(Value, Min) && lessThanEqual(Value, Max);
-	}
-}//namespace detail
-
 	template <typename T, precision P>
 	inline sampler2D<T, P>::sampler2D(texture2D const & Texture, wrap Wrap, filter Mip, filter Min, texel_type const & BorderColor)
 		: sampler(Wrap, Texture.levels() > 1 ? Mip : FILTER_NEAREST, Min)
@@ -77,7 +70,7 @@ namespace detail
 	}
 
 	template <typename T, glm::precision P>
-	inline typename sampler2D<T, P>::texel_type sampler2D<T, P>::texture_lod(samplecoord_type const & Texcoord, float Level) const
+	inline typename sampler2D<T, P>::texel_type sampler2D<T, P>::texture_lod(samplecoord_type const & Texcoord, T Level) const
 	{
 		assert(std::numeric_limits<T>::is_iec559);
 
@@ -101,44 +94,11 @@ namespace detail
 	template <typename T, precision P>
 	inline typename sampler2D<T, P>::texel_type sampler2D<T, P>::texture_lod_linear(samplecoord_type const & SampleCoord, size_type Level) const
 	{
+
 		assert(std::numeric_limits<T>::is_iec559);
 		assert(this->Convert.Fetch);
 
-		texelcoord_type const TexelDim(this->Texture.dimensions(Level));
-		samplecoord_type const TexelDimF(TexelDim);
-		samplecoord_type const TexelLast(TexelDimF - static_cast<T>(1));
-
-		samplecoord_type const ScaledCoordFloor(floor(SampleCoord * TexelLast));
-		samplecoord_type const ScaledCoordCeil(ceil(SampleCoord * TexelLast));
-
-		texelcoord_type const TexelCoordFloor(ScaledCoordFloor);
-		texelcoord_type const TexelCoordCeil(ScaledCoordCeil);
-
-		bvec2 const UseTexelFloor(detail::in_interval(TexelCoordFloor, texelcoord_type(0), TexelDim - 1));
-		bvec2 const UseTexelCeil(detail::in_interval(TexelCoordCeil, texelcoord_type(0), TexelDim - 1));
-
-		texel_type Texel00(this->BorderColor);
-		if(UseTexelFloor.s && UseTexelFloor.t)
-			Texel00 = this->Convert.Fetch(this->Texture, texelcoord_type(TexelCoordFloor.s, TexelCoordFloor.t), 0, 0, Level);
-
-		texel_type Texel10(this->BorderColor);
-		if(UseTexelCeil.s && UseTexelFloor.t)
-			Texel10 = this->Convert.Fetch(this->Texture, texelcoord_type(TexelCoordCeil.s, TexelCoordFloor.t), 0, 0, Level);
-
-		texel_type Texel11(this->BorderColor);
-		if(UseTexelCeil.s && UseTexelCeil.t)
-			Texel11 = this->Convert.Fetch(this->Texture, texelcoord_type(TexelCoordCeil.s, TexelCoordCeil.t), 0, 0, Level);
-
-		texel_type Texel01(this->BorderColor);
-		if(UseTexelFloor.s && TexelCoordCeil.t)
-			Texel01 = this->Convert.Fetch(this->Texture, texelcoord_type(TexelCoordFloor.s, TexelCoordCeil.t), 0, 0, Level);
-
-		samplecoord_type const BlendFactor((SampleCoord - ScaledCoordFloor / TexelLast) * TexelLast);
-
-		texel_type const ValueA(mix(Texel00, Texel10, BlendFactor.s));
-		texel_type const ValueB(mix(Texel01, Texel11, BlendFactor.s));
-		texel_type const Texel(mix(ValueA, ValueB, BlendFactor.t));
-		return Texel;
+		return detail::filter2D_linear(this->Texture, this->Convert.Fetch, SampleCoord, 0, 0, Level, this->BorderColor);
 	}
 
 	template <typename T, precision P>
