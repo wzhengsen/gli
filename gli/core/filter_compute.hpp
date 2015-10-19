@@ -76,11 +76,11 @@ namespace detail
 		{
 			coord_linear<typename texture_type::texelcoord_type, typename texture_type::samplecoord_type> const & Coord = make_coord_linear(Texture.dimensions(Level), SampleCoord);
 
-			texel_type Texel00(BorderColor);
+			texel_type Texel0(BorderColor);
 			if(Coord.UseTexelFloor.s)
 				Texel0 = Fetch(Texture, typename texture_type::texelcoord_type(Coord.TexelFloor.s), Layer, Face, Level);
 
-			texel_type Texel10(BorderColor);
+			texel_type Texel1(BorderColor);
 			if(Coord.UseTexelCeil.s)
 				Texel1 = Fetch(Texture, typename texture_type::texelcoord_type(Coord.TexelCeil.s), Layer, Face, Level);
 
