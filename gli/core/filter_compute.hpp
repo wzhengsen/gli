@@ -125,6 +125,67 @@ namespace detail
 			return mix(ValueA, ValueB, Coord.Blend.t);
 		}
 	};
+
+	template <typename texture_type, typename fetch_type, typename texel_type>
+	struct filter3D : public filter_base<texture_type, fetch_type, texel_type>
+	{
+		static texel_type linear
+		(
+			texture_type const & Texture,
+			fetch_type Fetch,
+			typename texture_type::samplecoord_type const & SampleCoord,
+			typename texture_type::size_type Layer,
+			typename texture_type::size_type Face,
+			typename texture_type::size_type Level,
+			texel_type const & BorderColor
+		)
+		{
+			coord_linear<typename texture_type::texelcoord_type, typename texture_type::samplecoord_type> const & Coord = make_coord_linear(Texture.dimensions(Level), SampleCoord);
+
+			texel_type Texel000(BorderColor);
+			if(Coord.UseTexelFloor.s && Coord.UseTexelFloor.t && Coord.UseTexelFloor.p)
+				Texel000 = Fetch(Texture, typename texture_type::texelcoord_type(Coord.TexelFloor.s, Coord.TexelFloor.t, Coord.TexelFloor.p), Layer, Face, Level);
+
+			texel_type Texel100(BorderColor);
+			if(Coord.UseTexelCeil.s && Coord.UseTexelFloor.t && Coord.UseTexelFloor.p)
+				Texel100 = Fetch(Texture, typename texture_type::texelcoord_type(Coord.TexelCeil.s, Coord.TexelFloor.t, Coord.TexelFloor.p), Layer, Face, Level);
+
+			texel_type Texel110(BorderColor);
+			if(Coord.UseTexelCeil.s && Coord.UseTexelCeil.t && Coord.UseTexelFloor.p)
+				Texel110 = Fetch(Texture, typename texture_type::texelcoord_type(Coord.TexelCeil.s, Coord.TexelCeil.t, Coord.TexelFloor.p), Layer, Face, Level);
+
+			texel_type Texel010(BorderColor);
+			if(Coord.UseTexelFloor.s && Coord.UseTexelCeil.t && Coord.UseTexelFloor.p)
+				Texel010 = Fetch(Texture, typename texture_type::texelcoord_type(Coord.TexelFloor.s, Coord.TexelCeil.t, Coord.TexelFloor.p), Layer, Face, Level);
+
+			texel_type Texel001(BorderColor);
+			if (Coord.UseTexelFloor.s && Coord.UseTexelFloor.t && Coord.UseTexelCeil.p)
+				Texel001 = Fetch(Texture, typename texture_type::texelcoord_type(Coord.TexelFloor.s, Coord.TexelFloor.t, Coord.TexelCeil.p), Layer, Face, Level);
+
+			texel_type Texel101(BorderColor);
+			if(Coord.UseTexelCeil.s && Coord.UseTexelFloor.t && Coord.UseTexelCeil.p)
+				Texel101 = Fetch(Texture, typename texture_type::texelcoord_type(Coord.TexelCeil.s, Coord.TexelFloor.t, Coord.TexelCeil.p), Layer, Face, Level);
+
+			texel_type Texel111(BorderColor);
+			if(Coord.UseTexelCeil.s && Coord.UseTexelCeil.t && Coord.UseTexelCeil.p)
+				Texel111 = Fetch(Texture, typename texture_type::texelcoord_type(Coord.TexelCeil.s, Coord.TexelCeil.t, Coord.TexelCeil.p), Layer, Face, Level);
+
+			texel_type Texel011(BorderColor);
+			if(Coord.UseTexelFloor.s && Coord.UseTexelCeil.t && Coord.UseTexelCeil.p)
+				Texel011 = Fetch(Texture, typename texture_type::texelcoord_type(Coord.TexelFloor.s, Coord.TexelCeil.t, Coord.TexelCeil.p), Layer, Face, Level);
+
+			texel_type const ValueA(mix(Texel000, Texel100, Coord.Blend.s));
+			texel_type const ValueB(mix(Texel010, Texel110, Coord.Blend.s));
+
+			texel_type const ValueC(mix(Texel001, Texel101, Coord.Blend.s));
+			texel_type const ValueD(mix(Texel011, Texel111, Coord.Blend.s));
+
+			texel_type const ValueE(mix(ValueA, ValueB, Coord.Blend.t));
+			texel_type const ValueF(mix(ValueA, ValueB, Coord.Blend.t));
+
+			return mix(ValueE, ValueF, Coord.Blend.p);
+		}
+	};
 }//namespace detail
 }//namespace gli
 
