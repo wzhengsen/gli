@@ -43,3 +43,5 @@ namespace gli
 		FILTER_INVALID = -1
 	};
 }//namespace gli
+
+#include "./core/filter.inl"
