@@ -28,10 +28,12 @@
 
 #pragma once
 
+#include "../type.hpp"
+
 namespace gli{
 namespace detail
 {
-	template <typename T, precision P, template <typename, glm::precision> class vecType>
+	template <typename T, precision P, template <typename, precision> class vecType>
 	inline vecType<bool, P> in_interval(vecType<T, P> const & Value, vecType<T, P> const & Min, vecType<T, P> const & Max)
 	{
 		return greaterThanEqual(Value, Min) && lessThanEqual(Value, Max);
