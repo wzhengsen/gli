@@ -31,30 +31,6 @@
 namespace gli{
 namespace detail
 {
-	template <typename texture_type, typename fetch_type, typename texel_type>
-	struct filter_base
-	{
-		typedef texel_type(*filterFunc)(texture_type const & Texture, fetch_type Fetch, typename texture_type::samplecoord_type const & SampleCoord, typename texture_type::size_type Layer, typename texture_type::size_type Face, typename texture_type::size_type Level, texel_type const & BorderColor);
 
-		static texel_type nearest
-		(
-			texture_type const & Texture,
-			fetch_type Fetch,
-			typename texture_type::samplecoord_type const & SampleCoord,
-			typename texture_type::size_type Layer,
-			typename texture_type::size_type Face,
-			typename texture_type::size_type Level,
-			texel_type const & BorderColor
-		)
-		{
-			coord_nearest<typename texture_type::texelcoord_type, typename texture_type::samplecoord_type> const & Coord = make_coord_nearest(Texture.dimensions(Level), SampleCoord);
-
-			texel_type Texel(BorderColor);
-			if(Coord.UseTexel.s && Coord.UseTexel.t)
-				Texel = Fetch(Texture, Coord.Texel, Layer, Face, Level);
-
-			return Texel;
-		}
-	};
 }//namespace detail
 }//namespace gli
