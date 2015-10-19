@@ -111,11 +111,11 @@ namespace gli
 			samplecoord_type const SampleCoordScale(static_cast<T>(1) / samplecoord_type(this->Texture.dimensions(Level + 0)));
 			texelcoord_type const DimDst = this->Texture.dimensions(Level + 1);
 
-			for(int j = 0; j < DimDst.y; ++j)
-			for(int i = 0; i < DimDst.x; ++i)
+			for(typename texelcoord_type::value_type j = 0; j < DimDst.y; ++j)
+			for(typename texelcoord_type::value_type i = 0; i < DimDst.x; ++i)
 			{
-				int const x = (i << 1);
-				int const y = (j << 1);
+				typename texelcoord_type::value_type const x = (i << 1);
+				typename texelcoord_type::value_type const y = (j << 1);
 
 				texel_type const Texel00 = this->texture_lod(samplecoord_type(x + 0, y + 0) * SampleCoordScale, static_cast<T>(Level));
 				texel_type const Texel01 = this->texture_lod(samplecoord_type(x + 0, y + 1) * SampleCoordScale, static_cast<T>(Level));
