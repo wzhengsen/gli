@@ -84,7 +84,6 @@ namespace gli
 			return mix(MinTexel, MaxTexel, fract(Level));
 		} else
 		{
-			texture2D::size_type const level = size_type(round(Level));
 			return this->Filter(this->Texture, this->Convert.Fetch, TexcoordWrap, size_type(0), size_type(0), size_type(round(Level)), this->BorderColor);
 		}
 	}
