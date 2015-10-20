@@ -70,21 +70,21 @@ namespace gli
 	}
 
 	template <typename T, glm::precision P>
-	inline typename sampler2D<T, P>::texel_type sampler2D<T, P>::texture_lod(samplecoord_type const & Texcoord, T Level) const
+	inline typename sampler2D<T, P>::texel_type sampler2D<T, P>::texture_lod(samplecoord_type const & SampleCoord, T Level) const
 	{
 		assert(std::numeric_limits<T>::is_iec559);
 		assert(this->Convert.Fetch);
 
-		samplecoord_type const TexcoordWrap(this->Wrap(Texcoord.x), this->Wrap(Texcoord.y));
+		samplecoord_type const SampleCoordWrap(this->Wrap(SampleCoord.x), this->Wrap(SampleCoord.y));
 
 		if (this->Mip == FILTER_LINEAR)
 		{
-			texel_type const MinTexel = this->Filter(this->Texture, this->Convert.Fetch, TexcoordWrap, size_type(0), size_type(0), size_type(floor(Level)), this->BorderColor);
-			texel_type const MaxTexel = this->Filter(this->Texture, this->Convert.Fetch, TexcoordWrap, size_type(0), size_type(0), size_type(ceil(Level)), this->BorderColor);
+			texel_type const MinTexel = this->Filter(this->Texture, this->Convert.Fetch, SampleCoordWrap, size_type(0), size_type(0), size_type(floor(Level)), this->BorderColor);
+			texel_type const MaxTexel = this->Filter(this->Texture, this->Convert.Fetch, SampleCoordWrap, size_type(0), size_type(0), size_type(ceil(Level)), this->BorderColor);
 			return mix(MinTexel, MaxTexel, fract(Level));
 		} else
 		{
-			return this->Filter(this->Texture, this->Convert.Fetch, TexcoordWrap, size_type(0), size_type(0), size_type(round(Level)), this->BorderColor);
+			return this->Filter(this->Texture, this->Convert.Fetch, SampleCoordWrap, size_type(0), size_type(0), size_type(round(Level)), this->BorderColor);
 		}
 	}
 
