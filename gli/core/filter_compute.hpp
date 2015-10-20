@@ -53,7 +53,7 @@ namespace detail
 			coord_nearest<typename texture_type::texelcoord_type, typename texture_type::samplecoord_type> const & Coord = make_coord_nearest(Texture.dimensions(Level), SampleCoord);
 
 			texel_type Texel(BorderColor);
-			if(Coord.UseTexel.s && Coord.UseTexel.t)
+			if(all(Coord.UseTexel))
 				Texel = Fetch(Texture, Coord.Texel, Layer, Face, Level);
 
 			return Texel;

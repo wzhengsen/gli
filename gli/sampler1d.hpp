@@ -42,7 +42,7 @@ namespace gli
 		typedef texture1D texture_type;
 		typedef typename texture_type::size_type size_type;
 		typedef typename texture_type::texelcoord_type texelcoord_type;
-		typedef tvec2<T, P> samplecoord_type;
+		typedef tvec1<T, P> samplecoord_type;
 		typedef tvec4<T, P> texel_type;
 		typedef typename detail::convert<texture_type, T, P>::func convert_type;
 		typedef typename detail::convert<texture_type, T, P>::fetchFunc fetch_type;

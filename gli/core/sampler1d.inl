@@ -75,7 +75,7 @@ namespace gli
 		assert(std::numeric_limits<T>::is_iec559);
 		assert(this->Convert.Fetch);
 
-		samplecoord_type const SampleCoordWrap(this->Wrap(SampleCoord.x), this->Wrap(SampleCoord.y));
+		samplecoord_type const SampleCoordWrap(this->Wrap(SampleCoord.x));
 
 		if (this->Mip == FILTER_LINEAR)
 		{
