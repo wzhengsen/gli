@@ -118,7 +118,7 @@ namespace gli
 				texel_type const Texel1 = this->texture_lod(samplecoord_type(x + 1) * SampleCoordScale, static_cast<T>(Level));
 
 				texel_type const Texel = (Texel0 + Texel1) * static_cast<T>(0.5);
-				this->texel_write(texelcoord_type(i, j), Level + 1, Texel);
+				this->texel_write(texelcoord_type(i), Level + 1, Texel);
 			}
 		}
 	}
