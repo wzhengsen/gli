@@ -159,8 +159,8 @@ GLuint createTexture(char const* Filename)
 - Added support for many new formats
 - Added KMG support and spec proposal
 - Added texture memory swizzle support
-- Added TARGET_RECT and TARGET_RECT_ARRAY texture target support
 - Added generate_mipmaps for uncompressed formats
+- Added sampler 1D, 2D and 3D
 - Added sampler texel fetch and texel write
 - Added texture lod
 - Added sampler clear

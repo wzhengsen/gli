@@ -77,12 +77,13 @@ namespace gli
 
 		samplecoord_type const SampleCoordWrap(this->Wrap(SampleCoord.x), this->Wrap(SampleCoord.y));
 
-		if (this->Mip == FILTER_LINEAR)
+		if(this->Mip == FILTER_LINEAR)
 		{
 			texel_type const MinTexel = this->Filter(this->Texture, this->Convert.Fetch, SampleCoordWrap, size_type(0), size_type(0), size_type(floor(Level)), this->BorderColor);
 			texel_type const MaxTexel = this->Filter(this->Texture, this->Convert.Fetch, SampleCoordWrap, size_type(0), size_type(0), size_type(ceil(Level)), this->BorderColor);
 			return mix(MinTexel, MaxTexel, fract(Level));
-		} else
+		}
+		else
 		{
 			return this->Filter(this->Texture, this->Convert.Fetch, SampleCoordWrap, size_type(0), size_type(0), size_type(round(Level)), this->BorderColor);
 		}
