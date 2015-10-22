@@ -22,14 +22,29 @@
 ///
 /// @ref core
 /// @file gli/generate_mipmaps.inl
-/// @date 2015-10-06 / 2015-10-06
+/// @date 2015-10-06 / 2015-10-22
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
+#include <gli/sampler1d.hpp>
 #include <gli/sampler2d.hpp>
+#include <gli/sampler3d.hpp>
 
 namespace gli
 {
+	inline texture1D generate_mipmaps(texture1D const & Texture, texture1D::size_type BaseLevel, texture1D::size_type MaxLevel)
+	{
+		fsampler1D Sampler(Texture, WRAP_CLAMP_TO_EDGE, FILTER_LINEAR, FILTER_LINEAR);
+		Sampler.generate_mipmaps(BaseLevel, MaxLevel);
+
+		return Sampler();
+	}
+
+	inline texture1D generate_mipmaps(texture1D const & Texture)
+	{
+		return generate_mipmaps(Texture, Texture.base_level(), Texture.max_level());
+	}
+
 	inline texture2D generate_mipmaps(texture2D const & Texture, texture2D::size_type BaseLevel, texture2D::size_type MaxLevel)
 	{
 		fsampler2D Sampler(Texture, WRAP_CLAMP_TO_EDGE, FILTER_LINEAR, FILTER_LINEAR);
@@ -39,6 +54,19 @@ namespace gli
 	}
 
 	inline texture2D generate_mipmaps(texture2D const & Texture)
+	{
+		return generate_mipmaps(Texture, Texture.base_level(), Texture.max_level());
+	}
+
+	inline texture3D generate_mipmaps(texture3D const & Texture, texture3D::size_type BaseLevel, texture3D::size_type MaxLevel)
+	{
+		fsampler3D Sampler(Texture, WRAP_CLAMP_TO_EDGE, FILTER_LINEAR, FILTER_LINEAR);
+		Sampler.generate_mipmaps(BaseLevel, MaxLevel);
+
+		return Sampler();
+	}
+
+	inline texture3D generate_mipmaps(texture3D const & Texture)
 	{
 		return generate_mipmaps(Texture, Texture.base_level(), Texture.max_level());
 	}
