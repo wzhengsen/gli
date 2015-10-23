@@ -71,7 +71,7 @@ namespace detail
 	};
 
 	template <typename texelcoord_type, typename samplecoord_type>
-	inline coord_linear<texelcoord_type, samplecoord_type> make_coord_linear(texelcoord_type const & TexelDim, samplecoord_type const & SampleCoord)
+	GLI_FORCE_INLINE coord_linear<texelcoord_type, samplecoord_type> make_coord_linear(texelcoord_type const & TexelDim, samplecoord_type const & SampleCoord)
 	{
 		coord_linear<texelcoord_type, samplecoord_type> Coord;
 
