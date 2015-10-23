@@ -37,6 +37,14 @@
 #include <glm/gtc/vec1.hpp>
 #include <glm/gtx/std_based_type.hpp>
 
+#if GLM_COMPILER & GLM_COMPILER_VC
+#	define GLI_FORCE_INLINE __forceinline
+#elif GLM_COMPILER & (GLM_COMPILER_GCC | GLM_COMPILER_APPLE_CLANG | GLM_COMPILER_LLVM)
+#	define GLI_FORCE_INLINE inline __attribute__((__always_inline__))
+#else
+#	define GLI_FORCE_INLINE inline
+#endif//GLM_COMPILER
+
 namespace gli
 {
 	using namespace glm;
