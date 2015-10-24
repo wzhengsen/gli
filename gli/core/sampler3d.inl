@@ -70,7 +70,7 @@ namespace gli
 	}
 
 	template <typename T, glm::precision P>
-	inline typename sampler3D<T, P>::texel_type sampler3D<T, P>::texture_lod(samplecoord_type const & SampleCoord, T Level) const
+	GLI_FORCE_INLINE typename sampler3D<T, P>::texel_type sampler3D<T, P>::texture_lod(samplecoord_type const & SampleCoord, T Level) const
 	{
 		assert(std::numeric_limits<T>::is_iec559);
 		assert(this->Convert.Fetch);

@@ -50,38 +50,11 @@ namespace gli
 	using namespace glm;
 
 	using std::size_t;
-	//typedef int size_t;
 
 	typedef tvec1<size_t> dim1_t;
 	typedef tvec2<size_t> dim2_t;
 	typedef tvec3<size_t> dim3_t;
 	typedef tvec4<size_t> dim4_t;
-
-/*
-template <typename T, typename U, precision P>
-inline tvec4<T, P> make_vec4(tvec1<U, P> const & v)
-{
-return tvec4<T, P>(static_cast<T>(v.x), static_cast<T>(0), static_cast<T>(0), static_cast<T>(1));
-}
-
-template <typename T, typename U, precision P>
-inline tvec4<T, P> make_vec4(tvec2<U, P> const & v)
-{
-return tvec4<T, P>(static_cast<T>(v.x), static_cast<T>(v.y), static_cast<T>(0), static_cast<T>(1));
-}
-
-template <typename T, typename U, precision P>
-inline tvec4<T, P> make_vec4(tvec3<U, P> const & v)
-{
-return tvec4<T, P>(static_cast<T>(v.x), static_cast<T>(v.y), static_cast<T>(v.z), static_cast<T>(1));
-}
-
-template <typename T, typename U, precision P>
-inline tvec4<T, P> make_vec4(tvec4<U, P> const & v)
-{
-return tvec4<T, P>(v);
-}
-*/
 
 	template <typename T, precision P>
 	inline tvec4<T, P> make_vec4(tvec1<T, P> const & v)
