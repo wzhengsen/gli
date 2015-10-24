@@ -40,7 +40,7 @@ namespace mipmaps_rgba4unorm
 	{
 		int Error = 0;
 
-		gli::texture3D Texture(gli::FORMAT_RGBA4_UNORM, gli::texture3D::texelcoord_type(64));
+		gli::texture3D Texture(gli::FORMAT_RGBA4_UNORM, gli::texture3D::texelcoord_type(32));
 		Texture.clear(gli::packUnorm4x4(glm::vec4(1.0f, 0.5f, 0.0f, 1.0f)));
 
 		gli::texture3D TextureView(gli::view(Texture, 0, 0));
@@ -74,7 +74,7 @@ namespace mipmaps_rgba32sf
 	{
 		int Error = 0;
 
-		gli::texture3D Texture(gli::FORMAT_RGBA32_SFLOAT, gli::texture3D::texelcoord_type(128));
+		gli::texture3D Texture(gli::FORMAT_RGBA32_SFLOAT, gli::texture3D::texelcoord_type(256));
 		Texture.clear(glm::vec4(1.0f, 0.5f, 0.0f, 1.0f));
 
 		gli::texture3D TextureView(gli::view(Texture, 0, 0));
@@ -142,7 +142,7 @@ namespace mipmaps_rgba8snorm
 	{
 		int Error = 0;
 
-		gli::texture3D Texture(gli::FORMAT_RGBA8_SNORM, gli::texture3D::texelcoord_type(64));
+		gli::texture3D Texture(gli::FORMAT_RGBA8_SNORM, gli::texture3D::texelcoord_type(32));
 		Texture.clear(glm::i8vec4(127, 63, 0, 1));
 
 		gli::texture3D TextureView(gli::view(Texture, 0, 0));
@@ -176,7 +176,7 @@ namespace mipmaps_rgb10a2unorm
 	{
 		int Error = 0;
 
-		gli::texture3D Texture(gli::FORMAT_RGB10A2_UNORM, gli::texture3D::texelcoord_type(64));
+		gli::texture3D Texture(gli::FORMAT_RGB10A2_UNORM, gli::texture3D::texelcoord_type(32));
 		Texture.clear(gli::packUnorm3x10_1x2(glm::vec4(1.0f, 0.5f, 0.0f, 1.0f)));
 
 		gli::texture3D TextureView(gli::view(Texture, 0, 0));
@@ -208,11 +208,11 @@ int main()
 {
 	int Error = 0;
 
-	Error += mipmaps_rgba4unorm::test();
-	Error += mipmaps_rgba8unorm::test();
+//	Error += mipmaps_rgba4unorm::test();
+//	Error += mipmaps_rgba8unorm::test();
 	Error += mipmaps_rgba32sf::test();
-	Error += mipmaps_rgba8snorm::test();
-	Error += mipmaps_rgb10a2unorm::test();
+//	Error += mipmaps_rgba8snorm::test();
+//	Error += mipmaps_rgb10a2unorm::test();
 
 	return Error;
 }

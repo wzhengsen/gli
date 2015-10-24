@@ -50,7 +50,7 @@ namespace component
 
 		for(std::size_t FormatIndex = gli::FORMAT_FIRST; FormatIndex < gli::FORMAT_COUNT; ++FormatIndex)
 		{
-			std::uint32_t const Components = gli::component_count(static_cast<gli::format>(FormatIndex));
+			std::size_t const Components = gli::component_count(static_cast<gli::format>(FormatIndex));
 			Error += Components > 0 && Components <= 4 ? 0 : 1;
 			assert(!Error);
 		}

@@ -92,8 +92,10 @@ namespace gli
 		struct cache
 		{
 			std::uint8_t* Data;
-			size_type Size;
 			texelcoord_type Dim;
+#			ifndef NDEBUG
+				size_type Size;
+#			endif
 		};
 
 		void build_cache();

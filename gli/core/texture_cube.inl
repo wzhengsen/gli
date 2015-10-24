@@ -144,8 +144,10 @@ namespace gli
 		{
 			cache& Cache = this->Caches[this->index_cache(Face, Level)];
 			Cache.Data = this->data<std::uint8_t>(0, Face, Level);
-			Cache.Size = this->size(Level);
 			Cache.Dim = glm::max(texelcoord_type(this->texture::dimensions(Level)), texelcoord_type(1));
+#			ifndef NDEBUG
+				Cache.Size = this->size(Level);
+#			endif
 		}
 	}
 }//namespace gli
