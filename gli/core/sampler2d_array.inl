@@ -35,7 +35,7 @@ namespace gli
 	inline sampler2DArray<T, P>::sampler2DArray(texture2DArray const & Texture, gli::wrap Wrap, filter Mip, filter Min, texel_type const & BorderColor)
 		: sampler(Wrap, Texture.levels() > 1 ? Mip : FILTER_NEAREST, Min)
 		, Texture(Texture)
-		, Convert(detail::convert<texture2D, T, P>::call(this->Texture.format()))
+		, Convert(detail::convert<texture2DArray, T, P>::call(this->Texture.format()))
 		, BorderColor(BorderColor)
 		, Filter(Min == FILTER_LINEAR ? detail::filter2D<texture_type, fetch_type, texel_type>::linear : detail::filter2D<texture_type, fetch_type, texel_type>::nearest)
 	{

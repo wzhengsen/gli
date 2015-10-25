@@ -29,6 +29,24 @@
 #include <gli/sampler2d_array.hpp>
 #include <glm/gtc/epsilon.hpp>
 
+namespace
+{
+	template <typename sampler_value_type, typename texture_value_type, template <typename, gli::precision> class vec_type, gli::detail::convertMode mode>
+	struct norm
+	{
+		typedef gli::detail::convertFunc<gli::texture2DArray, sampler_value_type, texture_value_type, gli::defaultp, vec_type, mode, std::numeric_limits<sampler_value_type>::is_iec559> convert;
+
+		static int run(gli::format Format, gli::tvec4<sampler_value_type, gli::defaultp> const & Color)
+		{
+			gli::texture2DArray Texture(Format, gli::texture2DArray::texelcoord_type(1), 1, 1);
+			convert::write(Texture, gli::texture2DArray::texelcoord_type(0), 0, 0, 0, Color);
+			gli::tvec4<sampler_value_type, gli::defaultp> const & Texel = convert::fetch(Texture, gli::texture2DArray::texelcoord_type(0), 0, 0, 0);
+
+			return gli::all(gli::epsilonEqual(Texel, Color, static_cast<sampler_value_type>(0.01))) ? 0 : 1;
+		}
+	};
+}//namespace
+
 namespace rgba16sf
 {
 	int test()
@@ -666,27 +684,8 @@ namespace rgb9e5
 	{
 		int Error = 0;
 
-		{
-			typedef gli::detail::convertFunc<gli::texture2DArray, float, glm::u8, gli::defaultp, gli::tvec3, gli::detail::CONVERT_MODE_RGB9E5, true> convert;
-
-			gli::vec4 const Color(1.0f, 0.5f, 0.0f, 1.0f);
-			gli::texture2DArray Texture(gli::FORMAT_RGB9E5_UFLOAT, gli::texture2DArray::texelcoord_type(1), 1, 1);
-			convert::write(Texture, gli::texture2DArray::texelcoord_type(0), 0, 0, 0, Color);
-			glm::vec4 Texel = convert::fetch(Texture, gli::texture2DArray::texelcoord_type(0), 0, 0, 0);
-
-			Error += gli::all(gli::epsilonEqual(Texel, Color, 0.01f)) ? 0 : 1;
-		}
-
-		{
-			typedef gli::detail::convertFunc<gli::texture2DArray, double, glm::u8, gli::defaultp, gli::tvec3, gli::detail::CONVERT_MODE_RGB9E5, true> convert;
-
-			gli::dvec4 const Color(1.0f, 0.5f, 0.0f, 1.0f);
-			gli::texture2DArray Texture(gli::FORMAT_RGB9E5_UFLOAT, gli::texture2DArray::texelcoord_type(1), 1, 1);
-			convert::write(Texture, gli::texture2DArray::texelcoord_type(0), 0, 0, 0, Color);
-			glm::dvec4 Texel = convert::fetch(Texture, gli::texture2DArray::texelcoord_type(0), 0, 0, 0);
-
-			Error += gli::all(gli::epsilonEqual(Texel, Color, 0.01)) ? 0 : 1;
-		}
+		Error += norm<float, glm::u8, gli::tvec3, gli::detail::CONVERT_MODE_RGB9E5>::run(gli::FORMAT_RGB9E5_UFLOAT, gli::vec4(1.0f, 0.5f, 0.0f, 1.0f));
+		Error += norm<double, glm::u8, gli::tvec3, gli::detail::CONVERT_MODE_RGB9E5>::run(gli::FORMAT_RGB9E5_UFLOAT, gli::dvec4(1.0f, 0.5f, 0.0f, 1.0f));
 
 		return Error;
 	}
@@ -698,27 +697,8 @@ namespace rg11b10f
 	{
 		int Error = 0;
 
-		{
-			typedef gli::detail::convertFunc<gli::texture2DArray, float, glm::u32, gli::defaultp, gli::tvec3, gli::detail::CONVERT_MODE_RG11B10F, true> convert;
-
-			gli::vec4 const Color(1.0f, 0.5f, 0.0f, 1.0f);
-			gli::texture2DArray Texture(gli::FORMAT_RG11B10_UFLOAT, gli::texture2DArray::texelcoord_type(1), 1, 1);
-			convert::write(Texture, gli::texture2DArray::texelcoord_type(0), 0, 0, 0, Color);
-			glm::vec4 Texel = convert::fetch(Texture, gli::texture2DArray::texelcoord_type(0), 0, 0, 0);
-
-			Error += gli::all(gli::epsilonEqual(Texel, Color, 0.01f)) ? 0 : 1;
-		}
-
-		{
-			typedef gli::detail::convertFunc<gli::texture2DArray, double, glm::u32, gli::defaultp, gli::tvec3, gli::detail::CONVERT_MODE_RG11B10F, true> convert;
-
-			gli::dvec4 const Color(1.0f, 0.5f, 0.0f, 1.0f);
-			gli::texture2DArray Texture(gli::FORMAT_RG11B10_UFLOAT, gli::texture2DArray::texelcoord_type(1), 1, 1);
-			convert::write(Texture, gli::texture2DArray::texelcoord_type(0), 0, 0, 0, Color);
-			glm::dvec4 Texel = convert::fetch(Texture, gli::texture2DArray::texelcoord_type(0), 0, 0, 0);
-
-			Error += gli::all(gli::epsilonEqual(Texel, Color, 0.01)) ? 0 : 1;
-		}
+		Error += norm<float, glm::u32, gli::tvec3, gli::detail::CONVERT_MODE_RG11B10F>::run(gli::FORMAT_RG11B10_UFLOAT, gli::vec4(1.0f, 0.5f, 0.0f, 1.0f));
+		Error += norm<double, glm::u32, gli::tvec3, gli::detail::CONVERT_MODE_RG11B10F>::run(gli::FORMAT_RG11B10_UFLOAT, gli::dvec4(1.0f, 0.5f, 0.0f, 1.0f));
 
 		return Error;
 	}
@@ -726,29 +706,18 @@ namespace rg11b10f
 
 namespace rgb10a2norm
 {
-	template <typename sampler_value_type, typename texture_value_type, template <typename, gli::precision> class vec_type, gli::detail::convertMode mode>
-	struct norm
-	{
-		typedef gli::detail::convertFunc<gli::texture2DArray, sampler_value_type, texture_value_type, gli::defaultp, vec_type, mode, std::numeric_limits<sampler_value_type>::is_iec559> convert;
-
-		static int run(gli::format Format, vec_type<sampler_value_type, gli::defaultp> const & Color)
-		{
-			gli::texture2DArray Texture(Format, gli::texture2DArray::texelcoord_type(1), 1, 1);
-			convert::write(Texture, gli::texture2DArray::texelcoord_type(0), 0, 0, 0, Color);
-			vec_type<sampler_value_type, gli::defaultp> const & Texel = convert::fetch(Texture, gli::texture2DArray::texelcoord_type(0), 0, 0, 0);
-
-			return gli::all(gli::epsilonEqual(Texel, Color, static_cast<sampler_value_type>(0.01))) ? 0 : 1;
-		}
-	};
-
 	int test()
 	{
 		int Error = 0;
 
 		Error += norm<float, glm::u8, gli::tvec4, gli::detail::CONVERT_MODE_RGB10A2UNORM>::run(gli::FORMAT_RGB10A2_UNORM, gli::vec4(1.0f, 0.5f, 0.0f, 1.0f));
 		Error += norm<float, glm::i8, gli::tvec4, gli::detail::CONVERT_MODE_RGB10A2SNORM>::run(gli::FORMAT_RGB10A2_SNORM, gli::vec4(1.0f, 0.5f, 0.0f, 1.0f));
-		Error += norm<float, glm::u8, gli::tvec4, gli::detail::CONVERT_MODE_RGB10A2USCALE>::run(gli::FORMAT_RGB10A2_UNORM, gli::vec4(1023.f, 511.f, 0.f, 3.0f));
+		Error += norm<float, glm::u8, gli::tvec4, gli::detail::CONVERT_MODE_RGB10A2USCALE>::run(gli::FORMAT_RGB10A2_USCALED, gli::vec4(1023.f, 511.f, 0.f, 3.0f));
 		Error += norm<float, glm::i8, gli::tvec4, gli::detail::CONVERT_MODE_RGB10A2SSCALE>::run(gli::FORMAT_RGB10A2_SSCALED, gli::vec4(511.f, 255.f, 0.f, 1.0f));
+		Error += norm<double, glm::u8, gli::tvec4, gli::detail::CONVERT_MODE_RGB10A2UNORM>::run(gli::FORMAT_RGB10A2_UNORM, gli::dvec4(1.0f, 0.5f, 0.0f, 1.0f));
+		Error += norm<double, glm::i8, gli::tvec4, gli::detail::CONVERT_MODE_RGB10A2SNORM>::run(gli::FORMAT_RGB10A2_SNORM, gli::dvec4(1.0f, 0.5f, 0.0f, 1.0f));
+		Error += norm<double, glm::u8, gli::tvec4, gli::detail::CONVERT_MODE_RGB10A2USCALE>::run(gli::FORMAT_RGB10A2_USCALED, gli::dvec4(1023.f, 511.f, 0.f, 3.0f));
+		Error += norm<double, glm::i8, gli::tvec4, gli::detail::CONVERT_MODE_RGB10A2SSCALE>::run(gli::FORMAT_RGB10A2_SSCALED, gli::dvec4(511.f, 255.f, 0.f, 1.0f));
 
 		return Error;
 	}
