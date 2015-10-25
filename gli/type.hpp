@@ -45,6 +45,12 @@
 #	define GLI_FORCE_INLINE inline
 #endif//GLM_COMPILER
 
+#ifdef NDEBUG
+#	define GLI_ASSERT(test)
+#else
+#	define GLI_ASSERT(test) assert((test))
+#endif
+
 namespace gli
 {
 	using namespace glm;

@@ -84,7 +84,7 @@ namespace gli
 
 	inline image texture2D::operator[](size_type Level) const
 	{
-		assert(Level < this->levels());
+		GLI_ASSERT(Level < this->levels());
 
 		return image(
 			this->Storage,
@@ -96,7 +96,7 @@ namespace gli
 
 	inline texture2D::texelcoord_type texture2D::dimensions(size_type Level) const
 	{
-		assert(!this->empty());
+		GLI_ASSERT(!this->empty());
 
 		return this->Caches[this->index_cache(Level)].Dim;
 	}
@@ -104,14 +104,14 @@ namespace gli
 	template <typename genType>
 	inline genType texture2D::load(texelcoord_type const & TexelCoord, size_type Level) const
 	{
-		assert(!this->empty());
-		assert(!is_compressed(this->format()));
-		assert(block_size(this->format()) == sizeof(genType));
+		GLI_ASSERT(!this->empty());
+		GLI_ASSERT(!is_compressed(this->format()));
+		GLI_ASSERT(block_size(this->format()) == sizeof(genType));
 
 		cache const & Cache = this->Caches[this->index_cache(Level)];
 
 		std::size_t const Index = linear_index(TexelCoord, Cache.Dim);
-		assert(Index < Cache.Size / sizeof(genType));
+		GLI_ASSERT(Index < Cache.Size / sizeof(genType));
 
 		return reinterpret_cast<genType const * const>(Cache.Data)[Index];
 	}
@@ -119,15 +119,15 @@ namespace gli
 	template <typename genType>
 	inline void texture2D::store(texelcoord_type const & TexelCoord, size_type Level, genType const & Texel)
 	{
-		assert(!this->empty());
-		assert(!is_compressed(this->format()));
-		assert(block_size(this->format()) == sizeof(genType));
+		GLI_ASSERT(!this->empty());
+		GLI_ASSERT(!is_compressed(this->format()));
+		GLI_ASSERT(block_size(this->format()) == sizeof(genType));
 
 		cache const & Cache = this->Caches[this->index_cache(Level)];
-		assert(glm::all(glm::lessThan(TexelCoord, Cache.Dim)));
+		GLI_ASSERT(glm::all(glm::lessThan(TexelCoord, Cache.Dim)));
 
 		size_type const Index = linear_index(TexelCoord, Cache.Dim);
-		assert(Index < Cache.Size / sizeof(genType));
+		GLI_ASSERT(Index < Cache.Size / sizeof(genType));
 
 		reinterpret_cast<genType*>(Cache.Data)[Index] = Texel;
 	}

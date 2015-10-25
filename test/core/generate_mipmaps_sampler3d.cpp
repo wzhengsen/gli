@@ -74,7 +74,7 @@ namespace mipmaps_rgba32sf
 	{
 		int Error = 0;
 
-		gli::texture3D Texture(gli::FORMAT_RGBA32_SFLOAT, gli::texture3D::texelcoord_type(256));
+		gli::texture3D Texture(gli::FORMAT_RGBA32_SFLOAT, gli::texture3D::texelcoord_type(32));
 		Texture.clear(glm::vec4(1.0f, 0.5f, 0.0f, 1.0f));
 
 		gli::texture3D TextureView(gli::view(Texture, 0, 0));
@@ -108,7 +108,7 @@ namespace mipmaps_rgba8unorm
 	{
 		int Error = 0;
 
-		gli::texture3D Texture(gli::FORMAT_RGBA8_UNORM, gli::texture3D::texelcoord_type(128));
+		gli::texture3D Texture(gli::FORMAT_RGBA8_UNORM, gli::texture3D::texelcoord_type(32));
 		Texture.clear(glm::u8vec4(255, 127, 0, 255));
 
 		gli::texture3D TextureView(gli::view(Texture, 0, 0));
@@ -208,11 +208,11 @@ int main()
 {
 	int Error = 0;
 
-//	Error += mipmaps_rgba4unorm::test();
-//	Error += mipmaps_rgba8unorm::test();
+	Error += mipmaps_rgba4unorm::test();
+	Error += mipmaps_rgba8unorm::test();
 	Error += mipmaps_rgba32sf::test();
-//	Error += mipmaps_rgba8snorm::test();
-//	Error += mipmaps_rgb10a2unorm::test();
+	Error += mipmaps_rgba8snorm::test();
+	Error += mipmaps_rgb10a2unorm::test();
 
 	return Error;
 }

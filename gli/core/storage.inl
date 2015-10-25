@@ -54,10 +54,10 @@ namespace gli
 		, BlockDimensions(gli::block_dimensions(Format))
 		, Dimensions(Dimensions)
 	{
-		assert(Layers > 0);
-		assert(Faces > 0);
-		assert(Levels > 0);
-		assert(glm::all(glm::greaterThan(Dimensions, texelcoord_type(0))));
+		GLI_ASSERT(Layers > 0);
+		GLI_ASSERT(Faces > 0);
+		GLI_ASSERT(Levels > 0);
+		GLI_ASSERT(glm::all(glm::greaterThan(Dimensions, texelcoord_type(0))));
 
 		this->Data.resize(this->layer_size(0, Faces - 1, 0, Levels - 1) * Layers, 0);
 	}
@@ -94,7 +94,7 @@ namespace gli
 
 	inline storage::texelcoord_type storage::block_count(size_type Level) const
 	{
-		assert(Level < this->Levels);
+		GLI_ASSERT(Level < this->Levels);
 
 		return glm::max(this->BlockCount >> storage::texelcoord_type(static_cast<storage::texelcoord_type::value_type>(Level)), storage::texelcoord_type(1));
 	}
@@ -106,14 +106,14 @@ namespace gli
 
 	inline storage::size_type storage::size() const
 	{
-		assert(!this->empty());
+		GLI_ASSERT(!this->empty());
 
 		return static_cast<size_type>(this->Data.size());
 	}
 
 	inline storage::data_type * storage::data()
 	{
-		assert(!this->empty());
+		GLI_ASSERT(!this->empty());
 
 		return &this->Data[0];
 	}
@@ -125,9 +125,9 @@ namespace gli
 		size_type Level
 	) const
 	{
-		assert(Layer < this->layers());
-		assert(Face < this->faces());
-		assert(Level < this->levels());
+		GLI_ASSERT(Layer < this->layers());
+		GLI_ASSERT(Face < this->faces());
+		GLI_ASSERT(Level < this->levels());
 
 		size_type const LayerSize = this->layer_size(0, this->faces() - 1, 0, this->levels() - 1);
 		size_type const FaceSize = this->face_size(0, this->levels() - 1);
@@ -141,7 +141,7 @@ namespace gli
 
 	inline storage::size_type storage::level_size(size_type Level) const
 	{
-		assert(Level < this->levels());
+		GLI_ASSERT(Level < this->levels());
 
 		return this->BlockSize * glm::compMul(this->block_count(Level));
 	}
@@ -150,7 +150,7 @@ namespace gli
 		size_type BaseLevel,
 		size_type MaxLevel) const
 	{
-		assert(MaxLevel < this->levels());
+		GLI_ASSERT(MaxLevel < this->levels());
 		
 		size_type FaceSize(0);
 
@@ -165,115 +165,11 @@ namespace gli
 		size_type BaseFace, size_type MaxFace,
 		size_type BaseLevel, size_type MaxLevel) const
 	{
-		assert(MaxFace < this->faces());
-		assert(MaxLevel < this->levels());
+		GLI_ASSERT(MaxFace < this->faces());
+		GLI_ASSERT(MaxLevel < this->levels());
 
 		// The size of a layer is the sum of the size of each face.
 		// All the faces have the same size.
 		return this->face_size(BaseLevel, MaxLevel) * (MaxFace - BaseFace + 1);
 	}
-
-/*
-	inline storage extractLayers
-	(
-		storage const & Storage, 
-		storage::size_type const & Offset, 
-		storage::size_type const & Size
-	)
-	{
-		assert(Storage.layers() > 1);
-		assert(Storage.layers() >= Size);
-		assert(Storage.faces() > 0);
-		assert(Storage.levels() > 0);
-
-		storage SubStorage(
-			Size, 
-			Storage.faces(), 
-			Storage.levels(),
-			Storage.dimensions(0),
-			Storage.blockSize());
-
-		memcpy(
-			SubStorage.data(), 
-			Storage.data() + Storage.imageAddressing(Offset, 0, 0), 
-			Storage.layerSize() * Size);
-
-		return SubStorage;
-	}
-*/
-/*
-	inline storage extractFace
-	(
-		storage const & Storage, 
-		face const & Face
-	)
-	{
-		assert(Storage.faces() > 1);
-		assert(Storage.levels() > 0);
-
-		storage SubStorage(
-			Storage.layers(),
-			Face, 
-			Storage.levels(),
-			Storage.dimensions(0),
-			Storage.blockSize());
-
-		memcpy(
-			SubStorage.data(), 
-			Storage.data() + Storage.imageAddressing(0, storage::size_type(Face), 0), 
-			Storage.faceSize());
-
-		return SubStorage;
-	}
-*/
-/*
-	inline storage extractLevel
-	(
-		storage const & Storage, 
-		storage::size_type const & Level
-	)
-	{
-		assert(Storage.layers() == 1);
-		assert(Storage.faces() == 1);
-		assert(Storage.levels() >= 1);
-
-		storage SubStorage(
-			1, // layer
-			glm::uint(FACE_DEFAULT),
-			1, // level
-			Storage.dimensions(0),
-			Storage.blockSize());
-
-		memcpy(
-			SubStorage.data(), 
-			Storage.data() + Storage.imageAddressing(0, 0, Level), 
-			Storage.levelSize(Level));
-
-		return SubStorage;
-	}
-*/
-/*
-	inline void copy_layers
-	(
-		storage const & SourceStorage, 
-		storage::size_type const & SourceLayerOffset,
-		storage::size_type const & SourceLayerSize,
-		storage & DestinationStorage, 
-		storage::size_type const & DestinationLayerOffset
-	)
-	{
-		assert(DestinationStorage.blockSize() == SourceStorage.blockSize());
-		assert(DestinationStorage.layers() <= SourceStorage.layers());
-		assert(SourceStorage.layers() <= SourceLayerOffset + SourceLayerSize);
-		assert(DestinationStorage.layers() <= DestinationLayerOffset + SourceLayerSize);
-
-		std::size_t OffsetSrc = SourceStorage.imageAddressing(SourceLayerOffset, 0, 0);
-		std::size_t OffsetDst = DestinationStorage.imageAddressing(DestinationLayerOffset, 0, 0);
-
-		memcpy(
-			DestinationStorage.data() + OffsetDst * DestinationStorage.blockSize(), 
-			SourceStorage.data() + OffsetSrc * SourceStorage.blockSize(), 
-			SourceStorage.layerSize() * SourceLayerSize * SourceStorage.blockSize());
-	}
-*/
 }//namespace gli

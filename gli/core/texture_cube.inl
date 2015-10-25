@@ -83,7 +83,7 @@ namespace gli
 
 	inline texture2D textureCube::operator[](size_type Face) const
 	{
-		assert(Face < this->faces());
+		GLI_ASSERT(Face < this->faces());
 
 		return texture2D(
 			*this, this->format(),
@@ -94,7 +94,7 @@ namespace gli
 
 	inline textureCube::texelcoord_type textureCube::dimensions(size_type Level) const
 	{
-		assert(!this->empty());
+		GLI_ASSERT(!this->empty());
 
 		return this->Caches[this->index_cache(0, Level)].Dim;
 	}
@@ -102,14 +102,14 @@ namespace gli
 	template <typename genType>
 	inline genType textureCube::load(texelcoord_type const & TexelCoord, size_type Face, size_type Level) const
 	{
-		assert(!this->empty());
-		assert(!is_compressed(this->format()));
-		assert(block_size(this->format()) == sizeof(genType));
+		GLI_ASSERT(!this->empty());
+		GLI_ASSERT(!is_compressed(this->format()));
+		GLI_ASSERT(block_size(this->format()) == sizeof(genType));
 
 		cache const & Cache = this->Caches[this->index_cache(Face, Level)];
 
 		std::size_t const Index = linear_index(TexelCoord, Cache.Dim);
-		assert(Index < Cache.Size / sizeof(genType));
+		GLI_ASSERT(Index < Cache.Size / sizeof(genType));
 
 		return reinterpret_cast<genType const * const>(Cache.Data)[Index];
 	}
@@ -117,15 +117,15 @@ namespace gli
 	template <typename genType>
 	inline void textureCube::store(texelcoord_type const & TexelCoord, size_type Face, size_type Level, genType const & Texel)
 	{
-		assert(!this->empty());
-		assert(!is_compressed(this->format()));
-		assert(block_size(this->format()) == sizeof(genType));
+		GLI_ASSERT(!this->empty());
+		GLI_ASSERT(!is_compressed(this->format()));
+		GLI_ASSERT(block_size(this->format()) == sizeof(genType));
 
 		cache& Cache = this->Caches[this->index_cache(Face, Level)];
-		assert(glm::all(glm::lessThan(TexelCoord, Cache.Dim)));
+		GLI_ASSERT(glm::all(glm::lessThan(TexelCoord, Cache.Dim)));
 
 		std::size_t const Index = linear_index(TexelCoord, Cache.Dim);
-		assert(Index < Cache.Size / sizeof(genType));
+		GLI_ASSERT(Index < Cache.Size / sizeof(genType));
 
 		reinterpret_cast<genType*>(Cache.Data)[Index] = Texel;
 	}
