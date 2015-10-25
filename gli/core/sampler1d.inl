@@ -39,8 +39,8 @@ namespace gli
 		, BorderColor(BorderColor)
 		, Filter(Min == FILTER_LINEAR ? detail::filter1D<texture_type, fetch_type, texel_type>::linear : detail::filter1D<texture_type, fetch_type, texel_type>::nearest)
 	{
-		assert(!Texture.empty());
-		assert(!is_compressed(Texture.format()));
+		GLI_ASSERT(!Texture.empty());
+		GLI_ASSERT(!is_compressed(Texture.format()));
 	}
 
 	template <typename T, precision P>
@@ -52,14 +52,14 @@ namespace gli
 	template <typename T, glm::precision P>
 	inline typename sampler1D<T, P>::texel_type sampler1D<T, P>::texel_fetch(texelcoord_type const & TexelCoord, size_type const & Level) const
 	{
-		assert(this->Convert.Fetch);
+		GLI_ASSERT(this->Convert.Fetch);
 		return this->Convert.Fetch(this->Texture, TexelCoord, 0, 0, Level);
 	}
 
 	template <typename T, glm::precision P>
 	inline void sampler1D<T, P>::texel_write(texelcoord_type const & TexelCoord, size_type const & Level, texel_type const & Texel)
 	{
-		assert(this->Convert.Write);
+		GLI_ASSERT(this->Convert.Write);
 		this->Convert.Write(this->Texture, TexelCoord, 0, 0, Level, Texel);
 	}
 
@@ -72,8 +72,8 @@ namespace gli
 	template <typename T, glm::precision P>
 	inline typename sampler1D<T, P>::texel_type sampler1D<T, P>::texture_lod(samplecoord_type const & SampleCoord, T Level) const
 	{
-		assert(std::numeric_limits<T>::is_iec559);
-		assert(this->Convert.Fetch);
+		GLI_ASSERT(std::numeric_limits<T>::is_iec559);
+		GLI_ASSERT(this->Convert.Fetch);
 
 		samplecoord_type const SampleCoordWrap(this->Wrap(SampleCoord.x));
 
@@ -92,8 +92,8 @@ namespace gli
 	template <typename T, precision P>
 	inline void sampler1D<T, P>::generate_mipmaps()
 	{
-		assert(!this->Texture.empty());
-		assert(!is_compressed(this->Texture.format()));
+		GLI_ASSERT(!this->Texture.empty());
+		GLI_ASSERT(!is_compressed(this->Texture.format()));
 
 		this->generate_mipmaps(this->Texture.base_level(), this->Texture.max_level());
 	}
@@ -101,10 +101,10 @@ namespace gli
 	template <typename T, precision P>
 	inline void sampler1D<T, P>::generate_mipmaps(size_type BaseLevel, size_type MaxLevel)
 	{
-		assert(!this->Texture.empty());
-		assert(!is_compressed(this->Texture.format()));
-		assert(this->Texture.max_level() >= MaxLevel);
-		assert(BaseLevel <= MaxLevel);
+		GLI_ASSERT(!this->Texture.empty());
+		GLI_ASSERT(!is_compressed(this->Texture.format()));
+		GLI_ASSERT(this->Texture.max_level() >= MaxLevel);
+		GLI_ASSERT(BaseLevel <= MaxLevel);
 
 		for(size_type Level = BaseLevel; Level < MaxLevel; ++Level)
 		{

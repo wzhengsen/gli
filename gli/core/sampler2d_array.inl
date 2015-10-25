@@ -39,8 +39,8 @@ namespace gli
 		, BorderColor(BorderColor)
 		, Filter(Min == FILTER_LINEAR ? detail::filter2D<texture_type, fetch_type, texel_type>::linear : detail::filter2D<texture_type, fetch_type, texel_type>::nearest)
 	{
-		assert(!Texture.empty());
-		assert(!is_compressed(Texture.format()));
+		GLI_ASSERT(!Texture.empty());
+		GLI_ASSERT(!is_compressed(Texture.format()));
 	}
 
 	template <typename T, precision P>
@@ -52,15 +52,15 @@ namespace gli
 	template <typename T, glm::precision P>
 	inline typename sampler2DArray<T, P>::texel_type sampler2DArray<T, P>::texel_fetch(texelcoord_type const & TexelCoord, size_type layer, size_type Level) const
 	{
-		assert(this->Convert.Fetch);
-		return this->Convert.Fetch(this->Texture, TexelCoord, 0, 0, Level);
+		GLI_ASSERT(this->Convert.Fetch);
+		return this->Convert.Fetch(this->Texture, TexelCoord, layer, 0, Level);
 	}
 
 	template <typename T, glm::precision P>
 	inline void sampler2DArray<T, P>::texel_write(texelcoord_type const & TexelCoord, size_type layer, size_type Level, texel_type const & Texel)
 	{
-		assert(this->Convert.Write);
-		this->Convert.Write(this->Texture, TexelCoord, 0, 0, Level, Texel);
+		GLI_ASSERT(this->Convert.Write);
+		this->Convert.Write(this->Texture, TexelCoord, layer, 0, Level, Texel);
 	}
 
 	template <typename T, precision P>
@@ -70,30 +70,30 @@ namespace gli
 	}
 
 	template <typename T, glm::precision P>
-	inline typename sampler2DArray<T, P>::texel_type sampler2DArray<T, P>::texture_lod(samplecoord_type const & SampleCoord, size_type layer, T Level) const
+	inline typename sampler2DArray<T, P>::texel_type sampler2DArray<T, P>::texture_lod(samplecoord_type const & SampleCoord, size_type Layer, T Level) const
 	{
-		assert(std::numeric_limits<T>::is_iec559);
-		assert(this->Convert.Fetch);
+		GLI_ASSERT(std::numeric_limits<T>::is_iec559);
+		GLI_ASSERT(this->Convert.Fetch);
 
 		samplecoord_type const SampleCoordWrap(this->Wrap(SampleCoord.x), this->Wrap(SampleCoord.y));
 
 		if(this->Mip == FILTER_LINEAR)
 		{
-			texel_type const MinTexel = this->Filter(this->Texture, this->Convert.Fetch, SampleCoordWrap, size_type(0), size_type(0), size_type(floor(Level)), this->BorderColor);
-			texel_type const MaxTexel = this->Filter(this->Texture, this->Convert.Fetch, SampleCoordWrap, size_type(0), size_type(0), size_type(ceil(Level)), this->BorderColor);
+			texel_type const MinTexel = this->Filter(this->Texture, this->Convert.Fetch, SampleCoordWrap, Layer, size_type(0), size_type(floor(Level)), this->BorderColor);
+			texel_type const MaxTexel = this->Filter(this->Texture, this->Convert.Fetch, SampleCoordWrap, Layer, size_type(0), size_type(ceil(Level)), this->BorderColor);
 			return mix(MinTexel, MaxTexel, fract(Level));
 		}
 		else
 		{
-			return this->Filter(this->Texture, this->Convert.Fetch, SampleCoordWrap, size_type(0), size_type(0), size_type(round(Level)), this->BorderColor);
+			return this->Filter(this->Texture, this->Convert.Fetch, SampleCoordWrap, Layer, size_type(0), size_type(round(Level)), this->BorderColor);
 		}
 	}
 
 	template <typename T, precision P>
 	inline void sampler2DArray<T, P>::generate_mipmaps()
 	{
-		assert(!this->Texture.empty());
-		assert(!is_compressed(this->Texture.format()));
+		GLI_ASSERT(!this->Texture.empty());
+		GLI_ASSERT(!is_compressed(this->Texture.format()));
 
 		this->generate_mipmaps(this->Texture.base_level(), this->Texture.max_level());
 	}
@@ -101,10 +101,11 @@ namespace gli
 	template <typename T, precision P>
 	inline void sampler2DArray<T, P>::generate_mipmaps(size_type BaseLayer, size_type MaxLayer, size_type BaseLevel, size_type MaxLevel)
 	{
-		assert(!this->Texture.empty());
-		assert(!is_compressed(this->Texture.format()));
-		assert(this->Texture.max_level() >= MaxLevel);
-		assert(BaseLevel <= MaxLevel);
+		GLI_ASSERT(!this->Texture.empty());
+		GLI_ASSERT(!is_compressed(this->Texture.format()));
+		GLI_ASSERT(this->Texture.max_level() >= MaxLevel);
+		GLI_ASSERT(BaseLayer <= MaxLayer);
+		GLI_ASSERT(BaseLevel <= MaxLevel);
 
 		for(size_type Level = BaseLevel; Level < MaxLevel; ++Level)
 		{
