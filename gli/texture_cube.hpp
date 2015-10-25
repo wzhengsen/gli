@@ -91,7 +91,7 @@ namespace gli
 		{
 			std::uint8_t* Data;
 			texelcoord_type Dim;
-#			if _DEBUG
+#			if NDEBUG
 				size_type Size;
 #			endif
 		};
