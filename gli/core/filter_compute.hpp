@@ -181,7 +181,7 @@ namespace detail
 			texel_type const ValueD(mix(Texel011, Texel111, Coord.Blend.s));
 
 			texel_type const ValueE(mix(ValueA, ValueB, Coord.Blend.t));
-			texel_type const ValueF(mix(ValueA, ValueB, Coord.Blend.t));
+			texel_type const ValueF(mix(ValueC, ValueD, Coord.Blend.t));
 
 			return mix(ValueE, ValueF, Coord.Blend.p);
 		}
