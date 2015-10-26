@@ -107,6 +107,7 @@ namespace gli
 		GLI_ASSERT(BaseLayer <= MaxLayer);
 		GLI_ASSERT(BaseLevel <= MaxLevel);
 
+		for(size_type Layer = BaseLayer; Layer < MaxLayer; ++Layer)
 		for(size_type Level = BaseLevel; Level < MaxLevel; ++Level)
 		{
 			samplecoord_type const SampleCoordScale(static_cast<T>(1) / samplecoord_type(this->Texture.dimensions(Level + 0)));
@@ -120,28 +121,7 @@ namespace gli
 				texel_type const Texel1 = this->texture_lod(samplecoord_type(static_cast<T>(x + 1)) * SampleCoordScale, static_cast<T>(Level));
 
 				texel_type const Texel = (Texel0 + Texel1) * static_cast<T>(0.5);
-				this->texel_write(texelcoord_type(i), Level + 1, Texel);
-			}
-		}
-
-		for(size_type Level = BaseLevel; Level < MaxLevel; ++Level)
-		{
-			samplecoord_type const SampleCoordScale(static_cast<T>(1) / samplecoord_type(this->Texture.dimensions(Level + 0)));
-			texelcoord_type const DimDst = this->Texture.dimensions(Level + 1);
-
-			for(typename texelcoord_type::value_type j = 0; j < DimDst.y; ++j)
-			for(typename texelcoord_type::value_type i = 0; i < DimDst.x; ++i)
-			{
-				typename texelcoord_type::value_type const x = (i << 1);
-				typename texelcoord_type::value_type const y = (j << 1);
-
-				texel_type const Texel00 = this->texture_lod(samplecoord_type(x + 0, y + 0) * SampleCoordScale, static_cast<T>(Level));
-				texel_type const Texel01 = this->texture_lod(samplecoord_type(x + 0, y + 1) * SampleCoordScale, static_cast<T>(Level));
-				texel_type const Texel11 = this->texture_lod(samplecoord_type(x + 1, y + 1) * SampleCoordScale, static_cast<T>(Level));
-				texel_type const Texel10 = this->texture_lod(samplecoord_type(x + 1, y + 0) * SampleCoordScale, static_cast<T>(Level));
-
-				texel_type const Texel = (Texel00 + Texel01 + Texel11 + Texel10) * static_cast<T>(0.25);
-				this->texel_write(texelcoord_type(i, j), Level + 1, Texel);
+				this->Convert.Write(this->Texture, texelcoord_type(i), Layer, 0, Level + 1, Texel);
 			}
 		}
 	}

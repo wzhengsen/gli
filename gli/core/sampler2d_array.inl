@@ -107,6 +107,7 @@ namespace gli
 		GLI_ASSERT(BaseLayer <= MaxLayer);
 		GLI_ASSERT(BaseLevel <= MaxLevel);
 
+		for(size_type Layer = BaseLayer; Layer < MaxLayer; ++Layer)
 		for(size_type Level = BaseLevel; Level < MaxLevel; ++Level)
 		{
 			samplecoord_type const SampleCoordScale(static_cast<T>(1) / samplecoord_type(this->Texture.dimensions(Level + 0)));
@@ -124,7 +125,7 @@ namespace gli
 				texel_type const Texel10 = this->texture_lod(samplecoord_type(x + 1, y + 0) * SampleCoordScale, static_cast<T>(Level));
 
 				texel_type const Texel = (Texel00 + Texel01 + Texel11 + Texel10) * static_cast<T>(0.25);
-				this->texel_write(texelcoord_type(i, j), Level + 1, Texel);
+				this->Convert.Write(this->Texture, texelcoord_type(i, j), Layer, 0, Level + 1, Texel);
 			}
 		}
 	}
