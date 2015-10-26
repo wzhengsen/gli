@@ -49,14 +49,14 @@ namespace gli
 		return this->Texture;
 	}
 
-	template <typename T, glm::precision P>
+	template <typename T, precision P>
 	inline typename sampler2D<T, P>::texel_type sampler2D<T, P>::texel_fetch(texelcoord_type const & TexelCoord, size_type const & Level) const
 	{
 		GLI_ASSERT(this->Convert.Fetch);
 		return this->Convert.Fetch(this->Texture, TexelCoord, 0, 0, Level);
 	}
 
-	template <typename T, glm::precision P>
+	template <typename T, precision P>
 	inline void sampler2D<T, P>::texel_write(texelcoord_type const & TexelCoord, size_type const & Level, texel_type const & Texel)
 	{
 		GLI_ASSERT(this->Convert.Write);
@@ -69,7 +69,7 @@ namespace gli
 		detail::clear<texture_type, T, P>::call(this->Texture, this->Convert.Write, Color);
 	}
 
-	template <typename T, glm::precision P>
+	template <typename T, precision P>
 	inline typename sampler2D<T, P>::texel_type sampler2D<T, P>::texture_lod(samplecoord_type const & SampleCoord, T Level) const
 	{
 		GLI_ASSERT(std::numeric_limits<T>::is_iec559);

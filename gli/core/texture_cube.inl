@@ -120,6 +120,7 @@ namespace gli
 		GLI_ASSERT(!this->empty());
 		GLI_ASSERT(!is_compressed(this->format()));
 		GLI_ASSERT(block_size(this->format()) == sizeof(genType));
+		GLI_ASSERT(Level < this->levels());
 
 		cache& Cache = this->Caches[this->index_cache(Face, Level)];
 		GLI_ASSERT(glm::all(glm::lessThan(TexelCoord, Cache.Dim)));
