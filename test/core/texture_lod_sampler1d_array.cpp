@@ -103,11 +103,13 @@ namespace sampler_type
 			gli::dsampler1DArray Sampler(Texture, gli::WRAP_CLAMP_TO_EDGE, gli::FILTER_LINEAR, gli::FILTER_LINEAR);
 		}
 
+#		if ENABLE_INTEGER_TESTS
 		{
 			gli::texture1DArray Texture(gli::FORMAT_RGBA8_UINT, gli::texture1DArray::texelcoord_type(4), 1, 1);
 			gli::isampler1DArray Sampler(Texture, gli::WRAP_CLAMP_TO_EDGE, gli::FILTER_LINEAR, gli::FILTER_LINEAR);
 		}
-
+#		endif//ENABLE_INTEGER_TESTS
+		
 		return Error;
 	}
 }//namespace sampler_type

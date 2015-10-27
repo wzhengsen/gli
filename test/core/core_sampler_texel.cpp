@@ -34,6 +34,8 @@
 #include <limits>
 #include <array>
 
+#define ENABLE_INTEGER_TESTS 0
+
 namespace fetch_rgb10a2_snorm
 {
 	int test()
@@ -218,6 +220,7 @@ namespace fetch_rgb10a2_uint
 		for (std::size_t i = 0; i < 8; ++i)
 			Error += Unpacked[i] == Colors[i] ? 0 : 1;
 
+#if ENABLE_INTEGER_TESTS
 		gli::usampler2D Sampler(Texture, gli::WRAP_CLAMP_TO_EDGE, gli::FILTER_LINEAR, gli::FILTER_LINEAR);
 
 		glm::uvec4 Data[8];
@@ -226,6 +229,7 @@ namespace fetch_rgb10a2_uint
 
 		for(std::size_t i = 0; i < 8; ++i)
 			Error += Data[i] == Colors[i] ? 0 : 1;
+#endif//ENABLE_INTEGER_TESTS
 
 		return Error;
 	}
@@ -404,6 +408,7 @@ namespace fetch_rgba8_uint
 		for(std::size_t i = 0, n = sizeof(Colors) / sizeof(Colors[0]); i < n; ++i)
 			*(Texture.data<glm::u8vec4>() + i) = Colors[i];
 
+#if ENABLE_INTEGER_TESTS
 		gli::usampler2D Sampler(Texture, gli::WRAP_CLAMP_TO_EDGE, gli::FILTER_LINEAR, gli::FILTER_LINEAR, glm::u32vec4(0, 0, 0, 1));
 
 		glm::u8vec4 Outputs[8];
@@ -418,6 +423,7 @@ namespace fetch_rgba8_uint
 
 		for(std::size_t i = 0, n = sizeof(Colors) / sizeof(Colors[0]); i < n; ++i)
 			Error += glm::all(glm::equal(Outputs[i], Colors[i])) ? 0 : 1;
+#endif//ENABLE_INTEGER_TESTS
 
 		return Error;
 	}

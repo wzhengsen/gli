@@ -47,7 +47,7 @@ namespace gli
 		typedef typename detail::convert<texture_type, T, P>::func convert_type;
 		typedef typename detail::convert<texture_type, T, P>::fetchFunc fetch_type;
 		typedef typename detail::convert<texture_type, T, P>::writeFunc write_type;
-		typedef typename detail::filter1D<texture_type, fetch_type, texel_type>::filterFunc filter_type;
+		typedef typename detail::filter1D<texture_type, samplecoord_type, fetch_type, texel_type>::filterFunc filter_type;
 
 		sampler1DArray(texture_type const & Texture, wrap Wrap, filter Mip, filter Min, texel_type const & BorderColor = texel_type(0, 0, 0, 1));
 

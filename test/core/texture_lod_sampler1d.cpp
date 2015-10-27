@@ -34,6 +34,8 @@
 #include <limits>
 #include <array>
 
+#define ENABLE_INTEGER_TESTS 0
+
 namespace load
 {
 	int test()
@@ -100,14 +102,16 @@ namespace sampler_type
 
 		{
 			gli::texture1D Texture(gli::FORMAT_RGBA8_UNORM, gli::texture1D::texelcoord_type(4), 1);
-			gli::fsampler1D Sampler(Texture, gli::WRAP_CLAMP_TO_EDGE, gli::FILTER_LINEAR, gli::FILTER_LINEAR);
+			gli::dsampler1D Sampler(Texture, gli::WRAP_CLAMP_TO_EDGE, gli::FILTER_LINEAR, gli::FILTER_LINEAR);
 		}
 
+#		if ENABLE_INTEGER_TESTS
 		{
 			gli::texture1D Texture(gli::FORMAT_RGBA8_UINT, gli::texture1D::texelcoord_type(4), 1);
 			gli::isampler1D Sampler(Texture, gli::WRAP_CLAMP_TO_EDGE, gli::FILTER_LINEAR, gli::FILTER_LINEAR);
 		}
-
+#		endif//ENABLE_INTEGER_TESTS
+		
 		return Error;
 	}
 }//namespace sampler_type

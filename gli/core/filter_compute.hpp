@@ -34,23 +34,23 @@
 namespace gli{
 namespace detail
 {
-	template <typename texture_type, typename fetch_type, typename texel_type>
+	template <typename texture_type, typename samplecoord_type, typename fetch_type, typename texel_type>
 	struct filter_base
 	{
-		typedef texel_type(*filterFunc)(texture_type const & Texture, fetch_type Fetch, typename texture_type::samplecoord_type const & SampleCoord, typename texture_type::size_type Layer, typename texture_type::size_type Face, typename texture_type::size_type Level, texel_type const & BorderColor);
+		typedef texel_type(*filterFunc)(texture_type const & Texture, fetch_type Fetch, samplecoord_type const & SampleCoord, typename texture_type::size_type Layer, typename texture_type::size_type Face, typename texture_type::size_type Level, texel_type const & BorderColor);
 
 		static texel_type nearest
 		(
 			texture_type const & Texture,
 			fetch_type Fetch,
-			typename texture_type::samplecoord_type const & SampleCoord,
+			samplecoord_type const & SampleCoord,
 			typename texture_type::size_type Layer,
 			typename texture_type::size_type Face,
 			typename texture_type::size_type Level,
 			texel_type const & BorderColor
 		)
 		{
-			coord_nearest<typename texture_type::texelcoord_type, typename texture_type::samplecoord_type> const & Coord = make_coord_nearest(Texture.dimensions(Level), SampleCoord);
+			coord_nearest<typename texture_type::texelcoord_type, samplecoord_type> const & Coord = make_coord_nearest(Texture.dimensions(Level), SampleCoord);
 
 			texel_type Texel(BorderColor);
 			if(all(Coord.UseTexel))
@@ -60,21 +60,21 @@ namespace detail
 		}
 	};
 
-	template <typename texture_type, typename fetch_type, typename texel_type>
-	struct filter1D : public filter_base<texture_type, fetch_type, texel_type>
+	template <typename texture_type, typename samplecoord_type, typename fetch_type, typename texel_type>
+	struct filter1D : public filter_base<texture_type, samplecoord_type, fetch_type, texel_type>
 	{
 		static texel_type linear
 		(
 			texture_type const & Texture,
 			fetch_type Fetch,
-			typename texture_type::samplecoord_type const & SampleCoord,
+			samplecoord_type const & SampleCoord,
 			typename texture_type::size_type Layer,
 			typename texture_type::size_type Face,
 			typename texture_type::size_type Level,
 			texel_type const & BorderColor
 		)
 		{
-			coord_linear<typename texture_type::texelcoord_type, typename texture_type::samplecoord_type> const & Coord = make_coord_linear(Texture.dimensions(Level), SampleCoord);
+			coord_linear<typename texture_type::texelcoord_type, samplecoord_type> const & Coord = make_coord_linear(Texture.dimensions(Level), SampleCoord);
 
 			texel_type Texel0(BorderColor);
 			if(Coord.UseTexelFloor.s)
@@ -88,21 +88,21 @@ namespace detail
 		}
 	};
 
-	template <typename texture_type, typename fetch_type, typename texel_type>
-	struct filter2D : public filter_base<texture_type, fetch_type, texel_type>
+	template <typename texture_type, typename samplecoord_type, typename fetch_type, typename texel_type>
+	struct filter2D : public filter_base<texture_type, samplecoord_type, fetch_type, texel_type>
 	{
 		static texel_type linear
 		(
 			texture_type const & Texture,
 			fetch_type Fetch,
-			typename texture_type::samplecoord_type const & SampleCoord,
+			samplecoord_type const & SampleCoord,
 			typename texture_type::size_type Layer,
 			typename texture_type::size_type Face,
 			typename texture_type::size_type Level,
 			texel_type const & BorderColor
 		)
 		{
-			coord_linear<typename texture_type::texelcoord_type, typename texture_type::samplecoord_type> const & Coord = make_coord_linear(Texture.dimensions(Level), SampleCoord);
+			coord_linear<typename texture_type::texelcoord_type, samplecoord_type> const & Coord = make_coord_linear(Texture.dimensions(Level), SampleCoord);
 
 			texel_type Texel00(BorderColor);
 			if(Coord.UseTexelFloor.s && Coord.UseTexelFloor.t)
@@ -126,21 +126,21 @@ namespace detail
 		}
 	};
 
-	template <typename texture_type, typename fetch_type, typename texel_type>
-	struct filter3D : public filter_base<texture_type, fetch_type, texel_type>
+	template <typename texture_type, typename samplecoord_type, typename fetch_type, typename texel_type>
+	struct filter3D : public filter_base<texture_type, samplecoord_type, fetch_type, texel_type>
 	{
 		static texel_type linear
 		(
 			texture_type const & Texture,
 			fetch_type Fetch,
-			typename texture_type::samplecoord_type const & SampleCoord,
+			samplecoord_type const & SampleCoord,
 			typename texture_type::size_type Layer,
 			typename texture_type::size_type Face,
 			typename texture_type::size_type Level,
 			texel_type const & BorderColor
 		)
 		{
-			coord_linear<typename texture_type::texelcoord_type, typename texture_type::samplecoord_type> const & Coord = make_coord_linear(Texture.dimensions(Level), SampleCoord);
+			coord_linear<typename texture_type::texelcoord_type, samplecoord_type> const & Coord = make_coord_linear(Texture.dimensions(Level), SampleCoord);
 
 			texel_type Texel000(BorderColor);
 			if(Coord.UseTexelFloor.s && Coord.UseTexelFloor.t && Coord.UseTexelFloor.p)
