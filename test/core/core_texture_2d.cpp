@@ -41,9 +41,9 @@ namespace
 inline gli::texture2D radial
 (
 	gli::texture2D::texelcoord_type const & Size,
-	gli::texture2D::samplecoord_type const & Center,
+	gli::vec2 const & Center,
 	float const & Radius,
-	gli::texture2D::samplecoord_type const & Focal
+	gli::vec2 const & Focal
 )
 {
 	gli::texture2D Result(gli::FORMAT_RGB8_UINT, Size, 1);
@@ -69,8 +69,8 @@ inline gli::texture2D radial
 inline gli::texture2D linear
 (
 	gli::texture2D::texelcoord_type const & Size,
-	gli::texture2D::samplecoord_type const & Point0,
-	gli::texture2D::samplecoord_type const & Point1
+	gli::vec2 const & Point0,
+	gli::vec2 const & Point1
 )
 {
 	gli::texture2D Result(gli::FORMAT_RGB8_UINT, gli::texture2D::texelcoord_type(Size), 1);
@@ -82,7 +82,7 @@ inline gli::texture2D linear
 		float Value = glm::linearGradient(
 			Point0 * glm::vec2(Size),
 			Point1 * glm::vec2(Size),
-			gli::texture2D::samplecoord_type(x, y));
+			gli::vec2(x, y));
 
 		std::size_t Index = x + y * Result.dimensions().x;
 
@@ -97,10 +97,10 @@ int test_create()
 	int Error(0);
 
 //	gli::texture2D TextureA = radial(
-//		gli::texture2D::dim_type(128), gli::texture2D::texcoord_type(0.5f), 16.f, gli::texture2D::texcoord_type(0.7f));
+//		gli::texture2D::dim_type(128), gli::vec2(0.5f), 16.f, gli::vec2(0.7f));
 
 	gli::texture2D TextureB = linear(
-		gli::texture2D::texelcoord_type(128), gli::texture2D::samplecoord_type(0.5f), gli::texture2D::samplecoord_type(0.7f));
+		gli::texture2D::texelcoord_type(128), gli::vec2(0.5f), gli::vec2(0.7f));
 
 //	Error += TextureA != TextureB ? 0 : 1;
 
