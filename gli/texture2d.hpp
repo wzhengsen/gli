@@ -39,7 +39,6 @@ namespace gli
 	{
 	public:
 		typedef ivec2 texelcoord_type;
-		typedef vec2 samplecoord_type;
 
 		/// Create an empty texture 2D.
 		texture2D();

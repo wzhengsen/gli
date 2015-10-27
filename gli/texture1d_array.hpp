@@ -37,7 +37,6 @@ namespace gli
 	{
 	public:
 		typedef ivec1 texelcoord_type;
-		typedef vec1 samplecoord_type;
 
 	public:
 		/// Create an empty texture 1D array

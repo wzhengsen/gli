@@ -37,7 +37,6 @@ namespace gli
 	{
 	public:
 		typedef ivec2 texelcoord_type;
-		typedef vec4 samplecoord_type;
 
 	public:
 		/// Create an empty texture cube array

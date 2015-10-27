@@ -39,7 +39,6 @@ namespace gli
 	{
 	public:
 		typedef ivec3 texelcoord_type;
-		typedef vec3 samplecoord_type;
 
 	public:
 		/// Create an empty texture 3D
