@@ -47,7 +47,7 @@ namespace gli
 		typedef typename detail::convert<texture_type, T, P>::func convert_type;
 		typedef typename detail::convert<texture_type, T, P>::fetchFunc fetch_type;
 		typedef typename detail::convert<texture_type, T, P>::writeFunc write_type;
-		typedef typename detail::filter2D<texture_type, samplecoord_type, fetch_type, texel_type>::filterFunc filter_type;
+		typedef typename detail::filter2D<texture_type, samplecoord_type, fetch_type, texel_type, std::numeric_limits<T>::is_iec559> filter_type;
 
 		samplerCube(texture_type const & Texture, wrap Wrap, filter Mip, filter Min, texel_type const & BorderColor = texel_type(0, 0, 0, 1));
 
@@ -76,7 +76,7 @@ namespace gli
 		texture_type Texture;
 		convert_type Convert;
 		texel_type BorderColor;
-		filter_type Filter;
+		typename filter_type::filterFunc Filter;
 	};
 
 	typedef samplerCube<float> fsamplerCube;

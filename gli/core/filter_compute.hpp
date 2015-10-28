@@ -60,7 +60,7 @@ namespace detail
 		}
 	};
 
-	template <typename texture_type, typename samplecoord_type, typename fetch_type, typename texel_type>
+	template <typename texture_type, typename samplecoord_type, typename fetch_type, typename texel_type, bool is_float = true>
 	struct filter1D : public filter_base<texture_type, samplecoord_type, fetch_type, texel_type>
 	{
 		static texel_type linear
@@ -89,6 +89,24 @@ namespace detail
 	};
 
 	template <typename texture_type, typename samplecoord_type, typename fetch_type, typename texel_type>
+	struct filter1D<texture_type, samplecoord_type, fetch_type, texel_type, false> : public filter_base<texture_type, samplecoord_type, fetch_type, texel_type>
+	{
+		static texel_type linear
+		(
+			texture_type const & Texture,
+			fetch_type Fetch,
+			samplecoord_type const & SampleCoord,
+			typename texture_type::size_type Layer,
+			typename texture_type::size_type Face,
+			typename texture_type::size_type Level,
+			texel_type const & BorderColor
+		)
+		{
+			return detail::filter1D<texture_type, samplecoord_type, fetch_type, texel_type, false>::nearest(Texture, Fetch, SampleCoord, Layer, Face, Level, BorderColor);
+		}
+	};
+
+	template <typename texture_type, typename samplecoord_type, typename fetch_type, typename texel_type, bool is_float = true>
 	struct filter2D : public filter_base<texture_type, samplecoord_type, fetch_type, texel_type>
 	{
 		static texel_type linear
@@ -127,6 +145,24 @@ namespace detail
 	};
 
 	template <typename texture_type, typename samplecoord_type, typename fetch_type, typename texel_type>
+	struct filter2D<texture_type, samplecoord_type, fetch_type, texel_type, false> : public filter_base<texture_type, samplecoord_type, fetch_type, texel_type>
+	{
+		static texel_type linear
+		(
+			texture_type const & Texture,
+			fetch_type Fetch,
+			samplecoord_type const & SampleCoord,
+			typename texture_type::size_type Layer,
+			typename texture_type::size_type Face,
+			typename texture_type::size_type Level,
+			texel_type const & BorderColor
+		)
+		{
+			return detail::filter2D<texture_type, samplecoord_type, fetch_type, texel_type, false>::nearest(Texture, Fetch, SampleCoord, Layer, Face, Level, BorderColor);
+		}
+	};
+
+	template <typename texture_type, typename samplecoord_type, typename fetch_type, typename texel_type, bool is_float = true>
 	struct filter3D : public filter_base<texture_type, samplecoord_type, fetch_type, texel_type>
 	{
 		static texel_type linear
@@ -184,6 +220,24 @@ namespace detail
 			texel_type const ValueF(mix(ValueC, ValueD, Coord.Blend.t));
 
 			return mix(ValueE, ValueF, Coord.Blend.p);
+		}
+	};
+
+	template <typename texture_type, typename samplecoord_type, typename fetch_type, typename texel_type>
+	struct filter3D<texture_type, samplecoord_type, fetch_type, texel_type, false> : public filter_base<texture_type, samplecoord_type, fetch_type, texel_type>
+	{
+		static texel_type linear
+		(
+			texture_type const & Texture,
+			fetch_type Fetch,
+			samplecoord_type const & SampleCoord,
+			typename texture_type::size_type Layer,
+			typename texture_type::size_type Face,
+			typename texture_type::size_type Level,
+			texel_type const & BorderColor
+		)
+		{
+			return detail::filter3D<texture_type, samplecoord_type, fetch_type, texel_type, false>::nearest(Texture, Fetch, SampleCoord, Layer, Face, Level, BorderColor);
 		}
 	};
 }//namespace detail

@@ -37,10 +37,11 @@ namespace gli
 		, Texture(Texture)
 		, Convert(detail::convert<textureCube, T, P>::call(this->Texture.format()))
 		, BorderColor(BorderColor)
-		, Filter(Min == FILTER_LINEAR ? detail::filter2D<texture_type, samplecoord_type, fetch_type, texel_type>::linear : detail::filter2D<texture_type, samplecoord_type, fetch_type, texel_type>::nearest)
+		, Filter(Min == FILTER_LINEAR && std::numeric_limits<T>::is_iec559 ? typename filter_type::linear : typename filter_type::nearest)
 	{
 		GLI_ASSERT(!Texture.empty());
 		GLI_ASSERT(!is_compressed(Texture.format()));
+		GLI_ASSERT((!std::numeric_limits<T>::is_iec559 && Mip == FILTER_NEAREST && Min == FILTER_NEAREST) || std::numeric_limits<T>::is_iec559);
 	}
 
 	template <typename T, precision P>
