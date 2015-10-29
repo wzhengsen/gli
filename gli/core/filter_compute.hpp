@@ -142,6 +142,52 @@ namespace detail
 			texel_type const ValueB(mix(Texel01, Texel11, Coord.Blend.s));
 			return mix(ValueA, ValueB, Coord.Blend.t);
 		}
+
+		static texel_type linear_mipmap_linear
+		(
+			texture_type const & Texture,
+			fetch_type Fetch,
+			samplecoord_type const & SampleCoord,
+			typename texture_type::size_type Layer,
+			typename texture_type::size_type Face,
+			typename texture_type::size_type Level,
+			texel_type const & BorderColor
+		)
+		{
+			texel_type const MinTexel = linear(Texture, Convert.Fetch, SampleCoordWrap, size_type(0), Face, size_type(floor(Level)), BorderColor);
+			texel_type const MaxTexel = linear(Texture, Convert.Fetch, SampleCoordWrap, size_type(0), Face, size_type(ceil(Level)), BorderColor);
+			return mix(MinTexel, MaxTexel, fract(Level));
+		}
+
+		static texel_type linear_mipmap_nearest
+		(
+			texture_type const & Texture,
+			fetch_type Fetch,
+			samplecoord_type const & SampleCoord,
+			typename texture_type::size_type Layer,
+			typename texture_type::size_type Face,
+			typename texture_type::size_type Level,
+			texel_type const & BorderColor
+		)
+		{
+			return linear(Texture, Convert.Fetch, SampleCoordWrap, size_type(0), Face, size_type(round(Level)), BorderColor);
+		}
+
+		static texel_type nearest_mipmap_linear
+		(
+			texture_type const & Texture,
+			fetch_type Fetch,
+			samplecoord_type const & SampleCoord,
+			typename texture_type::size_type Layer,
+			typename texture_type::size_type Face,
+			typename texture_type::size_type Level,
+			texel_type const & BorderColor
+		)
+		{
+			texel_type const MinTexel = nearest(Texture, Convert.Fetch, SampleCoordWrap, size_type(0), Face, size_type(floor(Level)), BorderColor);
+			texel_type const MaxTexel = nearest(Texture, Convert.Fetch, SampleCoordWrap, size_type(0), Face, size_type(ceil(Level)), BorderColor);
+			return mix(MinTexel, MaxTexel, fract(Level));
+		}
 	};
 
 	template <typename texture_type, typename samplecoord_type, typename fetch_type, typename texel_type>
