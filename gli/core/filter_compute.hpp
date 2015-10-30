@@ -154,8 +154,8 @@ namespace detail
 			texel_type const & BorderColor
 		)
 		{
-			texel_type const MinTexel = linear(Texture, Fetch, SampleCoordWrap, size_type(0), Face, size_type(floor(Level)), BorderColor);
-			texel_type const MaxTexel = linear(Texture, Fetch, SampleCoordWrap, size_type(0), Face, size_type(ceil(Level)), BorderColor);
+			texel_type const MinTexel = linear(Texture, Fetch, SampleCoordWrap, typename texture_type::size_type(0), Face, typename texture_type::size_type(floor(Level)), BorderColor);
+			texel_type const MaxTexel = linear(Texture, Fetch, SampleCoordWrap, typename texture_type::size_type(0), Face, typename texture_type::size_type(ceil(Level)), BorderColor);
 			return mix(MinTexel, MaxTexel, fract(Level));
 		}
 
@@ -170,7 +170,7 @@ namespace detail
 			texel_type const & BorderColor
 		)
 		{
-			return linear(Texture, Fetch, SampleCoordWrap, size_type(0), Face, size_type(round(Level)), BorderColor);
+			return linear(Texture, Fetch, SampleCoordWrap, typename texture_type::size_type(0), Face, typename texture_type::size_type(round(Level)), BorderColor);
 		}
 
 		static texel_type nearest_mipmap_linear
@@ -184,8 +184,8 @@ namespace detail
 			texel_type const & BorderColor
 		)
 		{
-			texel_type const MinTexel = nearest(Texture, Fetch, SampleCoordWrap, size_type(0), Face, size_type(floor(Level)), BorderColor);
-			texel_type const MaxTexel = nearest(Texture, Fetch, SampleCoordWrap, size_type(0), Face, size_type(ceil(Level)), BorderColor);
+			texel_type const MinTexel = nearest(Texture, Fetch, SampleCoordWrap, typename texture_type::size_type(0), Face, typename texture_type::size_type(floor(Level)), BorderColor);
+			texel_type const MaxTexel = nearest(Texture, Fetch, SampleCoordWrap, typename texture_type::size_type(0), Face, typename texture_type::size_type(ceil(Level)), BorderColor);
 			return mix(MinTexel, MaxTexel, fract(Level));
 		}
 	};
