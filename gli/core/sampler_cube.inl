@@ -37,8 +37,7 @@ namespace gli
 		, Texture(Texture)
 		, Convert(detail::convert<textureCube, T, P>::call(this->Texture.format()))
 		, BorderColor(BorderColor)
-		, Filter(typename filter_type::nearest)
-		//, Filter(Min == FILTER_LINEAR && std::numeric_limits<T>::is_iec559 ? typename filter_type::linear : typename filter_type::nearest)
+		, Filter(Min == FILTER_LINEAR && std::numeric_limits<T>::is_iec559 ? typename filter_type::linear : typename filter_type::nearest)
 	{
 		GLI_ASSERT(!Texture.empty());
 		GLI_ASSERT(!is_compressed(Texture.format()));
