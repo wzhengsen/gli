@@ -113,14 +113,14 @@ namespace detail
 		(
 			texture_type const & Texture,
 			fetch_type Fetch,
-			samplecoord_type const & SampleCoord,
+			samplecoord_type const & SampleCoordWrap,
 			typename texture_type::size_type Layer,
 			typename texture_type::size_type Face,
 			typename texture_type::size_type Level,
 			texel_type const & BorderColor
 		)
 		{
-			coord_linear<typename texture_type::texelcoord_type, samplecoord_type> const & Coord = make_coord_linear(Texture.dimensions(Level), SampleCoord);
+			coord_linear<typename texture_type::texelcoord_type, samplecoord_type> const & Coord = make_coord_linear(Texture.dimensions(Level), SampleCoordWrap);
 
 			texel_type Texel00(BorderColor);
 			if(Coord.UseTexelFloor.s && Coord.UseTexelFloor.t)
@@ -147,14 +147,13 @@ namespace detail
 		(
 			texture_type const & Texture,
 			fetch_type Fetch,
-			samplecoord_type const & SampleCoord,
+			samplecoord_type const & SampleCoordWrap,
 			typename texture_type::size_type Layer,
 			typename texture_type::size_type Face,
 			typename texture_type::size_type Level,
 			texel_type const & BorderColor
 		)
 		{
-			samplecoord_type const SampleCoordWrap(this->Wrap(SampleCoord.x), this->Wrap(SampleCoord.y));
 			texel_type const MinTexel = linear(Texture, Convert.Fetch, SampleCoordWrap, size_type(0), Face, size_type(floor(Level)), BorderColor);
 			texel_type const MaxTexel = linear(Texture, Convert.Fetch, SampleCoordWrap, size_type(0), Face, size_type(ceil(Level)), BorderColor);
 			return mix(MinTexel, MaxTexel, fract(Level));
@@ -164,14 +163,13 @@ namespace detail
 		(
 			texture_type const & Texture,
 			fetch_type Fetch,
-			samplecoord_type const & SampleCoord,
+			samplecoord_type const & SampleCoordWrap,
 			typename texture_type::size_type Layer,
 			typename texture_type::size_type Face,
 			typename texture_type::size_type Level,
 			texel_type const & BorderColor
 		)
 		{
-			samplecoord_type const SampleCoordWrap(this->Wrap(SampleCoord.x), this->Wrap(SampleCoord.y));
 			return linear(Texture, Convert.Fetch, SampleCoordWrap, size_type(0), Face, size_type(round(Level)), BorderColor);
 		}
 
@@ -179,14 +177,13 @@ namespace detail
 		(
 			texture_type const & Texture,
 			fetch_type Fetch,
-			samplecoord_type const & SampleCoord,
+			samplecoord_type const & SampleCoordWrap,
 			typename texture_type::size_type Layer,
 			typename texture_type::size_type Face,
 			typename texture_type::size_type Level,
 			texel_type const & BorderColor
 		)
 		{
-			samplecoord_type const SampleCoordWrap(this->Wrap(SampleCoord.x), this->Wrap(SampleCoord.y));
 			texel_type const MinTexel = nearest(Texture, Convert.Fetch, SampleCoordWrap, size_type(0), Face, size_type(floor(Level)), BorderColor);
 			texel_type const MaxTexel = nearest(Texture, Convert.Fetch, SampleCoordWrap, size_type(0), Face, size_type(ceil(Level)), BorderColor);
 			return mix(MinTexel, MaxTexel, fract(Level));
