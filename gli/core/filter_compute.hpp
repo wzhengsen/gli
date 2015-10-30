@@ -154,6 +154,7 @@ namespace detail
 			texel_type const & BorderColor
 		)
 		{
+			samplecoord_type const SampleCoordWrap(this->Wrap(SampleCoord.x), this->Wrap(SampleCoord.y));
 			texel_type const MinTexel = linear(Texture, Convert.Fetch, SampleCoordWrap, size_type(0), Face, size_type(floor(Level)), BorderColor);
 			texel_type const MaxTexel = linear(Texture, Convert.Fetch, SampleCoordWrap, size_type(0), Face, size_type(ceil(Level)), BorderColor);
 			return mix(MinTexel, MaxTexel, fract(Level));
@@ -170,6 +171,7 @@ namespace detail
 			texel_type const & BorderColor
 		)
 		{
+			samplecoord_type const SampleCoordWrap(this->Wrap(SampleCoord.x), this->Wrap(SampleCoord.y));
 			return linear(Texture, Convert.Fetch, SampleCoordWrap, size_type(0), Face, size_type(round(Level)), BorderColor);
 		}
 
@@ -184,6 +186,7 @@ namespace detail
 			texel_type const & BorderColor
 		)
 		{
+			samplecoord_type const SampleCoordWrap(this->Wrap(SampleCoord.x), this->Wrap(SampleCoord.y));
 			texel_type const MinTexel = nearest(Texture, Convert.Fetch, SampleCoordWrap, size_type(0), Face, size_type(floor(Level)), BorderColor);
 			texel_type const MaxTexel = nearest(Texture, Convert.Fetch, SampleCoordWrap, size_type(0), Face, size_type(ceil(Level)), BorderColor);
 			return mix(MinTexel, MaxTexel, fract(Level));
