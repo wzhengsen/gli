@@ -132,7 +132,7 @@ namespace detail
 			ResourceDimension(D3D10_RESOURCE_DIMENSION_UNKNOWN),
 			MiscFlag(0),
 			ArraySize(0),
-			AlphaFlags(0)
+			AlphaFlags(DDS_ALPHA_MODE_UNKNOWN)
 		{}
 
 		dx::dxgiFormat				Format;

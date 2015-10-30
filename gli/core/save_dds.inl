@@ -117,7 +117,7 @@ namespace detail
 			Header10.ResourceDimension = detail::getDimension(Texture.target());
 			Header10.MiscFlag = 0;//Storage.levels() > 0 ? detail::D3D10_RESOURCE_MISC_GENERATE_MIPS : 0;
 			Header10.Format = static_cast<dx::dxgiFormat>(DXFormat.DXGIFormat);
-			Header10.Reserved = 0;
+			Header10.AlphaFlags = detail::DDS_ALPHA_MODE_UNKNOWN;
 		}
 
 		std::memcpy(&Memory[0] + Offset, Texture.data(), Texture.size());
