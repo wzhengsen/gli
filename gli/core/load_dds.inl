@@ -74,8 +74,8 @@ namespace detail
 	struct ddsPixelFormat
 	{
 		std::uint32_t size; // 32
-		dx::DDPF flags;
-		dx::D3DFORMAT fourCC;
+		dx::ddpf flags;
+		dx::d3dFormat fourCC;
 		std::uint32_t bpp;
 		glm::u32vec4 Mask;
 	};
@@ -254,9 +254,9 @@ namespace detail
 			}
 		}
 		else if((Header.Format.flags & dx::DDPF_FOURCC) && (Header.Format.fourCC != dx::D3DFMT_DX10) && (Format == static_cast<format>(gli::FORMAT_INVALID)))
-			Format = DX.find(Header.Format.fourCC);
+			Format = DX.find(Header.Format.fourCC, Header.Format.flags);
 		else if((Header.Format.fourCC == dx::D3DFMT_DX10) && (Header10.Format != dx::DXGI_FORMAT_UNKNOWN))
-			Format = DX.find(Header10.Format);
+			Format = DX.find(Header10.Format, Header.Format.flags);
 
 		assert(Format != static_cast<format>(gli::FORMAT_INVALID));
 

@@ -169,6 +169,7 @@ GLuint createTexture(char const* Filename)
 - Fixed luminance and alpha translation to OpenGL #56
 - Fixed DXGI_FORMAT_B8G8R8X8_UNORM_SRGB support #59
 - Fixed FORMAT_RGBA8_UNORM DDS loading using DDPF_RGBA mode #60
+- Fixed handling of DDS DDPF_ALPHAPIXELS #68
 
 #### [GLI 0.7.0.0](https://github.com/g-truc/gli/releases/tag/0.7.0.0) - 2015-09-01
 - Added KTX loading and saving
