@@ -116,7 +116,7 @@ namespace detail
 		D3D10_RESOURCE_MISC_GDI_COMPATIBLE		= 0x20,
 	};
 
-	enum
+	enum ddsAlphaMode
 	{
 		DDS_ALPHA_MODE_UNKNOWN					= 0x0,
 		DDS_ALPHA_MODE_STRAIGHT					= 0x1,
@@ -132,14 +132,14 @@ namespace detail
 			ResourceDimension(D3D10_RESOURCE_DIMENSION_UNKNOWN),
 			MiscFlag(0),
 			ArraySize(0),
-			Reserved(0)
+			AlphaFlags(0)
 		{}
 
 		dx::dxgiFormat				Format;
 		D3D10_RESOURCE_DIMENSION	ResourceDimension;
 		std::uint32_t				MiscFlag; // D3D10_RESOURCE_MISC_GENERATE_MIPS
 		std::uint32_t				ArraySize;
-		std::uint32_t				Reserved;
+		ddsAlphaMode				AlphaFlags; // Should be 0 whenever possible to avoid D3D utility library to fail
 	};
 
 	static_assert(sizeof(ddsHeader10) == 20, "DDS DX10 Extended Header size mismatch");
