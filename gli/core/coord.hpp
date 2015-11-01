@@ -76,14 +76,15 @@ namespace detail
 		samplecoord_type const TexelDimF(TexelDim);
 		Coord.TexelLast = TexelDimF - samplecoord_type(1);
 
-		samplecoord_type const ScaledCoordFloor(floor(SampleCoord * Coord.TexelLast));
-		samplecoord_type const ScaledCoordCeil(ceil(SampleCoord * Coord.TexelLast));
+		samplecoord_type const ScaledCoord(SampleCoord * Coord.TexelLast);
+		samplecoord_type const ScaledCoordFloor(floor(ScaledCoord));
+		samplecoord_type const ScaledCoordCeil(ceil(ScaledCoord));
 
+		Coord.Blend = ScaledCoord - ScaledCoordFloor;
 		Coord.TexelFloor = texelcoord_type(ScaledCoordFloor);
 		Coord.TexelCeil = texelcoord_type(ScaledCoordCeil);
 		Coord.UseTexelFloor = in_interval(Coord.TexelFloor, texelcoord_type(0), TexelDim - 1);
 		Coord.UseTexelCeil = in_interval(Coord.TexelCeil, texelcoord_type(0), TexelDim - 1);
-		Coord.Blend = (SampleCoord - ScaledCoordFloor / Coord.TexelLast) * Coord.TexelLast;
 
 		return Coord;
 	}
