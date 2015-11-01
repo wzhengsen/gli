@@ -60,7 +60,6 @@ namespace detail
 	template <typename texelcoord_type, typename samplecoord_type>
 	struct coord_linear
 	{
-		samplecoord_type TexelLast;
 		texelcoord_type TexelFloor;
 		texelcoord_type TexelCeil;
 		typename texelcoord_type::bool_type UseTexelFloor;
@@ -74,9 +73,8 @@ namespace detail
 		coord_linear<texelcoord_type, samplecoord_type> Coord;
 
 		samplecoord_type const TexelDimF(TexelDim);
-		Coord.TexelLast = TexelDimF - samplecoord_type(1);
-
-		samplecoord_type const ScaledCoord(SampleCoord * Coord.TexelLast);
+		samplecoord_type const TexelLast = TexelDimF - samplecoord_type(1);
+		samplecoord_type const ScaledCoord(SampleCoord * TexelLast);
 		samplecoord_type const ScaledCoordFloor(floor(ScaledCoord));
 		samplecoord_type const ScaledCoordCeil(ceil(ScaledCoord));
 
