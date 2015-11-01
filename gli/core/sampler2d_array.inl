@@ -32,10 +32,10 @@
 namespace gli
 {
 	template <typename T, precision P>
-	inline sampler2DArray<T, P>::sampler2DArray(texture2DArray const & Texture, gli::wrap Wrap, filter Mip, filter Min, texel_type const & BorderColor)
+	inline sampler2DArray<T, P>::sampler2DArray(texture_type const & Texture, gli::wrap Wrap, filter Mip, filter Min, texel_type const & BorderColor)
 		: sampler(Wrap, Texture.levels() > 1 ? Mip : FILTER_NEAREST, Min)
 		, Texture(Texture)
-		, Convert(detail::convert<texture2DArray, T, P>::call(this->Texture.format()))
+		, Convert(detail::convert<texture_type, T, P>::call(this->Texture.format()))
 		, BorderColor(BorderColor)
 		, Filter(detail::get_filter_func<filter_type>(Mip, Min))
 	{
@@ -45,7 +45,7 @@ namespace gli
 	}
 
 	template <typename T, precision P>
-	inline texture2DArray const & sampler2DArray<T, P>::operator()() const
+	inline typename sampler2DArray<T, P>::texture_type const & sampler2DArray<T, P>::operator()() const
 	{
 		return this->Texture;
 	}
