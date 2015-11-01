@@ -486,7 +486,7 @@ namespace detail
 			texel_type const & BorderColor
 		)
 		{
-			return detail::filter3D<texture_type, samplecoord_type, fetch_type, texel_type, false>::nearest(Texture, Fetch, SampleCoord, Layer, Face, Level, BorderColor);
+			return typename base_type::nearest(Texture, Fetch, SampleCoord, Layer, Face, Level, BorderColor);
 		}
 
 		static texel_type linear_mipmap_linear
