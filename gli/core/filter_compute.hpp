@@ -298,8 +298,8 @@ namespace detail
 			texel_type const & BorderColor
 		)
 		{
-			texel_type const MinTexel = typename base_type::nearest(Texture, Fetch, SampleCoordWrap, Layer, Face, floor(Level), BorderColor);
-			texel_type const MaxTexel = typename base_type::nearest(Texture, Fetch, SampleCoordWrap, Layer, Face, ceil(Level), BorderColor);
+			texel_type const MinTexel = base_type::nearest(Texture, Fetch, SampleCoordWrap, Layer, Face, floor(Level), BorderColor);
+			texel_type const MaxTexel = base_type::nearest(Texture, Fetch, SampleCoordWrap, Layer, Face, ceil(Level), BorderColor);
 			return mix(MinTexel, MaxTexel, fract(Level));
 		}
 
@@ -458,8 +458,8 @@ namespace detail
 			texel_type const & BorderColor
 		)
 		{
-			texel_type const MinTexel = typename base_type::nearest(Texture, Fetch, SampleCoordWrap, Layer, Face, floor(Level), BorderColor);
-			texel_type const MaxTexel = typename base_type::nearest(Texture, Fetch, SampleCoordWrap, Layer, Face, ceil(Level), BorderColor);
+			texel_type const MinTexel = base_type::nearest(Texture, Fetch, SampleCoordWrap, Layer, Face, floor(Level), BorderColor);
+			texel_type const MaxTexel = base_type::nearest(Texture, Fetch, SampleCoordWrap, Layer, Face, ceil(Level), BorderColor);
 			return mix(MinTexel, MaxTexel, fract(Level));
 		}
 
