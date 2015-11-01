@@ -62,15 +62,38 @@ namespace detail
 	{
 		texelcoord_type TexelFloor;
 		texelcoord_type TexelCeil;
+		samplecoord_type Blend;
+	};
+
+	template <typename texelcoord_type, typename samplecoord_type>
+	struct coord_linear_border : public coord_linear<texelcoord_type, samplecoord_type>
+	{
 		typename texelcoord_type::bool_type UseTexelFloor;
 		typename texelcoord_type::bool_type UseTexelCeil;
-		samplecoord_type Blend;
 	};
 
 	template <typename texelcoord_type, typename samplecoord_type>
 	GLI_FORCE_INLINE coord_linear<texelcoord_type, samplecoord_type> make_coord_linear(texelcoord_type const & TexelDim, samplecoord_type const & SampleCoord)
 	{
 		coord_linear<texelcoord_type, samplecoord_type> Coord;
+
+		samplecoord_type const TexelDimF(TexelDim);
+		samplecoord_type const TexelLast = TexelDimF - samplecoord_type(1);
+		samplecoord_type const ScaledCoord(SampleCoord * TexelLast);
+		samplecoord_type const ScaledCoordFloor(floor(ScaledCoord));
+		samplecoord_type const ScaledCoordCeil(ceil(ScaledCoord));
+
+		Coord.Blend = ScaledCoord - ScaledCoordFloor;
+		Coord.TexelFloor = texelcoord_type(ScaledCoordFloor);
+		Coord.TexelCeil = texelcoord_type(ScaledCoordCeil);
+
+		return Coord;
+	}
+
+	template <typename texelcoord_type, typename samplecoord_type>
+	GLI_FORCE_INLINE coord_linear_border<texelcoord_type, samplecoord_type> make_coord_linear_border(texelcoord_type const & TexelDim, samplecoord_type const & SampleCoord)
+	{
+		coord_linear_border<texelcoord_type, samplecoord_type> Coord;
 
 		samplecoord_type const TexelDimF(TexelDim);
 		samplecoord_type const TexelLast = TexelDimF - samplecoord_type(1);
