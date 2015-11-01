@@ -261,7 +261,6 @@ namespace gli
 			{DDPF_FOURCC_ALPHAPIXELS, D3DFMT_ATCA, DXGI_FORMAT_UNKNOWN, glm::u32vec4(0)},			//FORMAT_RGBA_ATC_EXPLICIT_UNORM,
 			{DDPF_FOURCC_ALPHAPIXELS, D3DFMT_ATCI, DXGI_FORMAT_UNKNOWN, glm::u32vec4(0)},			//FORMAT_RGBA_ATC_INTERPOLATED_UNORM,
 		};
-
 		static_assert(sizeof(Table) / sizeof(Table[0]) == FORMAT_COUNT, "GLI error: format descriptor list doesn't match number of supported formats");
 
 		std::copy(&Table[0], &Table[0] + FORMAT_COUNT, this->Translation.begin());

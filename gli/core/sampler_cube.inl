@@ -37,7 +37,7 @@ namespace gli
 		, Texture(Texture)
 		, Convert(detail::convert<textureCube, T, P>::call(this->Texture.format()))
 		, BorderColor(BorderColor)
-		, Filter(Min == FILTER_LINEAR && std::numeric_limits<T>::is_iec559 ? filter_type::linear : filter_type::nearest)
+		, Filter(detail::get_filter_func<samplerCube<T, P> >(Mip, Min))
 	{
 		GLI_ASSERT(!Texture.empty());
 		GLI_ASSERT(!is_compressed(Texture.format()));
@@ -71,23 +71,15 @@ namespace gli
 	}
 
 	template <typename T, precision P>
-	inline typename samplerCube<T, P>::texel_type samplerCube<T, P>::texture_lod(samplecoord_type const & SampleCoord, size_type Face, T Level) const
+	inline typename samplerCube<T, P>::texel_type samplerCube<T, P>::texture_lod(samplecoord_type const & SampleCoord, size_type Face, level_type Level) const
 	{
 		GLI_ASSERT(std::numeric_limits<T>::is_iec559);
 		GLI_ASSERT(this->Convert.Fetch);
+		GLI_ASSERT(this->Filter);
 
 		samplecoord_type const SampleCoordWrap(this->Wrap(SampleCoord.x), this->Wrap(SampleCoord.y));
 
-		if(this->Mip == FILTER_LINEAR)
-		{
-			texel_type const MinTexel = this->Filter(this->Texture, this->Convert.Fetch, SampleCoordWrap, size_type(0), Face, size_type(floor(Level)), this->BorderColor);
-			texel_type const MaxTexel = this->Filter(this->Texture, this->Convert.Fetch, SampleCoordWrap, size_type(0), Face, size_type(ceil(Level)), this->BorderColor);
-			return mix(MinTexel, MaxTexel, fract(Level));
-		}
-		else
-		{
-			return this->Filter(this->Texture, this->Convert.Fetch, SampleCoordWrap, size_type(0), Face, size_type(round(Level)), this->BorderColor);
-		}
+		return this->Filter(this->Texture, this->Convert.Fetch, SampleCoordWrap, size_type(0), Face, Level, this->BorderColor);
 	}
 
 	template <typename T, precision P>

@@ -41,7 +41,7 @@ namespace mipmaps_rgba4unorm
 		int Error = 0;
 
 		gli::texture1D Texture(gli::FORMAT_RGBA4_UNORM, gli::texture1D::texelcoord_type(64));
-		for(std::size_t i = 0, m = Texture.dimensions().x; i < m; ++i)
+		for(int i = 0, m = Texture.dimensions().x; i < m; ++i)
 		{
 			gli::uint16 const Color = gli::packUnorm4x4(gli::vec4(static_cast<float>(i) / static_cast<float>(Texture.dimensions().x), 0.0f, 0.0f, 1.0f));
 			Texture.store<gli::uint16>(gli::texture1D::texelcoord_type(i), 0, Color);
@@ -79,7 +79,7 @@ namespace mipmaps_rgba8unorm
 		int Error = 0;
 
 		gli::texture1D Texture(gli::FORMAT_RGBA8_UNORM, gli::texture1D::texelcoord_type(64));
-		for(std::size_t i = 0, m = Texture.dimensions().x; i < m; ++i)
+		for(int i = 0, m = Texture.dimensions().x; i < m; ++i)
 			Texture.store<gli::u8vec4>(gli::texture1D::texelcoord_type(i), 0, gli::u8vec4(i * 4, 0, 0, 255));
 
 		gli::texture1D TextureView(gli::view(Texture, 0, 0));
@@ -114,7 +114,7 @@ namespace mipmaps_rgba8snorm
 		int Error = 0;
 
 		gli::texture1D Texture(gli::FORMAT_RGBA8_SNORM, gli::texture1D::texelcoord_type(64));
-		for(std::size_t i = 0, m = Texture.dimensions().x; i < m; ++i)
+		for(int i = 0, m = Texture.dimensions().x; i < m; ++i)
 			Texture.store<gli::i8vec4>(gli::texture1D::texelcoord_type(i), 0, gli::i8vec4(i * 2, 0, 0, 127));
 
 		gli::texture1D TextureView(gli::view(Texture, 0, 0));
@@ -149,7 +149,7 @@ namespace mipmaps_rgb10a2unorm
 		int Error = 0;
 
 		gli::texture1D Texture(gli::FORMAT_RGB10A2_UNORM, gli::texture1D::texelcoord_type(64));
-		for(std::size_t i = 0, m = Texture.dimensions().x; i < m; ++i)
+		for(int i = 0, m = Texture.dimensions().x; i < m; ++i)
 		{
 			gli::vec4 const Color(static_cast<float>(i) / static_cast<float>(Texture.dimensions().x), 0.f, 0.f, 1.f);
 			Texture.store<gli::uint32>(gli::texture1D::texelcoord_type(i), 0, gli::packUnorm3x10_1x2(Color));

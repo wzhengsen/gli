@@ -119,12 +119,10 @@ namespace sampler_type
 			gli::dsamplerCube Sampler(Texture, gli::WRAP_CLAMP_TO_EDGE, gli::FILTER_LINEAR, gli::FILTER_LINEAR);
 		}
 
-#		if ENABLE_INTEGER_TESTS
 		{
 			gli::textureCube Texture(gli::FORMAT_RGBA8_UNORM, gli::textureCube::texelcoord_type(4), 1);
-			gli::isamplerCube Sampler(Texture, gli::WRAP_CLAMP_TO_EDGE, gli::FILTER_LINEAR, gli::FILTER_LINEAR);
+			gli::isamplerCube Sampler(Texture, gli::WRAP_CLAMP_TO_EDGE, gli::FILTER_NEAREST, gli::FILTER_NEAREST);
 		}
-#		endif//ENABLE_INTEGER_TESTS
 
 		return Error;
 	}

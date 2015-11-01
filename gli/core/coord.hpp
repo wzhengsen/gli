@@ -49,13 +49,11 @@ namespace detail
 	template <typename texelcoord_type, typename samplecoord_type>
 	inline coord_nearest<texelcoord_type, samplecoord_type> make_coord_nearest(texelcoord_type const & TexelDim, samplecoord_type const & SampleCoord)
 	{
-		coord_nearest<texelcoord_type, samplecoord_type> Coord;
-
 		samplecoord_type const TexelLast(samplecoord_type(TexelDim) - samplecoord_type(1));
 
+		coord_nearest<texelcoord_type, samplecoord_type> Coord;
 		Coord.Texel = texelcoord_type(round(SampleCoord * TexelLast));
 		Coord.UseTexel = in_interval(Coord.Texel, texelcoord_type(0), TexelDim - 1);
-
 		return Coord;
 	}
 
