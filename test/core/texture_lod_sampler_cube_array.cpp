@@ -89,10 +89,10 @@ namespace texture_lod
 			Error += gli::all(gli::epsilonEqual(SampleA, gli::vec4(1.0f, 0.5f, 0.0f, 1.0f), 0.01f)) ? 0 : 1;
 
 			gli::vec4 SampleB = Sampler.texture_lod(gli::fsamplerCubeArray::samplecoord_type(0.8f), 0, 1, 0.0f);
-			Error += gli::all(gli::epsilonEqual(SampleB, gli::vec4(0.0f, 0.5f, 1.0f, 1.0f), 0.01f)) ? 0 : 1;
+			Error += gli::all(gli::epsilonEqual(SampleB, gli::vec4(1.0f, 0.5f, 0.0f, 1.0f), 0.01f)) ? 0 : 1;
 
 			gli::vec4 SampleC = Sampler.texture_lod(gli::fsamplerCubeArray::samplecoord_type(0.20f, 0.8f), 0, 1, 0.0f);
-			Error += gli::all(gli::epsilonEqual(SampleC, gli::vec4(0.0f, 0.0f, 0.0f, 1.0f), 0.01f)) ? 0 : 1;
+			Error += gli::all(gli::epsilonEqual(SampleC, gli::vec4(1.0f, 0.5f, 0.0f, 1.0f), 0.01f)) ? 0 : 1;
 		}
 
 		return Error;
