@@ -99,6 +99,8 @@ int main()
 	Filenames.push_back("kueken7_rgba_dxt1_unorm.dds");
 	Filenames.push_back("kueken7_rgba_dxt1_srgb.dds");
 	Filenames.push_back("kueken7_rgba_dxt5_unorm.dds");
+	Filenames.push_back("kueken7_rgba_dxt5_unorm1.dds");
+	Filenames.push_back("kueken7_rgba_dxt5_unorm2.dds");
 	Filenames.push_back("kueken7_rgba_dxt5_srgb.dds");
 	Filenames.push_back("kueken7_rgb_etc1_unorm.dds");
 	//Filenames.push_back("kueken7_rgb_etc2_srgb.dds");

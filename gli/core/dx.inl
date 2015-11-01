@@ -274,27 +274,37 @@ namespace gli
 
 	inline gli::format dx::find(dx::d3dFormat FourCC, ddpf PixelFormat) const
 	{
+		gli::format FormatResult = static_cast<gli::format>(FORMAT_INVALID);
 		for(int FormatIndex = FORMAT_FIRST; FormatIndex <= FORMAT_LAST; ++FormatIndex)
 		{
 			if(this->Translation[FormatIndex - FORMAT_FIRST].D3DFormat != FourCC)
 				continue;
+
+			FormatResult = static_cast<gli::format>(FormatIndex);
+
 			if(this->Translation[FormatIndex - FORMAT_FIRST].DDPixelFormat != PixelFormat)
 				continue;
-			return static_cast<gli::format>(FormatIndex);
+
+			break;
 		}
-		return static_cast<gli::format>(FORMAT_INVALID);
+		return FormatResult;
 	}
 
 	inline gli::format dx::find(dx::dxgiFormat Format, ddpf PixelFormat) const
 	{
+		gli::format FormatResult = static_cast<gli::format>(FORMAT_INVALID);
 		for(int FormatIndex = FORMAT_FIRST; FormatIndex <= FORMAT_LAST; ++FormatIndex)
 		{
 			if(this->Translation[FormatIndex - FORMAT_FIRST].DXGIFormat != Format)
 				continue;
+
+			FormatResult = static_cast<gli::format>(FormatIndex);
+
 			if(this->Translation[FormatIndex - FORMAT_FIRST].DDPixelFormat != PixelFormat)
 				continue;
-			return static_cast<gli::format>(FormatIndex);
+
+			break;
 		}
-		return static_cast<gli::format>(FORMAT_INVALID);
+		return FormatResult;
 	}
 }//namespace gli
