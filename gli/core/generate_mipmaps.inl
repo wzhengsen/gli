@@ -34,7 +34,7 @@ namespace gli
 {
 	inline texture1D generate_mipmaps(texture1D const & Texture, texture1D::size_type BaseLevel, texture1D::size_type MaxLevel)
 	{
-		fsampler1D Sampler(Texture, WRAP_CLAMP_TO_EDGE, FILTER_LINEAR, FILTER_LINEAR);
+		fsampler1D Sampler(Texture, WRAP_CLAMP_TO_EDGE, FILTER_NEAREST, FILTER_LINEAR);
 		Sampler.generate_mipmaps(BaseLevel, MaxLevel);
 
 		return Sampler();
@@ -47,7 +47,7 @@ namespace gli
 
 	inline texture2D generate_mipmaps(texture2D const & Texture, texture2D::size_type BaseLevel, texture2D::size_type MaxLevel)
 	{
-		fsampler2D Sampler(Texture, WRAP_CLAMP_TO_EDGE, FILTER_LINEAR, FILTER_LINEAR);
+		fsampler2D Sampler(Texture, WRAP_CLAMP_TO_EDGE, FILTER_NEAREST, FILTER_LINEAR);
 		Sampler.generate_mipmaps(BaseLevel, MaxLevel);
 
 		return Sampler();
@@ -60,7 +60,7 @@ namespace gli
 
 	inline texture3D generate_mipmaps(texture3D const & Texture, texture3D::size_type BaseLevel, texture3D::size_type MaxLevel)
 	{
-		fsampler3D Sampler(Texture, WRAP_CLAMP_TO_EDGE, FILTER_LINEAR, FILTER_LINEAR);
+		fsampler3D Sampler(Texture, WRAP_CLAMP_TO_EDGE, FILTER_NEAREST, FILTER_LINEAR);
 		Sampler.generate_mipmaps(BaseLevel, MaxLevel);
 
 		return Sampler();
