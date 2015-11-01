@@ -46,13 +46,13 @@ namespace detail
 			},
 			{
 				nullptr,
-				typename filter_type::nearest_mipmap_nearest,
-				typename filter_type::nearest_mipmap_linear,
+				filter_type::nearest_mipmap_nearest,
+				filter_type::nearest_mipmap_linear,
 			},
 			{
 				nullptr,
-				typename filter_type::linear_mipmap_nearest,
-				typename filter_type::linear_mipmap_linear
+				filter_type::linear_mipmap_nearest,
+				filter_type::linear_mipmap_linear
 			}
 		};
 		static_assert(sizeof(Table) / sizeof(Table[0]) == FILTER_COUNT, "GLI ERROR: 'Table' doesn't match the number of supported filters");
