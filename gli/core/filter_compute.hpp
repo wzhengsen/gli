@@ -161,8 +161,8 @@ namespace detail
 			texel_type const & BorderColor
 		)
 		{
-			texel_type const MinTexel = typename base_type::nearest(Texture, Fetch, SampleCoordWrap, Layer, Face, floor(Level), BorderColor);
-			texel_type const MaxTexel = typename base_type::nearest(Texture, Fetch, SampleCoordWrap, Layer, Face, ceil(Level), BorderColor);
+			texel_type const MinTexel = base_type::nearest(Texture, Fetch, SampleCoordWrap, Layer, Face, floor(Level), BorderColor);
+			texel_type const MaxTexel = base_type::nearest(Texture, Fetch, SampleCoordWrap, Layer, Face, ceil(Level), BorderColor);
 			return mix(MinTexel, MaxTexel, fract(Level));
 		}
 
@@ -173,7 +173,7 @@ namespace detail
 			texel_type const & BorderColor
 		)
 		{
-			return typename base_type::nearest(Texture, Fetch, SampleCoordWrap, Layer, Face, round(Level), BorderColor);
+			return base_type::nearest(Texture, Fetch, SampleCoordWrap, Layer, Face, round(Level), BorderColor);
 		}
 	};
 
@@ -199,7 +199,7 @@ namespace detail
 			texel_type const & BorderColor
 		)
 		{
-			return typename base_type::nearest(Texture, Fetch, SampleCoordWrap, Layer, Face, round(Level), BorderColor);
+			return base_type::nearest(Texture, Fetch, SampleCoordWrap, Layer, Face, round(Level), BorderColor);
 		}
 
 		static texel_type linear_mipmap_nearest
@@ -209,7 +209,7 @@ namespace detail
 			texel_type const & BorderColor
 		)
 		{
-			return typename base_type::nearest(Texture, Fetch, SampleCoordWrap, Layer, Face, round(Level), BorderColor);
+			return base_type::nearest(Texture, Fetch, SampleCoordWrap, Layer, Face, round(Level), BorderColor);
 		}
 
 		static texel_type nearest_mipmap_linear
@@ -219,7 +219,7 @@ namespace detail
 			texel_type const & BorderColor
 		)
 		{
-			return typename base_type::nearest(Texture, Fetch, SampleCoordWrap, Layer, Face, round(Level), BorderColor);
+			return base_type::nearest(Texture, Fetch, SampleCoordWrap, Layer, Face, round(Level), BorderColor);
 		}
 
 		static texel_type nearest_mipmap_nearest
@@ -229,7 +229,7 @@ namespace detail
 			texel_type const & BorderColor
 		)
 		{
-			return typename base_type::nearest(Texture, Fetch, SampleCoordWrap, Layer, Face, round(Level), BorderColor);
+			return base_type::nearest(Texture, Fetch, SampleCoordWrap, Layer, Face, round(Level), BorderColor);
 		}
 	};
 
@@ -310,7 +310,7 @@ namespace detail
 			texel_type const & BorderColor
 		)
 		{
-			return typename base_type::nearest(Texture, Fetch, SampleCoordWrap, Layer, Face, round(Level), BorderColor);
+			return base_type::nearest(Texture, Fetch, SampleCoordWrap, Layer, Face, round(Level), BorderColor);
 		}
 	};
 
@@ -326,7 +326,7 @@ namespace detail
 			texel_type const & BorderColor
 		)
 		{
-			return typename base_type::nearest(Texture, Fetch, SampleCoord, Layer, Face, Level, BorderColor);
+			return base_type::nearest(Texture, Fetch, SampleCoord, Layer, Face, Level, BorderColor);
 		}
 
 		static texel_type linear_mipmap_linear
@@ -336,7 +336,7 @@ namespace detail
 			texel_type const & BorderColor
 		)
 		{
-			return typename base_type::nearest(Texture, Fetch, SampleCoordWrap, Layer, Face, round(Level), BorderColor);
+			return base_type::nearest(Texture, Fetch, SampleCoordWrap, Layer, Face, round(Level), BorderColor);
 		}
 
 		static texel_type linear_mipmap_nearest
@@ -346,7 +346,7 @@ namespace detail
 			texel_type const & BorderColor
 		)
 		{
-			return typename base_type::nearest(Texture, Fetch, SampleCoordWrap, Layer, Face, round(Level), BorderColor);
+			return base_type::nearest(Texture, Fetch, SampleCoordWrap, Layer, Face, round(Level), BorderColor);
 		}
 
 		static texel_type nearest_mipmap_linear
@@ -356,7 +356,7 @@ namespace detail
 			texel_type const & BorderColor
 		)
 		{
-			return typename base_type::nearest(Texture, Fetch, SampleCoordWrap, Layer, Face, round(Level), BorderColor);
+			return base_type::nearest(Texture, Fetch, SampleCoordWrap, Layer, Face, round(Level), BorderColor);
 		}
 
 		static texel_type nearest_mipmap_nearest
@@ -366,7 +366,7 @@ namespace detail
 			texel_type const & BorderColor
 		)
 		{
-			return typename base_type::nearest(Texture, Fetch, SampleCoordWrap, Layer, Face, round(Level), BorderColor);
+			return base_type::nearest(Texture, Fetch, SampleCoordWrap, Layer, Face, round(Level), BorderColor);
 		}
 	};
 
@@ -470,7 +470,7 @@ namespace detail
 			texel_type const & BorderColor
 		)
 		{
-			return typename base_type::nearest(Texture, Fetch, SampleCoordWrap, Layer, Face, round(Level), BorderColor);
+			return base_type::nearest(Texture, Fetch, SampleCoordWrap, Layer, Face, round(Level), BorderColor);
 		}
 	};
 
@@ -486,7 +486,7 @@ namespace detail
 			texel_type const & BorderColor
 		)
 		{
-			return typename base_type::nearest(Texture, Fetch, SampleCoord, Layer, Face, Level, BorderColor);
+			return base_type::nearest(Texture, Fetch, SampleCoord, Layer, Face, Level, BorderColor);
 		}
 
 		static texel_type linear_mipmap_linear
@@ -496,7 +496,7 @@ namespace detail
 			texel_type const & BorderColor
 		)
 		{
-			return typename base_type::nearest(Texture, Fetch, SampleCoordWrap, Layer, Face, round(Level), BorderColor);
+			return base_type::nearest(Texture, Fetch, SampleCoordWrap, Layer, Face, round(Level), BorderColor);
 		}
 
 		static texel_type linear_mipmap_nearest
@@ -506,7 +506,7 @@ namespace detail
 			texel_type const & BorderColor
 		)
 		{
-			return typename base_type::nearest(Texture, Fetch, SampleCoordWrap, Layer, Face, round(Level), BorderColor);
+			return base_type::nearest(Texture, Fetch, SampleCoordWrap, Layer, Face, round(Level), BorderColor);
 		}
 
 		static texel_type nearest_mipmap_linear
@@ -516,7 +516,7 @@ namespace detail
 			texel_type const & BorderColor
 		)
 		{
-			return typename base_type::nearest(Texture, Fetch, SampleCoordWrap, Layer, Face, round(Level), BorderColor);
+			return base_type::nearest(Texture, Fetch, SampleCoordWrap, Layer, Face, round(Level), BorderColor);
 		}
 
 		static texel_type nearest_mipmap_nearest
@@ -526,7 +526,7 @@ namespace detail
 			texel_type const & BorderColor
 		)
 		{
-			return typename base_type::nearest(Texture, Fetch, SampleCoordWrap, Layer, Face, round(Level), BorderColor);
+			return base_type::nearest(Texture, Fetch, SampleCoordWrap, Layer, Face, round(Level), BorderColor);
 		}
 	};
 }//namespace detail
