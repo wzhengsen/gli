@@ -111,12 +111,10 @@ namespace sampler_type
 			gli::sampler3D<double> Sampler(Texture, gli::WRAP_CLAMP_TO_EDGE, gli::FILTER_LINEAR, gli::FILTER_LINEAR);
 		}
 
-#		if ENABLE_INTEGER_TESTS
 		{
 			gli::texture3D Texture(gli::FORMAT_RGBA8_UINT, gli::texture3D::texelcoord_type(4), 1);
-			gli::sampler3D<int> Sampler(Texture, gli::WRAP_CLAMP_TO_EDGE, gli::FILTER_LINEAR, gli::FILTER_LINEAR);
+			gli::sampler3D<int> Sampler(Texture, gli::WRAP_CLAMP_TO_EDGE, gli::FILTER_NEAREST, gli::FILTER_NEAREST);
 		}
-#		endif//ENABLE_INTEGER_TESTS
 		
 		return Error;
 	}

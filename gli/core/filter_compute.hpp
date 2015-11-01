@@ -477,6 +477,8 @@ namespace detail
 	template <typename texture_type, typename interpolate_type, typename samplecoord_type, typename fetch_type, typename texel_type>
 	struct filter3D<texture_type, interpolate_type, samplecoord_type, fetch_type, texel_type, false> : public filter_base<texture_type, interpolate_type, samplecoord_type, fetch_type, texel_type>
 	{
+		typedef filter_base<texture_type, interpolate_type, samplecoord_type, fetch_type, texel_type> base_type;
+
 		static texel_type linear
 		(
 			texture_type const & Texture, fetch_type Fetch, samplecoord_type const & SampleCoord,
