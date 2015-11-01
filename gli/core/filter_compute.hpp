@@ -34,10 +34,10 @@
 namespace gli{
 namespace detail
 {
-	template <typename sampler_type>
-	typename sampler_type::filter_type::filterFunc get_filter_func(filter Mip, filter Min)
+	template <typename filter_type>
+	typename filter_type::filterFunc get_filter_func(filter Mip, filter Min)
 	{
-		static typename sampler_type::filter_type::filterFunc Table[][FILTER_COUNT] =
+		static typename filter_type::filterFunc Table[][FILTER_COUNT] =
 		{
 			{
 				nullptr,
@@ -46,13 +46,13 @@ namespace detail
 			},
 			{
 				nullptr,
-				typename sampler_type::filter_type::nearest_mipmap_nearest,
-				typename sampler_type::filter_type::nearest_mipmap_linear,
+				typename filter_type::nearest_mipmap_nearest,
+				typename filter_type::nearest_mipmap_linear,
 			},
 			{
 				nullptr,
-				typename sampler_type::filter_type::linear_mipmap_nearest,
-				typename sampler_type::filter_type::linear_mipmap_linear
+				typename filter_type::linear_mipmap_nearest,
+				typename filter_type::linear_mipmap_linear
 			}
 		};
 		static_assert(sizeof(Table) / sizeof(Table[0]) == FILTER_COUNT, "GLI ERROR: 'Table' doesn't match the number of supported filters");
