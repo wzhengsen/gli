@@ -47,11 +47,11 @@ namespace detail
 			{
 				nullptr,
 				filter_type::nearest_mipmap_nearest,
-				filter_type::nearest_mipmap_linear,
+				filter_type::linear_mipmap_nearest,
 			},
 			{
 				nullptr,
-				filter_type::linear_mipmap_nearest,
+				filter_type::nearest_mipmap_linear,
 				filter_type::linear_mipmap_linear
 			}
 		};
@@ -263,7 +263,18 @@ namespace detail
 			texel_type Texel01(BorderColor);
 			if(Coord.UseTexelFloor.s && Coord.UseTexelCeil.t)
 				Texel01 = Fetch(Texture, typename texture_type::texelcoord_type(Coord.TexelFloor.s, Coord.TexelCeil.t), Layer, Face, LevelIndex);
-
+/*
+			texel_type const & Texel00 = Fetch(Texture, typename texture_type::texelcoord_type(Coord.TexelFloor.s, Coord.TexelFloor.t), Layer, Face, LevelIndex);
+			texel_type const & Texel10 = Fetch(Texture, typename texture_type::texelcoord_type(Coord.TexelCeil.s, Coord.TexelFloor.t), Layer, Face, LevelIndex);
+			texel_type const & Texel11 = Fetch(Texture, typename texture_type::texelcoord_type(Coord.TexelCeil.s, Coord.TexelCeil.t), Layer, Face, LevelIndex);
+			texel_type const & Texel01 = Fetch(Texture, typename texture_type::texelcoord_type(Coord.TexelFloor.s, Coord.TexelCeil.t), Layer, Face, LevelIndex);
+*/
+/*
+			texel_type const & Texel00 = Texture.load<vec4>(typename texture_type::texelcoord_type(Coord.TexelFloor.s, Coord.TexelFloor.t), LevelIndex);
+			texel_type const & Texel10 = Texture.load<vec4>(typename texture_type::texelcoord_type(Coord.TexelCeil.s, Coord.TexelFloor.t), LevelIndex);
+			texel_type const & Texel11 = Texture.load<vec4>(typename texture_type::texelcoord_type(Coord.TexelCeil.s, Coord.TexelCeil.t), LevelIndex);
+			texel_type const & Texel01 = Texture.load<vec4>(typename texture_type::texelcoord_type(Coord.TexelFloor.s, Coord.TexelCeil.t), LevelIndex);
+*/
 			texel_type const ValueA(mix(Texel00, Texel10, Coord.Blend.s));
 			texel_type const ValueB(mix(Texel01, Texel11, Coord.Blend.s));
 			return mix(ValueA, ValueB, Coord.Blend.t);

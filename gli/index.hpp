@@ -35,21 +35,21 @@ namespace gli
 	template <typename T, precision P>
 	inline size_t linear_index(tvec1<T, P> const & Coord, tvec1<T, P> const & Dimensions)
 	{
-		assert(glm::all(glm::lessThan(Coord, Dimensions)));
+		GLI_ASSERT(glm::all(glm::lessThan(Coord, Dimensions)));
 		return static_cast<size_t>(Coord.x);
 	}
 
 	template <typename T, precision P>
 	inline size_t linear_index(tvec2<T, P> const & Coord, tvec2<T, P> const & Dimensions)
 	{
-		assert(glm::all(glm::lessThan(Coord, Dimensions)));
+		GLI_ASSERT(glm::all(glm::lessThan(Coord, Dimensions)));
 		return static_cast<size_t>(Coord.x + Coord.y * Dimensions.x);
 	}
 
 	template <typename T, precision P>
 	inline size_t linear_index(tvec3<T, P> const & Coord, tvec3<T, P> const & Dimensions)
 	{
-		assert(glm::all(glm::lessThan(Coord, Dimensions)));
+		GLI_ASSERT(glm::all(glm::lessThan(Coord, Dimensions)));
 		return static_cast<size_t>(Coord.x + Coord.y * Dimensions.x + Coord.z * Dimensions.x * Dimensions.y);
 	}
 }//namespace gli

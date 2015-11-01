@@ -73,6 +73,40 @@ namespace mipmaps_rgba4unorm
 	}
 }//namespace mipmaps_rgba4unorm
 
+namespace mipmaps_rgba32sf
+{
+	int test()
+	{
+		int Error = 0;
+
+		gli::texture2D Texture(gli::FORMAT_RGBA32_SFLOAT, gli::texture2D::texelcoord_type(64));
+		Texture.clear(gli::vec4(1.0f, 0.5f, 0.0f, 1.0f));
+
+		// Custom mipmaps generation using a sampler object
+		gli::fsampler2D SamplerA(Texture, gli::WRAP_CLAMP_TO_EDGE, gli::FILTER_NEAREST, gli::FILTER_LINEAR);
+		SamplerA.generate_mipmaps();
+
+		gli::texture2D TextureView(gli::view(Texture, 0, 0));
+
+		gli::texture2D MipmapsA = SamplerA();
+		gli::texture2D MipmapViewA(gli::view(MipmapsA, 0, 0));
+
+		Error += TextureView == MipmapViewA ? 0 : 1;
+
+		// Mipmaps generation using the wrapper function
+		gli::texture2D MipmapsB = gli::generate_mipmaps(gli::texture2D(gli::copy(Texture)));
+		gli::texture2D MipmapViewB(gli::view(MipmapsB, 0, 0));
+
+		Error += TextureView == MipmapViewB ? 0 : 1;
+
+		// Compare custom mipmaps generation and wrapper mipmaps generation
+		Error += MipmapViewA == MipmapViewB ? 0 : 1;
+		Error += MipmapsA == MipmapsB ? 0 : 1;
+
+		return Error;
+	}
+}//namespace mipmaps_rgba32sf
+
 namespace mipmaps_rgba8unorm
 {
 	int test()
@@ -190,6 +224,7 @@ int main()
 
 	Error += mipmaps_rgba4unorm::test();
 	Error += mipmaps_rgba8unorm::test();
+	Error += mipmaps_rgba32sf::test();
 	Error += mipmaps_rgba8snorm::test();
 	Error += mipmaps_rgb10a2unorm::test();
 
