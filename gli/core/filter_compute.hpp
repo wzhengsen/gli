@@ -41,27 +41,6 @@ namespace detail
 		DIMENSION_3D
 	};
 
-	template <typename filter_type>
-	typename filter_type::filterFunc get_filter_func(filter Mip, filter Min)
-	{
-		static typename filter_type::filterFunc Table[][FILTER_COUNT] =
-		{
-			{
-				filter_type::nearest_mipmap_nearest,
-				filter_type::linear_mipmap_nearest,
-			},
-			{
-				filter_type::nearest_mipmap_linear,
-				filter_type::linear_mipmap_linear
-			}
-		};
-		static_assert(sizeof(Table) / sizeof(Table[0]) == FILTER_COUNT, "GLI ERROR: 'Table' doesn't match the number of supported filters");
-
-		GLI_ASSERT(Table[Mip - FILTER_FIRST][Min - FILTER_FIRST]);
-
-		return Table[Mip - FILTER_FIRST][Min - FILTER_FIRST];
-	}
-
 	template <typename T>
 	struct interpolate
 	{
