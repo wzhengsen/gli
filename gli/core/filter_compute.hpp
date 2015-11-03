@@ -409,6 +409,39 @@ namespace detail
 		}
 	};
 
+	template <typename filter_type, dimension Dimensions, typename texture_type, typename interpolate_type, typename samplecoord_type, typename fetch_type, typename texel_type, typename T>
+	inline filter_type get_filter(filter Mip, filter Min, bool Border)
+	{
+		static filter_type Table[][FILTER_COUNT][2] =
+		{
+			{
+				{
+					nearest_mipmap_nearest<Dimensions, texture_type, interpolate_type, samplecoord_type, fetch_type, texel_type, std::numeric_limits<T>::is_iec559, false>::call,
+					nearest_mipmap_nearest<Dimensions, texture_type, interpolate_type, samplecoord_type, fetch_type, texel_type, std::numeric_limits<T>::is_iec559, true>::call
+				},
+				{
+					linear_mipmap_nearest<Dimensions, texture_type, interpolate_type, samplecoord_type, fetch_type, texel_type, std::numeric_limits<T>::is_iec559, false>::call,
+					linear_mipmap_nearest<Dimensions, texture_type, interpolate_type, samplecoord_type, fetch_type, texel_type, std::numeric_limits<T>::is_iec559, true>::call
+				},
+			},
+			{
+				{
+					nearest_mipmap_linear<Dimensions, texture_type, interpolate_type, samplecoord_type, fetch_type, texel_type, std::numeric_limits<T>::is_iec559, false>::call,
+					nearest_mipmap_linear<Dimensions, texture_type, interpolate_type, samplecoord_type, fetch_type, texel_type, std::numeric_limits<T>::is_iec559, true>::call
+				},
+				{
+					linear_mipmap_linear<Dimensions, texture_type, interpolate_type, samplecoord_type, fetch_type, texel_type, std::numeric_limits<T>::is_iec559, false>::call,
+					linear_mipmap_linear<Dimensions, texture_type, interpolate_type, samplecoord_type, fetch_type, texel_type, std::numeric_limits<T>::is_iec559, true>::call
+				}
+			}
+		};
+		static_assert(sizeof(Table) / sizeof(Table[0]) == FILTER_COUNT, "GLI ERROR: 'Table' doesn't match the number of supported filters");
+
+		GLI_ASSERT(Table[Mip - FILTER_FIRST][Min - FILTER_FIRST][Border ? 1 : 0]);
+
+		return Table[Mip - FILTER_FIRST][Min - FILTER_FIRST][Border ? 1 : 0];
+	}
+
 	template <typename texture_type, typename interpolate_type, typename samplecoord_type, typename fetch_type, typename texel_type>
 	struct filter_base
 	{

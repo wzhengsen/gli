@@ -77,8 +77,6 @@ namespace gli
 		typedef typename detail::convert<texture_type, T, P>::fetchFunc fetch_type;
 		typedef typename detail::filterBase<detail::DIMENSION_2D, texture_type, interpolate_type, samplecoord_type, fetch_type, texel_type>::filterFunc filter_type;
 
-		filter_type get_filter(filter Mip, filter Min, bool Border) const;
-
 		texture_type Texture;
 		convert_type Convert;
 		texel_type BorderColor;
