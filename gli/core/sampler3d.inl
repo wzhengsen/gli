@@ -32,12 +32,12 @@
 namespace gli
 {
 	template <typename T, precision P>
-	inline sampler3D<T, P>::sampler3D(texture3D const & Texture, gli::wrap Wrap, filter Mip, filter Min, texel_type const & BorderColor)
+	inline sampler3D<T, P>::sampler3D(texture_type const & Texture, wrap Wrap, filter Mip, filter Min, texel_type const & BorderColor)
 		: sampler(Wrap, Texture.levels() > 1 ? Mip : FILTER_NEAREST, Min)
 		, Texture(Texture)
-		, Convert(detail::convert<texture3D, T, P>::call(this->Texture.format()))
+		, Convert(detail::convert<texture_type, T, P>::call(this->Texture.format()))
 		, BorderColor(BorderColor)
-		, Filter(detail::get_filter_func<filter_type>(Mip, Min))
+		, Filter(detail::get_filter<filter_type, detail::DIMENSION_3D, texture_type, interpolate_type, samplecoord_type, fetch_type, texel_type, T>(Mip, Min, is_border(Wrap)))
 	{
 		GLI_ASSERT(!Texture.empty());
 		GLI_ASSERT(!is_compressed(Texture.format()));
@@ -45,7 +45,7 @@ namespace gli
 	}
 
 	template <typename T, precision P>
-	inline texture3D const & sampler3D<T, P>::operator()() const
+	inline typename sampler3D<T, P>::texture_type const & sampler3D<T, P>::operator()() const
 	{
 		return this->Texture;
 	}

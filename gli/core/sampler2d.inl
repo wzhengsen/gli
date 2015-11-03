@@ -35,7 +35,7 @@ namespace gli
 	inline sampler2D<T, P>::sampler2D(texture_type const & Texture, wrap Wrap, filter Mip, filter Min, texel_type const & BorderColor)
 		: sampler(Wrap, Texture.levels() > 1 ? Mip : FILTER_NEAREST, Min)
 		, Texture(Texture)
-		, Convert(detail::convert<texture2D, T, P>::call(this->Texture.format()))
+		, Convert(detail::convert<texture_type, T, P>::call(this->Texture.format()))
 		, BorderColor(BorderColor)
 		, Filter(detail::get_filter<filter_type, detail::DIMENSION_2D, texture_type, interpolate_type, samplecoord_type, fetch_type, texel_type, T>(Mip, Min, is_border(Wrap)))
 	{

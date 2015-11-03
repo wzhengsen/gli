@@ -37,7 +37,7 @@ namespace gli
 		, Texture(Texture)
 		, Convert(detail::convert<texture_type, T, P>::call(this->Texture.format()))
 		, BorderColor(BorderColor)
-		, Filter(detail::get_filter_func<filter_type>(Mip, Min))
+		, Filter(detail::get_filter<filter_type, detail::DIMENSION_2D, texture_type, interpolate_type, samplecoord_type, fetch_type, texel_type, T>(Mip, Min, is_border(Wrap)))
 	{
 		GLI_ASSERT(!Texture.empty());
 		GLI_ASSERT(!is_compressed(Texture.format()));
