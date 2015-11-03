@@ -32,12 +32,45 @@
 namespace gli
 {
 	template <typename T, precision P>
-	inline sampler2D<T, P>::sampler2D(texture2D const & Texture, gli::wrap Wrap, filter Mip, filter Min, texel_type const & BorderColor)
+	typename sampler2D<T, P>::filter_type sampler2D<T, P>::get_filter(filter Mip, filter Min, bool Border) const
+	{
+		static filter_type Table[][FILTER_COUNT][2] =
+		{
+			{
+				{
+					detail::nearest_mipmap_nearest<detail::DIMENSION_2D, texture_type, interpolate_type, samplecoord_type, fetch_type, texel_type, std::numeric_limits<T>::is_iec559, false>::call,
+					detail::nearest_mipmap_nearest<detail::DIMENSION_2D, texture_type, interpolate_type, samplecoord_type, fetch_type, texel_type, std::numeric_limits<T>::is_iec559, true>::call
+				},
+				{
+					detail::linear_mipmap_nearest<detail::DIMENSION_2D, texture_type, interpolate_type, samplecoord_type, fetch_type, texel_type, std::numeric_limits<T>::is_iec559, false>::call,
+					detail::linear_mipmap_nearest<detail::DIMENSION_2D, texture_type, interpolate_type, samplecoord_type, fetch_type, texel_type, std::numeric_limits<T>::is_iec559, true>::call
+				},
+			},
+			{
+				{
+					detail::nearest_mipmap_linear<detail::DIMENSION_2D, texture_type, interpolate_type, samplecoord_type, fetch_type, texel_type, std::numeric_limits<T>::is_iec559, false>::call,
+					detail::nearest_mipmap_linear<detail::DIMENSION_2D, texture_type, interpolate_type, samplecoord_type, fetch_type, texel_type, std::numeric_limits<T>::is_iec559, true>::call
+				},
+				{
+					detail::linear_mipmap_linear<detail::DIMENSION_2D, texture_type, interpolate_type, samplecoord_type, fetch_type, texel_type, std::numeric_limits<T>::is_iec559, false>::call,
+					detail::linear_mipmap_linear<detail::DIMENSION_2D, texture_type, interpolate_type, samplecoord_type, fetch_type, texel_type, std::numeric_limits<T>::is_iec559, true>::call
+				}
+			}
+		};
+		static_assert(sizeof(Table) / sizeof(Table[0]) == FILTER_COUNT, "GLI ERROR: 'Table' doesn't match the number of supported filters");
+
+		GLI_ASSERT(Table[Mip - FILTER_FIRST][Min - FILTER_FIRST][Border ? 1 : 0]);
+
+		return Table[Mip - FILTER_FIRST][Min - FILTER_FIRST][Border ? 1 : 0];
+	}
+
+	template <typename T, precision P>
+	inline sampler2D<T, P>::sampler2D(texture_type const & Texture, wrap Wrap, filter Mip, filter Min, texel_type const & BorderColor)
 		: sampler(Wrap, Texture.levels() > 1 ? Mip : FILTER_NEAREST, Min)
 		, Texture(Texture)
 		, Convert(detail::convert<texture2D, T, P>::call(this->Texture.format()))
 		, BorderColor(BorderColor)
-		, Filter(detail::get_filter_func<filter_type>(Mip, Min))
+		, Filter(this->get_filter(Mip, Min, is_border(Wrap)))
 	{
 		GLI_ASSERT(!Texture.empty());
 		GLI_ASSERT(!is_compressed(Texture.format()));
@@ -45,7 +78,7 @@ namespace gli
 	}
 
 	template <typename T, precision P>
-	inline texture2D const & sampler2D<T, P>::operator()() const
+	inline typename sampler2D<T, P>::texture_type const & sampler2D<T, P>::operator()() const
 	{
 		return this->Texture;
 	}

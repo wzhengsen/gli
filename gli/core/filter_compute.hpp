@@ -47,26 +47,19 @@ namespace detail
 		static typename filter_type::filterFunc Table[][FILTER_COUNT] =
 		{
 			{
-				nullptr,
-				nullptr,
-				nullptr
-			},
-			{
-				nullptr,
 				filter_type::nearest_mipmap_nearest,
 				filter_type::linear_mipmap_nearest,
 			},
 			{
-				nullptr,
 				filter_type::nearest_mipmap_linear,
 				filter_type::linear_mipmap_linear
 			}
 		};
 		static_assert(sizeof(Table) / sizeof(Table[0]) == FILTER_COUNT, "GLI ERROR: 'Table' doesn't match the number of supported filters");
 
-		GLI_ASSERT(Table[Mip][Min]);
+		GLI_ASSERT(Table[Mip - FILTER_FIRST][Min - FILTER_FIRST]);
 
-		return Table[Mip][Min];
+		return Table[Mip - FILTER_FIRST][Min - FILTER_FIRST];
 	}
 
 	template <typename T>
@@ -150,7 +143,6 @@ namespace detail
 
 		static texel_type call(texture_type const & Texture, fetch_type Fetch, samplecoord_type const & SampleCoordWrap, size_type Layer, size_type Face, interpolate_type Level, texel_type const & BorderColor)
 		{
-			static_assert(0, "GLI ERROR: Invalidate specificalisation of 'linear' filter");
 			return texel_type(0);
 		}
 	};
