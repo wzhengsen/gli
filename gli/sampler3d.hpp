@@ -30,7 +30,7 @@
 
 #include "sampler.hpp"
 #include "texture3d.hpp"
-#include "core/filter_compute.hpp"
+#include "core/mipmaps_compute.hpp"
 #include "core/convert.hpp"
 
 namespace gli
