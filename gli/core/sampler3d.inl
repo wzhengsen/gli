@@ -83,21 +83,24 @@ namespace gli
 	}
 
 	template <typename T, precision P>
-	inline void sampler3D<T, P>::generate_mipmaps()
+	inline void sampler3D<T, P>::generate_mipmaps(filter Minification)
 	{
 		GLI_ASSERT(!this->Texture.empty());
 		GLI_ASSERT(!is_compressed(this->Texture.format()));
 
-		this->generate_mipmaps(this->Texture.base_level(), this->Texture.max_level());
+		this->generate_mipmaps(this->Texture.base_level(), this->Texture.max_level(), Minification);
 	}
 
 	template <typename T, precision P>
-	inline void sampler3D<T, P>::generate_mipmaps(size_type BaseLevel, size_type MaxLevel)
+	inline void sampler3D<T, P>::generate_mipmaps(size_type BaseLevel, size_type MaxLevel, filter Minification)
 	{
 		GLI_ASSERT(!this->Texture.empty());
 		GLI_ASSERT(!is_compressed(this->Texture.format()));
 		GLI_ASSERT(this->Texture.max_level() >= MaxLevel);
 		GLI_ASSERT(BaseLevel <= MaxLevel);
+
+		detail::generate_mipmaps_3d<texture_type, T, fetch_type, write_type, samplecoord_type, texel_type>(
+			this->Texture, this->Convert.Fetch, this->Convert.Write, 0, 0, 0, 0, BaseLevel, MaxLevel, Minification);
 
 		for(size_type Level = BaseLevel; Level < MaxLevel; ++Level)
 		{

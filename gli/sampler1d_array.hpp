@@ -49,7 +49,7 @@ namespace gli
 		typedef tvec1<interpolate_type, P> samplecoord_type;
 		typedef tvec4<T, P> texel_type;
 
-		sampler1DArray(texture_type const & Texture, wrap Wrap, filter Mip, filter Min, texel_type const & BorderColor = texel_type(0, 0, 0, 1));
+		sampler1DArray(texture_type const & Texture, wrap Wrap, filter Mip = FILTER_NEAREST, filter Min = FILTER_NEAREST, texel_type const & BorderColor = texel_type(0, 0, 0, 1));
 
 		/// Access the sampler texture object
 		texture_type const & operator()() const;
@@ -67,14 +67,15 @@ namespace gli
 		texel_type texture_lod(samplecoord_type const & SampleCoord, size_type layer, level_type Level) const;
 
 		/// Generate all the mipmaps of the sampler texture from the texture base level
-		void generate_mipmaps();
+		void generate_mipmaps(filter Minification);
 
 		/// Generate the mipmaps of the sampler texture from the texture base level to the texture max level included
-		void generate_mipmaps(size_type BaseLayer, size_type MaxLayer, size_type BaseLevel, size_type MaxLevel);
+		void generate_mipmaps(size_type BaseLayer, size_type MaxLayer, size_type BaseLevel, size_type MaxLevel, filter Minification);
 
 	private:
 		typedef typename detail::convert<texture_type, T, P>::func convert_type;
 		typedef typename detail::convert<texture_type, T, P>::fetchFunc fetch_type;
+		typedef typename detail::convert<texture_type, T, P>::writeFunc write_type;
 		typedef typename detail::filterBase<detail::DIMENSION_1D, texture_type, interpolate_type, samplecoord_type, fetch_type, texel_type>::filterFunc filter_type;
 
 		texture_type Texture;

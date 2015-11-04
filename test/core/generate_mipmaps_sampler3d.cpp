@@ -47,7 +47,7 @@ namespace mipmaps_rgba4unorm
 
 		// Custom mipmaps generation using a sampler object
 		gli::fsampler3D SamplerA(gli::texture3D(gli::copy(Texture)), gli::WRAP_CLAMP_TO_EDGE, gli::FILTER_LINEAR, gli::FILTER_LINEAR);
-		SamplerA.generate_mipmaps();
+		SamplerA.generate_mipmaps(gli::FILTER_LINEAR);
 
 		gli::texture3D MipmapsA = SamplerA();
 		gli::texture3D MipmapViewA(gli::view(MipmapsA, 0, 0));
@@ -55,7 +55,7 @@ namespace mipmaps_rgba4unorm
 		Error += TextureView == MipmapViewA ? 0 : 1;
 
 		// Mipmaps generation using the wrapper function
-		gli::texture3D MipmapsB = gli::generate_mipmaps(gli::texture3D(gli::copy(Texture)));
+		gli::texture3D MipmapsB = gli::generate_mipmaps(gli::texture3D(gli::copy(Texture)), gli::FILTER_LINEAR);
 		gli::texture3D MipmapViewB(gli::view(MipmapsB, 0, 0));
 
 		Error += TextureView == MipmapViewB ? 0 : 1;
@@ -81,7 +81,7 @@ namespace mipmaps_rgba32sf
 
 		// Custom mipmaps generation using a sampler object
 		gli::fsampler3D SamplerA(gli::texture3D(gli::copy(Texture)), gli::WRAP_CLAMP_TO_EDGE, gli::FILTER_LINEAR, gli::FILTER_LINEAR);
-		SamplerA.generate_mipmaps();
+		SamplerA.generate_mipmaps(gli::FILTER_LINEAR);
 
 		gli::texture3D MipmapsA = SamplerA();
 		gli::texture3D MipmapViewA(gli::view(MipmapsA, 0, 0));
@@ -89,7 +89,7 @@ namespace mipmaps_rgba32sf
 		Error += TextureView == MipmapViewA ? 0 : 1;
 
 		// Mipmaps generation using the wrapper function
-		gli::texture3D MipmapsB = gli::generate_mipmaps(gli::texture3D(gli::copy(Texture)));
+		gli::texture3D MipmapsB = gli::generate_mipmaps(gli::texture3D(gli::copy(Texture)), gli::FILTER_LINEAR);
 		gli::texture3D MipmapViewB(gli::view(MipmapsB, 0, 0));
 
 		Error += TextureView == MipmapViewB ? 0 : 1;
@@ -115,7 +115,7 @@ namespace mipmaps_rgba8unorm
 
 		// Custom mipmaps generation using a sampler object
 		gli::fsampler3D SamplerA(gli::texture3D(gli::copy(Texture)), gli::WRAP_CLAMP_TO_EDGE, gli::FILTER_LINEAR, gli::FILTER_LINEAR);
-		SamplerA.generate_mipmaps();
+		SamplerA.generate_mipmaps(gli::FILTER_LINEAR);
 
 		gli::texture3D MipmapsA = SamplerA();
 		gli::texture3D MipmapViewA(gli::view(MipmapsA, 0, 0));
@@ -123,7 +123,7 @@ namespace mipmaps_rgba8unorm
 		Error += TextureView == MipmapViewA ? 0 : 1;
 
 		// Mipmaps generation using the wrapper function
-		gli::texture3D MipmapsB = gli::generate_mipmaps(gli::texture3D(gli::copy(Texture)));
+		gli::texture3D MipmapsB = gli::generate_mipmaps(gli::texture3D(gli::copy(Texture)), gli::FILTER_LINEAR);
 		gli::texture3D MipmapViewB(gli::view(MipmapsB, 0, 0));
 
 		Error += TextureView == MipmapViewB ? 0 : 1;
@@ -149,7 +149,7 @@ namespace mipmaps_rgba8snorm
 
 		// Custom mipmaps generation using a sampler object
 		gli::fsampler3D SamplerA(gli::texture3D(gli::copy(Texture)), gli::WRAP_CLAMP_TO_EDGE, gli::FILTER_LINEAR, gli::FILTER_LINEAR);
-		SamplerA.generate_mipmaps();
+		SamplerA.generate_mipmaps(gli::FILTER_LINEAR);
 
 		gli::texture3D MipmapsA = SamplerA();
 		gli::texture3D MipmapViewA(gli::view(MipmapsA, 0, 0));
@@ -157,7 +157,7 @@ namespace mipmaps_rgba8snorm
 		Error += TextureView == MipmapViewA ? 0 : 1;
 
 		// Mipmaps generation using the wrapper function
-		gli::texture3D MipmapsB = gli::generate_mipmaps(gli::texture3D(gli::copy(Texture)));
+		gli::texture3D MipmapsB = gli::generate_mipmaps(gli::texture3D(gli::copy(Texture)), gli::FILTER_LINEAR);
 		gli::texture3D MipmapViewB(gli::view(MipmapsB, 0, 0));
 
 		Error += TextureView == MipmapViewB ? 0 : 1;
@@ -183,7 +183,7 @@ namespace mipmaps_rgb10a2unorm
 
 		// Custom mipmaps generation using a sampler object
 		gli::fsampler3D SamplerA(gli::texture3D(gli::copy(Texture)), gli::WRAP_CLAMP_TO_EDGE, gli::FILTER_LINEAR, gli::FILTER_LINEAR);
-		SamplerA.generate_mipmaps();
+		SamplerA.generate_mipmaps(gli::FILTER_LINEAR);
 
 		gli::texture3D MipmapsA = SamplerA();
 		gli::texture3D MipmapViewA(gli::view(MipmapsA, 0, 0));
@@ -191,7 +191,7 @@ namespace mipmaps_rgb10a2unorm
 		Error += TextureView == MipmapViewA ? 0 : 1;
 
 		// Mipmaps generation using the wrapper function
-		gli::texture3D MipmapsB = gli::generate_mipmaps(gli::texture3D(gli::copy(Texture)));
+		gli::texture3D MipmapsB = gli::generate_mipmaps(gli::texture3D(gli::copy(Texture)), gli::FILTER_LINEAR);
 		gli::texture3D MipmapViewB(gli::view(MipmapsB, 0, 0));
 
 		Error += TextureView == MipmapViewB ? 0 : 1;

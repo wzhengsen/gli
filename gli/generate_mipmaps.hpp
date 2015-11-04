@@ -28,29 +28,30 @@
 
 #pragma once
 
-#include <gli/texture1d.hpp>
-#include <gli/texture2d.hpp>
-#include <gli/texture3d.hpp>
+#include "texture1d.hpp"
+#include "texture2d.hpp"
+#include "texture3d.hpp"
+#include "filter.hpp"
 
 namespace gli
 {
 	/// 
-	texture1D generate_mipmaps(texture1D const & Texture, texture1D::size_type BaseLevel, texture1D::size_type MaxLevel);
+	texture1D generate_mipmaps(texture1D const & Texture, texture1D::size_type BaseLevel, texture1D::size_type MaxLevel, filter Minification);
 
 	/// 
-	texture1D generate_mipmaps(texture1D const & Texture);
+	texture1D generate_mipmaps(texture1D const & Texture, filter Minification);
 
 	/// 
-	texture2D generate_mipmaps(texture2D const & Texture, texture2D::size_type BaseLevel, texture2D::size_type MaxLevel);
+	texture2D generate_mipmaps(texture2D const & Texture, texture2D::size_type BaseLevel, texture2D::size_type MaxLevel, filter Minification);
 
 	/// 
-	texture2D generate_mipmaps(texture2D const & Texture);
+	texture2D generate_mipmaps(texture2D const & Texture, filter Minification);
 
 	/// 
-	texture3D generate_mipmaps(texture3D const & Texture, texture3D::size_type BaseLevel, texture3D::size_type MaxLevel);
+	texture3D generate_mipmaps(texture3D const & Texture, texture3D::size_type BaseLevel, texture3D::size_type MaxLevel, filter Minification);
 
 	/// 
-	texture3D generate_mipmaps(texture3D const & Texture);
+	texture3D generate_mipmaps(texture3D const & Texture, filter Minification);
 }//namespace gli
 
 #include "./core/generate_mipmaps.inl"

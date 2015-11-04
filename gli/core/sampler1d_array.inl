@@ -83,7 +83,7 @@ namespace gli
 	}
 
 	template <typename T, precision P>
-	inline void sampler1DArray<T, P>::generate_mipmaps()
+	inline void sampler1DArray<T, P>::generate_mipmaps(filter Minification)
 	{
 		GLI_ASSERT(!this->Texture.empty());
 		GLI_ASSERT(!is_compressed(this->Texture.format()));
@@ -92,7 +92,7 @@ namespace gli
 	}
 
 	template <typename T, precision P>
-	inline void sampler1DArray<T, P>::generate_mipmaps(size_type BaseLayer, size_type MaxLayer, size_type BaseLevel, size_type MaxLevel)
+	inline void sampler1DArray<T, P>::generate_mipmaps(size_type BaseLayer, size_type MaxLayer, size_type BaseLevel, size_type MaxLevel, filter Minification)
 	{
 		GLI_ASSERT(!this->Texture.empty());
 		GLI_ASSERT(!is_compressed(this->Texture.format()));
@@ -100,23 +100,8 @@ namespace gli
 		GLI_ASSERT(BaseLayer <= MaxLayer);
 		GLI_ASSERT(BaseLevel <= MaxLevel);
 
-		for(size_type Layer = BaseLayer; Layer < MaxLayer; ++Layer)
-		for(size_type Level = BaseLevel; Level < MaxLevel; ++Level)
-		{
-			samplecoord_type const SampleCoordScale(static_cast<T>(1) / samplecoord_type(this->Texture.dimensions(Level + 0)));
-			texelcoord_type const DimDst = this->Texture.dimensions(Level + 1);
-
-			for(typename texelcoord_type::value_type i = 0; i < DimDst.x; ++i)
-			{
-				typename texelcoord_type::value_type const x = (i << 1);
-
-				texel_type const Texel0 = this->texture_lod(samplecoord_type(static_cast<T>(x + 0)) * SampleCoordScale, static_cast<T>(Level));
-				texel_type const Texel1 = this->texture_lod(samplecoord_type(static_cast<T>(x + 1)) * SampleCoordScale, static_cast<T>(Level));
-
-				texel_type const Texel = (Texel0 + Texel1) * static_cast<T>(0.5);
-				this->Convert.Write(this->Texture, texelcoord_type(i), Layer, 0, Level + 1, Texel);
-			}
-		}
+		detail::generate_mipmaps_1d<texture_type, T, fetch_type, write_type, samplecoord_type, texel_type>(
+			this->Texture, this->Convert.Fetch, this->Convert.Write, BaseLayer, MaxLayer, 0, 0, BaseLevel, MaxLevel, Minification);
 	}
 }//namespace gli
 

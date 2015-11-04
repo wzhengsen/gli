@@ -49,7 +49,7 @@ namespace gli
 		typedef tvec2<interpolate_type, P> samplecoord_type;
 		typedef tvec4<T, P> texel_type;
 
-		sampler2DArray(texture_type const & Texture, wrap Wrap, filter Mip, filter Min, texel_type const & BorderColor = texel_type(0, 0, 0, 1));
+		sampler2DArray(texture_type const & Texture, wrap Wrap, filter Mip = FILTER_NEAREST, filter Min = FILTER_NEAREST, texel_type const & BorderColor = texel_type(0, 0, 0, 1));
 
 		/// Access the sampler texture object
 		texture_type const & operator()() const;

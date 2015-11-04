@@ -60,7 +60,7 @@ namespace mipmaps_rgba4unorm
 		Error += TextureView == MipmapViewA ? 0 : 1;
 
 		// Mipmaps generation using the wrapper function
-		gli::texture2D MipmapsB = gli::generate_mipmaps(gli::texture2D(gli::copy(Texture)));
+		gli::texture2D MipmapsB = gli::generate_mipmaps(gli::texture2D(gli::copy(Texture)), gli::FILTER_LINEAR);
 		gli::texture2D MipmapViewB(gli::view(MipmapsB, 0, 0));
 
 		Error += TextureView == MipmapViewB ? 0 : 1;
@@ -96,7 +96,7 @@ namespace mipmaps_rgba8unorm
 		Error += TextureView == MipmapViewA ? 0 : 1;
 
 		// Mipmaps generation using the wrapper function
-		gli::texture2D MipmapsB = gli::generate_mipmaps(gli::texture2D(gli::copy(Texture)));
+		gli::texture2D MipmapsB = gli::generate_mipmaps(gli::texture2D(gli::copy(Texture)), gli::FILTER_LINEAR);
 		gli::texture2D MipmapViewB(gli::view(MipmapsB, 0, 0));
 
 		Error += TextureView == MipmapViewB ? 0 : 1;
@@ -132,7 +132,7 @@ namespace mipmaps_rgba8snorm
 		Error += TextureView == MipmapViewA ? 0 : 1;
 
 		// Mipmaps generation using the wrapper function
-		gli::texture2D MipmapsB = gli::generate_mipmaps(gli::texture2D(gli::copy(Texture)));
+		gli::texture2D MipmapsB = gli::generate_mipmaps(gli::texture2D(gli::copy(Texture)), gli::FILTER_LINEAR);
 		gli::texture2D MipmapViewB(gli::view(MipmapsB, 0, 0));
 
 		Error += TextureView == MipmapViewB ? 0 : 1;
@@ -171,7 +171,7 @@ namespace mipmaps_rgb10a2unorm
 		Error += TextureView == MipmapViewA ? 0 : 1;
 
 		// Mipmaps generation using the wrapper function
-		gli::texture2D MipmapsB = gli::generate_mipmaps(gli::texture2D(gli::copy(Texture)));
+		gli::texture2D MipmapsB = gli::generate_mipmaps(gli::texture2D(gli::copy(Texture)), gli::FILTER_LINEAR);
 		gli::texture2D MipmapViewB(gli::view(MipmapsB, 0, 0));
 
 		Error += TextureView == MipmapViewB ? 0 : 1;

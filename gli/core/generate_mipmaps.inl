@@ -32,42 +32,39 @@
 
 namespace gli
 {
-	inline texture1D generate_mipmaps(texture1D const & Texture, texture1D::size_type BaseLevel, texture1D::size_type MaxLevel)
+	inline texture1D generate_mipmaps(texture1D const & Texture, texture1D::size_type BaseLevel, texture1D::size_type MaxLevel, filter Minification)
 	{
-		fsampler1D Sampler(Texture, WRAP_CLAMP_TO_EDGE, FILTER_NEAREST, FILTER_LINEAR);
-		Sampler.generate_mipmaps(BaseLevel, MaxLevel);
-
+		fsampler1D Sampler(Texture, WRAP_CLAMP_TO_EDGE);
+		Sampler.generate_mipmaps(BaseLevel, MaxLevel, Minification);
 		return Sampler();
 	}
 
-	inline texture1D generate_mipmaps(texture1D const & Texture)
+	inline texture1D generate_mipmaps(texture1D const & Texture, filter Minification)
 	{
-		return generate_mipmaps(Texture, Texture.base_level(), Texture.max_level());
+		return generate_mipmaps(Texture, Texture.base_level(), Texture.max_level(), Minification);
 	}
 
-	inline texture2D generate_mipmaps(texture2D const & Texture, texture2D::size_type BaseLevel, texture2D::size_type MaxLevel)
+	inline texture2D generate_mipmaps(texture2D const & Texture, texture2D::size_type BaseLevel, texture2D::size_type MaxLevel, filter Minification)
 	{
-		fsampler2D Sampler(Texture, WRAP_CLAMP_TO_EDGE, FILTER_NEAREST, FILTER_LINEAR);
-		Sampler.generate_mipmaps(BaseLevel, MaxLevel, FILTER_LINEAR);
-
+		fsampler2D Sampler(Texture, WRAP_CLAMP_TO_EDGE);
+		Sampler.generate_mipmaps(BaseLevel, MaxLevel, Minification);
 		return Sampler();
 	}
 
-	inline texture2D generate_mipmaps(texture2D const & Texture)
+	inline texture2D generate_mipmaps(texture2D const & Texture, filter Minification)
 	{
-		return generate_mipmaps(Texture, Texture.base_level(), Texture.max_level());
+		return generate_mipmaps(Texture, Texture.base_level(), Texture.max_level(), Minification);
 	}
 
-	inline texture3D generate_mipmaps(texture3D const & Texture, texture3D::size_type BaseLevel, texture3D::size_type MaxLevel)
+	inline texture3D generate_mipmaps(texture3D const & Texture, texture3D::size_type BaseLevel, texture3D::size_type MaxLevel, filter Minification)
 	{
-		fsampler3D Sampler(Texture, WRAP_CLAMP_TO_EDGE, FILTER_NEAREST, FILTER_LINEAR);
-		Sampler.generate_mipmaps(BaseLevel, MaxLevel);
-
+		fsampler3D Sampler(Texture, WRAP_CLAMP_TO_EDGE);
+		Sampler.generate_mipmaps(BaseLevel, MaxLevel, Minification);
 		return Sampler();
 	}
 
-	inline texture3D generate_mipmaps(texture3D const & Texture)
+	inline texture3D generate_mipmaps(texture3D const & Texture, filter Minification)
 	{
-		return generate_mipmaps(Texture, Texture.base_level(), Texture.max_level());
+		return generate_mipmaps(Texture, Texture.base_level(), Texture.max_level(), Minification);
 	}
 }//namespace gli
