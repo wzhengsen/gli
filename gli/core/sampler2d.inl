@@ -100,23 +100,8 @@ namespace gli
 		GLI_ASSERT(BaseLevel <= MaxLevel);
 		GLI_ASSERT(this->Convert.Write);
 
-		filter_type const Filter = detail::get_filter<filter_type, detail::DIMENSION_2D, texture_type, interpolate_type, samplecoord_type, fetch_type, texel_type, T>(FILTER_NEAREST, Min, false);
-		GLI_ASSERT(Filter);
-
-		for(size_type Level = BaseLevel; Level < MaxLevel; ++Level)
-		{
-			texelcoord_type const DimDst = this->Texture.dimensions(Level + 1);
-			samplecoord_type const Scale = samplecoord_type(1) / samplecoord_type(max(DimDst - texelcoord_type(1), texelcoord_type(1)));
-
-			for(typename texelcoord_type::value_type j = 0; j < DimDst.y; ++j)
-			for(typename texelcoord_type::value_type i = 0; i < DimDst.x; ++i)
-			{
-				samplecoord_type const SamplePosition(samplecoord_type(i, j) * Scale);
-				texel_type const Texel = Filter(this->Texture, this->Convert.Fetch, SamplePosition, size_type(0), size_type(0), static_cast<T>(Level), this->BorderColor);
-
-				this->Convert.Write(this->Texture, texelcoord_type(i, j), 0, 0, Level + 1, Texel);
-			}
-		}
+		detail::generate_mipmaps_2d<texture_type, T, fetch_type, write_type, samplecoord_type, texel_type>(
+			this->Texture, this->Convert.Fetch, this->Convert.Write, 0, 0, 0, 0, BaseLevel, MaxLevel, Min);
 	}
 }//namespace gli
 

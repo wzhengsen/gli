@@ -28,8 +28,17 @@
 
 #pragma once
 
-namespace gli
+namespace gli{
+namespace detail
 {
+	enum dimension
+	{
+		DIMENSION_1D,
+		DIMENSION_2D,
+		DIMENSION_3D
+	};
+}//namespace detail
+
 	enum filter
 	{
 		FILTER_NONE = 0,

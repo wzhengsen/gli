@@ -30,7 +30,7 @@
 
 #include "sampler.hpp"
 #include "texture2d.hpp"
-#include "core/filter_compute.hpp"
+#include "core/mipmaps_compute.hpp"
 #include "core/convert.hpp"
 
 namespace gli
@@ -75,6 +75,7 @@ namespace gli
 	private:
 		typedef typename detail::convert<texture_type, T, P>::func convert_type;
 		typedef typename detail::convert<texture_type, T, P>::fetchFunc fetch_type;
+		typedef typename detail::convert<texture_type, T, P>::writeFunc write_type;
 		typedef typename detail::filterBase<detail::DIMENSION_2D, texture_type, interpolate_type, samplecoord_type, fetch_type, texel_type>::filterFunc filter_type;
 
 		texture_type Texture;

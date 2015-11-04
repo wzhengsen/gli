@@ -67,10 +67,10 @@ namespace gli
 		texel_type texture_lod(samplecoord_type const & SampleCoord, size_type layer, level_type Level) const;
 
 		/// Generate all the mipmaps of the sampler texture from the texture base level
-		void generate_mipmaps();
+		void generate_mipmaps(filter Min);
 
 		/// Generate the mipmaps of the sampler texture from the texture base level to the texture max level included
-		void generate_mipmaps(size_type BaseLayer, size_type MaxLayer, size_type BaseLevel, size_type MaxLevel);
+		void generate_mipmaps(size_type BaseLayer, size_type MaxLayer, size_type BaseLevel, size_type MaxLevel, filter Min);
 
 	private:
 		typedef typename detail::convert<texture_type, T, P>::func convert_type;

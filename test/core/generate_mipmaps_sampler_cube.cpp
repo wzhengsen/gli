@@ -52,7 +52,7 @@ namespace mipmaps_rgba4unorm
 
 		// Custom mipmaps generation using a sampler object
 		gli::fsampler2D SamplerA(gli::texture2D(gli::copy(Texture)), gli::WRAP_CLAMP_TO_EDGE, gli::FILTER_LINEAR, gli::FILTER_LINEAR);
-		SamplerA.generate_mipmaps();
+		SamplerA.generate_mipmaps(gli::FILTER_LINEAR);
 
 		gli::texture2D MipmapsA = SamplerA();
 		gli::texture2D MipmapViewA(gli::view(MipmapsA, 0, 0));
@@ -88,7 +88,7 @@ namespace mipmaps_rgba8unorm
 
 		// Custom mipmaps generation using a sampler object
 		gli::fsampler2D SamplerA(gli::texture2D(gli::copy(Texture)), gli::WRAP_CLAMP_TO_EDGE, gli::FILTER_LINEAR, gli::FILTER_LINEAR);
-		SamplerA.generate_mipmaps();
+		SamplerA.generate_mipmaps(gli::FILTER_LINEAR);
 
 		gli::texture2D MipmapsA = SamplerA();
 		gli::texture2D MipmapViewA(gli::view(MipmapsA, 0, 0));
@@ -124,7 +124,7 @@ namespace mipmaps_rgba8snorm
 
 		// Custom mipmaps generation using a sampler object
 		gli::fsampler2D SamplerA(gli::texture2D(gli::copy(Texture)), gli::WRAP_CLAMP_TO_EDGE, gli::FILTER_LINEAR, gli::FILTER_LINEAR);
-		SamplerA.generate_mipmaps();
+		SamplerA.generate_mipmaps(gli::FILTER_LINEAR);
 
 		gli::texture2D MipmapsA = SamplerA();
 		gli::texture2D MipmapViewA(gli::view(MipmapsA, 0, 0));
@@ -163,7 +163,7 @@ namespace mipmaps_rgb10a2unorm
 
 		// Custom mipmaps generation using a sampler object
 		gli::fsampler2D SamplerA(gli::texture2D(gli::copy(Texture)), gli::WRAP_CLAMP_TO_EDGE, gli::FILTER_LINEAR, gli::FILTER_LINEAR);
-		SamplerA.generate_mipmaps();
+		SamplerA.generate_mipmaps(gli::FILTER_LINEAR);
 
 		gli::texture2D MipmapsA = SamplerA();
 		gli::texture2D MipmapViewA(gli::view(MipmapsA, 0, 0));
