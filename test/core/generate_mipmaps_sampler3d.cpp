@@ -21,7 +21,7 @@
 /// THE SOFTWARE.
 ///
 /// @ref core
-/// @file gli/core/core_sampler3d_generate_mipmaps.cpp
+/// @file gli/test/core/generate_mipmaps_sampler3d.cpp
 /// @date 2015-10-05 / 2015-10-05
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
@@ -40,24 +40,37 @@ namespace mipmaps_rgba4unorm
 	{
 		int Error = 0;
 
+		glm::uint16 const Black(gli::packUnorm4x4(glm::vec4(0.0f, 0.0f, 0.0f, 0.0f)));
+		glm::uint16 const Color(gli::packUnorm4x4(glm::vec4(1.0f, 0.5f, 0.0f, 1.0f)));
+
 		gli::texture3D Texture(gli::FORMAT_RGBA4_UNORM, gli::texture3D::texelcoord_type(32));
-		Texture.clear(gli::packUnorm4x4(glm::vec4(1.0f, 0.5f, 0.0f, 1.0f)));
+		Texture.clear(Black);
+		Texture[0].clear(Color);
+
+		glm::uint16 const LoadC = Texture.load<glm::uint16>(gli::texture3D::texelcoord_type(0), Texture.max_level());
+		Error += LoadC == Black ? 0 : 1;
 
 		gli::texture3D TextureView(gli::view(Texture, 0, 0));
 
 		// Custom mipmaps generation using a sampler object
-		gli::fsampler3D SamplerA(gli::texture3D(gli::copy(Texture)), gli::WRAP_CLAMP_TO_EDGE, gli::FILTER_LINEAR, gli::FILTER_LINEAR);
+		gli::fsampler3D SamplerA(gli::texture3D(gli::copy(Texture)), gli::WRAP_CLAMP_TO_EDGE);
 		SamplerA.generate_mipmaps(gli::FILTER_LINEAR);
 
 		gli::texture3D MipmapsA = SamplerA();
-		gli::texture3D MipmapViewA(gli::view(MipmapsA, 0, 0));
+		gli::uint16 const LoadA = MipmapsA.load<gli::uint16>(gli::texture3D::texelcoord_type(0), MipmapsA.max_level());
+		Error += LoadA == Color ? 0 : 1;
+		Error += LoadA != LoadC ? 0 : 1;
 
+		gli::texture3D MipmapViewA(gli::view(MipmapsA, 0, 0));
 		Error += TextureView == MipmapViewA ? 0 : 1;
 
 		// Mipmaps generation using the wrapper function
 		gli::texture3D MipmapsB = gli::generate_mipmaps(gli::texture3D(gli::copy(Texture)), gli::FILTER_LINEAR);
-		gli::texture3D MipmapViewB(gli::view(MipmapsB, 0, 0));
+		glm::uint16 const LoadB = MipmapsB.load<glm::uint16>(gli::texture3D::texelcoord_type(0), MipmapsB.max_level());
+		Error += LoadB == Color ? 0 : 1;
+		Error += LoadB != LoadC ? 0 : 1;
 
+		gli::texture3D MipmapViewB(gli::view(MipmapsB, 0, 0));
 		Error += TextureView == MipmapViewB ? 0 : 1;
 
 		// Compare custom mipmaps generation and wrapper mipmaps generation
@@ -74,24 +87,37 @@ namespace mipmaps_rgba32sf
 	{
 		int Error = 0;
 
+		glm::vec4 const Black(0.0f, 0.0f, 0.0f, 0.0f);
+		glm::vec4 const Color(1.0f, 0.5f, 0.0f, 1.0f);
+
 		gli::texture3D Texture(gli::FORMAT_RGBA32_SFLOAT, gli::texture3D::texelcoord_type(32));
-		Texture.clear(glm::vec4(1.0f, 0.5f, 0.0f, 1.0f));
+		Texture.clear(Black);
+		Texture[0].clear(Color);
+
+		glm::vec4 const LoadC = Texture.load<glm::vec4>(gli::texture3D::texelcoord_type(0), Texture.max_level());
+		Error += LoadC == Black ? 0 : 1;
 
 		gli::texture3D TextureView(gli::view(Texture, 0, 0));
 
 		// Custom mipmaps generation using a sampler object
-		gli::fsampler3D SamplerA(gli::texture3D(gli::copy(Texture)), gli::WRAP_CLAMP_TO_EDGE, gli::FILTER_LINEAR, gli::FILTER_LINEAR);
+		gli::fsampler3D SamplerA(gli::texture3D(gli::copy(Texture)), gli::WRAP_CLAMP_TO_EDGE);
 		SamplerA.generate_mipmaps(gli::FILTER_LINEAR);
 
 		gli::texture3D MipmapsA = SamplerA();
-		gli::texture3D MipmapViewA(gli::view(MipmapsA, 0, 0));
+		gli::vec4 const LoadA = MipmapsA.load<gli::vec4>(gli::texture3D::texelcoord_type(0), MipmapsA.max_level());
+		Error += LoadA == Color ? 0 : 1;
+		Error += LoadA != LoadC ? 0 : 1;
 
+		gli::texture3D MipmapViewA(gli::view(MipmapsA, 0, 0));
 		Error += TextureView == MipmapViewA ? 0 : 1;
 
 		// Mipmaps generation using the wrapper function
 		gli::texture3D MipmapsB = gli::generate_mipmaps(gli::texture3D(gli::copy(Texture)), gli::FILTER_LINEAR);
-		gli::texture3D MipmapViewB(gli::view(MipmapsB, 0, 0));
+		glm::vec4 const LoadB = MipmapsB.load<glm::vec4>(gli::texture3D::texelcoord_type(0), MipmapsB.max_level());
+		Error += LoadB == Color ? 0 : 1;
+		Error += LoadB != LoadC ? 0 : 1;
 
+		gli::texture3D MipmapViewB(gli::view(MipmapsB, 0, 0));
 		Error += TextureView == MipmapViewB ? 0 : 1;
 
 		// Compare custom mipmaps generation and wrapper mipmaps generation
@@ -108,24 +134,37 @@ namespace mipmaps_rgba8unorm
 	{
 		int Error = 0;
 
+		glm::u8vec4 const Black(0, 0, 0, 0);
+		glm::u8vec4 const Color(255, 127, 0, 255);
+
 		gli::texture3D Texture(gli::FORMAT_RGBA8_UNORM, gli::texture3D::texelcoord_type(32));
-		Texture.clear(glm::u8vec4(255, 127, 0, 255));
+		Texture.clear(Black);
+		Texture[0].clear(Color);
+
+		glm::u8vec4 const LoadC = Texture.load<glm::u8vec4>(gli::texture3D::texelcoord_type(0), Texture.max_level());
+		Error += LoadC == Black ? 0 : 1;
 
 		gli::texture3D TextureView(gli::view(Texture, 0, 0));
 
 		// Custom mipmaps generation using a sampler object
-		gli::fsampler3D SamplerA(gli::texture3D(gli::copy(Texture)), gli::WRAP_CLAMP_TO_EDGE, gli::FILTER_LINEAR, gli::FILTER_LINEAR);
+		gli::fsampler3D SamplerA(gli::texture3D(gli::copy(Texture)), gli::WRAP_CLAMP_TO_EDGE);
 		SamplerA.generate_mipmaps(gli::FILTER_LINEAR);
 
 		gli::texture3D MipmapsA = SamplerA();
-		gli::texture3D MipmapViewA(gli::view(MipmapsA, 0, 0));
+		glm::u8vec4 const LoadA = MipmapsA.load<glm::u8vec4>(gli::texture3D::texelcoord_type(0), MipmapsA.max_level());
+		Error += LoadA == Color ? 0 : 1;
+		Error += LoadA != LoadC ? 0 : 1;
 
+		gli::texture3D MipmapViewA(gli::view(MipmapsA, 0, 0));
 		Error += TextureView == MipmapViewA ? 0 : 1;
 
 		// Mipmaps generation using the wrapper function
 		gli::texture3D MipmapsB = gli::generate_mipmaps(gli::texture3D(gli::copy(Texture)), gli::FILTER_LINEAR);
-		gli::texture3D MipmapViewB(gli::view(MipmapsB, 0, 0));
+		glm::u8vec4 const LoadB = MipmapsB.load<glm::u8vec4>(gli::texture3D::texelcoord_type(0), MipmapsB.max_level());
+		Error += LoadB == Color ? 0 : 1;
+		Error += LoadB != LoadC ? 0 : 1;
 
+		gli::texture3D MipmapViewB(gli::view(MipmapsB, 0, 0));
 		Error += TextureView == MipmapViewB ? 0 : 1;
 
 		// Compare custom mipmaps generation and wrapper mipmaps generation
@@ -142,24 +181,37 @@ namespace mipmaps_rgba8snorm
 	{
 		int Error = 0;
 
+		glm::i8vec4 const Black(0, 0, 0, 0);
+		glm::i8vec4 const Color(127, 63, 0, 1);
+
 		gli::texture3D Texture(gli::FORMAT_RGBA8_SNORM, gli::texture3D::texelcoord_type(32));
-		Texture.clear(glm::i8vec4(127, 63, 0, 1));
+		Texture.clear(Black);
+		Texture[0].clear(Color);
+
+		glm::i8vec4 const LoadC = Texture.load<glm::i8vec4>(gli::texture3D::texelcoord_type(0), Texture.max_level());
+		Error += LoadC == Black ? 0 : 1;
 
 		gli::texture3D TextureView(gli::view(Texture, 0, 0));
 
 		// Custom mipmaps generation using a sampler object
-		gli::fsampler3D SamplerA(gli::texture3D(gli::copy(Texture)), gli::WRAP_CLAMP_TO_EDGE, gli::FILTER_LINEAR, gli::FILTER_LINEAR);
+		gli::fsampler3D SamplerA(gli::texture3D(gli::copy(Texture)), gli::WRAP_CLAMP_TO_EDGE);
 		SamplerA.generate_mipmaps(gli::FILTER_LINEAR);
 
 		gli::texture3D MipmapsA = SamplerA();
-		gli::texture3D MipmapViewA(gli::view(MipmapsA, 0, 0));
+		glm::i8vec4 const LoadA = MipmapsA.load<glm::i8vec4>(gli::texture3D::texelcoord_type(0), MipmapsA.max_level());
+		Error += LoadA == Color ? 0 : 1;
+		Error += LoadA != LoadC ? 0 : 1;
 
+		gli::texture3D MipmapViewA(gli::view(MipmapsA, 0, 0));
 		Error += TextureView == MipmapViewA ? 0 : 1;
 
 		// Mipmaps generation using the wrapper function
 		gli::texture3D MipmapsB = gli::generate_mipmaps(gli::texture3D(gli::copy(Texture)), gli::FILTER_LINEAR);
-		gli::texture3D MipmapViewB(gli::view(MipmapsB, 0, 0));
+		glm::i8vec4 const LoadB = MipmapsB.load<glm::i8vec4>(gli::texture3D::texelcoord_type(0), MipmapsB.max_level());
+		Error += LoadB == Color ? 0 : 1;
+		Error += LoadB != LoadC ? 0 : 1;
 
+		gli::texture3D MipmapViewB(gli::view(MipmapsB, 0, 0));
 		Error += TextureView == MipmapViewB ? 0 : 1;
 
 		// Compare custom mipmaps generation and wrapper mipmaps generation
@@ -176,24 +228,35 @@ namespace mipmaps_rgb10a2unorm
 	{
 		int Error = 0;
 
+		glm::uint32 const Black = gli::packUnorm3x10_1x2(glm::vec4(0.0f, 0.0f, 0.0f, 0.0f));
+		gli::uint32 const Color = gli::packUnorm3x10_1x2(glm::vec4(1.0f, 0.5f, 0.0f, 1.0f));
+
 		gli::texture3D Texture(gli::FORMAT_RGB10A2_UNORM, gli::texture3D::texelcoord_type(32));
-		Texture.clear(gli::packUnorm3x10_1x2(glm::vec4(1.0f, 0.5f, 0.0f, 1.0f)));
+		Texture.clear(Black);
+		Texture[0].clear(Color);
+
+		glm::uint32 const LoadC = Texture.load<glm::uint32>(gli::texture3D::texelcoord_type(0), Texture.max_level());
+		Error += LoadC == Black ? 0 : 1;
 
 		gli::texture3D TextureView(gli::view(Texture, 0, 0));
-
-		// Custom mipmaps generation using a sampler object
-		gli::fsampler3D SamplerA(gli::texture3D(gli::copy(Texture)), gli::WRAP_CLAMP_TO_EDGE, gli::FILTER_LINEAR, gli::FILTER_LINEAR);
+		gli::fsampler3D SamplerA(gli::texture3D(gli::copy(Texture)), gli::WRAP_CLAMP_TO_EDGE);
 		SamplerA.generate_mipmaps(gli::FILTER_LINEAR);
 
 		gli::texture3D MipmapsA = SamplerA();
-		gli::texture3D MipmapViewA(gli::view(MipmapsA, 0, 0));
+		gli::uint32 const LoadA = MipmapsA.load<gli::uint32>(gli::texture3D::texelcoord_type(0), MipmapsA.max_level());
+		Error += LoadA == Color ? 0 : 1;
+		Error += LoadA != LoadC ? 0 : 1;
 
+		gli::texture3D MipmapViewA(gli::view(MipmapsA, 0, 0));
 		Error += TextureView == MipmapViewA ? 0 : 1;
 
 		// Mipmaps generation using the wrapper function
 		gli::texture3D MipmapsB = gli::generate_mipmaps(gli::texture3D(gli::copy(Texture)), gli::FILTER_LINEAR);
-		gli::texture3D MipmapViewB(gli::view(MipmapsB, 0, 0));
+		gli::uint32 const LoadB = MipmapsB.load<gli::uint32>(gli::texture3D::texelcoord_type(0), MipmapsB.max_level());
+		Error += LoadB == Color ? 0 : 1;
+		Error += LoadB != LoadC ? 0 : 1;
 
+		gli::texture3D MipmapViewB(gli::view(MipmapsB, 0, 0));
 		Error += TextureView == MipmapViewB ? 0 : 1;
 
 		// Compare custom mipmaps generation and wrapper mipmaps generation

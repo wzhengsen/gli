@@ -21,7 +21,7 @@
 /// THE SOFTWARE.
 ///
 /// @ref core
-/// @file gli/core/core_sampler1d_generate_mipmaps.cpp
+/// @file gli/test/core/generate_mipmaps_sampler1d.cpp
 /// @date 2015-10-05 / 2015-10-05
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
