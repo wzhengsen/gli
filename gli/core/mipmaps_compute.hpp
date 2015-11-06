@@ -61,7 +61,7 @@ namespace detail
 
 			for(component_type i = 0; i < DimDst.x; ++i)
 			{
-				samplecoord_type const& SamplePosition(samplecoord_type(i) * Scale);
+				samplecoord_type const& SamplePosition(samplecoord_type(static_cast<typename samplecoord_type::value_type>(i)) * Scale);
 				texel_type const& Texel = Filter(Texture, Fetch, SamplePosition, Layer, Face, static_cast<sampler_value_type>(Level), texel_type(0));
 				Write(Texture, texelcoord_type(i), Layer, Face, Level + 1, Texel);
 			}
