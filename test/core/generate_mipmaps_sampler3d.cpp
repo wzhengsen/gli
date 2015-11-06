@@ -184,7 +184,7 @@ namespace mipmaps_rgba8snorm
 		glm::i8vec4 const Black(0, 0, 0, 0);
 		glm::i8vec4 const Color(127, 63, 0, 1);
 
-		gli::texture3D Texture(gli::FORMAT_RGBA8_SNORM, gli::texture3D::texelcoord_type(32));
+		gli::texture3D Texture(gli::FORMAT_RGBA8_SNORM, gli::texture3D::texelcoord_type(8));
 		Texture.clear(Black);
 		Texture[0].clear(Color);
 
