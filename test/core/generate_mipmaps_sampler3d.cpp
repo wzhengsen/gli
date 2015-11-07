@@ -46,7 +46,8 @@ namespace mipmaps3d
 		Texture[0].clear(Color);
 
 		genType const LoadC = Texture.load<genType>(gli::texture3D::texelcoord_type(0), Texture.max_level());
-		Error += LoadC == Black ? 0 : 1;
+		if(Texture.levels() > 1)
+			Error += LoadC == Black ? 0 : 1;
 
 		gli::texture3D TextureView(gli::view(Texture, 0, 0));
 		gli::fsampler3D SamplerA(gli::texture3D(gli::copy(Texture)), gli::WRAP_CLAMP_TO_EDGE);
@@ -55,7 +56,8 @@ namespace mipmaps3d
 		gli::texture3D MipmapsA = SamplerA();
 		genType const LoadA = MipmapsA.load<genType>(gli::texture3D::texelcoord_type(0), MipmapsA.max_level());
 		Error += LoadA == Color ? 0 : 1;
-		Error += LoadA != LoadC ? 0 : 1;
+		if(Texture.levels() > 1)
+			Error += LoadA != LoadC ? 0 : 1;
 
 		gli::texture3D MipmapViewA(gli::view(MipmapsA, 0, 0));
 		Error += TextureView == MipmapViewA ? 0 : 1;
@@ -64,7 +66,8 @@ namespace mipmaps3d
 		gli::texture3D MipmapsB = gli::generate_mipmaps(gli::texture3D(gli::copy(Texture)), Filter);
 		genType const LoadB = MipmapsB.load<genType>(gli::texture3D::texelcoord_type(0), MipmapsB.max_level());
 		Error += LoadB == Color ? 0 : 1;
-		Error += LoadB != LoadC ? 0 : 1;
+		if(Texture.levels() > 1)
+			Error += LoadB != LoadC ? 0 : 1;
 
 		gli::texture3D MipmapViewB(gli::view(MipmapsB, 0, 0));
 		Error += TextureView == MipmapViewB ? 0 : 1;
@@ -86,11 +89,14 @@ int main()
 	Filters.push_back(gli::FILTER_LINEAR);
 
 	std::vector<gli::size_t> Sizes;
+	Sizes.push_back(1);
 	Sizes.push_back(2);
 	Sizes.push_back(3);
 	Sizes.push_back(15);
 	Sizes.push_back(16);
 	Sizes.push_back(17);
+	Sizes.push_back(24);
+	Sizes.push_back(32);
 
 	for(std::size_t FilterIndex = 0, FilterCount = Filters.size(); FilterIndex < FilterCount; ++FilterIndex)
 	for(std::size_t SizeIndex = 0, SizeCount = Sizes.size(); SizeIndex < SizeCount; ++SizeIndex)
