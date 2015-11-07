@@ -34,34 +34,42 @@
 
 #include <glm/gtc/epsilon.hpp>
 
-namespace mipmaps_rgba4unorm
+namespace generate_mipmaps
 {
-	int test()
+	template <typename genType>
+	int test(gli::format Format, genType const & Black, genType const & Color, std::size_t Size, gli::filter Filter)
 	{
 		int Error = 0;
 
-		gli::texture1D Texture(gli::FORMAT_RGBA4_UNORM, gli::texture1D::texelcoord_type(64));
-		for(int i = 0, m = Texture.dimensions().x; i < m; ++i)
-		{
-			gli::uint16 const Color = gli::packUnorm4x4(gli::vec4(static_cast<float>(i) / static_cast<float>(Texture.dimensions().x), 0.0f, 0.0f, 1.0f));
-			Texture.store<gli::uint16>(gli::texture1D::texelcoord_type(i), 0, Color);
-		}
+		gli::texture1D Texture(Format, gli::texture1D::texelcoord_type(static_cast<gli::texture1D::texelcoord_type::value_type>(Size)));
+		Texture.clear(Black);
+		Texture[0].clear(Color);
+
+		genType const LoadC = Texture.load<genType>(gli::texture1D::texelcoord_type(0), Texture.max_level());
+		if(Texture.levels() > 1)
+			Error += LoadC == Black ? 0 : 1;
 
 		gli::texture1D TextureView(gli::view(Texture, 0, 0));
-
-		// Custom mipmaps generation using a sampler object
-		gli::fsampler1D SamplerA(gli::texture1D(gli::copy(Texture)), gli::WRAP_CLAMP_TO_EDGE, gli::FILTER_LINEAR, gli::FILTER_LINEAR);
+		gli::fsampler1D SamplerA(gli::texture1D(gli::copy(Texture)), gli::WRAP_CLAMP_TO_EDGE);
 		SamplerA.generate_mipmaps(gli::FILTER_LINEAR);
 
 		gli::texture1D MipmapsA = SamplerA();
-		gli::texture1D MipmapViewA(gli::view(MipmapsA, 0, 0));
+		genType const LoadA = MipmapsA.load<genType>(gli::texture1D::texelcoord_type(0), MipmapsA.max_level());
+		Error += LoadA == Color ? 0 : 1;
+		if(Texture.levels() > 1)
+			Error += LoadA != LoadC ? 0 : 1;
 
+		gli::texture1D MipmapViewA(gli::view(MipmapsA, 0, 0));
 		Error += TextureView == MipmapViewA ? 0 : 1;
 
 		// Mipmaps generation using the wrapper function
-		gli::texture1D MipmapsB = gli::generate_mipmaps(gli::texture1D(gli::copy(Texture)), gli::FILTER_LINEAR);
-		gli::texture1D MipmapViewB(gli::view(MipmapsB, 0, 0));
+		gli::texture1D MipmapsB = gli::generate_mipmaps(gli::texture1D(gli::copy(Texture)), Filter);
+		genType const LoadB = MipmapsB.load<genType>(gli::texture1D::texelcoord_type(0), MipmapsB.max_level());
+		Error += LoadB == Color ? 0 : 1;
+		if(Texture.levels() > 1)
+			Error += LoadB != LoadC ? 0 : 1;
 
+		gli::texture1D MipmapViewB(gli::view(MipmapsB, 0, 0));
 		Error += TextureView == MipmapViewB ? 0 : 1;
 
 		// Compare custom mipmaps generation and wrapper mipmaps generation
@@ -70,124 +78,99 @@ namespace mipmaps_rgba4unorm
 
 		return Error;
 	}
-}//namespace mipmaps_rgba4unorm
-
-namespace mipmaps_rgba8unorm
-{
-	int test()
-	{
-		int Error = 0;
-
-		gli::texture1D Texture(gli::FORMAT_RGBA8_UNORM, gli::texture1D::texelcoord_type(64));
-		for(int i = 0, m = Texture.dimensions().x; i < m; ++i)
-			Texture.store<gli::u8vec4>(gli::texture1D::texelcoord_type(i), 0, gli::u8vec4(i * 4, 0, 0, 255));
-
-		gli::texture1D TextureView(gli::view(Texture, 0, 0));
-
-		// Custom mipmaps generation using a sampler object
-		gli::fsampler1D SamplerA(gli::texture1D(gli::copy(Texture)), gli::WRAP_CLAMP_TO_EDGE, gli::FILTER_LINEAR, gli::FILTER_LINEAR);
-		SamplerA.generate_mipmaps(gli::FILTER_LINEAR);
-
-		gli::texture1D MipmapsA = SamplerA();
-		gli::texture1D MipmapViewA(gli::view(MipmapsA, 0, 0));
-
-		Error += TextureView == MipmapViewA ? 0 : 1;
-
-		// Mipmaps generation using the wrapper function
-		gli::texture1D MipmapsB = gli::generate_mipmaps(gli::texture1D(gli::copy(Texture)), gli::FILTER_LINEAR);
-		gli::texture1D MipmapViewB(gli::view(MipmapsB, 0, 0));
-
-		Error += TextureView == MipmapViewB ? 0 : 1;
-
-		// Compare custom mipmaps generation and wrapper mipmaps generation
-		Error += MipmapViewA == MipmapViewB ? 0 : 1;
-		Error += MipmapsA == MipmapsB ? 0 : 1;
-
-		return Error;
-	}
-}//namespace mipmaps_rgba8unorm
-
-namespace mipmaps_rgba8snorm
-{
-	int test()
-	{
-		int Error = 0;
-
-		gli::texture1D Texture(gli::FORMAT_RGBA8_SNORM, gli::texture1D::texelcoord_type(64));
-		for(int i = 0, m = Texture.dimensions().x; i < m; ++i)
-			Texture.store<gli::i8vec4>(gli::texture1D::texelcoord_type(i), 0, gli::i8vec4(i * 2, 0, 0, 127));
-
-		gli::texture1D TextureView(gli::view(Texture, 0, 0));
-
-		// Custom mipmaps generation using a sampler object
-		gli::fsampler1D SamplerA(gli::texture1D(gli::copy(Texture)), gli::WRAP_CLAMP_TO_EDGE, gli::FILTER_LINEAR, gli::FILTER_LINEAR);
-		SamplerA.generate_mipmaps(gli::FILTER_LINEAR);
-
-		gli::texture1D MipmapsA = SamplerA();
-		gli::texture1D MipmapViewA(gli::view(MipmapsA, 0, 0));
-
-		Error += TextureView == MipmapViewA ? 0 : 1;
-
-		// Mipmaps generation using the wrapper function
-		gli::texture1D MipmapsB = gli::generate_mipmaps(gli::texture1D(gli::copy(Texture)), gli::FILTER_LINEAR);
-		gli::texture1D MipmapViewB(gli::view(MipmapsB, 0, 0));
-
-		Error += TextureView == MipmapViewB ? 0 : 1;
-
-		// Compare custom mipmaps generation and wrapper mipmaps generation
-		Error += MipmapViewA == MipmapViewB ? 0 : 1;
-		Error += MipmapsA == MipmapsB ? 0 : 1;
-
-		return Error;
-	}
-}//namespace mipmaps_rgba8snorm
-
-namespace mipmaps_rgb10a2unorm
-{
-	int test()
-	{
-		int Error = 0;
-
-		gli::texture1D Texture(gli::FORMAT_RGB10A2_UNORM, gli::texture1D::texelcoord_type(64));
-		for(int i = 0, m = Texture.dimensions().x; i < m; ++i)
-		{
-			gli::vec4 const Color(static_cast<float>(i) / static_cast<float>(Texture.dimensions().x), 0.f, 0.f, 1.f);
-			Texture.store<gli::uint32>(gli::texture1D::texelcoord_type(i), 0, gli::packUnorm3x10_1x2(Color));
-		}
-
-		gli::texture1D TextureView(gli::view(Texture, 0, 0));
-
-		// Custom mipmaps generation using a sampler object
-		gli::fsampler1D SamplerA(gli::texture1D(gli::copy(Texture)), gli::WRAP_CLAMP_TO_EDGE, gli::FILTER_LINEAR, gli::FILTER_LINEAR);
-		SamplerA.generate_mipmaps(gli::FILTER_LINEAR);
-
-		gli::texture1D MipmapsA = SamplerA();
-		gli::texture1D MipmapViewA(gli::view(MipmapsA, 0, 0));
-
-		Error += TextureView == MipmapViewA ? 0 : 1;
-
-		// Mipmaps generation using the wrapper function
-		gli::texture1D MipmapsB = gli::generate_mipmaps(gli::texture1D(gli::copy(Texture)), gli::FILTER_LINEAR);
-		gli::texture1D MipmapViewB(gli::view(MipmapsB, 0, 0));
-
-		Error += TextureView == MipmapViewB ? 0 : 1;
-
-		// Compare custom mipmaps generation and wrapper mipmaps generation
-		Error += MipmapViewA == MipmapViewB ? 0 : 1;
-		Error += MipmapsA == MipmapsB ? 0 : 1;
-
-		return Error;
-	}
-}//namespace mipmaps_rgb10a2unorm
+}//namespace generate_mipmaps
 
 int main()
 {
 	int Error = 0;
 
-	Error += mipmaps_rgba4unorm::test();
-	Error += mipmaps_rgba8unorm::test();
-	Error += mipmaps_rgba8snorm::test();
-	Error += mipmaps_rgb10a2unorm::test();
+	std::vector<gli::filter> Filters;
+	Filters.push_back(gli::FILTER_NEAREST);
+	Filters.push_back(gli::FILTER_LINEAR);
+
+	std::vector<gli::size_t> Sizes;
+	Sizes.push_back(1);
+	Sizes.push_back(2);
+	Sizes.push_back(3);
+	Sizes.push_back(15);
+	Sizes.push_back(16);
+	Sizes.push_back(17);
+	Sizes.push_back(24);
+	Sizes.push_back(32);
+
+	for(std::size_t FilterIndex = 0, FilterCount = Filters.size(); FilterIndex < FilterCount; ++FilterIndex)
+	for(std::size_t SizeIndex = 0, SizeCount = Sizes.size(); SizeIndex < SizeCount; ++SizeIndex)
+	{
+		Error += generate_mipmaps::test(gli::FORMAT_R16_SFLOAT,
+			gli::packHalf(glm::vec1(0.0f)),
+			gli::packHalf(glm::vec1(1.0f)),
+			Sizes[SizeIndex], Filters[FilterIndex]);
+
+		Error += generate_mipmaps::test(gli::FORMAT_RG16_SFLOAT,
+			gli::packHalf(glm::vec2(0.0f, 0.0f)),
+			gli::packHalf(glm::vec2(1.0f, 0.5f)),
+			Sizes[SizeIndex], Filters[FilterIndex]);
+
+		Error += generate_mipmaps::test(gli::FORMAT_RGB16_SFLOAT,
+			gli::packHalf(glm::vec3(0.0f, 0.0f, 0.0f)),
+			gli::packHalf(glm::vec3(1.0f, 0.5f, 0.0f)),
+			Sizes[SizeIndex], Filters[FilterIndex]);
+
+		Error += generate_mipmaps::test(gli::FORMAT_RGBA16_SFLOAT,
+			gli::packHalf(glm::vec4(0.0f, 0.0f, 0.0f, 0.0f)),
+			gli::packHalf(glm::vec4(1.0f, 0.5f, 0.0f, 1.0f)),
+			Sizes[SizeIndex], Filters[FilterIndex]);
+
+		Error += generate_mipmaps::test(gli::FORMAT_R32_SFLOAT,
+			glm::vec1(0.0f),
+			glm::vec1(1.0f),
+			Sizes[SizeIndex], Filters[FilterIndex]);
+
+		Error += generate_mipmaps::test(gli::FORMAT_RG32_SFLOAT,
+			glm::vec2(0.0f, 0.0f),
+			glm::vec2(1.0f, 0.5f),
+			Sizes[SizeIndex], Filters[FilterIndex]);
+
+		Error += generate_mipmaps::test(gli::FORMAT_RGB32_SFLOAT,
+			glm::vec3(0.0f, 0.0f, 0.0f),
+			glm::vec3(1.0f, 0.5f, 0.0f),
+			Sizes[SizeIndex], Filters[FilterIndex]);
+
+		Error += generate_mipmaps::test(gli::FORMAT_RGBA32_SFLOAT,
+			glm::vec4(0.0f, 0.0f, 0.0f, 0.0f),
+			glm::vec4(1.0f, 0.5f, 0.0f, 1.0f),
+			Sizes[SizeIndex], Filters[FilterIndex]);
+
+		Error += generate_mipmaps::test(gli::FORMAT_RGBA4_UNORM,
+			gli::packUnorm4x4(glm::vec4(0.0f, 0.0f, 0.0f, 0.0f)),
+			gli::packUnorm4x4(glm::vec4(1.0f, 0.5f, 0.0f, 1.0f)),
+			Sizes[SizeIndex], Filters[FilterIndex]);
+
+		Error += generate_mipmaps::test(gli::FORMAT_RGBA8_UNORM,
+			glm::u8vec4(0, 0, 0, 0),
+			glm::u8vec4(255, 127, 0, 255),
+			Sizes[SizeIndex], Filters[FilterIndex]);
+
+		Error += generate_mipmaps::test(gli::FORMAT_RGBA8_SNORM,
+			glm::i8vec4(0, 0, 0, 0),
+			glm::i8vec4(127, 63, 0, 1),
+			Sizes[SizeIndex], Filters[FilterIndex]);
+
+		Error += generate_mipmaps::test(gli::FORMAT_RGB10A2_UNORM,
+			gli::packUnorm3x10_1x2(glm::vec4(0.0f, 0.0f, 0.0f, 0.0f)),
+			gli::packUnorm3x10_1x2(glm::vec4(1.0f, 0.5f, 0.0f, 1.0f)),
+			Sizes[SizeIndex], Filters[FilterIndex]);
+
+		Error += generate_mipmaps::test(gli::FORMAT_RGB10A2_SNORM,
+			gli::packSnorm3x10_1x2(glm::vec4(0.0f, 0.0f, 0.0f, 0.0f)),
+			gli::packSnorm3x10_1x2(glm::vec4(1.0f, 0.5f, 0.0f, 1.0f)),
+			Sizes[SizeIndex], Filters[FilterIndex]);
+
+		Error += generate_mipmaps::test(gli::FORMAT_RGB9E5_UFLOAT,
+			gli::packF3x9_E1x5(glm::vec3(0.0f, 0.0f, 0.0f)),
+			gli::packF3x9_E1x5(glm::vec3(1.0f, 0.5f, 0.0f)),
+			Sizes[SizeIndex], Filters[FilterIndex]);
+	}
 
 	return Error;
 }

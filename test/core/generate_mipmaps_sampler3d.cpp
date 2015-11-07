@@ -34,7 +34,7 @@
 
 #include <glm/gtc/epsilon.hpp>
 
-namespace mipmaps3d
+namespace generate_mipmaps
 {
 	template <typename genType>
 	int test(gli::format Format, genType const & Black, genType const & Color, std::size_t Size, gli::filter Filter)
@@ -78,7 +78,7 @@ namespace mipmaps3d
 
 		return Error;
 	}
-}//namespace mipmaps3d
+}//namespace generate_mipmaps
 
 int main()
 {
@@ -101,72 +101,72 @@ int main()
 	for(std::size_t FilterIndex = 0, FilterCount = Filters.size(); FilterIndex < FilterCount; ++FilterIndex)
 	for(std::size_t SizeIndex = 0, SizeCount = Sizes.size(); SizeIndex < SizeCount; ++SizeIndex)
 	{
-		Error += mipmaps3d::test(gli::FORMAT_R16_SFLOAT,
+		Error += generate_mipmaps::test(gli::FORMAT_R16_SFLOAT,
 			gli::packHalf(glm::vec1(0.0f)),
 			gli::packHalf(glm::vec1(1.0f)),
 			Sizes[SizeIndex], Filters[FilterIndex]);
 
-		Error += mipmaps3d::test(gli::FORMAT_RG16_SFLOAT,
+		Error += generate_mipmaps::test(gli::FORMAT_RG16_SFLOAT,
 			gli::packHalf(glm::vec2(0.0f, 0.0f)),
 			gli::packHalf(glm::vec2(1.0f, 0.5f)),
 			Sizes[SizeIndex], Filters[FilterIndex]);
 
-		Error += mipmaps3d::test(gli::FORMAT_RGB16_SFLOAT,
+		Error += generate_mipmaps::test(gli::FORMAT_RGB16_SFLOAT,
 			gli::packHalf(glm::vec3(0.0f, 0.0f, 0.0f)),
 			gli::packHalf(glm::vec3(1.0f, 0.5f, 0.0f)),
 			Sizes[SizeIndex], Filters[FilterIndex]);
 
-		Error += mipmaps3d::test(gli::FORMAT_RGBA16_SFLOAT,
+		Error += generate_mipmaps::test(gli::FORMAT_RGBA16_SFLOAT,
 			gli::packHalf(glm::vec4(0.0f, 0.0f, 0.0f, 0.0f)),
 			gli::packHalf(glm::vec4(1.0f, 0.5f, 0.0f, 1.0f)),
 			Sizes[SizeIndex], Filters[FilterIndex]);
 
-		Error += mipmaps3d::test(gli::FORMAT_R32_SFLOAT,
+		Error += generate_mipmaps::test(gli::FORMAT_R32_SFLOAT,
 			glm::vec1(0.0f),
 			glm::vec1(1.0f),
 			Sizes[SizeIndex], Filters[FilterIndex]);
 
-		Error += mipmaps3d::test(gli::FORMAT_RG32_SFLOAT,
+		Error += generate_mipmaps::test(gli::FORMAT_RG32_SFLOAT,
 			glm::vec2(0.0f, 0.0f),
 			glm::vec2(1.0f, 0.5f),
 			Sizes[SizeIndex], Filters[FilterIndex]);
 
-		Error += mipmaps3d::test(gli::FORMAT_RGB32_SFLOAT,
+		Error += generate_mipmaps::test(gli::FORMAT_RGB32_SFLOAT,
 			glm::vec3(0.0f, 0.0f, 0.0f),
 			glm::vec3(1.0f, 0.5f, 0.0f),
 			Sizes[SizeIndex], Filters[FilterIndex]);
 
-		Error += mipmaps3d::test(gli::FORMAT_RGBA32_SFLOAT,
+		Error += generate_mipmaps::test(gli::FORMAT_RGBA32_SFLOAT,
 			glm::vec4(0.0f, 0.0f, 0.0f, 0.0f),
 			glm::vec4(1.0f, 0.5f, 0.0f, 1.0f),
 			Sizes[SizeIndex], Filters[FilterIndex]);
 
-		Error += mipmaps3d::test(gli::FORMAT_RGBA4_UNORM,
+		Error += generate_mipmaps::test(gli::FORMAT_RGBA4_UNORM,
 			gli::packUnorm4x4(glm::vec4(0.0f, 0.0f, 0.0f, 0.0f)),
 			gli::packUnorm4x4(glm::vec4(1.0f, 0.5f, 0.0f, 1.0f)),
 			Sizes[SizeIndex], Filters[FilterIndex]);
 
-		Error += mipmaps3d::test(gli::FORMAT_RGBA8_UNORM,
+		Error += generate_mipmaps::test(gli::FORMAT_RGBA8_UNORM,
 			glm::u8vec4(0, 0, 0, 0),
 			glm::u8vec4(255, 127, 0, 255),
 			Sizes[SizeIndex], Filters[FilterIndex]);
 
-		Error += mipmaps3d::test(gli::FORMAT_RGBA8_SNORM,
+		Error += generate_mipmaps::test(gli::FORMAT_RGBA8_SNORM,
 			glm::i8vec4(0, 0, 0, 0),
 			glm::i8vec4(127, 63, 0, 1),
 			Sizes[SizeIndex], Filters[FilterIndex]);
 
-		Error += mipmaps3d::test(gli::FORMAT_RGB10A2_UNORM,
+		Error += generate_mipmaps::test(gli::FORMAT_RGB10A2_UNORM,
 			gli::packUnorm3x10_1x2(glm::vec4(0.0f, 0.0f, 0.0f, 0.0f)),
 			gli::packUnorm3x10_1x2(glm::vec4(1.0f, 0.5f, 0.0f, 1.0f)),
 			Sizes[SizeIndex], Filters[FilterIndex]);
 
-		Error += mipmaps3d::test(gli::FORMAT_RGB10A2_SNORM,
+		Error += generate_mipmaps::test(gli::FORMAT_RGB10A2_SNORM,
 			gli::packSnorm3x10_1x2(glm::vec4(0.0f, 0.0f, 0.0f, 0.0f)),
 			gli::packSnorm3x10_1x2(glm::vec4(1.0f, 0.5f, 0.0f, 1.0f)),
 			Sizes[SizeIndex], Filters[FilterIndex]);
 
-		Error += mipmaps3d::test(gli::FORMAT_RGB9E5_UFLOAT,
+		Error += generate_mipmaps::test(gli::FORMAT_RGB9E5_UFLOAT,
 			gli::packF3x9_E1x5(glm::vec3(0.0f, 0.0f, 0.0f)),
 			gli::packF3x9_E1x5(glm::vec3(1.0f, 0.5f, 0.0f)),
 			Sizes[SizeIndex], Filters[FilterIndex]);
