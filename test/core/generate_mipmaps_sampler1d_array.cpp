@@ -62,7 +62,7 @@ namespace generate_mipmaps
 				Error += LoadA != LoadC ? 0 : 1;
 
 			// Mipmaps generation using the wrapper function
-			gli::texture2DArray MipmapsB = gli::generate_mipmaps(gli::texture1DArray(gli::copy(Texture)), Filter);
+			gli::texture1DArray MipmapsB = gli::generate_mipmaps(gli::texture1DArray(gli::copy(Texture)), Filter);
 			genType const LoadB = MipmapsB.load<genType>(gli::texture1DArray::texelcoord_type(0), Layer, MipmapsB.max_level());
 			Error += LoadB == Color ? 0 : 1;
 			if(Texture.levels() > 1)

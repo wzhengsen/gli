@@ -91,7 +91,7 @@ namespace gli
 	template <typename T, precision P>
 	inline void sampler1DArray<T, P>::generate_mipmaps(filter Minification)
 	{
-		this->generate_mipmaps(this->Texture.base_layer(), this->Texture.max_layer(), this->Texture.base_level(), this->Texture.max_level());
+		this->generate_mipmaps(this->Texture.base_layer(), this->Texture.max_layer(), this->Texture.base_level(), this->Texture.max_level(), Minification);
 	}
 
 	template <typename T, precision P>
