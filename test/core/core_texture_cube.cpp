@@ -631,7 +631,7 @@ namespace clear
 		glm::u8vec4 const Black(0, 0, 0, 255);
 		glm::u8vec4 const Color(255, 127, 0, 255);
 
-		gli::textureCube Texture(gli::FORMAT_RGBA8_UNORM, gli::texture2DArray::texelcoord_type(8));
+		gli::textureCube Texture(gli::FORMAT_RGBA8_UNORM, gli::textureCube::texelcoord_type(2));
 		Texture.clear(Black);
 
 		glm::u8vec4 const TexelA = Texture.load<glm::u8vec4>(gli::textureCube::texelcoord_type(0), 0, 0);
@@ -655,12 +655,10 @@ namespace clear
 
 		gli::textureCube TextureView(Texture, 0, 5, 1, 1);
 
-		gli::textureCube TextureCopy(gli::copy(Texture));
-
-		gli::textureCube TextureImage(gli::FORMAT_RGBA8_UNORM, gli::textureCube::texelcoord_type(4), 1);
+		gli::textureCube TextureImage(gli::FORMAT_RGBA8_UNORM, gli::textureCube::texelcoord_type(1), 1);
 		TextureImage.clear(Color);
 
-		Error += TextureCopy == TextureImage ? 0 : 1;
+		Error += TextureView == TextureImage ? 0 : 1;
 
 		return Error;
 	}
@@ -670,12 +668,12 @@ int main()
 {
 	int Error(0);
 
+	Error += clear::test();
 	Error += loader::test();
 	Error += test_alloc();
 	Error += test_textureCube_texture2D_size();
 	Error += test_textureCube_query();
 	Error += test_textureCube_texture2D_access();
-	Error += clear::test();
 	Error += load_store::test();
 
 	return Error;

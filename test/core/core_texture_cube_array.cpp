@@ -632,7 +632,7 @@ namespace clear
 		glm::u8vec4 const Black(0, 0, 0, 255);
 		glm::u8vec4 const Color(255, 127, 0, 255);
 
-		gli::textureCubeArray Texture(gli::FORMAT_RGBA8_UNORM, gli::texture2DArray::texelcoord_type(4), 1);
+		gli::textureCubeArray Texture(gli::FORMAT_RGBA8_UNORM, gli::textureCubeArray::texelcoord_type(4), 1);
 		Texture.clear(Black);
 
 		glm::u8vec4 const TexelA = Texture.load<glm::u8vec4>(gli::textureCubeArray::texelcoord_type(0), 0, 0, 0);
