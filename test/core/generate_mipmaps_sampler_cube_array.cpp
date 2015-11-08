@@ -22,7 +22,7 @@
 ///
 /// @ref core
 /// @file gli/test/core/generate_mipmaps_sampler_cube_array.cpp
-/// @date 2015-10-05 / 2015-10-05
+/// @date 2015-11-08 / 2015-11-08
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
@@ -41,7 +41,7 @@ namespace generate_mipmaps
 	{
 		int Error = 0;
 
-		gli::textureCubeArray Texture(Format, gli::textureCubeArray::texelcoord_type(static_cast<gli::texture2DArray::texelcoord_type::value_type>(Size)), Layers);
+		gli::textureCubeArray Texture(Format, gli::textureCubeArray::texelcoord_type(static_cast<gli::textureCubeArray::texelcoord_type::value_type>(Size)), Layers);
 		Texture.clear(Black);
 		for(std::size_t Layer = 0; Layer < Layers; ++Layer)
 		for(std::size_t Face = 0; Face < 6; ++Face)
