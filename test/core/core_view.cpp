@@ -697,6 +697,24 @@ namespace clear2d_array
 	}
 }//namespace clear2d_array
 
+namespace size
+{
+	int run()
+	{
+		int Error = 0;
+
+		gli::texture Texture(gli::TARGET_2D, gli::FORMAT_RGBA8_UNORM, gli::texture::texelcoord_type(8, 8, 1), 1, 1, 5);
+
+		gli::texture TextureView(gli::view(Texture, 0, 0, 0, 0, 1, 1));
+
+		gli::texture TextureImage(gli::TARGET_2D, gli::FORMAT_RGBA8_UNORM, gli::texture::texelcoord_type(4, 4, 1), 1, 1, 1);
+
+		Error += TextureView.size() == TextureImage.size() ? 0 : 1;
+
+		return Error;
+	}
+}//namespace size
+
 int main()
 {
 	int Error = 0;
@@ -705,6 +723,7 @@ int main()
 	Error += format::run();
 	Error += clear2d::run();
 	Error += clear2d_array::run();
+	Error += size::run();
 
 	return Error;
 }
