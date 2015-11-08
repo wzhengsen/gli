@@ -37,7 +37,7 @@
 namespace generate_mipmaps
 {
 	template <typename genType>
-	int test(gli::format Format, genType const & Black, genType const & Color, std::size_t Layers, std::size_t Size, gli::filter Filter)
+	int test(gli::format Format, genType const & Black, genType const & Color, std::size_t Size, gli::filter Filter)
 	{
 		int Error = 0;
 
@@ -91,84 +91,78 @@ int main()
 	Sizes.push_back(32);
 	Sizes.push_back(1);
 
-	std::vector<gli::size_t> Layers;
-	Layers.push_back(2);
-	Layers.push_back(5);
-	Layers.push_back(1);
-
 	for(std::size_t FilterIndex = 0, FilterCount = Filters.size(); FilterIndex < FilterCount; ++FilterIndex)
-	for(std::size_t LayerIndex = 0, LayerCount = Layers.size(); LayerIndex < LayerCount; ++LayerIndex)
 	for(std::size_t SizeIndex = 0, SizeCount = Sizes.size(); SizeIndex < SizeCount; ++SizeIndex)
 	{
 		Error += generate_mipmaps::test(gli::FORMAT_RGBA8_UNORM,
 			glm::u8vec4(0, 0, 0, 0),
 			glm::u8vec4(255, 127, 0, 255),
-			Layers[LayerIndex], Sizes[SizeIndex], Filters[FilterIndex]);
+			Sizes[SizeIndex], Filters[FilterIndex]);
 
 		Error += generate_mipmaps::test(gli::FORMAT_RGBA8_SNORM,
 			glm::i8vec4(0, 0, 0, 0),
 			glm::i8vec4(127, 63, 0, 1),
-			Layers[LayerIndex], Sizes[SizeIndex], Filters[FilterIndex]);
+			Sizes[SizeIndex], Filters[FilterIndex]);
 
 		Error += generate_mipmaps::test(gli::FORMAT_RGBA4_UNORM,
 			gli::packUnorm4x4(glm::vec4(0.0f, 0.0f, 0.0f, 0.0f)),
 			gli::packUnorm4x4(glm::vec4(1.0f, 0.5f, 0.0f, 1.0f)),
-			Layers[LayerIndex], Sizes[SizeIndex], Filters[FilterIndex]);
+			Sizes[SizeIndex], Filters[FilterIndex]);
 
 		Error += generate_mipmaps::test(gli::FORMAT_RGB10A2_UNORM,
 			gli::packUnorm3x10_1x2(glm::vec4(0.0f, 0.0f, 0.0f, 0.0f)),
 			gli::packUnorm3x10_1x2(glm::vec4(1.0f, 0.5f, 0.0f, 1.0f)),
-			Layers[LayerIndex], Sizes[SizeIndex], Filters[FilterIndex]);
+			Sizes[SizeIndex], Filters[FilterIndex]);
 
 		Error += generate_mipmaps::test(gli::FORMAT_RGB10A2_SNORM,
 			gli::packSnorm3x10_1x2(glm::vec4(0.0f, 0.0f, 0.0f, 0.0f)),
 			gli::packSnorm3x10_1x2(glm::vec4(1.0f, 0.5f, 0.0f, 1.0f)),
-			Layers[LayerIndex], Sizes[SizeIndex], Filters[FilterIndex]);
+			Sizes[SizeIndex], Filters[FilterIndex]);
 
 		Error += generate_mipmaps::test(gli::FORMAT_RGB9E5_UFLOAT,
 			gli::packF3x9_E1x5(glm::vec3(0.0f, 0.0f, 0.0f)),
 			gli::packF3x9_E1x5(glm::vec3(1.0f, 0.5f, 0.0f)),
-			Layers[LayerIndex], Sizes[SizeIndex], Filters[FilterIndex]);
+			Sizes[SizeIndex], Filters[FilterIndex]);
 
 		Error += generate_mipmaps::test(gli::FORMAT_R16_SFLOAT,
 			gli::packHalf(glm::vec1(0.0f)),
 			gli::packHalf(glm::vec1(1.0f)),
-			Layers[LayerIndex], Sizes[SizeIndex], Filters[FilterIndex]);
+			Sizes[SizeIndex], Filters[FilterIndex]);
 
 		Error += generate_mipmaps::test(gli::FORMAT_RG16_SFLOAT,
 			gli::packHalf(glm::vec2(0.0f, 0.0f)),
 			gli::packHalf(glm::vec2(1.0f, 0.5f)),
-			Layers[LayerIndex], Sizes[SizeIndex], Filters[FilterIndex]);
+			Sizes[SizeIndex], Filters[FilterIndex]);
 
 		Error += generate_mipmaps::test(gli::FORMAT_RGB16_SFLOAT,
 			gli::packHalf(glm::vec3(0.0f, 0.0f, 0.0f)),
 			gli::packHalf(glm::vec3(1.0f, 0.5f, 0.0f)),
-			Layers[LayerIndex], Sizes[SizeIndex], Filters[FilterIndex]);
+			Sizes[SizeIndex], Filters[FilterIndex]);
 
 		Error += generate_mipmaps::test(gli::FORMAT_RGBA16_SFLOAT,
 			gli::packHalf(glm::vec4(0.0f, 0.0f, 0.0f, 0.0f)),
 			gli::packHalf(glm::vec4(1.0f, 0.5f, 0.0f, 1.0f)),
-			Layers[LayerIndex], Sizes[SizeIndex], Filters[FilterIndex]);
+			Sizes[SizeIndex], Filters[FilterIndex]);
 
 		Error += generate_mipmaps::test(gli::FORMAT_R32_SFLOAT,
 			glm::vec1(0.0f),
 			glm::vec1(1.0f),
-			Layers[LayerIndex], Sizes[SizeIndex], Filters[FilterIndex]);
+			Sizes[SizeIndex], Filters[FilterIndex]);
 
 		Error += generate_mipmaps::test(gli::FORMAT_RG32_SFLOAT,
 			glm::vec2(0.0f, 0.0f),
 			glm::vec2(1.0f, 0.5f),
-			Layers[LayerIndex], Sizes[SizeIndex], Filters[FilterIndex]);
+			Sizes[SizeIndex], Filters[FilterIndex]);
 
 		Error += generate_mipmaps::test(gli::FORMAT_RGB32_SFLOAT,
 			glm::vec3(0.0f, 0.0f, 0.0f),
 			glm::vec3(1.0f, 0.5f, 0.0f),
-			Layers[LayerIndex], Sizes[SizeIndex], Filters[FilterIndex]);
+			Sizes[SizeIndex], Filters[FilterIndex]);
 
 		Error += generate_mipmaps::test(gli::FORMAT_RGBA32_SFLOAT,
 			glm::vec4(0.0f, 0.0f, 0.0f, 0.0f),
 			glm::vec4(1.0f, 0.5f, 0.0f, 1.0f),
-			Layers[LayerIndex], Sizes[SizeIndex], Filters[FilterIndex]);
+			Sizes[SizeIndex], Filters[FilterIndex]);
 	}
 
 	return Error;

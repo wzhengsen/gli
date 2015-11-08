@@ -89,8 +89,6 @@ int main()
 	Sizes.push_back(15);
 	Sizes.push_back(16);
 	Sizes.push_back(17);
-	Sizes.push_back(24);
-	Sizes.push_back(32);
 	Sizes.push_back(1);
 
 	std::vector<gli::size_t> Layers;
