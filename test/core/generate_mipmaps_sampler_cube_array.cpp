@@ -86,14 +86,13 @@ int main()
 	std::vector<gli::size_t> Sizes;
 	Sizes.push_back(2);
 	Sizes.push_back(3);
-	Sizes.push_back(15);
-	Sizes.push_back(16);
-	Sizes.push_back(17);
+	Sizes.push_back(7);
+	Sizes.push_back(8);
+	Sizes.push_back(9);
 	Sizes.push_back(1);
 
 	std::vector<gli::size_t> Layers;
 	Layers.push_back(2);
-	Layers.push_back(5);
 	Layers.push_back(1);
 
 	for(std::size_t FilterIndex = 0, FilterCount = Filters.size(); FilterIndex < FilterCount; ++FilterIndex)

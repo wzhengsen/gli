@@ -95,8 +95,6 @@ int main()
 	Sizes.push_back(15);
 	Sizes.push_back(16);
 	Sizes.push_back(17);
-	Sizes.push_back(24);
-	Sizes.push_back(32);
 
 	for(std::size_t FilterIndex = 0, FilterCount = Filters.size(); FilterIndex < FilterCount; ++FilterIndex)
 	for(std::size_t SizeIndex = 0, SizeCount = Sizes.size(); SizeIndex < SizeCount; ++SizeIndex)
