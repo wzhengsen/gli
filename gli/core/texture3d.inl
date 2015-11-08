@@ -133,6 +133,23 @@ namespace gli
 		reinterpret_cast<genType*>(Cache.Data)[Index] = Texel;
 	}
 
+	inline void texture3D::clear()
+	{
+		this->texture::clear();
+	}
+
+	template <typename genType>
+	inline void texture3D::clear(genType const & Texel)
+	{
+		this->texture::clear<genType>(Texel);
+	}
+
+	template <typename genType>
+	inline void texture3D::clear(size_type Level, genType const & Texel)
+	{
+		this->texture::clear<genType>(0, 0, Level, Texel);
+	}
+
 	inline texture3D::size_type texture3D::index_cache(size_type Level) const
 	{
 		return Level;

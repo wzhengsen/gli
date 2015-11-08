@@ -134,6 +134,23 @@ namespace gli
 		reinterpret_cast<genType*>(Cache.Data)[Index] = Texel;
 	}
 
+	inline void texture2DArray::clear()
+	{
+		this->texture::clear();
+	}
+
+	template <typename genType>
+	inline void texture2DArray::clear(genType const & Texel)
+	{
+		this->texture::clear<genType>(Texel);
+	}
+
+	template <typename genType>
+	inline void texture2DArray::clear(size_type Layer, size_type Level, genType const & Texel)
+	{
+		this->texture::clear<genType>(Layer, 0, Level, Texel);
+	}
+
 	inline texture2DArray::size_type texture2DArray::index_cache(size_type Layer, size_type Level) const
 	{
 		return Layer * this->levels() + Level;

@@ -131,6 +131,23 @@ namespace gli
 		reinterpret_cast<genType*>(Cache.Data)[Index] = Texel;
 	}
 
+	inline void textureCube::clear()
+	{
+		this->texture::clear();
+	}
+
+	template <typename genType>
+	inline void textureCube::clear(genType const & Texel)
+	{
+		this->texture::clear<genType>(Texel);
+	}
+
+	template <typename genType>
+	inline void textureCube::clear(size_type Face, size_type Level, genType const & Texel)
+	{
+		this->texture::clear<genType>(0, Face, Level, Texel);
+	}
+
 	inline textureCube::size_type textureCube::index_cache(size_type Face, size_type Level) const
 	{
 		return Face * this->levels() + Level;

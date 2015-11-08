@@ -237,22 +237,6 @@ int test_textureCube_texture2D_size()
 	return Error;
 }
 
-namespace clear
-{
-	int test()
-	{
-		int Error(0);
-
-		glm::u8vec4 const Orange(255, 127, 0, 255);
-
-		gli::textureCube Texture(gli::FORMAT_RGBA8_UINT, gli::textureCube::texelcoord_type(4), 1);
-
-		Texture.clear<glm::u8vec4>(Orange);
-
-		return Error;
-	}
-}//namespace clear
-
 namespace loader
 {
 	int test()
@@ -637,6 +621,50 @@ namespace load_store
 		return Error;
 	}
 }//namespace load_store
+
+namespace clear
+{
+	int test()
+	{
+		int Error = 0;
+
+		glm::u8vec4 const Black(0, 0, 0, 255);
+		glm::u8vec4 const Color(255, 127, 0, 255);
+
+		gli::textureCube Texture(gli::FORMAT_RGBA8_UNORM, gli::texture2DArray::texelcoord_type(8));
+		Texture.clear(Black);
+
+		glm::u8vec4 const TexelA = Texture.load<glm::u8vec4>(gli::textureCube::texelcoord_type(0), 0, 0);
+		glm::u8vec4 const TexelB = Texture.load<glm::u8vec4>(gli::textureCube::texelcoord_type(0), 0, 1);
+		glm::u8vec4 const TexelC = Texture.load<glm::u8vec4>(gli::textureCube::texelcoord_type(0), 0, 2);
+
+		Error += TexelA == Black ? 0 : 1;
+		Error += TexelB == Black ? 0 : 1;
+		Error += TexelC == Black ? 0 : 1;
+
+		for(gli::textureCube::size_type FaceIndex = 0, FaceCount = Texture.faces(); FaceIndex < FaceCount; ++FaceIndex)
+			Texture.clear<glm::u8vec4>(FaceIndex, 1, Color);
+
+		gli::textureCube::texelcoord_type Coords(0);
+		for(; Coords.y < Texture.dimensions(1).y; ++Coords.y)
+		for(; Coords.x < Texture.dimensions(1).x; ++Coords.x)
+		{
+			glm::u8vec4 const TexelD = Texture.load<glm::u8vec4>(Coords, 0, 1);
+			Error += TexelD == Color ? 0 : 1;
+		}
+
+		gli::textureCube TextureView(Texture, 0, 5, 1, 1);
+
+		gli::textureCube TextureCopy(gli::copy(Texture));
+
+		gli::textureCube TextureImage(gli::FORMAT_RGBA8_UNORM, gli::textureCube::texelcoord_type(4), 1);
+		TextureImage.clear(Color);
+
+		Error += TextureCopy == TextureImage ? 0 : 1;
+
+		return Error;
+	}
+}//namespace clear
 
 int main()
 {

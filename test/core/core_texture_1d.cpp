@@ -61,23 +61,6 @@ int test_alloc()
 	return Error;
 }
 
-namespace clear
-{
-	int run()
-	{
-		int Error(0);
-
-		glm::u8vec4 const Orange(255, 127, 0, 255);
-
-		gli::texture1D::texelcoord_type Size(16u);
-		gli::texture1D Texture(gli::FORMAT_RGBA8_UINT, Size, gli::levels(Size));
-
-		Texture.clear<glm::u8vec4>(Orange);
-
-		return Error;
-	}
-}//namespace
-
 namespace query
 {
 	int run()
@@ -602,6 +585,46 @@ namespace load_store
 	}
 }//namespace load_store
 
+namespace clear
+{
+	int run()
+	{
+		int Error = 0;
+
+		glm::u8vec4 const Black(0, 0, 0, 255);
+		glm::u8vec4 const Color(255, 127, 0, 255);
+
+		gli::texture1D Texture(gli::FORMAT_RGBA8_UNORM, gli::texture1D::texelcoord_type(8), 5);
+		Texture.clear(Black);
+
+		glm::u8vec4 const TexelA = Texture.load<glm::u8vec4>(gli::texture1D::texelcoord_type(0), 0);
+		glm::u8vec4 const TexelB = Texture.load<glm::u8vec4>(gli::texture1D::texelcoord_type(0), 1);
+		glm::u8vec4 const TexelC = Texture.load<glm::u8vec4>(gli::texture1D::texelcoord_type(0), 2);
+
+		Error += TexelA == Black ? 0 : 1;
+		Error += TexelB == Black ? 0 : 1;
+		Error += TexelC == Black ? 0 : 1;
+
+		Texture.clear<glm::u8vec4>(1, glm::u8vec4(255, 127, 0, 255));
+
+		gli::texture1D::texelcoord_type Coords(0);
+		for(; Coords.x < Texture.dimensions(1).x; ++Coords.x)
+		{
+			glm::u8vec4 const TexelD = Texture.load<glm::u8vec4>(Coords, 1);
+			Error += TexelD == Color ? 0 : 1;
+		}
+
+		gli::texture1D TextureView(Texture, 1, 1);
+
+		gli::texture1D TextureImage(gli::FORMAT_RGBA8_UNORM, gli::texture1D::texelcoord_type(4), 1);
+		TextureImage.clear(Color);
+
+		Error += TextureView == TextureImage ? 0 : 1;
+
+		return Error;
+	}
+}//namespace clear
+
 int main()
 {
 	int Error(0);
@@ -612,6 +635,7 @@ int main()
 	Error += clear::run();
 	Error += tex_access::run();
 	Error += load_store::test();
+	Error += clear::run();
 
 	return Error;
 }

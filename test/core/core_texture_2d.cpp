@@ -778,7 +778,7 @@ namespace mipmaps
 
 namespace clear
 {
-	int run()
+	int test()
 	{
 		int Error = 0;
 
@@ -796,7 +796,7 @@ namespace clear
 		Error += TexelB == Black ? 0 : 1;
 		Error += TexelC == Black ? 0 : 1;
 
-		Texture.clear<glm::u8vec4>(0, 0, 1, glm::u8vec4(255, 127, 0, 255));
+		Texture.clear<glm::u8vec4>(1, glm::u8vec4(255, 127, 0, 255));
 
 		gli::texture2D::texelcoord_type Coords(0);
 		for(; Coords.y < Texture.dimensions(1).y; ++Coords.y)
@@ -829,7 +829,7 @@ int main()
 	Error += test_create();
 	Error += load_store::test();
 	Error += level::test();
-	Error += clear::run();
+	Error += clear::test();
 
 	return Error;
 }

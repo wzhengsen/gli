@@ -667,6 +667,8 @@ namespace clear2d
 		TextureImage.clear(Color);
 
 		Error += TextureView == TextureImage ? 0 : 1;
+		Error += TextureView.size() == TextureImage.size() ? 0 : 1;
+		Error += TextureView.size<glm::u8vec4>() == TextureImage.size<glm::u8vec4>() ? 0 : 1;
 
 		return Error;
 	}
@@ -692,6 +694,8 @@ namespace clear2d_array
 		TextureImage.clear(Color);
 
 		Error += TextureView == TextureImage ? 0 : 1;
+		Error += TextureView.size() == TextureImage.size() ? 0 : 1;
+		Error += TextureView.size<glm::u8vec4>() == TextureImage.size<glm::u8vec4>() ? 0 : 1;
 
 		return Error;
 	}

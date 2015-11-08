@@ -219,7 +219,7 @@ namespace gli
 		GLI_ASSERT(!this->empty());
 		GLI_ASSERT(Level >= 0 && Level < this->levels());
 
-		return this->Storage->level_size(BaseLevel + Level);
+		return this->Storage->level_size(this->BaseLevel + Level);
 	}
 
 	template <typename genType>
