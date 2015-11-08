@@ -647,12 +647,64 @@ namespace format
 	}
 }//namespace format
 
+namespace clear2d
+{
+	int run()
+	{
+		int Error = 0;
+
+		glm::u8vec4 const Black(0, 0, 0, 255);
+		glm::u8vec4 const Color(255, 127, 0, 255);
+
+		gli::texture Texture(gli::TARGET_2D, gli::FORMAT_RGBA8_UNORM, gli::texture::texelcoord_type(8, 8, 1), 1, 1, 5);
+		Texture.clear(Black);
+
+		Texture.clear<glm::u8vec4>(0, 0, 1, glm::u8vec4(255, 127, 0, 255));
+
+		gli::texture TextureView(gli::view(Texture, 0, 0, 0, 0, 1, 1));
+
+		gli::texture TextureImage(gli::TARGET_2D, gli::FORMAT_RGBA8_UNORM, gli::texture::texelcoord_type(4, 4, 1), 1, 1, 1);
+		TextureImage.clear(Color);
+
+		Error += TextureView == TextureImage ? 0 : 1;
+
+		return Error;
+	}
+}//namespace clear2d
+
+namespace clear2d_array
+{
+	int run()
+	{
+		int Error = 0;
+
+		glm::u8vec4 const Black(0, 0, 0, 255);
+		glm::u8vec4 const Color(255, 127, 0, 255);
+
+		gli::texture Texture(gli::TARGET_2D_ARRAY, gli::FORMAT_RGBA8_UNORM, gli::texture::texelcoord_type(8, 8, 1), 3, 1, 5);
+		Texture.clear(Black);
+
+		Texture.clear<glm::u8vec4>(1, 0, 1, glm::u8vec4(255, 127, 0, 255));
+
+		gli::texture TextureView(gli::view(Texture, 1, 1, 0, 0, 1, 1));
+
+		gli::texture TextureImage(gli::TARGET_2D_ARRAY, gli::FORMAT_RGBA8_UNORM, gli::texture::texelcoord_type(4, 4, 1), 1, 1, 1);
+		TextureImage.clear(Color);
+
+		Error += TextureView == TextureImage ? 0 : 1;
+
+		return Error;
+	}
+}//namespace clear2d_array
+
 int main()
 {
 	int Error = 0;
 
 	Error += dim::run();
 	Error += format::run();
+	Error += clear2d::run();
+	Error += clear2d_array::run();
 
 	return Error;
 }

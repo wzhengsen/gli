@@ -175,6 +175,10 @@ namespace gli
 		template <typename genType>
 		void clear(genType const & Texel);
 
+		/// Clear a specific image of a texture.
+		template <typename genType>
+		void clear(size_type Layer, size_type Face, size_type Level, genType const & Texel);
+
 		/// Reorder the component in texture memory.
 		template <typename genType>
 		void swizzle(gli::swizzles const & Swizzles);
