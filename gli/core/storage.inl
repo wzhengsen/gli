@@ -87,6 +87,7 @@ namespace gli
 
 	inline storage::texelcoord_type storage::block_count(size_type Level) const
 	{
+		GLI_ASSERT(!this->empty());
 		GLI_ASSERT(Level >= 0 && Level < this->Levels);
 
 		return glm::max(this->BlockCount >> storage::texelcoord_type(static_cast<storage::texelcoord_type::value_type>(Level)), storage::texelcoord_type(1));
@@ -94,6 +95,9 @@ namespace gli
 
 	inline storage::texelcoord_type storage::dimensions(size_type Level) const
 	{
+		GLI_ASSERT(!this->empty());
+		GLI_ASSERT(Level >= 0 && Level < this->Levels);
+
 		return glm::max(this->Dimensions >> storage::texelcoord_type(static_cast<storage::texelcoord_type::value_type>(Level)), storage::texelcoord_type(1));
 	}
 
