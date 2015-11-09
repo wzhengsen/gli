@@ -658,8 +658,10 @@ namespace clear
 
 		gli::textureCubeArray TextureImage(gli::FORMAT_RGBA8_UNORM, gli::textureCubeArray::texelcoord_type(2), 1, 1);
 		TextureImage.clear(Color);
-
 		Error += TextureView == TextureImage ? 0 : 1;
+
+		gli::textureCubeArray TextureCopy(gli::copy(TextureView));
+		Error += TextureView == TextureCopy ? 0 : 1;
 
 		return Error;
 	}
