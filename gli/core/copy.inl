@@ -41,12 +41,17 @@ namespace detail
 		GLI_ASSERT(BaseFace >= 0 && BaseFace <= MaxFace && MaxFace < Src.faces());
 		GLI_ASSERT(BaseLevel >= 0 && BaseLevel <= MaxLevel && MaxLevel < Src.levels());
 
-		for(texture::size_type LayerIndex = 0, LayerCount = MaxLayer - BaseLayer + 1; LayerIndex < LayerCount; ++LayerIndex)
-		for(texture::size_type FaceIndex = 0, FaceCount = MaxFace - BaseFace + 1; FaceIndex < FaceCount; ++FaceIndex)
-		for(texture::size_type LevelIndex = 0, LevelCount = MaxLevel - BaseLevel + 1; LevelIndex < LevelCount; ++LevelIndex)
+		texture::size_type LevelsSize = 0;
+		for(texture::size_type LevelIndex = 0; LevelIndex < MaxLevel - BaseLevel + 1; ++LevelIndex)
 		{
 			GLI_ASSERT(Dst.size(LevelIndex) == Src.size(LevelIndex));
-			memcpy(Dst.data(LayerIndex, FaceIndex, LevelIndex), Src.data(BaseLayer + LayerIndex, BaseFace + FaceIndex, BaseLevel + LevelIndex), Dst.size(LevelIndex));
+			LevelsSize += Dst.size(LevelIndex);
+		}
+
+		for(texture::size_type LayerIndex = 0, LayerCount = MaxLayer - BaseLayer + 1; LayerIndex < LayerCount; ++LayerIndex)
+		for(texture::size_type FaceIndex = 0, FaceCount = MaxFace - BaseFace + 1; FaceIndex < FaceCount; ++FaceIndex)
+		{
+			memcpy(Dst.data(LayerIndex, FaceIndex, BaseLevel), Src.data(BaseLayer + LayerIndex, BaseFace + FaceIndex, BaseLevel), LevelsSize);
 		}
 	}
 }//namespace detail
@@ -141,7 +146,7 @@ namespace detail
 			Texture.dimensions(BaseLevel),
 			MaxLevel - BaseLevel + 1);
 
-		memcpy(Copy.data(), Texture[BaseLevel].data(), Copy.size());
+		memcpy(Copy.data(), Texture.data(0, 0, BaseLevel), Copy.size());
 
 		return Copy;
 	}
@@ -167,7 +172,7 @@ namespace detail
 			MaxLevel - BaseLevel + 1);
 
 		for(texture1DArray::size_type Layer = 0; Layer < Copy.layers(); ++Layer)
-			memcpy(Copy[Layer].data(), Texture[Layer + BaseLayer][BaseLevel].data(), Copy[Layer].size());
+			memcpy(Copy.data(Layer, 0, 0), Texture.data(Layer + BaseLayer, 0, BaseLevel), Copy[Layer].size());
 
 		return Copy;
 	}
@@ -187,7 +192,7 @@ namespace detail
 			Texture.dimensions(BaseLevel),
 			MaxLevel - BaseLevel + 1);
 
-		memcpy(Copy.data(), Texture[BaseLevel].data(), Copy.size());
+		memcpy(Copy.data(), Texture.data(0, 0, BaseLevel), Copy.size());
 
 		return Copy;
 	}
@@ -208,12 +213,12 @@ namespace detail
 
 		texture2DArray Copy(
 			Texture.format(),
-			Texture[BaseLayer].dimensions(BaseLevel),
+			Texture.dimensions(BaseLevel),
 			MaxMayer - BaseLayer + 1,
 			MaxLevel - BaseLevel + 1);
 
 		for(texture2DArray::size_type Layer = 0; Layer < Copy.layers(); ++Layer)
-			memcpy(Copy[Layer].data(), Texture[Layer + BaseLayer][BaseLevel].data(), Copy[Layer].size());
+			memcpy(Copy.data(Layer, 0, 0), Texture.data(Layer + BaseLayer, 0, BaseLevel), Copy[Layer].size());
 
 		return Copy;
 	}
@@ -233,7 +238,7 @@ namespace detail
 			Texture.dimensions(BaseLevel),
 			MaxLevel - BaseLevel + 1);
 
-		memcpy(Copy.data(), Texture[BaseLevel].data(), Copy.size());
+		memcpy(Copy.data(), Texture.data(0, 0, BaseLevel), Copy.size());
 
 		return Copy;
 	}
