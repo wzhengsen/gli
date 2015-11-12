@@ -546,13 +546,13 @@ namespace detail
 			static func Table[] =
 			{
 				{conv<u8, tvec2, CONVERT_MODE_44UNORM>::fetch, conv<u8, tvec2, CONVERT_MODE_44UNORM>::write},				// FORMAT_RG4_UNORM
-				{conv<u8, tvec2, CONVERT_MODE_44SCALED>::fetch, conv<u8, tvec2, CONVERT_MODE_44SCALED>::write},				// FORMAT_RG4_USCALED
 				{conv<u8, tvec4, CONVERT_MODE_4444UNORM>::fetch, conv<u8, tvec4, CONVERT_MODE_4444UNORM>::write},			// FORMAT_RGBA4_UNORM
-				{conv<u8, tvec4, CONVERT_MODE_4444SCALED>::fetch, conv<u8, tvec4, CONVERT_MODE_4444SCALED>::write},			// FORMAT_RGBA4_USCALED
+				{conv<u8, tvec4, CONVERT_MODE_4444UNORM>::fetch, conv<u8, tvec4, CONVERT_MODE_4444UNORM>::write},			// FORMAT_BGRA4_UNORM
 				{conv<u8, tvec3, CONVERT_MODE_565UNORM>::fetch, conv<u8, tvec3, CONVERT_MODE_565UNORM>::write},				// FORMAT_R5G6B5_UNORM
-				{conv<u8, tvec3, CONVERT_MODE_565SCALED>::fetch, conv<u8, tvec3, CONVERT_MODE_565SCALED>::write},			// FORMAT_R5G6B5_USCALED
+				{conv<u8, tvec3, CONVERT_MODE_565UNORM>::fetch, conv<u8, tvec3, CONVERT_MODE_565UNORM>::write},				// FORMAT_B5G6R5_UNORM
 				{conv<u8, tvec4, CONVERT_MODE_5551UNORM>::fetch, conv<u8, tvec4, CONVERT_MODE_5551UNORM>::write},			// FORMAT_RGB5A1_UNORM
-				{conv<u8, tvec4, CONVERT_MODE_5551SCALED>::fetch, conv<u8, tvec4, CONVERT_MODE_5551SCALED>::write},			// FORMAT_RGB5A1_USCALED
+				{conv<u8, tvec4, CONVERT_MODE_5551UNORM>::fetch, conv<u8, tvec4, CONVERT_MODE_5551UNORM>::write},			// FORMAT_BGR5A1_UNORM
+				{conv<u8, tvec4, CONVERT_MODE_5551UNORM>::fetch, conv<u8, tvec4, CONVERT_MODE_5551UNORM>::write},			// FORMAT_A1RGB5_UNORM
 
 				{conv<u8, tvec1, CONVERT_MODE_NORM>::fetch, conv<u8, tvec1, CONVERT_MODE_NORM>::write},						// FORMAT_R8_UNORM
 				{conv<i8, tvec1, CONVERT_MODE_NORM>::fetch, conv<i8, tvec1, CONVERT_MODE_NORM>::write},						// FORMAT_R8_SNORM
@@ -578,6 +578,14 @@ namespace detail
 				{conv<i8, tvec3, CONVERT_MODE_CAST>::fetch, conv<i8, tvec3, CONVERT_MODE_CAST>::write},						// FORMAT_RGB8_SINT
 				{conv<u8, tvec3, CONVERT_MODE_SRGB>::fetch, conv<u8, tvec3, CONVERT_MODE_SRGB>::write},						// FORMAT_RGB8_SRGB
 
+				{conv<u8, tvec3, CONVERT_MODE_NORM>::fetch, conv<u8, tvec3, CONVERT_MODE_NORM>::write},						// FORMAT_BGR8_UNORM
+				{conv<i8, tvec3, CONVERT_MODE_NORM>::fetch, conv<i8, tvec3, CONVERT_MODE_NORM>::write},						// FORMAT_BGR8_SNORM
+				{conv<u8, tvec3, CONVERT_MODE_CAST>::fetch, conv<u8, tvec3, CONVERT_MODE_CAST>::write},						// FORMAT_BGR8_USCALED
+				{conv<i8, tvec3, CONVERT_MODE_CAST>::fetch, conv<i8, tvec3, CONVERT_MODE_CAST>::write},						// FORMAT_BGR8_SSCALED
+				{conv<u32, tvec3, CONVERT_MODE_CAST>::fetch, conv<u32, tvec3, CONVERT_MODE_CAST>::write},					// FORMAT_BGR8_UINT
+				{conv<i32, tvec3, CONVERT_MODE_CAST>::fetch, conv<i32, tvec3, CONVERT_MODE_CAST>::write},					// FORMAT_BGR8_SINT
+				{conv<u8, tvec3, CONVERT_MODE_SRGB>::fetch, conv<u8, tvec3, CONVERT_MODE_SRGB>::write},						// FORMAT_BGR8_SRGB
+
 				{conv<u8, tvec4, CONVERT_MODE_NORM>::fetch, conv<u8, tvec4, CONVERT_MODE_NORM>::write},						// FORMAT_RGBA8_UNORM
 				{conv<i8, tvec4, CONVERT_MODE_NORM>::fetch, conv<i8, tvec4, CONVERT_MODE_NORM>::write},						// FORMAT_RGBA8_SNORM
 				{conv<u8, tvec4, CONVERT_MODE_CAST>::fetch, conv<u8, tvec4, CONVERT_MODE_CAST>::write},						// FORMAT_RGBA8_USCALED
@@ -586,12 +594,35 @@ namespace detail
 				{conv<i8, tvec4, CONVERT_MODE_CAST>::fetch, conv<i8, tvec4, CONVERT_MODE_CAST>::write},						// FORMAT_RGBA8_SINT
 				{conv<u8, tvec4, CONVERT_MODE_SRGB>::fetch, conv<u8, tvec4, CONVERT_MODE_SRGB>::write},						// FORMAT_RGBA8_SRGB
 
+				{conv<u8, tvec4, CONVERT_MODE_NORM>::fetch, conv<u8, tvec4, CONVERT_MODE_NORM>::write},						// FORMAT_BGRA8_UNORM
+				{conv<i8, tvec4, CONVERT_MODE_NORM>::fetch, conv<i8, tvec4, CONVERT_MODE_NORM>::write},						// FORMAT_BGRA8_SNORM
+				{conv<u8, tvec4, CONVERT_MODE_CAST>::fetch, conv<u8, tvec4, CONVERT_MODE_CAST>::write},						// FORMAT_BGRA8_USCALED
+				{conv<i8, tvec4, CONVERT_MODE_CAST>::fetch, conv<i8, tvec4, CONVERT_MODE_CAST>::write},						// FORMAT_BGRA8_SSCALED
+				{conv<u8, tvec4, CONVERT_MODE_CAST>::fetch, conv<u8, tvec4, CONVERT_MODE_CAST>::write},						// FORMAT_BGRA8_UINT
+				{conv<i8, tvec4, CONVERT_MODE_CAST>::fetch, conv<i8, tvec4, CONVERT_MODE_CAST>::write},						// FORMAT_BGRA8_SINT
+				{conv<u8, tvec4, CONVERT_MODE_SRGB>::fetch, conv<u8, tvec4, CONVERT_MODE_SRGB>::write},						// FORMAT_BGRA8_SRGB
+
+				{conv<u8, tvec4, CONVERT_MODE_NORM>::fetch, conv<u8, tvec4, CONVERT_MODE_NORM>::write},						// FORMAT_ABGR8_UNORM
+				{conv<i8, tvec4, CONVERT_MODE_NORM>::fetch, conv<i8, tvec4, CONVERT_MODE_NORM>::write},						// FORMAT_ABGR8_SNORM
+				{conv<u8, tvec4, CONVERT_MODE_CAST>::fetch, conv<u8, tvec4, CONVERT_MODE_CAST>::write},						// FORMAT_ABGR8_USCALED
+				{conv<i8, tvec4, CONVERT_MODE_CAST>::fetch, conv<i8, tvec4, CONVERT_MODE_CAST>::write},						// FORMAT_ABGR8_SSCALED
+				{conv<u8, tvec4, CONVERT_MODE_CAST>::fetch, conv<u8, tvec4, CONVERT_MODE_CAST>::write},						// FORMAT_ABGR8_UINT
+				{conv<i8, tvec4, CONVERT_MODE_CAST>::fetch, conv<i8, tvec4, CONVERT_MODE_CAST>::write},						// FORMAT_ABGR8_SINT
+				{conv<u8, tvec4, CONVERT_MODE_SRGB>::fetch, conv<u8, tvec4, CONVERT_MODE_SRGB>::write},						// FORMAT_ABGR8_SRGB
+
 				{conv<u8, tvec4, CONVERT_MODE_RGB10A2UNORM>::fetch, conv<u8, tvec4, CONVERT_MODE_RGB10A2UNORM>::write},		// FORMAT_RGB10A2_UNORM
 				{conv<i8, tvec4, CONVERT_MODE_RGB10A2SNORM>::fetch, conv<i8, tvec4, CONVERT_MODE_RGB10A2SNORM>::write},		// FORMAT_RGB10A2_SNORM
 				{conv<u8, tvec4, CONVERT_MODE_RGB10A2USCALE>::fetch, conv<u8, tvec4, CONVERT_MODE_RGB10A2USCALE>::write},	// FORMAT_RGB10A2_USCALED
 				{conv<i8, tvec4, CONVERT_MODE_RGB10A2SSCALE>::fetch, conv<i8, tvec4, CONVERT_MODE_RGB10A2SSCALE>::write},	// FORMAT_RGB10A2_SSCALED
 				{conv<u8, tvec4, CONVERT_MODE_RGB10A2UINT>::fetch, conv<u8, tvec4, CONVERT_MODE_RGB10A2UINT>::write},		// FORMAT_RGB10A2_UINT
 				{conv<i8, tvec4, CONVERT_MODE_RGB10A2SINT>::fetch, conv<i8, tvec4, CONVERT_MODE_RGB10A2SINT>::write},		// FORMAT_RGB10A2_SINT
+
+				{conv<u8, tvec4, CONVERT_MODE_RGB10A2UNORM>::fetch, conv<u8, tvec4, CONVERT_MODE_RGB10A2UNORM>::write},		// FORMAT_BGR10A2_UNORM
+				{conv<i8, tvec4, CONVERT_MODE_RGB10A2SNORM>::fetch, conv<i8, tvec4, CONVERT_MODE_RGB10A2SNORM>::write},		// FORMAT_BGR10A2_SNORM
+				{conv<u8, tvec4, CONVERT_MODE_RGB10A2USCALE>::fetch, conv<u8, tvec4, CONVERT_MODE_RGB10A2USCALE>::write},	// FORMAT_BGR10A2_USCALED
+				{conv<i8, tvec4, CONVERT_MODE_RGB10A2SSCALE>::fetch, conv<i8, tvec4, CONVERT_MODE_RGB10A2SSCALE>::write},	// FORMAT_BGR10A2_SSCALED
+				{conv<u8, tvec4, CONVERT_MODE_RGB10A2UINT>::fetch, conv<u8, tvec4, CONVERT_MODE_RGB10A2UINT>::write},		// FORMAT_BGR10A2_UINT
+				{conv<i8, tvec4, CONVERT_MODE_RGB10A2SINT>::fetch, conv<i8, tvec4, CONVERT_MODE_RGB10A2SINT>::write},		// FORMAT_BGR10A2_SINT
 
 				{conv<u16, tvec1, CONVERT_MODE_NORM>::fetch, conv<u16, tvec1, CONVERT_MODE_NORM>::write},					// FORMAT_R16_UNORM
 				{conv<i16, tvec1, CONVERT_MODE_NORM>::fetch, conv<i16, tvec1, CONVERT_MODE_NORM>::write},					// FORMAT_R16_SNORM
@@ -628,19 +659,33 @@ namespace detail
 				{conv<u32, tvec1, CONVERT_MODE_CAST>::fetch, conv<u32, tvec1, CONVERT_MODE_CAST>::write},					// FORMAT_R32_UINT
 				{conv<i32, tvec1, CONVERT_MODE_CAST>::fetch, conv<i32, tvec1, CONVERT_MODE_CAST>::write},					// FORMAT_R32_SINT
 				{conv<f32, tvec1, CONVERT_MODE_CAST>::fetch, conv<f32, tvec1, CONVERT_MODE_CAST>::write},					// FORMAT_R32_SFLOAT
+
 				{conv<u32, tvec2, CONVERT_MODE_CAST>::fetch, conv<u32, tvec2, CONVERT_MODE_CAST>::write},					// FORMAT_RG32_UINT
 				{conv<i32, tvec2, CONVERT_MODE_CAST>::fetch, conv<i32, tvec2, CONVERT_MODE_CAST>::write},					// FORMAT_RG32_SINT
 				{conv<f32, tvec2, CONVERT_MODE_CAST>::fetch, conv<f32, tvec2, CONVERT_MODE_CAST>::write},					// FORMAT_RG32_SFLOAT
+
 				{conv<u32, tvec3, CONVERT_MODE_CAST>::fetch, conv<u32, tvec3, CONVERT_MODE_CAST>::write},					// FORMAT_RGB32_UINT
 				{conv<i32, tvec3, CONVERT_MODE_CAST>::fetch, conv<i32, tvec3, CONVERT_MODE_CAST>::write},					// FORMAT_RGB32_SINT
 				{conv<f32, tvec3, CONVERT_MODE_CAST>::fetch, conv<f32, tvec3, CONVERT_MODE_CAST>::write},					// FORMAT_RGB32_SFLOAT
+
 				{conv<u32, tvec4, CONVERT_MODE_CAST>::fetch, conv<u32, tvec4, CONVERT_MODE_CAST>::write},					// FORMAT_RGBA32_UINT
 				{conv<i32, tvec4, CONVERT_MODE_CAST>::fetch, conv<i32, tvec4, CONVERT_MODE_CAST>::write},					// FORMAT_RGBA32_SINT
 				{conv<f32, tvec4, CONVERT_MODE_CAST>::fetch, conv<f32, tvec4, CONVERT_MODE_CAST>::write},					// FORMAT_RGBA32_SFLOAT
 
+				{conv<u64, tvec1, CONVERT_MODE_CAST>::fetch, conv<u64, tvec1, CONVERT_MODE_CAST>::write},					// FORMAT_R64_UINT
+				{conv<i64, tvec1, CONVERT_MODE_CAST>::fetch, conv<i64, tvec1, CONVERT_MODE_CAST>::write},					// FORMAT_R64_SINT
 				{conv<f64, tvec1, CONVERT_MODE_CAST>::fetch, conv<f64, tvec1, CONVERT_MODE_CAST>::write},					// FORMAT_R64_SFLOAT
+
+				{conv<u64, tvec2, CONVERT_MODE_CAST>::fetch, conv<u64, tvec2, CONVERT_MODE_CAST>::write},					// FORMAT_RG64_UINT
+				{conv<i64, tvec2, CONVERT_MODE_CAST>::fetch, conv<i64, tvec2, CONVERT_MODE_CAST>::write},					// FORMAT_RG64_SINT
 				{conv<f64, tvec2, CONVERT_MODE_CAST>::fetch, conv<f64, tvec2, CONVERT_MODE_CAST>::write},					// FORMAT_RG64_SFLOAT
+
+				{conv<u64, tvec3, CONVERT_MODE_CAST>::fetch, conv<u64, tvec3, CONVERT_MODE_CAST>::write},					// FORMAT_RGB64_UINT
+				{conv<i64, tvec3, CONVERT_MODE_CAST>::fetch, conv<i64, tvec3, CONVERT_MODE_CAST>::write},					// FORMAT_RGB64_SINT
 				{conv<f64, tvec3, CONVERT_MODE_CAST>::fetch, conv<f64, tvec3, CONVERT_MODE_CAST>::write},					// FORMAT_RGB64_SFLOAT
+
+				{conv<u64, tvec4, CONVERT_MODE_CAST>::fetch, conv<u64, tvec4, CONVERT_MODE_CAST>::write},					// FORMAT_RGBA64_UINT
+				{conv<i64, tvec4, CONVERT_MODE_CAST>::fetch, conv<i64, tvec4, CONVERT_MODE_CAST>::write},					// FORMAT_RGBA64_SINT
 				{conv<f64, tvec4, CONVERT_MODE_CAST>::fetch, conv<f64, tvec4, CONVERT_MODE_CAST>::write},					// FORMAT_RGBA64_SFLOAT
 
 				{conv<u32, tvec1, CONVERT_MODE_RG11B10F>::fetch, conv<u32, tvec1, CONVERT_MODE_RG11B10F>::write},			// FORMAT_RG11B10_UFLOAT
@@ -681,6 +726,7 @@ namespace detail
 				{conv<u8, tvec1, CONVERT_MODE_DEFAULT>::fetch, conv<u8, tvec1, CONVERT_MODE_DEFAULT>::write},				// FORMAT_R_EAC_SNORM
 				{conv<u8, tvec2, CONVERT_MODE_DEFAULT>::fetch, conv<u8, tvec2, CONVERT_MODE_DEFAULT>::write},				// FORMAT_RG_EAC_UNORM
 				{conv<u8, tvec2, CONVERT_MODE_DEFAULT>::fetch, conv<u8, tvec2, CONVERT_MODE_DEFAULT>::write},				// FORMAT_RG_EAC_SNORM
+
 				{conv<u8, tvec4, CONVERT_MODE_DEFAULT>::fetch, conv<u8, tvec4, CONVERT_MODE_DEFAULT>::write},				// FORMAT_ASTC_4x4_UNORM
 				{conv<u8, tvec4, CONVERT_MODE_DEFAULT>::fetch, conv<u8, tvec4, CONVERT_MODE_DEFAULT>::write},				// FORMAT_ASTC_4x4_SRGB
 				{conv<u8, tvec4, CONVERT_MODE_DEFAULT>::fetch, conv<u8, tvec4, CONVERT_MODE_DEFAULT>::write},				// FORMAT_ASTC_5x4_UNORM
@@ -710,47 +756,6 @@ namespace detail
 				{conv<u8, tvec4, CONVERT_MODE_DEFAULT>::fetch, conv<u8, tvec4, CONVERT_MODE_DEFAULT>::write},				// FORMAT_ASTC_12x12_UNORM
 				{conv<u8, tvec4, CONVERT_MODE_DEFAULT>::fetch, conv<u8, tvec4, CONVERT_MODE_DEFAULT>::write},				// FORMAT_ASTC_12x12_SRGB
 
-				{conv<u8, tvec4, CONVERT_MODE_4444UNORM>::fetch, conv<u8, tvec4, CONVERT_MODE_4444UNORM>::write},			// FORMAT_BGRA4_UNORM
-				{conv<u8, tvec4, CONVERT_MODE_4444SCALED>::fetch, conv<u8, tvec4, CONVERT_MODE_4444SCALED>::write},			// FORMAT_BGRA4_USCALED
-				{conv<u8, tvec3, CONVERT_MODE_565UNORM>::fetch, conv<u8, tvec3, CONVERT_MODE_565UNORM>::write},				// FORMAT_B5G6R5_UNORM
-				{conv<u8, tvec3, CONVERT_MODE_565SCALED>::fetch, conv<u8, tvec3, CONVERT_MODE_565SCALED>::write},			// FORMAT_B5G6R5_USCALED
-				{conv<u8, tvec4, CONVERT_MODE_5551UNORM>::fetch, conv<u8, tvec4, CONVERT_MODE_5551UNORM>::write},			// FORMAT_BGR5A1_UNORM
-				{conv<u8, tvec4, CONVERT_MODE_5551SCALED>::fetch, conv<u8, tvec4, CONVERT_MODE_5551SCALED>::write},			// FORMAT_BGR5A1_USCALED
-
-				{conv<u8, tvec3, CONVERT_MODE_NORM>::fetch, conv<u8, tvec3, CONVERT_MODE_NORM>::write},						// FORMAT_BGR8_UNORM
-				{conv<i8, tvec3, CONVERT_MODE_NORM>::fetch, conv<i8, tvec3, CONVERT_MODE_NORM>::write},						// FORMAT_BGR8_SNORM
-				{conv<u8, tvec3, CONVERT_MODE_CAST>::fetch, conv<u8, tvec3, CONVERT_MODE_CAST>::write},						// FORMAT_BGR8_USCALED
-				{conv<i8, tvec3, CONVERT_MODE_CAST>::fetch, conv<i8, tvec3, CONVERT_MODE_CAST>::write},						// FORMAT_BGR8_SSCALED
-				{conv<u32, tvec3, CONVERT_MODE_CAST>::fetch, conv<u32, tvec3, CONVERT_MODE_CAST>::write},					// FORMAT_BGR8_UINT
-				{conv<i32, tvec3, CONVERT_MODE_CAST>::fetch, conv<i32, tvec3, CONVERT_MODE_CAST>::write},					// FORMAT_BGR8_SINT
-				{conv<u8, tvec3, CONVERT_MODE_SRGB>::fetch, conv<u8, tvec3, CONVERT_MODE_SRGB>::write},						// FORMAT_BGR8_SRGB
-
-				{conv<u8, tvec4, CONVERT_MODE_NORM>::fetch, conv<u8, tvec4, CONVERT_MODE_NORM>::write},						// FORMAT_BGRA8_UNORM
-				{conv<i8, tvec4, CONVERT_MODE_NORM>::fetch, conv<i8, tvec4, CONVERT_MODE_NORM>::write},						// FORMAT_BGRA8_SNORM
-				{conv<u8, tvec4, CONVERT_MODE_CAST>::fetch, conv<u8, tvec4, CONVERT_MODE_CAST>::write},						// FORMAT_BGRA8_USCALED
-				{conv<i8, tvec4, CONVERT_MODE_CAST>::fetch, conv<i8, tvec4, CONVERT_MODE_CAST>::write},						// FORMAT_BGRA8_SSCALED
-				{conv<u8, tvec4, CONVERT_MODE_CAST>::fetch, conv<u8, tvec4, CONVERT_MODE_CAST>::write},						// FORMAT_BGRA8_UINT
-				{conv<i8, tvec4, CONVERT_MODE_CAST>::fetch, conv<i8, tvec4, CONVERT_MODE_CAST>::write},						// FORMAT_BGRA8_SINT
-				{conv<u8, tvec4, CONVERT_MODE_SRGB>::fetch, conv<u8, tvec4, CONVERT_MODE_SRGB>::write},						// FORMAT_BGRA8_SRGB
-
-				{conv<u8, tvec4, CONVERT_MODE_RGB10A2UNORM>::fetch, conv<u8, tvec4, CONVERT_MODE_RGB10A2UNORM>::write},		// FORMAT_BGR10A2_UNORM
-				{conv<i8, tvec4, CONVERT_MODE_RGB10A2SNORM>::fetch, conv<i8, tvec4, CONVERT_MODE_RGB10A2SNORM>::write},		// FORMAT_BGR10A2_SNORM
-				{conv<u8, tvec4, CONVERT_MODE_RGB10A2USCALE>::fetch, conv<u8, tvec4, CONVERT_MODE_RGB10A2USCALE>::write},	// FORMAT_BGR10A2_USCALED
-				{conv<i8, tvec4, CONVERT_MODE_RGB10A2SSCALE>::fetch, conv<i8, tvec4, CONVERT_MODE_RGB10A2SSCALE>::write},	// FORMAT_BGR10A2_SSCALED
-				{conv<u8, tvec4, CONVERT_MODE_RGB10A2UINT>::fetch, conv<u8, tvec4, CONVERT_MODE_RGB10A2UINT>::write},		// FORMAT_BGR10A2_UINT
-				{conv<i8, tvec4, CONVERT_MODE_RGB10A2SINT>::fetch, conv<i8, tvec4, CONVERT_MODE_RGB10A2SINT>::write},		// FORMAT_BGR10A2_SINT
-
-				{conv<u8, tvec3, CONVERT_MODE_332UNORM>::fetch, conv<u8, tvec3, CONVERT_MODE_332UNORM>::write},				// FORMAT_RG3B2_UNORM
-				{conv<u8, tvec4, CONVERT_MODE_NORM>::fetch, conv<u8, tvec4, CONVERT_MODE_NORM>::write},						// FORMAT_BGRX8_UNORM
-				{conv<u8, tvec4, CONVERT_MODE_SRGB>::fetch, conv<u8, tvec4, CONVERT_MODE_SRGB>::write},						// FORMAT_BGRX8_SRGB
-
-				{conv<u8, tvec1, CONVERT_MODE_NORM>::fetch, conv<u8, tvec1, CONVERT_MODE_NORM>::write},						// FORMAT_L8_UNORM
-				{conv<u8, tvec1, CONVERT_MODE_NORM>::fetch, conv<u8, tvec1, CONVERT_MODE_NORM>::write},						// FORMAT_A8_UNORM
-				{conv<u8, tvec2, CONVERT_MODE_NORM>::fetch, conv<u8, tvec2, CONVERT_MODE_NORM>::write},						// FORMAT_LA8_UNORM
-				{conv<u16, tvec1, CONVERT_MODE_NORM>::fetch, conv<u16, tvec1, CONVERT_MODE_NORM>::write},					// FORMAT_L16_UNORM
-				{conv<u16, tvec1, CONVERT_MODE_NORM>::fetch, conv<u16, tvec1, CONVERT_MODE_NORM>::write},					// FORMAT_A16_UNORM
-				{conv<u16, tvec2, CONVERT_MODE_NORM>::fetch, conv<u16, tvec2, CONVERT_MODE_NORM>::write},					// FORMAT_LA16_UNORM
-
 				{conv<u8, tvec3, CONVERT_MODE_DEFAULT>::fetch, conv<u8, tvec3, CONVERT_MODE_DEFAULT>::write},				// FORMAT_RGB_PVRTC1_8X8_UNORM
 				{conv<u8, tvec3, CONVERT_MODE_DEFAULT>::fetch, conv<u8, tvec3, CONVERT_MODE_DEFAULT>::write},				// FORMAT_RGB_PVRTC1_8X8_SRGB
 				{conv<u8, tvec3, CONVERT_MODE_DEFAULT>::fetch, conv<u8, tvec3, CONVERT_MODE_DEFAULT>::write},				// FORMAT_RGB_PVRTC1_16X8_UNORM
@@ -767,7 +772,19 @@ namespace detail
 				{conv<u8, tvec3, CONVERT_MODE_DEFAULT>::fetch, conv<u8, tvec3, CONVERT_MODE_DEFAULT>::write},				// FORMAT_RGB_ETC_UNORM
 				{conv<u8, tvec3, CONVERT_MODE_DEFAULT>::fetch, conv<u8, tvec3, CONVERT_MODE_DEFAULT>::write},				// FORMAT_RGB_ATC_UNORM
 				{conv<u8, tvec4, CONVERT_MODE_DEFAULT>::fetch, conv<u8, tvec4, CONVERT_MODE_DEFAULT>::write},				// FORMAT_RGBA_ATC_EXPLICIT_UNORM
-				{conv<u8, tvec4, CONVERT_MODE_DEFAULT>::fetch, conv<u8, tvec4, CONVERT_MODE_DEFAULT>::write}				// FORMAT_RGBA_ATC_INTERPOLATED_UNORM
+				{conv<u8, tvec4, CONVERT_MODE_DEFAULT>::fetch, conv<u8, tvec4, CONVERT_MODE_DEFAULT>::write},				// FORMAT_RGBA_ATC_INTERPOLATED_UNORM
+
+				{conv<u8, tvec1, CONVERT_MODE_NORM>::fetch, conv<u8, tvec1, CONVERT_MODE_NORM>::write},						// FORMAT_L8_UNORM
+				{conv<u8, tvec1, CONVERT_MODE_NORM>::fetch, conv<u8, tvec1, CONVERT_MODE_NORM>::write},						// FORMAT_A8_UNORM
+				{conv<u8, tvec2, CONVERT_MODE_NORM>::fetch, conv<u8, tvec2, CONVERT_MODE_NORM>::write},						// FORMAT_LA8_UNORM
+				{conv<u16, tvec1, CONVERT_MODE_NORM>::fetch, conv<u16, tvec1, CONVERT_MODE_NORM>::write},					// FORMAT_L16_UNORM
+				{conv<u16, tvec1, CONVERT_MODE_NORM>::fetch, conv<u16, tvec1, CONVERT_MODE_NORM>::write},					// FORMAT_A16_UNORM
+				{conv<u16, tvec2, CONVERT_MODE_NORM>::fetch, conv<u16, tvec2, CONVERT_MODE_NORM>::write},					// FORMAT_LA16_UNORM
+
+				{conv<u8, tvec4, CONVERT_MODE_NORM>::fetch, conv<u8, tvec4, CONVERT_MODE_NORM>::write},						// FORMAT_BGRX8_UNORM
+				{conv<u8, tvec4, CONVERT_MODE_SRGB>::fetch, conv<u8, tvec4, CONVERT_MODE_SRGB>::write},						// FORMAT_BGRX8_SRGB
+
+				{conv<u8, tvec3, CONVERT_MODE_332UNORM>::fetch, conv<u8, tvec3, CONVERT_MODE_332UNORM>::write}				// FORMAT_RG3B2_UNORM
 			};
 			static_assert(sizeof(Table) / sizeof(Table[0]) == FORMAT_COUNT, "Texel functions need to be updated");
 
