@@ -38,7 +38,7 @@ namespace filter1d
 		gli::vec4 const ColorFill(1.0f, 0.5f, 0.0f, 1.0f);
 		gli::vec4 const ColorBorder(0.0f, 0.5f, 1.0f, 1.0f);
 
-		gli::texture1D Texture(gli::FORMAT_RGBA8_UNORM, gli::texture1D::texelcoord_type(2), 1);
+		gli::texture1D Texture(gli::FORMAT_RGBA8_UNORM_PACK8, gli::texture1D::texelcoord_type(2), 1);
 		Texture.clear(glm::packUnorm<gli::u8>(ColorFill));
 
 		{

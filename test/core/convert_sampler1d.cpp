@@ -276,7 +276,7 @@ namespace rgba8_int
 
 		{
 			gli::u8vec4 const Color(255, 127, 0, 255);
-			gli::texture2D Texture(gli::FORMAT_R8_UINT, gli::texture2D::texelcoord_type(1), 1);
+			gli::texture2D Texture(gli::FORMAT_R8_UINT_PACK8, gli::texture2D::texelcoord_type(1), 1);
 			gli::detail::convertFunc<gli::texture2D, gli::u32, glm::u8, gli::defaultp, gli::tvec1, gli::detail::CONVERT_MODE_CAST, false>::write(Texture, gli::texture2D::texelcoord_type(0), 0, 0, 0, Color);
 			gli::u8vec4 Texel = gli::detail::convertFunc<gli::texture2D, glm::u8, glm::u8, gli::defaultp, gli::tvec1, gli::detail::CONVERT_MODE_CAST, false>::fetch(Texture, gli::texture2D::texelcoord_type(0), 0, 0, 0);
 
@@ -285,7 +285,7 @@ namespace rgba8_int
 
 		{
 			gli::i8vec4 const Color(127, 63, 0,-128);
-			gli::texture2D Texture(gli::FORMAT_R8_SINT, gli::texture2D::texelcoord_type(1), 1);
+			gli::texture2D Texture(gli::FORMAT_R8_SINT_PACK8, gli::texture2D::texelcoord_type(1), 1);
 			gli::detail::convertFunc<gli::texture2D, glm::i32, glm::i8, gli::defaultp, gli::tvec1, gli::detail::CONVERT_MODE_CAST, false>::write(Texture, gli::texture2D::texelcoord_type(0), 0, 0, 0, Color);
 			gli::i8vec4 Texel = gli::detail::convertFunc<gli::texture2D, glm::i8, glm::i8, gli::defaultp, gli::tvec1, gli::detail::CONVERT_MODE_CAST, false>::fetch(Texture, gli::texture2D::texelcoord_type(0), 0, 0, 0);
 
@@ -294,7 +294,7 @@ namespace rgba8_int
 
 		{
 			gli::u8vec4 const Color(255, 127, 0, 255);
-			gli::texture2D Texture(gli::FORMAT_RG8_UINT, gli::texture2D::texelcoord_type(1), 1);
+			gli::texture2D Texture(gli::FORMAT_RG8_UINT_PACK8, gli::texture2D::texelcoord_type(1), 1);
 			gli::detail::convertFunc<gli::texture2D, glm::u8, glm::u8, gli::defaultp, gli::tvec2, gli::detail::CONVERT_MODE_CAST, false>::write(Texture, gli::texture2D::texelcoord_type(0), 0, 0, 0, Color);
 			glm::u8vec4 Texel = gli::detail::convertFunc<gli::texture2D, glm::u8, glm::u8, gli::defaultp, gli::tvec2, gli::detail::CONVERT_MODE_CAST, false>::fetch(Texture, gli::texture2D::texelcoord_type(0), 0, 0, 0);
 
@@ -304,7 +304,7 @@ namespace rgba8_int
 
 		{
 			gli::i8vec4 const Color(127, 63, 0,-128);
-			gli::texture2D Texture(gli::FORMAT_RG8_SINT, gli::texture2D::texelcoord_type(1), 1);
+			gli::texture2D Texture(gli::FORMAT_RG8_SINT_PACK8, gli::texture2D::texelcoord_type(1), 1);
 			gli::detail::convertFunc<gli::texture2D, glm::i8, glm::i8, gli::defaultp, gli::tvec2, gli::detail::CONVERT_MODE_CAST, false>::write(Texture, gli::texture2D::texelcoord_type(0), 0, 0, 0, Color);
 			glm::i8vec4 Texel = gli::detail::convertFunc<gli::texture2D, glm::i8, glm::i8, gli::defaultp, gli::tvec2, gli::detail::CONVERT_MODE_CAST, false>::fetch(Texture, gli::texture2D::texelcoord_type(0), 0, 0, 0);
 
@@ -314,7 +314,7 @@ namespace rgba8_int
 
 		{
 			gli::u8vec4 const Color(255, 127, 0, 255);
-			gli::texture2D Texture(gli::FORMAT_RGB8_UINT, gli::texture2D::texelcoord_type(1), 1);
+			gli::texture2D Texture(gli::FORMAT_RGB8_UINT_PACK8, gli::texture2D::texelcoord_type(1), 1);
 			gli::detail::convertFunc<gli::texture2D, glm::u8, glm::u8, gli::defaultp, gli::tvec3, gli::detail::CONVERT_MODE_CAST, false>::write(Texture, gli::texture2D::texelcoord_type(0), 0, 0, 0, Color);
 			glm::u8vec4 Texel = gli::detail::convertFunc<gli::texture2D, glm::u8, glm::u8, gli::defaultp, gli::tvec3, gli::detail::CONVERT_MODE_CAST, false>::fetch(Texture, gli::texture2D::texelcoord_type(0), 0, 0, 0);
 
@@ -325,7 +325,7 @@ namespace rgba8_int
 
 		{
 			gli::i8vec4 const Color(127, 63, 0,-128);
-			gli::texture2D Texture(gli::FORMAT_RGB8_SINT, gli::texture2D::texelcoord_type(1), 1);
+			gli::texture2D Texture(gli::FORMAT_RGB8_SINT_PACK8, gli::texture2D::texelcoord_type(1), 1);
 			gli::detail::convertFunc<gli::texture2D, glm::i8, glm::i8, gli::defaultp, gli::tvec3, gli::detail::CONVERT_MODE_CAST, false>::write(Texture, gli::texture2D::texelcoord_type(0), 0, 0, 0, Color);
 			glm::i8vec4 Texel = gli::detail::convertFunc<gli::texture2D, glm::i8, glm::i8, gli::defaultp, gli::tvec3, gli::detail::CONVERT_MODE_CAST, false>::fetch(Texture, gli::texture2D::texelcoord_type(0), 0, 0, 0);
 
@@ -336,7 +336,7 @@ namespace rgba8_int
 
 		{
 			gli::u8vec4 const Color(255, 127, 0, 255);
-			gli::texture2D Texture(gli::FORMAT_RGBA8_UINT, gli::texture2D::texelcoord_type(1), 1);
+			gli::texture2D Texture(gli::FORMAT_RGBA8_UINT_PACK8, gli::texture2D::texelcoord_type(1), 1);
 			gli::detail::convertFunc<gli::texture2D, glm::u8, glm::u8, gli::defaultp, gli::tvec4, gli::detail::CONVERT_MODE_CAST, false>::write(Texture, gli::texture2D::texelcoord_type(0), 0, 0, 0, Color);
 			glm::u8vec4 Texel = gli::detail::convertFunc<gli::texture2D, glm::u8, glm::u8, gli::defaultp, gli::tvec4, gli::detail::CONVERT_MODE_CAST, false>::fetch(Texture, gli::texture2D::texelcoord_type(0), 0, 0, 0);
 
@@ -348,7 +348,7 @@ namespace rgba8_int
 
 		{
 			gli::i8vec4 const Color(127, 63, 0,-128);
-			gli::texture2D Texture(gli::FORMAT_RGBA8_SINT, gli::texture2D::texelcoord_type(1), 1);
+			gli::texture2D Texture(gli::FORMAT_RGBA8_SINT_PACK8, gli::texture2D::texelcoord_type(1), 1);
 			gli::detail::convertFunc<gli::texture2D, glm::i8, glm::i8, gli::defaultp, gli::tvec4, gli::detail::CONVERT_MODE_CAST, false>::write(Texture, gli::texture2D::texelcoord_type(0), 0, 0, 0, Color);
 			glm::i8vec4 Texel = gli::detail::convertFunc<gli::texture2D, glm::i8, glm::i8, gli::defaultp, gli::tvec4, gli::detail::CONVERT_MODE_CAST, false>::fetch(Texture, gli::texture2D::texelcoord_type(0), 0, 0, 0);
 
@@ -370,7 +370,7 @@ namespace rgba_16packed
 
 		{
 			gli::vec4 const Color(1.0f, 0.5f, 0.0f, 1.0f);
-			gli::texture2D Texture(gli::FORMAT_RG3B2_UNORM, gli::texture2D::texelcoord_type(1), 1);
+			gli::texture2D Texture(gli::FORMAT_RG3B2_UNORM_PACK8, gli::texture2D::texelcoord_type(1), 1);
 			gli::detail::convertFunc<gli::texture2D, float, glm::u8, gli::defaultp, gli::tvec3, gli::detail::CONVERT_MODE_332UNORM, true>::write(Texture, gli::texture2D::texelcoord_type(0), 0, 0, 0, Color);
 			gli::vec4 Texel = gli::detail::convertFunc<gli::texture2D, float, glm::u8, gli::defaultp, gli::tvec3, gli::detail::CONVERT_MODE_332UNORM, true>::fetch(Texture, gli::texture2D::texelcoord_type(0), 0, 0, 0);
 
@@ -381,7 +381,7 @@ namespace rgba_16packed
 
 		{
 			gli::vec4 const Color(1.0f, 0.5f, 0.0f, 1.0f);
-			gli::texture2D Texture(gli::FORMAT_RG4_UNORM, gli::texture2D::texelcoord_type(1), 1);
+			gli::texture2D Texture(gli::FORMAT_RG4_UNORM_PACK8, gli::texture2D::texelcoord_type(1), 1);
 			gli::detail::convertFunc<gli::texture2D, float, glm::u8, gli::defaultp, gli::tvec2, gli::detail::CONVERT_MODE_44UNORM, true>::write(Texture, gli::texture2D::texelcoord_type(0), 0, 0, 0, Color);
 			gli::vec4 Texel = gli::detail::convertFunc<gli::texture2D, float, glm::u8, gli::defaultp, gli::tvec2, gli::detail::CONVERT_MODE_44UNORM, true>::fetch(Texture, gli::texture2D::texelcoord_type(0), 0, 0, 0);
 
@@ -391,7 +391,7 @@ namespace rgba_16packed
 
 		{
 			gli::vec4 const Color(1.0f, 0.5f, 0.0f, 1.0f);
-			gli::texture2D Texture(gli::FORMAT_RGBA4_UNORM, gli::texture2D::texelcoord_type(1), 1);
+			gli::texture2D Texture(gli::FORMAT_RGBA4_UNORM_PACK16, gli::texture2D::texelcoord_type(1), 1);
 			gli::detail::convertFunc<gli::texture2D, float, glm::u8, gli::defaultp, gli::tvec4, gli::detail::CONVERT_MODE_4444UNORM, true>::write(Texture, gli::texture2D::texelcoord_type(0), 0, 0, 0, Color);
 			gli::vec4 Texel = gli::detail::convertFunc<gli::texture2D, float, glm::u8, gli::defaultp, gli::tvec4, gli::detail::CONVERT_MODE_4444UNORM, true>::fetch(Texture, gli::texture2D::texelcoord_type(0), 0, 0, 0);
 
@@ -403,7 +403,7 @@ namespace rgba_16packed
 
 		{
 			gli::vec4 const Color(1.0f, 0.5f, 0.0f, 1.0f);
-			gli::texture2D Texture(gli::FORMAT_R5G6B5_UNORM, gli::texture2D::texelcoord_type(1), 1);
+			gli::texture2D Texture(gli::FORMAT_R5G6B5_UNORM_PACK16, gli::texture2D::texelcoord_type(1), 1);
 			gli::detail::convertFunc<gli::texture2D, float, glm::u8, gli::defaultp, gli::tvec3, gli::detail::CONVERT_MODE_565UNORM, true>::write(Texture, gli::texture2D::texelcoord_type(0), 0, 0, 0, Color);
 			gli::vec4 Texel = gli::detail::convertFunc<gli::texture2D, float, glm::u8, gli::defaultp, gli::tvec3, gli::detail::CONVERT_MODE_565UNORM, true>::fetch(Texture, gli::texture2D::texelcoord_type(0), 0, 0, 0);
 
@@ -414,7 +414,7 @@ namespace rgba_16packed
 
 		{
 			gli::vec4 const Color(1.0f, 0.5f, 0.0f, 1.0f);
-			gli::texture2D Texture(gli::FORMAT_RGB5A1_UNORM, gli::texture2D::texelcoord_type(1), 1);
+			gli::texture2D Texture(gli::FORMAT_RGB5A1_UNORM_PACK16, gli::texture2D::texelcoord_type(1), 1);
 			gli::detail::convertFunc<gli::texture2D, float, glm::u8, gli::defaultp, gli::tvec4, gli::detail::CONVERT_MODE_5551UNORM, true>::write(Texture, gli::texture2D::texelcoord_type(0), 0, 0, 0, Color);
 			gli::vec4 Texel = gli::detail::convertFunc<gli::texture2D, float, glm::u8, gli::defaultp, gli::tvec4, gli::detail::CONVERT_MODE_5551UNORM, true>::fetch(Texture, gli::texture2D::texelcoord_type(0), 0, 0, 0);
 
@@ -436,7 +436,7 @@ namespace rgba8_norm
 
 		{
 			gli::vec4 const Color(1.0f, 0.5f, 0.0f, 1.0f);
-			gli::texture2D Texture(gli::FORMAT_R8_UNORM, gli::texture2D::texelcoord_type(1), 1);
+			gli::texture2D Texture(gli::FORMAT_R8_UNORM_PACK8, gli::texture2D::texelcoord_type(1), 1);
 			gli::detail::convertFunc<gli::texture2D, float, glm::u8, gli::defaultp, gli::tvec1, gli::detail::CONVERT_MODE_NORM, true>::write(Texture, gli::texture2D::texelcoord_type(0), 0, 0, 0, Color);
 			gli::vec4 Texel = gli::detail::convertFunc<gli::texture2D, float, glm::u8, gli::defaultp, gli::tvec1, gli::detail::CONVERT_MODE_NORM, true>::fetch(Texture, gli::texture2D::texelcoord_type(0), 0, 0, 0);
 
@@ -445,7 +445,7 @@ namespace rgba8_norm
 
 		{
 			gli::vec4 const Color(255.f, 127.f, 0.f, 255.f);
-			gli::texture2D Texture(gli::FORMAT_R8_USCALED, gli::texture2D::texelcoord_type(1), 1);
+			gli::texture2D Texture(gli::FORMAT_R8_USCALED_PACK8, gli::texture2D::texelcoord_type(1), 1);
 			gli::detail::convertFunc<gli::texture2D, float, glm::u8, gli::defaultp, gli::tvec1, gli::detail::CONVERT_MODE_CAST>::write(Texture, gli::texture2D::texelcoord_type(0), 0, 0, 0, Color);
 			gli::vec4 Texel = gli::detail::convertFunc<gli::texture2D, float, glm::u8, gli::defaultp, gli::tvec1, gli::detail::CONVERT_MODE_CAST>::fetch(Texture, gli::texture2D::texelcoord_type(0), 0, 0, 0);
 
@@ -454,7 +454,7 @@ namespace rgba8_norm
 
 		{
 			gli::dvec4 const Color(1.0f, 0.5f, 0.0f, 1.0f);
-			gli::texture2D Texture(gli::FORMAT_R8_UNORM, gli::texture2D::texelcoord_type(1), 1);
+			gli::texture2D Texture(gli::FORMAT_R8_UNORM_PACK8, gli::texture2D::texelcoord_type(1), 1);
 			gli::detail::convertFunc<gli::texture2D, double, glm::u8, gli::defaultp, gli::tvec1, gli::detail::CONVERT_MODE_NORM, true>::write(Texture, gli::texture2D::texelcoord_type(0), 0, 0, 0, Color);
 			gli::dvec4 Texel = gli::detail::convertFunc<gli::texture2D, double, glm::u8, gli::defaultp, gli::tvec1, gli::detail::CONVERT_MODE_NORM, true>::fetch(Texture, gli::texture2D::texelcoord_type(0), 0, 0, 0);
 
@@ -463,7 +463,7 @@ namespace rgba8_norm
 
 		{
 			gli::dvec4 const Color(255.f, 127.f, 0.f, 255.f);
-			gli::texture2D Texture(gli::FORMAT_R8_USCALED, gli::texture2D::texelcoord_type(1), 1);
+			gli::texture2D Texture(gli::FORMAT_R8_USCALED_PACK8, gli::texture2D::texelcoord_type(1), 1);
 			gli::detail::convertFunc<gli::texture2D, double, glm::u8, gli::defaultp, gli::tvec1, gli::detail::CONVERT_MODE_CAST, true>::write(Texture, gli::texture2D::texelcoord_type(0), 0, 0, 0, Color);
 			gli::dvec4 Texel = gli::detail::convertFunc<gli::texture2D, double, glm::u8, gli::defaultp, gli::tvec1, gli::detail::CONVERT_MODE_CAST, true>::fetch(Texture, gli::texture2D::texelcoord_type(0), 0, 0, 0);
 
@@ -472,7 +472,7 @@ namespace rgba8_norm
 
 		{
 			gli::vec4 const Color(1.0f, 0.5f, 0.0f, 1.0f);
-			gli::texture2D Texture(gli::FORMAT_R8_SNORM, gli::texture2D::texelcoord_type(1), 1);
+			gli::texture2D Texture(gli::FORMAT_R8_SNORM_PACK8, gli::texture2D::texelcoord_type(1), 1);
 			gli::detail::convertFunc<gli::texture2D, float, glm::i8, gli::defaultp, gli::tvec1, gli::detail::CONVERT_MODE_NORM, true>::write(Texture, gli::texture2D::texelcoord_type(0), 0, 0, 0, Color);
 			gli::vec4 Texel = gli::detail::convertFunc<gli::texture2D, float, glm::i8, gli::defaultp, gli::tvec1, gli::detail::CONVERT_MODE_NORM, true>::fetch(Texture, gli::texture2D::texelcoord_type(0), 0, 0, 0);
 
@@ -481,7 +481,7 @@ namespace rgba8_norm
 
 		{
 			gli::dvec4 const Color(1.0f, 0.5f, 0.0f, 1.0f);
-			gli::texture2D Texture(gli::FORMAT_R8_SNORM, gli::texture2D::texelcoord_type(1), 1);
+			gli::texture2D Texture(gli::FORMAT_R8_SNORM_PACK8, gli::texture2D::texelcoord_type(1), 1);
 			gli::detail::convertFunc<gli::texture2D, double, glm::i8, gli::defaultp, gli::tvec1, gli::detail::CONVERT_MODE_NORM, true>::write(Texture, gli::texture2D::texelcoord_type(0), 0, 0, 0, Color);
 			gli::dvec4 Texel = gli::detail::convertFunc<gli::texture2D, double, glm::i8, gli::defaultp, gli::tvec1, gli::detail::CONVERT_MODE_NORM, true>::fetch(Texture, gli::texture2D::texelcoord_type(0), 0, 0, 0);
 
@@ -490,7 +490,7 @@ namespace rgba8_norm
 
 		{
 			gli::vec4 const Color(1.0f, 0.5f, 0.0f, 1.0f);
-			gli::texture2D Texture(gli::FORMAT_RG8_UNORM, gli::texture2D::texelcoord_type(1), 1);
+			gli::texture2D Texture(gli::FORMAT_RG8_UNORM_PACK8, gli::texture2D::texelcoord_type(1), 1);
 			gli::detail::convertFunc<gli::texture2D, float, glm::u8, gli::defaultp, gli::tvec2, gli::detail::CONVERT_MODE_NORM, true>::write(Texture, gli::texture2D::texelcoord_type(0), 0, 0, 0, Color);
 			gli::vec4 Texel = gli::detail::convertFunc<gli::texture2D, float, glm::u8, gli::defaultp, gli::tvec2, gli::detail::CONVERT_MODE_NORM, true>::fetch(Texture, gli::texture2D::texelcoord_type(0), 0, 0, 0);
 
@@ -500,7 +500,7 @@ namespace rgba8_norm
 
 		{
 			gli::vec4 const Color(1.0f, 0.5f, 0.0f, 1.0f);
-			gli::texture2D Texture(gli::FORMAT_RG8_SNORM, gli::texture2D::texelcoord_type(1), 1);
+			gli::texture2D Texture(gli::FORMAT_RG8_SNORM_PACK8, gli::texture2D::texelcoord_type(1), 1);
 			gli::detail::convertFunc<gli::texture2D, float, glm::i8, gli::defaultp, gli::tvec2, gli::detail::CONVERT_MODE_NORM, true>::write(Texture, gli::texture2D::texelcoord_type(0), 0, 0, 0, Color);
 			gli::vec4 Texel = gli::detail::convertFunc<gli::texture2D, float, glm::i8, gli::defaultp, gli::tvec2, gli::detail::CONVERT_MODE_NORM, true>::fetch(Texture, gli::texture2D::texelcoord_type(0), 0, 0, 0);
 
@@ -510,7 +510,7 @@ namespace rgba8_norm
 
 		{
 			gli::vec4 const Color(1.0f, 0.5f, 0.0f, 1.0f);
-			gli::texture2D Texture(gli::FORMAT_RGB8_UNORM, gli::texture2D::texelcoord_type(1), 1);
+			gli::texture2D Texture(gli::FORMAT_RGB8_UNORM_PACK8, gli::texture2D::texelcoord_type(1), 1);
 			gli::detail::convertFunc<gli::texture2D, float, glm::u8, gli::defaultp, gli::tvec3, gli::detail::CONVERT_MODE_NORM, true>::write(Texture, gli::texture2D::texelcoord_type(0), 0, 0, 0, Color);
 			gli::vec4 Texel = gli::detail::convertFunc<gli::texture2D, float, glm::u8, gli::defaultp, gli::tvec3, gli::detail::CONVERT_MODE_NORM, true>::fetch(Texture, gli::texture2D::texelcoord_type(0), 0, 0, 0);
 
@@ -521,7 +521,7 @@ namespace rgba8_norm
 
 		{
 			gli::vec4 const Color(1.0f, 0.5f, 0.0f, 1.0f);
-			gli::texture2D Texture(gli::FORMAT_RGB8_SNORM, gli::texture2D::texelcoord_type(1), 1);
+			gli::texture2D Texture(gli::FORMAT_RGB8_SNORM_PACK8, gli::texture2D::texelcoord_type(1), 1);
 			gli::detail::convertFunc<gli::texture2D, float, glm::i8, gli::defaultp, gli::tvec3, gli::detail::CONVERT_MODE_NORM, true>::write(Texture, gli::texture2D::texelcoord_type(0), 0, 0, 0, Color);
 			gli::vec4 Texel = gli::detail::convertFunc<gli::texture2D, float, glm::i8, gli::defaultp, gli::tvec3, gli::detail::CONVERT_MODE_NORM, true>::fetch(Texture, gli::texture2D::texelcoord_type(0), 0, 0, 0);
 
@@ -532,7 +532,7 @@ namespace rgba8_norm
 
 		{
 			gli::vec4 const Color(1.0f, 0.5f, 0.0f, 1.0f);
-			gli::texture2D Texture(gli::FORMAT_RGBA8_UNORM, gli::texture2D::texelcoord_type(1), 1);
+			gli::texture2D Texture(gli::FORMAT_RGBA8_UNORM_PACK8, gli::texture2D::texelcoord_type(1), 1);
 			gli::detail::convertFunc<gli::texture2D, float, glm::u8, gli::defaultp, gli::tvec4, gli::detail::CONVERT_MODE_NORM, true>::write(Texture, gli::texture2D::texelcoord_type(0), 0, 0, 0, Color);
 			gli::vec4 Texel = gli::detail::convertFunc<gli::texture2D, float, glm::u8, gli::defaultp, gli::tvec4, gli::detail::CONVERT_MODE_NORM, true>::fetch(Texture, gli::texture2D::texelcoord_type(0), 0, 0, 0);
 
@@ -544,7 +544,7 @@ namespace rgba8_norm
 
 		{
 			gli::vec4 const Color(1.0f, 0.5f, 0.0f, 1.0f);
-			gli::texture2D Texture(gli::FORMAT_RGBA8_SNORM, gli::texture2D::texelcoord_type(1), 1);
+			gli::texture2D Texture(gli::FORMAT_RGBA8_SNORM_PACK8, gli::texture2D::texelcoord_type(1), 1);
 			gli::detail::convertFunc<gli::texture2D, float, glm::i8, gli::defaultp, gli::tvec4, gli::detail::CONVERT_MODE_NORM, true>::write(Texture, gli::texture2D::texelcoord_type(0), 0, 0, 0, Color);
 			gli::vec4 Texel = gli::detail::convertFunc<gli::texture2D, float, glm::i8, gli::defaultp, gli::tvec4, gli::detail::CONVERT_MODE_NORM, true>::fetch(Texture, gli::texture2D::texelcoord_type(0), 0, 0, 0);
 
@@ -566,7 +566,7 @@ namespace rgba8_srgb
 
 		{
 			gli::vec4 const Color(1.0f, 0.5f, 0.0f, 1.0f);
-			gli::texture2D Texture(gli::FORMAT_R8_SRGB, gli::texture2D::texelcoord_type(1), 1);
+			gli::texture2D Texture(gli::FORMAT_R8_SRGB_PACK8, gli::texture2D::texelcoord_type(1), 1);
 			gli::detail::convertFunc<gli::texture2D, float, glm::u8, gli::defaultp, gli::tvec1, gli::detail::CONVERT_MODE_SRGB, true>::write(Texture, gli::texture2D::texelcoord_type(0), 0, 0, 0, Color);
 			glm::vec4 Texel = gli::detail::convertFunc<gli::texture2D, float, glm::u8, gli::defaultp, gli::tvec1, gli::detail::CONVERT_MODE_SRGB, true>::fetch(Texture, gli::texture2D::texelcoord_type(0), 0, 0, 0);
 
@@ -575,7 +575,7 @@ namespace rgba8_srgb
 
 		{
 			gli::dvec4 const Color(1.0f, 0.5f, 0.0f, 1.0f);
-			gli::texture2D Texture(gli::FORMAT_R8_SRGB, gli::texture2D::texelcoord_type(1), 1);
+			gli::texture2D Texture(gli::FORMAT_R8_SRGB_PACK8, gli::texture2D::texelcoord_type(1), 1);
 			gli::detail::convertFunc<gli::texture2D, double, glm::u8, gli::defaultp, gli::tvec1, gli::detail::CONVERT_MODE_SRGB, true>::write(Texture, gli::texture2D::texelcoord_type(0), 0, 0, 0, Color);
 			glm::dvec4 Texel = gli::detail::convertFunc<gli::texture2D, double, glm::u8, gli::defaultp, gli::tvec1, gli::detail::CONVERT_MODE_SRGB, true>::fetch(Texture, gli::texture2D::texelcoord_type(0), 0, 0, 0);
 
@@ -584,7 +584,7 @@ namespace rgba8_srgb
 
 		{
 			gli::vec4 const Color(1.0f, 0.5f, 0.0f, 1.0f);
-			gli::texture2D Texture(gli::FORMAT_RG8_SRGB, gli::texture2D::texelcoord_type(1), 1);
+			gli::texture2D Texture(gli::FORMAT_RG8_SRGB_PACK8, gli::texture2D::texelcoord_type(1), 1);
 			gli::detail::convertFunc<gli::texture2D, float, glm::u8, gli::defaultp, gli::tvec2, gli::detail::CONVERT_MODE_SRGB, true>::write(Texture, gli::texture2D::texelcoord_type(0), 0, 0, 0, Color);
 			glm::vec4 Texel = gli::detail::convertFunc<gli::texture2D, float, glm::u8, gli::defaultp, gli::tvec2, gli::detail::CONVERT_MODE_SRGB, true>::fetch(Texture, gli::texture2D::texelcoord_type(0), 0, 0, 0);
 
@@ -594,7 +594,7 @@ namespace rgba8_srgb
 
 		{
 			gli::dvec4 const Color(1.0f, 0.5f, 0.0f, 1.0f);
-			gli::texture2D Texture(gli::FORMAT_RG8_SRGB, gli::texture2D::texelcoord_type(1), 1);
+			gli::texture2D Texture(gli::FORMAT_RG8_SRGB_PACK8, gli::texture2D::texelcoord_type(1), 1);
 			gli::detail::convertFunc<gli::texture2D, double, glm::u8, gli::defaultp, gli::tvec2, gli::detail::CONVERT_MODE_SRGB, true>::write(Texture, gli::texture2D::texelcoord_type(0), 0, 0, 0, Color);
 			glm::dvec4 Texel = gli::detail::convertFunc<gli::texture2D, double, glm::u8, gli::defaultp, gli::tvec2, gli::detail::CONVERT_MODE_SRGB, true>::fetch(Texture, gli::texture2D::texelcoord_type(0), 0, 0, 0);
 
@@ -604,7 +604,7 @@ namespace rgba8_srgb
 
 		{
 			gli::vec4 const Color(1.0f, 0.5f, 0.0f, 1.0f);
-			gli::texture2D Texture(gli::FORMAT_RGB8_SRGB, gli::texture2D::texelcoord_type(1), 1);
+			gli::texture2D Texture(gli::FORMAT_RGB8_SRGB_PACK8, gli::texture2D::texelcoord_type(1), 1);
 			gli::detail::convertFunc<gli::texture2D, float, glm::u8, gli::defaultp, gli::tvec3, gli::detail::CONVERT_MODE_SRGB, true>::write(Texture, gli::texture2D::texelcoord_type(0), 0, 0, 0, Color);
 			glm::vec4 Texel = gli::detail::convertFunc<gli::texture2D, float, glm::u8, gli::defaultp, gli::tvec3, gli::detail::CONVERT_MODE_SRGB, true>::fetch(Texture, gli::texture2D::texelcoord_type(0), 0, 0, 0);
 
@@ -615,7 +615,7 @@ namespace rgba8_srgb
 
 		{
 			gli::dvec4 const Color(1.0f, 0.5f, 0.0f, 1.0f);
-			gli::texture2D Texture(gli::FORMAT_RGB8_SRGB, gli::texture2D::texelcoord_type(1), 1);
+			gli::texture2D Texture(gli::FORMAT_RGB8_SRGB_PACK8, gli::texture2D::texelcoord_type(1), 1);
 			gli::detail::convertFunc<gli::texture2D, double, glm::u8, gli::defaultp, gli::tvec3, gli::detail::CONVERT_MODE_SRGB, true>::write(Texture, gli::texture2D::texelcoord_type(0), 0, 0, 0, Color);
 			glm::dvec4 Texel = gli::detail::convertFunc<gli::texture2D, double, glm::u8, gli::defaultp, gli::tvec3, gli::detail::CONVERT_MODE_SRGB, true>::fetch(Texture, gli::texture2D::texelcoord_type(0), 0, 0, 0);
 
@@ -626,7 +626,7 @@ namespace rgba8_srgb
 
 		{
 			gli::vec4 const Color(1.0f, 0.5f, 0.0f, 1.0f);
-			gli::texture2D Texture(gli::FORMAT_RGBA8_SRGB, gli::texture2D::texelcoord_type(1), 1);
+			gli::texture2D Texture(gli::FORMAT_RGBA8_SRGB_PACK8, gli::texture2D::texelcoord_type(1), 1);
 			gli::detail::convertFunc<gli::texture2D, float, glm::u8, gli::defaultp, gli::tvec4, gli::detail::CONVERT_MODE_SRGB, true>::write(Texture, gli::texture2D::texelcoord_type(0), 0, 0, 0, Color);
 			glm::vec4 Texel = gli::detail::convertFunc<gli::texture2D, float, glm::u8, gli::defaultp, gli::tvec4, gli::detail::CONVERT_MODE_SRGB, true>::fetch(Texture, gli::texture2D::texelcoord_type(0), 0, 0, 0);
 
@@ -638,7 +638,7 @@ namespace rgba8_srgb
 
 		{
 			gli::dvec4 const Color(1.0f, 0.5f, 0.0f, 1.0f);
-			gli::texture2D Texture(gli::FORMAT_RGBA8_SRGB, gli::texture2D::texelcoord_type(1), 1);
+			gli::texture2D Texture(gli::FORMAT_RGBA8_SRGB_PACK8, gli::texture2D::texelcoord_type(1), 1);
 			gli::detail::convertFunc<gli::texture2D, double, glm::u8, gli::defaultp, gli::tvec4, gli::detail::CONVERT_MODE_SRGB, true>::write(Texture, gli::texture2D::texelcoord_type(0), 0, 0, 0, Color);
 			glm::dvec4 Texel = gli::detail::convertFunc<gli::texture2D, double, glm::u8, gli::defaultp, gli::tvec4, gli::detail::CONVERT_MODE_SRGB, true>::fetch(Texture, gli::texture2D::texelcoord_type(0), 0, 0, 0);
 
@@ -660,7 +660,7 @@ namespace rgb9e5
 
 		{
 			gli::vec4 const Color(1.0f, 0.5f, 0.0f, 1.0f);
-			gli::texture2D Texture(gli::FORMAT_RGB9E5_UFLOAT, gli::texture2D::texelcoord_type(1), 1);
+			gli::texture2D Texture(gli::FORMAT_RGB9E5_UFLOAT_PACK32, gli::texture2D::texelcoord_type(1), 1);
 			gli::detail::convertFunc<gli::texture2D, float, glm::u8, gli::defaultp, gli::tvec3, gli::detail::CONVERT_MODE_RGB9E5, true>::write(Texture, gli::texture2D::texelcoord_type(0), 0, 0, 0, Color);
 			glm::vec4 Texel = gli::detail::convertFunc<gli::texture2D, float, glm::u8, gli::defaultp, gli::tvec3, gli::detail::CONVERT_MODE_RGB9E5, true>::fetch(Texture, gli::texture2D::texelcoord_type(0), 0, 0, 0);
 
@@ -671,7 +671,7 @@ namespace rgb9e5
 
 		{
 			gli::dvec4 const Color(1.0f, 0.5f, 0.0f, 1.0f);
-			gli::texture2D Texture(gli::FORMAT_RGB9E5_UFLOAT, gli::texture2D::texelcoord_type(1), 1);
+			gli::texture2D Texture(gli::FORMAT_RGB9E5_UFLOAT_PACK32, gli::texture2D::texelcoord_type(1), 1);
 			gli::detail::convertFunc<gli::texture2D, double, glm::u8, gli::defaultp, gli::tvec3, gli::detail::CONVERT_MODE_RGB9E5, true>::write(Texture, gli::texture2D::texelcoord_type(0), 0, 0, 0, Color);
 			glm::dvec4 Texel = gli::detail::convertFunc<gli::texture2D, double, glm::u8, gli::defaultp, gli::tvec3, gli::detail::CONVERT_MODE_RGB9E5, true>::fetch(Texture, gli::texture2D::texelcoord_type(0), 0, 0, 0);
 
@@ -692,7 +692,7 @@ namespace rg11b10f
 
 		{
 			gli::vec4 const Color(1.0f, 0.5f, 0.0f, 1.0f);
-			gli::texture2D Texture(gli::FORMAT_RG11B10_UFLOAT, gli::texture2D::texelcoord_type(1), 1);
+			gli::texture2D Texture(gli::FORMAT_RG11B10_UFLOAT_PACK32, gli::texture2D::texelcoord_type(1), 1);
 			gli::detail::convertFunc<gli::texture2D, float, glm::u32, gli::defaultp, gli::tvec3, gli::detail::CONVERT_MODE_RG11B10F, true>::write(Texture, gli::texture2D::texelcoord_type(0), 0, 0, 0, Color);
 			glm::vec4 Texel = gli::detail::convertFunc<gli::texture2D, float, glm::u32, gli::defaultp, gli::tvec3, gli::detail::CONVERT_MODE_RG11B10F, true>::fetch(Texture, gli::texture2D::texelcoord_type(0), 0, 0, 0);
 
@@ -703,7 +703,7 @@ namespace rg11b10f
 
 		{
 			gli::dvec4 const Color(1.0f, 0.5f, 0.0f, 1.0f);
-			gli::texture2D Texture(gli::FORMAT_RG11B10_UFLOAT, gli::texture2D::texelcoord_type(1), 1);
+			gli::texture2D Texture(gli::FORMAT_RG11B10_UFLOAT_PACK32, gli::texture2D::texelcoord_type(1), 1);
 			gli::detail::convertFunc<gli::texture2D, double, glm::u32, gli::defaultp, gli::tvec3, gli::detail::CONVERT_MODE_RG11B10F, true>::write(Texture, gli::texture2D::texelcoord_type(0), 0, 0, 0, Color);
 			glm::dvec4 Texel = gli::detail::convertFunc<gli::texture2D, double, glm::u32, gli::defaultp, gli::tvec3, gli::detail::CONVERT_MODE_RG11B10F, true>::fetch(Texture, gli::texture2D::texelcoord_type(0), 0, 0, 0);
 
@@ -723,7 +723,7 @@ namespace rgb10a2norm
 		int Error = 0;
 
 		{
-			gli::texture2D Texture(gli::FORMAT_RGB10A2_UNORM, gli::texture2D::texelcoord_type(1), 1);
+			gli::texture2D Texture(gli::FORMAT_RGB10A2_UNORM_PACK32, gli::texture2D::texelcoord_type(1), 1);
 			gli::detail::convertFunc<gli::texture2D, float, glm::u8, gli::defaultp, gli::tvec4, gli::detail::CONVERT_MODE_RGB10A2UNORM, true>::write(Texture, gli::texture2D::texelcoord_type(0), 0, 0, 0, gli::vec4(1.0f, 0.5f, 0.0f, 1.0f));
 			glm::vec4 Texel = gli::detail::convertFunc<gli::texture2D, float, glm::u8, gli::defaultp, gli::tvec4, gli::detail::CONVERT_MODE_RGB10A2UNORM, true>::fetch(Texture, gli::texture2D::texelcoord_type(0), 0, 0, 0);
 
@@ -731,7 +731,7 @@ namespace rgb10a2norm
 		}
 
 		{
-			gli::texture2D Texture(gli::FORMAT_RGB10A2_SNORM, gli::texture2D::texelcoord_type(1), 1);
+			gli::texture2D Texture(gli::FORMAT_RGB10A2_SNORM_PACK32, gli::texture2D::texelcoord_type(1), 1);
 			gli::detail::convertFunc<gli::texture2D, float, glm::i8, gli::defaultp, gli::tvec4, gli::detail::CONVERT_MODE_RGB10A2SNORM, true>::write(Texture, gli::texture2D::texelcoord_type(0), 0, 0, 0, gli::vec4(1.0f, 0.5f, 0.0f, 1.0f));
 			glm::vec4 Texel = gli::detail::convertFunc<gli::texture2D, float, glm::i8, gli::defaultp, gli::tvec4, gli::detail::CONVERT_MODE_RGB10A2SNORM, true>::fetch(Texture, gli::texture2D::texelcoord_type(0), 0, 0, 0);
 
@@ -740,7 +740,7 @@ namespace rgb10a2norm
 
 		{
 			gli::vec4 const Color(1023.f, 511.f, 0.f, 3.0f);
-			gli::texture2D Texture(gli::FORMAT_RGB10A2_USCALED, gli::texture2D::texelcoord_type(1), 1);
+			gli::texture2D Texture(gli::FORMAT_RGB10A2_USCALED_PACK32, gli::texture2D::texelcoord_type(1), 1);
 			gli::detail::convertFunc<gli::texture2D, float, glm::u8, gli::defaultp, gli::tvec4, gli::detail::CONVERT_MODE_RGB10A2USCALE, true>::write(Texture, gli::texture2D::texelcoord_type(0), 0, 0, 0, Color);
 			glm::vec4 Texel = gli::detail::convertFunc<gli::texture2D, float, glm::u8, gli::defaultp, gli::tvec4, gli::detail::CONVERT_MODE_RGB10A2USCALE, true>::fetch(Texture, gli::texture2D::texelcoord_type(0), 0, 0, 0);
 
@@ -749,7 +749,7 @@ namespace rgb10a2norm
 
 		{
 			gli::vec4 const Color(511.f, 255.f, 0.f, 1.0f);
-			gli::texture2D Texture(gli::FORMAT_RGB10A2_SSCALED, gli::texture2D::texelcoord_type(1), 1);
+			gli::texture2D Texture(gli::FORMAT_RGB10A2_SSCALED_PACK32, gli::texture2D::texelcoord_type(1), 1);
 			gli::detail::convertFunc<gli::texture2D, float, glm::i8, gli::defaultp, gli::tvec4, gli::detail::CONVERT_MODE_RGB10A2SSCALE, true>::write(Texture, gli::texture2D::texelcoord_type(0), 0, 0, 0, Color);
 			glm::vec4 Texel = gli::detail::convertFunc<gli::texture2D, float, glm::i8, gli::defaultp, gli::tvec4, gli::detail::CONVERT_MODE_RGB10A2SSCALE, true>::fetch(Texture, gli::texture2D::texelcoord_type(0), 0, 0, 0);
 
@@ -768,7 +768,7 @@ namespace rgb10a2int
 
 		{
 			gli::uvec4 const Color(255, 127, 0, 3);
-			gli::texture2D Texture(gli::FORMAT_RGB10A2_UINT, gli::texture2D::texelcoord_type(1), 1);
+			gli::texture2D Texture(gli::FORMAT_RGB10A2_UINT_PACK32, gli::texture2D::texelcoord_type(1), 1);
 			gli::detail::convertFunc<gli::texture2D, gli::uint, glm::u8, gli::defaultp, gli::tvec4, gli::detail::CONVERT_MODE_RGB10A2UINT, false>::write(Texture, gli::texture2D::texelcoord_type(0), 0, 0, 0, Color);
 			glm::uvec4 Texel = gli::detail::convertFunc<gli::texture2D, gli::uint, glm::u8, gli::defaultp, gli::tvec4, gli::detail::CONVERT_MODE_RGB10A2UINT, false>::fetch(Texture, gli::texture2D::texelcoord_type(0), 0, 0, 0);
 
@@ -777,7 +777,7 @@ namespace rgb10a2int
 
 		{
 			gli::ivec4 const Color(127, 63, 0, 1);
-			gli::texture2D Texture(gli::FORMAT_RGB10A2_SINT, gli::texture2D::texelcoord_type(1), 1);
+			gli::texture2D Texture(gli::FORMAT_RGB10A2_SINT_PACK32, gli::texture2D::texelcoord_type(1), 1);
 			gli::detail::convertFunc<gli::texture2D, gli::sint, glm::u8, gli::defaultp, gli::tvec4, gli::detail::CONVERT_MODE_RGB10A2SINT, false>::write(Texture, gli::texture2D::texelcoord_type(0), 0, 0, 0, Color);
 			glm::ivec4 Texel = gli::detail::convertFunc<gli::texture2D, gli::sint, glm::u8, gli::defaultp, gli::tvec4, gli::detail::CONVERT_MODE_RGB10A2SINT, false>::fetch(Texture, gli::texture2D::texelcoord_type(0), 0, 0, 0);
 

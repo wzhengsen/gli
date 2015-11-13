@@ -40,7 +40,7 @@ namespace load
 	{
 		int Error(0);
 
-		gli::texture1DArray Texture(gli::FORMAT_RGBA8_UNORM, gli::texture1DArray::texelcoord_type(4), 1, 1);
+		gli::texture1DArray Texture(gli::FORMAT_RGBA8_UNORM_PACK8, gli::texture1DArray::texelcoord_type(4), 1, 1);
 		*(Texture.data<glm::u8vec4>() + 0) = glm::u8vec4(255,   0,   0, 255);
 		*(Texture.data<glm::u8vec4>() + 1) = glm::u8vec4(255, 128,   0, 255);
 		*(Texture.data<glm::u8vec4>() + 2) = glm::u8vec4(255, 255,   0, 255);
@@ -67,7 +67,7 @@ namespace texture_lod
 		int Error = 0;
 
 		{
-			gli::texture1DArray Texture(gli::FORMAT_RGBA8_UNORM, gli::texture1DArray::texelcoord_type(8), 1, 1);
+			gli::texture1DArray Texture(gli::FORMAT_RGBA8_UNORM_PACK8, gli::texture1DArray::texelcoord_type(8), 1, 1);
 			Texture.clear(gli::u8vec4(0, 127, 255, 255));
 			Texture.store(gli::texture1DArray::texelcoord_type(0), 0, 0, gli::u8vec4(255, 127,   0, 255));
 			Texture.store(gli::texture1DArray::texelcoord_type(1), 0, 0, gli::u8vec4(255, 127,   0, 255));
@@ -94,17 +94,17 @@ namespace sampler_type
 		int Error = 0;
 
 		{
-			gli::texture1DArray Texture(gli::FORMAT_RGBA8_UNORM, gli::texture1DArray::texelcoord_type(4), 1, 1);
+			gli::texture1DArray Texture(gli::FORMAT_RGBA8_UNORM_PACK8, gli::texture1DArray::texelcoord_type(4), 1, 1);
 			gli::fsampler1DArray Sampler(Texture, gli::WRAP_CLAMP_TO_EDGE, gli::FILTER_LINEAR, gli::FILTER_LINEAR);
 		}
 
 		{
-			gli::texture1DArray Texture(gli::FORMAT_RGBA8_UNORM, gli::texture1DArray::texelcoord_type(4), 1, 1);
+			gli::texture1DArray Texture(gli::FORMAT_RGBA8_UNORM_PACK8, gli::texture1DArray::texelcoord_type(4), 1, 1);
 			gli::dsampler1DArray Sampler(Texture, gli::WRAP_CLAMP_TO_EDGE, gli::FILTER_LINEAR, gli::FILTER_LINEAR);
 		}
 
 		{
-			gli::texture1DArray Texture(gli::FORMAT_RGBA8_UINT, gli::texture1DArray::texelcoord_type(4), 1, 1);
+			gli::texture1DArray Texture(gli::FORMAT_RGBA8_UINT_PACK8, gli::texture1DArray::texelcoord_type(4), 1, 1);
 			gli::isampler1DArray Sampler(Texture, gli::WRAP_CLAMP_TO_EDGE, gli::FILTER_NEAREST, gli::FILTER_NEAREST);
 		}
 		

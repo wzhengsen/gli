@@ -139,32 +139,32 @@ int main()
 			glm::vec4(1.0f, 0.5f, 0.0f, 1.0f),
 			Sizes[SizeIndex], Filters[FilterIndex]);
 
-		Error += generate_mipmaps::test(gli::FORMAT_RGBA4_UNORM,
+		Error += generate_mipmaps::test(gli::FORMAT_RGBA4_UNORM_PACK16,
 			gli::packUnorm4x4(glm::vec4(0.0f, 0.0f, 0.0f, 0.0f)),
 			gli::packUnorm4x4(glm::vec4(1.0f, 0.5f, 0.0f, 1.0f)),
 			Sizes[SizeIndex], Filters[FilterIndex]);
 
-		Error += generate_mipmaps::test(gli::FORMAT_RGBA8_UNORM,
+		Error += generate_mipmaps::test(gli::FORMAT_RGBA8_UNORM_PACK8,
 			glm::u8vec4(0, 0, 0, 0),
 			glm::u8vec4(255, 127, 0, 255),
 			Sizes[SizeIndex], Filters[FilterIndex]);
 
-		Error += generate_mipmaps::test(gli::FORMAT_RGBA8_SNORM,
+		Error += generate_mipmaps::test(gli::FORMAT_RGBA8_SNORM_PACK8,
 			glm::i8vec4(0, 0, 0, 0),
 			glm::i8vec4(127, 63, 0, 1),
 			Sizes[SizeIndex], Filters[FilterIndex]);
 
-		Error += generate_mipmaps::test(gli::FORMAT_RGB10A2_UNORM,
+		Error += generate_mipmaps::test(gli::FORMAT_RGB10A2_UNORM_PACK32,
 			gli::packUnorm3x10_1x2(glm::vec4(0.0f, 0.0f, 0.0f, 0.0f)),
 			gli::packUnorm3x10_1x2(glm::vec4(1.0f, 0.5f, 0.0f, 1.0f)),
 			Sizes[SizeIndex], Filters[FilterIndex]);
 
-		Error += generate_mipmaps::test(gli::FORMAT_RGB10A2_SNORM,
+		Error += generate_mipmaps::test(gli::FORMAT_RGB10A2_SNORM_PACK32,
 			gli::packSnorm3x10_1x2(glm::vec4(0.0f, 0.0f, 0.0f, 0.0f)),
 			gli::packSnorm3x10_1x2(glm::vec4(1.0f, 0.5f, 0.0f, 1.0f)),
 			Sizes[SizeIndex], Filters[FilterIndex]);
 
-		Error += generate_mipmaps::test(gli::FORMAT_RGB9E5_UFLOAT,
+		Error += generate_mipmaps::test(gli::FORMAT_RGB9E5_UFLOAT_PACK32,
 			gli::packF3x9_E1x5(glm::vec3(0.0f, 0.0f, 0.0f)),
 			gli::packF3x9_E1x5(glm::vec3(1.0f, 0.5f, 0.0f)),
 			Sizes[SizeIndex], Filters[FilterIndex]);

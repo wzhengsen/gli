@@ -38,7 +38,7 @@ namespace rgba8unorm
 
 		glm::vec4 const Orange(1.0f, 0.5f, 0.0f, 1.0f);
 
-		gli::texture2D Texture(gli::FORMAT_RGBA8_UNORM, gli::texture2D::texelcoord_type(32), 1);
+		gli::texture2D Texture(gli::FORMAT_RGBA8_UNORM_PACK8, gli::texture2D::texelcoord_type(32), 1);
 		gli::fsampler2D Sampler(Texture, gli::WRAP_CLAMP_TO_EDGE, gli::FILTER_LINEAR, gli::FILTER_LINEAR);
 		Sampler.clear(Orange);
 

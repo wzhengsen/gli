@@ -33,11 +33,11 @@ int test_image_ctor()
 {
 	int Error(0);
 
-	gli::image ImageA(gli::FORMAT_RGBA8_UINT, gli::image::texelcoord_type(4, 4, 1));
-	gli::image ImageB(gli::FORMAT_RGBA8_UINT, gli::image::texelcoord_type(4, 4, 1));
+	gli::image ImageA(gli::FORMAT_RGBA8_UINT_PACK8, gli::image::texelcoord_type(4, 4, 1));
+	gli::image ImageB(gli::FORMAT_RGBA8_UINT_PACK8, gli::image::texelcoord_type(4, 4, 1));
 	gli::image ImageC = ImageA;
-	gli::image ImageD(ImageA, gli::FORMAT_RGBA8_UNORM);
-	gli::image ImageE(ImageD, gli::FORMAT_RGBA8_UNORM);
+	gli::image ImageD(ImageA, gli::FORMAT_RGBA8_UNORM_PACK8);
+	gli::image ImageE(ImageD, gli::FORMAT_RGBA8_UNORM_PACK8);
 
 	Error += ImageA == ImageB ? 0 : 1;
 	Error += ImageC == ImageB ? 0 : 1;
@@ -54,7 +54,7 @@ int test_image_data()
 	Error += ImageA.empty() ? 0 : 1;
 	assert(!Error);
 
-	gli::image ImageB(gli::FORMAT_RGBA8_UNORM, gli::image::texelcoord_type(1, 1, 1));
+	gli::image ImageB(gli::FORMAT_RGBA8_UNORM_PACK8, gli::image::texelcoord_type(1, 1, 1));
 	Error += ImageB.size() == sizeof(glm::u8vec4) ? 0 : 1;
 
 	*ImageB.data<glm::u8vec4>() = glm::u8vec4(255, 127, 0, 255);
@@ -68,7 +68,7 @@ int test_image_query()
 {
 	int Error(0);
 
-	gli::image Image(gli::FORMAT_RGBA8_UINT, gli::image::texelcoord_type(1, 1, 1));
+	gli::image Image(gli::FORMAT_RGBA8_UINT_PACK8, gli::image::texelcoord_type(1, 1, 1));
 
 	Error += Image.size() == sizeof(glm::u8vec4) ? 0 : 1;
 	Error += !Image.empty() ? 0 : 1;
@@ -85,7 +85,7 @@ namespace fetch
 	{
 		int Error(0);
 
-		gli::image Image(gli::FORMAT_RGBA8_UINT, gli::image::texelcoord_type(4, 2, 1));
+		gli::image Image(gli::FORMAT_RGBA8_UINT_PACK8, gli::image::texelcoord_type(4, 2, 1));
 		*(Image.data<glm::u8vec4>() + 0) = glm::u8vec4(255,   0,   0, 255);
 		*(Image.data<glm::u8vec4>() + 1) = glm::u8vec4(255, 128,   0, 255);
 		*(Image.data<glm::u8vec4>() + 2) = glm::u8vec4(255, 255,   0, 255);

@@ -418,15 +418,15 @@ int main()
 	int Error(0);
 
 	std::vector<gli::format> FormatsA;
-	FormatsA.push_back(gli::FORMAT_RGBA8_UNORM);
-	FormatsA.push_back(gli::FORMAT_RGB8_UNORM);
+	FormatsA.push_back(gli::FORMAT_RGBA8_UNORM_PACK8);
+	FormatsA.push_back(gli::FORMAT_RGB8_UNORM_PACK8);
 	FormatsA.push_back(gli::FORMAT_RGB_DXT1_UNORM);
 	FormatsA.push_back(gli::FORMAT_RGBA_BP_UNORM);
 	FormatsA.push_back(gli::FORMAT_RGBA32_SFLOAT);
 
 	std::vector<gli::format> FormatsB;
-	FormatsB.push_back(gli::FORMAT_RGBA8_UNORM);
-	FormatsB.push_back(gli::FORMAT_RGB8_UNORM);
+	FormatsB.push_back(gli::FORMAT_RGBA8_UNORM_PACK8);
+	FormatsB.push_back(gli::FORMAT_RGB8_UNORM_PACK8);
 	FormatsB.push_back(gli::FORMAT_RGBA32_SFLOAT);
 
 	std::size_t const TextureSize = 32;

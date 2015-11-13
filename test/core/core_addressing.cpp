@@ -57,7 +57,7 @@ namespace layers
 		int Error(0);
 
 		std::vector<test> Tests;
-		Tests.push_back(test(gli::storage::texelcoord_type(4, 4, 1), gli::FORMAT_RGBA8_UINT, 64, 128));
+		Tests.push_back(test(gli::storage::texelcoord_type(4, 4, 1), gli::FORMAT_RGBA8_UINT_PACK8, 64, 128));
 		Tests.push_back(test(gli::storage::texelcoord_type(4, 4, 1), gli::FORMAT_RGB16_SFLOAT, 96, 192));
 		Tests.push_back(test(gli::storage::texelcoord_type(4, 4, 1), gli::FORMAT_RGBA32_SFLOAT, 256, 512));
 		Tests.push_back(test(gli::storage::texelcoord_type(4, 4, 1), gli::FORMAT_RGBA_DXT1_UNORM, 8, 16));
@@ -112,10 +112,10 @@ namespace faces
 		int Error(0);
 
 		std::vector<test> Tests;
-		Tests.push_back(test(gli::FORMAT_RGBA8_UINT, 0, 0, 340));
-		Tests.push_back(test(gli::FORMAT_RGBA8_UINT, 1, 256, 340));
-		Tests.push_back(test(gli::FORMAT_R8_UINT, 1, 64, 85));
-		Tests.push_back(test(gli::FORMAT_RGBA8_UINT, 3, 336, 340));
+		Tests.push_back(test(gli::FORMAT_RGBA8_UINT_PACK8, 0, 0, 340));
+		Tests.push_back(test(gli::FORMAT_RGBA8_UINT_PACK8, 1, 256, 340));
+		Tests.push_back(test(gli::FORMAT_R8_UINT_PACK8, 1, 64, 85));
+		Tests.push_back(test(gli::FORMAT_RGBA8_UINT_PACK8, 3, 336, 340));
 		Tests.push_back(test(gli::FORMAT_RGBA32_SFLOAT, 0, 0, 1360));
 		Tests.push_back(test(gli::FORMAT_RGBA32_SFLOAT, 1, 1024, 1360));
 		Tests.push_back(test(gli::FORMAT_RGB_DXT1_UNORM, 0, 0, 56));
@@ -164,9 +164,9 @@ namespace levels
 		int Error(0);
 
 		std::vector<test> Tests;
-		Tests.push_back(test(gli::FORMAT_RGBA8_UINT, 0, 0, 340));
-		Tests.push_back(test(gli::FORMAT_RGBA8_UINT, 1, 256, 340));
-		Tests.push_back(test(gli::FORMAT_RGBA8_UINT, 3, 336, 340));
+		Tests.push_back(test(gli::FORMAT_RGBA8_UINT_PACK8, 0, 0, 340));
+		Tests.push_back(test(gli::FORMAT_RGBA8_UINT_PACK8, 1, 256, 340));
+		Tests.push_back(test(gli::FORMAT_RGBA8_UINT_PACK8, 3, 336, 340));
 		Tests.push_back(test(gli::FORMAT_RGBA32_SFLOAT, 0, 0, 1360));
 		Tests.push_back(test(gli::FORMAT_RGBA32_SFLOAT, 1, 1024, 1360));
 		Tests.push_back(test(gli::FORMAT_RGB_DXT1_UNORM, 0, 0, 56));

@@ -33,7 +33,7 @@ int test_storage_layer_size()
 	int Error(0);
 
 	gli::storage Storage(
-		gli::FORMAT_RGBA8_UNORM,
+		gli::FORMAT_RGBA8_UNORM_PACK8,
 		gli::storage::texelcoord_type(2, 2, 1),
 		2, 1, 1);
 
@@ -59,7 +59,7 @@ int test_storage_face_size()
 	int Error(0);
 
 	gli::storage Storage(
-		gli::FORMAT_RGBA8_UNORM,
+		gli::FORMAT_RGBA8_UNORM_PACK8,
 		gli::storage::texelcoord_type(2, 2, 1),
 		1, 6, 1);
 

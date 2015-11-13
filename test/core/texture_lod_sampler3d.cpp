@@ -40,7 +40,7 @@ namespace load
 	{
 		int Error(0);
 
-		gli::texture3D Texture(gli::FORMAT_RGBA8_UNORM, gli::texture3D::texelcoord_type(2), 1);
+		gli::texture3D Texture(gli::FORMAT_RGBA8_UNORM_PACK8, gli::texture3D::texelcoord_type(2), 1);
 		*(Texture.data<glm::u8vec4>() + 0) = glm::u8vec4(255,   0,   0, 255);
 		*(Texture.data<glm::u8vec4>() + 1) = glm::u8vec4(255, 128,   0, 255);
 		*(Texture.data<glm::u8vec4>() + 2) = glm::u8vec4(255, 255,   0, 255);
@@ -79,7 +79,7 @@ namespace texture_lod
 		int Error = 0;
 
 		{
-			gli::texture3D Texture(gli::FORMAT_RGBA8_UNORM, gli::texture3D::texelcoord_type(2), 1);
+			gli::texture3D Texture(gli::FORMAT_RGBA8_UNORM_PACK8, gli::texture3D::texelcoord_type(2), 1);
 			Texture.clear(gli::u8vec4(255, 127,   0, 255));
 
 			gli::fsampler3D Sampler(Texture, gli::WRAP_CLAMP_TO_EDGE, gli::FILTER_LINEAR, gli::FILTER_LINEAR);
@@ -102,17 +102,17 @@ namespace sampler_type
 		int Error = 0;
 
 		{
-			gli::texture3D Texture(gli::FORMAT_RGBA8_UNORM, gli::texture3D::texelcoord_type(4), 1);
+			gli::texture3D Texture(gli::FORMAT_RGBA8_UNORM_PACK8, gli::texture3D::texelcoord_type(4), 1);
 			gli::sampler3D<float> Sampler(Texture, gli::WRAP_CLAMP_TO_EDGE, gli::FILTER_LINEAR, gli::FILTER_LINEAR);
 		}
 
 		{
-			gli::texture3D Texture(gli::FORMAT_RGBA8_UNORM, gli::texture3D::texelcoord_type(4), 1);
+			gli::texture3D Texture(gli::FORMAT_RGBA8_UNORM_PACK8, gli::texture3D::texelcoord_type(4), 1);
 			gli::sampler3D<double> Sampler(Texture, gli::WRAP_CLAMP_TO_EDGE, gli::FILTER_LINEAR, gli::FILTER_LINEAR);
 		}
 
 		{
-			gli::texture3D Texture(gli::FORMAT_RGBA8_UINT, gli::texture3D::texelcoord_type(4), 1);
+			gli::texture3D Texture(gli::FORMAT_RGBA8_UINT_PACK8, gli::texture3D::texelcoord_type(4), 1);
 			gli::sampler3D<int> Sampler(Texture, gli::WRAP_CLAMP_TO_EDGE, gli::FILTER_NEAREST, gli::FILTER_NEAREST);
 		}
 		
