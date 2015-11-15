@@ -128,9 +128,9 @@ namespace clear
 
 		for(std::size_t i = 0; i < Sizes.size(); ++i)
 		{
-			//Error += test_texture<gli::texture1D>(gli::texture1D::dim_type(Sizes[i]), gli::FORMAT_RGB_DXT1_UNORM, ColorDXT1);
-			Error += test_texture<gli::texture2D>(gli::texture2D::texelcoord_type(Sizes[i]), gli::FORMAT_RGB_DXT1_UNORM, ColorDXT1);
-			Error += test_texture<gli::texture3D>(gli::texture3D::texelcoord_type(Sizes[i]), gli::FORMAT_RGB_DXT1_UNORM, ColorDXT1);
+			//Error += test_texture<gli::texture1D>(gli::texture1D::dim_type(Sizes[i]), gli::FORMAT_RGB_DXT1_UNORM_BLOCK8, ColorDXT1);
+			Error += test_texture<gli::texture2D>(gli::texture2D::texelcoord_type(Sizes[i]), gli::FORMAT_RGB_DXT1_UNORM_BLOCK8, ColorDXT1);
+			Error += test_texture<gli::texture3D>(gli::texture3D::texelcoord_type(Sizes[i]), gli::FORMAT_RGB_DXT1_UNORM_BLOCK8, ColorDXT1);
 			Error += test_texture<gli::texture1D>(gli::texture1D::texelcoord_type(Sizes[i]), gli::FORMAT_R8_UNORM_PACK8, ColorR8_UNORM);
 			Error += test_texture<gli::texture2D>(gli::texture2D::texelcoord_type(Sizes[i]), gli::FORMAT_R8_UNORM_PACK8, ColorR8_UNORM);
 			Error += test_texture<gli::texture3D>(gli::texture3D::texelcoord_type(Sizes[i]), gli::FORMAT_R8_UNORM_PACK8, ColorR8_UNORM);
@@ -140,9 +140,9 @@ namespace clear
 			Error += test_texture<gli::texture1D>(gli::texture1D::texelcoord_type(Sizes[i]), gli::FORMAT_RGBA8_UNORM_PACK8, ColorRGBA8_UNORM);
 			Error += test_texture<gli::texture2D>(gli::texture2D::texelcoord_type(Sizes[i]), gli::FORMAT_RGBA8_UNORM_PACK8, ColorRGBA8_UNORM);
 			Error += test_texture<gli::texture3D>(gli::texture3D::texelcoord_type(Sizes[i]), gli::FORMAT_RGBA8_UNORM_PACK8, ColorRGBA8_UNORM);
-			Error += test_texture<gli::texture1D>(gli::texture1D::texelcoord_type(Sizes[i]), gli::FORMAT_RGBA32_SFLOAT, ColorRGBA32F);
-			Error += test_texture<gli::texture2D>(gli::texture2D::texelcoord_type(Sizes[i]), gli::FORMAT_RGBA32_SFLOAT, ColorRGBA32F);
-			Error += test_texture<gli::texture3D>(gli::texture3D::texelcoord_type(Sizes[i]), gli::FORMAT_RGBA32_SFLOAT, ColorRGBA32F);
+			Error += test_texture<gli::texture1D>(gli::texture1D::texelcoord_type(Sizes[i]), gli::FORMAT_RGBA32_SFLOAT_PACK32, ColorRGBA32F);
+			Error += test_texture<gli::texture2D>(gli::texture2D::texelcoord_type(Sizes[i]), gli::FORMAT_RGBA32_SFLOAT_PACK32, ColorRGBA32F);
+			Error += test_texture<gli::texture3D>(gli::texture3D::texelcoord_type(Sizes[i]), gli::FORMAT_RGBA32_SFLOAT_PACK32, ColorRGBA32F);
 		}
 
 		return Error;

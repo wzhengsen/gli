@@ -58,7 +58,7 @@ namespace rgba16sf
 		{
 			typedef gli::detail::convertFunc<gli::texture2DArray, float, gli::u16, gli::defaultp, gli::tvec1, gli::detail::CONVERT_MODE_HALF, true> convert;
 
-			gli::texture2DArray Texture(gli::FORMAT_R16_SFLOAT, gli::texture2D::texelcoord_type(1), 1, 1);
+			gli::texture2DArray Texture(gli::FORMAT_R16_SFLOAT_PACK16, gli::texture2D::texelcoord_type(1), 1, 1);
 			convert::write(Texture, gli::texture2D::texelcoord_type(0), 0, 0, 0, Color);
 			gli::vec4 Texel = convert::fetch(Texture, gli::texture2D::texelcoord_type(0), 0, 0, 0);
 
@@ -68,7 +68,7 @@ namespace rgba16sf
 		{
 			typedef gli::detail::convertFunc<gli::texture2DArray, float, gli::u16, gli::defaultp, gli::tvec2, gli::detail::CONVERT_MODE_HALF, true> convert;
 
-			gli::texture2DArray Texture(gli::FORMAT_RG16_SFLOAT, gli::texture2DArray::texelcoord_type(1), 1, 1);
+			gli::texture2DArray Texture(gli::FORMAT_RG16_SFLOAT_PACK16, gli::texture2DArray::texelcoord_type(1), 1, 1);
 			convert::write(Texture, gli::texture2DArray::texelcoord_type(0), 0, 0, 0, Color);
 			gli::vec4 Texel = convert::fetch(Texture, gli::texture2DArray::texelcoord_type(0), 0, 0, 0);
 
@@ -78,7 +78,7 @@ namespace rgba16sf
 		{
 			typedef gli::detail::convertFunc<gli::texture2DArray, float, gli::u16, gli::defaultp, gli::tvec3, gli::detail::CONVERT_MODE_HALF, true> convert;
 
-			gli::texture2DArray Texture(gli::FORMAT_RGB16_SFLOAT, gli::texture2D::texelcoord_type(1), 1, 1);
+			gli::texture2DArray Texture(gli::FORMAT_RGB16_SFLOAT_PACK16, gli::texture2D::texelcoord_type(1), 1, 1);
 			convert::write(Texture, gli::texture2D::texelcoord_type(0), 0, 0, 0, Color);
 			gli::vec4 Texel = convert::fetch(Texture, gli::texture2D::texelcoord_type(0), 0, 0, 0);
 
@@ -88,7 +88,7 @@ namespace rgba16sf
 		{
 			typedef gli::detail::convertFunc<gli::texture2DArray, float, gli::u16, gli::defaultp, gli::tvec4, gli::detail::CONVERT_MODE_HALF, true> convert;
 
-			gli::texture2DArray Texture(gli::FORMAT_RGBA16_SFLOAT, gli::texture2DArray::texelcoord_type(1), 1, 1);
+			gli::texture2DArray Texture(gli::FORMAT_RGBA16_SFLOAT_PACK16, gli::texture2DArray::texelcoord_type(1), 1, 1);
 			convert::write(Texture, gli::texture2DArray::texelcoord_type(0), 0, 0, 0, Color);
 			gli::vec4 Texel = convert::fetch(Texture, gli::texture2DArray::texelcoord_type(0), 0, 0, 0);
 
@@ -109,7 +109,7 @@ namespace rgba32sf
 			typedef gli::detail::convertFunc<gli::texture2DArray, float, float, gli::defaultp, gli::tvec1, gli::detail::CONVERT_MODE_CAST, true> convert;
 
 			gli::vec4 const Color(1.0f, 0.0f, 0.0f, 1.0f);
-			gli::texture2DArray Texture(gli::FORMAT_R32_SFLOAT, gli::texture2DArray::texelcoord_type(1), 1, 1);
+			gli::texture2DArray Texture(gli::FORMAT_R32_SFLOAT_PACK32, gli::texture2DArray::texelcoord_type(1), 1, 1);
 			convert::write(Texture, gli::texture2DArray::texelcoord_type(0), 0, 0, 0, Color);
 			gli::vec4 Texel = convert::fetch(Texture, gli::texture2DArray::texelcoord_type(0), 0, 0, 0);
 
@@ -120,7 +120,7 @@ namespace rgba32sf
 			typedef gli::detail::convertFunc<gli::texture2DArray, double, float, gli::defaultp, gli::tvec1, gli::detail::CONVERT_MODE_CAST, true> convert;
 
 			gli::dvec4 const Color(1.0f, 0.0f, 0.0f, 1.0f);
-			gli::texture2DArray Texture(gli::FORMAT_R32_SFLOAT, gli::texture2DArray::texelcoord_type(1), 1, 1);
+			gli::texture2DArray Texture(gli::FORMAT_R32_SFLOAT_PACK32, gli::texture2DArray::texelcoord_type(1), 1, 1);
 			convert::write(Texture, gli::texture2DArray::texelcoord_type(0), 0, 0, 0, Color);
 			gli::dvec4 Texel = convert::fetch(Texture, gli::texture2DArray::texelcoord_type(0), 0, 0, 0);
 
@@ -131,7 +131,7 @@ namespace rgba32sf
 			typedef gli::detail::convertFunc<gli::texture2DArray, float, float, gli::defaultp, gli::tvec2, gli::detail::CONVERT_MODE_CAST, true> convert;
 
 			gli::vec4 const Color(1.0f, 0.5f, 0.0f, 1.0f);
-			gli::texture2DArray Texture(gli::FORMAT_RG32_SFLOAT, gli::texture2DArray::texelcoord_type(1), 1);
+			gli::texture2DArray Texture(gli::FORMAT_RG32_SFLOAT_PACK32, gli::texture2DArray::texelcoord_type(1), 1);
 			convert::write(Texture, gli::texture2DArray::texelcoord_type(0), 0, 0, 0, Color);
 			gli::vec4 Texel = convert::fetch(Texture, gli::texture2DArray::texelcoord_type(0), 0, 0, 0);
 
@@ -142,7 +142,7 @@ namespace rgba32sf
 			typedef gli::detail::convertFunc<gli::texture2DArray, double, float, gli::defaultp, gli::tvec2, gli::detail::CONVERT_MODE_CAST, true> convert;
 
 			gli::dvec4 const Color(1.0f, 0.5f, 0.0f, 1.0f);
-			gli::texture2DArray Texture(gli::FORMAT_RG32_SFLOAT, gli::texture2DArray::texelcoord_type(1), 1, 1);
+			gli::texture2DArray Texture(gli::FORMAT_RG32_SFLOAT_PACK32, gli::texture2DArray::texelcoord_type(1), 1, 1);
 			convert::write(Texture, gli::texture2DArray::texelcoord_type(0), 0, 0, 0, Color);
 			gli::dvec4 Texel = convert::fetch(Texture, gli::texture2DArray::texelcoord_type(0), 0, 0, 0);
 
@@ -153,7 +153,7 @@ namespace rgba32sf
 			typedef gli::detail::convertFunc<gli::texture2DArray, float, float, gli::defaultp, gli::tvec3, gli::detail::CONVERT_MODE_CAST, true> convert;
 
 			gli::vec4 const Color(1.0f, 0.5f, 0.0f, 1.0f);
-			gli::texture2DArray Texture(gli::FORMAT_RGB32_SFLOAT, gli::texture2D::texelcoord_type(1), 1, 1);
+			gli::texture2DArray Texture(gli::FORMAT_RGB32_SFLOAT_PACK32, gli::texture2D::texelcoord_type(1), 1, 1);
 			convert::write(Texture, gli::texture2DArray::texelcoord_type(0), 0, 0, 0, Color);
 			gli::vec4 Texel = convert::fetch(Texture, gli::texture2DArray::texelcoord_type(0), 0, 0, 0);
 
@@ -164,7 +164,7 @@ namespace rgba32sf
 			typedef gli::detail::convertFunc<gli::texture2DArray, double, float, gli::defaultp, gli::tvec3, gli::detail::CONVERT_MODE_CAST, true> convert;
 
 			gli::dvec4 const Color(1.0f, 0.5f, 0.0f, 1.0f);
-			gli::texture2DArray Texture(gli::FORMAT_RGB32_SFLOAT, gli::texture2DArray::texelcoord_type(1), 1, 1);
+			gli::texture2DArray Texture(gli::FORMAT_RGB32_SFLOAT_PACK32, gli::texture2DArray::texelcoord_type(1), 1, 1);
 			convert::write(Texture, gli::texture2DArray::texelcoord_type(0), 0, 0, 0, Color);
 			gli::dvec4 Texel = convert::fetch(Texture, gli::texture2DArray::texelcoord_type(0), 0, 0, 0);
 
@@ -175,7 +175,7 @@ namespace rgba32sf
 			typedef gli::detail::convertFunc<gli::texture2DArray, float, float, gli::defaultp, gli::tvec4, gli::detail::CONVERT_MODE_CAST, true> convert;
 
 			gli::vec4 const Color(1.0f, 0.5f, 0.0f, 1.0f);
-			gli::texture2DArray Texture(gli::FORMAT_RGBA32_SFLOAT, gli::texture2DArray::texelcoord_type(1), 1, 1);
+			gli::texture2DArray Texture(gli::FORMAT_RGBA32_SFLOAT_PACK32, gli::texture2DArray::texelcoord_type(1), 1, 1);
 			convert::write(Texture, gli::texture2DArray::texelcoord_type(0), 0, 0, 0, Color);
 			gli::vec4 Texel = convert::fetch(Texture, gli::texture2DArray::texelcoord_type(0), 0, 0, 0);
 
@@ -186,7 +186,7 @@ namespace rgba32sf
 			typedef gli::detail::convertFunc<gli::texture2DArray, double, float, gli::defaultp, gli::tvec4, gli::detail::CONVERT_MODE_CAST, true> convert;
 
 			gli::dvec4 const Color(1.0f, 0.5f, 0.0f, 1.0f);
-			gli::texture2DArray Texture(gli::FORMAT_RGBA32_SFLOAT, gli::texture2DArray::texelcoord_type(1), 1, 1);
+			gli::texture2DArray Texture(gli::FORMAT_RGBA32_SFLOAT_PACK32, gli::texture2DArray::texelcoord_type(1), 1, 1);
 			convert::write(Texture, gli::texture2DArray::texelcoord_type(0), 0, 0, 0, Color);
 			gli::dvec4 Texel = convert::fetch(Texture, gli::texture2DArray::texelcoord_type(0), 0, 0, 0);
 
@@ -210,7 +210,7 @@ namespace rgba64sf
 			typedef gli::detail::convertFunc<gli::texture2DArray, float, double, gli::defaultp, gli::tvec1, gli::detail::CONVERT_MODE_CAST, true> convert;
 
 			gli::vec4 const Color(1.0f, 0.0f, 0.0f, 1.0f);
-			gli::texture2DArray Texture(gli::FORMAT_R64_SFLOAT, gli::texture2DArray::texelcoord_type(1), 1, 1);
+			gli::texture2DArray Texture(gli::FORMAT_R64_SFLOAT_PACK64, gli::texture2DArray::texelcoord_type(1), 1, 1);
 			convert::write(Texture, gli::texture2DArray::texelcoord_type(0), 0, 0, 0, Color);
 			gli::vec4 Texel = convert::fetch(Texture, gli::texture2DArray::texelcoord_type(0), 0, 0, 0);
 
@@ -221,7 +221,7 @@ namespace rgba64sf
 			typedef gli::detail::convertFunc<gli::texture2DArray, double, double, gli::defaultp, gli::tvec1, gli::detail::CONVERT_MODE_CAST, true> convert;
 
 			gli::dvec4 const Color(1.0f, 0.0f, 0.0f, 1.0f);
-			gli::texture2DArray Texture(gli::FORMAT_R64_SFLOAT, gli::texture2DArray::texelcoord_type(1), 1, 1);
+			gli::texture2DArray Texture(gli::FORMAT_R64_SFLOAT_PACK64, gli::texture2DArray::texelcoord_type(1), 1, 1);
 			convert::write(Texture, gli::texture2DArray::texelcoord_type(0), 0, 0, 0, Color);
 			gli::dvec4 Texel = convert::fetch(Texture, gli::texture2D::texelcoord_type(0), 0, 0, 0);
 
@@ -231,7 +231,7 @@ namespace rgba64sf
 		{
 			typedef gli::detail::convertFunc<gli::texture2DArray, float, double, gli::defaultp, gli::tvec2, gli::detail::CONVERT_MODE_CAST, true> convert;
 
-			gli::texture2DArray Texture(gli::FORMAT_RG64_SFLOAT, gli::texture2DArray::texelcoord_type(1), 1, 1);
+			gli::texture2DArray Texture(gli::FORMAT_RG64_SFLOAT_PACK64, gli::texture2DArray::texelcoord_type(1), 1, 1);
 			convert::write(Texture, gli::texture2DArray::texelcoord_type(0), 0, 0, 0, ColorF32);
 			gli::vec4 Texel = convert::fetch(Texture, gli::texture2DArray::texelcoord_type(0), 0, 0, 0);
 
@@ -241,7 +241,7 @@ namespace rgba64sf
 		{
 			typedef gli::detail::convertFunc<gli::texture2DArray, double, double, gli::defaultp, gli::tvec2, gli::detail::CONVERT_MODE_CAST, true> convert;
 
-			gli::texture2DArray Texture(gli::FORMAT_RG64_SFLOAT, gli::texture2DArray::texelcoord_type(1), 1, 1);
+			gli::texture2DArray Texture(gli::FORMAT_RG64_SFLOAT_PACK64, gli::texture2DArray::texelcoord_type(1), 1, 1);
 			convert::write(Texture, gli::texture2DArray::texelcoord_type(0), 0, 0, 0, ColorF64);
 			gli::dvec4 Texel = convert::fetch(Texture, gli::texture2DArray::texelcoord_type(0), 0, 0, 0);
 
@@ -251,7 +251,7 @@ namespace rgba64sf
 		{
 			typedef gli::detail::convertFunc<gli::texture2DArray, float, double, gli::defaultp, gli::tvec3, gli::detail::CONVERT_MODE_CAST, true> convert;
 
-			gli::texture2DArray Texture(gli::FORMAT_RGB64_SFLOAT, gli::texture2DArray::texelcoord_type(1), 1, 1);
+			gli::texture2DArray Texture(gli::FORMAT_RGB64_SFLOAT_PACK64, gli::texture2DArray::texelcoord_type(1), 1, 1);
 			convert::write(Texture, gli::texture2DArray::texelcoord_type(0), 0, 0, 0, ColorF32);
 			gli::vec4 Texel = convert::fetch(Texture, gli::texture2DArray::texelcoord_type(0), 0, 0, 0);
 
@@ -261,7 +261,7 @@ namespace rgba64sf
 		{
 			typedef gli::detail::convertFunc<gli::texture2DArray, double, double, gli::defaultp, gli::tvec3, gli::detail::CONVERT_MODE_CAST, true> convert;
 
-			gli::texture2DArray Texture(gli::FORMAT_RGB64_SFLOAT, gli::texture2D::texelcoord_type(1), 1, 1);
+			gli::texture2DArray Texture(gli::FORMAT_RGB64_SFLOAT_PACK64, gli::texture2D::texelcoord_type(1), 1, 1);
 			convert::write(Texture, gli::texture2DArray::texelcoord_type(0), 0, 0, 0, ColorF64);
 			gli::dvec4 Texel = convert::fetch(Texture, gli::texture2DArray::texelcoord_type(0), 0, 0, 0);
 
@@ -271,7 +271,7 @@ namespace rgba64sf
 		{
 			typedef gli::detail::convertFunc<gli::texture2DArray, float, double, gli::defaultp, gli::tvec4, gli::detail::CONVERT_MODE_CAST, true> convert;
 
-			gli::texture2DArray Texture(gli::FORMAT_RGBA64_SFLOAT, gli::texture2DArray::texelcoord_type(1), 1, 1);
+			gli::texture2DArray Texture(gli::FORMAT_RGBA64_SFLOAT_PACK64, gli::texture2DArray::texelcoord_type(1), 1, 1);
 			convert::write(Texture, gli::texture2DArray::texelcoord_type(0), 0, 0, 0, ColorF32);
 			gli::vec4 Texel = convert::fetch(Texture, gli::texture2DArray::texelcoord_type(0), 0, 0, 0);
 
@@ -281,7 +281,7 @@ namespace rgba64sf
 		{
 			typedef gli::detail::convertFunc<gli::texture2DArray, double, double, gli::defaultp, gli::tvec4, gli::detail::CONVERT_MODE_CAST, true> convert;
 
-			gli::texture2DArray Texture(gli::FORMAT_RGBA64_SFLOAT, gli::texture2D::texelcoord_type(1), 1, 1);
+			gli::texture2DArray Texture(gli::FORMAT_RGBA64_SFLOAT_PACK64, gli::texture2D::texelcoord_type(1), 1, 1);
 			convert::write(Texture, gli::texture2DArray::texelcoord_type(0), 0, 0, 0, ColorF64);
 			gli::dvec4 Texel = convert::fetch(Texture, gli::texture2DArray::texelcoord_type(0), 0, 0, 0);
 

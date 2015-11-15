@@ -439,16 +439,16 @@ namespace dim
 		FormatsA.push_back(gli::FORMAT_RGBA8_UNORM_PACK8);
 		FormatsA.push_back(gli::FORMAT_RGB8_UNORM_PACK8);
 		FormatsA.push_back(gli::FORMAT_R8_SNORM_PACK8);
-		FormatsA.push_back(gli::FORMAT_RGBA32_SFLOAT);
-		FormatsA.push_back(gli::FORMAT_RGB_DXT1_UNORM);
-		FormatsA.push_back(gli::FORMAT_RGBA_BP_UNORM);
+		FormatsA.push_back(gli::FORMAT_RGBA32_SFLOAT_PACK32);
+		FormatsA.push_back(gli::FORMAT_RGB_DXT1_UNORM_BLOCK8);
+		FormatsA.push_back(gli::FORMAT_RGBA_BP_UNORM_BLOCK16);
 
 		// 1D textures don't support compressed formats
 		std::vector<gli::format> FormatsB;
 		FormatsA.push_back(gli::FORMAT_RGBA8_UNORM_PACK8);
 		FormatsA.push_back(gli::FORMAT_RGB8_UNORM_PACK8);
 		FormatsA.push_back(gli::FORMAT_R8_SNORM_PACK8);
-		FormatsA.push_back(gli::FORMAT_RGBA32_SFLOAT);
+		FormatsA.push_back(gli::FORMAT_RGBA32_SFLOAT_PACK32);
 
 		std::size_t const TextureSize(32);
 
@@ -472,16 +472,16 @@ namespace format
 
 		{
 			gli::texture2D TextureA(gli::FORMAT_RGBA8_UNORM_PACK8, gli::texture2D::texelcoord_type(1));
-			gli::texture2D TextureB(gli::view(TextureA, gli::FORMAT_R32_UINT));
+			gli::texture2D TextureB(gli::view(TextureA, gli::FORMAT_R32_UINT_PACK32));
 			gli::texture2D TextureC(gli::view(TextureA));
 
 			Error += TextureA.dimensions() == TextureB.dimensions() ? 0 : 1;
 		}
 
 		{
-			gli::texture TextureA(gli::TARGET_2D, gli::FORMAT_RGB_DXT1_UNORM, gli::texture::texelcoord_type(4, 4, 1), 1, 1, 3);
-			gli::texture TextureB(gli::view(TextureA, gli::FORMAT_RG32_UINT));
-			gli::texture TextureC(gli::TARGET_2D, gli::FORMAT_RG32_UINT, gli::texture::texelcoord_type(1), 1, 1, 3);
+			gli::texture TextureA(gli::TARGET_2D, gli::FORMAT_RGB_DXT1_UNORM_BLOCK8, gli::texture::texelcoord_type(4, 4, 1), 1, 1, 3);
+			gli::texture TextureB(gli::view(TextureA, gli::FORMAT_RG32_UINT_PACK32));
+			gli::texture TextureC(gli::TARGET_2D, gli::FORMAT_RG32_UINT_PACK32, gli::texture::texelcoord_type(1), 1, 1, 3);
 
 			gli::texture::texelcoord_type const DimensionsA0 = TextureA.dimensions(0);
 			gli::texture::texelcoord_type const DimensionsB0 = TextureB.dimensions(0);
@@ -507,15 +507,15 @@ namespace format
 			gli::texture::size_type const SizeB = TextureB.size();
 			gli::texture::size_type const SizeC = TextureC.size();
 
-			Error += SizeA == gli::texture::size_type(gli::block_size(gli::FORMAT_RGB_DXT1_UNORM) * 3) ? 0 : 1;
-			Error += SizeB == gli::texture::size_type(gli::block_size(gli::FORMAT_RG32_UINT) * 3) ? 0 : 1;
-			Error += SizeC == gli::texture::size_type(gli::block_size(gli::FORMAT_RG32_UINT) * 3) ? 0 : 1;
+			Error += SizeA == gli::texture::size_type(gli::block_size(gli::FORMAT_RGB_DXT1_UNORM_BLOCK8) * 3) ? 0 : 1;
+			Error += SizeB == gli::texture::size_type(gli::block_size(gli::FORMAT_RG32_UINT_PACK32) * 3) ? 0 : 1;
+			Error += SizeC == gli::texture::size_type(gli::block_size(gli::FORMAT_RG32_UINT_PACK32) * 3) ? 0 : 1;
 		}
 
 		{
-			gli::texture2D TextureA(gli::FORMAT_RGB_DXT1_UNORM, gli::texture2D::texelcoord_type(4));
-			gli::texture2D TextureB(gli::view(TextureA, gli::FORMAT_RG32_UINT));
-			gli::texture2D TextureC(gli::FORMAT_RG32_UINT, gli::texture2D::texelcoord_type(1), 3);
+			gli::texture2D TextureA(gli::FORMAT_RGB_DXT1_UNORM_BLOCK8, gli::texture2D::texelcoord_type(4));
+			gli::texture2D TextureB(gli::view(TextureA, gli::FORMAT_RG32_UINT_PACK32));
+			gli::texture2D TextureC(gli::FORMAT_RG32_UINT_PACK32, gli::texture2D::texelcoord_type(1), 3);
 
 			gli::texture2D::texelcoord_type const DimensionsA = TextureA.dimensions();
 			gli::texture2D::texelcoord_type const DimensionsB = TextureB.dimensions();
@@ -552,9 +552,9 @@ namespace format
 				gli::texture2D::size_type const SizeB = TextureB.size();
 				gli::texture2D::size_type const SizeC = TextureC.size();
 
-				Error += SizeA == gli::texture::size_type(gli::block_size(gli::FORMAT_RGB_DXT1_UNORM) * 3) ? 0 : 1;
-				Error += SizeB == gli::texture::size_type(gli::block_size(gli::FORMAT_RG32_UINT) * 3) ? 0 : 1;
-				Error += SizeC == gli::texture::size_type(gli::block_size(gli::FORMAT_RG32_UINT) * 3) ? 0 : 1;
+				Error += SizeA == gli::texture::size_type(gli::block_size(gli::FORMAT_RGB_DXT1_UNORM_BLOCK8) * 3) ? 0 : 1;
+				Error += SizeB == gli::texture::size_type(gli::block_size(gli::FORMAT_RG32_UINT_PACK32) * 3) ? 0 : 1;
+				Error += SizeC == gli::texture::size_type(gli::block_size(gli::FORMAT_RG32_UINT_PACK32) * 3) ? 0 : 1;
 			}
 
 			{
@@ -594,33 +594,33 @@ namespace format
 				gli::image::size_type const SizeA1 = ImageA1.size();
 				gli::image::size_type const SizeA2 = ImageA2.size();
 
-				Error += SizeA0 == gli::image::size_type(gli::block_size(gli::FORMAT_RGB_DXT1_UNORM)) ? 0 : 1;
-				Error += SizeA1 == gli::image::size_type(gli::block_size(gli::FORMAT_RGB_DXT1_UNORM)) ? 0 : 1;
-				Error += SizeA2 == gli::image::size_type(gli::block_size(gli::FORMAT_RGB_DXT1_UNORM)) ? 0 : 1;
+				Error += SizeA0 == gli::image::size_type(gli::block_size(gli::FORMAT_RGB_DXT1_UNORM_BLOCK8)) ? 0 : 1;
+				Error += SizeA1 == gli::image::size_type(gli::block_size(gli::FORMAT_RGB_DXT1_UNORM_BLOCK8)) ? 0 : 1;
+				Error += SizeA2 == gli::image::size_type(gli::block_size(gli::FORMAT_RGB_DXT1_UNORM_BLOCK8)) ? 0 : 1;
 
 				gli::image::size_type const SizeB0 = ImageB0.size();
 				gli::image::size_type const SizeB1 = ImageB1.size();
 				gli::image::size_type const SizeB2 = ImageB2.size();
 
-				Error += SizeB0 == gli::image::size_type(gli::block_size(gli::FORMAT_RG32_UINT)) ? 0 : 1;
-				Error += SizeB1 == gli::image::size_type(gli::block_size(gli::FORMAT_RG32_UINT)) ? 0 : 1;
-				Error += SizeB2 == gli::image::size_type(gli::block_size(gli::FORMAT_RG32_UINT)) ? 0 : 1;
+				Error += SizeB0 == gli::image::size_type(gli::block_size(gli::FORMAT_RG32_UINT_PACK32)) ? 0 : 1;
+				Error += SizeB1 == gli::image::size_type(gli::block_size(gli::FORMAT_RG32_UINT_PACK32)) ? 0 : 1;
+				Error += SizeB2 == gli::image::size_type(gli::block_size(gli::FORMAT_RG32_UINT_PACK32)) ? 0 : 1;
 
 				gli::image::size_type const SizeC0 = ImageC0.size();
 				gli::image::size_type const SizeC1 = ImageC1.size();
 				gli::image::size_type const SizeC2 = ImageC2.size();
 
-				Error += SizeC0 == gli::image::size_type(gli::block_size(gli::FORMAT_RG32_UINT)) ? 0 : 1;
-				Error += SizeC1 == gli::image::size_type(gli::block_size(gli::FORMAT_RG32_UINT)) ? 0 : 1;
-				Error += SizeC2 == gli::image::size_type(gli::block_size(gli::FORMAT_RG32_UINT)) ? 0 : 1;
+				Error += SizeC0 == gli::image::size_type(gli::block_size(gli::FORMAT_RG32_UINT_PACK32)) ? 0 : 1;
+				Error += SizeC1 == gli::image::size_type(gli::block_size(gli::FORMAT_RG32_UINT_PACK32)) ? 0 : 1;
+				Error += SizeC2 == gli::image::size_type(gli::block_size(gli::FORMAT_RG32_UINT_PACK32)) ? 0 : 1;
 			}
 		}
 
 		{
-			gli::texture2D TextureA(gli::FORMAT_RGBA_DXT5_UNORM, gli::texture2D::texelcoord_type(4));
-			gli::texture2D TextureB(gli::view(TextureA, gli::FORMAT_RGBA32_UINT));
-			gli::texture2D TextureC(gli::FORMAT_RGBA32_UINT, gli::texture2D::texelcoord_type(1), 3);
-			gli::texture2D TextureD(gli::view(TextureC, gli::FORMAT_RGBA_DXT5_UNORM));
+			gli::texture2D TextureA(gli::FORMAT_RGBA_DXT5_UNORM_BLOCK16, gli::texture2D::texelcoord_type(4));
+			gli::texture2D TextureB(gli::view(TextureA, gli::FORMAT_RGBA32_UINT_PACK32));
+			gli::texture2D TextureC(gli::FORMAT_RGBA32_UINT_PACK32, gli::texture2D::texelcoord_type(1), 3);
+			gli::texture2D TextureD(gli::view(TextureC, gli::FORMAT_RGBA_DXT5_UNORM_BLOCK16));
 
 			Error += TextureA == TextureD ? 0 : 1;
 			Error += TextureB == TextureC ? 0 : 1;
@@ -631,11 +631,11 @@ namespace format
 		}
 
 		{
-			gli::texture2D TextureA(gli::FORMAT_RG32_UINT, gli::texture2D::texelcoord_type(4));
-			gli::texture2D TextureB(gli::view(TextureA, gli::FORMAT_RG32_UINT));
-			gli::texture2D TextureC(gli::view(TextureA, gli::FORMAT_R32_UINT));
-			gli::texture2D TextureD(gli::view(TextureA, gli::FORMAT_RGB32_UINT));
-			gli::texture2D TextureE(gli::view(TextureA, gli::FORMAT_RGBA32_UINT));
+			gli::texture2D TextureA(gli::FORMAT_RG32_UINT_PACK32, gli::texture2D::texelcoord_type(4));
+			gli::texture2D TextureB(gli::view(TextureA, gli::FORMAT_RG32_UINT_PACK32));
+			gli::texture2D TextureC(gli::view(TextureA, gli::FORMAT_R32_UINT_PACK32));
+			gli::texture2D TextureD(gli::view(TextureA, gli::FORMAT_RGB32_UINT_PACK32));
+			gli::texture2D TextureE(gli::view(TextureA, gli::FORMAT_RGBA32_UINT_PACK32));
 
 			Error += TextureA == TextureB ? 0 : 1;
 			Error += TextureC.empty() ? 0 : 1;

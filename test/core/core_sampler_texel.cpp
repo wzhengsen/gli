@@ -253,7 +253,7 @@ namespace fetch_rgba32_sfloat
 			glm::vec4(1.0f, 0.0f, 1.0f, 1.0f)
 		};
 
-		gli::texture2D TextureA(gli::FORMAT_RGBA32_SFLOAT, gli::texture2D::texelcoord_type(4, 2), 1);
+		gli::texture2D TextureA(gli::FORMAT_RGBA32_SFLOAT_PACK32, gli::texture2D::texelcoord_type(4, 2), 1);
 		for(std::size_t i = 0, n = sizeof(Colors) / sizeof(Colors[0]); i < n; ++i)
 			*(TextureA.data<glm::vec4>() + i) = Colors[i];
 
@@ -267,7 +267,7 @@ namespace fetch_rgba32_sfloat
 		for(std::size_t i = 0, n = sizeof(Colors) / sizeof(Colors[0]); i < n; ++i)
 			Error += glm::all(glm::epsilonEqual(DataA[i], Colors[i], Epsilon)) ? 0 : 1;
 
-		gli::texture2D TextureB(gli::FORMAT_RGBA32_SFLOAT, gli::texture2D::texelcoord_type(8, 4));
+		gli::texture2D TextureB(gli::FORMAT_RGBA32_SFLOAT_PACK32, gli::texture2D::texelcoord_type(8, 4));
 		for (std::size_t i = 0, n = sizeof(Colors) / sizeof(Colors[0]); i < n; ++i)
 			TextureB.store<glm::vec4>(gli::dim2_t(i % 4, i / 4), 1, Colors[i]);
 
@@ -306,7 +306,7 @@ namespace fetch_rgba64_sfloat
 			glm::dvec4(1.0f, 0.0f, 1.0f, 1.0f)
 		};
 
-		gli::texture2D TextureA(gli::FORMAT_RGBA64_SFLOAT, gli::texture2D::texelcoord_type(4, 2), 1);
+		gli::texture2D TextureA(gli::FORMAT_RGBA64_SFLOAT_PACK64, gli::texture2D::texelcoord_type(4, 2), 1);
 		for (std::size_t i = 0, n = sizeof(Colors) / sizeof(Colors[0]); i < n; ++i)
 			*(TextureA.data<glm::dvec4>() + i) = Colors[i];
 
@@ -320,7 +320,7 @@ namespace fetch_rgba64_sfloat
 		for (std::size_t i = 0, n = sizeof(Colors) / sizeof(Colors[0]); i < n; ++i)
 			Error += glm::all(glm::epsilonEqual(DataA[i], Colors[i], Epsilon)) ? 0 : 1;
 
-		gli::texture2D TextureB(gli::FORMAT_RGBA64_SFLOAT, gli::texture2D::texelcoord_type(8, 4));
+		gli::texture2D TextureB(gli::FORMAT_RGBA64_SFLOAT_PACK64, gli::texture2D::texelcoord_type(8, 4));
 		for (std::size_t i = 0, n = sizeof(Colors) / sizeof(Colors[0]); i < n; ++i)
 			TextureB.store<glm::dvec4>(gli::dim2_t(i % 4, i / 4), 1, Colors[i]);
 

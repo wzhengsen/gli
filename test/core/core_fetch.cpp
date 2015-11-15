@@ -404,7 +404,7 @@ namespace fetch_rgba16f
 	{
 		int Error(0);
 
-		gli::texture2D TextureA(gli::FORMAT_RGBA16_SFLOAT, gli::texture2D::texelcoord_type(2, 2));
+		gli::texture2D TextureA(gli::FORMAT_RGBA16_SFLOAT_PACK16, gli::texture2D::texelcoord_type(2, 2));
 		{
 			TextureA.store<glm::u64>(gli::texture2D::texelcoord_type(0, 0), 0, glm::packHalf4x16(glm::vec4(1.0f, 0.0f, 0.0f, 1.0f)));
 			TextureA.store<glm::u64>(gli::texture2D::texelcoord_type(1, 0), 0, glm::packHalf4x16(glm::vec4(1.0f, 1.0f, 0.0f, 1.0f)));
@@ -440,7 +440,7 @@ namespace fetch_rgb32f
 	{
 		int Error(0);
 
-		gli::texture2D TextureA(gli::FORMAT_RGB32_SFLOAT, gli::texture2D::texelcoord_type(2, 2));
+		gli::texture2D TextureA(gli::FORMAT_RGB32_SFLOAT_PACK32, gli::texture2D::texelcoord_type(2, 2));
 		{
 			TextureA.store<glm::vec3>(gli::texture2D::texelcoord_type(0, 0), 0, glm::vec3(1.0f, 0.0f, 0.0f));
 			TextureA.store<glm::vec3>(gli::texture2D::texelcoord_type(1, 0), 0, glm::vec3(1.0f, 1.0f, 0.0f));

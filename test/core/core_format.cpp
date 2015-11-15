@@ -66,7 +66,7 @@ namespace compressed
 		int Error(0);
 
 		Error += !gli::is_compressed(gli::FORMAT_R8_SRGB_PACK8) ? 0 : 1;
-		Error += gli::is_compressed(gli::FORMAT_RGB_DXT1_SRGB) ? 0 : 1;
+		Error += gli::is_compressed(gli::FORMAT_RGB_DXT1_SRGB_BLOCK8) ? 0 : 1;
 
 		return Error;
 	}

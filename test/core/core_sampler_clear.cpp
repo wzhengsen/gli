@@ -58,7 +58,7 @@ namespace rgba32sf
 
 		glm::f32vec4 const Orange(1.0f, 0.5f, 0.0f, 1.0f);
 
-		gli::texture2D Texture(gli::FORMAT_RGBA32_SFLOAT, gli::texture2D::texelcoord_type(4), 1);
+		gli::texture2D Texture(gli::FORMAT_RGBA32_SFLOAT_PACK32, gli::texture2D::texelcoord_type(4), 1);
 		gli::fsampler2D Sampler(Texture, gli::WRAP_CLAMP_TO_EDGE, gli::FILTER_LINEAR, gli::FILTER_LINEAR);
 		Sampler.clear(Orange);
 

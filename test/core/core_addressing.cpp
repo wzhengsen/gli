@@ -58,11 +58,11 @@ namespace layers
 
 		std::vector<test> Tests;
 		Tests.push_back(test(gli::storage::texelcoord_type(4, 4, 1), gli::FORMAT_RGBA8_UINT_PACK8, 64, 128));
-		Tests.push_back(test(gli::storage::texelcoord_type(4, 4, 1), gli::FORMAT_RGB16_SFLOAT, 96, 192));
-		Tests.push_back(test(gli::storage::texelcoord_type(4, 4, 1), gli::FORMAT_RGBA32_SFLOAT, 256, 512));
-		Tests.push_back(test(gli::storage::texelcoord_type(4, 4, 1), gli::FORMAT_RGBA_DXT1_UNORM, 8, 16));
-		Tests.push_back(test(gli::storage::texelcoord_type(8, 8, 1), gli::FORMAT_RGBA_DXT1_UNORM, 32, 64));
-		Tests.push_back(test(gli::storage::texelcoord_type(4, 4, 1), gli::FORMAT_R_ATI1N_SNORM, 8, 16));
+		Tests.push_back(test(gli::storage::texelcoord_type(4, 4, 1), gli::FORMAT_RGB16_SFLOAT_PACK16, 96, 192));
+		Tests.push_back(test(gli::storage::texelcoord_type(4, 4, 1), gli::FORMAT_RGBA32_SFLOAT_PACK32, 256, 512));
+		Tests.push_back(test(gli::storage::texelcoord_type(4, 4, 1), gli::FORMAT_RGBA_DXT1_UNORM_BLOCK8, 8, 16));
+		Tests.push_back(test(gli::storage::texelcoord_type(8, 8, 1), gli::FORMAT_RGBA_DXT1_UNORM_BLOCK8, 32, 64));
+		Tests.push_back(test(gli::storage::texelcoord_type(4, 4, 1), gli::FORMAT_R_ATI1N_SNORM_BLOCK8, 8, 16));
 
 		for(std::size_t i = 0; i < Tests.size(); ++i)
 		{
@@ -116,11 +116,11 @@ namespace faces
 		Tests.push_back(test(gli::FORMAT_RGBA8_UINT_PACK8, 1, 256, 340));
 		Tests.push_back(test(gli::FORMAT_R8_UINT_PACK8, 1, 64, 85));
 		Tests.push_back(test(gli::FORMAT_RGBA8_UINT_PACK8, 3, 336, 340));
-		Tests.push_back(test(gli::FORMAT_RGBA32_SFLOAT, 0, 0, 1360));
-		Tests.push_back(test(gli::FORMAT_RGBA32_SFLOAT, 1, 1024, 1360));
-		Tests.push_back(test(gli::FORMAT_RGB_DXT1_UNORM, 0, 0, 56));
-		Tests.push_back(test(gli::FORMAT_RGB_DXT1_UNORM, 1, 32, 56));
-		Tests.push_back(test(gli::FORMAT_RGBA_DXT5_UNORM, 1, 64, 112));
+		Tests.push_back(test(gli::FORMAT_RGBA32_SFLOAT_PACK32, 0, 0, 1360));
+		Tests.push_back(test(gli::FORMAT_RGBA32_SFLOAT_PACK32, 1, 1024, 1360));
+		Tests.push_back(test(gli::FORMAT_RGB_DXT1_UNORM_BLOCK8, 0, 0, 56));
+		Tests.push_back(test(gli::FORMAT_RGB_DXT1_UNORM_BLOCK8, 1, 32, 56));
+		Tests.push_back(test(gli::FORMAT_RGBA_DXT5_UNORM_BLOCK16, 1, 64, 112));
 
 		for(std::size_t i = 0; i < Tests.size(); ++i)
 		{
@@ -167,10 +167,10 @@ namespace levels
 		Tests.push_back(test(gli::FORMAT_RGBA8_UINT_PACK8, 0, 0, 340));
 		Tests.push_back(test(gli::FORMAT_RGBA8_UINT_PACK8, 1, 256, 340));
 		Tests.push_back(test(gli::FORMAT_RGBA8_UINT_PACK8, 3, 336, 340));
-		Tests.push_back(test(gli::FORMAT_RGBA32_SFLOAT, 0, 0, 1360));
-		Tests.push_back(test(gli::FORMAT_RGBA32_SFLOAT, 1, 1024, 1360));
-		Tests.push_back(test(gli::FORMAT_RGB_DXT1_UNORM, 0, 0, 56));
-		Tests.push_back(test(gli::FORMAT_RGBA_DXT1_UNORM, 1, 32, 56));
+		Tests.push_back(test(gli::FORMAT_RGBA32_SFLOAT_PACK32, 0, 0, 1360));
+		Tests.push_back(test(gli::FORMAT_RGBA32_SFLOAT_PACK32, 1, 1024, 1360));
+		Tests.push_back(test(gli::FORMAT_RGB_DXT1_UNORM_BLOCK8, 0, 0, 56));
+		Tests.push_back(test(gli::FORMAT_RGBA_DXT1_UNORM_BLOCK8, 1, 32, 56));
 
 		for(std::size_t i = 0; i < Tests.size(); ++i)
 		{

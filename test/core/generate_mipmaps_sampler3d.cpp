@@ -99,42 +99,42 @@ int main()
 	for(std::size_t FilterIndex = 0, FilterCount = Filters.size(); FilterIndex < FilterCount; ++FilterIndex)
 	for(std::size_t SizeIndex = 0, SizeCount = Sizes.size(); SizeIndex < SizeCount; ++SizeIndex)
 	{
-		Error += generate_mipmaps::test(gli::FORMAT_R16_SFLOAT,
+		Error += generate_mipmaps::test(gli::FORMAT_R16_SFLOAT_PACK16,
 			gli::packHalf(glm::vec1(0.0f)),
 			gli::packHalf(glm::vec1(1.0f)),
 			Sizes[SizeIndex], Filters[FilterIndex]);
 
-		Error += generate_mipmaps::test(gli::FORMAT_RG16_SFLOAT,
+		Error += generate_mipmaps::test(gli::FORMAT_RG16_SFLOAT_PACK16,
 			gli::packHalf(glm::vec2(0.0f, 0.0f)),
 			gli::packHalf(glm::vec2(1.0f, 0.5f)),
 			Sizes[SizeIndex], Filters[FilterIndex]);
 
-		Error += generate_mipmaps::test(gli::FORMAT_RGB16_SFLOAT,
+		Error += generate_mipmaps::test(gli::FORMAT_RGB16_SFLOAT_PACK16,
 			gli::packHalf(glm::vec3(0.0f, 0.0f, 0.0f)),
 			gli::packHalf(glm::vec3(1.0f, 0.5f, 0.0f)),
 			Sizes[SizeIndex], Filters[FilterIndex]);
 
-		Error += generate_mipmaps::test(gli::FORMAT_RGBA16_SFLOAT,
+		Error += generate_mipmaps::test(gli::FORMAT_RGBA16_SFLOAT_PACK16,
 			gli::packHalf(glm::vec4(0.0f, 0.0f, 0.0f, 0.0f)),
 			gli::packHalf(glm::vec4(1.0f, 0.5f, 0.0f, 1.0f)),
 			Sizes[SizeIndex], Filters[FilterIndex]);
 
-		Error += generate_mipmaps::test(gli::FORMAT_R32_SFLOAT,
+		Error += generate_mipmaps::test(gli::FORMAT_R32_SFLOAT_PACK32,
 			glm::vec1(0.0f),
 			glm::vec1(1.0f),
 			Sizes[SizeIndex], Filters[FilterIndex]);
 
-		Error += generate_mipmaps::test(gli::FORMAT_RG32_SFLOAT,
+		Error += generate_mipmaps::test(gli::FORMAT_RG32_SFLOAT_PACK32,
 			glm::vec2(0.0f, 0.0f),
 			glm::vec2(1.0f, 0.5f),
 			Sizes[SizeIndex], Filters[FilterIndex]);
 
-		Error += generate_mipmaps::test(gli::FORMAT_RGB32_SFLOAT,
+		Error += generate_mipmaps::test(gli::FORMAT_RGB32_SFLOAT_PACK32,
 			glm::vec3(0.0f, 0.0f, 0.0f),
 			glm::vec3(1.0f, 0.5f, 0.0f),
 			Sizes[SizeIndex], Filters[FilterIndex]);
 
-		Error += generate_mipmaps::test(gli::FORMAT_RGBA32_SFLOAT,
+		Error += generate_mipmaps::test(gli::FORMAT_RGBA32_SFLOAT_PACK32,
 			glm::vec4(0.0f, 0.0f, 0.0f, 0.0f),
 			glm::vec4(1.0f, 0.5f, 0.0f, 1.0f),
 			Sizes[SizeIndex], Filters[FilterIndex]);
