@@ -94,6 +94,9 @@ int main()
 {
 	std::vector<std::string> Filenames;
 
+	Filenames.push_back("kueken7_rgba4_unorm.dds");
+	Filenames.push_back("kueken7_r5g6b5_unorm.dds");
+	Filenames.push_back("kueken7_rgb5a1_unorm.dds");
 	Filenames.push_back("kueken7_rgb_dxt1_unorm.dds");
 	Filenames.push_back("kueken7_rgb_dxt1_srgb.dds");
 	Filenames.push_back("kueken7_rgba_dxt1_unorm.dds");
