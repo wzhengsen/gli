@@ -183,7 +183,7 @@ namespace detail
 		Offset += sizeof(detail::ddsHeader);
 
 		detail::ddsHeader10 Header10;
-		if(Header.Format.flags & dx::DDPF_FOURCC && Header.Format.fourCC == dx::D3DFMT_DX10)
+		if((Header.Format.flags & dx::DDPF_FOURCC) && (Header.Format.fourCC == dx::D3DFMT_DX10 || Header.Format.fourCC == dx::D3DFMT_GLI1))
 		{
 			std::memcpy(&Header10, Data + Offset, sizeof(Header10));
 			Offset += sizeof(detail::ddsHeader10);
@@ -198,7 +198,9 @@ namespace detail
 			{
 				case 8:
 				{
-					if(glm::all(glm::equal(Header.Format.Mask, DX.translate(FORMAT_L8_UNORM_PACK8).Mask)))
+					if(glm::all(glm::equal(Header.Format.Mask, DX.translate(FORMAT_RG4_UNORM_PACK8).Mask)))
+						Format = FORMAT_RG4_UNORM_PACK8;
+					else if(glm::all(glm::equal(Header.Format.Mask, DX.translate(FORMAT_L8_UNORM_PACK8).Mask)))
 						Format = FORMAT_L8_UNORM_PACK8;
 					else if(glm::all(glm::equal(Header.Format.Mask, DX.translate(FORMAT_A8_UNORM_PACK8).Mask)))
 						Format = FORMAT_A8_UNORM_PACK8;
@@ -210,27 +212,36 @@ namespace detail
 				}
 				case 16:
 				{
-					if(glm::all(glm::equal(Header.Format.Mask, DX.translate(FORMAT_LA8_UNORM_PACK8).Mask)))
+					if(glm::all(glm::equal(Header.Format.Mask, DX.translate(FORMAT_RGBA4_UNORM_PACK16).Mask)))
+						Format = FORMAT_RGBA4_UNORM_PACK16;
+					else if(glm::all(glm::equal(Header.Format.Mask, DX.translate(FORMAT_BGRA4_UNORM_PACK16).Mask)))
+						Format = FORMAT_BGRA4_UNORM_PACK16;
+					else if(glm::all(glm::equal(Header.Format.Mask, DX.translate(FORMAT_R5G6B5_UNORM_PACK16).Mask)))
+						Format = FORMAT_R5G6B5_UNORM_PACK16;
+					else if(glm::all(glm::equal(Header.Format.Mask, DX.translate(FORMAT_B5G6R5_UNORM_PACK16).Mask)))
+						Format = FORMAT_B5G6R5_UNORM_PACK16;
+					else if(glm::all(glm::equal(Header.Format.Mask, DX.translate(FORMAT_RGB5A1_UNORM_PACK16).Mask)))
+						Format = FORMAT_RGB5A1_UNORM_PACK16;
+					else if(glm::all(glm::equal(Header.Format.Mask, DX.translate(FORMAT_BGR5A1_UNORM_PACK16).Mask)))
+						Format = FORMAT_BGR5A1_UNORM_PACK16;
+					else if(glm::all(glm::equal(Header.Format.Mask, DX.translate(FORMAT_LA8_UNORM_PACK8).Mask)))
 						Format = FORMAT_LA8_UNORM_PACK8;
 					else if(glm::all(glm::equal(Header.Format.Mask, DX.translate(FORMAT_RG8_UNORM_PACK8).Mask)))
 						Format = FORMAT_RG8_UNORM_PACK8;
-					else if(glm::all(glm::equal(Header.Format.Mask, DX.translate(FORMAT_R5G6B5_UNORM_PACK16).Mask)))
-						Format = FORMAT_R5G6B5_UNORM_PACK16;
 					else if(glm::all(glm::equal(Header.Format.Mask, DX.translate(FORMAT_L16_UNORM_PACK16).Mask)))
 						Format = FORMAT_L16_UNORM_PACK16;
 					else if(glm::all(glm::equal(Header.Format.Mask, DX.translate(FORMAT_A16_UNORM_PACK16).Mask)))
 						Format = FORMAT_A16_UNORM_PACK16;
 					else if(glm::all(glm::equal(Header.Format.Mask, DX.translate(FORMAT_R16_UNORM_PACK16).Mask)))
 						Format = FORMAT_R16_UNORM_PACK16;
-					else if(glm::all(glm::equal(Header.Format.Mask, DX.translate(FORMAT_RGB5A1_UNORM_PACK16).Mask)))
-						Format = FORMAT_RGB5A1_UNORM_PACK16;
 					break;
 				}
 				case 24:
 				{
-					dx::format const & DXFormat = DX.translate(FORMAT_RGB8_UNORM_PACK8);
-					if(glm::all(glm::equal(Header.Format.Mask, DXFormat.Mask)))
+					if(glm::all(glm::equal(Header.Format.Mask, DX.translate(FORMAT_RGB8_UNORM_PACK8).Mask)))
 						Format = FORMAT_RGB8_UNORM_PACK8;
+					else if(glm::all(glm::equal(Header.Format.Mask, DX.translate(FORMAT_RGB8_UNORM_PACK8).Mask)))
+						Format = FORMAT_BGR8_UNORM_PACK8;
 					break;
 				}
 				case 32:
