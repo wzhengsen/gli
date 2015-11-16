@@ -61,7 +61,7 @@ namespace detail
 		dx::format const & DXFormat = DX.translate(Texture.format());
 		dx::d3dFormat const FourCC = Texture.layers() > 1 ? dx::D3DFMT_DX10 : DXFormat.D3DFormat;
 
-		Memory.resize(Texture.size() + sizeof(detail::FOURCC_DDS) + sizeof(detail::ddsHeader) + (FourCC == dx::D3DFMT_DX10 ? sizeof(detail::ddsHeader10) : 0));
+		Memory.resize(Texture.size() + sizeof(detail::FOURCC_DDS) + sizeof(detail::ddsHeader) + (FourCC == dx::D3DFMT_DX10 || FourCC == dx::D3DFMT_GLI1 ? sizeof(detail::ddsHeader10) : 0));
 
 		memcpy(&Memory[0], detail::FOURCC_DDS, sizeof(detail::FOURCC_DDS));
 		std::size_t Offset = sizeof(detail::FOURCC_DDS);
@@ -108,7 +108,7 @@ namespace detail
 		if(Texture.dimensions().z > 1)
 			Header.CubemapFlags |= detail::DDSCAPS2_VOLUME;
 
-		if(Header.Format.fourCC == dx::D3DFMT_DX10)
+		if(Header.Format.fourCC == dx::D3DFMT_DX10 || Header.Format.fourCC == dx::D3DFMT_GLI1)
 		{
 			detail::ddsHeader10 & Header10 = *reinterpret_cast<detail::ddsHeader10*>(&Memory[0] + Offset);
 			Offset += sizeof(detail::ddsHeader10);
