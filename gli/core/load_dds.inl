@@ -264,9 +264,9 @@ namespace detail
 				break;
 			}
 		}
-		else if((Header.Format.flags & dx::DDPF_FOURCC) && (Header.Format.fourCC != dx::D3DFMT_DX10) && (Format == static_cast<format>(gli::FORMAT_INVALID)))
+		else if((Header.Format.flags & dx::DDPF_FOURCC) && (Header.Format.fourCC != dx::D3DFMT_DX10) && (Header.Format.fourCC != dx::D3DFMT_GLI1) && (Format == static_cast<format>(gli::FORMAT_INVALID)))
 			Format = DX.find(Header.Format.fourCC, Header.Format.flags);
-		else if((Header.Format.fourCC == dx::D3DFMT_DX10) && (Header10.Format != dx::DXGI_FORMAT_UNKNOWN))
+		else if((Header.Format.fourCC == dx::D3DFMT_DX10 || Header.Format.fourCC == dx::D3DFMT_GLI1) && (Header10.Format != dx::DXGI_FORMAT_UNKNOWN))
 			Format = DX.find(Header10.Format, Header.Format.flags);
 
 		assert(Format != static_cast<format>(gli::FORMAT_INVALID));

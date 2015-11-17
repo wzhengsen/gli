@@ -132,7 +132,7 @@ namespace make_file_ktx
 		gli::texture2D TextureDDS(gli::load(path(Params.Filename, ".dds")));
 		Error += TextureDDS.format() == Params.Format ? 0 : 1;
 
-		gli::save(TextureDDS, Params.Filename + ".ktx");
+		gli::save(TextureDDS, Params.Filename + ".dds");
 
 		return Error;
 	}
@@ -140,22 +140,21 @@ namespace make_file_ktx
 
 int main()
 {
-//	make_file_ktx::test(params("kueken7_bgra8_srgb", gli::FORMAT_BGRA8_SRGB_PACK8));
+	//make_file_ktx::test(params("kueken7_rgb8_srgb", gli::FORMAT_RGB8_SRGB_PACK8));
 
 	std::vector<params> Params;
-	Params.push_back(params("kueken7_bgra8_unorm", gli::FORMAT_BGRA8_UNORM_PACK8));
-	Params.push_back(params("kueken7_bgra8_srgb", gli::FORMAT_BGRA8_SRGB_PACK8));
+	Params.push_back(params("kueken7_rgb8_srgb", gli::FORMAT_RGB8_SRGB_PACK8));
+	Params.push_back(params("kueken7_rgb8_unorm", gli::FORMAT_RGB8_UNORM_PACK8));
 	Params.push_back(params("kueken7_rgba8_unorm", gli::FORMAT_RGBA8_UNORM_PACK8));
 	Params.push_back(params("kueken7_rgba8_srgb", gli::FORMAT_RGBA8_SRGB_PACK8));
-	Params.push_back(params("kueken7_rgb8_unorm", gli::FORMAT_BGR8_UNORM_PACK8));
+	Params.push_back(params("kueken7_bgra8_unorm", gli::FORMAT_BGRA8_UNORM_PACK8));
+	Params.push_back(params("kueken7_bgra8_srgb", gli::FORMAT_BGRA8_SRGB_PACK8));
 	Params.push_back(params("kueken7_r5g6b5_unorm", gli::FORMAT_B5G6R5_UNORM_PACK16));
 	Params.push_back(params("kueken7_rgba4_unorm", gli::FORMAT_BGRA4_UNORM_PACK16));
 	Params.push_back(params("kueken7_rgb5a1_unorm", gli::FORMAT_BGR5A1_UNORM_PACK16));
-	Params.push_back(params("kueken7_rgba8_srgb", gli::FORMAT_RGBA8_SRGB_PACK8));
 	Params.push_back(params("kueken8_rgba8_srgb", gli::FORMAT_RGBA8_SRGB_PACK8));
 	Params.push_back(params("kueken7_rgba_dxt5_srgb", gli::FORMAT_RGBA_DXT5_SRGB_BLOCK16));
 	Params.push_back(params("kueken7_rgb_dxt1_srgb", gli::FORMAT_RGB_DXT1_SRGB_BLOCK8));
-	Params.push_back(params("kueken7_rgb8_srgb", gli::FORMAT_RGB8_SRGB_PACK8));
 
 	int Error(0);
 
