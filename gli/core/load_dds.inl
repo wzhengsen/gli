@@ -240,7 +240,7 @@ namespace detail
 				{
 					if(glm::all(glm::equal(Header.Format.Mask, DX.translate(FORMAT_RGB8_UNORM_PACK8).Mask)))
 						Format = FORMAT_RGB8_UNORM_PACK8;
-					else if(glm::all(glm::equal(Header.Format.Mask, DX.translate(FORMAT_RGB8_UNORM_PACK8).Mask)))
+					else if(glm::all(glm::equal(Header.Format.Mask, DX.translate(FORMAT_BGR8_UNORM_PACK8).Mask)))
 						Format = FORMAT_BGR8_UNORM_PACK8;
 					break;
 				}
