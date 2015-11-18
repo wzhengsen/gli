@@ -129,7 +129,7 @@ namespace make_file_ktx
 	{
 		int Error(0);
 
-		gli::texture2D TextureDDS(gli::load(path(Params.Filename, ".dds")));
+		gli::texture2D TextureDDS(gli::load(path(Params.Filename, ".ktx")));
 		Error += TextureDDS.format() == Params.Format ? 0 : 1;
 
 		gli::save(TextureDDS, Params.Filename + ".dds");
@@ -140,7 +140,7 @@ namespace make_file_ktx
 
 int main()
 {
-	//make_file_ktx::test(params("kueken7_rgb8_srgb", gli::FORMAT_RGB8_SRGB_PACK8));
+	//make_file_ktx::test(params("kueken7_rgba_astc4x4_srgb", gli::FORMAT_RGB8_UNORM_PACK8));
 
 	std::vector<params> Params;
 	Params.push_back(params("kueken7_rgb8_srgb", gli::FORMAT_RGB8_SRGB_PACK8));
