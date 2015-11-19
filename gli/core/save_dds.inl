@@ -60,8 +60,10 @@ namespace detail
 		dx DX;
 		dx::format const & DXFormat = DX.translate(Texture.format());
 		dx::d3dFormat const FourCC = Texture.layers() > 1 ? dx::D3DFMT_DX10 : DXFormat.D3DFormat;
-
-		Memory.resize(Texture.size() + sizeof(detail::FOURCC_DDS) + sizeof(detail::ddsHeader) + (FourCC == dx::D3DFMT_DX10 || FourCC == dx::D3DFMT_GLI1 ? sizeof(detail::ddsHeader10) : 0));
+		
+		bool const RequireDX10Header = FourCC == dx::D3DFMT_DX10 || FourCC == dx::D3DFMT_GLI1 || is_target_array(Texture.target()) || is_target_1d(Texture.target());
+		
+		Memory.resize(Texture.size() + sizeof(detail::FOURCC_DDS) + sizeof(detail::ddsHeader) + (RequireDX10Header ? sizeof(detail::ddsHeader10) : 0));
 
 		memcpy(&Memory[0], detail::FOURCC_DDS, sizeof(detail::FOURCC_DDS));
 		std::size_t Offset = sizeof(detail::FOURCC_DDS);
@@ -77,8 +79,6 @@ namespace detail
 		//Caps |= Storage.levels() > 1 ? detail::DDSD_MIPMAPCOUNT : 0;
 		Caps |= (Desc.Flags & detail::CAP_COMPRESSED_BIT) ? detail::DDSD_LINEARSIZE : detail::DDSD_PITCH;
 
-		bool const RequireFOURCCDX10 = is_target_array(Texture.target()) || is_target_1d(Texture.target());
-
 		memset(Header.Reserved1, 0, sizeof(Header.Reserved1));
 		memset(Header.Reserved2, 0, sizeof(Header.Reserved2));
 		Header.Size = sizeof(detail::ddsHeader);
@@ -89,8 +89,8 @@ namespace detail
 		Header.Depth = static_cast<std::uint32_t>(Texture.dimensions().z > 1 ? Texture.dimensions().z : 0);
 		Header.MipMapLevels = static_cast<std::uint32_t>(Texture.levels());
 		Header.Format.size = sizeof(detail::ddsPixelFormat);
-		Header.Format.flags = RequireFOURCCDX10 ? dx::DDPF_FOURCC : DXFormat.DDPixelFormat;
-		Header.Format.fourCC = RequireFOURCCDX10 ? dx::D3DFMT_DX10 : DXFormat.D3DFormat;
+		Header.Format.flags = RequireDX10Header ? dx::DDPF_FOURCC : DXFormat.DDPixelFormat;
+		Header.Format.fourCC = RequireDX10Header ? dx::D3DFMT_DX10 : DXFormat.D3DFormat;
 		Header.Format.bpp = static_cast<std::uint32_t>(detail::bits_per_pixel(Texture.format()));
 		Header.Format.Mask = DXFormat.Mask;
 		//Header.surfaceFlags = detail::DDSCAPS_TEXTURE | (Storage.levels() > 1 ? detail::DDSCAPS_MIPMAP : 0);
@@ -108,7 +108,7 @@ namespace detail
 		if(Texture.dimensions().z > 1)
 			Header.CubemapFlags |= detail::DDSCAPS2_VOLUME;
 
-		if(Header.Format.fourCC == dx::D3DFMT_DX10 || Header.Format.fourCC == dx::D3DFMT_GLI1)
+		if(RequireDX10Header)
 		{
 			detail::ddsHeader10 & Header10 = *reinterpret_cast<detail::ddsHeader10*>(&Memory[0] + Offset);
 			Offset += sizeof(detail::ddsHeader10);

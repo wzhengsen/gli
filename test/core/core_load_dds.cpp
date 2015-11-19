@@ -58,12 +58,12 @@ namespace load_file
 	{
 		int Error(0);
 
-		gli::texture2D TextureA(gli::load_dds(path(Params.Filename.c_str())));
+		gli::texture TextureA(gli::load_dds(path(Params.Filename.c_str())));
 		Error += TextureA.format() == Params.Format ? 0 : 1;
 		GLI_ASSERT(!Error);
 
 		gli::save_dds(TextureA, Params.Filename.c_str());
-		gli::texture2D TextureB(gli::load_dds(Params.Filename.c_str()));
+		gli::texture TextureB(gli::load_dds(Params.Filename.c_str()));
 		Error += TextureB.format() == Params.Format ? 0 : 1;
 		GLI_ASSERT(!Error);
 
@@ -80,12 +80,12 @@ namespace load_mem
 	{
 		int Error(0);
 
-		gli::texture2D TextureA(gli::load_dds(path(Params.Filename.c_str())));
+		gli::texture TextureA(gli::load_dds(path(Params.Filename.c_str())));
 		Error += TextureA.format() == Params.Format ? 0 : 1;
 		GLI_ASSERT(!Error);
 
 		gli::save_dds(TextureA, Params.Filename.c_str());
-		gli::texture2D TextureB(gli::load_dds(Params.Filename.c_str()));
+		gli::texture TextureB(gli::load_dds(Params.Filename.c_str()));
 		Error += TextureB.format() == Params.Format ? 0 : 1;
 		GLI_ASSERT(!Error);
 
@@ -102,13 +102,13 @@ namespace load_mem_only
 	{
 		int Error(0);
 
-		gli::texture2D TextureA(gli::load_dds(&Data[0], Data.size()));
+		gli::texture TextureA(gli::load_dds(&Data[0], Data.size()));
 		Error += TextureA.format() == Params.Format ? 0 : 1;
 		GLI_ASSERT(!Error);
 
 		std::vector<char> Memory;
 		gli::save_dds(TextureA, Memory);
-		gli::texture2D TextureB(gli::load_dds(&Memory[0], Memory.size()));
+		gli::texture TextureB(gli::load_dds(&Memory[0], Memory.size()));
 		Error += TextureB.format() == Params.Format ? 0 : 1;
 		GLI_ASSERT(!Error);
 
@@ -133,6 +133,8 @@ int main()
 	//Params.push_back(params("kueken7_rgb_etc2_unorm.dds", gli::FORMAT_RGB_ETC2_UNORM_BLOCK8));
 	//Params.push_back(params("kueken7_rgba_pvrtc2_4bpp_unorm.dds", gli::FORMAT_RGBA_PVRTC2_4X4_UNORM_BLOCK8));
 
+	
+	Params.push_back(params("array_r8_uint.dds", gli::FORMAT_R8_UNORM_PACK8));
 	Params.push_back(params("kueken7_rgb_dxt1_srgb.dds", gli::FORMAT_RGB_DXT1_SRGB_BLOCK8));
 	Params.push_back(params("kueken7_rgba_astc4x4_srgb.dds", gli::FORMAT_RGBA_ASTC_4X4_SRGB_BLOCK16));
 	Params.push_back(params("kueken7_bgra8_srgb.dds", gli::FORMAT_BGRA8_SRGB_PACK8));

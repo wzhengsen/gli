@@ -58,16 +58,16 @@ namespace load_file_ktx
 	{
 		int Error(0);
 
-		gli::texture2D TextureKTX(gli::load(path(Params.Filename, ".ktx")));
+		gli::texture TextureKTX(gli::load(path(Params.Filename, ".ktx")));
 		Error += TextureKTX.format() == Params.Format ? 0 : 1;
 
 		gli::save(TextureKTX, Params.Filename + ".dds");
-		gli::texture2D TextureSavedDDS(gli::load(Params.Filename + ".dds"));
+		gli::texture TextureSavedDDS(gli::load(Params.Filename + ".dds"));
 		Error += TextureSavedDDS.format() == Params.Format ? 0 : 1;
 		Error += TextureSavedDDS == TextureKTX ? 0 : 1;
 
 		gli::save(TextureKTX, Params.Filename + ".ktx");
-		gli::texture2D TextureSavedKTX(gli::load(Params.Filename + ".ktx"));
+		gli::texture TextureSavedKTX(gli::load(Params.Filename + ".ktx"));
 		Error += TextureSavedKTX.format() == Params.Format ? 0 : 1;
 		Error += TextureSavedDDS == TextureSavedKTX ? 0 : 1;
 
@@ -81,16 +81,16 @@ namespace load_file_kmg
 	{
 		int Error(0);
 
-		gli::texture2D TextureKTX(gli::load(path(Params.Filename, ".ktx")));
+		gli::texture TextureKTX(gli::load(path(Params.Filename, ".ktx")));
 		Error += TextureKTX.format() == Params.Format ? 0 : 1;
 
 		gli::save(TextureKTX, Params.Filename + ".kmg");
-		gli::texture2D TextureSavedKMG(gli::load(Params.Filename + ".kmg"));
+		gli::texture TextureSavedKMG(gli::load(Params.Filename + ".kmg"));
 		Error += TextureSavedKMG.format() == Params.Format ? 0 : 1;
 		Error += TextureSavedKMG == TextureKTX ? 0 : 1;
 
 		gli::save(TextureKTX, Params.Filename + ".ktx");
-		gli::texture2D TextureSavedKTX(gli::load(Params.Filename + ".ktx"));
+		gli::texture TextureSavedKTX(gli::load(Params.Filename + ".ktx"));
 		Error += TextureSavedKTX.format() == Params.Format ? 0 : 1;
 		Error += TextureSavedKTX == TextureKTX ? 0 : 1;
 
@@ -104,17 +104,17 @@ namespace load_file_dds
 	{
 		int Error(0);
 
-		gli::texture2D TextureDDS(gli::load(path(Params.Filename, ".dds")));
+		gli::texture TextureDDS(gli::load(path(Params.Filename, ".dds")));
 		Error += TextureDDS.format() == Params.Format ? 0 : 1;
 
 		gli::save(TextureDDS, Params.Filename + ".kmg");
-		gli::texture2D TextureSavedKMG(gli::load(Params.Filename + ".kmg"));
+		gli::texture TextureSavedKMG(gli::load(Params.Filename + ".kmg"));
 
 		Error += TextureSavedKMG.format() == Params.Format ? 0 : 1;
 		Error += TextureSavedKMG == TextureDDS ? 0 : 1;
 
 		gli::save(TextureDDS, Params.Filename + ".dds");
-		gli::texture2D TextureSavedDDS(gli::load(Params.Filename + ".dds"));
+		gli::texture TextureSavedDDS(gli::load(Params.Filename + ".dds"));
 
 		Error += TextureSavedDDS.format() == Params.Format ? 0 : 1;
 		Error += TextureSavedDDS == TextureDDS ? 0 : 1;
@@ -123,13 +123,48 @@ namespace load_file_dds
 	}
 }//namespace load_file_dds
 
+namespace gen
+{
+	int test()
+	{
+		int Error = 0;
+		
+		for(int TargetIndex = gli::TARGET_FIRST, TargetCount = gli::FORMAT_LAST; TargetIndex < TargetCount; ++TargetIndex)
+		for(int FormatIndex = gli::FORMAT_FIRST, FormatCount = gli::FORMAT_LAST; FormatIndex < FormatCount; ++FormatIndex)
+		{
+			gli::format Format = static_cast<gli::format>(FormatIndex);
+			gli::target Target = static_cast<gli::target>(TargetIndex);
+			
+			if(gli::is_compressed(Format) && (gli::is_target_1d(Target) || Target == gli::TARGET_3D))
+				continue;
+			
+			gli::size_t const Layers = gli::is_target_array(Target) ? 2 : 1;
+			gli::size_t const Faces = gli::is_target_cube(Target) ? 6 : 1;
+			gli::ivec3 const BlockDimensions = gli::block_dimensions(Format);
+			
+			gli::texture Texture(Target, Format, BlockDimensions * gli::ivec3(2, 2, 1), Layers, Faces, 2);
+			Texture.clear();
+			
+			gli::save(Texture, "gen_test.dds");
+			gli::texture TextureDDS(gli::load("gen_test.dds"));
+			Error += Texture == TextureDDS ? 0 : 1;
+			
+			gli::save(Texture, "gen_test.ktx");
+			gli::texture TextureKTX(gli::load("gen_test.ktx"));
+			Error += Texture == TextureKTX ? 0 : 1;
+		}
+		
+		return Error;
+	}
+}//namespace gen
+
 namespace make_file_ktx
 {
 	int test(params const & Params)
 	{
 		int Error(0);
 
-		gli::texture2D TextureDDS(gli::load(path(Params.Filename, ".ktx")));
+		gli::texture TextureDDS(gli::load(path(Params.Filename, ".ktx")));
 		Error += TextureDDS.format() == Params.Format ? 0 : 1;
 
 		gli::save(TextureDDS, Params.Filename + ".dds");
@@ -142,7 +177,12 @@ int main()
 {
 	//make_file_ktx::test(params("kueken7_rgba_astc4x4_srgb", gli::FORMAT_RGB8_UNORM_PACK8));
 
+	int Error(0);
+	
+	Error += gen::test();
+	
 	std::vector<params> Params;
+	Params.push_back(params("array_r8_uint", gli::FORMAT_R8_UINT_PACK8));
 	Params.push_back(params("kueken7_rgba8_unorm", gli::FORMAT_RGBA8_UNORM_PACK8));
 	Params.push_back(params("kueken7_rgba8_srgb", gli::FORMAT_RGBA8_SRGB_PACK8));
 	Params.push_back(params("kueken7_bgra8_unorm", gli::FORMAT_BGRA8_UNORM_PACK8));
@@ -153,8 +193,6 @@ int main()
 	Params.push_back(params("kueken8_rgba8_srgb", gli::FORMAT_RGBA8_SRGB_PACK8));
 	Params.push_back(params("kueken7_rgba_dxt5_unorm", gli::FORMAT_RGBA_DXT5_UNORM_BLOCK16));
 
-	int Error(0);
-
 	{
 		for(std::size_t Index = 0, Count = Params.size(); Index < Count; ++Index)
 		{
@@ -163,6 +201,6 @@ int main()
 			Error += load_file_dds::test(Params[Index]);
 		}
 	}
-
+	
 	return Error;
 }
