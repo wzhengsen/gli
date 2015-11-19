@@ -143,8 +143,6 @@ int main()
 	//make_file_ktx::test(params("kueken7_rgba_astc4x4_srgb", gli::FORMAT_RGB8_UNORM_PACK8));
 
 	std::vector<params> Params;
-	Params.push_back(params("kueken7_rgb8_srgb", gli::FORMAT_RGB8_SRGB_PACK8));
-	Params.push_back(params("kueken7_rgb8_unorm", gli::FORMAT_RGB8_UNORM_PACK8));
 	Params.push_back(params("kueken7_rgba8_unorm", gli::FORMAT_RGBA8_UNORM_PACK8));
 	Params.push_back(params("kueken7_rgba8_srgb", gli::FORMAT_RGBA8_SRGB_PACK8));
 	Params.push_back(params("kueken7_bgra8_unorm", gli::FORMAT_BGRA8_UNORM_PACK8));
@@ -153,8 +151,7 @@ int main()
 	Params.push_back(params("kueken7_rgba4_unorm", gli::FORMAT_BGRA4_UNORM_PACK16));
 	Params.push_back(params("kueken7_rgb5a1_unorm", gli::FORMAT_BGR5A1_UNORM_PACK16));
 	Params.push_back(params("kueken8_rgba8_srgb", gli::FORMAT_RGBA8_SRGB_PACK8));
-	Params.push_back(params("kueken7_rgba_dxt5_srgb", gli::FORMAT_RGBA_DXT5_SRGB_BLOCK16));
-	Params.push_back(params("kueken7_rgb_dxt1_srgb", gli::FORMAT_RGB_DXT1_SRGB_BLOCK8));
+	Params.push_back(params("kueken7_rgba_dxt5_unorm", gli::FORMAT_RGBA_DXT5_UNORM_BLOCK16));
 
 	int Error(0);
 
