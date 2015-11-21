@@ -142,7 +142,7 @@ namespace gen
 			gli::size_t const Faces = gli::is_target_cube(Target) ? 6 : 1;
 			gli::ivec3 const BlockDimensions = gli::block_dimensions(Format);
 			
-			gli::texture Texture(Target, Format, BlockDimensions * gli::ivec3(2, 2, 1), Layers, Faces, 2);
+			gli::texture Texture(Target, Format, BlockDimensions * gli::ivec3(BlockDimensions.y, BlockDimensions.x, 1), Layers, Faces, 2);
 			Texture.clear();
 			
 			gli::save(Texture, "gen_test.dds");
