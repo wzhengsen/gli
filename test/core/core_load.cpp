@@ -129,13 +129,13 @@ namespace gen
 	{
 		int Error = 0;
 		
-		for(int TargetIndex = gli::TARGET_FIRST, TargetCount = gli::FORMAT_LAST; TargetIndex < TargetCount; ++TargetIndex)
+		for(int TargetIndex = gli::TARGET_FIRST, TargetCount = gli::TARGET_LAST; TargetIndex < TargetCount; ++TargetIndex)
 		for(int FormatIndex = gli::FORMAT_FIRST, FormatCount = gli::FORMAT_LAST; FormatIndex < FormatCount; ++FormatIndex)
 		{
-			gli::format Format = static_cast<gli::format>(FormatIndex);
 			gli::target Target = static_cast<gli::target>(TargetIndex);
+			gli::format Format = static_cast<gli::format>(FormatIndex);
 			
-			if(gli::is_compressed(Format) && (gli::is_target_1d(Target) || Target == gli::TARGET_3D))
+			if((gli::is_compressed(Format) && (gli::is_target_1d(Target) || Target == gli::TARGET_3D)) || gli::is_target_rect(Target))
 				continue;
 			
 			gli::size_t const Layers = gli::is_target_array(Target) ? 2 : 1;
@@ -152,6 +152,8 @@ namespace gen
 			gli::save(Texture, "gen_test.ktx");
 			gli::texture TextureKTX(gli::load("gen_test.ktx"));
 			Error += Texture == TextureKTX ? 0 : 1;
+			
+			assert(!Error);
 		}
 		
 		return Error;
