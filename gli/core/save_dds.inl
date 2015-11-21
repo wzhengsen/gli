@@ -50,7 +50,23 @@ namespace detail
 
 		return Table[Target];
 	}
-}
+	
+	inline dx::d3dFormat get_fourcc(bool RequireDX10Header, dx::format const & DXFormat)
+	{
+		if(RequireDX10Header)
+		{
+			if(DXFormat.D3DFormat == dx::D3DFMT_GLI1)
+				return dx::D3DFMT_GLI1;
+			else
+				return dx::D3DFMT_DX10;
+		}
+		else
+		{
+			return (DXFormat.DDPixelFormat & dx::DDPF_FOURCC) ? DXFormat.D3DFormat : dx::D3DFMT_UNKNOWN;
+		}
+	}
+	
+}//namespace detail
 
 	inline bool save_dds(texture const & Texture, std::vector<char> & Memory)
 	{
@@ -59,10 +75,9 @@ namespace detail
 
 		dx DX;
 		dx::format const & DXFormat = DX.translate(Texture.format());
-		dx::d3dFormat const FourCC = Texture.layers() > 1 ? dx::D3DFMT_DX10 : DXFormat.D3DFormat;
-		
-		bool const RequireDX10Header = FourCC == dx::D3DFMT_DX10 || FourCC == dx::D3DFMT_GLI1 || is_target_array(Texture.target()) || is_target_1d(Texture.target());
-		
+
+		bool const RequireDX10Header = is_target_array(Texture.target()) || is_target_1d(Texture.target());
+
 		Memory.resize(Texture.size() + sizeof(detail::FOURCC_DDS) + sizeof(detail::ddsHeader) + (RequireDX10Header ? sizeof(detail::ddsHeader10) : 0));
 
 		memcpy(&Memory[0], detail::FOURCC_DDS, sizeof(detail::FOURCC_DDS));
@@ -90,7 +105,7 @@ namespace detail
 		Header.MipMapLevels = static_cast<std::uint32_t>(Texture.levels());
 		Header.Format.size = sizeof(detail::ddsPixelFormat);
 		Header.Format.flags = RequireDX10Header ? dx::DDPF_FOURCC : DXFormat.DDPixelFormat;
-		Header.Format.fourCC = RequireDX10Header ? dx::D3DFMT_DX10 : DXFormat.D3DFormat;
+		Header.Format.fourCC = detail::get_fourcc(RequireDX10Header, DXFormat);
 		Header.Format.bpp = static_cast<std::uint32_t>(detail::bits_per_pixel(Texture.format()));
 		Header.Format.Mask = DXFormat.Mask;
 		//Header.surfaceFlags = detail::DDSCAPS_TEXTURE | (Storage.levels() > 1 ? detail::DDSCAPS_MIPMAP : 0);

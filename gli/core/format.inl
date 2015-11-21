@@ -45,7 +45,8 @@ namespace detail
 		CAP_LUMINANCE_ALPHA_BIT = (1 << 11),
 		CAP_PACKED8_BIT = (1 << 12),
 		CAP_PACKED16_BIT = (1 << 13),
-		CAP_PACKED32_BIT = (1 << 14)
+		CAP_PACKED32_BIT = (1 << 14),
+		CAP_DDS_GLI_EXT_BIT = (1 << 15)
 	};
 
 	struct formatInfo
