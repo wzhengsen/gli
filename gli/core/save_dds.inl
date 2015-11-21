@@ -76,7 +76,7 @@ namespace detail
 		dx DX;
 		dx::format const & DXFormat = DX.translate(Texture.format());
 
-		bool const RequireDX10Header = is_target_array(Texture.target()) || is_target_1d(Texture.target());
+		bool const RequireDX10Header = DXFormat.D3DFormat == dx::D3DFMT_GLI1 || DXFormat.D3DFormat == dx::D3DFMT_DX10 || is_target_array(Texture.target()) || is_target_1d(Texture.target());
 
 		Memory.resize(Texture.size() + sizeof(detail::FOURCC_DDS) + sizeof(detail::ddsHeader) + (RequireDX10Header ? sizeof(detail::ddsHeader10) : 0));
 
