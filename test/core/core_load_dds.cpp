@@ -134,8 +134,8 @@ int main()
 	//Params.push_back(params("kueken7_rgba_pvrtc2_4bpp_unorm.dds", gli::FORMAT_RGBA_PVRTC2_4X4_UNORM_BLOCK8));
 
 	
-	Params.push_back(params("array_r8_uint.dds", gli::FORMAT_R8_UNORM_PACK8));
-	Params.push_back(params("kueken7_rgb_dxt1_srgb.dds", gli::FORMAT_RGB_DXT1_SRGB_BLOCK8));
+	Params.push_back(params("array_r8_uint.dds", gli::FORMAT_R8_UINT_PACK8));
+	Params.push_back(params("kueken7_rgb_dxt1_srgb.dds", gli::FORMAT_RGBA_DXT1_SRGB_BLOCK8));
 	Params.push_back(params("kueken7_rgba_astc4x4_srgb.dds", gli::FORMAT_RGBA_ASTC_4X4_SRGB_BLOCK16));
 	Params.push_back(params("kueken7_bgra8_srgb.dds", gli::FORMAT_BGRA8_SRGB_PACK8));
 	Params.push_back(params("kueken7_r16_unorm.dds", gli::FORMAT_R16_UINT_PACK16));
@@ -159,7 +159,7 @@ int main()
 	Params.push_back(params("kueken7_r_ati1n_unorm.dds", gli::FORMAT_R_ATI1N_UNORM_BLOCK8));
 	Params.push_back(params("kueken7_rg_ati2n_unorm.dds", gli::FORMAT_RG_ATI2N_UNORM_BLOCK16));
 	Params.push_back(params("kueken7_bgr8_unorm.dds", gli::FORMAT_BGR8_UNORM_PACK8));
-	Params.push_back(params("kueken7_bgr8_srgb.dds", gli::FORMAT_BGR8_SRGB_PACK8));
+	//Params.push_back(params("kueken7_bgr8_srgb.dds", gli::FORMAT_BGR8_UNORM_PACK32));
 	Params.push_back(params("kueken7_rgba8_srgb.dds", gli::FORMAT_RGBA8_SRGB_PACK8));
 	Params.push_back(params("kueken7_bgra8_unorm.dds", gli::FORMAT_BGRA8_UNORM_PACK8));
 	Params.push_back(params("kueken7_a8_unorm.dds", gli::FORMAT_A8_UNORM_PACK8));
