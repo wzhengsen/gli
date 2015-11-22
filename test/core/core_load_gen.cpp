@@ -27,19 +27,9 @@
 ///////////////////////////////////////////////////////////////////////////////////
 
 #include <gli/gli.hpp>
-#include <glm/gtc/epsilon.hpp>
-#include <glm/gtc/vec1.hpp>
-#include <glm/gtc/packing.hpp>
-#include <glm/gtc/color_space.hpp>
-#include <ctime>
 
 namespace
 {
-	std::string path(std::string const & filename, char const * ext)
-	{
-		return std::string(SOURCE_DIR) + "/data/" + filename + ext;
-	}
-
 	struct params
 	{
 		params(std::string const & Filename, gli::format Format)
@@ -58,10 +48,10 @@ namespace gen
 	{
 		int Error = 0;
 		
-		for(int TargetIndex = gli::TARGET_FIRST, TargetCount = gli::TARGET_LAST; TargetIndex < TargetCount; ++TargetIndex)
+		//for(int TargetIndex = gli::TARGET_FIRST, TargetCount = gli::TARGET_LAST; TargetIndex < TargetCount; ++TargetIndex)
 		for(int FormatIndex = gli::FORMAT_FIRST, FormatCount = gli::FORMAT_LAST; FormatIndex < FormatCount; ++FormatIndex)
 		{
-			gli::target Target = static_cast<gli::target>(TargetIndex);
+			gli::target Target = gli::TARGET_2D;//static_cast<gli::target>(TargetIndex);
 			gli::format Format = static_cast<gli::format>(FormatIndex);
 			
 			if((gli::is_compressed(Format) && (gli::is_target_1d(Target) || Target == gli::TARGET_3D)) || gli::is_target_rect(Target))
