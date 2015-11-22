@@ -218,7 +218,7 @@ int main()
 
 	int Error(0);
 	
-	//Error += gen::test();
+	Error += gen::test();
 	//Error += gen_rect::test();
 	
 	std::vector<params> Params;
