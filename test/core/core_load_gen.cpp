@@ -42,52 +42,40 @@ namespace
 	};
 }//namespace
 
-namespace gen
-{
-	int test()
-	{
-		int Error = 0;
-		
-		for(int TargetIndex = gli::TARGET_FIRST, TargetCount = gli::TARGET_2D_ARRAY; TargetIndex < TargetCount; ++TargetIndex)
-		for(int FormatIndex = gli::FORMAT_FIRST, FormatCount = gli::FORMAT_LAST; FormatIndex < FormatCount; ++FormatIndex)
-		{
-			gli::target Target = static_cast<gli::target>(TargetIndex);
-			gli::format Format = static_cast<gli::format>(FormatIndex);
-			
-			if((gli::is_compressed(Format) && (gli::is_target_1d(Target) || Target == gli::TARGET_3D)) || gli::is_target_rect(Target))
-				continue;
-			
-			gli::size_t const Layers = gli::is_target_array(Target) ? 2 : 1;
-			gli::size_t const Faces = gli::is_target_cube(Target) ? 6 : 1;
-			gli::ivec3 const BlockDimensions = gli::block_dimensions(Format);
-			
-			gli::texture Texture(Target, Format, BlockDimensions * gli::ivec3(BlockDimensions.y, BlockDimensions.x, 1), Layers, Faces, 2);
-			Texture.clear();
-			
-			gli::save(Texture, "gen_test.dds");
-			gli::texture TextureDDS(gli::load("gen_test.dds"));
-			Error += Texture == TextureDDS ? 0 : 1;
-			
-			gli::save(Texture, "gen_test.ktx");
-			gli::texture TextureKTX(gli::load("gen_test.ktx"));
-			Error += Texture == TextureKTX ? 0 : 1;
-
-			gli::save(Texture, "gen_test.kmg");
-			gli::texture TextureKMG(gli::load("gen_test.kmg"));
-			Error += Texture == TextureKMG ? 0 : 1;
-			
-			assert(!Error);
-		}
-		
-		return Error;
-	}
-}//namespace gen
-
 int main()
 {
-	int Error(0);
+	int Error = 0;
 	
-	Error += gen::test();
+	for(int TargetIndex = gli::TARGET_FIRST, TargetCount = gli::TARGET_3D; TargetIndex < TargetCount; ++TargetIndex)
+	for(int FormatIndex = gli::FORMAT_FIRST, FormatCount = gli::FORMAT_LAST; FormatIndex < FormatCount; ++FormatIndex)
+	{
+		gli::target Target = static_cast<gli::target>(TargetIndex);
+		gli::format Format = static_cast<gli::format>(FormatIndex);
+		
+		if((gli::is_compressed(Format) && (gli::is_target_1d(Target) || Target == gli::TARGET_3D)) || gli::is_target_rect(Target))
+			continue;
+			
+		gli::size_t const Layers = gli::is_target_array(Target) ? 2 : 1;
+		gli::size_t const Faces = gli::is_target_cube(Target) ? 6 : 1;
+		gli::ivec3 const BlockDimensions = gli::block_dimensions(Format);
+			
+		gli::texture Texture(Target, Format, BlockDimensions * gli::ivec3(BlockDimensions.y, BlockDimensions.x, 1), Layers, Faces, 2);
+		Texture.clear();
+			
+		gli::save(Texture, "gen_test.dds");
+		gli::texture TextureDDS(gli::load("gen_test.dds"));
+		Error += Texture == TextureDDS ? 0 : 1;
+			
+		gli::save(Texture, "gen_test.ktx");
+		gli::texture TextureKTX(gli::load("gen_test.ktx"));
+		Error += Texture == TextureKTX ? 0 : 1;
+			
+		gli::save(Texture, "gen_test.kmg");
+		gli::texture TextureKMG(gli::load("gen_test.kmg"));
+		Error += Texture == TextureKMG ? 0 : 1;
+
+		assert(!Error);
+	}
 	
 	return Error;
 }
