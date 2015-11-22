@@ -181,7 +181,7 @@ namespace gli
 			{DDPF_FOURCC, D3DFMT_DX10, DXGI_FORMAT_R9G9B9E5_SHAREDEXP, glm::u32vec4(0)},												//FORMAT_RGB9E5_UFLOAT,
 
 			{DDPF_FOURCC, D3DFMT_DX10, DXGI_FORMAT_D16_UNORM, glm::u32vec4(0)},						//FORMAT_D16_UNORM_PACK16,
-			{DDPF_FOURCC, D3DFMT_DX10, DXGI_FORMAT_D24_UNORM_GLI, glm::u32vec4(0)},					//FORMAT_D24_UNORM,
+			{DDPF_FOURCC, D3DFMT_GLI1, DXGI_FORMAT_D24_UNORM_GLI, glm::u32vec4(0)},					//FORMAT_D24_UNORM,
 			{DDPF_FOURCC, D3DFMT_DX10, DXGI_FORMAT_D32_FLOAT, glm::u32vec4(0)},						//FORMAT_D32_SFLOAT_PACK32,
 			{DDPF_FOURCC, D3DFMT_GLI1, DXGI_FORMAT_S8_UINT_GLI, glm::u32vec4(0)},					//FORMAT_S8_UINT_PACK8,
 			{DDPF_FOURCC, D3DFMT_GLI1, DXGI_FORMAT_D16_UNORM_S8_UINT_GLI, glm::u32vec4(0)},			//FORMAT_D16_UNORM_S8_UINT_PACK32,
@@ -207,8 +207,8 @@ namespace gli
 
 			{DDPF_FOURCC, D3DFMT_GLI1, DXGI_FORMAT_RGB_ETC2_UNORM_GLI, glm::u32vec4(0)},					//FORMAT_RGB_ETC2_UNORM_BLOCK8,
 			{DDPF_FOURCC, D3DFMT_GLI1, DXGI_FORMAT_RGB_ETC2_SRGB_GLI, glm::u32vec4(0)},						//FORMAT_RGB_ETC2_SRGB_BLOCK8,
-			{DDPF_FOURCC_ALPHAPIXELS, D3DFMT_GLI1, DXGI_FORMAT_RGBA_ETC2_A1_UNORM_GLI, glm::u32vec4(0)},	//FORMAT_RGBA_ETC2_A1_UNORM_BLOCK8,
-			{DDPF_FOURCC_ALPHAPIXELS, D3DFMT_GLI1, DXGI_FORMAT_RGBA_ETC2_A1_SRGB_GLI, glm::u32vec4(0)},		//FORMAT_RGBA_ETC2_A1_SRGB_BLOCK8,
+			{DDPF_FOURCC, D3DFMT_GLI1, DXGI_FORMAT_RGBA_ETC2_A1_UNORM_GLI, glm::u32vec4(0)},		//FORMAT_RGBA_ETC2_A1_UNORM_BLOCK8,
+			{DDPF_FOURCC, D3DFMT_GLI1, DXGI_FORMAT_RGBA_ETC2_A1_SRGB_GLI, glm::u32vec4(0)},			//FORMAT_RGBA_ETC2_A1_SRGB_BLOCK8,
 			{DDPF_FOURCC, D3DFMT_GLI1, DXGI_FORMAT_RGBA_ETC2_UNORM_GLI, glm::u32vec4(0)},					//FORMAT_RGBA_ETC2_UNORM_BLOCK16,
 			{DDPF_FOURCC, D3DFMT_GLI1, DXGI_FORMAT_RGBA_ETC2_SRGB_GLI, glm::u32vec4(0)},					//FORMAT_RGBA_ETC2_SRGB_BLOCK16,
 			{DDPF_FOURCC, D3DFMT_GLI1, DXGI_FORMAT_R11_EAC_UNORM_GLI, glm::u32vec4(0)},						//FORMAT_R_EAC_UNORM_BLOCK8,
@@ -246,7 +246,7 @@ namespace gli
 			{DDPF_FOURCC, D3DFMT_DX10, DXGI_FORMAT_ASTC_12X12_UNORM_SRGB, glm::u32vec4(0)},			//SRGB_ALPHA_ASTC_12x12,
 
 			{DDPF_FOURCC, D3DFMT_POWERVR_4BPP, DXGI_FORMAT_RGB_PVRTC1_8X8_UNORM_GLI, glm::u32vec4(0)},		//FORMAT_RGB_PVRTC1_8X8_UNORM_BLOCK32,
-			{DDPF_FOURCC, D3DFMT_GLI1, DXGI_FORMAT_RGB_PVRTC1_8X8_SRGB_GLI, glm::u32vec4(0)},		//FORMAT_RGB_PVRTC1_8X8_SRGB_BLOCK32,
+			{DDPF_FOURCC, D3DFMT_GLI1, DXGI_FORMAT_RGB_PVRTC1_8X8_SRGB_GLI, glm::u32vec4(0)},				//FORMAT_RGB_PVRTC1_8X8_SRGB_BLOCK32,
 			{DDPF_FOURCC, D3DFMT_POWERVR_2BPP, DXGI_FORMAT_RGB_PVRTC1_16X8_UNORM_GLI, glm::u32vec4(0)},		//FORMAT_RGB_PVRTC1_16X8_UNORM_BLOCK32,
 			{DDPF_FOURCC, D3DFMT_GLI1, DXGI_FORMAT_RGB_PVRTC1_16X8_SRGB_GLI, glm::u32vec4(0)},		//FORMAT_RGB_PVRTC1_16X8_SRGB_BLOCK32,
 			{DDPF_FOURCC, D3DFMT_GLI1, DXGI_FORMAT_RGBA_PVRTC1_8X8_UNORM_GLI, glm::u32vec4(0)},		//FORMAT_RGBA_PVRTC1_8X8_UNORM_BLOCK32,
@@ -258,10 +258,10 @@ namespace gli
 			{DDPF_FOURCC, D3DFMT_GLI1, DXGI_FORMAT_RGBA_PVRTC2_16X8_UNORM_GLI, glm::u32vec4(0)},	//FORMAT_RGBA_PVRTC2_16X8_UNORM,
 			{DDPF_FOURCC, D3DFMT_GLI1, DXGI_FORMAT_RGBA_PVRTC2_16X8_SRGB_GLI, glm::u32vec4(0)},		//FORMAT_RGBA_PVRTC2_16X8_SRGB,
 
-			{DDPF_FOURCC_ALPHAPIXELS, D3DFMT_ETC, DXGI_FORMAT_RGB_ETC_UNORM_GLI, glm::u32vec4(0)},			//FORMAT_RGB_ETC_UNORM_BLOCK8,
-			{DDPF_FOURCC_ALPHAPIXELS, D3DFMT_ATC, DXGI_FORMAT_RGB_ATC_UNORM_GLI, glm::u32vec4(0)},			//FORMAT_RGB_ATC_UNORM_BLOCK8,
-			{DDPF_FOURCC_ALPHAPIXELS, D3DFMT_ATCA, DXGI_FORMAT_RGBA_ATCA_UNORM_GLI, glm::u32vec4(0)},		//FORMAT_RGBA_ATCA_UNORM_BLOCK16,
-			{DDPF_FOURCC_ALPHAPIXELS, D3DFMT_ATCI, DXGI_FORMAT_RGBA_ATCI_UNORM_GLI, glm::u32vec4(0)},		//FORMAT_RGBA_ATCI_UNORM_BLOCK16,
+			{DDPF_FOURCC, D3DFMT_ETC, DXGI_FORMAT_RGB_ETC_UNORM_GLI, glm::u32vec4(0)},			//FORMAT_RGB_ETC_UNORM_BLOCK8,
+			{DDPF_FOURCC, D3DFMT_ATC, DXGI_FORMAT_RGB_ATC_UNORM_GLI, glm::u32vec4(0)},			//FORMAT_RGB_ATC_UNORM_BLOCK8,
+			{DDPF_FOURCC, D3DFMT_ATCA, DXGI_FORMAT_RGBA_ATCA_UNORM_GLI, glm::u32vec4(0)},		//FORMAT_RGBA_ATCA_UNORM_BLOCK16,
+			{DDPF_FOURCC, D3DFMT_ATCI, DXGI_FORMAT_RGBA_ATCI_UNORM_GLI, glm::u32vec4(0)},		//FORMAT_RGBA_ATCI_UNORM_BLOCK16,
 
 			{DDPF_LUMINANCE, D3DFMT_L8, DXGI_FORMAT_L8_UNORM_GLI, glm::u32vec4(0x000000FF, 0x00000000, 0x00000000, 0x00000000)},			//L8_UNORM,
 			{DDPF_ALPHA, D3DFMT_A8, DXGI_FORMAT_A8_UNORM_GLI, glm::u32vec4(0x00000000, 0x00000000, 0x00000000, 0x000000FF)},				//A8_UNORM,
@@ -295,29 +295,34 @@ namespace gli
 				continue;
 
 			FormatResult = static_cast<gli::format>(FormatIndex);
-
-			if(this->Translation[FormatIndex - FORMAT_FIRST].DDPixelFormat != PixelFormat)
-				continue;
-
 			break;
 		}
 		return FormatResult;
 	}
 
-	inline gli::format dx::find(dx::dxgiFormat Format, ddpf PixelFormat) const
+	inline gli::format dx::find(dx::d3dFormat FourCC, dx::dxgiFormat Format, ddpf PixelFormat) const
 	{
+		GLI_ASSERT(FourCC == D3DFMT_DX10 || FourCC == D3DFMT_GLI1);
+		
 		gli::format FormatResult = static_cast<gli::format>(FORMAT_INVALID);
 		for(int FormatIndex = FORMAT_FIRST; FormatIndex <= FORMAT_LAST; ++FormatIndex)
 		{
-			if(this->Translation[FormatIndex - FORMAT_FIRST].DXGIFormat != Format)
-				continue;
+			gli::format CurrentFormat = static_cast<gli::format>(FormatIndex);
+			detail::formatInfo const & FormatInfo = detail::get_format_info(CurrentFormat);
+			
+			dx::format const & DXFormat = this->Translation[FormatIndex - FORMAT_FIRST];
 
-			FormatResult = static_cast<gli::format>(FormatIndex);
-
-			if(this->Translation[FormatIndex - FORMAT_FIRST].DDPixelFormat != PixelFormat)
-				continue;
-
-			break;
+			if(FourCC == D3DFMT_GLI1 && (FormatInfo.Flags & detail::CAP_DDS_GLI_EXT_BIT) && DXFormat.DXGIFormat.GLI == Format.GLI)
+			{
+				FormatResult = static_cast<gli::format>(FormatIndex);
+				break;
+			}
+			
+			if(FourCC == D3DFMT_DX10 && !(FormatInfo.Flags & detail::CAP_DDS_GLI_EXT_BIT) && DXFormat.DXGIFormat.DDS == Format.DDS)
+			{
+				FormatResult = static_cast<gli::format>(FormatIndex);
+				break;
+			}
 		}
 		return FormatResult;
 	}
@@ -327,17 +332,8 @@ namespace gli
 		dx DX;
 		dx::format const & DXFormat = DX.translate(Format);
 
-		bool const RequireDX10Header = DXFormat.D3DFormat == dx::D3DFMT_DX10 || DXFormat.D3DFormat == dx::D3DFMT_GLI1 || is_target_array(Target) || is_target_1d(Target);
+		bool const UseDDSExt = detail::get_format_info(Format).Flags & detail::CAP_DDS_GLI_EXT_BIT ? true : false;
 
-		if(DXFormat.D3DFormat == dx::D3DFMT_GLI1)
-		{
-			if(RequireDX10Header)
-				return true;
-
-			if(DXFormat.DDPixelFormat & dx::DDPF_FOURCC)
-				return true;
-		}
-
-		return false;
+		return ((DXFormat.DDPixelFormat & dx::DDPF_FOURCC) && DXFormat.D3DFormat == dx::D3DFMT_GLI1) || ((is_target_array(Target) || is_target_1d(Target)) && UseDDSExt);
 	}
 }//namespace gli
