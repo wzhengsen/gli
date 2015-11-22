@@ -51,11 +51,13 @@ namespace detail
 		return Table[Target];
 	}
 	
-	inline dx::d3dFormat get_fourcc(bool RequireDX10Header, dx::format const & DXFormat)
+	inline dx::d3dFormat get_fourcc(bool RequireDX10Header, gli::format Format, dx::format const & DXFormat)
 	{
 		if(RequireDX10Header)
 		{
-			if(DXFormat.D3DFormat == dx::D3DFMT_GLI1)
+			detail::formatInfo const & FormatInfo = detail::get_format_info(Format);
+			
+			if(FormatInfo.Flags & detail::CAP_DDS_GLI_EXT_BIT)
 				return dx::D3DFMT_GLI1;
 			else
 				return dx::D3DFMT_DX10;
@@ -105,7 +107,7 @@ namespace detail
 		Header.MipMapLevels = static_cast<std::uint32_t>(Texture.levels());
 		Header.Format.size = sizeof(detail::ddsPixelFormat);
 		Header.Format.flags = RequireDX10Header ? dx::DDPF_FOURCC : DXFormat.DDPixelFormat;
-		Header.Format.fourCC = detail::get_fourcc(RequireDX10Header, DXFormat);
+		Header.Format.fourCC = detail::get_fourcc(RequireDX10Header, Texture.format(), DXFormat);
 		Header.Format.bpp = static_cast<std::uint32_t>(detail::bits_per_pixel(Texture.format()));
 		Header.Format.Mask = DXFormat.Mask;
 		//Header.surfaceFlags = detail::DDSCAPS_TEXTURE | (Storage.levels() > 1 ? detail::DDSCAPS_MIPMAP : 0);

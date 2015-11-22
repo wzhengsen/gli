@@ -49,7 +49,7 @@ int main()
 	for(int FormatIndex = gli::FORMAT_FIRST, FormatCount = gli::FORMAT_LAST; FormatIndex < FormatCount; ++FormatIndex)
 	{
 		gli::target const Target = gli::TARGET_1D;
-		gli::format Format = static_cast<gli::format>(FormatIndex);
+		gli::format Format = gli::FORMAT_BGR8_UNORM_PACK8;//static_cast<gli::format>(FormatIndex);
 		
 		if((gli::is_compressed(Format) && (gli::is_target_1d(Target) || Target == gli::TARGET_3D)) || gli::is_target_rect(Target))
 			continue;
