@@ -218,8 +218,8 @@ int main()
 
 	int Error(0);
 	
-	Error += gen::test();
-	Error += gen_rect::test();
+	//Error += gen::test();
+	//Error += gen_rect::test();
 	
 	std::vector<params> Params;
 	Params.push_back(params("array_r8_uint", gli::FORMAT_R8_UINT_PACK8));
