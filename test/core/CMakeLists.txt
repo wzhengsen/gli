@@ -58,4 +58,6 @@ glmCreateTestGTC(core_fetch)
 glmCreateTestGTC(core_flip)
 glmCreateTestGTC(core_copy)
 glmCreateTestGTC(core_view)
+glmCreateTestGTC(reduce)
+glmCreateTestGTC(transform)
 
