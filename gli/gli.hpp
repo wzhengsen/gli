@@ -64,6 +64,9 @@
 #include "view.hpp"
 #include "comparison.hpp"
 
+#include "reduce.hpp"
+#include "transform.hpp"
+
 #include "load.hpp"
 #include "save.hpp"
 
