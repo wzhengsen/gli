@@ -26,7 +26,53 @@
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
-namespace gli{
+namespace gli
+{
+	template <typename val_type>
+	struct binary_func
+	{
+		typedef tvec4<val_type>(*type)(tvec4<val_type> const & A, tvec4<val_type> const & B);
+	};
+/*
+namespace detail
+{
+	template <typename val_type>
+	struct compute_sampler_reduce_1d
+	{
+		typedef typename reduce_func<vec_type>::type func_type;
+		typedef texture1D::size_type size_type;
+		typedef texture1D::texelcoord_type texelcoord_type;
+		
+		static tvec4<val_type> call(texture1D const & A, texture1D const & B, binary_func<val_type> TexelFunc, binary_func<val_type> ReduceFunc)
+		{
+			GLI_ASSERT(all(equal(A.dimensions(), B.dimensions())));
+			GLI_ASSERT(A.levels() == B.levels());
+			GLI_ASSERT(A.size() == B.size());
+
+			sampler1D<val_type> const SamplerA(A, gli::WRAP_CLAMP_TO_EDGE);
+			sampler1D<val_type> const SamplerB(B, gli::WRAP_CLAMP_TO_EDGE);
+
+			texelcoord_type TexelIndex(0);
+			tvec4<val_type> Result(TexelFunc(
+				SamplerA.template fetch(TexelIndex, 0),
+				SamplerB.template fetch(TexelIndex, 0)));
+			
+			for(size_type LevelIndex = 0, LevelCount = A.levels(); LevelIndex < LevelCount; ++LevelIndex)
+			{
+				texelcoord_type const TexelCount(A.dimensions(LevelIndex));
+				for(TexelIndex.x = 0; TexelIndex.x < TexelCount.x; ++TexelIndex.x)
+				{
+					Result = ReduceFunc(Result, TexelFunc(
+						SamplerA.template fetch(TexelIndex, LevelIndex),
+						SamplerB.template fetch(TexelIndex, LevelIndex)));
+				}
+			}
+			
+			return Result;
+		}
+	};
+}//namespace detail
+*/
 namespace detail
 {
 	template <typename vec_type>
@@ -41,7 +87,7 @@ namespace detail
 			GLI_ASSERT(all(equal(A.dimensions(), B.dimensions())));
 			GLI_ASSERT(A.levels() == B.levels());
 			GLI_ASSERT(A.size() == B.size());
-		
+
 			texelcoord_type TexelIndex(0);
 			vec_type Result(TexelFunc(
 				A.template load<vec_type>(TexelIndex, 0),
@@ -270,7 +316,6 @@ namespace detail
 			return Result;
 		}
 	};
-	
 }//namepsace detail
 
 template <typename vec_type>
