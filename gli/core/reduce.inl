@@ -41,19 +41,21 @@ namespace detail
 			GLI_ASSERT(all(equal(A.dimensions(), B.dimensions())));
 			GLI_ASSERT(A.levels() == B.levels());
 			GLI_ASSERT(A.size() == B.size());
-			
-			texelcoord_type TexelIndex(0), TexelCount(A.dimensions());
-			
+		
+			texelcoord_type TexelIndex(0);
 			vec_type Result(TexelFunc(
-			A.template load<vec_type>(TexelIndex, 0),
-			B.template load<vec_type>(TexelIndex, 0)));
+				A.template load<vec_type>(TexelIndex, 0),
+				B.template load<vec_type>(TexelIndex, 0)));
 			
 			for(size_type LevelIndex = 0, LevelCount = A.levels(); LevelIndex < LevelCount; ++LevelIndex)
-			for(; TexelIndex.x < TexelCount.x; ++TexelIndex.x)
 			{
-				Result = ReduceFunc(Result, TexelFunc(
-					A.template load<vec_type>(TexelIndex, LevelIndex),
-					B.template load<vec_type>(TexelIndex, LevelIndex)));
+				texelcoord_type const TexelCount(A.dimensions(LevelIndex));
+				for(TexelIndex.x = 0; TexelIndex.x < TexelCount.x; ++TexelIndex.x)
+				{
+					Result = ReduceFunc(Result, TexelFunc(
+						A.template load<vec_type>(TexelIndex, LevelIndex),
+						B.template load<vec_type>(TexelIndex, LevelIndex)));
+				}
 			}
 			
 			return Result;
@@ -73,19 +75,21 @@ namespace detail
 			GLI_ASSERT(A.levels() == B.levels());
 			GLI_ASSERT(A.size() == B.size());
 			
-			texelcoord_type TexelIndex(0), TexelCount(A.dimensions());
-			
+			texelcoord_type TexelIndex(0);
 			vec_type Result(TexelFunc(
-			A.template load<vec_type>(TexelIndex, 0),
-			B.template load<vec_type>(TexelIndex, 0)));
+				A.template load<vec_type>(TexelIndex, 0),
+				B.template load<vec_type>(TexelIndex, 0)));
 			
 			for(size_type LayerIndex = 0, LayerCount = A.layers(); LayerIndex < LayerCount; ++LayerIndex)
 			for(size_type LevelIndex = 0, LevelCount = A.levels(); LevelIndex < LevelCount; ++LevelIndex)
-			for(; TexelIndex.x < TexelCount.x; ++TexelIndex.x)
 			{
-				Result = ReduceFunc(Result, TexelFunc(
-					A.template load<vec_type>(TexelIndex, LayerIndex, LevelIndex),
-					B.template load<vec_type>(TexelIndex, LayerIndex, LevelIndex)));
+				texelcoord_type const TexelCount(A.dimensions(LevelIndex));
+				for(TexelIndex.x = 0; TexelIndex.x < TexelCount.x; ++TexelIndex.x)
+				{
+					Result = ReduceFunc(Result, TexelFunc(
+						A.template load<vec_type>(TexelIndex, LayerIndex, LevelIndex),
+						B.template load<vec_type>(TexelIndex, LayerIndex, LevelIndex)));
+				}
 			}
 			
 			return Result;
@@ -105,19 +109,21 @@ namespace detail
 			GLI_ASSERT(A.levels() == B.levels());
 			GLI_ASSERT(A.size() == B.size());
 			
-			texelcoord_type TexelIndex(0), TexelCount(A.dimensions());
-			
+			texelcoord_type TexelIndex(0);
 			vec_type Result(TexelFunc(
-			A.template load<vec_type>(TexelIndex, 0),
-			B.template load<vec_type>(TexelIndex, 0)));
+				A.template load<vec_type>(TexelIndex, 0),
+				B.template load<vec_type>(TexelIndex, 0)));
 			
 			for(size_type LevelIndex = 0, LevelCount = A.levels(); LevelIndex < LevelCount; ++LevelIndex)
-			for(; TexelIndex.y < TexelCount.y; ++TexelIndex.y)
-			for(; TexelIndex.x < TexelCount.x; ++TexelIndex.x)
 			{
-				Result = ReduceFunc(Result, TexelFunc(
-					A.template load<vec_type>(TexelIndex, LevelIndex),
-					B.template load<vec_type>(TexelIndex, LevelIndex)));
+				texelcoord_type const TexelCount(A.dimensions(LevelIndex));
+				for(TexelIndex.y = 0; TexelIndex.y < TexelCount.y; ++TexelIndex.y)
+				for(TexelIndex.x = 0; TexelIndex.x < TexelCount.x; ++TexelIndex.x)
+				{
+					Result = ReduceFunc(Result, TexelFunc(
+						A.template load<vec_type>(TexelIndex, LevelIndex),
+						B.template load<vec_type>(TexelIndex, LevelIndex)));
+				}
 			}
 			
 			return Result;
@@ -137,20 +143,22 @@ namespace detail
 			GLI_ASSERT(A.levels() == B.levels());
 			GLI_ASSERT(A.size() == B.size());
 			
-			texelcoord_type TexelIndex(0), TexelCount(A.dimensions());
-			
+			texelcoord_type TexelIndex(0);
 			vec_type Result(TexelFunc(
-			A.template load<vec_type>(TexelIndex, 0),
-			B.template load<vec_type>(TexelIndex, 0)));
+				A.template load<vec_type>(TexelIndex, 0, 0),
+				B.template load<vec_type>(TexelIndex, 0, 0)));
 			
 			for(size_type LayerIndex = 0, LayerCount = A.layers(); LayerIndex < LayerCount; ++LayerIndex)
 			for(size_type LevelIndex = 0, LevelCount = A.levels(); LevelIndex < LevelCount; ++LevelIndex)
-			for(; TexelIndex.y < TexelCount.y; ++TexelIndex.y)
-			for(; TexelIndex.x < TexelCount.x; ++TexelIndex.x)
 			{
-				Result = ReduceFunc(Result, TexelFunc(
-					A.template load<vec_type>(TexelIndex, LayerIndex, LevelIndex),
-					B.template load<vec_type>(TexelIndex, LayerIndex, LevelIndex)));
+				texelcoord_type const TexelCount(A.dimensions(LevelIndex));
+				for(TexelIndex.y = 0; TexelIndex.y < TexelCount.y; ++TexelIndex.y)
+				for(TexelIndex.x = 0; TexelIndex.x < TexelCount.x; ++TexelIndex.x)
+				{
+					Result = ReduceFunc(Result, TexelFunc(
+						A.template load<vec_type>(TexelIndex, LayerIndex, LevelIndex),
+						B.template load<vec_type>(TexelIndex, LayerIndex, LevelIndex)));
+				}
 			}
 			
 			return Result;
@@ -170,20 +178,22 @@ namespace detail
 			GLI_ASSERT(A.levels() == B.levels());
 			GLI_ASSERT(A.size() == B.size());
 			
-			texelcoord_type TexelIndex(0), TexelCount(A.dimensions());
-			
+			texelcoord_type TexelIndex(0);
 			vec_type Result(TexelFunc(
-			A.template load<vec_type>(TexelIndex, 0),
-			B.template load<vec_type>(TexelIndex, 0)));
+				A.template load<vec_type>(TexelIndex, 0),
+				B.template load<vec_type>(TexelIndex, 0)));
 			
 			for(size_type LevelIndex = 0, LevelCount = A.levels(); LevelIndex < LevelCount; ++LevelIndex)
-			for(; TexelIndex.z < TexelCount.z; ++TexelIndex.z)
-			for(; TexelIndex.y < TexelCount.y; ++TexelIndex.y)
-			for(; TexelIndex.x < TexelCount.x; ++TexelIndex.x)
 			{
-				Result = ReduceFunc(Result, TexelFunc(
-					A.template load<vec_type>(TexelIndex, LevelIndex),
-					B.template load<vec_type>(TexelIndex, LevelIndex)));
+				texelcoord_type const TexelCount(A.dimensions(LevelIndex));
+				for(TexelIndex.z = 0; TexelIndex.z < TexelCount.z; ++TexelIndex.z)
+				for(TexelIndex.y = 0; TexelIndex.y < TexelCount.y; ++TexelIndex.y)
+				for(TexelIndex.x = 0; TexelIndex.x < TexelCount.x; ++TexelIndex.x)
+				{
+					Result = ReduceFunc(Result, TexelFunc(
+						A.template load<vec_type>(TexelIndex, LevelIndex),
+						B.template load<vec_type>(TexelIndex, LevelIndex)));
+				}
 			}
 			
 			return Result;
@@ -203,20 +213,22 @@ namespace detail
 			GLI_ASSERT(A.levels() == B.levels());
 			GLI_ASSERT(A.size() == B.size());
 			
-			texelcoord_type TexelIndex(0), TexelCount(A.dimensions());
-			
+			texelcoord_type TexelIndex(0);
 			vec_type Result(TexelFunc(
-			A.load<vec_type>(TexelIndex, 0, 0),
-			B.load<vec_type>(TexelIndex, 0, 0)));
+				A.load<vec_type>(TexelIndex, 0, 0),
+				B.load<vec_type>(TexelIndex, 0, 0)));
 			
 			for(size_type FaceIndex = 0, FaceCount = A.faces(); FaceIndex < FaceCount; ++FaceIndex)
 			for(size_type LevelIndex = 0, LevelCount = A.levels(); LevelIndex < LevelCount; ++LevelIndex)
-			for(; TexelIndex.y < TexelCount.y; ++TexelIndex.y)
-			for(; TexelIndex.x < TexelCount.x; ++TexelIndex.x)
 			{
-				Result = ReduceFunc(Result, TexelFunc(
-					A.template load<vec_type>(TexelIndex, FaceIndex, LevelIndex),
-					B.template load<vec_type>(TexelIndex, FaceIndex, LevelIndex)));
+				texelcoord_type const TexelCount(A.dimensions(LevelIndex));
+				for(TexelIndex.y = 0; TexelIndex.y < TexelCount.y; ++TexelIndex.y)
+				for(TexelIndex.x = 0; TexelIndex.x < TexelCount.x; ++TexelIndex.x)
+				{
+					Result = ReduceFunc(Result, TexelFunc(
+						A.template load<vec_type>(TexelIndex, FaceIndex, LevelIndex),
+						B.template load<vec_type>(TexelIndex, FaceIndex, LevelIndex)));
+				}
 			}
 			
 			return Result;
@@ -236,21 +248,23 @@ namespace detail
 			GLI_ASSERT(A.levels() == B.levels());
 			GLI_ASSERT(A.size() == B.size());
 			
-			texelcoord_type TexelIndex(0), TexelCount(A.dimensions());
-			
+			texelcoord_type TexelIndex(0);
 			vec_type Result(TexelFunc(
-			A.load<vec_type>(TexelIndex, 0, 0, 0),
-			B.load<vec_type>(TexelIndex, 0, 0 ,0)));
+				A.load<vec_type>(TexelIndex, 0, 0, 0),
+				B.load<vec_type>(TexelIndex, 0, 0 ,0)));
 			
 			for(size_type LayerIndex = 0, LayerCount = A.layers(); LayerIndex < LayerCount; ++LayerIndex)
 			for(size_type FaceIndex = 0, FaceCount = A.faces(); FaceIndex < FaceCount; ++FaceIndex)
 			for(size_type LevelIndex = 0, LevelCount = A.levels(); LevelIndex < LevelCount; ++LevelIndex)
-			for(; TexelIndex.y < TexelCount.y; ++TexelIndex.y)
-			for(; TexelIndex.x < TexelCount.x; ++TexelIndex.x)
 			{
-				Result = ReduceFunc(Result, TexelFunc(
-					A.template load<vec_type>(TexelIndex, LayerIndex, FaceIndex, LevelIndex),
-					B.template load<vec_type>(TexelIndex, LayerIndex, FaceIndex, LevelIndex)));
+				texelcoord_type const TexelCount(A.dimensions(LevelIndex));
+				for(TexelIndex.y = 0; TexelIndex.y < TexelCount.y; ++TexelIndex.y)
+				for(TexelIndex.x = 0; TexelIndex.x < TexelCount.x; ++TexelIndex.x)
+				{
+					Result = ReduceFunc(Result, TexelFunc(
+						A.template load<vec_type>(TexelIndex, LayerIndex, FaceIndex, LevelIndex),
+						B.template load<vec_type>(TexelIndex, LayerIndex, FaceIndex, LevelIndex)));
+				}
 			}
 			
 			return Result;
