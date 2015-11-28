@@ -29,13 +29,16 @@
 #include <gli/reduce.hpp>
 #include <glm/vector_relational.hpp>
 
-namespace reduce1d
+namespace
 {
 	inline gli::u8vec4 abs_diff(gli::u8vec4 const & A, gli::u8vec4 const & B)
 	{
 		return gli::abs(A - B);
 	}
-	
+}
+
+namespace reduce1d
+{
 	int test()
 	{
 		int Error = 0;
@@ -54,11 +57,6 @@ namespace reduce1d
 
 namespace reduce1d_array
 {
-	inline gli::u8vec4 abs_diff(gli::u8vec4 const & A, gli::u8vec4 const & B)
-	{
-		return gli::abs(A - B);
-	}
-	
 	int test()
 	{
 		int Error = 0;
@@ -77,11 +75,6 @@ namespace reduce1d_array
 
 namespace reduce2d
 {
-	inline gli::u8vec4 abs_diff(gli::u8vec4 const & A, gli::u8vec4 const & B)
-	{
-		return gli::abs(A - B);
-	}
-	
 	int test()
 	{
 		int Error = 0;
@@ -100,11 +93,6 @@ namespace reduce2d
 
 namespace reduce2d_array
 {
-	inline gli::u8vec4 abs_diff(gli::u8vec4 const & A, gli::u8vec4 const & B)
-	{
-		return gli::abs(A - B);
-	}
-	
 	int test()
 	{
 		int Error = 0;
@@ -123,11 +111,6 @@ namespace reduce2d_array
 
 namespace reduce3d
 {
-	inline gli::u8vec4 abs_diff(gli::u8vec4 const & A, gli::u8vec4 const & B)
-	{
-		return gli::abs(A - B);
-	}
-	
 	int test()
 	{
 		int Error = 0;
@@ -146,11 +129,6 @@ namespace reduce3d
 
 namespace reduce_cube
 {
-	inline gli::u8vec4 abs_diff(gli::u8vec4 const & A, gli::u8vec4 const & B)
-	{
-		return gli::abs(A - B);
-	}
-	
 	int test()
 	{
 		int Error = 0;
@@ -169,11 +147,6 @@ namespace reduce_cube
 
 namespace reduce_cube_array
 {
-	inline gli::u8vec4 abs_diff(gli::u8vec4 const & A, gli::u8vec4 const & B)
-	{
-		return gli::abs(A - B);
-	}
-	
 	int test()
 	{
 		int Error = 0;

@@ -42,14 +42,17 @@ namespace detail
 			GLI_ASSERT(A.levels() == B.levels());
 			GLI_ASSERT(A.size() == B.size());
 			
-			texelcoord_type TexelIndex(0), TexelCount(A.dimensions());
-			
 			for(size_type LevelIndex = 0, LevelCount = A.levels(); LevelIndex < LevelCount; ++LevelIndex)
-			for(; TexelIndex.x < TexelCount.x; ++TexelIndex.x)
 			{
-				Output.store<vec_type>(TexelIndex, LevelIndex, Func(
-				A.load<vec_type>(TexelIndex, LevelIndex),
-				B.load<vec_type>(TexelIndex, LevelIndex)));
+				texelcoord_type const TexelCount(A.dimensions(LevelIndex));
+				texelcoord_type TexelIndex(0);
+				
+				for(TexelIndex.x = 0; TexelIndex.x < TexelCount.x; ++TexelIndex.x)
+				{
+					Output.store<vec_type>(TexelIndex, LevelIndex, Func(
+						A.load<vec_type>(TexelIndex, LevelIndex),
+						B.load<vec_type>(TexelIndex, LevelIndex)));
+				}
 			}
 		}
 	};
@@ -68,15 +71,18 @@ namespace detail
 			GLI_ASSERT(A.levels() == B.levels());
 			GLI_ASSERT(A.size() == B.size());
 			
-			texelcoord_type TexelIndex(0), TexelCount(A.dimensions());
-			
 			for(size_type LayerIndex = 0, LayerCount = A.layers(); LayerIndex < LayerCount; ++LayerIndex)
 			for(size_type LevelIndex = 0, LevelCount = A.levels(); LevelIndex < LevelCount; ++LevelIndex)
-			for(; TexelIndex.x < TexelCount.x; ++TexelIndex.x)
 			{
-				Output.store<vec_type>(TexelIndex, LayerIndex, LevelIndex, Func(
-				A.load<vec_type>(TexelIndex, LayerIndex, LevelIndex),
-				B.load<vec_type>(TexelIndex, LayerIndex, LevelIndex)));
+				texelcoord_type const TexelCount(A.dimensions(LevelIndex));
+				texelcoord_type TexelIndex(0);
+				
+				for(TexelIndex.x = 0; TexelIndex.x < TexelCount.x; ++TexelIndex.x)
+				{
+					Output.store<vec_type>(TexelIndex, LayerIndex, LevelIndex, Func(
+						A.load<vec_type>(TexelIndex, LayerIndex, LevelIndex),
+						B.load<vec_type>(TexelIndex, LayerIndex, LevelIndex)));
+				}
 			}
 		}
 	};
@@ -94,15 +100,18 @@ namespace detail
 			GLI_ASSERT(A.levels() == B.levels());
 			GLI_ASSERT(A.size() == B.size());
 				
-			texelcoord_type TexelIndex(0), TexelCount(A.dimensions());
-				
 			for(size_type LevelIndex = 0, LevelCount = A.levels(); LevelIndex < LevelCount; ++LevelIndex)
-			for(; TexelIndex.y < TexelCount.y; ++TexelIndex.y)
-			for(; TexelIndex.x < TexelCount.x; ++TexelIndex.x)
 			{
-				Output.store<vec_type>(TexelIndex, LevelIndex, Func(
-					A.load<vec_type>(TexelIndex, LevelIndex),
-					B.load<vec_type>(TexelIndex, LevelIndex)));
+				texelcoord_type const TexelCount(A.dimensions(LevelIndex));
+				texelcoord_type TexelIndex(0);
+				
+				for(TexelIndex.y = 0; TexelIndex.y < TexelCount.y; ++TexelIndex.y)
+				for(TexelIndex.x = 0; TexelIndex.x < TexelCount.x; ++TexelIndex.x)
+				{
+					Output.store<vec_type>(TexelIndex, LevelIndex, Func(
+						A.load<vec_type>(TexelIndex, LevelIndex),
+						B.load<vec_type>(TexelIndex, LevelIndex)));
+				}
 			}
 		}
 	};
@@ -121,16 +130,19 @@ namespace detail
 			GLI_ASSERT(A.levels() == B.levels());
 			GLI_ASSERT(A.size() == B.size());
 				
-			texelcoord_type TexelIndex(0), TexelCount(A.dimensions());
-				
 			for(size_type LayerIndex = 0, LayerCount = A.layers(); LayerIndex < LayerCount; ++LayerIndex)
 			for(size_type LevelIndex = 0, LevelCount = A.levels(); LevelIndex < LevelCount; ++LevelIndex)
-			for(; TexelIndex.y < TexelCount.y; ++TexelIndex.y)
-			for(; TexelIndex.x < TexelCount.x; ++TexelIndex.x)
 			{
-				Output.store<vec_type>(TexelIndex, LayerIndex, LevelIndex, Func(
-					A.load<vec_type>(TexelIndex, LayerIndex, LevelIndex),
-					B.load<vec_type>(TexelIndex, LayerIndex, LevelIndex)));
+				texelcoord_type const TexelCount(A.dimensions(LevelIndex));
+				texelcoord_type TexelIndex(0);
+				
+				for(TexelIndex.y = 0; TexelIndex.y < TexelCount.y; ++TexelIndex.y)
+				for(TexelIndex.x = 0; TexelIndex.x < TexelCount.x; ++TexelIndex.x)
+				{
+					Output.store<vec_type>(TexelIndex, LayerIndex, LevelIndex, Func(
+						A.load<vec_type>(TexelIndex, LayerIndex, LevelIndex),
+						B.load<vec_type>(TexelIndex, LayerIndex, LevelIndex)));
+				}
 			}
 		}
 	};
@@ -148,16 +160,19 @@ namespace detail
 			GLI_ASSERT(A.levels() == B.levels());
 			GLI_ASSERT(A.size() == B.size());
 		
-			texelcoord_type TexelIndex(0), TexelCount(A.dimensions());
-		
 			for(size_type LevelIndex = 0, LevelCount = A.levels(); LevelIndex < LevelCount; ++LevelIndex)
-			for(; TexelIndex.z < TexelCount.z; ++TexelIndex.z)
-			for(; TexelIndex.y < TexelCount.y; ++TexelIndex.y)
-			for(; TexelIndex.x < TexelCount.x; ++TexelIndex.x)
 			{
-				Output.store<vec_type>(TexelIndex, LevelIndex, Func(
-					A.load<vec_type>(TexelIndex, LevelIndex),
-					B.load<vec_type>(TexelIndex, LevelIndex)));
+				texelcoord_type const TexelCount(A.dimensions(LevelIndex));
+				texelcoord_type TexelIndex(0);
+				
+				for(TexelIndex.z = 0; TexelIndex.z < TexelCount.z; ++TexelIndex.z)
+				for(TexelIndex.y = 0; TexelIndex.y < TexelCount.y; ++TexelIndex.y)
+				for(TexelIndex.x = 0; TexelIndex.x < TexelCount.x; ++TexelIndex.x)
+				{
+					Output.store<vec_type>(TexelIndex, LevelIndex, Func(
+						A.load<vec_type>(TexelIndex, LevelIndex),
+						B.load<vec_type>(TexelIndex, LevelIndex)));
+				}
 			}
 		}
 	};
@@ -176,16 +191,19 @@ namespace detail
 			GLI_ASSERT(A.levels() == B.levels());
 			GLI_ASSERT(A.size() == B.size());
 				
-			texelcoord_type TexelIndex(0), TexelCount(A.dimensions());
-				
 			for(size_type FaceIndex = 0, FaceCount = A.faces(); FaceIndex < FaceCount; ++FaceIndex)
 			for(size_type LevelIndex = 0, LevelCount = A.levels(); LevelIndex < LevelCount; ++LevelIndex)
-			for(; TexelIndex.y < TexelCount.y; ++TexelIndex.y)
-			for(; TexelIndex.x < TexelCount.x; ++TexelIndex.x)
 			{
-				Output.store<vec_type>(TexelIndex, FaceIndex, LevelIndex, Func(
-					A.load<vec_type>(TexelIndex, FaceIndex, LevelIndex),
-					B.load<vec_type>(TexelIndex, FaceIndex, LevelIndex)));
+				texelcoord_type const TexelCount(A.dimensions(LevelIndex));
+				texelcoord_type TexelIndex(0);
+				
+				for(TexelIndex.y = 0; TexelIndex.y < TexelCount.y; ++TexelIndex.y)
+				for(TexelIndex.x = 0; TexelIndex.x < TexelCount.x; ++TexelIndex.x)
+				{
+					Output.store<vec_type>(TexelIndex, FaceIndex, LevelIndex, Func(
+						A.load<vec_type>(TexelIndex, FaceIndex, LevelIndex),
+						B.load<vec_type>(TexelIndex, FaceIndex, LevelIndex)));
+				}
 			}
 		}
 	};
@@ -204,17 +222,20 @@ namespace detail
 			GLI_ASSERT(A.levels() == B.levels());
 			GLI_ASSERT(A.size() == B.size());
 				
-			texelcoord_type TexelIndex(0), TexelCount(A.dimensions());
-				
 			for(size_type LayerIndex = 0, LayerCount = A.layers(); LayerIndex < LayerCount; ++LayerIndex)
 			for(size_type FaceIndex = 0, FaceCount = A.faces(); FaceIndex < FaceCount; ++FaceIndex)
 			for(size_type LevelIndex = 0, LevelCount = A.levels(); LevelIndex < LevelCount; ++LevelIndex)
-			for(; TexelIndex.y < TexelCount.y; ++TexelIndex.y)
-			for(; TexelIndex.x < TexelCount.x; ++TexelIndex.x)
 			{
-				Output.store<vec_type>(TexelIndex, LayerIndex, FaceIndex, LevelIndex, Func(
-					A.load<vec_type>(TexelIndex, LayerIndex, FaceIndex, LevelIndex),
-					B.load<vec_type>(TexelIndex, LayerIndex, FaceIndex, LevelIndex)));
+				texelcoord_type const TexelCount(A.dimensions(LevelIndex));
+				texelcoord_type TexelIndex(0);
+				
+				for(TexelIndex.y = 0; TexelIndex.y < TexelCount.y; ++TexelIndex.y)
+				for(TexelIndex.x = 0; TexelIndex.x < TexelCount.x; ++TexelIndex.x)
+				{
+					Output.store<vec_type>(TexelIndex, LayerIndex, FaceIndex, LevelIndex, Func(
+						A.load<vec_type>(TexelIndex, LayerIndex, FaceIndex, LevelIndex),
+						B.load<vec_type>(TexelIndex, LayerIndex, FaceIndex, LevelIndex)));
+				}
 			}
 		}
 	};
