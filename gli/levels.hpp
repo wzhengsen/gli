@@ -20,13 +20,8 @@
 /// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 /// THE SOFTWARE.
 ///
-/// @ref core
 /// @file gli/levels.hpp
 /// @date 2014-12-12 / 2015-10-15
-/// @author Christophe Riccio
-///
-/// @defgroup core_image Image 
-/// @ingroup core
 ///////////////////////////////////////////////////////////////////////////////////
 
 #pragma once

@@ -20,10 +20,8 @@
 /// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 /// THE SOFTWARE.
 ///
-/// @ref core
 /// @file gli/core/mipmaps_compute.hpp
 /// @date 2015-11-04 / 2015-11-04
-/// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
 #pragma once

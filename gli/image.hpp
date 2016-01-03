@@ -20,13 +20,8 @@
 /// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 /// THE SOFTWARE.
 ///
-/// @ref core
 /// @file gli/image.hpp
 /// @date 2011-10-06 / 2013-01-12
-/// @author Christophe Riccio
-///
-/// @defgroup core_image Image 
-/// @ingroup core
 ///////////////////////////////////////////////////////////////////////////////////
 
 #pragma once
@@ -35,7 +30,7 @@
 
 namespace gli
 {
-	/// Image
+	/// Image, representation for a single texture level
 	class image
 	{
 	private:

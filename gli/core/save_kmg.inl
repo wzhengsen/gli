@@ -20,10 +20,8 @@
 /// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 /// THE SOFTWARE.
 ///
-/// @ref core
 /// @file gli/core/save_kmg.inl
 /// @date 2015-08-05 / 2015-08-05
-/// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
 #include <cstdio>

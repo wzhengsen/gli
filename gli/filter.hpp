@@ -20,10 +20,8 @@
 /// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 /// THE SOFTWARE.
 ///
-/// @ref core
 /// @file gli/filter.hpp
 /// @date 2015-09-08 / 2015-09-08
-/// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
 #pragma once
@@ -39,6 +37,7 @@ namespace detail
 	};
 }//namespace detail
 
+	/// Texture filtring modes
 	enum filter
 	{
 		FILTER_NONE = 0,

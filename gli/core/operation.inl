@@ -20,10 +20,8 @@
 /// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 /// THE SOFTWARE.
 ///
-/// @ref core
 /// @file gli/core/operation.inl
 /// @date 2008-12-19 / 2013-01-12
-/// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
 #include <cstring>

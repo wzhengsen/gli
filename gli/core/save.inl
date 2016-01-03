@@ -20,10 +20,8 @@
 /// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 /// THE SOFTWARE.
 ///
-/// @ref core
 /// @file gli/core/save.inl
 /// @date 2015-08-09 / 2015-08-09
-/// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
 #include "../save_dds.hpp"

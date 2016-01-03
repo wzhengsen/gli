@@ -20,10 +20,8 @@
 /// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 /// THE SOFTWARE.
 ///
-/// @ref core
 /// @file gli/core/sampler_cube_array.inl
 /// @date 2015-11-01 / 2015-11-01
-/// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
 #include "clear.hpp"

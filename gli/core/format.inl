@@ -20,10 +20,8 @@
 /// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 /// THE SOFTWARE.
 ///
-/// @ref core
 /// @file gli/core/format.inl
 /// @date 2012-10-16 / 2015-06-16
-/// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
 namespace gli{

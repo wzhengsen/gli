@@ -20,16 +20,15 @@
 /// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 /// THE SOFTWARE.
 ///
-/// @ref core
 /// @file gli/target.hpp
 /// @date 2015-08-21 / 2015-08-21
-/// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
 #pragma once
 
 namespace gli
 {
+	/// Texture target: type/shape of the texture storage
 	enum target
 	{
 		TARGET_1D = 0, TARGET_FIRST = TARGET_1D,

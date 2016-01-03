@@ -20,10 +20,8 @@
 /// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 /// THE SOFTWARE.
 ///
-/// @ref core
 /// @file gli/core/load_dds.inl
 /// @date 2010-09-26 / 2015-06-16
-/// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
 #include "../dx.hpp"

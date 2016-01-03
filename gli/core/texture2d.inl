@@ -20,10 +20,8 @@
 /// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 /// THE SOFTWARE.
 ///
-/// @ref core
 /// @file gli/core/texture2d.inl
 /// @date 2010-09-27 / 2012-10-16
-/// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
 #include "../levels.hpp"

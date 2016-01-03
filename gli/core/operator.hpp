@@ -20,10 +20,8 @@
 /// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 /// THE SOFTWARE.
 ///
-/// @ref core
 /// @file gli/core/operator.hpp
 /// @date 2010-01-19 / 2013-01-12
-/// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
 #pragma once
@@ -36,7 +34,10 @@ namespace detail
 
 }//namespace detail
 
+	/// Add two textures, each texel
 	texture2D operator+(texture2D const & TextureA, texture2D const & TextureB);
+
+	/// Substract two textures, each texel
 	texture2D operator-(texture2D const & TextureA, texture2D const & TextureB);
 
 }//namespace gli

@@ -20,10 +20,8 @@
 /// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 /// THE SOFTWARE.
 ///
-/// @ref core
 /// @file gli/core/gl.inl
 /// @date 2013-11-09 / 2013-11-09
-/// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
 #include <algorithm>

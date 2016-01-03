@@ -20,10 +20,8 @@
 /// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 /// THE SOFTWARE.
 ///
-/// @ref core
 /// @file gli/texture3d.hpp
 /// @date 2010-01-09 / 2013-01-11
-/// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
 #pragma once
@@ -34,7 +32,7 @@
 
 namespace gli
 {
-	/// texture3D
+	/// 3d texture
 	class texture3D : public texture
 	{
 	public:

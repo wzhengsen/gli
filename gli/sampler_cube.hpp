@@ -20,10 +20,8 @@
 /// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 /// THE SOFTWARE.
 ///
-/// @ref core
 /// @file gli/sampler_cube.hpp
 /// @date 2015-10-26 / 2015-10-26
-/// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
 #pragma once
@@ -35,6 +33,9 @@
 
 namespace gli
 {
+	/// Cube map texture sampler
+	/// @tparam T Sampler can fetch, write and interpret any texture format but will expose and process the data through type T conversions.
+	/// @tparam P Precision in term of ULPs
 	template <typename T, precision P = defaultp>
 	class samplerCube : public sampler
 	{

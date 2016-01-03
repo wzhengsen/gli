@@ -20,10 +20,8 @@
 /// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 /// THE SOFTWARE.
 ///
-/// @ref core
 /// @file gli/sampler.hpp
 /// @date 2015-09-29 / 2015-09-29
-/// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
 #pragma once
@@ -32,6 +30,7 @@
 
 namespace gli
 {
+	/// Texture coordinate wrapping mode
 	enum wrap
 	{
 		WRAP_CLAMP_TO_EDGE, WRAP_FIRST = WRAP_CLAMP_TO_EDGE,
@@ -47,11 +46,13 @@ namespace gli
 		WRAP_COUNT = WRAP_LAST - WRAP_FIRST + 1
 	};
 
+	/// Evaluate whether the texture coordinate wrapping mode relies on border color
 	inline bool is_border(wrap Wrap)
 	{
 		return Wrap == WRAP_CLAMP_TO_BORDER || Wrap == WRAP_MIRROR_CLAMP_TO_BORDER;
 	}
 
+	/// Genetic sampler class.
 	class sampler
 	{
 	public:

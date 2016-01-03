@@ -20,10 +20,8 @@
 /// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 /// THE SOFTWARE.
 ///
-/// @ref core
 /// @file gli/texture2d.hpp
 /// @date 2010-01-09 / 2015-08-29
-/// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
 #pragma once
@@ -34,7 +32,7 @@
 
 namespace gli
 {
-	/// texture2D
+	/// 2d texture
 	class texture2D : public texture
 	{
 	public:

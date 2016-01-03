@@ -20,10 +20,8 @@
 /// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 /// THE SOFTWARE.
 ///
-/// @ref core
 /// @file gli/format.hpp
 /// @date 2012-10-16 / 2015-06-16
-/// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
 #pragma once
@@ -33,6 +31,7 @@
 
 namespace gli
 {
+	/// Texture data format
 	enum format
 	{
 		FORMAT_UNDEFINED = 0,
@@ -279,6 +278,7 @@ namespace gli
 		FORMAT_RG3B2_UNORM_PACK8, FORMAT_LAST = FORMAT_RG3B2_UNORM_PACK8
 	};
 
+	/// Represent the source of a channel
 	enum swizzle
 	{
 		SWIZZLE_RED, SWIZZLE_FIRST = SWIZZLE_RED, SWIZZLE_CHANNEL_FIRST = SWIZZLE_RED,
@@ -289,6 +289,7 @@ namespace gli
 		SWIZZLE_ONE, SWIZZLE_LAST = SWIZZLE_ONE
 	};
 
+	/// Determine whether the Swizzle value represent a channel
 	inline bool is_channel(swizzle Swizzle)
 	{
 		return Swizzle >= SWIZZLE_CHANNEL_FIRST && Swizzle <= SWIZZLE_CHANNEL_LAST;
@@ -301,6 +302,7 @@ namespace gli
 		SWIZZLE_COUNT = SWIZZLE_LAST - SWIZZLE_FIRST + 1
 	};
 
+	/// Evaluate whether a format value is value or not
 	inline bool is_valid(format Format)
 	{
 		return Format >= FORMAT_FIRST && Format <= FORMAT_LAST;
@@ -308,10 +310,19 @@ namespace gli
 
 	typedef glm::tvec4<swizzle> swizzles;
 
+	/// Evaluate whether a format is compressed
 	bool is_compressed(format Format);
+
+	/// Evaluate whether a format stores sRGB color space values
 	bool is_srgb(format Format);
+
+	/// Return the size in bytes of a block for a format.
 	size_t block_size(format Format);
+
+	/// Return the dimensions in texels of the block for a format
 	ivec3 block_dimensions(format Format);
+
+	/// Return the number of components of a format
 	size_t component_count(format Format);
 }//namespace gli
 

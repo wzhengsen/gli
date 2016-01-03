@@ -20,10 +20,8 @@
 /// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 /// THE SOFTWARE.
 ///
-/// @ref core
 /// @file gli/core/sampler.inl
 /// @date 2015-09-29 / 2015-10-03
-/// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
 #include <glm/gtx/wrap.hpp>

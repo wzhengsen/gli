@@ -20,10 +20,8 @@
 /// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 /// THE SOFTWARE.
 ///
-/// @ref core
 /// @file gli/sampler_cube_array.hpp
 /// @date 2015-11-01 / 2015-11-01
-/// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
 #pragma once
@@ -35,6 +33,9 @@
 
 namespace gli
 {
+	/// Cube map array texture sampler
+	/// @tparam T Sampler can fetch, write and interpret any texture format but will expose and process the data through type T conversions.
+	/// @tparam P Precision in term of ULPs
 	template <typename T, precision P = defaultp>
 	class samplerCubeArray : public sampler
 	{

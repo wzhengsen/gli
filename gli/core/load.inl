@@ -20,10 +20,8 @@
 /// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 /// THE SOFTWARE.
 ///
-/// @ref core
 /// @file gli/core/load.inl
 /// @date 2015-08-09 / 2015-08-09
-/// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
 #include "../load_dds.hpp"
@@ -32,6 +30,7 @@
 
 namespace gli
 {
+	/// Load a texture (DDS, KTX or KMG) from memory
 	inline texture load(char const * Data, std::size_t Size)
 	{
 		{
@@ -53,6 +52,7 @@ namespace gli
 		return texture();
 	}
 
+	/// Load a texture (DDS, KTX or KMG) from file
 	inline texture load(char const * Filename)
 	{
 		FILE* File = std::fopen(Filename, "rb");
@@ -72,6 +72,7 @@ namespace gli
 		return load(&Data[0], Data.size());
 	}
 
+	/// Load a texture (DDS, KTX or KMG) from file
 	inline texture load(std::string const & Filename)
 	{
 		return load(Filename.c_str());

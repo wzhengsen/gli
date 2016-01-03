@@ -20,10 +20,8 @@
 /// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 /// THE SOFTWARE.
 ///
-/// @ref core
 /// @file gli/load.hpp
 /// @date 2015-08-09 / 2015-08-09
-/// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
 #pragma once
@@ -40,11 +38,12 @@ namespace gli
 	/// Loads a texture storage from file. Returns an empty storage in case of failure.
 	///
 	/// @param Path Path of the file to open including filaname and filename extension
-	texture load(std::string const & Filename);
+	texture load(std::string const & Path);
 
 	/// Loads a texture storage from memory. Returns an empty storage in case of failure.
 	///
-	/// @param Path Path of the file to open including filaname and filename extension
+	/// @param Data Data of a texture
+	/// @param Size Size of the data
 	texture load(char const * Data, std::size_t Size);
 }//namespace gli
 

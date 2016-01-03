@@ -20,10 +20,8 @@
 /// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 /// THE SOFTWARE.
 ///
-/// @ref core
 /// @file gli/texture2d_array.hpp
 /// @date 2011-04-06 / 2013-01-11
-/// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
 #pragma once
@@ -32,7 +30,7 @@
 
 namespace gli
 {
-	/// texture2DArray
+	/// 2d array texture
 	class texture2DArray : public texture
 	{
 	public:

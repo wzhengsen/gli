@@ -20,10 +20,8 @@
 /// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 /// THE SOFTWARE.
 ///
-/// @ref core
 /// @file gli/sampler3d.hpp
 /// @date 2015-10-22 / 2015-10-22
-/// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
 #pragma once
@@ -35,6 +33,9 @@
 
 namespace gli
 {
+	/// 3d texture sampler
+	/// @tparam T Sampler can fetch, write and interpret any texture format but will expose and process the data through type T conversions.
+	/// @tparam P Precision in term of ULPs
 	template <typename T, precision P = defaultp>
 	class sampler3D : public sampler
 	{
