@@ -36,6 +36,7 @@
 
 namespace gli
 {
+	/// Translation class to convert GLI enums into OpenGL values
 	class gl
 	{
 	public:
@@ -347,9 +348,16 @@ namespace gli
 
 		gl();
 
+		/// Convert GLI targets into OpenGL texture targets
 		target const & translate(gli::target Target) const;
+
+		/// Convert GLI formats into OpenGL texture formats
 		format const & translate(gli::format Format) const;
+
+		/// Convert GLI swizzles into OpenGL swizzles
 		swizzles translate(gli::swizzles const & Swizzle) const;
+
+		/// Convert an OpenGL format into a GLI format
 		gli::format find(internalFormat InternalFormat, externalFormat ExternalFormat, typeFormat Type);
 
 	private:

@@ -36,6 +36,7 @@
 
 namespace gli
 {
+	/// Translation class to convert GLI enums into Direct3D enums
 	class dx
 	{
 	public:
@@ -491,14 +492,20 @@ namespace gli
 	public:
 		dx();
 
+		/// Convert GLI formats into Direct3D formats
 		format const & translate(gli::format const & Format) const;
+
+		/// Convert a Direct3D 9 format into a GLI format
 		gli::format find(d3dFormat FourCC, ddpf PixelFormat) const;
+
+		/// Convert a Direct3D 10 format into a GLI format
 		gli::format find(d3dFormat FourCC, dxgiFormat Format, ddpf PixelFormat) const;
 
 	private:
 		std::array<format, FORMAT_COUNT> Translation;
 	};
 
+	/// Evaluate whether a target and format combinaison is only supported by the DDS container through GLI DDS extension.
 	bool is_dds_ext(target Target, format Format);
 }//namespace gli
 
