@@ -1,6 +1,5 @@
-/// @brief Functions to compare whether two textures or images are equal
+/// @brief Include to use operators to compare whether two textures or images are equal
 /// @file gli/comparison.hpp
-/// @date 2013-02-04 / 2013-02-04
 
 #pragma once
 

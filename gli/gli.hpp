@@ -1,32 +1,5 @@
-///////////////////////////////////////////////////////////////////////////////////
-/// OpenGL Image (gli.g-truc.net)
-///
-/// Copyright (c) 2008 - 2016 G-Truc Creation (www.g-truc.net)
-/// Permission is hereby granted, free of charge, to any person obtaining a copy
-/// of this software and associated documentation files (the "Software"), to deal
-/// in the Software without restriction, including without limitation the rights
-/// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-/// copies of the Software, and to permit persons to whom the Software is
-/// furnished to do so, subject to the following conditions:
-/// 
-/// The above copyright notice and this permission notice shall be included in
-/// all copies or substantial portions of the Software.
-/// 
-/// Restrictions:
-///  By making use of the Software for military purposes, you choose to make
-///  a Bunny unhappy.
-/// 
-/// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-/// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-/// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-/// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-/// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-/// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-/// THE SOFTWARE.
-///
+/// @brief Include to include everything in GLI which is not recommendated due to compilation time cost.
 /// @file gli/gli.hpp
-/// @date 2008-12-19 / 2015-08-08
-///////////////////////////////////////////////////////////////////////////////////
 
 #pragma once
 
@@ -35,6 +8,12 @@
 #define GLI_VERSION_MINOR			8
 #define GLI_VERSION_PATCH			0
 #define GLI_VERSION_REVISION		0
+
+/// Namespace where all the classes and functions provided by GLI are exposed
+namespace gli
+{
+
+}//namespace gli
 
 #include "format.hpp"
 #include "target.hpp"
