@@ -23,7 +23,7 @@ namespace gli
 
 	/// Compute the number of mipmaps levels necessary to create a mipmap complete texture
 	/// 
-	/// @param Dimensions Dimensions of the texture base level mipmap
+	/// @param Dimension Dimension of the texture base level mipmap
 	/// @tparam dimType Vector type used to express the dimentions of a texture of any kind.
 	/// @code
 	/// #include <gli/gli.hpp>
@@ -35,7 +35,7 @@ namespace gli
 
 	/// Compute the number of mipmaps levels necessary to create a mipmap complete texture
 	/// 
-	/// @param Dimensions Dimensions of the texture base level mipmap
+	/// @param Dimension Dimension of the texture base level mipmap
 	/// @tparam dimType Vector type used to express the dimentions of a texture of any kind.
 	/// @code
 	/// #include <gli/gli.hpp>

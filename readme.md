@@ -17,7 +17,7 @@ This library works perfectly with *[OpenGL](https://www.opengl.org)* but it also
 For more information about *GLI*, please have a look at the [API reference documentation](http://gli.g-truc.net/0.7.0/api/index.html).
 The source code and the documentation are licensed under the [Happy Bunny License (Modified MIT) or the MIT License](./copying.txt).
 
-Thanks for contributing to the project by <link href="https://github.com/g-truc/gli/issues">submitting issues</link> for bug reports and feature requests. Any feedback is welcome at <link href="mailto://gli@g-truc.net">gli@g-truc.net</link>.
+Thanks for contributing to the project by [submitting issues](https://github.com/g-truc/gli/issues) for bug reports and feature requests. Any feedback is welcome at [gli@g-truc.net](mailto://gli@g-truc.net).
 
 ```c++
 #include <gli/gli.hpp>

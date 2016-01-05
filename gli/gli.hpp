@@ -1,6 +1,7 @@
 /// @brief Include to include everything in GLI which is not recommendated due to compilation time cost.
 /// @file gli/gli.hpp
 
+
 #pragma once
 
 #define GLI_VERSION					80
