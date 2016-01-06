@@ -1,4 +1,4 @@
-![gli](doc/logo.png)
+![gli](http://gli.g-truc.net/logo.png)
 
 [OpenGL Image](http://gli.g-truc.net/) (*GLI*) is a header only C++ image library for graphics software.
 
@@ -14,7 +14,7 @@ This library works perfectly with *[OpenGL](https://www.opengl.org)* but it also
 - [Visual C++](http://www.visualstudio.com/) 2010 and higher
 - Any conform C++11 compiler
 
-For more information about *GLI*, please have a look at the [API reference documentation](http://gli.g-truc.net/0.7.0/api/index.html).
+For more information about *GLI*, please have a look at the [API reference documentation](http://gli.g-truc.net/0.8.0/api/index.html).
 The source code and the documentation are licensed under the [Happy Bunny License (Modified MIT) or the MIT License](./copying.txt).
 
 Thanks for contributing to the project by [submitting issues](https://github.com/g-truc/gli/issues) for bug reports and feature requests. Any feedback is welcome at [gli@g-truc.net](mailto://gli@g-truc.net).
