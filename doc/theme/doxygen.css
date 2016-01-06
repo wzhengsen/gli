@@ -142,7 +142,7 @@ a {
 	margin:0px;
 	margin-left:auto; 
 	margin-right:auto;
-	width:936px;
+	width:1216px;
 	border-bottom-left-radius: 8px;
 	border-bottom-right-radius: 8px;
 }
@@ -756,9 +756,9 @@ div.directory {
 }
 
 .directory .levels span {
-        cursor: pointer;
-        padding-left: 2px;
-        padding-right: 2px;
+	cursor: pointer;
+	padding-left: 2px;
+	padding-right: 2px;
 	color: #990026;
 }
 
@@ -837,7 +837,7 @@ table.directory {
 /* @end */
 
 div.dynheader {
-        margin-top: 8px;
+	margin-top: 8px;
 	-webkit-touch-callout: none;
 	-webkit-user-select: none;
 	-khtml-user-select: none;
@@ -853,8 +853,8 @@ address {
 
 table.doxtable {
 	border-collapse:collapse;
-        margin-top: 4px;
-        margin-bottom: 4px;
+	margin-top: 4px;
+	margin-bottom: 4px;
 }
 
 table.doxtable td, table.doxtable th {
@@ -1036,7 +1036,7 @@ div.header
 	margin:0px;
 	margin-left:auto; 
 	margin-right:auto;
-	width:1000px;
+	width:1280px;
 }
 
 div.headertitle
@@ -1260,9 +1260,9 @@ div.toc li.level4 {
 }
 
 .inherit_header {
-        font-weight: bold;
-        color: gray;
-        cursor: pointer;
+	font-weight: bold;
+	color: gray;
+	cursor: pointer;
 	-webkit-touch-callout: none;
 	-webkit-user-select: none;
 	-khtml-user-select: none;
@@ -1472,7 +1472,7 @@ tr.heading h2 {
 {
 	margin-left:auto; 
 	margin-right:auto;
-	width:1000px;
+	width:1280px;
 }
 
 @media print
