@@ -1,4 +1,4 @@
-/// @brief Include to sample a cube map textures.
+/// @brief Include to sample cube map textures.
 /// @file gli/sampler_cube.hpp
 
 #pragma once
