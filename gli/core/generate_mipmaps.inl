@@ -1,10 +1,10 @@
-#include <gli/sampler1d.hpp>
-#include <gli/sampler1d_array.hpp>
-#include <gli/sampler2d.hpp>
-#include <gli/sampler2d_array.hpp>
-#include <gli/sampler3d.hpp>
-#include <gli/sampler_cube.hpp>
-#include <gli/sampler_cube_array.hpp>
+#include "../sampler1d.hpp"
+#include "../sampler1d_array.hpp"
+#include "../sampler2d.hpp"
+#include "../sampler2d_array.hpp"
+#include "../sampler3d.hpp"
+#include "../sampler_cube.hpp"
+#include "../sampler_cube_array.hpp"
 
 namespace gli
 {
