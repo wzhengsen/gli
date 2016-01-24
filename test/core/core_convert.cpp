@@ -26,9 +26,30 @@
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
+#include <gli/load.hpp>
+#include <gli/save.hpp>
 #include <gli/convert.hpp>
 #include <gli/comparison.hpp>
 #include <glm/gtc/epsilon.hpp>
+
+namespace
+{
+	std::string path(const char* filename)
+	{
+		return std::string(SOURCE_DIR) + "/data/" + filename;
+	}
+
+	struct params
+	{
+		params(std::string const & Filename, gli::format Format)
+			: Filename(Filename)
+			, Format(Format)
+		{}
+
+		std::string Filename;
+		gli::format Format;
+	};
+}//namespace
 
 namespace rgb10a2norm
 {
@@ -103,11 +124,40 @@ namespace rgb10a2norm
 	}
 }//namespace rgb10a2norm
 
+namespace load_file
+{
+	int test()
+	{
+		int Error(0);
+
+		gli::texture2D TextureA(gli::load(path("kueken7_rgba16_sfloat.ktx")));
+		GLI_ASSERT(!TextureA.empty());
+
+		gli::texture2D Convert = gli::convert(TextureA, gli::FORMAT_RG11B10_UFLOAT_PACK32);
+
+		gli::save(Convert, "kueken7_rg11b10_ufloat.dds");
+		gli::save(Convert, "kueken7_rg11b10_ufloat.ktx");
+
+		gli::texture2D TextureDDS(gli::load("kueken7_rg11b10_ufloat.dds"));
+		GLI_ASSERT(!TextureDDS.empty());
+		gli::texture2D TextureKTX(gli::load("kueken7_rg11b10_ufloat.ktx"));
+		GLI_ASSERT(!TextureKTX.empty());
+
+		Error += TextureDDS == TextureKTX ? 0 : 1;
+		Error += TextureDDS == Convert ? 0 : 1;
+
+		GLI_ASSERT(!Error);
+
+		return Error;
+	}
+}//namespace load_file
+
 int main()
 {
 	int Error = 0;
 
 	Error += rgb10a2norm::test();
+	Error += load_file::test();
 
 	return Error;
 }
