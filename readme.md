@@ -104,7 +104,7 @@ GLuint createTexture(char const* Filename)
 					Target, static_cast<GLint>(Level),
 					0, 0,
 					Dimensions.x,
-					Texture.target() == gli::TARGET_1D_ARRAY ? : Dimensions.y,
+					Texture.target() == gli::TARGET_1D_ARRAY ? LayerGL : Dimensions.y,
 					Format.Internal, static_cast<GLsizei>(Texture.size(Level)),
 					Texture.data(Layer, Face, Level));
 			else
