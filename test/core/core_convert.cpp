@@ -31,6 +31,7 @@
 #include <gli/convert.hpp>
 #include <gli/comparison.hpp>
 #include <glm/gtc/epsilon.hpp>
+#include <ctime>
 
 namespace
 {

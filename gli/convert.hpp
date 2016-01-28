@@ -17,43 +17,9 @@ namespace gli
 	///
 	/// @param Texture Source texture, the format must be uncompressed.
 	/// @param Format Destination Texture format, it must be uncompressed.
-	texture1D convert(texture1D const& Texture, format Format);
+	template <typename texture_type>
+	texture_type convert(texture_type const& Texture, format Format);
 
-	/// Convert texture data to a new format
-	///
-	/// @param Texture Source texture, the format must be uncompressed.
-	/// @param Format Destination Texture format, it must be uncompressed.
-	texture1DArray convert(texture1DArray const& Texture, format Format);
-
-	/// Convert texture data to a new format
-	///
-	/// @param Texture Source texture, the format must be uncompressed.
-	/// @param Format Destination Texture format, it must be uncompressed.
-	texture2D convert(texture2D const& Texture, format Format);
-
-	/// Convert texture data to a new format
-	///
-	/// @param Texture Source texture, the format must be uncompressed.
-	/// @param Format Destination Texture format, it must be uncompressed.
-	texture2DArray convert(texture2DArray const& Texture, format Format);
-
-	/// Convert texture data to a new format
-	///
-	/// @param Texture Source texture, the format must be uncompressed.
-	/// @param Format Destination Texture format, it must be uncompressed.
-	texture3D convert(texture3D const& Texture, format Format);
-
-	/// Convert texture data to a new format
-	///
-	/// @param Texture Source texture, the format must be uncompressed.
-	/// @param Format Destination Texture format, it must be uncompressed.
-	textureCube convert(textureCube const& Texture, format Format);
-
-	/// Convert texture data to a new format
-	///
-	/// @param Texture Source texture, the format must be uncompressed.
-	/// @param Format Destination Texture format, it must be uncompressed.
-	textureCubeArray convert(textureCubeArray const& Texture, format Format);
 }//namespace gli
 
 #include "./core/convert.inl"
