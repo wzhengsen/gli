@@ -1,3 +1,5 @@
+## Code sample: Creating an OpenGL texture object from file using GLI
+
 ```c++
 #include <gli/gli.hpp>
 

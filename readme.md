@@ -1,3 +1,5 @@
+## Readme
+
 ![gli](http://gli.g-truc.net/logo.png)
 
 [OpenGL Image](http://gli.g-truc.net/) (*GLI*) is a header only C++ image library for graphics software.
@@ -19,15 +21,15 @@ The source code and the documentation are licensed under the [Happy Bunny Licens
 
 Thanks for contributing to the project by [submitting issues](https://github.com/g-truc/gli/issues) for bug reports and feature requests. Any feedback is welcome at [gli@g-truc.net](mailto://gli@g-truc.net).
 
-## Project Health
+#### Project Health
 
 | Service | System | Compiler | Status |
 | ------- | ------ | -------- | ------ |
 | [Drone](https://drone.io/github.com/g-truc/gli) | Linux 64 bits | GCC 4.6.3 | [![Build Status](https://drone.io/github.com/g-truc/gli/status.png)](https://drone.io/github.com/g-truc/gli/latest) |
 
-## [Lastest release](https://github.com/g-truc/gli/releases/latest)
+#### [Lastest release](https://github.com/g-truc/gli/releases/latest)
 
-## Links
+#### Links
 
 - [Releases](releases.md)
 - [Samples](samples.md)

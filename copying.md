@@ -1,13 +1,10 @@
-================================================================================
-OpenGL Image (GLI)
---------------------------------------------------------------------------------
+## OpenGL Image (GLI) Licenses
 GLM can be distributed and/or modified under the terms of either
 a) The Happy Bunny License, or b) the MIT License.
 
-================================================================================
-The Happy Bunny License (Modified MIT License)
---------------------------------------------------------------------------------
-Copyright (c) 2010 - 2016 G-Truc Creation
+## The Happy Bunny License (Modified MIT License)
+
+#### Copyright (c) 2010 - 2016 G-Truc Creation
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -31,10 +28,9 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
-================================================================================
-The MIT License
---------------------------------------------------------------------------------
-Copyright (c) 2005 - 2016 G-Truc Creation
+## The MIT License
+
+#### Copyright (c) 2005 - 2016 G-Truc Creation
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
