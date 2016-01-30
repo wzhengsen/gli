@@ -19,5 +19,5 @@ The source code and the documentation are licensed under the [Happy Bunny Licens
 
 Thanks for contributing to the project by [submitting issues](https://github.com/g-truc/gli/issues) for bug reports and feature requests. Any feedback is welcome at [gli@g-truc.net](mailto://gli@g-truc.net).
 
-#### [Release](./release.md)
-#### [Sample](./sample.md)
+- [Releases](releases.md)
+- [Samples](samples.md)
