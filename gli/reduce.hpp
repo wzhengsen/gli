@@ -21,7 +21,6 @@ namespace gli
 
 	/// Compute per-texel operations using a user defined function.
 	///
-	/// @param Out Output texture.
 	/// @param In0 First input texture.
 	/// @param In1 Second input texture.
 	/// @param TexelFunc Pointer to a binary function for per texel operation.
@@ -31,7 +30,6 @@ namespace gli
 
 	/// Compute per-texel operations using a user defined function.
 	///
-	/// @param Out Output texture.
 	/// @param In0 First input texture.
 	/// @param In1 Second input texture.
 	/// @param TexelFunc Pointer to a binary function for per texel operation.
@@ -41,7 +39,6 @@ namespace gli
 
 	/// Compute per-texel operations using a user defined function.
 	///
-	/// @param Out Output texture.
 	/// @param In0 First input texture.
 	/// @param In1 Second input texture.
 	/// @param TexelFunc Pointer to a binary function for per texel operation.
@@ -51,7 +48,6 @@ namespace gli
 
 	/// Compute per-texel operations using a user defined function.
 	///
-	/// @param Out Output texture.
 	/// @param In0 First input texture.
 	/// @param In1 Second input texture.
 	/// @param TexelFunc Pointer to a binary function for per texel operation.
@@ -61,7 +57,6 @@ namespace gli
 
 	/// Compute per-texel operations using a user defined function.
 	///
-	/// @param Out Output texture.
 	/// @param In0 First input texture.
 	/// @param In1 Second input texture.
 	/// @param TexelFunc Pointer to a binary function for per texel operation.
@@ -71,7 +66,6 @@ namespace gli
 
 	/// Compute per-texel operations using a user defined function.
 	///
-	/// @param Out Output texture.
 	/// @param In0 First input texture.
 	/// @param In1 Second input texture.
 	/// @param TexelFunc Pointer to a binary function for per texel operation.
@@ -81,7 +75,6 @@ namespace gli
 
 	/// Compute per-texel operations using a user defined function.
 	///
-	/// @param Out Output texture.
 	/// @param In0 First input texture.
 	/// @param In1 Second input texture.
 	/// @param TexelFunc Pointer to a binary function for per texel operation.
@@ -91,7 +84,6 @@ namespace gli
 
 	/// Compute per-texel operations using a user defined function.
 	///
-	/// @param Out Output texture.
 	/// @param In0 First input texture.
 	/// @param In1 Second input texture.
 	/// @param TexelFunc Pointer to a binary function for per texel operation.
