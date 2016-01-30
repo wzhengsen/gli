@@ -32,4 +32,6 @@ Thanks for contributing to the project by [submitting issues](https://github.com
 #### Links
 
 - [Releases](releases.md)
-- [Samples](samples.md)
+- [Licenses](copying.md)
+- [Code sample: Creating an OpenGL texture object from file](sample-creating-texture-object.md)
+

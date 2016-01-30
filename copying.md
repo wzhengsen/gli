@@ -1,4 +1,5 @@
 ## OpenGL Image (GLI) Licenses
+
 GLM can be distributed and/or modified under the terms of either
 a) The Happy Bunny License, or b) the MIT License.
 
