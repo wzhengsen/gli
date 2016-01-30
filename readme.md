@@ -31,7 +31,8 @@ Thanks for contributing to the project by [submitting issues](https://github.com
 
 #### Links
 
-- [Releases](releases.md)
-- [Licenses](copying.md)
-- [Code sample: Creating an OpenGL texture object from file](sample-creating-texture-object.md)
+- [Releases](./doc/releases.md)
+- [Licenses](./doc/copying.md)
+- [Code sample: Creating an OpenGL texture object from file](./doc/sample-creating-texture-object.md)
+- [Code sample: Generating mipmaps and converting float textures to rgb9e5](./doc/sample-convert.md)
 
