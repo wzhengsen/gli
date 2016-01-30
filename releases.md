@@ -1,11 +1,3 @@
-## Project Health
-
-| Service | System | Compiler | Status |
-| ------- | ------ | -------- | ------ |
-| [Drone](https://drone.io/github.com/g-truc/gli) | Linux 64 bits | GCC 4.6.3 | [![Build Status](https://drone.io/github.com/g-truc/gli/status.png)](https://drone.io/github.com/g-truc/gli/latest) |
-
-## [Lastest release](https://github.com/g-truc/gli/releases/latest)
-
 ## Release notes
 
 #### [GLI 0.8.0.0](https://github.com/g-truc/gli/releases/latest) - 2015-XX-XX
