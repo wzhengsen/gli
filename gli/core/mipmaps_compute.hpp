@@ -28,10 +28,10 @@ namespace detail
 		for(size_type Face = BaseFace; Face <= MaxFace; ++Face)
 		for(size_type Level = BaseLevel; Level < MaxLevel; ++Level)
 		{
-			texelcoord_type const& DimDst = Texture.dimensions(Level + 1);
-			samplecoord_type const& Scale = samplecoord_type(1) / samplecoord_type(max(DimDst - texelcoord_type(1), texelcoord_type(1)));
+			texelcoord_type const& ExtentDst = Texture.extent(Level + 1);
+			samplecoord_type const& Scale = samplecoord_type(1) / samplecoord_type(max(ExtentDst - texelcoord_type(1), texelcoord_type(1)));
 
-			for(component_type i = 0; i < DimDst.x; ++i)
+			for(component_type i = 0; i < ExtentDst.x; ++i)
 			{
 				samplecoord_type const& SamplePosition(samplecoord_type(static_cast<typename samplecoord_type::value_type>(i)) * Scale);
 				texel_type const& Texel = Filter(Texture, Fetch, SamplePosition, Layer, Face, static_cast<sampler_value_type>(Level), texel_type(0));
@@ -63,11 +63,11 @@ namespace detail
 		for(size_type Face = BaseFace; Face <= MaxFace; ++Face)
 		for(size_type Level = BaseLevel; Level < MaxLevel; ++Level)
 		{
-			texelcoord_type const& DimDst = Texture.dimensions(Level + 1);
-			samplecoord_type const& Scale = samplecoord_type(1) / samplecoord_type(max(DimDst - texelcoord_type(1), texelcoord_type(1)));
+			texelcoord_type const& ExtentDst = Texture.extent(Level + 1);
+			samplecoord_type const& Scale = samplecoord_type(1) / samplecoord_type(max(ExtentDst - texelcoord_type(1), texelcoord_type(1)));
 
-			for(component_type j = 0; j < DimDst.y; ++j)
-			for(component_type i = 0; i < DimDst.x; ++i)
+			for(component_type j = 0; j < ExtentDst.y; ++j)
+			for(component_type i = 0; i < ExtentDst.x; ++i)
 			{
 				samplecoord_type const& SamplePosition(samplecoord_type(i, j) * Scale);
 				texel_type const& Texel = Filter(Texture, Fetch, SamplePosition, Layer, Face, static_cast<sampler_value_type>(Level), texel_type(0));
@@ -99,12 +99,12 @@ namespace detail
 		for(size_type Face = BaseFace; Face <= MaxFace; ++Face)
 		for(size_type Level = BaseLevel; Level < MaxLevel; ++Level)
 		{
-			texelcoord_type const& DimDst = Texture.dimensions(Level + 1);
-			samplecoord_type const& Scale = samplecoord_type(1) / samplecoord_type(max(DimDst - texelcoord_type(1), texelcoord_type(1)));
+			texelcoord_type const& ExtentDst = Texture.extent(Level + 1);
+			samplecoord_type const& Scale = samplecoord_type(1) / samplecoord_type(max(ExtentDst - texelcoord_type(1), texelcoord_type(1)));
 
-			for(component_type k = 0; k < DimDst.z; ++k)
-			for(component_type j = 0; j < DimDst.y; ++j)
-			for(component_type i = 0; i < DimDst.x; ++i)
+			for(component_type k = 0; k < ExtentDst.z; ++k)
+			for(component_type j = 0; j < ExtentDst.y; ++j)
+			for(component_type i = 0; i < ExtentDst.x; ++i)
 			{
 				samplecoord_type const& SamplePosition(samplecoord_type(i, j, k) * Scale);
 				texel_type const& Texel = Filter(Texture, Fetch, SamplePosition, Layer, Face, static_cast<sampler_value_type>(Level), texel_type(0));

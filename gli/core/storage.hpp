@@ -37,7 +37,7 @@ namespace gli
 
 		storage(
 			format_type Format,
-			texelcoord_type const & Dimensions,
+			texelcoord_type const & Extent,
 			size_type Layers,
 			size_type Faces,
 			size_type Levels);
@@ -49,9 +49,9 @@ namespace gli
 		size_type faces() const;
 
 		size_type block_size() const;
-		texelcoord_type block_dimensions() const;
+		texelcoord_type block_extent() const;
 		texelcoord_type block_count(size_type Level) const;
-		texelcoord_type dimensions(size_type Level) const;
+		texelcoord_type extent(size_type Level) const;
 
 		data_type * data();
 
@@ -75,8 +75,8 @@ namespace gli
 		size_type const Levels;
 		size_type const BlockSize;
 		texelcoord_type const BlockCount;
-		texelcoord_type const BlockDimensions;
-		texelcoord_type const Dimensions;
+		texelcoord_type const BlockExtent;
+		texelcoord_type const Extent;
 		std::vector<data_type> Data;
 	};
 

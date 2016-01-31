@@ -14,13 +14,13 @@ namespace gli
 	(
 		target_type Target,
 		format_type Format,
-		texelcoord_type const & Dimensions,
+		texelcoord_type const & Extent,
 		size_type Layers,
 		size_type Faces,
 		size_type Levels,
 		swizzles_type const & Swizzles
 	)
-		: Storage(std::make_shared<storage>(Format, Dimensions, Layers, Faces, Levels))
+		: Storage(std::make_shared<storage>(Format, Extent, Layers, Faces, Levels))
 		, Target(Target)
 		, Format(Format)
 		, BaseLayer(0), MaxLayer(Layers - 1)
@@ -28,8 +28,8 @@ namespace gli
 		, BaseLevel(0), MaxLevel(Levels - 1)
 		, Swizzles(Swizzles)
 	{
-		assert(Target != TARGET_CUBE || (Target == TARGET_CUBE && Dimensions.x == Dimensions.y));
-		assert(Target != TARGET_CUBE_ARRAY || (Target == TARGET_CUBE_ARRAY && Dimensions.x == Dimensions.y));
+		GLI_ASSERT(Target != TARGET_CUBE || (Target == TARGET_CUBE && Extent.x == Extent.y));
+		GLI_ASSERT(Target != TARGET_CUBE_ARRAY || (Target == TARGET_CUBE_ARRAY && Extent.x == Extent.y));
 
 		this->build_cache();
 	}
@@ -53,13 +53,13 @@ namespace gli
 		, Swizzles(Swizzles)
 	{
 		GLI_ASSERT(block_size(Format) == block_size(Texture.format()));
-		GLI_ASSERT(Target != TARGET_1D || (Target == TARGET_1D && this->layers() == 1 && this->faces() == 1 && this->dimensions().y == 1 && this->dimensions().z == 1));
-		GLI_ASSERT(Target != TARGET_1D_ARRAY || (Target == TARGET_1D_ARRAY && this->layers() >= 1 && this->faces() == 1 && this->dimensions().y == 1 && this->dimensions().z == 1));
-		GLI_ASSERT(Target != TARGET_2D || (Target == TARGET_2D && this->layers() == 1 && this->faces() == 1 && this->dimensions().y >= 1 && this->dimensions().z == 1));
-		GLI_ASSERT(Target != TARGET_2D_ARRAY || (Target == TARGET_2D_ARRAY && this->layers() >= 1 && this->faces() == 1 && this->dimensions().y >= 1 && this->dimensions().z == 1));
-		GLI_ASSERT(Target != TARGET_3D || (Target == TARGET_3D && this->layers() == 1 && this->faces() == 1 && this->dimensions().y >= 1 && this->dimensions().z >= 1));
-		GLI_ASSERT(Target != TARGET_CUBE || (Target == TARGET_CUBE && this->layers() == 1 && this->faces() >= 1 && this->dimensions().y >= 1 && this->dimensions().z == 1));
-		GLI_ASSERT(Target != TARGET_CUBE_ARRAY || (Target == TARGET_CUBE_ARRAY && this->layers() >= 1 && this->faces() >= 1 && this->dimensions().y >= 1 && this->dimensions().z == 1));
+		GLI_ASSERT(Target != TARGET_1D || (Target == TARGET_1D && this->layers() == 1 && this->faces() == 1 && this->extent().y == 1 && this->extent().z == 1));
+		GLI_ASSERT(Target != TARGET_1D_ARRAY || (Target == TARGET_1D_ARRAY && this->layers() >= 1 && this->faces() == 1 && this->extent().y == 1 && this->extent().z == 1));
+		GLI_ASSERT(Target != TARGET_2D || (Target == TARGET_2D && this->layers() == 1 && this->faces() == 1 && this->extent().y >= 1 && this->extent().z == 1));
+		GLI_ASSERT(Target != TARGET_2D_ARRAY || (Target == TARGET_2D_ARRAY && this->layers() >= 1 && this->faces() == 1 && this->extent().y >= 1 && this->extent().z == 1));
+		GLI_ASSERT(Target != TARGET_3D || (Target == TARGET_3D && this->layers() == 1 && this->faces() == 1 && this->extent().y >= 1 && this->extent().z >= 1));
+		GLI_ASSERT(Target != TARGET_CUBE || (Target == TARGET_CUBE && this->layers() == 1 && this->faces() >= 1 && this->extent().y >= 1 && this->extent().z == 1));
+		GLI_ASSERT(Target != TARGET_CUBE_ARRAY || (Target == TARGET_CUBE_ARRAY && this->layers() >= 1 && this->faces() >= 1 && this->extent().y >= 1 && this->extent().z == 1));
 
 		this->build_cache();
 	}
@@ -82,13 +82,13 @@ namespace gli
 		if(this->empty())
 			return;
 
-		GLI_ASSERT(Target != TARGET_1D || (Target == TARGET_1D && this->layers() == 1 && this->faces() == 1 && this->dimensions().y == 1 && this->dimensions().z == 1));
-		GLI_ASSERT(Target != TARGET_1D_ARRAY || (Target == TARGET_1D_ARRAY && this->layers() >= 1 && this->faces() == 1 && this->dimensions().y == 1 && this->dimensions().z == 1));
-		GLI_ASSERT(Target != TARGET_2D || (Target == TARGET_2D && this->layers() == 1 && this->faces() == 1 && this->dimensions().y >= 1 && this->dimensions().z == 1));
-		GLI_ASSERT(Target != TARGET_2D_ARRAY || (Target == TARGET_2D_ARRAY && this->layers() >= 1 && this->faces() == 1 && this->dimensions().y >= 1 && this->dimensions().z == 1));
-		GLI_ASSERT(Target != TARGET_3D || (Target == TARGET_3D && this->layers() == 1 && this->faces() == 1 && this->dimensions().y >= 1 && this->dimensions().z >= 1));
-		GLI_ASSERT(Target != TARGET_CUBE || (Target == TARGET_CUBE && this->layers() == 1 && this->faces() >= 1 && this->dimensions().y >= 1 && this->dimensions().z == 1));
-		GLI_ASSERT(Target != TARGET_CUBE_ARRAY || (Target == TARGET_CUBE_ARRAY && this->layers() >= 1 && this->faces() >= 1 && this->dimensions().y >= 1 && this->dimensions().z == 1));
+		GLI_ASSERT(Target != TARGET_1D || (Target == TARGET_1D && this->layers() == 1 && this->faces() == 1 && this->extent().y == 1 && this->extent().z == 1));
+		GLI_ASSERT(Target != TARGET_1D_ARRAY || (Target == TARGET_1D_ARRAY && this->layers() >= 1 && this->faces() == 1 && this->extent().y == 1 && this->extent().z == 1));
+		GLI_ASSERT(Target != TARGET_2D || (Target == TARGET_2D && this->layers() == 1 && this->faces() == 1 && this->extent().y >= 1 && this->extent().z == 1));
+		GLI_ASSERT(Target != TARGET_2D_ARRAY || (Target == TARGET_2D_ARRAY && this->layers() >= 1 && this->faces() == 1 && this->extent().y >= 1 && this->extent().z == 1));
+		GLI_ASSERT(Target != TARGET_3D || (Target == TARGET_3D && this->layers() == 1 && this->faces() == 1 && this->extent().y >= 1 && this->extent().z >= 1));
+		GLI_ASSERT(Target != TARGET_CUBE || (Target == TARGET_CUBE && this->layers() == 1 && this->faces() >= 1 && this->extent().y >= 1 && this->extent().z == 1));
+		GLI_ASSERT(Target != TARGET_CUBE_ARRAY || (Target == TARGET_CUBE_ARRAY && this->layers() >= 1 && this->faces() >= 1 && this->extent().y >= 1 && this->extent().z == 1));
 
 		this->build_cache();
 	}
@@ -270,15 +270,15 @@ namespace gli
 		return reinterpret_cast<genType const *>(this->data(Layer, Face, Level));
 	}
 
-	inline texture::texelcoord_type texture::dimensions(size_type Level) const
+	inline texture::texelcoord_type texture::extent(size_type Level) const
 	{
 		GLI_ASSERT(!this->empty());
 		GLI_ASSERT(Level >= 0 && Level < this->levels());
 
-		storage::texelcoord_type const & SrcDimensions = this->Storage->dimensions(this->base_level() + Level);
-		storage::texelcoord_type const & DstDimensions = SrcDimensions * block_dimensions(this->format()) / this->Storage->block_dimensions();
+		storage::texelcoord_type const & SrcExtent = this->Storage->extent(this->base_level() + Level);
+		storage::texelcoord_type const & DstExtent = SrcExtent * block_extent(this->format()) / this->Storage->block_extent();
 
-		return glm::max(DstDimensions, texture::texelcoord_type(1));
+		return glm::max(DstExtent, texture::texelcoord_type(1));
 	}
 
 	inline void texture::clear()

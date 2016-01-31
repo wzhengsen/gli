@@ -47,7 +47,7 @@ namespace detail
 		static texel_type call(texture_type const & Texture, fetch_type Fetch, samplecoord_type const & SampleCoordWrap, size_type Layer, size_type Face, interpolate_type Level, texel_type const & BorderColor)
 		{
 			size_type const LevelIndex = static_cast<size_type>(Level);
-			texelcoord_type const TexelDim(Texture.dimensions(LevelIndex));
+			texelcoord_type const TexelDim(Texture.extent(LevelIndex));
 			samplecoord_type const TexelLast(samplecoord_type(TexelDim) - samplecoord_type(1));
 			texelcoord_type const TexelCoord = texelcoord_type(round(SampleCoordWrap * TexelLast));
 			typename texelcoord_type::bool_type const UseTexelCoord = in_interval(TexelCoord, texelcoord_type(0), TexelDim - 1);
@@ -71,7 +71,7 @@ namespace detail
 		static texel_type call(texture_type const & Texture, fetch_type Fetch, samplecoord_type const & SampleCoordWrap, size_type Layer, size_type Face, interpolate_type Level, texel_type const & BorderColor)
 		{
 			size_type const LevelIndex = static_cast<size_type>(Level);
-			samplecoord_type const TexelLast(samplecoord_type(Texture.dimensions(LevelIndex)) - samplecoord_type(1));
+			samplecoord_type const TexelLast(samplecoord_type(Texture.extent(LevelIndex)) - samplecoord_type(1));
 			texelcoord_type const TexelCoord = texelcoord_type(round(SampleCoordWrap * TexelLast));
 
 			return Fetch(Texture, TexelCoord, Layer, Face, LevelIndex);
@@ -102,7 +102,7 @@ namespace detail
 		static texel_type call(texture_type const & Texture, fetch_type Fetch, samplecoord_type const & SampleCoordWrap, size_type Layer, size_type Face, interpolate_type Level, texel_type const & BorderColor)
 		{
 			size_type const LevelIndex = static_cast<size_type>(Level);
-			coord_type const & Coord = make_coord_linear_border(Texture.dimensions(LevelIndex), SampleCoordWrap);
+			coord_type const & Coord = make_coord_linear_border(Texture.extent(LevelIndex), SampleCoordWrap);
 
 			texel_type Texel0(BorderColor);
 			if(Coord.UseTexelFloor.s)
@@ -127,7 +127,7 @@ namespace detail
 		static texel_type call(texture_type const & Texture, fetch_type Fetch, samplecoord_type const & SampleCoordWrap, size_type Layer, size_type Face, interpolate_type Level, texel_type const & BorderColor)
 		{
 			size_type const LevelIndex = static_cast<size_type>(Level);
-			coord_type const & Coord = make_coord_linear(Texture.dimensions(LevelIndex), SampleCoordWrap);
+			coord_type const & Coord = make_coord_linear(Texture.extent(LevelIndex), SampleCoordWrap);
 
 			texel_type const Texel0 = Fetch(Texture, texelcoord_type(Coord.TexelFloor.s), Layer, Face, LevelIndex);
 			texel_type const Texel1 = Fetch(Texture, texelcoord_type(Coord.TexelCeil.s), Layer, Face, LevelIndex);
@@ -147,7 +147,7 @@ namespace detail
 		static texel_type call(texture_type const & Texture, fetch_type Fetch, samplecoord_type const & SampleCoordWrap, size_type Layer, size_type Face, interpolate_type Level, texel_type const & BorderColor)
 		{
 			size_type const LevelIndex = static_cast<typename texture_type::size_type>(Level);
-			coord_type const & Coord = make_coord_linear_border(Texture.dimensions(LevelIndex), SampleCoordWrap);
+			coord_type const & Coord = make_coord_linear_border(Texture.extent(LevelIndex), SampleCoordWrap);
 
 			texel_type Texel00(BorderColor);
 			if(Coord.UseTexelFloor.s && Coord.UseTexelFloor.t)
@@ -182,7 +182,7 @@ namespace detail
 		static texel_type call(texture_type const & Texture, fetch_type Fetch, samplecoord_type const & SampleCoordWrap, size_type Layer, size_type Face, interpolate_type Level, texel_type const & BorderColor)
 		{
 			size_type const LevelIndex = static_cast<size_type>(Level);
-			coord_type const & Coord = make_coord_linear_border(Texture.dimensions(LevelIndex), SampleCoordWrap);
+			coord_type const & Coord = make_coord_linear_border(Texture.extent(LevelIndex), SampleCoordWrap);
 
 			texel_type const & Texel00 = Fetch(Texture, texelcoord_type(Coord.TexelFloor.s, Coord.TexelFloor.t), Layer, Face, LevelIndex);
 			texel_type const & Texel10 = Fetch(Texture, texelcoord_type(Coord.TexelCeil.s, Coord.TexelFloor.t), Layer, Face, LevelIndex);
@@ -211,7 +211,7 @@ namespace detail
 		static texel_type call(texture_type const & Texture, fetch_type Fetch, samplecoord_type const & SampleCoordWrap, size_type Layer, size_type Face, interpolate_type Level, texel_type const & BorderColor)
 		{
 			size_type const LevelIndex = static_cast<size_type>(Level);
-			coord_type const & Coord = make_coord_linear_border(Texture.dimensions(LevelIndex), SampleCoordWrap);
+			coord_type const & Coord = make_coord_linear_border(Texture.extent(LevelIndex), SampleCoordWrap);
 
 			texel_type Texel000(BorderColor);
 			if(Coord.UseTexelFloor.s && Coord.UseTexelFloor.t && Coord.UseTexelFloor.p)
@@ -269,7 +269,7 @@ namespace detail
 		static texel_type call(texture_type const & Texture, fetch_type Fetch, samplecoord_type const & SampleCoordWrap, size_type Layer, size_type Face, interpolate_type Level, texel_type const & BorderColor)
 		{
 			size_type const LevelIndex = static_cast<size_type>(Level);
-			coord_type const & Coord = make_coord_linear(Texture.dimensions(LevelIndex), SampleCoordWrap);
+			coord_type const & Coord = make_coord_linear(Texture.extent(LevelIndex), SampleCoordWrap);
 
 			texel_type const & Texel000 = Fetch(Texture, texelcoord_type(Coord.TexelFloor.s, Coord.TexelFloor.t, Coord.TexelFloor.p), Layer, Face, LevelIndex);
 			texel_type const & Texel100 = Fetch(Texture, texelcoord_type(Coord.TexelCeil.s, Coord.TexelFloor.t, Coord.TexelFloor.p), Layer, Face, LevelIndex);

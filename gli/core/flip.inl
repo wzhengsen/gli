@@ -3,9 +3,9 @@ namespace detail
 {
 	inline void flip(image ImageDst, image ImageSrc, size_t BlockSize)
 	{
-		size_t const LineSize = BlockSize * ImageDst.dimensions().x;
+		size_t const LineSize = BlockSize * ImageDst.extent().x;
 
-		for(int y = 0; y < ImageDst.dimensions().y; ++y)
+		for(int y = 0; y < ImageDst.extent().y; ++y)
 		{
 			size_t OffsetDst = LineSize * y;
 			size_t OffsetSrc = ImageSrc.size() - (LineSize * (y + 1));
@@ -32,7 +32,7 @@ inline texture2D flip(texture2D const & Texture)
 {
 	assert(!gli::is_compressed(Texture.format()));
 
-	texture2D Flip(Texture.format(), Texture.dimensions(), Texture.levels());
+	texture2D Flip(Texture.format(), Texture.extent(), Texture.levels());
 
 	texture2D::size_type const BlockSize = block_size(Texture.format());
 
@@ -47,7 +47,7 @@ inline texture2DArray flip(texture2DArray const & Texture)
 {
 	assert(!gli::is_compressed(Texture.format()));
 
-	texture2DArray Flip(Texture.format(), Texture.dimensions(), Texture.layers(), Texture.levels());
+	texture2DArray Flip(Texture.format(), Texture.extent(), Texture.layers(), Texture.levels());
 
 	texture2DArray::size_type const BlockSize = block_size(Texture.format());
 

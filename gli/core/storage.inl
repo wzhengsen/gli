@@ -6,23 +6,23 @@ namespace gli
 		, Levels(0)
 		, BlockSize(0)
 		, BlockCount(0)
-		, BlockDimensions(0)
-		, Dimensions(0)
+		, BlockExtent(0)
+		, Extent(0)
 	{}
 
-	inline storage::storage(format_type Format, texelcoord_type const & Dimensions, size_type Layers, size_type Faces, size_type Levels)
+	inline storage::storage(format_type Format, texelcoord_type const & Extent, size_type Layers, size_type Faces, size_type Levels)
 		: Layers(Layers)
 		, Faces(Faces)
 		, Levels(Levels)
 		, BlockSize(gli::block_size(Format))
-		, BlockCount(glm::max(Dimensions / gli::block_dimensions(Format), texelcoord_type(1)))
-		, BlockDimensions(gli::block_dimensions(Format))
-		, Dimensions(Dimensions)
+		, BlockCount(glm::max(Extent / gli::block_extent(Format), texelcoord_type(1)))
+		, BlockExtent(gli::block_extent(Format))
+		, Extent(Extent)
 	{
 		GLI_ASSERT(Layers > 0);
 		GLI_ASSERT(Faces > 0);
 		GLI_ASSERT(Levels > 0);
-		GLI_ASSERT(glm::all(glm::greaterThan(Dimensions, texelcoord_type(0))));
+		GLI_ASSERT(glm::all(glm::greaterThan(Extent, texelcoord_type(0))));
 
 		this->Data.resize(this->layer_size(0, Faces - 1, 0, Levels - 1) * Layers, 0);
 	}
@@ -52,9 +52,9 @@ namespace gli
 		return this->BlockSize;
 	}
 
-	inline storage::texelcoord_type storage::block_dimensions() const
+	inline storage::texelcoord_type storage::block_extent() const
 	{
-		return this->BlockDimensions;
+		return this->BlockExtent;
 	}
 
 	inline storage::texelcoord_type storage::block_count(size_type Level) const
@@ -64,11 +64,11 @@ namespace gli
 		return glm::max(this->BlockCount >> storage::texelcoord_type(static_cast<storage::texelcoord_type::value_type>(Level)), storage::texelcoord_type(1));
 	}
 
-	inline storage::texelcoord_type storage::dimensions(size_type Level) const
+	inline storage::texelcoord_type storage::extent(size_type Level) const
 	{
 		GLI_ASSERT(Level >= 0 && Level < this->Levels);
 
-		return glm::max(this->Dimensions >> storage::texelcoord_type(static_cast<storage::texelcoord_type::value_type>(Level)), storage::texelcoord_type(1));
+		return glm::max(this->Extent >> storage::texelcoord_type(static_cast<storage::texelcoord_type::value_type>(Level)), storage::texelcoord_type(1));
 	}
 
 	inline storage::size_type storage::size() const

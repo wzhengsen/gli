@@ -60,9 +60,9 @@ int test_texture3d_query()
 	Error += Texture.format() == gli::FORMAT_RGBA8_UINT_PACK8 ? 0 : 1;
 	Error += Texture.levels() == 2 ? 0 : 1;
 	Error += !Texture.empty() ? 0 : 1;
-	Error += Texture.dimensions().x == 2 ? 0 : 1;
-	Error += Texture.dimensions().y == 2 ? 0 : 1;
-	Error += Texture.dimensions().z == 2 ? 0 : 1;
+	Error += Texture.extent().x == 2 ? 0 : 1;
+	Error += Texture.extent().y == 2 ? 0 : 1;
+	Error += Texture.extent().z == 2 ? 0 : 1;
 
 	return Error;
 }
@@ -184,8 +184,8 @@ namespace load_store
 {
 	std::size_t index3D(gli::texture3D const & Texture, std::size_t Level, std::size_t x, std::size_t y, std::size_t z)
 	{
-		gli::texture3D::texelcoord_type const Dims = Texture.dimensions(Level);
-		return x + y * Dims.x + z * Dims.x * Dims.y;
+		gli::texture3D::texelcoord_type const Extent = Texture.extent(Level);
+		return x + y * Extent.x + z * Extent.x * Extent.y;
 	}
 
 	template <typename genType>
@@ -193,14 +193,14 @@ namespace load_store
 	{
 		int Error = 0;
 
-		gli::texture3D::texelcoord_type const Dimensions(4, 4, 4);
+		gli::texture3D::texelcoord_type const Extent(4, 4, 4);
 
-		gli::texture3D TextureA(Format, Dimensions);
+		gli::texture3D TextureA(Format, Extent);
 		TextureA.clear();
 		for (std::size_t i = 0, n = 8; i < n; ++i)
 			*(TextureA.data<genType>(0, 0, 1) + i) = TestSamples[i];
 
-		gli::texture3D TextureB(Format, Dimensions);
+		gli::texture3D TextureB(Format, Extent);
 		TextureB.clear();
 		for (std::size_t z = 0; z < 2; ++z)
 		for (std::size_t y = 0; y < 2; ++y)
@@ -602,9 +602,9 @@ namespace clear
 		Texture.clear<glm::u8vec4>(1, glm::u8vec4(255, 127, 0, 255));
 
 		gli::texture3D::texelcoord_type Coords(0);
-		for(; Coords.z < Texture.dimensions(1).z; ++Coords.z)
-		for(; Coords.y < Texture.dimensions(1).y; ++Coords.y)
-		for(; Coords.x < Texture.dimensions(1).x; ++Coords.x)
+		for(; Coords.z < Texture.extent(1).z; ++Coords.z)
+		for(; Coords.y < Texture.extent(1).y; ++Coords.y)
+		for(; Coords.x < Texture.extent(1).x; ++Coords.x)
 		{
 			glm::u8vec4 const TexelD = Texture.load<glm::u8vec4>(Coords, 1);
 			Error += TexelD == Color ? 0 : 1;

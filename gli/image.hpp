@@ -27,7 +27,7 @@ namespace gli
 		/// Create an image object and allocate an image storoge for it.
 		explicit image(
 			format_type Format,
-			texelcoord_type const & Dimensions);
+			texelcoord_type const & Extent);
 
 		/// Create an image object by sharing an existing image storage from another image instance.
 		/// This image object is effectively an image view where format can be reinterpreted
@@ -44,7 +44,7 @@ namespace gli
 		format_type format() const;
 
 		/// Return the dimensions of an image instance: width, height and depth.
-		texelcoord_type dimensions() const;
+		texelcoord_type extent() const;
 
 		/// Return the memory size of an image instance storage in bytes.
 		size_type size() const;

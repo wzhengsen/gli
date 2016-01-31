@@ -67,11 +67,11 @@ namespace gli
 			this->base_level() + Level);
 	}
 
-	inline texture3D::texelcoord_type texture3D::dimensions(size_type Level) const
+	inline texture3D::texelcoord_type texture3D::extent(size_type Level) const
 	{
 		GLI_ASSERT(!this->empty());
 
-		return this->Caches[this->index_cache(Level)].Dim;
+		return this->Caches[this->index_cache(Level)].Extent;
 	}
 
 	template <typename genType>
@@ -83,7 +83,7 @@ namespace gli
 
 		cache const & Cache = this->Caches[this->index_cache(Level)];
 
-		std::size_t const Index = linear_index(TexelCoord, Cache.Dim);
+		std::size_t const Index = linear_index(TexelCoord, Cache.Extent);
 		assert(Index < Cache.Size / sizeof(genType));
 
 		return reinterpret_cast<genType const * const>(Cache.Data)[Index];
@@ -97,9 +97,9 @@ namespace gli
 		GLI_ASSERT(block_size(this->format()) == sizeof(genType));
 
 		cache const & Cache = this->Caches[this->index_cache(Level)];
-		GLI_ASSERT(glm::all(glm::lessThan(TexelCoord, Cache.Dim)));
+		GLI_ASSERT(glm::all(glm::lessThan(TexelCoord, Cache.Extent)));
 
-		std::size_t const Index = linear_index(TexelCoord, Cache.Dim);
+		std::size_t const Index = linear_index(TexelCoord, Cache.Extent);
 		GLI_ASSERT(Index < Cache.Size / sizeof(genType));
 
 		reinterpret_cast<genType*>(Cache.Data)[Index] = Texel;
@@ -135,7 +135,7 @@ namespace gli
 		{
 			cache& Cache = this->Caches[this->index_cache(Level)];
 			Cache.Data = this->data<std::uint8_t>(0, 0, Level);
-			Cache.Dim = glm::max(texture3D::texelcoord_type(this->texture::dimensions(Level)), texture3D::texelcoord_type(1));
+			Cache.Extent = glm::max(texture3D::texelcoord_type(this->texture::extent(Level)), texture3D::texelcoord_type(1));
 #			ifndef NDEBUG
 				Cache.Size = this->size(Level);
 #			endif

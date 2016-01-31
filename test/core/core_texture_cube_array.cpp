@@ -44,8 +44,8 @@ int test_textureCubeArray_query()
 		Error += Texture.format() == gli::FORMAT_RGBA8_UINT_PACK8 ? 0 : 1;
 		Error += Texture.levels() == 2 ? 0 : 1;
 		Error += !Texture.empty() ? 0 : 1;
-		Error += Texture.dimensions().x == 2 ? 0 : 1;
-		Error += Texture.dimensions().y == 2 ? 0 : 1;
+		Error += Texture.extent().x == 2 ? 0 : 1;
+		Error += Texture.extent().y == 2 ? 0 : 1;
 	}
 
 	{
@@ -55,8 +55,8 @@ int test_textureCubeArray_query()
 		Error += Texture.format() == gli::FORMAT_RGBA8_UINT_PACK8 ? 0 : 1;
 		Error += Texture.levels() == 2 ? 0 : 1;
 		Error += !Texture.empty() ? 0 : 1;
-		Error += Texture.dimensions().x == 2 ? 0 : 1;
-		Error += Texture.dimensions().y == 2 ? 0 : 1;
+		Error += Texture.extent().x == 2 ? 0 : 1;
+		Error += Texture.extent().y == 2 ? 0 : 1;
 	}
 
 	return Error;
@@ -619,8 +619,8 @@ namespace clear
 			Texture.clear<glm::u8vec4>(0, FaceIndex, 1, glm::u8vec4(255, 127, 0, 255));
 
 		gli::textureCubeArray::texelcoord_type Coords(0);
-		for(; Coords.y < Texture.dimensions(1).y; ++Coords.y)
-		for(; Coords.x < Texture.dimensions(1).x; ++Coords.x)
+		for(; Coords.y < Texture.extent(1).y; ++Coords.y)
+		for(; Coords.x < Texture.extent(1).x; ++Coords.x)
 		{
 			glm::u8vec4 const TexelD = Texture.load<glm::u8vec4>(Coords, 0, 0, 1);
 			Error += TexelD == Color ? 0 : 1;

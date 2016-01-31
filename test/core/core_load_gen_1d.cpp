@@ -28,9 +28,9 @@ int main()
 			
 		gli::size_t const Layers = gli::is_target_array(Target) ? 2 : 1;
 		gli::size_t const Faces = gli::is_target_cube(Target) ? 6 : 1;
-		gli::ivec3 const BlockDimensions = gli::block_dimensions(Format);
+		gli::ivec3 const BlockExtent = gli::block_extent(Format);
 			
-		gli::texture Texture(Target, Format, BlockDimensions * gli::ivec3(BlockDimensions.y, BlockDimensions.x, 1), Layers, Faces, 2);
+		gli::texture Texture(Target, Format, BlockExtent * gli::ivec3(BlockExtent.y, BlockExtent.x, 1), Layers, Faces, 2);
 		Texture.clear();
 			
 		gli::save(Texture, "test1d.dds");

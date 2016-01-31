@@ -1,6 +1,9 @@
-#include <gli/gli.hpp>
+#include <gli/texture2d.hpp>
+#include <gli/comparison.hpp>
+#include <gli/load.hpp>
 #include <glm/gtx/gradient_paint.hpp>
 #include <glm/gtc/packing.hpp>
+#include <array>
 
 namespace
 {
@@ -21,8 +24,8 @@ inline gli::texture2D radial
 	gli::texture2D Result(gli::FORMAT_RGB8_UINT_PACK8, Size, 1);
 	glm::u8vec3 * DstData = (glm::u8vec3*)Result.data();
 
-	for(int y = 0; y < Result.dimensions().y; ++y)
-	for(int x = 0; x < Result.dimensions().x; ++x)
+	for(int y = 0; y < Result.extent().y; ++y)
+	for(int x = 0; x < Result.extent().x; ++x)
 	{
 		float Value = glm::radialGradient(
 			Center * glm::vec2(Size),
@@ -30,7 +33,7 @@ inline gli::texture2D radial
 			Focal * glm::vec2(Size),
 			glm::vec2(x, y));
 
-		std::size_t Index = x + y * Result.dimensions().x;
+		std::size_t Index = x + y * Result.extent().x;
 
 		*(DstData + Index) = glm::u8vec3(glm::u8(glm::clamp(Value * 255.f, 0.f, 255.f)));
 	}
@@ -48,15 +51,15 @@ inline gli::texture2D linear
 	gli::texture2D Result(gli::FORMAT_RGB8_UINT_PACK8, gli::texture2D::texelcoord_type(Size), 1);
 	glm::u8vec3 * DstData = (glm::u8vec3*)Result.data();
 
-	for(int y = 0; y < Result.dimensions().y; ++y)
-	for(int x = 0; x < Result.dimensions().x; ++x)
+	for(int y = 0; y < Result.extent().y; ++y)
+	for(int x = 0; x < Result.extent().x; ++x)
 	{
 		float Value = glm::linearGradient(
 			Point0 * glm::vec2(Size),
 			Point1 * glm::vec2(Size),
 			gli::vec2(x, y));
 
-		std::size_t Index = x + y * Result.dimensions().x;
+		std::size_t Index = x + y * Result.extent().x;
 
 		*(DstData + Index) = glm::u8vec3(glm::u8(glm::clamp(Value * 255.f, 0.f, 255.f)));
 	}
@@ -68,13 +71,8 @@ int test_create()
 {
 	int Error(0);
 
-//	gli::texture2D TextureA = radial(
-//		gli::texture2D::dim_type(128), gli::vec2(0.5f), 16.f, gli::vec2(0.7f));
-
 	gli::texture2D TextureB = linear(
 		gli::texture2D::texelcoord_type(128), gli::vec2(0.5f), gli::vec2(0.7f));
-
-//	Error += TextureA != TextureB ? 0 : 1;
 
 	return Error;
 }
@@ -123,7 +121,6 @@ int test_texture2d_clear()
 		gli::texture2D::texelcoord_type(16),
 		gli::texture2D::size_type(glm::log2(16u) + 1));
 
-	//Texture.clear<glm::u8vec4>(Orange);
 	Texture.clear(Orange);
 
 	return Error;
@@ -139,8 +136,8 @@ int test_texture2d_query()
 	Error += Texture.format() == gli::FORMAT_RGBA8_UINT_PACK8 ? 0 : 1;
 	Error += Texture.levels() == 2 ? 0 : 1;
 	Error += !Texture.empty() ? 0 : 1;
-	Error += Texture.dimensions().x == 2 ? 0 : 1;
-	Error += Texture.dimensions().y == 2 ? 0 : 1;
+	Error += Texture.extent().x == 2 ? 0 : 1;
+	Error += Texture.extent().y == 2 ? 0 : 1;
 
 	return Error;
 }
@@ -695,10 +692,10 @@ namespace level
 
 		for(gli::texture2D::size_type Level = 0; Level < Texture.levels(); ++Level)
 		{
-			gli::image::texelcoord_type const & DimensionsL = Texture[Level].dimensions();
-			gli::image::texelcoord_type const & Dimensions0 = glm::max(Texture[0].dimensions() >> gli::image::texelcoord_type(static_cast<gli::image::texelcoord_type::value_type>(Level)), gli::image::texelcoord_type(1));
+			gli::image::texelcoord_type const & ExtentL = Texture[Level].extent();
+			gli::image::texelcoord_type const & Extent0 = glm::max(Texture[0].extent() >> gli::image::texelcoord_type(static_cast<gli::image::texelcoord_type::value_type>(Level)), gli::image::texelcoord_type(1));
 
-			Error += DimensionsL == Dimensions0 ? 0 : 1;
+			Error += ExtentL == Extent0 ? 0 : 1;
 			assert(!Error);
 		}
 
@@ -731,17 +728,17 @@ namespace mipmaps
 			gli::texture2D Texture(gli::FORMAT_RGBA8_UNORM_PACK8, gli::texture2D::texelcoord_type(40, 30));
 			assert(!Texture.empty());
 
-			Error += Texture.dimensions(0) == gli::texture2D::texelcoord_type(40, 30) ? 0 : 1;
-			Error += Texture.dimensions(1) == gli::texture2D::texelcoord_type(20, 15) ? 0 : 1;
-			Error += Texture.dimensions(2) == gli::texture2D::texelcoord_type(10, 7) ? 0 : 1;
-			Error += Texture.dimensions(3) == gli::texture2D::texelcoord_type(5, 3) ? 0 : 1;
-			Error += Texture.dimensions(4) == gli::texture2D::texelcoord_type(2, 1) ? 0 : 1;
+			Error += Texture.extent(0) == gli::texture2D::texelcoord_type(40, 30) ? 0 : 1;
+			Error += Texture.extent(1) == gli::texture2D::texelcoord_type(20, 15) ? 0 : 1;
+			Error += Texture.extent(2) == gli::texture2D::texelcoord_type(10, 7) ? 0 : 1;
+			Error += Texture.extent(3) == gli::texture2D::texelcoord_type(5, 3) ? 0 : 1;
+			Error += Texture.extent(4) == gli::texture2D::texelcoord_type(2, 1) ? 0 : 1;
 
-			Error += Texture[0].dimensions() == gli::texture::texelcoord_type(40, 30, 1) ? 0 : 1;
-			Error += Texture[1].dimensions() == gli::texture::texelcoord_type(20, 15, 1) ? 0 : 1;
-			Error += Texture[2].dimensions() == gli::texture::texelcoord_type(10, 7, 1) ? 0 : 1;
-			Error += Texture[3].dimensions() == gli::texture::texelcoord_type(5, 3, 1) ? 0 : 1;
-			Error += Texture[4].dimensions() == gli::texture::texelcoord_type(2, 1, 1) ? 0 : 1;
+			Error += Texture[0].extent() == gli::texture::texelcoord_type(40, 30, 1) ? 0 : 1;
+			Error += Texture[1].extent() == gli::texture::texelcoord_type(20, 15, 1) ? 0 : 1;
+			Error += Texture[2].extent() == gli::texture::texelcoord_type(10, 7, 1) ? 0 : 1;
+			Error += Texture[3].extent() == gli::texture::texelcoord_type(5, 3, 1) ? 0 : 1;
+			Error += Texture[4].extent() == gli::texture::texelcoord_type(2, 1, 1) ? 0 : 1;
 		}
 
 		return Error;
@@ -771,8 +768,8 @@ namespace clear
 		Texture.clear<glm::u8vec4>(1, glm::u8vec4(255, 127, 0, 255));
 
 		gli::texture2D::texelcoord_type Coords(0);
-		for(; Coords.y < Texture.dimensions(1).y; ++Coords.y)
-		for(; Coords.x < Texture.dimensions(1).x; ++Coords.x)
+		for(; Coords.y < Texture.extent(1).y; ++Coords.y)
+		for(; Coords.x < Texture.extent(1).x; ++Coords.x)
 		{
 			glm::u8vec4 const TexelD = Texture.load<glm::u8vec4>(gli::texture2D::texelcoord_type(0), 1);
 			Error += TexelD == Color ? 0 : 1;

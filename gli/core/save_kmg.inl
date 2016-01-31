@@ -26,9 +26,9 @@ namespace gli
 		Header.SwizzleGreen = Swizzle[1];
 		Header.SwizzleBlue = Swizzle[2];
 		Header.SwizzleAlpha = Swizzle[3];
-		Header.PixelWidth = static_cast<std::uint32_t>(Texture.dimensions().x);
-		Header.PixelHeight = static_cast<std::uint32_t>(Texture.dimensions().y);
-		Header.PixelDepth = static_cast<std::uint32_t>(Texture.dimensions().z);
+		Header.PixelWidth = static_cast<std::uint32_t>(Texture.extent().x);
+		Header.PixelHeight = static_cast<std::uint32_t>(Texture.extent().y);
+		Header.PixelDepth = static_cast<std::uint32_t>(Texture.extent().z);
 		Header.Layers = static_cast<std::uint32_t>(Texture.layers());
 		Header.Levels = static_cast<std::uint32_t>(Texture.levels());
 		Header.Faces = static_cast<std::uint32_t>(Texture.faces());

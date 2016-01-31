@@ -44,9 +44,9 @@ int test_image_query()
 
 	Error += Image.size() == sizeof(glm::u8vec4) ? 0 : 1;
 	Error += !Image.empty() ? 0 : 1;
-	Error += Image.dimensions().x == 1 ? 0 : 1;
-	Error += Image.dimensions().y == 1 ? 0 : 1;
-	Error += Image.dimensions().z == 1 ? 0 : 1;
+	Error += Image.extent().x == 1 ? 0 : 1;
+	Error += Image.extent().y == 1 ? 0 : 1;
+	Error += Image.extent().z == 1 ? 0 : 1;
 
 	return Error;
 }

@@ -20,14 +20,14 @@ namespace gli
 		/// Create a textureCubeArray and allocate a new storage
 		explicit textureCubeArray(
 			format_type Format,
-			texelcoord_type const & Dimensions,
+			texelcoord_type const & Extent,
 			size_type Layers,
 			size_type Levels);
 
 		/// Create a textureCubeArray and allocate a new storage with a complete mipmap chain
 		explicit textureCubeArray(
 			format_type Format,
-			texelcoord_type const & Dimensions,
+			texelcoord_type const & Extent,
 			size_type Layers);
 
 		/// Create a textureCubeArray view with an existing storage
@@ -53,7 +53,7 @@ namespace gli
 		textureCube operator[](size_type Layer) const;
 
 		/// Return the dimensions of a texture instance: width and height where both should be equal.
-		texelcoord_type dimensions(size_type Level = 0) const;
+		texelcoord_type extent(size_type Level = 0) const;
 
 		/// Fetch a texel from a texture. The texture format must be uncompressed.
 		template <typename genType>
@@ -79,7 +79,7 @@ namespace gli
 		struct cache
 		{
 			std::uint8_t* Data;
-			texelcoord_type Dim;
+			texelcoord_type Extent;
 #			ifndef NDEBUG
 				size_type Size;
 #			endif

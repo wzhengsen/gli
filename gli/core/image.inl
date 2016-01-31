@@ -4,11 +4,11 @@ namespace detail
 	template <typename T, precision P>
 	inline size_t texelLinearAdressing
 	(
-		tvec1<T, P> const & Dimensions,
+		tvec1<T, P> const & Extent,
 		tvec1<T, P> const & TexelCoord
 	)
 	{
-		GLI_ASSERT(glm::all(glm::lessThan(TexelCoord, Dimensions)));
+		GLI_ASSERT(glm::all(glm::lessThan(TexelCoord, Extent)));
 
 		return static_cast<size_t>(TexelCoord.x);
 	}
@@ -16,49 +16,49 @@ namespace detail
 	template <typename T, precision P>
 	inline size_t texelLinearAdressing
 	(
-		tvec2<T, P> const & Dimensions,
+		tvec2<T, P> const & Extent,
 		tvec2<T, P> const & TexelCoord
 	)
 	{
-		GLI_ASSERT(TexelCoord.x < Dimensions.x);
-		GLI_ASSERT(TexelCoord.y < Dimensions.y);
+		GLI_ASSERT(TexelCoord.x < Extent.x);
+		GLI_ASSERT(TexelCoord.y < Extent.y);
 
-		return static_cast<size_t>(TexelCoord.x + Dimensions.x * TexelCoord.y);
+		return static_cast<size_t>(TexelCoord.x + Extent.x * TexelCoord.y);
 	}
 
 	template <typename T, precision P>
 	inline size_t texelLinearAdressing
 	(
-		tvec3<T, P> const & Dimensions,
+		tvec3<T, P> const & Extent,
 		tvec3<T, P> const & TexelCoord
 	)
 	{
-		GLI_ASSERT(TexelCoord.x < Dimensions.x);
-		GLI_ASSERT(TexelCoord.y < Dimensions.y);
-		GLI_ASSERT(TexelCoord.z < Dimensions.z);
+		GLI_ASSERT(TexelCoord.x < Extent.x);
+		GLI_ASSERT(TexelCoord.y < Extent.y);
+		GLI_ASSERT(TexelCoord.z < Extent.z);
 
-		return static_cast<size_t>(TexelCoord.x + Dimensions.x * (TexelCoord.y + Dimensions.y * TexelCoord.z));
+		return static_cast<size_t>(TexelCoord.x + Extent.x * (TexelCoord.y + Extent.y * TexelCoord.z));
 	}
 
 	inline size_t texelMortonAdressing
 	(
-		dim1_t const & Dimensions,
+		dim1_t const & Extent,
 		dim1_t const & TexelCoord
 	)
 	{
-		GLI_ASSERT(TexelCoord.x < Dimensions.x);
+		GLI_ASSERT(TexelCoord.x < Extent.x);
 
 		return TexelCoord.x;
 	}
 
 	inline size_t texelMortonAdressing
 	(
-		dim2_t const & Dimensions,
+		dim2_t const & Extent,
 		dim2_t const & TexelCoord
 	)
 	{
-		GLI_ASSERT(TexelCoord.x < Dimensions.x && TexelCoord.x >= 0 && TexelCoord.x < std::numeric_limits<dim2_t::value_type>::max());
-		GLI_ASSERT(TexelCoord.y < Dimensions.y && TexelCoord.y >= 0 && TexelCoord.y < std::numeric_limits<dim2_t::value_type>::max());
+		GLI_ASSERT(TexelCoord.x < Extent.x && TexelCoord.x >= 0 && TexelCoord.x < std::numeric_limits<dim2_t::value_type>::max());
+		GLI_ASSERT(TexelCoord.y < Extent.y && TexelCoord.y >= 0 && TexelCoord.y < std::numeric_limits<dim2_t::value_type>::max());
 
 		glm::u32vec2 const Input(TexelCoord);
 
@@ -157,14 +157,14 @@ namespace detail
 		return this->Format;
 	}
 
-	inline image::texelcoord_type image::dimensions() const
+	inline image::texelcoord_type image::extent() const
 	{
 		GLI_ASSERT(!this->empty());
 
-		storage::texelcoord_type const & SrcDimensions = this->Storage->dimensions(this->BaseLevel);
-		storage::texelcoord_type const & DstDimensions = SrcDimensions * block_dimensions(this->format()) / this->Storage->block_dimensions();
+		storage::texelcoord_type const & SrcExtent = this->Storage->extent(this->BaseLevel);
+		storage::texelcoord_type const & DstExtent = SrcExtent * block_extent(this->format()) / this->Storage->block_extent();
 
-		return glm::max(DstDimensions, storage::texelcoord_type(1));
+		return glm::max(DstExtent, storage::texelcoord_type(1));
 	}
 
 	inline void * image::data()
@@ -236,9 +236,9 @@ namespace detail
 		GLI_ASSERT(!this->empty());
 		GLI_ASSERT(!is_compressed(this->format()));
 		GLI_ASSERT(this->Storage->block_size() == sizeof(genType));
-		GLI_ASSERT(glm::all(glm::lessThan(TexelCoord, this->dimensions())));
+		GLI_ASSERT(glm::all(glm::lessThan(TexelCoord, this->extent())));
 
-		return *(this->data<genType>() + detail::texelLinearAdressing(this->dimensions(), TexelCoord));
+		return *(this->data<genType>() + detail::texelLinearAdressing(this->extent(), TexelCoord));
 	}
 
 	template <typename genType>
@@ -247,8 +247,8 @@ namespace detail
 		GLI_ASSERT(!this->empty());
 		GLI_ASSERT(!is_compressed(this->format()));
 		GLI_ASSERT(this->Storage->block_size() == sizeof(genType));
-		GLI_ASSERT(glm::all(glm::lessThan(TexelCoord, this->dimensions())));
+		GLI_ASSERT(glm::all(glm::lessThan(TexelCoord, this->extent())));
 
-		*(this->data<genType>() + detail::texelLinearAdressing(this->dimensions(), TexelCoord)) = Data;
+		*(this->data<genType>() + detail::texelLinearAdressing(this->extent(), TexelCoord)) = Data;
 	}
 }//namespace gli

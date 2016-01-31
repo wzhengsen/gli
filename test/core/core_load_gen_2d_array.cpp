@@ -1,4 +1,6 @@
-#include <gli/gli.hpp>
+#include <gli/load.hpp>
+#include <gli/save.hpp>
+#include <gli/comparison.hpp>
 
 namespace
 {
@@ -23,9 +25,9 @@ int main()
 		gli::target const Target = gli::TARGET_2D_ARRAY;
 		gli::format Format = static_cast<gli::format>(FormatIndex);
 		
-		gli::ivec3 const BlockDimensions = gli::block_dimensions(Format);
+		gli::ivec3 const BlockExtent = gli::block_extent(Format);
 		
-		gli::texture Texture(Target, Format, BlockDimensions * gli::ivec3(BlockDimensions.y, BlockDimensions.x, 1), 2, 1, 2);
+		gli::texture Texture(Target, Format, BlockExtent * gli::ivec3(BlockExtent.y, BlockExtent.x, 1), 2, 1, 2);
 		Texture.clear();
 		
 		gli::save(Texture, "test2d_array.dds");

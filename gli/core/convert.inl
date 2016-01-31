@@ -18,14 +18,14 @@ namespace gli
 		fetch_type Fetch = detail::convert<texture_type, T, defaultp>::call(Texture.format()).Fetch;
 		write_type Write = detail::convert<texture_type, T, defaultp>::call(Format).Write;
 
-		texture Storage(Texture.target(), Format, Texture.texture::dimensions(), Texture.layers(), Texture.faces(), Texture.levels(), Texture.swizzles());
+		texture Storage(Texture.target(), Format, Texture.texture::extent(), Texture.layers(), Texture.faces(), Texture.levels(), Texture.swizzles());
 		texture_type Copy(Storage);
 
 		for(size_type Layer = 0; Layer < Texture.layers(); ++Layer)
 		for(size_type Face = 0; Face < Texture.faces(); ++Face)
 		for(size_type Level = 0; Level < Texture.levels(); ++Level)
 		{
-			texelcoord_type const& Dimensions = Texture.texture::dimensions(Level);
+			texelcoord_type const& Dimensions = Texture.texture::extent(Level);
 
 			for(component_type k = 0; k < Dimensions.z; ++k)
 			for(component_type j = 0; j < Dimensions.y; ++j)

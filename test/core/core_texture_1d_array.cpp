@@ -64,7 +64,7 @@ int test_texture1DArray_query()
 	Error += Texture.layers() == Layers ? 0 : 1;
 	Error += Texture.levels() == Levels ? 0 : 1;
 	Error += !Texture.empty() ? 0 : 1;
-	Error += Texture.dimensions() == gli::texture1DArray::texelcoord_type(2) ? 0 : 1;
+	Error += Texture.extent() == gli::texture1DArray::texelcoord_type(2) ? 0 : 1;
 
 	return Error;
 }
@@ -575,7 +575,7 @@ namespace clear
 		Texture.clear<glm::u8vec4>(0, 1, glm::u8vec4(255, 127, 0, 255));
 
 		gli::texture1DArray::texelcoord_type Coords(0);
-		for(; Coords.x < Texture.dimensions(1).x; ++Coords.x)
+		for(; Coords.x < Texture.extent(1).x; ++Coords.x)
 		{
 			glm::u8vec4 const TexelD = Texture.load<glm::u8vec4>(Coords, 0, 1);
 			Error += TexelD == Color ? 0 : 1;

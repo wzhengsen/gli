@@ -23,10 +23,11 @@ namespace gli
 		texture();
 
 		/// Create a texture object and allocate a texture storoge for it
+		/// @param Extent Size of the texture: width, height and depth.
 		texture(
 			target_type Target,
 			format_type Format,
-			texelcoord_type const & Dimensions,
+			texelcoord_type const & Extent,
 			size_type Layers,
 			size_type Faces,
 			size_type Levels,
@@ -95,8 +96,8 @@ namespace gli
 		/// Return max_level() - base_level() + 1.
 		size_type levels() const;
 
-		/// Return the dimensions of a texture instance: width, height and depth.
-		texelcoord_type dimensions(size_type Level = 0) const;
+		/// Return the size of a texture instance: width, height and depth.
+		texelcoord_type extent(size_type Level = 0) const;
 
 		/// Return the memory size of a texture instance storage in bytes.
 		size_type size() const;

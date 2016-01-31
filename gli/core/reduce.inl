@@ -18,7 +18,7 @@ namespace detail
 {
 	inline bool are_compatible(texture const & A, texture const & B)
 	{
-		return all(equal(A.dimensions(), B.dimensions())) && A.levels() == B.levels() && A.faces() == B.faces() && A.layers() == B.layers();
+		return all(equal(A.extent(), B.extent())) && A.levels() == B.levels() && A.faces() == B.faces() && A.layers() == B.layers();
 	}
 
 	template <typename val_type>
@@ -38,7 +38,7 @@ namespace detail
 
 			for(size_type LevelIndex = 0, LevelCount = A.levels(); LevelIndex < LevelCount; ++LevelIndex)
 			{
-				texelcoord_type const TexelCount(A.dimensions(LevelIndex));
+				texelcoord_type const TexelCount(A.extent(LevelIndex));
 				for(TexelIndex.x = 0; TexelIndex.x < TexelCount.x; ++TexelIndex.x)
 				{
 					Result = ReduceFunc(Result, TexelFunc(
@@ -69,7 +69,7 @@ namespace detail
 			for(size_type LayerIndex = 0, LayerCount = A.layers(); LayerIndex < LayerCount; ++LayerIndex)
 			for(size_type LevelIndex = 0, LevelCount = A.levels(); LevelIndex < LevelCount; ++LevelIndex)
 			{
-				texelcoord_type const TexelCount(A.dimensions(LevelIndex));
+				texelcoord_type const TexelCount(A.extent(LevelIndex));
 				for(TexelIndex.x = 0; TexelIndex.x < TexelCount.x; ++TexelIndex.x)
 				{
 					Result = ReduceFunc(Result, TexelFunc(
@@ -99,7 +99,7 @@ namespace detail
 
 			for(size_type LevelIndex = 0, LevelCount = A.levels(); LevelIndex < LevelCount; ++LevelIndex)
 			{
-				texelcoord_type const TexelCount(A.dimensions(LevelIndex));
+				texelcoord_type const TexelCount(A.extent(LevelIndex));
 				for(TexelIndex.y = 0; TexelIndex.y < TexelCount.y; ++TexelIndex.y)
 				for(TexelIndex.x = 0; TexelIndex.x < TexelCount.x; ++TexelIndex.x)
 				{
@@ -131,7 +131,7 @@ namespace detail
 			for(size_type LayerIndex = 0, LayerCount = A.layers(); LayerIndex < LayerCount; ++LayerIndex)
 			for(size_type LevelIndex = 0, LevelCount = A.levels(); LevelIndex < LevelCount; ++LevelIndex)
 			{
-				texelcoord_type const TexelCount(A.dimensions(LevelIndex));
+				texelcoord_type const TexelCount(A.extent(LevelIndex));
 				for(TexelIndex.y = 0; TexelIndex.y < TexelCount.y; ++TexelIndex.y)
 				for(TexelIndex.x = 0; TexelIndex.x < TexelCount.x; ++TexelIndex.x)
 				{
@@ -162,7 +162,7 @@ namespace detail
 
 			for(size_type LevelIndex = 0, LevelCount = A.levels(); LevelIndex < LevelCount; ++LevelIndex)
 			{
-				texelcoord_type const TexelCount(A.dimensions(LevelIndex));
+				texelcoord_type const TexelCount(A.extent(LevelIndex));
 				for(TexelIndex.z = 0; TexelIndex.z < TexelCount.z; ++TexelIndex.z)
 				for(TexelIndex.y = 0; TexelIndex.y < TexelCount.y; ++TexelIndex.y)
 				for(TexelIndex.x = 0; TexelIndex.x < TexelCount.x; ++TexelIndex.x)
@@ -195,7 +195,7 @@ namespace detail
 			for(size_type FaceIndex = 0, FaceCount = A.faces(); FaceIndex < FaceCount; ++FaceIndex)
 			for(size_type LevelIndex = 0, LevelCount = A.levels(); LevelIndex < LevelCount; ++LevelIndex)
 			{
-				texelcoord_type const TexelCount(A.dimensions(LevelIndex));
+				texelcoord_type const TexelCount(A.extent(LevelIndex));
 				for(TexelIndex.y = 0; TexelIndex.y < TexelCount.y; ++TexelIndex.y)
 				for(TexelIndex.x = 0; TexelIndex.x < TexelCount.x; ++TexelIndex.x)
 				{
@@ -228,7 +228,7 @@ namespace detail
 			for(size_type FaceIndex = 0, FaceCount = A.faces(); FaceIndex < FaceCount; ++FaceIndex)
 			for(size_type LevelIndex = 0, LevelCount = A.levels(); LevelIndex < LevelCount; ++LevelIndex)
 			{
-				texelcoord_type const TexelCount(A.dimensions(LevelIndex));
+				texelcoord_type const TexelCount(A.extent(LevelIndex));
 				for(TexelIndex.y = 0; TexelIndex.y < TexelCount.y; ++TexelIndex.y)
 				for(TexelIndex.x = 0; TexelIndex.x < TexelCount.x; ++TexelIndex.x)
 				{
@@ -254,7 +254,7 @@ namespace detail
 		
 		static vec_type call(texture1D const & A, texture1D const & B, func_type TexelFunc, func_type ReduceFunc)
 		{
-			GLI_ASSERT(all(equal(A.dimensions(), B.dimensions())));
+			GLI_ASSERT(all(equal(A.extent(), B.extent())));
 			GLI_ASSERT(A.levels() == B.levels());
 			GLI_ASSERT(A.size() == B.size());
 
@@ -265,7 +265,7 @@ namespace detail
 			
 			for(size_type LevelIndex = 0, LevelCount = A.levels(); LevelIndex < LevelCount; ++LevelIndex)
 			{
-				texelcoord_type const TexelCount(A.dimensions(LevelIndex));
+				texelcoord_type const TexelCount(A.extent(LevelIndex));
 				for(TexelIndex.x = 0; TexelIndex.x < TexelCount.x; ++TexelIndex.x)
 				{
 					Result = ReduceFunc(Result, TexelFunc(
@@ -287,7 +287,7 @@ namespace detail
 		
 		static vec_type call(texture1DArray const & A, texture1DArray const & B, func_type TexelFunc, func_type ReduceFunc)
 		{
-			GLI_ASSERT(all(equal(A.dimensions(), B.dimensions())));
+			GLI_ASSERT(all(equal(A.extent(), B.extent())));
 			GLI_ASSERT(A.levels() == B.levels());
 			GLI_ASSERT(A.size() == B.size());
 			
@@ -299,7 +299,7 @@ namespace detail
 			for(size_type LayerIndex = 0, LayerCount = A.layers(); LayerIndex < LayerCount; ++LayerIndex)
 			for(size_type LevelIndex = 0, LevelCount = A.levels(); LevelIndex < LevelCount; ++LevelIndex)
 			{
-				texelcoord_type const TexelCount(A.dimensions(LevelIndex));
+				texelcoord_type const TexelCount(A.extent(LevelIndex));
 				for(TexelIndex.x = 0; TexelIndex.x < TexelCount.x; ++TexelIndex.x)
 				{
 					Result = ReduceFunc(Result, TexelFunc(
@@ -321,7 +321,7 @@ namespace detail
 		
 		static vec_type call(texture2D const & A, texture2D const & B, func_type TexelFunc, func_type ReduceFunc)
 		{
-			GLI_ASSERT(all(equal(A.dimensions(), B.dimensions())));
+			GLI_ASSERT(all(equal(A.extent(), B.extent())));
 			GLI_ASSERT(A.levels() == B.levels());
 			GLI_ASSERT(A.size() == B.size());
 			
@@ -332,7 +332,7 @@ namespace detail
 			
 			for(size_type LevelIndex = 0, LevelCount = A.levels(); LevelIndex < LevelCount; ++LevelIndex)
 			{
-				texelcoord_type const TexelCount(A.dimensions(LevelIndex));
+				texelcoord_type const TexelCount(A.extent(LevelIndex));
 				for(TexelIndex.y = 0; TexelIndex.y < TexelCount.y; ++TexelIndex.y)
 				for(TexelIndex.x = 0; TexelIndex.x < TexelCount.x; ++TexelIndex.x)
 				{
@@ -355,7 +355,7 @@ namespace detail
 		
 		static vec_type call(texture2DArray const & A, texture2DArray const & B, func_type TexelFunc, func_type ReduceFunc)
 		{
-			GLI_ASSERT(all(equal(A.dimensions(), B.dimensions())));
+			GLI_ASSERT(all(equal(A.extent(), B.extent())));
 			GLI_ASSERT(A.levels() == B.levels());
 			GLI_ASSERT(A.size() == B.size());
 			
@@ -367,7 +367,7 @@ namespace detail
 			for(size_type LayerIndex = 0, LayerCount = A.layers(); LayerIndex < LayerCount; ++LayerIndex)
 			for(size_type LevelIndex = 0, LevelCount = A.levels(); LevelIndex < LevelCount; ++LevelIndex)
 			{
-				texelcoord_type const TexelCount(A.dimensions(LevelIndex));
+				texelcoord_type const TexelCount(A.extent(LevelIndex));
 				for(TexelIndex.y = 0; TexelIndex.y < TexelCount.y; ++TexelIndex.y)
 				for(TexelIndex.x = 0; TexelIndex.x < TexelCount.x; ++TexelIndex.x)
 				{
@@ -390,7 +390,7 @@ namespace detail
 		
 		static vec_type call(texture3D const & A, texture3D const & B, func_type TexelFunc, func_type ReduceFunc)
 		{
-			GLI_ASSERT(all(equal(A.dimensions(), B.dimensions())));
+			GLI_ASSERT(all(equal(A.extent(), B.extent())));
 			GLI_ASSERT(A.levels() == B.levels());
 			GLI_ASSERT(A.size() == B.size());
 			
@@ -401,7 +401,7 @@ namespace detail
 			
 			for(size_type LevelIndex = 0, LevelCount = A.levels(); LevelIndex < LevelCount; ++LevelIndex)
 			{
-				texelcoord_type const TexelCount(A.dimensions(LevelIndex));
+				texelcoord_type const TexelCount(A.extent(LevelIndex));
 				for(TexelIndex.z = 0; TexelIndex.z < TexelCount.z; ++TexelIndex.z)
 				for(TexelIndex.y = 0; TexelIndex.y < TexelCount.y; ++TexelIndex.y)
 				for(TexelIndex.x = 0; TexelIndex.x < TexelCount.x; ++TexelIndex.x)
@@ -425,7 +425,7 @@ namespace detail
 		
 		static vec_type call(textureCube const & A, textureCube const & B, func_type TexelFunc, func_type ReduceFunc)
 		{
-			GLI_ASSERT(all(equal(A.dimensions(), B.dimensions())));
+			GLI_ASSERT(all(equal(A.extent(), B.extent())));
 			GLI_ASSERT(A.levels() == B.levels());
 			GLI_ASSERT(A.size() == B.size());
 			
@@ -437,7 +437,7 @@ namespace detail
 			for(size_type FaceIndex = 0, FaceCount = A.faces(); FaceIndex < FaceCount; ++FaceIndex)
 			for(size_type LevelIndex = 0, LevelCount = A.levels(); LevelIndex < LevelCount; ++LevelIndex)
 			{
-				texelcoord_type const TexelCount(A.dimensions(LevelIndex));
+				texelcoord_type const TexelCount(A.extent(LevelIndex));
 				for(TexelIndex.y = 0; TexelIndex.y < TexelCount.y; ++TexelIndex.y)
 				for(TexelIndex.x = 0; TexelIndex.x < TexelCount.x; ++TexelIndex.x)
 				{
@@ -460,7 +460,7 @@ namespace detail
 		
 		static vec_type call(textureCubeArray const & A, textureCubeArray const & B, func_type TexelFunc, func_type ReduceFunc)
 		{
-			GLI_ASSERT(all(equal(A.dimensions(), B.dimensions())));
+			GLI_ASSERT(all(equal(A.extent(), B.extent())));
 			GLI_ASSERT(A.levels() == B.levels());
 			GLI_ASSERT(A.size() == B.size());
 			
@@ -473,7 +473,7 @@ namespace detail
 			for(size_type FaceIndex = 0, FaceCount = A.faces(); FaceIndex < FaceCount; ++FaceIndex)
 			for(size_type LevelIndex = 0, LevelCount = A.levels(); LevelIndex < LevelCount; ++LevelIndex)
 			{
-				texelcoord_type const TexelCount(A.dimensions(LevelIndex));
+				texelcoord_type const TexelCount(A.extent(LevelIndex));
 				for(TexelIndex.y = 0; TexelIndex.y < TexelCount.y; ++TexelIndex.y)
 				for(TexelIndex.x = 0; TexelIndex.x < TexelCount.x; ++TexelIndex.x)
 				{

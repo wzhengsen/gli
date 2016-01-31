@@ -71,7 +71,7 @@ namespace query
 		Error += Texture.format() == gli::FORMAT_RGBA8_UINT_PACK8 ? 0 : 1;
 		Error += Texture.levels() == 1 ? 0 : 1;
 		Error += !Texture.empty() ? 0 : 1;
-		Error += Texture.dimensions() == gli::texture::texelcoord_type(1) ? 0 : 1;
+		Error += Texture.extent() == gli::texture::texelcoord_type(1) ? 0 : 1;
 
 		return Error;
 	}

@@ -30,7 +30,7 @@ namespace detail
 
 	inline image duplicate(image const & Image)
 	{
-		image Result(Image.format(), Image.dimensions());
+		image Result(Image.format(), Image.extent());
 
 		memcpy(Result.data(), Image.data(), Image.size());
 		
@@ -43,7 +43,7 @@ namespace detail
 		texture Duplicate(
 			Texture.target(),
 			Texture.format(),
-			Texture.dimensions(),
+			Texture.extent(),
 			Texture.layers(),
 			Texture.faces(),
 			Texture.levels());
@@ -63,7 +63,7 @@ namespace detail
 		texture Duplicate(
 			Texture.target(),
 			Texture.format(),
-			Texture.texture::dimensions(),
+			Texture.texture::extent(),
 			Texture.layers(),
 			Texture.faces(),
 			Texture.levels());
@@ -85,7 +85,7 @@ namespace detail
 		texture Duplicate(
 			Texture.target(),
 			Format,
-			Texture.dimensions(),
+			Texture.extent(),
 			Texture.layers(),
 			Texture.faces(),
 			Texture.levels());
@@ -111,7 +111,7 @@ namespace detail
 	
 		texture1D Duplicate(
 			Texture.format(),
-			Texture.dimensions(BaseLevel),
+			Texture.extent(BaseLevel),
 			MaxLevel - BaseLevel + 1);
 
 		memcpy(Duplicate.data(), Texture.data(0, 0, BaseLevel), Duplicate.size());
@@ -135,7 +135,7 @@ namespace detail
 
 		texture1DArray Duplicate(
 			Texture.format(),
-			Texture[BaseLayer].dimensions(BaseLevel),
+			Texture[BaseLayer].extent(BaseLevel),
 			MaxMayer - BaseLayer + 1,
 			MaxLevel - BaseLevel + 1);
 
@@ -157,7 +157,7 @@ namespace detail
 	
 		texture2D Duplicate(
 			Texture.format(),
-			Texture.dimensions(BaseLevel),
+			Texture.extent(BaseLevel),
 			MaxLevel - BaseLevel + 1);
 
 		memcpy(Duplicate.data(), Texture.data(0, 0, BaseLevel), Duplicate.size());
@@ -181,7 +181,7 @@ namespace detail
 
 		texture2DArray Duplicate(
 			Texture.format(),
-			Texture.dimensions(BaseLevel),
+			Texture.extent(BaseLevel),
 			MaxMayer - BaseLayer + 1,
 			MaxLevel - BaseLevel + 1);
 
@@ -203,7 +203,7 @@ namespace detail
 
 		texture3D Duplicate(
 			Texture.format(),
-			Texture.dimensions(BaseLevel),
+			Texture.extent(BaseLevel),
 			MaxLevel - BaseLevel + 1);
 
 		memcpy(Duplicate.data(), Texture.data(0, 0, BaseLevel), Duplicate.size());
@@ -225,7 +225,7 @@ namespace detail
 
 		textureCube Duplicate(
 			Texture.format(),
-			Texture[BaseFace].dimensions(BaseLevel),
+			Texture[BaseFace].extent(BaseLevel),
 			MaxLevel - BaseLevel + 1);
 
 		for(textureCube::size_type Face = 0; Face < Duplicate.faces(); ++Face)
@@ -254,7 +254,7 @@ namespace detail
 
 		textureCubeArray Duplicate(
 			Texture.format(),
-			Texture[BaseLayer][BaseFace].dimensions(BaseLevel),
+			Texture[BaseLayer][BaseFace].extent(BaseLevel),
 			MaxLayer - BaseLayer + 1,
 			MaxLevel - BaseLevel + 1);
 

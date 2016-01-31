@@ -72,10 +72,10 @@ namespace detail
 		memset(Header.Reserved2, 0, sizeof(Header.Reserved2));
 		Header.Size = sizeof(detail::ddsHeader);
 		Header.Flags = Caps;
-		Header.Width = static_cast<std::uint32_t>(Texture.dimensions().x);
-		Header.Height = static_cast<std::uint32_t>(Texture.dimensions().y);
+		Header.Width = static_cast<std::uint32_t>(Texture.extent().x);
+		Header.Height = static_cast<std::uint32_t>(Texture.extent().y);
 		Header.Pitch = static_cast<std::uint32_t>((Desc.Flags & detail::CAP_COMPRESSED_BIT) ? Texture.size() / Texture.faces() : 32);
-		Header.Depth = static_cast<std::uint32_t>(Texture.dimensions().z > 1 ? Texture.dimensions().z : 0);
+		Header.Depth = static_cast<std::uint32_t>(Texture.extent().z > 1 ? Texture.extent().z : 0);
 		Header.MipMapLevels = static_cast<std::uint32_t>(Texture.levels());
 		Header.Format.size = sizeof(detail::ddsPixelFormat);
 		Header.Format.flags = RequireDX10Header ? dx::DDPF_FOURCC : DXFormat.DDPixelFormat;
@@ -94,7 +94,7 @@ namespace detail
 		}
 
 		// Texture3D
-		if(Texture.dimensions().z > 1)
+		if(Texture.extent().z > 1)
 			Header.CubemapFlags |= detail::DDSCAPS2_VOLUME;
 
 		if(RequireDX10Header)
