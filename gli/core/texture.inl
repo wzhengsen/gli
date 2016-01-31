@@ -234,20 +234,20 @@ namespace gli
 	{
 		GLI_ASSERT(Layer >= 0 && Layer < this->layers() && Face >= 0 && Face < this->faces() && Level >= 0 && Level < this->levels());
 
-		size_type const Offset = this->Storage->offset(
+		size_type const BaseOffset = this->Storage->base_offset(
 			this->base_layer() + Layer, this->base_face() + Face, this->base_level() + Level);
 
-		return this->Storage->data() + Offset;
+		return this->Storage->data() + BaseOffset;
 	}
 
 	inline void const * texture::data(size_type Layer, size_type Face, size_type Level) const
 	{
 		GLI_ASSERT(Layer >= 0 && Layer < this->layers() && Face >= 0 && Face < this->faces() && Level >= 0 && Level < this->levels());
 
-		size_type const Offset = this->Storage->offset(
+		size_type const BaseOffset = this->Storage->base_offset(
 			this->base_layer() + Layer, this->base_face() + Face, this->base_level() + Level);
 
-		return this->Storage->data() + Offset;
+		return this->Storage->data() + BaseOffset;
 	}
 
 	template <typename genType>
@@ -331,22 +331,22 @@ namespace gli
 
 	inline void texture::build_cache()
 	{
-		size_type const Offset = this->Storage->offset(
+		size_type const BaseOffset = this->Storage->base_offset(
 			this->base_layer(), this->base_face(), this->base_level());
 
 		size_type const Size = this->Storage->layer_size(
 			this->base_face(), this->max_face(),
 			this->base_level(), this->max_level()) * this->layers();
 
-		this->Cache.Data = this->Storage->data() + Offset;
+		this->Cache.Data = this->Storage->data() + BaseOffset;
 		this->Cache.Size = Size;
 	}
 
-	inline texture::size_type texture::offset(size_type Layer, size_type Face, size_type Level) const
+	inline texture::size_type texture::base_offset(size_type Layer, size_type Face, size_type Level) const
 	{
 		GLI_ASSERT(Layer >= 0 && Layer < this->layers() && Face >= 0 && Face < this->faces() && Level >= 0 && Level < this->levels());
 
-		return this->Storage->offset(
+		return this->Storage->base_offset(
 			this->base_layer() + Layer,
 			this->base_face() + Face,
 			this->base_level() + Level);

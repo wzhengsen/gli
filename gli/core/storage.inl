@@ -85,7 +85,7 @@ namespace gli
 		return &this->Data[0];
 	}
 
-	inline storage::size_type storage::offset(size_type Layer, size_type Face, size_type Level) const
+	inline storage::size_type storage::base_offset(size_type Layer, size_type Face, size_type Level) const
 	{
 		GLI_ASSERT(!this->empty());
 		GLI_ASSERT(Layer >= 0 && Layer < this->layers() && Face >= 0 && Face < this->faces() && Level >= 0 && Level < this->levels());

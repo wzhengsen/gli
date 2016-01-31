@@ -218,9 +218,9 @@ namespace detail
 
 	inline image::data_type * image::compute_data(size_type BaseLayer, size_type BaseFace, size_type BaseLevel)
 	{
-		size_type const Offset = this->Storage->offset(BaseLayer, BaseFace, BaseLevel);
+		size_type const BaseOffset = this->Storage->base_offset(BaseLayer, BaseFace, BaseLevel);
 
-		return this->Storage->data() + Offset;
+		return this->Storage->data() + BaseOffset;
 	}
 
 	inline image::size_type image::compute_size(size_type Level) const

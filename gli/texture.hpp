@@ -160,7 +160,7 @@ namespace gli
 
 	protected:
 		/// Compute the relative memory offset to access the data for a specific layer, face and level
-		size_type offset(size_type Layer, size_type Face, size_type Level) const;
+		size_type base_offset(size_type Layer, size_type Face, size_type Level) const;
 
 		struct cache
 		{
