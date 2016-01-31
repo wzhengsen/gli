@@ -17,7 +17,7 @@ This library works perfectly with *[OpenGL](https://www.opengl.org)* but it also
 - Any conform C++11 compiler
 
 For more information about *GLI*, please have a look at the [API reference documentation](http://gli.g-truc.net/0.8.0/api/index.html).
-The source code and the documentation are licensed under the [Happy Bunny License (Modified MIT) or the MIT License](./copying.txt).
+The source code and the documentation are licensed under the [Happy Bunny License (Modified MIT) or the MIT License](./doc/copying.md).
 
 Thanks for contributing to the project by [submitting issues](https://github.com/g-truc/gli/issues) for bug reports and feature requests. Any feedback is welcome at [gli@g-truc.net](mailto://gli@g-truc.net).
 
@@ -31,8 +31,7 @@ Thanks for contributing to the project by [submitting issues](https://github.com
 
 #### Links
 
-- [Releases](./doc/releases.md)
-- [Licenses](./doc/copying.md)
+- [Release notes](./doc/releases.md)
 - [Code sample: Creating an OpenGL texture object from file](./doc/sample-creating-texture-object.md)
 - [Code sample: Generating mipmaps and converting float textures to rgb9e5](./doc/sample-convert.md)
 
