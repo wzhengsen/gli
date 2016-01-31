@@ -21,12 +21,14 @@
 /// THE SOFTWARE.
 ///
 /// @ref core
-/// @file gli/core/copy.cpp
+/// @file gli/core/test_duplicate.cpp
 /// @date 2013-02-04 / 2013-11-25
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
-#include <gli/gli.hpp>
+#include <gli/duplicate.hpp>
+#include <gli/view.hpp>
+#include <gli/comparison.hpp>
 
 int test_texture1D
 (
@@ -43,7 +45,7 @@ int test_texture1D
 			TextureSize,
 			gli::levels(TextureSize));
 
-		gli::texture1D TextureB(gli::copy(TextureA));
+		gli::texture1D TextureB(gli::duplicate(TextureA));
 
 		Error += TextureA == TextureB ? 0 : 1;
 
@@ -52,14 +54,14 @@ int test_texture1D
 		Error += TextureA[1] == TextureC[0] ? 0 : 1;
 		Error += TextureA[2] == TextureC[1] ? 0 : 1;
 
-		gli::texture1D TextureD(gli::copy(TextureC));
+		gli::texture1D TextureD(gli::duplicate(TextureC));
 
 		Error += TextureC == TextureD ? 0 : 1;
 
-		gli::texture1D TextureG(gli::copy(TextureA, 0, TextureA.levels() - 1));
+		gli::texture1D TextureG(gli::duplicate(TextureA, 0, TextureA.levels() - 1));
 		Error += TextureA == TextureG ? 0 : 1;
 
-		gli::texture1D TextureE(gli::copy(TextureA, 1, TextureA.levels() - 2));
+		gli::texture1D TextureE(gli::duplicate(TextureA, 1, TextureA.levels() - 2));
 		Error += TextureA[1] == TextureE[0] ? 0 : 1;
 
 		gli::texture1D TextureF(TextureA, 1, TextureA.levels() - 2);
@@ -85,7 +87,7 @@ int test_texture1DArray
 			TextureSize,
 			gli::texture1DArray::size_type(4));
 
-		gli::texture1DArray TextureB(gli::copy(TextureA));
+		gli::texture1DArray TextureB(gli::duplicate(TextureA));
 
 		Error += TextureA == TextureB ? 0 : 1;
 
@@ -98,17 +100,17 @@ int test_texture1DArray
 		Error += TextureA[1][1] == TextureC[1][0] ? 0 : 1;
 		Error += TextureA[1][2] == TextureC[1][1] ? 0 : 1;
 
-		gli::texture1DArray TextureD(gli::copy(TextureC));
+		gli::texture1DArray TextureD(gli::duplicate(TextureC));
 
 		Error += TextureC == TextureD ? 0 : 1;
 
-		gli::texture1DArray TextureG(gli::copy(
+		gli::texture1DArray TextureG(gli::duplicate(
 			TextureA,
 			0, TextureA.layers() - 1,
 			0, TextureA.levels() - 1));
 		Error += TextureA == TextureG ? 0 : 1;
 
-		gli::texture1DArray TextureE(gli::copy(
+		gli::texture1DArray TextureE(gli::duplicate(
 			TextureA,
 			1, TextureA.layers() - 1,
 			0, TextureA.levels() - 1));
@@ -128,11 +130,11 @@ int test_texture1DArray
 			gli::levels(TextureSize));
 
 		gli::texture1DArray TextureH(TextureK, 1, 2, 1, 2);
-		gli::texture1DArray TextureI(gli::copy(TextureH));
+		gli::texture1DArray TextureI(gli::duplicate(TextureH));
 
 		Error += TextureH == TextureI ? 0 : 1;
 
-		gli::texture1DArray TextureJ(gli::copy(TextureK, 1, 2, 1, 2));
+		gli::texture1DArray TextureJ(gli::duplicate(TextureK, 1, 2, 1, 2));
 		Error += TextureH == TextureJ ? 0 : 1;
 		Error += TextureI == TextureJ ? 0 : 1;
 	}
@@ -152,7 +154,7 @@ int test_texture2D
 	{
 		gli::texture2D TextureA(Formats[i], TextureSize);
 
-		gli::texture2D TextureB(gli::copy(TextureA));
+		gli::texture2D TextureB(gli::duplicate(TextureA));
 		Error += TextureA == TextureB ? 0 : 1;
 
 		gli::texture2D TextureC(gli::view(
@@ -161,14 +163,14 @@ int test_texture2D
 		Error += TextureA[1] == TextureC[0] ? 0 : 1;
 		Error += TextureA[2] == TextureC[1] ? 0 : 1;
 
-		gli::texture2D TextureD(gli::copy(TextureC));
+		gli::texture2D TextureD(gli::duplicate(TextureC));
 
 		Error += TextureC == TextureD ? 0 : 1;
 
-		gli::texture2D TextureG(gli::copy(TextureA, 0, TextureA.levels() - 1));
+		gli::texture2D TextureG(gli::duplicate(TextureA, 0, TextureA.levels() - 1));
 		Error += TextureA == TextureG ? 0 : 1;
 
-		gli::texture2D TextureE(gli::copy(TextureA, 1, TextureA.levels() - 1));
+		gli::texture2D TextureE(gli::duplicate(TextureA, 1, TextureA.levels() - 1));
 		Error += TextureA[1] == TextureE[0] ? 0 : 1;
 
 		gli::texture2D TextureF(gli::view(
@@ -195,7 +197,7 @@ int test_texture2DArray
 			TextureSize,
 			gli::texture2DArray::size_type(4));
 
-		gli::texture2DArray TextureB(gli::copy(TextureA));
+		gli::texture2DArray TextureB(gli::duplicate(TextureA));
 
 		Error += TextureA == TextureB ? 0 : 1;
 
@@ -208,17 +210,17 @@ int test_texture2DArray
 		Error += TextureA[1][1] == TextureC[1][0] ? 0 : 1;
 		Error += TextureA[1][2] == TextureC[1][1] ? 0 : 1;
 
-		gli::texture2DArray TextureD(gli::copy(TextureC));
+		gli::texture2DArray TextureD(gli::duplicate(TextureC));
 
 		Error += TextureC == TextureD ? 0 : 1;
 
-		gli::texture2DArray TextureG(gli::copy(
+		gli::texture2DArray TextureG(gli::duplicate(
 			TextureA,
 			0, TextureA.layers() - 1,
 			0, TextureA.levels() - 1));
 		Error += TextureA == TextureG ? 0 : 1;
 
-		gli::texture2DArray TextureE(gli::copy(
+		gli::texture2DArray TextureE(gli::duplicate(
 			TextureA,
 			1, TextureA.layers() - 1,
 			0, TextureA.levels() - 1));
@@ -237,11 +239,11 @@ int test_texture2DArray
 			gli::texture2DArray::size_type(4));
 
 		gli::texture2DArray TextureH(TextureK, 1, 2, 1, 2);
-		gli::texture2DArray TextureI(gli::copy(TextureH));
+		gli::texture2DArray TextureI(gli::duplicate(TextureH));
 
 		Error += TextureH == TextureI ? 0 : 1;
 
-		gli::texture2DArray TextureJ(gli::copy(TextureK, 1, 2, 1, 2));
+		gli::texture2DArray TextureJ(gli::duplicate(TextureK, 1, 2, 1, 2));
 		Error += TextureH == TextureJ ? 0 : 1;
 		Error += TextureI == TextureJ ? 0 : 1;
 	}
@@ -261,7 +263,7 @@ int test_texture3D
 	{
 		gli::texture3D TextureA(Formats[i], TextureSize);
 
-		gli::texture3D TextureB(gli::copy(TextureA));
+		gli::texture3D TextureB(gli::duplicate(TextureA));
 
 		Error += TextureA == TextureB ? 0 : 1;
 
@@ -270,14 +272,14 @@ int test_texture3D
 		Error += TextureA[1] == TextureC[0] ? 0 : 1;
 		Error += TextureA[2] == TextureC[1] ? 0 : 1;
 
-		gli::texture3D TextureD(gli::copy(TextureC));
+		gli::texture3D TextureD(gli::duplicate(TextureC));
 
 		Error += TextureC == TextureD ? 0 : 1;
 
-		gli::texture3D TextureG(gli::copy(TextureA, 0, TextureA.levels() - 1));
+		gli::texture3D TextureG(gli::duplicate(TextureA, 0, TextureA.levels() - 1));
 		Error += TextureA == TextureG ? 0 : 1;
 
-		gli::texture3D TextureE(gli::copy(TextureA, 1, TextureA.levels() - 1));
+		gli::texture3D TextureE(gli::duplicate(TextureA, 1, TextureA.levels() - 1));
 		Error += TextureA[1] == TextureE[0] ? 0 : 1;
 
 		gli::texture3D TextureF(TextureA, 1, TextureA.levels() - 1); 
@@ -302,7 +304,7 @@ int test_textureCube
 			Formats[i],
 			gli::textureCube::texelcoord_type(TextureSize));
 
-		gli::textureCube TextureB(gli::copy(TextureA));
+		gli::textureCube TextureB(gli::duplicate(TextureA));
 
 		Error += TextureA == TextureB ? 0 : 1;
 
@@ -315,17 +317,17 @@ int test_textureCube
 		Error += TextureA[1][1] == TextureC[1][0] ? 0 : 1;
 		Error += TextureA[1][2] == TextureC[1][1] ? 0 : 1;
 
-		gli::textureCube TextureD(gli::copy(TextureC));
+		gli::textureCube TextureD(gli::duplicate(TextureC));
 
 		Error += TextureC == TextureD ? 0 : 1;
 
-		gli::textureCube TextureG(gli::copy(
+		gli::textureCube TextureG(gli::duplicate(
 			TextureA,
 			0, TextureA.faces() - 1,
 			0, TextureA.levels() - 1));
 		Error += TextureA == TextureG ? 0 : 1;
 
-		gli::textureCube TextureE(gli::copy(
+		gli::textureCube TextureE(gli::duplicate(
 			TextureA,
 			0, TextureA.faces() - 1,
 			0, TextureA.levels() - 1));
@@ -343,11 +345,11 @@ int test_textureCube
 			TextureSize);
 
 		gli::textureCube TextureH(TextureK, 0, 5, 1, 2);
-		gli::textureCube TextureI(gli::copy(TextureH));
+		gli::textureCube TextureI(gli::duplicate(TextureH));
 
 		Error += TextureH == TextureI ? 0 : 1;
 
-		gli::textureCube TextureJ(gli::copy(TextureK, 0, 5, 1, 2));
+		gli::textureCube TextureJ(gli::duplicate(TextureK, 0, 5, 1, 2));
 		Error += TextureH == TextureJ ? 0 : 1;
 		Error += TextureI == TextureJ ? 0 : 1;
 	}
@@ -370,7 +372,7 @@ int test_textureCubeArray
 			TextureSize,
 			gli::textureCubeArray::size_type(4));
 
-		gli::textureCubeArray TextureB(gli::copy(TextureA));
+		gli::textureCubeArray TextureB(gli::duplicate(TextureA));
 
 		Error += TextureA == TextureB ? 0 : 1;
 
@@ -384,11 +386,11 @@ int test_textureCubeArray
 		Error += TextureA[0][1][1] == TextureC[0][1][0] ? 0 : 1;
 		Error += TextureA[0][1][2] == TextureC[0][1][1] ? 0 : 1;
 
-		gli::textureCubeArray TextureD(gli::copy(TextureC));
+		gli::textureCubeArray TextureD(gli::duplicate(TextureC));
 
 		Error += TextureC == TextureD ? 0 : 1;
 
-		gli::textureCubeArray TextureG(gli::copy(
+		gli::textureCubeArray TextureG(gli::duplicate(
 			TextureA,
 			gli::textureCubeArray::size_type(0), TextureA.layers() - 1,
 			gli::textureCubeArray::size_type(0), TextureA.faces() - 1,
@@ -401,11 +403,11 @@ int test_textureCubeArray
 			4);
 
 		gli::textureCubeArray TextureH(TextureK, 1, 2, 0, 5, 1, 2);
-		gli::textureCubeArray TextureI(gli::copy(TextureH));
+		gli::textureCubeArray TextureI(gli::duplicate(TextureH));
 
 		Error += TextureH == TextureI ? 0 : 1;
 
-		gli::textureCubeArray TextureJ(gli::copy(TextureK, 1, 2, 0, 5, 1, 2));
+		gli::textureCubeArray TextureJ(gli::duplicate(TextureK, 1, 2, 0, 5, 1, 2));
 		Error += TextureH == TextureJ ? 0 : 1;
 		Error += TextureI == TextureJ ? 0 : 1;
 	}

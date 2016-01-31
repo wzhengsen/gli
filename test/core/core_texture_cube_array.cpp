@@ -660,7 +660,7 @@ namespace clear
 		TextureImage.clear(Color);
 		Error += TextureView == TextureImage ? 0 : 1;
 
-		gli::textureCubeArray TextureCopy(gli::copy(TextureView));
+		gli::textureCubeArray TextureCopy(gli::duplicate(TextureView));
 		Error += TextureView == TextureCopy ? 0 : 1;
 
 		return Error;

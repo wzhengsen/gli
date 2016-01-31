@@ -29,7 +29,7 @@
 #include <gli/comparison.hpp>
 #include <gli/type.hpp>
 #include <gli/view.hpp>
-#include <gli/copy.hpp>
+#include <gli/duplicate.hpp>
 #include <gli/generate_mipmaps.hpp>
 
 #include <glm/gtc/epsilon.hpp>
@@ -52,7 +52,7 @@ namespace generate_mipmaps
 			if(Texture.levels() > 1)
 				Error += LoadC == Black ? 0 : 1;
 
-			gli::fsampler1DArray SamplerA(gli::texture1DArray(gli::copy(Texture)), gli::WRAP_CLAMP_TO_EDGE);
+			gli::fsampler1DArray SamplerA(gli::texture1DArray(gli::duplicate(Texture)), gli::WRAP_CLAMP_TO_EDGE);
 			SamplerA.generate_mipmaps(gli::FILTER_LINEAR);
 
 			gli::texture1DArray MipmapsA = SamplerA();
@@ -62,7 +62,7 @@ namespace generate_mipmaps
 				Error += LoadA != LoadC ? 0 : 1;
 
 			// Mipmaps generation using the wrapper function
-			gli::texture1DArray MipmapsB = gli::generate_mipmaps(gli::texture1DArray(gli::copy(Texture)), Filter);
+			gli::texture1DArray MipmapsB = gli::generate_mipmaps(gli::texture1DArray(gli::duplicate(Texture)), Filter);
 			genType const LoadB = MipmapsB.load<genType>(gli::texture1DArray::texelcoord_type(0), Layer, MipmapsB.max_level());
 			Error += LoadB == Color ? 0 : 1;
 			if(Texture.levels() > 1)

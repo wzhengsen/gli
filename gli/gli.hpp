@@ -56,7 +56,7 @@ namespace gli
 #include "sampler_cube.hpp"
 #include "sampler_cube_array.hpp"
 
-#include "copy.hpp"
+#include "duplicate.hpp"
 #include "view.hpp"
 #include "comparison.hpp"
 

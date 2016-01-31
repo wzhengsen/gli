@@ -21,13 +21,15 @@
 /// THE SOFTWARE.
 ///
 /// @ref core
-/// @file gli/core/core_view.cpp
+/// @file gli/core/test_view.cpp
 /// @date 2013-02-03 / 2013-02-03
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
-#include <gli/gli.hpp>
+#include <gli/view.hpp>
+#include <gli/duplicate.hpp>
 #include <gli/levels.hpp>
+#include <gli/comparison.hpp>
 
 namespace dim
 {
@@ -662,7 +664,7 @@ namespace clear2d
 		Texture.clear<glm::u8vec4>(0, 0, 1, glm::u8vec4(255, 127, 0, 255));
 
 		gli::texture TextureView(gli::view(Texture, 0, 0, 0, 0, 1, 1));
-		gli::texture TextureCopy(gli::copy(TextureView));
+		gli::texture TextureCopy(gli::duplicate(TextureView));
 		Error += TextureView == TextureCopy ? 0 : 1;
 
 		gli::texture TextureImage(gli::TARGET_2D, gli::FORMAT_RGBA8_UNORM_PACK8, gli::texture::texelcoord_type(4, 4, 1), 1, 1, 1);
@@ -691,7 +693,7 @@ namespace clear2d_array
 		Texture.clear<glm::u8vec4>(1, 0, 1, glm::u8vec4(255, 127, 0, 255));
 
 		gli::texture TextureView(gli::view(Texture, 1, 1, 0, 0, 1, 1));
-		gli::texture TextureCopy(gli::copy(TextureView));
+		gli::texture TextureCopy(gli::duplicate(TextureView));
 		Error += TextureView == TextureCopy ? 0 : 1;
 
 		gli::texture TextureImage(gli::TARGET_2D_ARRAY, gli::FORMAT_RGBA8_UNORM_PACK8, gli::texture::texelcoord_type(4, 4, 1), 1, 1, 1);
@@ -721,7 +723,7 @@ namespace clear_cube
 			Texture.clear<glm::u8vec4>(0, FaceIndex, 1, glm::u8vec4(255, 127, 0, 255));
 
 		gli::texture TextureView(gli::view(Texture, 0, 0, 0, 5, 1, 1));
-		gli::texture TextureCopy(gli::copy(TextureView));
+		gli::texture TextureCopy(gli::duplicate(TextureView));
 		Error += TextureView == TextureCopy ? 0 : 1;
 
 		gli::texture TextureImage(gli::TARGET_CUBE, gli::FORMAT_RGBA8_UNORM_PACK8, gli::texture::texelcoord_type(4, 4, 1), 1, 6, 1);
@@ -751,7 +753,7 @@ namespace clear_cube_array
 			Texture.clear<glm::u8vec4>(1, FaceIndex, 1, glm::u8vec4(255, 127, 0, 255));
 
 		gli::texture TextureView(gli::view(Texture, 1, 1, 0, 5, 1, 1));
-		gli::texture TextureCopy(gli::copy(TextureView));
+		gli::texture TextureCopy(gli::duplicate(TextureView));
 		Error += TextureView == TextureCopy ? 0 : 1;
 
 		gli::texture TextureImage(gli::TARGET_CUBE_ARRAY, gli::FORMAT_RGBA8_UNORM_PACK8, gli::texture::texelcoord_type(4, 4, 1), 1, 6, 1);
