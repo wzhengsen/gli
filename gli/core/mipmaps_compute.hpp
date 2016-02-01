@@ -112,6 +112,5 @@ namespace detail
 			}
 		}
 	}
-
 }//namespace detail
 }//namespace gli

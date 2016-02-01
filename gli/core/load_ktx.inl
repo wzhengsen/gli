@@ -25,7 +25,7 @@ namespace detail
 		std::uint32_t BytesOfKeyValueData;
 	};
 
-	inline target getTarget(ktx_header10 const& Header)
+	inline target get_target(ktx_header10 const& Header)
 	{
 		if(Header.NumberOfFaces > 1)
 		{
@@ -68,7 +68,7 @@ namespace detail
 		texture::size_type const BlockSize = block_size(Format);
 
 		texture Texture(
-			detail::getTarget(Header),
+			detail::get_target(Header),
 			Format,
 			texture::texelcoord_type(
 				Header.PixelWidth,

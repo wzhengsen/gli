@@ -28,7 +28,7 @@ namespace detail
 	}
 }//namespace detail
 
-	inline bool save_ktx(texture const & Texture, std::vector<char> & Memory)
+	inline bool save_ktx(texture const& Texture, std::vector<char>& Memory)
 	{
 		if(Texture.empty())
 			return false;
