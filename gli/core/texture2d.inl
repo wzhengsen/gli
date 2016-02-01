@@ -2,28 +2,28 @@
 
 namespace gli
 {
-	inline texture2D::texture2D()
+	inline texture2d::texture2d()
 	{}
 
-	inline texture2D::texture2D(format_type Format, texelcoord_type const& Extent)
+	inline texture2d::texture2d(format_type Format, texelcoord_type const& Extent)
 		: texture(TARGET_2D, Format, texture::texelcoord_type(Extent, 1), 1, 1, gli::levels(Extent))
 	{
 		this->build_cache();
 	}
 
-	inline texture2D::texture2D(format_type Format, texelcoord_type const& Extent, size_type Levels)
+	inline texture2d::texture2d(format_type Format, texelcoord_type const& Extent, size_type Levels)
 		: texture(TARGET_2D, Format, texture::texelcoord_type(Extent, 1), 1, 1, Levels)
 	{
 		this->build_cache();
 	}
 
-	inline texture2D::texture2D(texture const& Texture)
+	inline texture2d::texture2d(texture const& Texture)
 		: texture(Texture, TARGET_2D, Texture.format())
 	{
 		this->build_cache();
 	}
 
-	inline texture2D::texture2D
+	inline texture2d::texture2d
 	(
 		texture const& Texture,
 		format_type Format,
@@ -40,9 +40,9 @@ namespace gli
 		this->build_cache();
 	}
 
-	inline texture2D::texture2D
+	inline texture2d::texture2d
 	(
-		texture2D const& Texture,
+		texture2d const& Texture,
 		size_type BaseLevel, size_type MaxLevel
 	)
 		: texture(
@@ -54,7 +54,7 @@ namespace gli
 		this->build_cache();
 	}
 
-	inline image texture2D::operator[](size_type Level) const
+	inline image texture2d::operator[](size_type Level) const
 	{
 		GLI_ASSERT(Level < this->levels());
 
@@ -66,7 +66,7 @@ namespace gli
 			this->base_level() + Level);
 	}
 
-	inline texture2D::texelcoord_type texture2D::extent(size_type Level) const
+	inline texture2d::texelcoord_type texture2d::extent(size_type Level) const
 	{
 		GLI_ASSERT(!this->empty());
 
@@ -74,7 +74,7 @@ namespace gli
 	}
 
 	template <typename genType>
-	inline genType texture2D::load(texelcoord_type const & TexelCoord, size_type Level) const
+	inline genType texture2d::load(texelcoord_type const & TexelCoord, size_type Level) const
 	{
 		GLI_ASSERT(!this->empty());
 		GLI_ASSERT(!is_compressed(this->format()));
@@ -89,7 +89,7 @@ namespace gli
 	}
 
 	template <typename genType>
-	inline void texture2D::store(texelcoord_type const & TexelCoord, size_type Level, genType const & Texel)
+	inline void texture2d::store(texelcoord_type const & TexelCoord, size_type Level, genType const & Texel)
 	{
 		GLI_ASSERT(!this->empty());
 		GLI_ASSERT(!is_compressed(this->format()));
@@ -104,29 +104,29 @@ namespace gli
 		reinterpret_cast<genType*>(Cache.Data)[Index] = Texel;
 	}
 
-	inline void texture2D::clear()
+	inline void texture2d::clear()
 	{
 		this->texture::clear();
 	}
 
 	template <typename genType>
-	inline void texture2D::clear(genType const & Texel)
+	inline void texture2d::clear(genType const & Texel)
 	{
 		this->texture::clear<genType>(Texel);
 	}
 
 	template <typename genType>
-	inline void texture2D::clear(size_type Level, genType const & Texel)
+	inline void texture2d::clear(size_type Level, genType const & Texel)
 	{
 		this->texture::clear<genType>(0, 0, Level, Texel);
 	}
 
-	inline texture2D::size_type texture2D::index_cache(size_type Level) const
+	inline texture2d::size_type texture2d::index_cache(size_type Level) const
 	{
 		return Level;
 	}
 
-	inline void texture2D::build_cache()
+	inline void texture2d::build_cache()
 	{
 		this->Caches.resize(this->levels());
 

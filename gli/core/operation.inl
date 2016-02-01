@@ -62,14 +62,14 @@ namespace gli
 			glm::byte * DataDst = reinterpret_cast<glm::byte *>(Result.data());
 			glm::byte const * const DataSrc = reinterpret_cast<glm::byte const * const>(Mipmap.data());
 
-			gli::texture2D::size_type CompSize = (Mipmap.texel_size() >> 3) / Mipmap.components();
-			gli::texture2D::size_type TexelCount = (Mipmap.capacity() / Mipmap.texel_size()) >> 3;
+			gli::texture2d::size_type CompSize = (Mipmap.texel_size() >> 3) / Mipmap.components();
+			gli::texture2d::size_type TexelCount = (Mipmap.capacity() / Mipmap.texel_size()) >> 3;
 
-			for(gli::texture2D::size_type t = 0; t < TexelCount; ++t)
-			for(gli::texture2D::size_type c = 0; c < Mipmap.components(); ++c)
+			for(gli::texture2d::size_type t = 0; t < TexelCount; ++t)
+			for(gli::texture2d::size_type c = 0; c < Mipmap.components(); ++c)
 			{
-				gli::texture2D::size_type IndexSrc = t * Mipmap.components() + Channel[glm::uvec4::size_type(c)];
-				gli::texture2D::size_type IndexDst = t * Mipmap.components() + c;
+				gli::texture2d::size_type IndexSrc = t * Mipmap.components() + Channel[glm::uvec4::size_type(c)];
+				gli::texture2d::size_type IndexDst = t * Mipmap.components() + c;
 
 				memcpy(DataDst + IndexDst, DataSrc + IndexSrc, CompSize);
 			}
@@ -131,67 +131,67 @@ namespace gli
 
 	}//namespace detail
 /*
-	inline texture2D duplicate(texture2D const & Texture2D)
+	inline texture2d duplicate(texture2d const & Texture2D)
 	{
-		texture2D Result(Texture2D.levels(), Texture2D.format(), Texture2D.dimensions());
-		for(texture2D::size_type Level = 0; Level < Texture2D.levels(); ++Level)
+		texture2d Result(Texture2D.levels(), Texture2D.format(), Texture2D.dimensions());
+		for(texture2d::size_type Level = 0; Level < Texture2D.levels(); ++Level)
 			Result[Level] = detail::duplicate(Texture2D[Level]);
 		return Result;
 	}
 
-	inline texture2D flip(texture2D const & Texture2D)
+	inline texture2d flip(texture2d const & Texture2D)
 	{
-		texture2D Result(Texture2D.levels(), Texture2D.format(), Texture2D.dimensions());
-		for(texture2D::size_type Level = 0; Level < Texture2D.levels(); ++Level)
+		texture2d Result(Texture2D.levels(), Texture2D.format(), Texture2D.dimensions());
+		for(texture2d::size_type Level = 0; Level < Texture2D.levels(); ++Level)
 			Result[Level] = detail::flip(Texture2D[Level]);
 		return Result;
 	}
 
-	inline texture2D mirror(texture2D const & Texture2D)
+	inline texture2d mirror(texture2d const & Texture2D)
 	{
-		texture2D Result(Texture2D.levels(), Texture2D.format(), Texture2D.dimensions());
-		for(texture2D::size_type Level = 0; Level < Texture2D.levels(); ++Level)
+		texture2d Result(Texture2D.levels(), Texture2D.format(), Texture2D.dimensions());
+		for(texture2d::size_type Level = 0; Level < Texture2D.levels(); ++Level)
 			Result[Level] = detail::mirror(Texture2D[Level]);
 		return Result;
 	}
 
-	inline texture2D crop
+	inline texture2d crop
 	(
-		texture2D const & Texture2D,
-		texture2D::dimensions_type const & Position,
-		texture2D::dimensions_type const & Size
+		texture2d const & Texture2D,
+		texture2d::dimensions_type const & Position,
+		texture2d::dimensions_type const & Size
 	)
 	{
-		texture2D Result(Texture2D.levels(), Texture2D.format(), Texture2D.dimensions());
-		for(texture2D::size_type Level = 0; Level < Texture2D.levels(); ++Level)
+		texture2d Result(Texture2D.levels(), Texture2D.format(), Texture2D.dimensions());
+		for(texture2d::size_type Level = 0; Level < Texture2D.levels(); ++Level)
 			Result[Level] = detail::crop(
 				Texture2D[Level], 
-				Position >> texture2D::dimensions_type(Level), 
-				Size >> texture2D::dimensions_type(Level));
+				Position >> texture2d::dimensions_type(Level), 
+				Size >> texture2d::dimensions_type(Level));
 		return Result;
 	}
 
-	inline texture2D swizzle
+	inline texture2d swizzle
 	(
-		texture2D const & Texture2D,
+		texture2d const & Texture2D,
 		glm::uvec4 const & Channel
 	)
 	{
-		texture2D Result(Texture2D.levels(), Texture2D.format(), Texture2D.dimensions());
-		for(texture2D::size_type Level = 0; Level < Texture2D.levels(); ++Level)
+		texture2d Result(Texture2D.levels(), Texture2D.format(), Texture2D.dimensions());
+		for(texture2d::size_type Level = 0; Level < Texture2D.levels(); ++Level)
 			Result[Level] = detail::swizzle(Texture2D[Level], Channel);
 		return Result;
 	}
 
-	inline texture2D copy
+	inline texture2d copy
 	(
-		texture2D const & SrcImage, 
-		texture2D::size_type const & SrcLevel,
-		texture2D::dimensions_type const & SrcPosition,
-		texture2D::dimensions_type const & SrcDimensions,
-		texture2D & DstMipmap, 
-		texture2D::size_type const & DstLevel,
-		texture2D::dimensions_type const & DstDimensions
+		texture2d const & SrcImage, 
+		texture2d::size_type const & SrcLevel,
+		texture2d::dimensions_type const & SrcPosition,
+		texture2d::dimensions_type const & SrcDimensions,
+		texture2d & DstMipmap, 
+		texture2d::size_type const & DstLevel,
+		texture2d::dimensions_type const & DstDimensions
 	)
 	{
 		detail::copy(

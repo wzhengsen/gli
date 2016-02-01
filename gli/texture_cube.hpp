@@ -8,46 +8,46 @@
 namespace gli
 {
 	/// Cube map texture
-	class textureCube : public texture
+	class texture_cube : public texture
 	{
 	public:
-		typedef ivec2 texelcoord_type;
+		typedef extent2d texelcoord_type;
 
 	public:
 		/// Create an empty texture cube
-		textureCube();
+		texture_cube();
 
-		/// Create a textureCube and allocate a new storage
-		explicit textureCube(
+		/// Create a texture_cube and allocate a new storage
+		explicit texture_cube(
 			format_type Format,
 			texelcoord_type const & Extent,
 			size_type Levels);
 
-		/// Create a textureCube and allocate a new storage with a complete mipmap chain
-		explicit textureCube(
+		/// Create a texture_cube and allocate a new storage with a complete mipmap chain
+		explicit texture_cube(
 			format_type Format,
 			texelcoord_type const & Extent);
 
-		/// Create a textureCube view with an existing storage
-		explicit textureCube(
+		/// Create a texture_cube view with an existing storage
+		explicit texture_cube(
 			texture const & Texture);
 
-		/// Create a textureCube view with an existing storage
-		explicit textureCube(
+		/// Create a texture_cube view with an existing storage
+		explicit texture_cube(
 			texture const & Texture,
 			format_type Format,
 			size_type BaseLayer, size_type MaxLayer,
 			size_type BaseFace, size_type MaxFace,
 			size_type BaseLevel, size_type MaxLevel);
 
-		/// Create a textureCube view, reference a subset of an existing textureCube instance
-		explicit textureCube(
-			textureCube const & Texture,
+		/// Create a texture_cube view, reference a subset of an existing texture_cube instance
+		explicit texture_cube(
+			texture_cube const & Texture,
 			size_type BaseFace, size_type MaxFace,
 			size_type BaseLevel, size_type MaxLevel);
 
 		/// Create a view of the texture identified by Face in the texture cube
-		texture2D operator[](size_type Face) const;
+		texture2d operator[](size_type Face) const;
 
 		/// Return the dimensions of a texture instance: width and height where both should be equal.
 		texelcoord_type extent(size_type Level = 0) const;

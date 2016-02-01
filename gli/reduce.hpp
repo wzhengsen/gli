@@ -26,7 +26,7 @@ namespace gli
 	/// @param TexelFunc Pointer to a binary function for per texel operation.
 	/// @param ReduceFunc Pointer to a binary function to reduce texels.
 	template <typename vec_type>
-	vec_type reduce(texture1D const & In0, texture1D const & In1, typename reduce_func<vec_type>::type TexelFunc, typename reduce_func<vec_type>::type ReduceFunc);
+	vec_type reduce(texture1d const & In0, texture1d const & In1, typename reduce_func<vec_type>::type TexelFunc, typename reduce_func<vec_type>::type ReduceFunc);
 
 	/// Compute per-texel operations using a user defined function.
 	///
@@ -35,7 +35,7 @@ namespace gli
 	/// @param TexelFunc Pointer to a binary function for per texel operation.
 	/// @param ReduceFunc Pointer to a binary function to reduce texels.
 	template <typename vec_type>
-	vec_type reduce(texture1DArray const & In0, texture1DArray const & In1, typename reduce_func<vec_type>::type TexelFunc, typename reduce_func<vec_type>::type ReduceFunc);
+	vec_type reduce(texture1d_array const & In0, texture1d_array const & In1, typename reduce_func<vec_type>::type TexelFunc, typename reduce_func<vec_type>::type ReduceFunc);
 
 	/// Compute per-texel operations using a user defined function.
 	///
@@ -44,7 +44,7 @@ namespace gli
 	/// @param TexelFunc Pointer to a binary function for per texel operation.
 	/// @param ReduceFunc Pointer to a binary function to reduce texels.
 	template <typename vec_type>
-	vec_type reduce(texture2D const & In0, texture2D const & In1, typename reduce_func<vec_type>::type TexelFunc, typename reduce_func<vec_type>::type ReduceFunc);
+	vec_type reduce(texture2d const & In0, texture2d const & In1, typename reduce_func<vec_type>::type TexelFunc, typename reduce_func<vec_type>::type ReduceFunc);
 
 	/// Compute per-texel operations using a user defined function.
 	///
@@ -53,7 +53,7 @@ namespace gli
 	/// @param TexelFunc Pointer to a binary function for per texel operation.
 	/// @param ReduceFunc Pointer to a binary function to reduce texels.
 	template <typename vec_type>
-	vec_type reduce(texture2DArray const & In0, texture2DArray const & In1, typename reduce_func<vec_type>::type TexelFunc, typename reduce_func<vec_type>::type ReduceFunc);
+	vec_type reduce(texture2d_array const & In0, texture2d_array const & In1, typename reduce_func<vec_type>::type TexelFunc, typename reduce_func<vec_type>::type ReduceFunc);
 
 	/// Compute per-texel operations using a user defined function.
 	///
@@ -62,7 +62,7 @@ namespace gli
 	/// @param TexelFunc Pointer to a binary function for per texel operation.
 	/// @param ReduceFunc Pointer to a binary function to reduce texels.
 	template <typename vec_type>
-	vec_type reduce(texture3D const & In0, texture3D const & In1, typename reduce_func<vec_type>::type TexelFunc, typename reduce_func<vec_type>::type ReduceFunc);
+	vec_type reduce(texture3d const & In0, texture3d const & In1, typename reduce_func<vec_type>::type TexelFunc, typename reduce_func<vec_type>::type ReduceFunc);
 
 	/// Compute per-texel operations using a user defined function.
 	///
@@ -71,7 +71,7 @@ namespace gli
 	/// @param TexelFunc Pointer to a binary function for per texel operation.
 	/// @param ReduceFunc Pointer to a binary function to reduce texels.
 	template <typename vec_type>
-	vec_type reduce(textureCube const & In0, textureCube const & In1, typename reduce_func<vec_type>::type TexelFunc, typename reduce_func<vec_type>::type ReduceFunc);
+	vec_type reduce(texture_cube const & In0, texture_cube const & In1, typename reduce_func<vec_type>::type TexelFunc, typename reduce_func<vec_type>::type ReduceFunc);
 
 	/// Compute per-texel operations using a user defined function.
 	///
@@ -80,7 +80,7 @@ namespace gli
 	/// @param TexelFunc Pointer to a binary function for per texel operation.
 	/// @param ReduceFunc Pointer to a binary function to reduce texels.
 	template <typename vec_type>
-	vec_type reduce(textureCubeArray const & In0, textureCubeArray const & In1, typename reduce_func<vec_type>::type TexelFunc, typename reduce_func<vec_type>::type ReduceFunc);
+	vec_type reduce(texture_cube_array const & In0, texture_cube_array const & In1, typename reduce_func<vec_type>::type TexelFunc, typename reduce_func<vec_type>::type ReduceFunc);
 
 	/// Compute per-texel operations using a user defined function.
 	///

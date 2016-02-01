@@ -27,7 +27,7 @@ namespace gli
 	class storage
 	{
 	public:
-		typedef ivec3 texelcoord_type;
+		typedef extent3d texelcoord_type;
 		typedef size_t size_type;
 		typedef gli::format format_type;
 		typedef glm::byte data_type;

@@ -84,7 +84,7 @@ namespace tex_access
 		int Error(0);
 
 		{
-			gli::texture1D Texture(gli::FORMAT_RGBA8_UINT_PACK8, gli::texture1D::texelcoord_type(2), 2);
+			gli::texture1d Texture(gli::FORMAT_RGBA8_UINT_PACK8, gli::texture1d::texelcoord_type(2), 2);
 			assert(!Texture.empty());
 
 			gli::image Image0 = Texture[0];
@@ -190,13 +190,13 @@ namespace specialize
 		int Error(0);
 
 		gli::texture Texture(gli::TARGET_1D, gli::FORMAT_RGBA8_UNORM_PACK8, gli::texture::texelcoord_type(1), 1, 1, 1);
-		gli::texture1D Texture1D(Texture);
-		gli::texture1DArray Texture1DArray(Texture);
-		gli::texture2D Texture2D(Texture);
-		gli::texture2DArray Texture2DArray(Texture);
-		gli::texture3D Texture3D(Texture);
-		gli::textureCube TextureCube(Texture);
-		gli::textureCubeArray TextureCubeArray(Texture);
+		gli::texture1d Texture1D(Texture);
+		gli::texture1d_array Texture1DArray(Texture);
+		gli::texture2d Texture2D(Texture);
+		gli::texture2d_array Texture2DArray(Texture);
+		gli::texture3d Texture3D(Texture);
+		gli::texture_cube TextureCube(Texture);
+		gli::texture_cube_array TextureCubeArray(Texture);
 
 		Error += Texture == Texture1D ? 0 : 1;
 		Error += Texture != Texture1DArray ? 0 : 1;
@@ -343,8 +343,8 @@ namespace data
 		int Error = 0;
 
 		gli::texture Texture(gli::TARGET_2D_ARRAY, gli::FORMAT_RGBA8_UNORM_PACK8, gli::texture::texelcoord_type(1), 2, 1, 1);
-		Error += gli::texture2DArray(Texture)[0].data() == Texture.data(0, 0, 0) ? 0 : 1;
-		Error += gli::texture2DArray(Texture)[1].data() == Texture.data(1, 0, 0) ? 0 : 1;
+		Error += gli::texture2d_array(Texture)[0].data() == Texture.data(0, 0, 0) ? 0 : 1;
+		Error += gli::texture2d_array(Texture)[1].data() == Texture.data(1, 0, 0) ? 0 : 1;
 
 		return Error;
 	}

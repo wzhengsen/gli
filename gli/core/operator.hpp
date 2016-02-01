@@ -9,10 +9,10 @@ namespace detail
 }//namespace detail
 
 	/// Add two textures, each texel
-	texture2D operator+(texture2D const & TextureA, texture2D const & TextureB);
+	texture2d operator+(texture2d const & TextureA, texture2d const & TextureB);
 
 	/// Substract two textures, each texel
-	texture2D operator-(texture2D const & TextureA, texture2D const & TextureB);
+	texture2d operator-(texture2d const & TextureA, texture2d const & TextureB);
 
 }//namespace gli
 

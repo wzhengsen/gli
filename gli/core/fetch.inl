@@ -3,9 +3,9 @@ namespace gli
 	template <typename genType>
 	inline genType texel_fetch
 	(
-		texture2D const & Texture,
-		texture2D::dim_type const & TexCoord,
-		texture2D::size_type const & Level
+		texture2d const & Texture,
+		texture2d::dim_type const & TexCoord,
+		texture2d::size_type const & Level
 	)
 	{
 		assert(!Texture.empty());
@@ -21,9 +21,9 @@ namespace gli
 	template <typename genType>
 	void texel_write
 	(
-		texture2D & Texture,
-		texture2D::dim_type const & Texcoord,
-		texture2D::size_type const & Level,
+		texture2d & Texture,
+		texture2d::dim_type const & Texcoord,
+		texture2d::size_type const & Level,
 		genType const & Color
 	)
 	{
@@ -43,9 +43,9 @@ namespace gli
 	template <typename genType>
 	inline genType texture_lod
 	(
-		texture2D const & Texture,
-		texture2D::samplecoord_type const & SampleCoord,
-		texture2D::size_type const & Level
+		texture2d const & Texture,
+		texture2d::samplecoord_type const & SampleCoord,
+		texture2d::size_type const & Level
 	)
 	{
 		//assert(Texture.format() == R8U || Texture.format() == RG8U || Texture.format() == RGB8U || Texture.format() == RGBA8U);

@@ -10,40 +10,40 @@
 namespace gli
 {
 	/// 1d texture
-	class texture1D : public texture
+	class texture1d : public texture
 	{
 	public:
-		typedef ivec1 texelcoord_type;
+		typedef extent1d texelcoord_type;
 
 		/// Create an empty texture 1D
-		texture1D();
+		texture1d();
 
-		/// Create a texture1D and allocate a new storage
-		explicit texture1D(
+		/// Create a texture1d and allocate a new storage
+		explicit texture1d(
 			format_type Format,
 			texelcoord_type const & Extent,
 			size_type Levels);
 
-		/// Create a texture1D and allocate a new storage with a complete mipmap chain
-		explicit texture1D(
+		/// Create a texture1d and allocate a new storage with a complete mipmap chain
+		explicit texture1d(
 			format_type Format,
 			texelcoord_type const & Extent);
 
-		/// Create a texture1D view with an existing storage
-		explicit texture1D(
+		/// Create a texture1d view with an existing storage
+		explicit texture1d(
 			texture const & Texture);
 
-		/// Create a texture1D view with an existing storage
-		explicit texture1D(
+		/// Create a texture1d view with an existing storage
+		explicit texture1d(
 			texture const & Texture,
 			format_type Format,
 			size_type BaseLayer, size_type MaxLayer,
 			size_type BaseFace, size_type MaxFace,
 			size_type BaseLevel, size_type MaxLevel);
 
-		/// Create a texture1D view, reference a subset of an existing texture1D instance
-		explicit texture1D(
-			texture1D const & Texture,
+		/// Create a texture1d view, reference a subset of an existing texture1d instance
+		explicit texture1d(
+			texture1d const & Texture,
 			size_type BaseLevel, size_type MaxLevel);
 
 		/// Create a view of the image identified by Level in the mipmap chain of the texture

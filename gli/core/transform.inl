@@ -5,10 +5,10 @@ namespace detail
 	struct compute_transform_1d
 	{
 		typedef typename transform_func<vec_type>::type func_type;
-		typedef texture1D::size_type size_type;
-		typedef texture1D::texelcoord_type texelcoord_type;
+		typedef texture1d::size_type size_type;
+		typedef texture1d::texelcoord_type texelcoord_type;
 		
-		static void call(texture1D& Output, texture1D const& A, texture1D const& B, func_type Func)
+		static void call(texture1d& Output, texture1d const& A, texture1d const& B, func_type Func)
 		{
 			GLI_ASSERT(all(equal(A.extent(), B.extent())));
 			GLI_ASSERT(A.levels() == B.levels());
@@ -33,10 +33,10 @@ namespace detail
 	struct compute_transform_1d_array
 	{
 		typedef typename transform_func<vec_type>::type func_type;
-		typedef texture1DArray::size_type size_type;
-		typedef texture1DArray::texelcoord_type texelcoord_type;
+		typedef texture1d_array::size_type size_type;
+		typedef texture1d_array::texelcoord_type texelcoord_type;
 		
-		static void call(texture1DArray& Output, texture1DArray const& A, texture1DArray const& B, func_type Func)
+		static void call(texture1d_array& Output, texture1d_array const& A, texture1d_array const& B, func_type Func)
 		{
 			GLI_ASSERT(all(equal(A.extent(), B.extent())));
 			GLI_ASSERT(A.layers() == B.layers());
@@ -63,10 +63,10 @@ namespace detail
 	struct compute_transform_2d
 	{
 		typedef typename transform_func<vec_type>::type func_type;
-		typedef texture2D::size_type size_type;
-		typedef texture2D::texelcoord_type texelcoord_type;
+		typedef texture2d::size_type size_type;
+		typedef texture2d::texelcoord_type texelcoord_type;
 			
-		static void call(texture2D& Output, texture2D const& A, texture2D const& B, func_type Func)
+		static void call(texture2d& Output, texture2d const& A, texture2d const& B, func_type Func)
 		{
 			GLI_ASSERT(all(equal(A.extent(), B.extent())));
 			GLI_ASSERT(A.levels() == B.levels());
@@ -92,10 +92,10 @@ namespace detail
 	struct compute_transform_2d_array
 	{
 		typedef typename transform_func<vec_type>::type func_type;
-		typedef texture2DArray::size_type size_type;
-		typedef texture2DArray::texelcoord_type texelcoord_type;
+		typedef texture2d_array::size_type size_type;
+		typedef texture2d_array::texelcoord_type texelcoord_type;
 		
-		static void call(texture2DArray& Output, texture2DArray const& A, texture2DArray const& B, func_type Func)
+		static void call(texture2d_array& Output, texture2d_array const& A, texture2d_array const& B, func_type Func)
 		{
 			GLI_ASSERT(all(equal(A.extent(), B.extent())));
 			GLI_ASSERT(A.layers() == B.layers());
@@ -123,10 +123,10 @@ namespace detail
 	struct compute_transform_3d
 	{
 		typedef typename transform_func<vec_type>::type func_type;
-		typedef texture3D::size_type size_type;
-		typedef texture3D::texelcoord_type texelcoord_type;
+		typedef texture3d::size_type size_type;
+		typedef texture3d::texelcoord_type texelcoord_type;
 	
-		static void call(texture3D& Output, texture3D const& A, texture3D const& B, func_type Func)
+		static void call(texture3d& Output, texture3d const& A, texture3d const& B, func_type Func)
 		{
 			GLI_ASSERT(all(equal(A.extent(), B.extent())));
 			GLI_ASSERT(A.levels() == B.levels());
@@ -153,10 +153,10 @@ namespace detail
 	struct compute_transform_cube
 	{
 		typedef typename transform_func<vec_type>::type func_type;
-		typedef textureCube::size_type size_type;
-		typedef textureCube::texelcoord_type texelcoord_type;
+		typedef texture_cube::size_type size_type;
+		typedef texture_cube::texelcoord_type texelcoord_type;
 			
-		static void call(textureCube& Output, textureCube const& A, textureCube const& B, func_type Func)
+		static void call(texture_cube& Output, texture_cube const& A, texture_cube const& B, func_type Func)
 		{
 			GLI_ASSERT(all(equal(A.extent(), B.extent())));
 			GLI_ASSERT(A.faces() == B.faces());
@@ -184,10 +184,10 @@ namespace detail
 	struct compute_transform_cube_array
 	{
 		typedef typename transform_func<vec_type>::type func_type;
-		typedef textureCubeArray::size_type size_type;
-		typedef textureCubeArray::texelcoord_type texelcoord_type;
+		typedef texture_cube_array::size_type size_type;
+		typedef texture_cube_array::texelcoord_type texelcoord_type;
 			
-		static void call(textureCubeArray& Output, textureCubeArray const& A, textureCubeArray const& B, func_type Func)
+		static void call(texture_cube_array& Output, texture_cube_array const& A, texture_cube_array const& B, func_type Func)
 		{
 			GLI_ASSERT(all(equal(A.extent(), B.extent())));
 			GLI_ASSERT(A.layers() == B.layers());
@@ -214,43 +214,43 @@ namespace detail
 }//namepsace detail
 	
 	template <typename vec_type>
-	inline void transform(texture1D& Out, texture1D const& In0, texture1D const& In1, typename transform_func<vec_type>::type Func)
+	inline void transform(texture1d& Out, texture1d const& In0, texture1d const& In1, typename transform_func<vec_type>::type Func)
 	{
 		detail::compute_transform_1d<vec_type>::call(Out, In0, In1, Func);
 	}
 	
 	template <typename vec_type>
-	inline void transform(texture1DArray& Out, texture1DArray const& In0, texture1DArray const& In1, typename transform_func<vec_type>::type Func)
+	inline void transform(texture1d_array& Out, texture1d_array const& In0, texture1d_array const& In1, typename transform_func<vec_type>::type Func)
 	{
 		detail::compute_transform_1d_array<vec_type>::call(Out, In0, In1, Func);
 	}
 	
 	template <typename vec_type>
-	inline void transform(texture2D& Out, texture2D const& In0, texture2D const& In1, typename transform_func<vec_type>::type Func)
+	inline void transform(texture2d& Out, texture2d const& In0, texture2d const& In1, typename transform_func<vec_type>::type Func)
 	{
 		detail::compute_transform_2d<vec_type>::call(Out, In0, In1, Func);
 	}
 	
 	template <typename vec_type>
-	inline void transform(texture2DArray& Out, texture2DArray const& In0, texture2DArray const& In1, typename transform_func<vec_type>::type Func)
+	inline void transform(texture2d_array& Out, texture2d_array const& In0, texture2d_array const& In1, typename transform_func<vec_type>::type Func)
 	{
 		detail::compute_transform_2d_array<vec_type>::call(Out, In0, In1, Func);
 	}
 	
 	template <typename vec_type>
-	inline void transform(texture3D& Out, texture3D const& In0, texture3D const& In1, typename transform_func<vec_type>::type Func)
+	inline void transform(texture3d& Out, texture3d const& In0, texture3d const& In1, typename transform_func<vec_type>::type Func)
 	{
 		detail::compute_transform_3d<vec_type>::call(Out, In0, In1, Func);
 	}
 	
 	template <typename vec_type>
-	inline void transform(textureCube& Out, textureCube const& In0, textureCube const& In1, typename transform_func<vec_type>::type Func)
+	inline void transform(texture_cube& Out, texture_cube const& In0, texture_cube const& In1, typename transform_func<vec_type>::type Func)
 	{
 		detail::compute_transform_cube<vec_type>::call(Out, In0, In1, Func);
 	}
 	
 	template <typename vec_type>
-	inline void transform(textureCubeArray& Out, textureCubeArray const& In0, textureCubeArray const& In1, typename transform_func<vec_type>::type Func)
+	inline void transform(texture_cube_array& Out, texture_cube_array const& In0, texture_cube_array const& In1, typename transform_func<vec_type>::type Func)
 	{
 		detail::compute_transform_cube_array<vec_type>::call(Out, In0, In1, Func);
 	}

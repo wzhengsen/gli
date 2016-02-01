@@ -5,16 +5,16 @@
 namespace gli
 {
 /*
-	texture2D duplicate(texture2D const & Texture);
-	texture2D flip(texture2D const & Texture);
-	texture2D mirror(texture2D const & Texture);
-	texture2D swizzle(
-		texture2D const & Texture, 
+	texture2d duplicate(texture2d const & Texture);
+	texture2d flip(texture2d const & Texture);
+	texture2d mirror(texture2d const & Texture);
+	texture2d swizzle(
+		texture2d const & Texture, 
 		glm::uvec4 const & Channel);
-	texture2D crop(
-		texture2D const & Texture, 
-		texture2D::dimensions_type const & Position,
-		texture2D::dimensions_type const & Size);
+	texture2d crop(
+		texture2d const & Texture, 
+		texture2d::dimensions_type const & Position,
+		texture2d::dimensions_type const & Size);
 
 	image2D crop(
 		image2D const & Image, 

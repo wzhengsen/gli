@@ -13,35 +13,35 @@ namespace generate_mipmaps
 	{
 		int Error = 0;
 
-		gli::texture2D Texture(Format, gli::texture2D::texelcoord_type(static_cast<gli::texture2D::texelcoord_type::value_type>(Size)));
+		gli::texture2d Texture(Format, gli::texture2d::texelcoord_type(static_cast<gli::texture2d::texelcoord_type::value_type>(Size)));
 		Texture.clear(Black);
 		Texture[0].clear(Color);
 
-		genType const LoadC = Texture.load<genType>(gli::texture2D::texelcoord_type(0), Texture.max_level());
+		genType const LoadC = Texture.load<genType>(gli::texture2d::texelcoord_type(0), Texture.max_level());
 		if(Texture.levels() > 1)
 			Error += LoadC == Black ? 0 : 1;
 
-		gli::texture2D TextureView(gli::view(Texture, 0, 0));
-		gli::fsampler2D SamplerA(gli::texture2D(gli::duplicate(Texture)), gli::WRAP_CLAMP_TO_EDGE);
+		gli::texture2d TextureView(gli::view(Texture, 0, 0));
+		gli::fsampler2D SamplerA(gli::texture2d(gli::duplicate(Texture)), gli::WRAP_CLAMP_TO_EDGE);
 		SamplerA.generate_mipmaps(gli::FILTER_LINEAR);
 
-		gli::texture2D MipmapsA = SamplerA();
-		genType const LoadA = MipmapsA.load<genType>(gli::texture2D::texelcoord_type(0), MipmapsA.max_level());
+		gli::texture2d MipmapsA = SamplerA();
+		genType const LoadA = MipmapsA.load<genType>(gli::texture2d::texelcoord_type(0), MipmapsA.max_level());
 		Error += LoadA == Color ? 0 : 1;
 		if(Texture.levels() > 1)
 			Error += LoadA != LoadC ? 0 : 1;
 
-		gli::texture2D MipmapViewA(gli::view(MipmapsA, 0, 0));
+		gli::texture2d MipmapViewA(gli::view(MipmapsA, 0, 0));
 		Error += TextureView == MipmapViewA ? 0 : 1;
 
 		// Mipmaps generation using the wrapper function
-		gli::texture2D MipmapsB = gli::generate_mipmaps(gli::texture2D(gli::duplicate(Texture)), Filter);
-		genType const LoadB = MipmapsB.load<genType>(gli::texture2D::texelcoord_type(0), MipmapsB.max_level());
+		gli::texture2d MipmapsB = gli::generate_mipmaps(gli::texture2d(gli::duplicate(Texture)), Filter);
+		genType const LoadB = MipmapsB.load<genType>(gli::texture2d::texelcoord_type(0), MipmapsB.max_level());
 		Error += LoadB == Color ? 0 : 1;
 		if(Texture.levels() > 1)
 			Error += LoadB != LoadC ? 0 : 1;
 
-		gli::texture2D MipmapViewB(gli::view(MipmapsB, 0, 0));
+		gli::texture2d MipmapViewB(gli::view(MipmapsB, 0, 0));
 		Error += TextureView == MipmapViewB ? 0 : 1;
 
 		// Compare custom mipmaps generation and wrapper mipmaps generation

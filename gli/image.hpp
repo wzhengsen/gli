@@ -11,9 +11,9 @@ namespace gli
 	class image
 	{
 	private:
-		friend class texture1D;
-		friend class texture2D;
-		friend class texture3D;
+		friend class texture1d;
+		friend class texture2d;
+		friend class texture3d;
 
 	public:
 		typedef size_t size_type;
@@ -55,18 +55,18 @@ namespace gli
 		size_type size() const;
 
 		/// Return a pointer to the beginning of the image instance data.
-		void * data();
+		void* data();
 
 		/// Return a pointer to the beginning of the image instance data.
-		void const * data() const;
+		void const* data() const;
 
 		/// Return a pointer of type genType which size must match the image format block size.
 		template <typename genType>
-		genType * data();
+		genType* data();
 
 		/// Return a pointer of type genType which size must match the image format block size.
 		template <typename genType>
-		genType const * data() const;
+		genType const* data() const;
 
 		/// Clear the entire image storage with zeros
 		void clear();

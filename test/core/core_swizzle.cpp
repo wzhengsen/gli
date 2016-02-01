@@ -29,7 +29,7 @@ namespace swizzle
 	}
 }//namespace swizzle
 
-namespace texture1D
+namespace texture1d
 {
 	int run()
 	{
@@ -44,12 +44,12 @@ namespace texture1D
 
 		Error += TextureA == TextureB ? 0 : 1;
 
-		gli::texture1D TextureC(gli::FORMAT_RGBA8_UNORM_PACK8, gli::texture1D::texelcoord_type(4), 1);
+		gli::texture1d TextureC(gli::FORMAT_RGBA8_UNORM_PACK8, gli::texture1d::texelcoord_type(4), 1);
 		TextureC.clear(glm::u8vec4(255, 127, 0, 192));
 
 		Error += TextureA == TextureC ? 0 : 1;
 
-		gli::texture1D TextureD(gli::FORMAT_RGBA8_UNORM_PACK8, gli::texture1D::texelcoord_type(4), 1);
+		gli::texture1d TextureD(gli::FORMAT_RGBA8_UNORM_PACK8, gli::texture1d::texelcoord_type(4), 1);
 		TextureD.clear(glm::u8vec4(0, 127, 255, 192));
 		TextureD.swizzle<glm::u8vec4>(gli::swizzles(gli::SWIZZLE_BLUE, gli::SWIZZLE_GREEN, gli::SWIZZLE_RED, gli::SWIZZLE_ALPHA));
 
@@ -57,9 +57,9 @@ namespace texture1D
 
 		return Error;
 	}
-}//namespace texture1D
+}//namespace texture1d
 
-namespace texture1DArray
+namespace texture1d_array
 {
 	int run()
 	{
@@ -74,12 +74,12 @@ namespace texture1DArray
 
 		Error += TextureA == TextureB ? 0 : 1;
 
-		gli::texture1DArray TextureC(gli::FORMAT_RGBA8_UNORM_PACK8, gli::texture1DArray::texelcoord_type(4), 2, 4);
+		gli::texture1d_array TextureC(gli::FORMAT_RGBA8_UNORM_PACK8, gli::texture1d_array::texelcoord_type(4), 2, 4);
 		TextureC.clear(glm::u8vec4(255, 127, 0, 192));
 
 		Error += TextureA == TextureC ? 0 : 1;
 
-		gli::texture1DArray TextureD(gli::FORMAT_RGBA8_UNORM_PACK8, gli::texture1DArray::texelcoord_type(4), 2, 4);
+		gli::texture1d_array TextureD(gli::FORMAT_RGBA8_UNORM_PACK8, gli::texture1d_array::texelcoord_type(4), 2, 4);
 		TextureD.clear(glm::u8vec4(0, 127, 255, 192));
 		TextureD.swizzle<glm::u8vec4>(gli::swizzles(gli::SWIZZLE_BLUE, gli::SWIZZLE_GREEN, gli::SWIZZLE_RED, gli::SWIZZLE_ALPHA));
 
@@ -88,9 +88,9 @@ namespace texture1DArray
 
 		return Error;
 	}
-}//namespace texture1DArray
+}//namespace texture1d_array
 
-namespace texture2D
+namespace texture2d
 {
 	int run()
 	{
@@ -105,12 +105,12 @@ namespace texture2D
 
 		Error += TextureA == TextureB ? 0 : 1;
 
-		gli::texture2D TextureC(gli::FORMAT_RGBA8_UNORM_PACK8, gli::texture2D::texelcoord_type(4, 4), 2);
+		gli::texture2d TextureC(gli::FORMAT_RGBA8_UNORM_PACK8, gli::texture2d::texelcoord_type(4, 4), 2);
 		TextureC.clear(glm::u8vec4(255, 127, 0, 192));
 
 		Error += TextureA == TextureC ? 0 : 1;
 
-		gli::texture2D TextureD(gli::FORMAT_RGBA8_UNORM_PACK8, gli::texture2D::texelcoord_type(4, 4), 2);
+		gli::texture2d TextureD(gli::FORMAT_RGBA8_UNORM_PACK8, gli::texture2d::texelcoord_type(4, 4), 2);
 		TextureD.clear(glm::u8vec4(0, 127, 255, 192));
 		TextureD.swizzle<glm::u8vec4>(gli::swizzles(gli::SWIZZLE_BLUE, gli::SWIZZLE_GREEN, gli::SWIZZLE_RED, gli::SWIZZLE_ALPHA));
 
@@ -119,9 +119,9 @@ namespace texture2D
 
 		return Error;
 	}
-}//namespace texture2D
+}//namespace texture2d
 
-namespace texture2DArray
+namespace texture2d_array
 {
 	int run()
 	{
@@ -136,12 +136,12 @@ namespace texture2DArray
 
 		Error += TextureA == TextureB ? 0 : 1;
 
-		gli::texture2DArray TextureC(gli::FORMAT_RGBA8_UNORM_PACK8, gli::texture2D::texelcoord_type(4, 4), 2, 4);
+		gli::texture2d_array TextureC(gli::FORMAT_RGBA8_UNORM_PACK8, gli::texture2d::texelcoord_type(4, 4), 2, 4);
 		TextureC.clear(glm::u8vec4(255, 127, 0, 192));
 
 		Error += TextureA == TextureC ? 0 : 1;
 
-		gli::texture2DArray TextureD(gli::FORMAT_RGBA8_UNORM_PACK8, gli::texture2D::texelcoord_type(4, 4), 2, 4);
+		gli::texture2d_array TextureD(gli::FORMAT_RGBA8_UNORM_PACK8, gli::texture2d::texelcoord_type(4, 4), 2, 4);
 		TextureD.clear(glm::u8vec4(0, 127, 255, 192));
 		TextureD.swizzle<glm::u8vec4>(gli::swizzles(gli::SWIZZLE_BLUE, gli::SWIZZLE_GREEN, gli::SWIZZLE_RED, gli::SWIZZLE_ALPHA));
 
@@ -150,9 +150,9 @@ namespace texture2DArray
 
 		return Error;
 	}
-}//namespace texture2DArray
+}//namespace texture2d_array
 
-namespace texture3D
+namespace texture3d
 {
 	int run()
 	{
@@ -167,12 +167,12 @@ namespace texture3D
 
 		Error += TextureA == TextureB ? 0 : 1;
 
-		gli::texture3D TextureC(gli::FORMAT_RGBA8_UNORM_PACK8, gli::texture3D::texelcoord_type(4, 4, 4), 2);
+		gli::texture3d TextureC(gli::FORMAT_RGBA8_UNORM_PACK8, gli::texture3d::texelcoord_type(4, 4, 4), 2);
 		TextureC.clear(glm::u8vec4(255, 127, 0, 192));
 
 		Error += TextureA == TextureC ? 0 : 1;
 
-		gli::texture3D TextureD(gli::FORMAT_RGBA8_UNORM_PACK8, gli::texture3D::texelcoord_type(4, 4, 4), 2);
+		gli::texture3d TextureD(gli::FORMAT_RGBA8_UNORM_PACK8, gli::texture3d::texelcoord_type(4, 4, 4), 2);
 		TextureD.clear(glm::u8vec4(0, 127, 255, 192));
 		TextureD.swizzle<glm::u8vec4>(gli::swizzles(gli::SWIZZLE_BLUE, gli::SWIZZLE_GREEN, gli::SWIZZLE_RED, gli::SWIZZLE_ALPHA));
 
@@ -181,9 +181,9 @@ namespace texture3D
 
 		return Error;
 	}
-}//namespace texture3D
+}//namespace texture3d
 
-namespace textureCube
+namespace texture_cube
 {
 	int run()
 	{
@@ -198,12 +198,12 @@ namespace textureCube
 
 		Error += TextureA == TextureB ? 0 : 1;
 
-		gli::textureCube TextureC(gli::FORMAT_RGBA8_UNORM_PACK8, gli::textureCube::texelcoord_type(4, 4), 2);
+		gli::texture_cube TextureC(gli::FORMAT_RGBA8_UNORM_PACK8, gli::texture_cube::texelcoord_type(4, 4), 2);
 		TextureC.clear(glm::u8vec4(255, 127, 0, 192));
 
 		Error += TextureA == TextureC ? 0 : 1;
 
-		gli::textureCube TextureD(gli::FORMAT_RGBA8_UNORM_PACK8, gli::textureCube::texelcoord_type(4, 4), 2);
+		gli::texture_cube TextureD(gli::FORMAT_RGBA8_UNORM_PACK8, gli::texture_cube::texelcoord_type(4, 4), 2);
 		TextureD.clear(glm::u8vec4(0, 127, 255, 192));
 		TextureD.swizzle<glm::u8vec4>(gli::swizzles(gli::SWIZZLE_BLUE, gli::SWIZZLE_GREEN, gli::SWIZZLE_RED, gli::SWIZZLE_ALPHA));
 
@@ -212,9 +212,9 @@ namespace textureCube
 
 		return Error;
 	}
-}//namespace textureCube
+}//namespace texture_cube
 
-namespace textureCubeArray
+namespace texture_cube_array
 {
 	int run()
 	{
@@ -229,12 +229,12 @@ namespace textureCubeArray
 
 		Error += TextureA == TextureB ? 0 : 1;
 
-		gli::textureCubeArray TextureC(gli::FORMAT_RGBA8_UNORM_PACK8, gli::textureCube::texelcoord_type(4, 4), 3, 2);
+		gli::texture_cube_array TextureC(gli::FORMAT_RGBA8_UNORM_PACK8, gli::texture_cube::texelcoord_type(4, 4), 3, 2);
 		TextureC.clear(glm::u8vec4(255, 127, 0, 192));
 
 		Error += TextureA == TextureC ? 0 : 1;
 
-		gli::textureCubeArray TextureD(gli::FORMAT_RGBA8_UNORM_PACK8, gli::textureCube::texelcoord_type(4, 4), 3, 2);
+		gli::texture_cube_array TextureD(gli::FORMAT_RGBA8_UNORM_PACK8, gli::texture_cube::texelcoord_type(4, 4), 3, 2);
 		TextureD.clear(glm::u8vec4(0, 127, 255, 192));
 		TextureD.swizzle<glm::u8vec4>(gli::swizzles(gli::SWIZZLE_BLUE, gli::SWIZZLE_GREEN, gli::SWIZZLE_RED, gli::SWIZZLE_ALPHA));
 
@@ -243,20 +243,20 @@ namespace textureCubeArray
 
 		return Error;
 	}
-}//namespace textureCubeArray
+}//namespace texture_cube_array
 
 int main()
 {
 	int Error(0);
 
 	Error += swizzle::run();
-	Error += texture1D::run();
-	Error += texture1DArray::run();
-	Error += texture2D::run();
-	Error += texture2DArray::run();
-	Error += texture3D::run();
-	Error += textureCube::run();
-	Error += textureCubeArray::run();
+	Error += texture1d::run();
+	Error += texture1d_array::run();
+	Error += texture2d::run();
+	Error += texture2d_array::run();
+	Error += texture3d::run();
+	Error += texture_cube::run();
+	Error += texture_cube_array::run();
 
 	assert(!Error);
 

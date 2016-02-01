@@ -28,31 +28,31 @@ inline image flip(image const & Image)
 */
 
 template <>
-inline texture2D flip(texture2D const & Texture)
+inline texture2d flip(texture2d const & Texture)
 {
 	assert(!gli::is_compressed(Texture.format()));
 
-	texture2D Flip(Texture.format(), Texture.extent(), Texture.levels());
+	texture2d Flip(Texture.format(), Texture.extent(), Texture.levels());
 
-	texture2D::size_type const BlockSize = block_size(Texture.format());
+	texture2d::size_type const BlockSize = block_size(Texture.format());
 
-	for(texture2D::size_type Level = 0; Level < Flip.levels(); ++Level)
+	for(texture2d::size_type Level = 0; Level < Flip.levels(); ++Level)
 		detail::flip(Flip[Level], Texture[Level], BlockSize);
 
 	return Flip;
 }
 
 template <>
-inline texture2DArray flip(texture2DArray const & Texture)
+inline texture2d_array flip(texture2d_array const & Texture)
 {
 	assert(!gli::is_compressed(Texture.format()));
 
-	texture2DArray Flip(Texture.format(), Texture.extent(), Texture.layers(), Texture.levels());
+	texture2d_array Flip(Texture.format(), Texture.extent(), Texture.layers(), Texture.levels());
 
-	texture2DArray::size_type const BlockSize = block_size(Texture.format());
+	texture2d_array::size_type const BlockSize = block_size(Texture.format());
 
-	for(texture2DArray::size_type Layer = 0; Layer < Flip.layers(); ++Layer)
-	for(texture2DArray::size_type Level = 0; Level < Flip.levels(); ++Level)
+	for(texture2d_array::size_type Layer = 0; Layer < Flip.layers(); ++Layer)
+	for(texture2d_array::size_type Level = 0; Level < Flip.levels(); ++Level)
 		detail::flip(Flip[Layer][Level], Texture[Layer][Level], BlockSize);
 
 	return Flip;

@@ -8,48 +8,48 @@
 namespace gli
 {
 	/// 2d array texture
-	class texture2DArray : public texture
+	class texture2d_array : public texture
 	{
 	public:
-		typedef ivec2 texelcoord_type;
+		typedef extent2d texelcoord_type;
 
 	public:
 		/// Create an empty texture 2D array
-		texture2DArray();
+		texture2d_array();
 
-		/// Create a texture2DArray and allocate a new storage
-		explicit texture2DArray(
+		/// Create a texture2d_array and allocate a new storage
+		explicit texture2d_array(
 			format_type Format,
 			texelcoord_type const & Extent,
 			size_type Layers,
 			size_type Levels);
 
-		/// Create a texture2DArray and allocate a new storage with a complete mipmap chain
-		explicit texture2DArray(
+		/// Create a texture2d_array and allocate a new storage with a complete mipmap chain
+		explicit texture2d_array(
 			format_type Format,
 			texelcoord_type const & Extent,
 			size_type Layers);
 
-		/// Create a texture2DArray view with an existing storage
-		explicit texture2DArray(
+		/// Create a texture2d_array view with an existing storage
+		explicit texture2d_array(
 			texture const & Texture);
 
-		/// Create a texture2DArray view with an existing storage
-		explicit texture2DArray(
+		/// Create a texture2d_array view with an existing storage
+		explicit texture2d_array(
 			texture const & Texture,
 			format_type Format,
 			size_type BaseLayer, size_type MaxLayer,
 			size_type BaseFace, size_type MaxFace,
 			size_type BaseLevel, size_type MaxLevel);
 
-		/// Create a texture view, reference a subset of an exiting texture2DArray instance
-		explicit texture2DArray(
-			texture2DArray const & Texture,
+		/// Create a texture view, reference a subset of an exiting texture2d_array instance
+		explicit texture2d_array(
+			texture2d_array const & Texture,
 			size_type BaseLayer, size_type MaxLayer,
 			size_type BaseLevel, size_type MaxLevel);
 
 		/// Create a view of the texture identified by Layer in the texture array
-		texture2D operator[](size_type Layer) const;
+		texture2d operator[](size_type Layer) const;
 
 		/// Return the dimensions of a texture instance: width and height 
 		texelcoord_type extent(size_type Level = 0) const;

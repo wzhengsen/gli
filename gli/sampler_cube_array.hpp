@@ -20,7 +20,7 @@ namespace gli
 		typedef typename detail::interpolate<T>::type interpolate_type;
 
 	public:
-		typedef textureCubeArray texture_type;
+		typedef texture_cube_array texture_type;
 		typedef typename texture_type::size_type size_type;
 		typedef typename texture_type::texelcoord_type texelcoord_type;
 		typedef interpolate_type level_type;

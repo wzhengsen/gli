@@ -8,44 +8,44 @@ namespace dim
 	int test_view1D
 	(
 		std::vector<gli::format> const & Formats,
-		gli::texture1D::texelcoord_type const & TextureSize
+		gli::texture1d::texelcoord_type const & TextureSize
 	)
 	{
 		int Error(0);
 
 		for(std::size_t i = 0; i < Formats.size(); ++i)
 		{
-			gli::texture1D TextureA(Formats[i], TextureSize);
-			gli::texture1D TextureViewA(gli::view(
+			gli::texture1d TextureA(Formats[i], TextureSize);
+			gli::texture1d TextureViewA(gli::view(
 				TextureA, TextureA.base_level(), TextureA.max_level()));
 
 			Error += TextureA == TextureViewA ? 0 : 1;
 
-			gli::texture1D TextureViewC(gli::view(
+			gli::texture1d TextureViewC(gli::view(
 				TextureA, TextureA.base_level(), TextureA.max_level()));
 
 			Error += TextureA == TextureViewC ? 0 : 1;
 			Error += TextureViewA == TextureViewC ? 0 : 1;
 
-			gli::texture1D TextureB(Formats[i], TextureSize / gli::texture1D::texelcoord_type(2));
-			gli::texture1D TextureViewB(gli::view(
+			gli::texture1d TextureB(Formats[i], TextureSize / gli::texture1d::texelcoord_type(2));
+			gli::texture1d TextureViewB(gli::view(
 				TextureA, TextureA.base_level() + 1, TextureA.max_level()));
 
 			Error += TextureB == TextureViewB ? 0 : 1;
 
-			gli::texture1D TextureViewD(gli::view(
+			gli::texture1d TextureViewD(gli::view(
 				TextureA, TextureA.base_level() + 1, TextureA.max_level()));
 
 			Error += TextureB == TextureViewD ? 0 : 1;
 			Error += TextureViewB == TextureViewD ? 0 : 1;
 
-			gli::texture1D TextureD(gli::view(
+			gli::texture1d TextureD(gli::view(
 				TextureA, 1, 3));
 
 			Error += TextureA[1] == TextureD[0] ? 0 : 1;
 			Error += TextureA[2] == TextureD[1] ? 0 : 1;
 
-			gli::texture1D TextureE(gli::view(
+			gli::texture1d TextureE(gli::view(
 				TextureD, 1, 1));
 
 			Error += TextureE[0] == TextureD[1] ? 0 : 1;
@@ -58,23 +58,23 @@ namespace dim
 	int test_view1DArray
 	(
 		std::vector<gli::format> const & Formats,
-		gli::texture1DArray::texelcoord_type const & TextureSize
+		gli::texture1d_array::texelcoord_type const & TextureSize
 	)
 	{
 		int Error(0);
 
 		for(std::size_t i = 0; i < Formats.size(); ++i)
 		{
-			gli::texture1DArray TextureA(Formats[i], TextureSize, gli::texture1DArray::size_type(4));
+			gli::texture1d_array TextureA(Formats[i], TextureSize, gli::texture1d_array::size_type(4));
 
-			gli::texture1DArray TextureViewA(gli::view(
+			gli::texture1d_array TextureViewA(gli::view(
 				TextureA,
 				TextureA.base_layer(), TextureA.max_layer(),
 				TextureA.base_level(), TextureA.max_level()));
 
 			Error += TextureA == TextureViewA ? 0 : 1;
 
-			gli::texture1DArray TextureViewC(gli::view(
+			gli::texture1d_array TextureViewC(gli::view(
 				TextureA,
 				TextureA.base_layer(), TextureA.max_layer(),
 				TextureA.base_level(), TextureA.max_level()));
@@ -82,12 +82,12 @@ namespace dim
 			Error += TextureA == TextureViewC ? 0 : 1;
 			Error += TextureViewC == TextureViewA ? 0 : 1;
 
-			gli::texture1DArray TextureB(
-				Formats[i], TextureSize / gli::texture1DArray::texelcoord_type(2), gli::texture1DArray::size_type(4));
+			gli::texture1d_array TextureB(
+				Formats[i], TextureSize / gli::texture1d_array::texelcoord_type(2), gli::texture1d_array::size_type(4));
 
 			Error += TextureA != TextureB ? 0 : 1;
 
-			gli::texture1DArray TextureViewB(gli::view(
+			gli::texture1d_array TextureViewB(gli::view(
 				TextureA,
 				TextureA.base_layer(), TextureA.max_layer(),
 				TextureA.base_level() + 1, TextureA.max_level()));
@@ -95,26 +95,26 @@ namespace dim
 			Error += TextureA != TextureViewB ? 0 : 1;
 			Error += TextureB == TextureViewB ? 0 : 1;
 
-			gli::texture1DArray TextureViewD(gli::view(
+			gli::texture1d_array TextureViewD(gli::view(
 				TextureA,
 				TextureA.base_layer(), TextureA.max_layer(),
 				TextureA.base_level() + 1, TextureA.max_level()));
 
 			Error += TextureViewD == TextureViewB ? 0 : 1;
 
-			gli::texture1DArray TextureD(gli::view(
+			gli::texture1d_array TextureD(gli::view(
 				TextureA, 0, TextureA.layers() -1, 1, 3));
 
 			Error += TextureA[0][1] == TextureD[0][0] ? 0 : 1;
 			Error += TextureA[0][2] == TextureD[0][1] ? 0 : 1;
 
-			gli::texture1DArray TextureE(gli::view(
+			gli::texture1d_array TextureE(gli::view(
 				TextureD, 0, TextureD.layers() -1, 0, TextureD.levels() - 1));
 
 			Error += TextureE == TextureD ? 0 : 1;
 			Error += TextureE[0] == TextureD[0] ? 0 : 1;
 
-			gli::texture1DArray TextureF(gli::view(
+			gli::texture1d_array TextureF(gli::view(
 				TextureE, 1, 3, 0, TextureE.levels() - 1));
 
 			Error += TextureF[0] == TextureD[1] ? 0 : 1;
@@ -127,39 +127,39 @@ namespace dim
 	int test_view2D
 	(
 		std::vector<gli::format> const & Formats,
-		gli::texture2D::texelcoord_type const & TextureSize
+		gli::texture2d::texelcoord_type const & TextureSize
 	)
 	{
 		int Error(0);
 
 		for(std::size_t i = 0; i < Formats.size(); ++i)
 		{
-			gli::texture2D TextureA(Formats[i], TextureSize, gli::levels(TextureSize));
+			gli::texture2d TextureA(Formats[i], TextureSize, gli::levels(TextureSize));
 
 			for(std::size_t Index = 0; Index < TextureA.size(); ++Index)
 				*(TextureA.data<glm::byte>() + Index) = glm::byte(Index);
 
-			gli::texture2D TextureViewA(gli::view(
+			gli::texture2d TextureViewA(gli::view(
 				TextureA, TextureA.base_level(), TextureA.max_level()));
 
 			Error += TextureA == TextureViewA ? 0 : 1;
 
-			gli::texture2D TextureD(
+			gli::texture2d TextureD(
 				gli::view(TextureA, 1, 3));
 
 			Error += TextureA[1] == TextureD[0] ? 0 : 1;
 			Error += TextureA[2] == TextureD[1] ? 0 : 1;
 
-			gli::texture2D TextureE(TextureD, 1, 1);
+			gli::texture2d TextureE(TextureD, 1, 1);
 
 			Error += TextureE[0] == TextureD[1] ? 0 : 1;
 			Error += TextureE[0] == TextureA[2] ? 0 : 1;
 
-			gli::texture2D TextureViewB(gli::view(
+			gli::texture2d TextureViewB(gli::view(
 				TextureA,
 				TextureA.base_level() + 1, TextureA.max_level()));
 
-			gli::texture2D TextureViewD(gli::view(
+			gli::texture2d TextureViewD(gli::view(
 				TextureA,
 				TextureA.base_level() + 1, TextureA.max_level()));
 
@@ -172,30 +172,30 @@ namespace dim
 	int test_view2DArray
 	(
 		std::vector<gli::format> const & Formats,
-		gli::texture2DArray::texelcoord_type const & TextureSize
+		gli::texture2d_array::texelcoord_type const & TextureSize
 	)
 	{
 		int Error(0);
 
 		for(std::size_t i = 0; i < Formats.size(); ++i)
 		{
-			gli::texture2DArray TextureA(Formats[i], TextureSize, 4);
+			gli::texture2d_array TextureA(Formats[i], TextureSize, 4);
 
-			gli::texture2DArray TextureViewA(gli::view(
+			gli::texture2d_array TextureViewA(gli::view(
 				TextureA,
 				TextureA.base_layer(), TextureA.max_layer(),
 				TextureA.base_level(), TextureA.max_level()));
 
 			Error += TextureA == TextureViewA ? 0 : 1;
 
-			gli::texture2DArray TextureB(Formats[i], TextureSize / gli::texture2DArray::texelcoord_type(2), 4);
+			gli::texture2d_array TextureB(Formats[i], TextureSize / gli::texture2d_array::texelcoord_type(2), 4);
 
-			gli::texture2DArray TextureViewB(gli::view(
+			gli::texture2d_array TextureViewB(gli::view(
 				TextureA,
 				TextureA.base_layer(), TextureA.max_layer(),
 				TextureA.base_level() + 1, TextureA.max_level()));
 
-			gli::texture2DArray TextureViewD(gli::view(
+			gli::texture2d_array TextureViewD(gli::view(
 				TextureA,
 				TextureA.base_layer(), TextureA.max_layer(),
 				TextureA.base_level() + 1, TextureA.max_level()));
@@ -203,19 +203,19 @@ namespace dim
 			Error += TextureViewB == TextureViewD ? 0 : 1;
 			Error += TextureB == TextureViewB ? 0 : 1;
 
-			gli::texture2DArray TextureD(gli::view(
+			gli::texture2d_array TextureD(gli::view(
 				TextureA, 0, TextureA.layers() -1, 1, 3));
 
 			Error += TextureA[0][1] == TextureD[0][0] ? 0 : 1;
 			Error += TextureA[0][2] == TextureD[0][1] ? 0 : 1;
 
-			gli::texture2DArray TextureE(gli::view(
+			gli::texture2d_array TextureE(gli::view(
 				TextureD, 0, TextureD.layers() -1, 0, TextureD.levels() - 1));
 
 			Error += TextureE == TextureD ? 0 : 1;
 			Error += TextureE[0] == TextureD[0] ? 0 : 1;
 
-			gli::texture2DArray TextureF(gli::view(
+			gli::texture2d_array TextureF(gli::view(
 				TextureE, 1, 3, 0, TextureE.levels() - 1));
 
 			Error += TextureF[0] == TextureD[1] ? 0 : 1;
@@ -228,38 +228,38 @@ namespace dim
 	int test_view3D
 	(
 		std::vector<gli::format> const & Formats, 
-		gli::texture3D::texelcoord_type const & TextureSize
+		gli::texture3d::texelcoord_type const & TextureSize
 	)
 	{
 		int Error(0);
 
 		for(std::size_t i = 0; i < Formats.size(); ++i)
 		{
-			gli::texture3D TextureA(Formats[i], TextureSize, gli::levels(TextureSize));
-			gli::texture3D TextureViewA(gli::view(
+			gli::texture3d TextureA(Formats[i], TextureSize, gli::levels(TextureSize));
+			gli::texture3d TextureViewA(gli::view(
 				TextureA, TextureA.base_level(), TextureA.max_level()));
 
 			Error += TextureA == TextureViewA ? 0 : 1;
 
-			gli::texture3D::texelcoord_type SizeB(TextureSize / gli::texture3D::texelcoord_type(2));
-			gli::texture3D TextureB(Formats[i], SizeB, gli::levels(SizeB));
+			gli::texture3d::texelcoord_type SizeB(TextureSize / gli::texture3d::texelcoord_type(2));
+			gli::texture3d TextureB(Formats[i], SizeB, gli::levels(SizeB));
 
-			gli::texture3D TextureViewB(gli::view(
+			gli::texture3d TextureViewB(gli::view(
 				TextureA, TextureA.base_level() + 1, TextureA.max_level()));
 
 			Error += TextureB == TextureViewB ? 0 : 1;
 
-			gli::texture3D TextureViewD(gli::view(
+			gli::texture3d TextureViewD(gli::view(
 				TextureA, TextureA.base_level() + 1, TextureA.max_level()));
 
 			Error += TextureViewD == TextureViewB ? 0 : 1;
 
-			gli::texture3D TextureD(gli::view(TextureA, 1, 3));
+			gli::texture3d TextureD(gli::view(TextureA, 1, 3));
 
 			Error += TextureA[1] == TextureD[0] ? 0 : 1;
 			Error += TextureA[2] == TextureD[1] ? 0 : 1;
 
-			gli::texture3D TextureE(gli::view(TextureD, 1, 1));
+			gli::texture3d TextureE(gli::view(TextureD, 1, 1));
 
 			Error += TextureE[0] == TextureD[1] ? 0 : 1;
 			Error += TextureE[0] == TextureA[2] ? 0 : 1;
@@ -271,52 +271,52 @@ namespace dim
 	int test_viewCube
 	(
 		std::vector<gli::format> const & Formats, 
-		gli::textureCube::texelcoord_type const & TextureSize
+		gli::texture_cube::texelcoord_type const & TextureSize
 	)
 	{
 		int Error(0);
 
 		for(std::size_t i = 0; i < Formats.size(); ++i)
 		{
-			gli::textureCube TextureA(Formats[i], TextureSize);
+			gli::texture_cube TextureA(Formats[i], TextureSize);
 
-			gli::textureCube TextureViewA(gli::view(
+			gli::texture_cube TextureViewA(gli::view(
 				TextureA,
 				TextureA.base_face(), TextureA.max_face(),
 				TextureA.base_level(), TextureA.max_level()));
 
 			Error += TextureA == TextureViewA ? 0 : 1;
 
-			gli::textureCube::texelcoord_type SizeB(TextureSize / gli::textureCube::texelcoord_type(2));
-			gli::textureCube TextureB(Formats[i], SizeB);
+			gli::texture_cube::texelcoord_type SizeB(TextureSize / gli::texture_cube::texelcoord_type(2));
+			gli::texture_cube TextureB(Formats[i], SizeB);
 
-			gli::textureCube TextureViewB(gli::view(
+			gli::texture_cube TextureViewB(gli::view(
 				TextureA,
 				TextureA.base_face(), TextureA.max_face(),
 				TextureA.base_level() + 1, TextureA.max_level()));
 
 			Error += TextureB == TextureViewB ? 0 : 1;
 
-			gli::textureCube TextureViewD(gli::view(
+			gli::texture_cube TextureViewD(gli::view(
 				TextureA,
 				TextureA.base_face(), TextureA.max_face(),
 				TextureA.base_level() + 1, TextureA.max_level()));
 
 			Error += TextureViewD == TextureViewB ? 0 : 1;
 
-			gli::textureCube TextureD(gli::view(
+			gli::texture_cube TextureD(gli::view(
 				TextureA, 0, TextureA.faces() -1, 1, 3));
 
 			Error += TextureA[0][1] == TextureD[0][0] ? 0 : 1;
 			Error += TextureA[0][2] == TextureD[0][1] ? 0 : 1;
 
-			gli::textureCube TextureE(gli::view(
+			gli::texture_cube TextureE(gli::view(
 				TextureD, 0, TextureD.faces() -1, 0, TextureD.levels() - 1));
 
 			Error += TextureE == TextureD ? 0 : 1;
 			Error += TextureE[0] == TextureD[0] ? 0 : 1;
 
-			gli::textureCube TextureF(gli::view(
+			gli::texture_cube TextureF(gli::view(
 				TextureE, 1, 3, 0, TextureE.levels() - 1));
 
 			Error += TextureF[0] == TextureD[1] ? 0 : 1;
@@ -329,19 +329,19 @@ namespace dim
 	int test_viewCubeArray
 	(
 		std::vector<gli::format> const & Formats,
-		gli::textureCubeArray::texelcoord_type const & TextureSize
+		gli::texture_cube_array::texelcoord_type const & TextureSize
 	)
 	{
 		int Error(0);
 
 		for(std::size_t i = 0; i < Formats.size(); ++i)
 		{
-			gli::textureCubeArray TextureA(
+			gli::texture_cube_array TextureA(
 				Formats[i],
 				TextureSize,
 				4);
 
-			gli::textureCubeArray TextureViewA(gli::view(
+			gli::texture_cube_array TextureViewA(gli::view(
 				TextureA,
 				TextureA.base_layer(), TextureA.max_layer(),
 				TextureA.base_face(), TextureA.max_face(),
@@ -349,13 +349,13 @@ namespace dim
 
 			Error += TextureA == TextureViewA ? 0 : 1;
 
-			gli::textureCubeArray::texelcoord_type SizeB(TextureSize / gli::textureCubeArray::texelcoord_type(2));
-			gli::textureCubeArray TextureB(
+			gli::texture_cube_array::texelcoord_type SizeB(TextureSize / gli::texture_cube_array::texelcoord_type(2));
+			gli::texture_cube_array TextureB(
 				Formats[i],
 				SizeB,
-				gli::textureCubeArray::size_type(4));
+				gli::texture_cube_array::size_type(4));
 
-			gli::textureCubeArray TextureViewB(gli::view(
+			gli::texture_cube_array TextureViewB(gli::view(
 				TextureA,
 				TextureA.base_layer(), TextureA.max_layer(),
 				TextureA.base_face(), TextureA.max_face(),
@@ -363,7 +363,7 @@ namespace dim
 
 			Error += TextureB == TextureViewB ? 0 : 1;
 
-			gli::textureCubeArray TextureViewD(gli::view(
+			gli::texture_cube_array TextureViewD(gli::view(
 				TextureA,
 				TextureA.base_layer(), TextureA.max_layer(),
 				TextureA.base_face(), TextureA.max_face(),
@@ -371,7 +371,7 @@ namespace dim
 
 			Error += TextureViewD == TextureViewB ? 0 : 1;
 
-			gli::textureCubeArray TextureD(gli::view(
+			gli::texture_cube_array TextureD(gli::view(
 				TextureA,
 				0, TextureA.layers() -1,
 				0, TextureA.faces() -1,
@@ -380,7 +380,7 @@ namespace dim
 			Error += TextureA[0][0][1] == TextureD[0][0][0] ? 0 : 1;
 			Error += TextureA[0][0][2] == TextureD[0][0][1] ? 0 : 1;
 
-			gli::textureCubeArray TextureE(gli::view(
+			gli::texture_cube_array TextureE(gli::view(
 				TextureD,
 				0, TextureA.layers() -1,
 				0, TextureD.faces() -1,
@@ -390,7 +390,7 @@ namespace dim
 			Error += TextureE[0] == TextureD[0] ? 0 : 1;
 			Error += TextureE[1] == TextureD[1] ? 0 : 1;
 
-			gli::textureCubeArray TextureF(gli::view(
+			gli::texture_cube_array TextureF(gli::view(
 				TextureE,
 				0, TextureA.layers() -1,
 				1, 3,
@@ -426,13 +426,13 @@ namespace dim
 
 		std::size_t const TextureSize(32);
 
-		Error += test_view1D(FormatsB, gli::texture1D::texelcoord_type(TextureSize));
-		Error += test_view1DArray(FormatsB, gli::texture1DArray::texelcoord_type(TextureSize));
-		Error += test_view2D(FormatsA, gli::texture2D::texelcoord_type(TextureSize));
-		Error += test_view2DArray(FormatsA, gli::texture2DArray::texelcoord_type(TextureSize));
-		Error += test_view3D(FormatsA, gli::texture3D::texelcoord_type(TextureSize));
-		Error += test_viewCube(FormatsA, gli::textureCube::texelcoord_type(TextureSize));
-		Error += test_viewCubeArray(FormatsA, gli::textureCube::texelcoord_type(TextureSize));
+		Error += test_view1D(FormatsB, gli::texture1d::texelcoord_type(TextureSize));
+		Error += test_view1DArray(FormatsB, gli::texture1d_array::texelcoord_type(TextureSize));
+		Error += test_view2D(FormatsA, gli::texture2d::texelcoord_type(TextureSize));
+		Error += test_view2DArray(FormatsA, gli::texture2d_array::texelcoord_type(TextureSize));
+		Error += test_view3D(FormatsA, gli::texture3d::texelcoord_type(TextureSize));
+		Error += test_viewCube(FormatsA, gli::texture_cube::texelcoord_type(TextureSize));
+		Error += test_viewCubeArray(FormatsA, gli::texture_cube::texelcoord_type(TextureSize));
 
 		return Error;
 	}
@@ -445,9 +445,9 @@ namespace format
 		int Error = 0;
 
 		{
-			gli::texture2D TextureA(gli::FORMAT_RGBA8_UNORM_PACK8, gli::texture2D::texelcoord_type(1));
-			gli::texture2D TextureB(gli::view(TextureA, gli::FORMAT_R32_UINT_PACK32));
-			gli::texture2D TextureC(gli::view(TextureA));
+			gli::texture2d TextureA(gli::FORMAT_RGBA8_UNORM_PACK8, gli::texture2d::texelcoord_type(1));
+			gli::texture2d TextureB(gli::view(TextureA, gli::FORMAT_R32_UINT_PACK32));
+			gli::texture2d TextureC(gli::view(TextureA));
 
 			Error += TextureA.extent() == TextureB.extent() ? 0 : 1;
 		}
@@ -487,44 +487,44 @@ namespace format
 		}
 
 		{
-			gli::texture2D TextureA(gli::FORMAT_RGB_DXT1_UNORM_BLOCK8, gli::texture2D::texelcoord_type(4));
-			gli::texture2D TextureB(gli::view(TextureA, gli::FORMAT_RG32_UINT_PACK32));
-			gli::texture2D TextureC(gli::FORMAT_RG32_UINT_PACK32, gli::texture2D::texelcoord_type(1), 3);
+			gli::texture2d TextureA(gli::FORMAT_RGB_DXT1_UNORM_BLOCK8, gli::texture2d::texelcoord_type(4));
+			gli::texture2d TextureB(gli::view(TextureA, gli::FORMAT_RG32_UINT_PACK32));
+			gli::texture2d TextureC(gli::FORMAT_RG32_UINT_PACK32, gli::texture2d::texelcoord_type(1), 3);
 
-			gli::texture2D::texelcoord_type const ExtentA = TextureA.extent();
-			gli::texture2D::texelcoord_type const ExtentB = TextureB.extent();
+			gli::texture2d::texelcoord_type const ExtentA = TextureA.extent();
+			gli::texture2d::texelcoord_type const ExtentB = TextureB.extent();
 
 			Error += TextureA.size() == TextureB.size() ? 0 : 1;
 			Error += TextureA.size() == TextureC.size() ? 0 : 1;
 			Error += TextureB == TextureC ? 0 : 1;
-			Error += ExtentA == gli::texture2D::texelcoord_type(4) ? 0 : 1;
-			Error += ExtentB == gli::texture2D::texelcoord_type(1) ? 0 : 1;
+			Error += ExtentA == gli::texture2d::texelcoord_type(4) ? 0 : 1;
+			Error += ExtentB == gli::texture2d::texelcoord_type(1) ? 0 : 1;
 			Error += ExtentA != ExtentB ? 0 : 1;
 
 			{
-				gli::texture2D::texelcoord_type const ExtentA0 = TextureA.extent(0);
-				gli::texture2D::texelcoord_type const ExtentB0 = TextureB.extent(0);
-				gli::texture2D::texelcoord_type const ExtentC0 = TextureC.extent(0);
-				gli::texture2D::texelcoord_type const ExtentA1 = TextureA.extent(1);
-				gli::texture2D::texelcoord_type const ExtentB1 = TextureB.extent(1);
-				gli::texture2D::texelcoord_type const ExtentC1 = TextureC.extent(1);
-				gli::texture2D::texelcoord_type const ExtentA2 = TextureA.extent(2);
-				gli::texture2D::texelcoord_type const ExtentB2 = TextureB.extent(2);
-				gli::texture2D::texelcoord_type const ExtentC2 = TextureC.extent(2);
+				gli::texture2d::texelcoord_type const ExtentA0 = TextureA.extent(0);
+				gli::texture2d::texelcoord_type const ExtentB0 = TextureB.extent(0);
+				gli::texture2d::texelcoord_type const ExtentC0 = TextureC.extent(0);
+				gli::texture2d::texelcoord_type const ExtentA1 = TextureA.extent(1);
+				gli::texture2d::texelcoord_type const ExtentB1 = TextureB.extent(1);
+				gli::texture2d::texelcoord_type const ExtentC1 = TextureC.extent(1);
+				gli::texture2d::texelcoord_type const ExtentA2 = TextureA.extent(2);
+				gli::texture2d::texelcoord_type const ExtentB2 = TextureB.extent(2);
+				gli::texture2d::texelcoord_type const ExtentC2 = TextureC.extent(2);
 
-				Error += ExtentA0 == gli::texture2D::texelcoord_type(4, 4) ? 0 : 1;
-				Error += ExtentB0 == gli::texture2D::texelcoord_type(1, 1) ? 0 : 1;
-				Error += ExtentC0 == gli::texture2D::texelcoord_type(1, 1) ? 0 : 1;
-				Error += ExtentA1 == gli::texture2D::texelcoord_type(2, 2) ? 0 : 1;
-				Error += ExtentB1 == gli::texture2D::texelcoord_type(1, 1) ? 0 : 1;
-				Error += ExtentC1 == gli::texture2D::texelcoord_type(1, 1) ? 0 : 1;
-				Error += ExtentA2 == gli::texture2D::texelcoord_type(1, 1) ? 0 : 1;
-				Error += ExtentB2 == gli::texture2D::texelcoord_type(1, 1) ? 0 : 1;
-				Error += ExtentC2 == gli::texture2D::texelcoord_type(1, 1) ? 0 : 1;
+				Error += ExtentA0 == gli::texture2d::texelcoord_type(4, 4) ? 0 : 1;
+				Error += ExtentB0 == gli::texture2d::texelcoord_type(1, 1) ? 0 : 1;
+				Error += ExtentC0 == gli::texture2d::texelcoord_type(1, 1) ? 0 : 1;
+				Error += ExtentA1 == gli::texture2d::texelcoord_type(2, 2) ? 0 : 1;
+				Error += ExtentB1 == gli::texture2d::texelcoord_type(1, 1) ? 0 : 1;
+				Error += ExtentC1 == gli::texture2d::texelcoord_type(1, 1) ? 0 : 1;
+				Error += ExtentA2 == gli::texture2d::texelcoord_type(1, 1) ? 0 : 1;
+				Error += ExtentB2 == gli::texture2d::texelcoord_type(1, 1) ? 0 : 1;
+				Error += ExtentC2 == gli::texture2d::texelcoord_type(1, 1) ? 0 : 1;
 
-				gli::texture2D::size_type const SizeA = TextureA.size();
-				gli::texture2D::size_type const SizeB = TextureB.size();
-				gli::texture2D::size_type const SizeC = TextureC.size();
+				gli::texture2d::size_type const SizeA = TextureA.size();
+				gli::texture2d::size_type const SizeB = TextureB.size();
+				gli::texture2d::size_type const SizeC = TextureC.size();
 
 				Error += SizeA == gli::texture::size_type(gli::block_size(gli::FORMAT_RGB_DXT1_UNORM_BLOCK8) * 3) ? 0 : 1;
 				Error += SizeB == gli::texture::size_type(gli::block_size(gli::FORMAT_RG32_UINT_PACK32) * 3) ? 0 : 1;
@@ -591,25 +591,25 @@ namespace format
 		}
 
 		{
-			gli::texture2D TextureA(gli::FORMAT_RGBA_DXT5_UNORM_BLOCK16, gli::texture2D::texelcoord_type(4));
-			gli::texture2D TextureB(gli::view(TextureA, gli::FORMAT_RGBA32_UINT_PACK32));
-			gli::texture2D TextureC(gli::FORMAT_RGBA32_UINT_PACK32, gli::texture2D::texelcoord_type(1), 3);
-			gli::texture2D TextureD(gli::view(TextureC, gli::FORMAT_RGBA_DXT5_UNORM_BLOCK16));
+			gli::texture2d TextureA(gli::FORMAT_RGBA_DXT5_UNORM_BLOCK16, gli::texture2d::texelcoord_type(4));
+			gli::texture2d TextureB(gli::view(TextureA, gli::FORMAT_RGBA32_UINT_PACK32));
+			gli::texture2d TextureC(gli::FORMAT_RGBA32_UINT_PACK32, gli::texture2d::texelcoord_type(1), 3);
+			gli::texture2d TextureD(gli::view(TextureC, gli::FORMAT_RGBA_DXT5_UNORM_BLOCK16));
 
 			Error += TextureA == TextureD ? 0 : 1;
 			Error += TextureB == TextureC ? 0 : 1;
 
-			Error += TextureA.extent() == gli::texture2D::texelcoord_type(4) ? 0 : 1;
-			Error += TextureB.extent() == gli::texture2D::texelcoord_type(1) ? 0 : 1;
+			Error += TextureA.extent() == gli::texture2d::texelcoord_type(4) ? 0 : 1;
+			Error += TextureB.extent() == gli::texture2d::texelcoord_type(1) ? 0 : 1;
 			Error += TextureA.extent() != TextureB.extent() ? 0 : 1;
 		}
 
 		{
-			gli::texture2D TextureA(gli::FORMAT_RG32_UINT_PACK32, gli::texture2D::texelcoord_type(4));
-			gli::texture2D TextureB(gli::view(TextureA, gli::FORMAT_RG32_UINT_PACK32));
-			gli::texture2D TextureC(gli::view(TextureA, gli::FORMAT_R32_UINT_PACK32));
-			gli::texture2D TextureD(gli::view(TextureA, gli::FORMAT_RGB32_UINT_PACK32));
-			gli::texture2D TextureE(gli::view(TextureA, gli::FORMAT_RGBA32_UINT_PACK32));
+			gli::texture2d TextureA(gli::FORMAT_RG32_UINT_PACK32, gli::texture2d::texelcoord_type(4));
+			gli::texture2d TextureB(gli::view(TextureA, gli::FORMAT_RG32_UINT_PACK32));
+			gli::texture2d TextureC(gli::view(TextureA, gli::FORMAT_R32_UINT_PACK32));
+			gli::texture2d TextureD(gli::view(TextureA, gli::FORMAT_RGB32_UINT_PACK32));
+			gli::texture2d TextureE(gli::view(TextureA, gli::FORMAT_RGBA32_UINT_PACK32));
 
 			Error += TextureA == TextureB ? 0 : 1;
 			Error += TextureC.empty() ? 0 : 1;

@@ -19,9 +19,9 @@ namespace load_file
 	{
 		int Error(0);
 
-		gli::texture2D TextureA(gli::load_ktx(path(Filename.c_str())));
+		gli::texture2d TextureA(gli::load_ktx(path(Filename.c_str())));
 		gli::save_ktx(TextureA, Filename.c_str());
-		gli::texture2D TextureB(gli::load_ktx(Filename.c_str()));
+		gli::texture2d TextureB(gli::load_ktx(Filename.c_str()));
 
 		Error += TextureA == TextureB ? 0 : 1;
 
@@ -35,9 +35,9 @@ namespace load_mem
 	{
 		int Error(0);
 
-		gli::texture2D TextureA(gli::load_ktx(path(Filename.c_str())));
+		gli::texture2d TextureA(gli::load_ktx(path(Filename.c_str())));
 		gli::save_ktx(TextureA, Filename.c_str());
-		gli::texture2D TextureB(gli::load_ktx(Filename.c_str()));
+		gli::texture2d TextureB(gli::load_ktx(Filename.c_str()));
 
 		Error += TextureA == TextureB ? 0 : 1;
 
@@ -51,10 +51,10 @@ namespace load_mem_only
 	{
 		int Error(0);
 
-		gli::texture2D TextureA(gli::load_ktx(&Data[0], Data.size()));
+		gli::texture2d TextureA(gli::load_ktx(&Data[0], Data.size()));
 		std::vector<char> Memory;
 		gli::save_ktx(TextureA, Memory);
-		gli::texture2D TextureB(gli::load_ktx(&Memory[0], Memory.size()));
+		gli::texture2d TextureB(gli::load_ktx(&Memory[0], Memory.size()));
 
 		Error += TextureA == TextureB ? 0 : 1;
 

@@ -9,13 +9,15 @@ namespace gli
 		return glm::log2(compMax(Extent)) + static_cast<T>(1);
 	}
 
-	inline size_t levels(size_t Extent)
+	template <typename T>
+	inline T levels(T Extent)
 	{
-		return glm::log2(Extent) + static_cast<size_t>(1);
+		return static_cast<T>(glm::log2(Extent) + static_cast<size_t>(1));
 	}
-
+/*
 	inline int levels(int Extent)
 	{
 		return glm::log2(Extent) + static_cast<int>(1);
 	}
+*/
 }//namespace gli

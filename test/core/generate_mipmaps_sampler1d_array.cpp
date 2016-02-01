@@ -13,29 +13,29 @@ namespace generate_mipmaps
 	{
 		int Error = 0;
 
-		gli::texture1DArray Texture(Format, gli::texture1DArray::texelcoord_type(static_cast<gli::texture1DArray::texelcoord_type::value_type>(Size)), Layers);
+		gli::texture1d_array Texture(Format, gli::texture1d_array::texelcoord_type(static_cast<gli::texture1d_array::texelcoord_type::value_type>(Size)), Layers);
 		Texture.clear(Black);
 		for(std::size_t Layer = 0; Layer < Layers; ++Layer)
 			Texture[Layer][0].clear(Color);
 
 		for(std::size_t Layer = 0; Layer < Layers; ++Layer)
 		{
-			genType const LoadC = Texture.load<genType>(gli::texture1DArray::texelcoord_type(0), Layer, Texture.max_level());
+			genType const LoadC = Texture.load<genType>(gli::texture1d_array::texelcoord_type(0), Layer, Texture.max_level());
 			if(Texture.levels() > 1)
 				Error += LoadC == Black ? 0 : 1;
 
-			gli::fsampler1DArray SamplerA(gli::texture1DArray(gli::duplicate(Texture)), gli::WRAP_CLAMP_TO_EDGE);
+			gli::fsampler1DArray SamplerA(gli::texture1d_array(gli::duplicate(Texture)), gli::WRAP_CLAMP_TO_EDGE);
 			SamplerA.generate_mipmaps(gli::FILTER_LINEAR);
 
-			gli::texture1DArray MipmapsA = SamplerA();
-			genType const LoadA = MipmapsA.load<genType>(gli::texture1DArray::texelcoord_type(0), Layer, MipmapsA.max_level());
+			gli::texture1d_array MipmapsA = SamplerA();
+			genType const LoadA = MipmapsA.load<genType>(gli::texture1d_array::texelcoord_type(0), Layer, MipmapsA.max_level());
 			Error += LoadA == Color ? 0 : 1;
 			if(Texture.levels() > 1)
 				Error += LoadA != LoadC ? 0 : 1;
 
 			// Mipmaps generation using the wrapper function
-			gli::texture1DArray MipmapsB = gli::generate_mipmaps(gli::texture1DArray(gli::duplicate(Texture)), Filter);
-			genType const LoadB = MipmapsB.load<genType>(gli::texture1DArray::texelcoord_type(0), Layer, MipmapsB.max_level());
+			gli::texture1d_array MipmapsB = gli::generate_mipmaps(gli::texture1d_array(gli::duplicate(Texture)), Filter);
+			genType const LoadB = MipmapsB.load<genType>(gli::texture1d_array::texelcoord_type(0), Layer, MipmapsB.max_level());
 			Error += LoadB == Color ? 0 : 1;
 			if(Texture.levels() > 1)
 				Error += LoadB != LoadC ? 0 : 1;

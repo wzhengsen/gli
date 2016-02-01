@@ -14,20 +14,20 @@ namespace gli
 	/// @tparam T Sampler can fetch, write and interpret any texture format but will expose and process the data through type T conversions.
 	/// @tparam P Precision in term of ULPs
 	template <typename T, precision P = defaultp>
-	class sampler1D : public sampler
+	class sampler1d : public sampler
 	{
 	private:
 		typedef typename detail::interpolate<T>::type interpolate_type;
 
 	public:
-		typedef texture1D texture_type;
+		typedef texture1d texture_type;
 		typedef typename texture_type::size_type size_type;
 		typedef typename texture_type::texelcoord_type texelcoord_type;
 		typedef interpolate_type level_type;
 		typedef tvec1<interpolate_type, P> samplecoord_type;
 		typedef tvec4<T, P> texel_type;
 
-		sampler1D(texture_type const & Texture, wrap Wrap, filter Mip = FILTER_NEAREST, filter Min = FILTER_NEAREST, texel_type const & BorderColor = texel_type(0, 0, 0, 1));
+		sampler1d(texture_type const & Texture, wrap Wrap, filter Mip = FILTER_NEAREST, filter Min = FILTER_NEAREST, texel_type const & BorderColor = texel_type(0, 0, 0, 1));
 
 		/// Access the sampler texture object
 		texture_type const & operator()() const;
@@ -62,10 +62,10 @@ namespace gli
 		filter_type Filter;
 	};
 
-	typedef sampler1D<float> fsampler1D;
-	typedef sampler1D<double> dsampler1D;
-	typedef sampler1D<unsigned int> usampler1D;
-	typedef sampler1D<int> isampler1D;
+	typedef sampler1d<float> fsampler1D;
+	typedef sampler1d<double> dsampler1D;
+	typedef sampler1d<unsigned int> usampler1D;
+	typedef sampler1d<int> isampler1D;
 }//namespace gli
 
 #include "./core/sampler1d.inl"

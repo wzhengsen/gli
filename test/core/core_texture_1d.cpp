@@ -22,10 +22,10 @@ int test_alloc()
 	for(std::size_t FormatIndex = 0; FormatIndex < Formats.size(); ++FormatIndex)
 	for(std::size_t SizeIndex = 0; SizeIndex < Sizes.size(); ++SizeIndex)
 	{
-		gli::texture1D::texelcoord_type const Size(Sizes[SizeIndex]);
+		gli::texture1d::texelcoord_type const Size(Sizes[SizeIndex]);
 
-		gli::texture1D TextureA(Formats[FormatIndex], Size, gli::levels(Size));
-		gli::texture1D TextureB(Formats[FormatIndex], Size);
+		gli::texture1d TextureA(Formats[FormatIndex], Size, gli::levels(Size));
+		gli::texture1d TextureB(Formats[FormatIndex], Size);
 
 		Error += TextureA == TextureB ? 0 : 1;
 	}
@@ -39,13 +39,13 @@ namespace query
 	{
 		int Error(0);
 
-		gli::texture1D Texture(gli::FORMAT_RGBA8_UINT_PACK8, gli::texture1D::texelcoord_type(2), 2);
+		gli::texture1d Texture(gli::FORMAT_RGBA8_UINT_PACK8, gli::texture1d::texelcoord_type(2), 2);
 
 		Error += Texture.size() == sizeof(glm::u8vec4) * 3 ? 0 : 1;
 		Error += Texture.format() == gli::FORMAT_RGBA8_UINT_PACK8 ? 0 : 1;
 		Error += Texture.levels() == 2 ? 0 : 1;
 		Error += !Texture.empty() ? 0 : 1;
-		Error += Texture.extent() == gli::texture1D::texelcoord_type(2) ? 0 : 1;
+		Error += Texture.extent() == gli::texture1d::texelcoord_type(2) ? 0 : 1;
 
 		return Error;
 	}
@@ -58,7 +58,7 @@ namespace tex_access
 		int Error(0);
 
 		{
-			gli::texture1D Texture(gli::FORMAT_RGBA8_UINT_PACK8, gli::texture1D::texelcoord_type(2), 2);
+			gli::texture1d Texture(gli::FORMAT_RGBA8_UINT_PACK8, gli::texture1d::texelcoord_type(2), 2);
 			assert(!Texture.empty());
 
 			gli::image Image0 = Texture[0];
@@ -96,7 +96,7 @@ namespace tex_access
 		}
 
 		{
-			gli::texture1D Texture(gli::FORMAT_RGBA8_UINT_PACK8, gli::texture1D::texelcoord_type(2), 1);
+			gli::texture1d Texture(gli::FORMAT_RGBA8_UINT_PACK8, gli::texture1d::texelcoord_type(2), 1);
 
 			std::size_t SizeA = Texture.size();
 			Error += SizeA == sizeof(glm::u8vec4) * 2 ? 0 : 1;
@@ -129,16 +129,16 @@ namespace size
 	{
 		test(
 			gli::format const & Format,
-			gli::texture1D::texelcoord_type const & Dimensions,
-			gli::texture1D::size_type const & Size) :
+			gli::texture1d::texelcoord_type const & Dimensions,
+			gli::texture1d::size_type const & Size) :
 			Format(Format),
 			Dimensions(Dimensions),
 			Size(Size)
 		{}
 
 		gli::format Format;
-		gli::texture1D::texelcoord_type Dimensions;
-		gli::texture1D::size_type Size;
+		gli::texture1d::texelcoord_type Dimensions;
+		gli::texture1d::size_type Size;
 	};
 
 	int run()
@@ -146,14 +146,14 @@ namespace size
 		int Error(0);
 
 		std::vector<test> Tests;
-		Tests.push_back(test(gli::FORMAT_RGBA8_UINT_PACK8, gli::texture1D::texelcoord_type(4), 16));
-		Tests.push_back(test(gli::FORMAT_R8_UINT_PACK8, gli::texture1D::texelcoord_type(4), 4));
+		Tests.push_back(test(gli::FORMAT_RGBA8_UINT_PACK8, gli::texture1d::texelcoord_type(4), 16));
+		Tests.push_back(test(gli::FORMAT_R8_UINT_PACK8, gli::texture1d::texelcoord_type(4), 4));
 
 		for(std::size_t i = 0; i < Tests.size(); ++i)
 		{
-			gli::texture1D Texture(
+			gli::texture1d Texture(
 				Tests[i].Format,
-				gli::texture1D::texelcoord_type(4),
+				gli::texture1d::texelcoord_type(4),
 				1);
 
 			gli::image Image = Texture[0];
@@ -174,17 +174,17 @@ namespace load_store
 	{
 		int Error = 0;
 
-		gli::texture1D::texelcoord_type const Dimensions(16);
-		std::array<gli::texture1D::texelcoord_type, 8> TexelCoord;
+		gli::texture1d::texelcoord_type const Dimensions(16);
+		std::array<gli::texture1d::texelcoord_type, 8> TexelCoord;
 		for (gli::size_t i = 0, n = 8; i < n; ++i)
-			TexelCoord[i] = gli::texture1D::texelcoord_type(static_cast<int>(i));
+			TexelCoord[i] = gli::texture1d::texelcoord_type(static_cast<int>(i));
 
-		gli::texture1D TextureA(Format, Dimensions);
+		gli::texture1d TextureA(Format, Dimensions);
 		TextureA.clear();
 		for (gli::size_t i = 0, n = 8; i < n; ++i)
 			*(TextureA.data<genType>(0, 0, 1) + i) = TestSamples[i];
 
-		gli::texture1D TextureB(Format, Dimensions);
+		gli::texture1d TextureB(Format, Dimensions);
 		TextureB.clear();
 		for (gli::size_t i = 0, n = 8; i < n; ++i)
 			TextureB.store(TexelCoord[i], 1, TestSamples[i]);
@@ -205,8 +205,8 @@ namespace load_store
 
 		Error += TextureA == TextureB ? 0 : 1;
 
-		gli::texture1D TextureC(TextureA, 1, 1);
-		gli::texture1D TextureD(TextureB, 1, 1);
+		gli::texture1d TextureC(TextureA, 1, 1);
+		gli::texture1d TextureD(TextureB, 1, 1);
 
 		Error += TextureC == TextureD ? 0 : 1;
 
@@ -566,12 +566,12 @@ namespace clear
 		glm::u8vec4 const Black(0, 0, 0, 255);
 		glm::u8vec4 const Color(255, 127, 0, 255);
 
-		gli::texture1D Texture(gli::FORMAT_RGBA8_UNORM_PACK8, gli::texture1D::texelcoord_type(8), 5);
+		gli::texture1d Texture(gli::FORMAT_RGBA8_UNORM_PACK8, gli::texture1d::texelcoord_type(8), 5);
 		Texture.clear(Black);
 
-		glm::u8vec4 const TexelA = Texture.load<glm::u8vec4>(gli::texture1D::texelcoord_type(0), 0);
-		glm::u8vec4 const TexelB = Texture.load<glm::u8vec4>(gli::texture1D::texelcoord_type(0), 1);
-		glm::u8vec4 const TexelC = Texture.load<glm::u8vec4>(gli::texture1D::texelcoord_type(0), 2);
+		glm::u8vec4 const TexelA = Texture.load<glm::u8vec4>(gli::texture1d::texelcoord_type(0), 0);
+		glm::u8vec4 const TexelB = Texture.load<glm::u8vec4>(gli::texture1d::texelcoord_type(0), 1);
+		glm::u8vec4 const TexelC = Texture.load<glm::u8vec4>(gli::texture1d::texelcoord_type(0), 2);
 
 		Error += TexelA == Black ? 0 : 1;
 		Error += TexelB == Black ? 0 : 1;
@@ -579,16 +579,16 @@ namespace clear
 
 		Texture.clear<glm::u8vec4>(1, glm::u8vec4(255, 127, 0, 255));
 
-		gli::texture1D::texelcoord_type Coords(0);
+		gli::texture1d::texelcoord_type Coords(0);
 		for(; Coords.x < Texture.extent(1).x; ++Coords.x)
 		{
 			glm::u8vec4 const TexelD = Texture.load<glm::u8vec4>(Coords, 1);
 			Error += TexelD == Color ? 0 : 1;
 		}
 
-		gli::texture1D TextureView(Texture, 1, 1);
+		gli::texture1d TextureView(Texture, 1, 1);
 
-		gli::texture1D TextureImage(gli::FORMAT_RGBA8_UNORM_PACK8, gli::texture1D::texelcoord_type(4), 1);
+		gli::texture1d TextureImage(gli::FORMAT_RGBA8_UNORM_PACK8, gli::texture1d::texelcoord_type(4), 1);
 		TextureImage.clear(Color);
 
 		Error += TextureView == TextureImage ? 0 : 1;

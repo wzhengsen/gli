@@ -101,15 +101,15 @@ namespace detail
 
 	inline texture duplicate
 	(
-		texture1D const & Texture,
-		texture1D::size_type BaseLevel, texture1D::size_type MaxLevel
+		texture1d const & Texture,
+		texture1d::size_type BaseLevel, texture1d::size_type MaxLevel
 	)
 	{
 		GLI_ASSERT(BaseLevel <= MaxLevel);
 		GLI_ASSERT(BaseLevel < Texture.levels());
 		GLI_ASSERT(MaxLevel < Texture.levels());
 	
-		texture1D Duplicate(
+		texture1d Duplicate(
 			Texture.format(),
 			Texture.extent(BaseLevel),
 			MaxLevel - BaseLevel + 1);
@@ -121,9 +121,9 @@ namespace detail
 
 	inline texture duplicate
 	(
-		texture1DArray const & Texture,
-		texture1DArray::size_type BaseLayer, texture1DArray::size_type MaxMayer,
-		texture1DArray::size_type BaseLevel, texture1DArray::size_type MaxLevel
+		texture1d_array const & Texture,
+		texture1d_array::size_type BaseLayer, texture1d_array::size_type MaxMayer,
+		texture1d_array::size_type BaseLevel, texture1d_array::size_type MaxLevel
 	)
 	{
 		GLI_ASSERT(BaseLevel <= MaxLevel);
@@ -133,13 +133,13 @@ namespace detail
 		GLI_ASSERT(BaseLayer < Texture.layers());
 		GLI_ASSERT(MaxMayer < Texture.layers());
 
-		texture1DArray Duplicate(
+		texture1d_array Duplicate(
 			Texture.format(),
 			Texture[BaseLayer].extent(BaseLevel),
 			MaxMayer - BaseLayer + 1,
 			MaxLevel - BaseLevel + 1);
 
-		for(texture1DArray::size_type Layer = 0; Layer < Duplicate.layers(); ++Layer)
+		for(texture1d_array::size_type Layer = 0; Layer < Duplicate.layers(); ++Layer)
 			memcpy(Duplicate.data(Layer, 0, 0), Texture.data(Layer + BaseLayer, 0, BaseLevel), Duplicate[Layer].size());
 
 		return Duplicate;
@@ -147,15 +147,15 @@ namespace detail
 
 	inline texture duplicate
 	(
-		texture2D const & Texture,
-		texture2D::size_type BaseLevel, texture2D::size_type MaxLevel
+		texture2d const & Texture,
+		texture2d::size_type BaseLevel, texture2d::size_type MaxLevel
 	)
 	{
 		GLI_ASSERT(BaseLevel <= MaxLevel);
 		GLI_ASSERT(BaseLevel < Texture.levels());
 		GLI_ASSERT(MaxLevel < Texture.levels());
 	
-		texture2D Duplicate(
+		texture2d Duplicate(
 			Texture.format(),
 			Texture.extent(BaseLevel),
 			MaxLevel - BaseLevel + 1);
@@ -167,9 +167,9 @@ namespace detail
 
 	inline texture duplicate
 	(
-		texture2DArray const & Texture,
-		texture2DArray::size_type BaseLayer, texture2DArray::size_type MaxMayer,
-		texture2DArray::size_type BaseLevel, texture2DArray::size_type MaxLevel
+		texture2d_array const & Texture,
+		texture2d_array::size_type BaseLayer, texture2d_array::size_type MaxMayer,
+		texture2d_array::size_type BaseLevel, texture2d_array::size_type MaxLevel
 	)
 	{
 		GLI_ASSERT(BaseLevel <= MaxLevel);
@@ -179,13 +179,13 @@ namespace detail
 		GLI_ASSERT(BaseLayer < Texture.layers());
 		GLI_ASSERT(MaxMayer < Texture.layers());
 
-		texture2DArray Duplicate(
+		texture2d_array Duplicate(
 			Texture.format(),
 			Texture.extent(BaseLevel),
 			MaxMayer - BaseLayer + 1,
 			MaxLevel - BaseLevel + 1);
 
-		for(texture2DArray::size_type Layer = 0; Layer < Duplicate.layers(); ++Layer)
+		for(texture2d_array::size_type Layer = 0; Layer < Duplicate.layers(); ++Layer)
 			memcpy(Duplicate.data(Layer, 0, 0), Texture.data(Layer + BaseLayer, 0, BaseLevel), Duplicate[Layer].size());
 
 		return Duplicate;
@@ -193,15 +193,15 @@ namespace detail
 
 	inline texture duplicate
 	(
-		texture3D const & Texture,
-		texture3D::size_type BaseLevel, texture3D::size_type MaxLevel
+		texture3d const & Texture,
+		texture3d::size_type BaseLevel, texture3d::size_type MaxLevel
 	)
 	{
 		GLI_ASSERT(BaseLevel <= MaxLevel);
 		GLI_ASSERT(BaseLevel < Texture.levels());
 		GLI_ASSERT(MaxLevel < Texture.levels());
 
-		texture3D Duplicate(
+		texture3d Duplicate(
 			Texture.format(),
 			Texture.extent(BaseLevel),
 			MaxLevel - BaseLevel + 1);
@@ -213,9 +213,9 @@ namespace detail
 
 	inline texture duplicate
 	(
-		textureCube const & Texture,
-		textureCube::size_type BaseFace, textureCube::size_type MaxFace,
-		textureCube::size_type BaseLevel, textureCube::size_type MaxLevel
+		texture_cube const & Texture,
+		texture_cube::size_type BaseFace, texture_cube::size_type MaxFace,
+		texture_cube::size_type BaseLevel, texture_cube::size_type MaxLevel
 	)
 	{
 		GLI_ASSERT(BaseLevel >= 0 && BaseLevel < Texture.levels() && BaseLevel <= MaxLevel && MaxLevel < Texture.levels());
@@ -223,12 +223,12 @@ namespace detail
 		GLI_ASSERT(BaseFace < Texture.faces());
 		GLI_ASSERT(MaxFace < Texture.faces());
 
-		textureCube Duplicate(
+		texture_cube Duplicate(
 			Texture.format(),
 			Texture[BaseFace].extent(BaseLevel),
 			MaxLevel - BaseLevel + 1);
 
-		for(textureCube::size_type Face = 0; Face < Duplicate.faces(); ++Face)
+		for(texture_cube::size_type Face = 0; Face < Duplicate.faces(); ++Face)
 			memcpy(Duplicate[Face].data(), Texture[Face + BaseFace][BaseLevel].data(), Duplicate[Face].size());
 
 		return Duplicate;
@@ -236,10 +236,10 @@ namespace detail
 
 	inline texture duplicate
 	(
-		textureCubeArray const & Texture,
-		textureCubeArray::size_type BaseLayer, textureCubeArray::size_type MaxLayer,
-		textureCubeArray::size_type BaseFace, textureCubeArray::size_type MaxFace,
-		textureCubeArray::size_type BaseLevel, textureCubeArray::size_type MaxLevel
+		texture_cube_array const & Texture,
+		texture_cube_array::size_type BaseLayer, texture_cube_array::size_type MaxLayer,
+		texture_cube_array::size_type BaseFace, texture_cube_array::size_type MaxFace,
+		texture_cube_array::size_type BaseLevel, texture_cube_array::size_type MaxLevel
 	)
 	{
 		GLI_ASSERT(BaseLevel <= MaxLevel);
@@ -252,14 +252,14 @@ namespace detail
 		GLI_ASSERT(BaseLayer < Texture.layers());
 		GLI_ASSERT(MaxLayer < Texture.layers());
 
-		textureCubeArray Duplicate(
+		texture_cube_array Duplicate(
 			Texture.format(),
 			Texture[BaseLayer][BaseFace].extent(BaseLevel),
 			MaxLayer - BaseLayer + 1,
 			MaxLevel - BaseLevel + 1);
 
-		for(textureCubeArray::size_type Layer = 0; Layer < Duplicate.layers(); ++Layer)
-		for(textureCubeArray::size_type Face = 0; Face < Duplicate[Layer].faces(); ++Face)
+		for(texture_cube_array::size_type Layer = 0; Layer < Duplicate.layers(); ++Layer)
+		for(texture_cube_array::size_type Face = 0; Face < Duplicate[Layer].faces(); ++Face)
 			memcpy(Duplicate[Layer][Face].data(), Texture[Layer + BaseLayer][Face + BaseFace][BaseLevel].data(), Duplicate[Layer][Face].size());
 
 		return Duplicate;

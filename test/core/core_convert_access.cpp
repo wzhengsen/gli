@@ -61,13 +61,13 @@ int main()
 {
 	int Error = 0;
 
-	Error += texture<gli::texture1D>::test();
-	Error += texture<gli::texture1DArray>::test();
-	Error += texture<gli::texture2D>::test();
-	Error += texture<gli::texture2DArray>::test();
-	Error += texture<gli::texture3D>::test();
-	Error += texture<gli::textureCube>::test();
-	Error += texture<gli::textureCubeArray>::test();
+	Error += texture<gli::texture1d>::test();
+	Error += texture<gli::texture1d_array>::test();
+	Error += texture<gli::texture2d>::test();
+	Error += texture<gli::texture2d_array>::test();
+	Error += texture<gli::texture3d>::test();
+	Error += texture<gli::texture_cube>::test();
+	Error += texture<gli::texture_cube_array>::test();
 
 	return Error;
 }

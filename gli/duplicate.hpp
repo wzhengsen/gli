@@ -28,43 +28,43 @@ namespace gli
 
 	/// Duplicate a subset of a texture and create a new texture with a new storage allocation.
 	texture duplicate(
-		texture1D const & Texture,
-		texture1D::size_type BaseLevel, texture1D::size_type MaxLevel);
+		texture1d const & Texture,
+		texture1d::size_type BaseLevel, texture1d::size_type MaxLevel);
 
 	/// Duplicate a subset of a texture and create a new texture with a new storage allocation.
 	texture duplicate(
-		texture1DArray const & Texture,
-		texture1DArray::size_type BaseLayer, texture1DArray::size_type MaxLayer,
-		texture1DArray::size_type BaseLevel, texture1DArray::size_type MaxLevel);
+		texture1d_array const & Texture,
+		texture1d_array::size_type BaseLayer, texture1d_array::size_type MaxLayer,
+		texture1d_array::size_type BaseLevel, texture1d_array::size_type MaxLevel);
 
 	/// Duplicate a subset of a texture and create a new texture with a new storage allocation.
 	texture duplicate(
-		texture2D const & Texture,
-		texture2D::size_type BaseLevel, texture2D::size_type MaxLevel);
+		texture2d const & Texture,
+		texture2d::size_type BaseLevel, texture2d::size_type MaxLevel);
 
 	/// Duplicate a subset of a texture and create a new texture with a new storage allocation.
 	texture duplicate(
-		texture2DArray const & Texture,
-		texture2DArray::size_type BaseLayer, texture2DArray::size_type MaxLayer,
-		texture2DArray::size_type BaseLevel, texture2DArray::size_type MaxLevel);
+		texture2d_array const & Texture,
+		texture2d_array::size_type BaseLayer, texture2d_array::size_type MaxLayer,
+		texture2d_array::size_type BaseLevel, texture2d_array::size_type MaxLevel);
 
 	/// Duplicate a subset of a texture and create a new texture with a new storage allocation.
 	texture duplicate(
-		texture3D const & Texture,
-		texture3D::size_type BaseLevel, texture3D::size_type MaxLevel);
+		texture3d const & Texture,
+		texture3d::size_type BaseLevel, texture3d::size_type MaxLevel);
 
 	/// Duplicate a subset of a texture and create a new texture with a new storage allocation.
 	texture duplicate(
-		textureCube const & Texture,
-		textureCube::size_type BaseFace, textureCube::size_type MaxFace,
-		textureCube::size_type BaseLevel, textureCube::size_type MaxLevel);
+		texture_cube const & Texture,
+		texture_cube::size_type BaseFace, texture_cube::size_type MaxFace,
+		texture_cube::size_type BaseLevel, texture_cube::size_type MaxLevel);
 
 	/// Duplicate a subset of a texture and create a new texture with a new storage allocation.
 	texture duplicate(
-		textureCubeArray const & Texture,
-		textureCubeArray::size_type BaseLayer, textureCubeArray::size_type MaxLayer,
-		textureCubeArray::size_type BaseFace, textureCubeArray::size_type MaxFace,
-		textureCubeArray::size_type BaseLevel, textureCubeArray::size_type MaxLevel);
+		texture_cube_array const & Texture,
+		texture_cube_array::size_type BaseLayer, texture_cube_array::size_type MaxLayer,
+		texture_cube_array::size_type BaseFace, texture_cube_array::size_type MaxFace,
+		texture_cube_array::size_type BaseLevel, texture_cube_array::size_type MaxLevel);
 }//namespace gli
 
 #include "./core/duplicate.inl"

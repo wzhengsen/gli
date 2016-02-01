@@ -12,7 +12,7 @@ namespace load
 	{
 		int Error(0);
 
-		gli::texture3D Texture(gli::FORMAT_RGBA8_UNORM_PACK8, gli::texture3D::texelcoord_type(2), 1);
+		gli::texture3d Texture(gli::FORMAT_RGBA8_UNORM_PACK8, gli::texture3d::texelcoord_type(2), 1);
 		*(Texture.data<glm::u8vec4>() + 0) = glm::u8vec4(255,   0,   0, 255);
 		*(Texture.data<glm::u8vec4>() + 1) = glm::u8vec4(255, 128,   0, 255);
 		*(Texture.data<glm::u8vec4>() + 2) = glm::u8vec4(255, 255,   0, 255);
@@ -22,14 +22,14 @@ namespace load
 		*(Texture.data<glm::u8vec4>() + 6) = glm::u8vec4(  0,   0, 255, 255);
 		*(Texture.data<glm::u8vec4>() + 7) = glm::u8vec4(255,   0, 255, 255);
 
-		glm::u8vec4 Data0 = Texture.load<glm::u8vec4>(gli::texture3D::texelcoord_type(0, 0, 0), 0);
-		glm::u8vec4 Data1 = Texture.load<glm::u8vec4>(gli::texture3D::texelcoord_type(1, 0, 0), 0);
-		glm::u8vec4 Data2 = Texture.load<glm::u8vec4>(gli::texture3D::texelcoord_type(0, 1, 0), 0);
-		glm::u8vec4 Data3 = Texture.load<glm::u8vec4>(gli::texture3D::texelcoord_type(1, 1, 0), 0);
-		glm::u8vec4 Data4 = Texture.load<glm::u8vec4>(gli::texture3D::texelcoord_type(0, 0, 1), 0);
-		glm::u8vec4 Data5 = Texture.load<glm::u8vec4>(gli::texture3D::texelcoord_type(1, 0, 1), 0);
-		glm::u8vec4 Data6 = Texture.load<glm::u8vec4>(gli::texture3D::texelcoord_type(0, 1, 1), 0);
-		glm::u8vec4 Data7 = Texture.load<glm::u8vec4>(gli::texture3D::texelcoord_type(1, 1, 1), 0);
+		glm::u8vec4 Data0 = Texture.load<glm::u8vec4>(gli::texture3d::texelcoord_type(0, 0, 0), 0);
+		glm::u8vec4 Data1 = Texture.load<glm::u8vec4>(gli::texture3d::texelcoord_type(1, 0, 0), 0);
+		glm::u8vec4 Data2 = Texture.load<glm::u8vec4>(gli::texture3d::texelcoord_type(0, 1, 0), 0);
+		glm::u8vec4 Data3 = Texture.load<glm::u8vec4>(gli::texture3d::texelcoord_type(1, 1, 0), 0);
+		glm::u8vec4 Data4 = Texture.load<glm::u8vec4>(gli::texture3d::texelcoord_type(0, 0, 1), 0);
+		glm::u8vec4 Data5 = Texture.load<glm::u8vec4>(gli::texture3d::texelcoord_type(1, 0, 1), 0);
+		glm::u8vec4 Data6 = Texture.load<glm::u8vec4>(gli::texture3d::texelcoord_type(0, 1, 1), 0);
+		glm::u8vec4 Data7 = Texture.load<glm::u8vec4>(gli::texture3d::texelcoord_type(1, 1, 1), 0);
 
 		Error += Data0 == glm::u8vec4(255,   0,   0, 255) ? 0 : 1;
 		Error += Data1 == glm::u8vec4(255, 128,   0, 255) ? 0 : 1;
@@ -51,7 +51,7 @@ namespace texture_lod
 		int Error = 0;
 
 		{
-			gli::texture3D Texture(gli::FORMAT_RGBA8_UNORM_PACK8, gli::texture3D::texelcoord_type(2), 1);
+			gli::texture3d Texture(gli::FORMAT_RGBA8_UNORM_PACK8, gli::texture3d::texelcoord_type(2), 1);
 			Texture.clear(gli::u8vec4(255, 127,   0, 255));
 
 			gli::fsampler3D Sampler(Texture, gli::WRAP_CLAMP_TO_EDGE, gli::FILTER_LINEAR, gli::FILTER_LINEAR);
@@ -74,18 +74,18 @@ namespace sampler_type
 		int Error = 0;
 
 		{
-			gli::texture3D Texture(gli::FORMAT_RGBA8_UNORM_PACK8, gli::texture3D::texelcoord_type(4), 1);
-			gli::sampler3D<float> Sampler(Texture, gli::WRAP_CLAMP_TO_EDGE, gli::FILTER_LINEAR, gli::FILTER_LINEAR);
+			gli::texture3d Texture(gli::FORMAT_RGBA8_UNORM_PACK8, gli::texture3d::texelcoord_type(4), 1);
+			gli::sampler3d<float> Sampler(Texture, gli::WRAP_CLAMP_TO_EDGE, gli::FILTER_LINEAR, gli::FILTER_LINEAR);
 		}
 
 		{
-			gli::texture3D Texture(gli::FORMAT_RGBA8_UNORM_PACK8, gli::texture3D::texelcoord_type(4), 1);
-			gli::sampler3D<double> Sampler(Texture, gli::WRAP_CLAMP_TO_EDGE, gli::FILTER_LINEAR, gli::FILTER_LINEAR);
+			gli::texture3d Texture(gli::FORMAT_RGBA8_UNORM_PACK8, gli::texture3d::texelcoord_type(4), 1);
+			gli::sampler3d<double> Sampler(Texture, gli::WRAP_CLAMP_TO_EDGE, gli::FILTER_LINEAR, gli::FILTER_LINEAR);
 		}
 
 		{
-			gli::texture3D Texture(gli::FORMAT_RGBA8_UINT_PACK8, gli::texture3D::texelcoord_type(4), 1);
-			gli::sampler3D<int> Sampler(Texture, gli::WRAP_CLAMP_TO_EDGE, gli::FILTER_NEAREST, gli::FILTER_NEAREST);
+			gli::texture3d Texture(gli::FORMAT_RGBA8_UINT_PACK8, gli::texture3d::texelcoord_type(4), 1);
+			gli::sampler3d<int> Sampler(Texture, gli::WRAP_CLAMP_TO_EDGE, gli::FILTER_NEAREST, gli::FILTER_NEAREST);
 		}
 		
 		return Error;

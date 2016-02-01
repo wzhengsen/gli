@@ -8,34 +8,34 @@
 namespace gli
 {
 	/// 1d array texture
-	class texture1DArray : public texture
+	class texture1d_array : public texture
 	{
 	public:
-		typedef ivec1 texelcoord_type;
+		typedef extent1d texelcoord_type;
 
 	public:
 		/// Create an empty texture 1D array
-		texture1DArray();
+		texture1d_array();
 
-		/// Create a texture1DArray and allocate a new storage
-		explicit texture1DArray(
+		/// Create a texture1d_array and allocate a new storage
+		explicit texture1d_array(
 			format_type Format,
 			texelcoord_type const & Extent,
 			size_type Layers,
 			size_type Levels);
 
-		/// Create a texture1DArray and allocate a new storage with a complete mipmap chain
-		explicit texture1DArray(
+		/// Create a texture1d_array and allocate a new storage with a complete mipmap chain
+		explicit texture1d_array(
 			format_type Format,
 			texelcoord_type const & Extent,
 			size_type Layers);
 
-		/// Create a texture1DArray view with an existing storage
-		explicit texture1DArray(
+		/// Create a texture1d_array view with an existing storage
+		explicit texture1d_array(
 			texture const & Texture);
 
-		/// Create a texture1DArray view with an existing storage
-		explicit texture1DArray(
+		/// Create a texture1d_array view with an existing storage
+		explicit texture1d_array(
 			texture const & Texture,
 			format_type Format,
 			size_type BaseLayer, size_type MaxLayer,
@@ -43,13 +43,13 @@ namespace gli
 			size_type BaseLevel, size_type MaxLevel);
 
 		/// Create a texture view, reference a subset of an exiting storage
-		explicit texture1DArray(
-			texture1DArray const & Texture,
+		explicit texture1d_array(
+			texture1d_array const & Texture,
 			size_type BaseLayer, size_type MaxLayer,
 			size_type BaseLevel, size_type MaxLevel);
 
 		/// Create a view of the texture identified by Layer in the texture array
-		texture1D operator[](size_type Layer) const;
+		texture1d operator[](size_type Layer) const;
 
 		/// Return the width of a texture instance
 		texelcoord_type extent(size_type Level = 0) const;

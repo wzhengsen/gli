@@ -15,7 +15,7 @@ namespace wrap_clamp_to_border
 		glm::vec4 const Orange(1.0f, 0.5f, 0.0f, 1.0f);
 		glm::vec4 const Blue(0.0f, 0.5f, 1.0f, 1.0f);
 
-		gli::texture2D Texture(gli::FORMAT_RGBA8_UNORM_PACK8, gli::texture2D::texelcoord_type(32), 1);
+		gli::texture2d Texture(gli::FORMAT_RGBA8_UNORM_PACK8, gli::texture2d::texelcoord_type(32), 1);
 		Texture.clear(glm::packUnorm4x8(Orange));
 
 		gli::fsampler2D SamplerA(Texture, gli::WRAP_CLAMP_TO_BORDER, gli::FILTER_LINEAR, gli::FILTER_LINEAR, Blue);
@@ -72,7 +72,7 @@ namespace wrap_mirror
 		glm::vec4 const Orange(1.0f, 0.5f, 0.0f, 1.0f);
 		glm::vec4 const Blue(0.0f, 0.5f, 1.0f, 1.0f);
 
-		gli::texture2D Texture(gli::FORMAT_RGBA8_UNORM_PACK8, gli::texture2D::texelcoord_type(32), 1);
+		gli::texture2d Texture(gli::FORMAT_RGBA8_UNORM_PACK8, gli::texture2d::texelcoord_type(32), 1);
 		Texture.clear(glm::packUnorm4x8(Orange));
 
 		gli::fsampler2D Sampler(Texture, gli::WRAP_REPEAT, gli::FILTER_LINEAR, gli::FILTER_LINEAR, Blue);

@@ -14,20 +14,20 @@ namespace gli
 	/// @tparam T Sampler can fetch, write and interpret any texture format but will expose and process the data through type T conversions.
 	/// @tparam P Precision in term of ULPs
 	template <typename T, precision P = defaultp>
-	class sampler2DArray : public sampler
+	class sampler2d_array : public sampler
 	{
 	private:
 		typedef typename detail::interpolate<T>::type interpolate_type;
 
 	public:
-		typedef texture2DArray texture_type;
+		typedef texture2d_array texture_type;
 		typedef typename texture_type::size_type size_type;
 		typedef typename texture_type::texelcoord_type texelcoord_type;
 		typedef interpolate_type level_type;
 		typedef tvec2<interpolate_type, P> samplecoord_type;
 		typedef tvec4<T, P> texel_type;
 
-		sampler2DArray(texture_type const & Texture, wrap Wrap, filter Mip = FILTER_NEAREST, filter Min = FILTER_NEAREST, texel_type const & BorderColor = texel_type(0, 0, 0, 1));
+		sampler2d_array(texture_type const & Texture, wrap Wrap, filter Mip = FILTER_NEAREST, filter Min = FILTER_NEAREST, texel_type const & BorderColor = texel_type(0, 0, 0, 1));
 
 		/// Access the sampler texture object
 		texture_type const & operator()() const;
@@ -62,10 +62,10 @@ namespace gli
 		filter_type Filter;
 	};
 
-	typedef sampler2DArray<float> fsampler2DArray;
-	typedef sampler2DArray<double> dsampler2DArray;
-	typedef sampler2DArray<unsigned int> usampler2DArray;
-	typedef sampler2DArray<int> isampler2DArray;
+	typedef sampler2d_array<float> fsampler2DArray;
+	typedef sampler2d_array<double> dsampler2DArray;
+	typedef sampler2d_array<unsigned int> usampler2DArray;
+	typedef sampler2d_array<int> isampler2DArray;
 
 }//namespace gli
 

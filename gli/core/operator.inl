@@ -16,9 +16,9 @@ namespace gli
 
 		void op
 		(
-			texture2D::value_type * DataDst,
-			texture2D::value_type const * const DataSrcA,
-			texture2D::value_type const * const DataSrcB,
+			texture2d::value_type * DataDst,
+			texture2d::value_type const * const DataSrcA,
+			texture2d::value_type const * const DataSrcB,
 			format Format
 		)
 		{
@@ -135,9 +135,9 @@ namespace gli
 
 		void add
 		(
-			texture2D::image & Result,
-			texture2D::image const & ImageA,
-			texture2D::image const & ImageB,
+			texture2d::image & Result,
+			texture2d::image const & ImageA,
+			texture2d::image const & ImageB,
 		)
 		{
 
@@ -145,31 +145,31 @@ namespace gli
 
 	}//namespace detail
 
-	texture2D operator+
+	texture2d operator+
 	(
-		texture2D const & ImageA, 
-		texture2D const & ImageB
+		texture2d const & ImageA, 
+		texture2d const & ImageB
 	)
 	{
 		assert(ImageA.levels() == ImageB.levels());
-		texture2D Result[ImageA.levels()];
+		texture2d Result[ImageA.levels()];
 
-		for(texture2D::level_type Level = 0; Level < Result.levels(); ++Level)
+		for(texture2d::level_type Level = 0; Level < Result.levels(); ++Level)
 		{
 			assert(ImageA.capacity() == ImageB.capacity());
 			assert(ImageA.format() == ImageB.format());
 
-			Result[Level] = texture2D::image(ImageA[Level].dimensions(), ImageA[Level].format());
+			Result[Level] = texture2d::image(ImageA[Level].dimensions(), ImageA[Level].format());
 
 			add(Result[Level], ImageA[Level], ImageB[Level]);
 
-			texture2D::size_type ValueSize = Result.value_size();
-			texture2D::size_type TexelCount = this->capacity() / ValueSize;
-			for(texture2D::size_type Texel = 0; Texel < TexelCount; ++Texel)
+			texture2d::size_type ValueSize = Result.value_size();
+			texture2d::size_type TexelCount = this->capacity() / ValueSize;
+			for(texture2d::size_type Texel = 0; Texel < TexelCount; ++Texel)
 			{
-				texture2D::value_type * DataDst = Result[Level].data() + Texel * ValueSize;
-				texture2D::value_type const * const DataSrcA = ImageA[Level].data() + Texel * ValueSize;
-				texture2D::value_type const * const DataSrcB = ImageB[Level].data() + Texel * ValueSize;
+				texture2d::value_type * DataDst = Result[Level].data() + Texel * ValueSize;
+				texture2d::value_type const * const DataSrcA = ImageA[Level].data() + Texel * ValueSize;
+				texture2d::value_type const * const DataSrcB = ImageB[Level].data() + Texel * ValueSize;
 
 				detail::op(DataDst, DataSrcA, DataSrcB, Result.format(), std::plus);
 			}
@@ -178,17 +178,17 @@ namespace gli
 		return Result;
 	}
 
-	texture2D operator-
+	texture2d operator-
 	(
-		texture2D const & ImageA, 
-		texture2D const & ImageB
+		texture2d const & ImageA, 
+		texture2d const & ImageB
 	)
 	{
 		assert(ImageA.levels() == ImageB.levels());
-		texture2D Result[ImageA.levels()];
+		texture2d Result[ImageA.levels()];
 
 		
-		for(texture2D::level_type Level = 0; Level < ImageA.levels(); ++Level)
+		for(texture2d::level_type Level = 0; Level < ImageA.levels(); ++Level)
 		{
 			assert(ImageA.capacity() == ImageB.capacity());
 

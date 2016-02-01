@@ -24,7 +24,7 @@ namespace transform
 		gli::transform<gli::u8vec4>(TextureO, TextureA, TextureB, average);
 		
 		gli::u8vec4 const * const data = TextureO.template data<gli::u8vec4>();
-		for(gli::texture1D::size_type TexelIndex = 0, TexelCount = TextureO.template size<gli::u8vec4>(); TexelIndex < TexelCount; ++TexelIndex)
+		for(gli::texture1d::size_type TexelIndex = 0, TexelCount = TextureO.template size<gli::u8vec4>(); TexelIndex < TexelCount; ++TexelIndex)
 		{
 			Error += *(data + TexelIndex) == gli::u8vec4(255, 127, 32, 223) ? 0 : 1;
 			GLI_ASSERT(!Error);
@@ -64,13 +64,13 @@ int main()
 {
 	int Error = 0;
 	
-	Error += transform::test<gli::texture1D>();
-	Error += transform_array::test<gli::texture1DArray>();
-	Error += transform::test<gli::texture2D>();
-	Error += transform_array::test<gli::texture2DArray>();
-	Error += transform::test<gli::texture3D>();
-	Error += transform::test<gli::textureCube>();
-	Error += transform_array::test<gli::textureCubeArray>();
+	Error += transform::test<gli::texture1d>();
+	Error += transform_array::test<gli::texture1d_array>();
+	Error += transform::test<gli::texture2d>();
+	Error += transform_array::test<gli::texture2d_array>();
+	Error += transform::test<gli::texture3d>();
+	Error += transform::test<gli::texture_cube>();
+	Error += transform_array::test<gli::texture_cube_array>();
 	
 	return Error;
 }

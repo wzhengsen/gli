@@ -2,28 +2,28 @@
 
 namespace gli
 {
-	inline texture2DArray::texture2DArray()
+	inline texture2d_array::texture2d_array()
 	{}
 
-	inline texture2DArray::texture2DArray(format_type Format, texelcoord_type const & Dimensions, size_type Layers)
+	inline texture2d_array::texture2d_array(format_type Format, texelcoord_type const & Dimensions, size_type Layers)
 		: texture(TARGET_2D_ARRAY, Format, texture::texelcoord_type(Dimensions, 1), Layers, 1, gli::levels(Dimensions))
 	{
 		this->build_cache();
 	}
 
-	inline texture2DArray::texture2DArray(format_type Format, texelcoord_type const & Dimensions, size_type Layers, size_type Levels)
+	inline texture2d_array::texture2d_array(format_type Format, texelcoord_type const & Dimensions, size_type Layers, size_type Levels)
 		: texture(TARGET_2D_ARRAY, Format, texture::texelcoord_type(Dimensions, 1), Layers, 1, Levels)
 	{
 		this->build_cache();
 	}
 
-	inline texture2DArray::texture2DArray(texture const & Texture)
+	inline texture2d_array::texture2d_array(texture const & Texture)
 		: texture(Texture, gli::TARGET_2D_ARRAY, Texture.format())
 	{
 		this->build_cache();
 	}
 
-	inline texture2DArray::texture2DArray
+	inline texture2d_array::texture2d_array
 	(
 		texture const & Texture,
 		format_type Format,
@@ -41,9 +41,9 @@ namespace gli
 		this->build_cache();
 	}
 
-	inline texture2DArray::texture2DArray
+	inline texture2d_array::texture2d_array
 	(
-		texture2DArray const & Texture,
+		texture2d_array const & Texture,
 		size_type BaseLayer, size_type MaxLayer,
 		size_type BaseLevel, size_type MaxLevel
 	)
@@ -57,18 +57,18 @@ namespace gli
 		this->build_cache();
 	}
 
-	inline texture2D texture2DArray::operator[](size_type Layer) const
+	inline texture2d texture2d_array::operator[](size_type Layer) const
 	{
 		GLI_ASSERT(Layer < this->layers());
 
-		return texture2D(
+		return texture2d(
 			*this, this->format(),
 			this->base_layer() + Layer, this->base_layer() + Layer,
 			this->base_face(), this->max_face(),
 			this->base_level(), this->max_level());
 	}
 
-	inline texture2DArray::texelcoord_type texture2DArray::extent(size_type Level) const
+	inline texture2d_array::texelcoord_type texture2d_array::extent(size_type Level) const
 	{
 		GLI_ASSERT(!this->empty());
 
@@ -76,7 +76,7 @@ namespace gli
 	}
 
 	template <typename genType>
-	inline genType texture2DArray::load(texelcoord_type const & TexelCoord, size_type Layer, size_type Level) const
+	inline genType texture2d_array::load(texelcoord_type const & TexelCoord, size_type Layer, size_type Level) const
 	{
 		GLI_ASSERT(!this->empty());
 		GLI_ASSERT(!is_compressed(this->format()));
@@ -91,7 +91,7 @@ namespace gli
 	}
 
 	template <typename genType>
-	inline void texture2DArray::store(texelcoord_type const & TexelCoord, size_type Layer, size_type Level, genType const & Texel)
+	inline void texture2d_array::store(texelcoord_type const & TexelCoord, size_type Layer, size_type Level, genType const & Texel)
 	{
 		GLI_ASSERT(!this->empty());
 		GLI_ASSERT(!is_compressed(this->format()));
@@ -106,29 +106,29 @@ namespace gli
 		reinterpret_cast<genType*>(Cache.Data)[Index] = Texel;
 	}
 
-	inline void texture2DArray::clear()
+	inline void texture2d_array::clear()
 	{
 		this->texture::clear();
 	}
 
 	template <typename genType>
-	inline void texture2DArray::clear(genType const & Texel)
+	inline void texture2d_array::clear(genType const & Texel)
 	{
 		this->texture::clear<genType>(Texel);
 	}
 
 	template <typename genType>
-	inline void texture2DArray::clear(size_type Layer, size_type Level, genType const & Texel)
+	inline void texture2d_array::clear(size_type Layer, size_type Level, genType const & Texel)
 	{
 		this->texture::clear<genType>(Layer, 0, Level, Texel);
 	}
 
-	inline texture2DArray::size_type texture2DArray::index_cache(size_type Layer, size_type Level) const
+	inline texture2d_array::size_type texture2d_array::index_cache(size_type Layer, size_type Level) const
 	{
 		return Layer * this->levels() + Level;
 	}
 
-	inline void texture2DArray::build_cache()
+	inline void texture2d_array::build_cache()
 	{
 		this->Caches.resize(this->layers() * this->levels());
 
@@ -137,7 +137,7 @@ namespace gli
 		{
 			cache& Cache = this->Caches[this->index_cache(Layer, Level)];
 			Cache.Data = this->data<std::uint8_t>(Layer, 0, Level);
-			Cache.Extent = glm::max(texture2D::texelcoord_type(this->texture::extent(Level)), texture2D::texelcoord_type(1));
+			Cache.Extent = glm::max(texture2d::texelcoord_type(this->texture::extent(Level)), texture2d::texelcoord_type(1));
 #			ifndef NDEBUG
 				Cache.Size = this->size(Level);
 #			endif

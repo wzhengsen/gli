@@ -28,14 +28,14 @@ namespace l8_unorm
 	{
 		int Error = 0;
 
-		gli::texture2D Texture(gli::FORMAT_L8_UNORM_PACK8, gli::texture2D::texelcoord_type(4));
+		gli::texture2d Texture(gli::FORMAT_L8_UNORM_PACK8, gli::texture2d::texelcoord_type(4));
 		Texture.clear(gli::u8vec1(127));
 
 		gli::save(Texture, "orange_l8_unorm.dds");
-		gli::texture2D TextureL8unormDDS(gli::load("orange_l8_unorm.dds"));
+		gli::texture2d TextureL8unormDDS(gli::load("orange_l8_unorm.dds"));
 
 		gli::save(Texture, "orange_l8_unorm.ktx");
-		gli::texture2D TextureL8unormKTX(gli::load("orange_l8_unorm.ktx"));
+		gli::texture2d TextureL8unormKTX(gli::load("orange_l8_unorm.ktx"));
 
 		Error += Texture == TextureL8unormDDS ? 0 : 1;
 		Error += Texture == TextureL8unormKTX ? 0 : 1;
@@ -51,14 +51,14 @@ namespace la8_unorm
 	{
 		int Error = 0;
 
-		gli::texture2D Texture(gli::FORMAT_LA8_UNORM_PACK8, gli::texture2D::texelcoord_type(4));
+		gli::texture2d Texture(gli::FORMAT_LA8_UNORM_PACK8, gli::texture2d::texelcoord_type(4));
 		Texture.clear(gli::u8vec2(255, 127));
 
 		gli::save(Texture, "orange_la8_unorm.dds");
-		gli::texture2D TextureLA8unormDDS(gli::load("orange_la8_unorm.dds"));
+		gli::texture2d TextureLA8unormDDS(gli::load("orange_la8_unorm.dds"));
 
 		gli::save(Texture, "orange_la8_unorm.ktx");
-		gli::texture2D TextureLA8unormKTX(gli::load("orange_la8_unorm.ktx"));
+		gli::texture2d TextureLA8unormKTX(gli::load("orange_la8_unorm.ktx"));
 
 		Error += Texture == TextureLA8unormDDS ? 0 : 1;
 		Error += Texture == TextureLA8unormKTX ? 0 : 1;
@@ -74,14 +74,14 @@ namespace rgba8_unorm
 	{
 		int Error = 0;
 
-		gli::texture2D Texture(gli::FORMAT_RGBA8_UNORM_PACK8, gli::texture2D::texelcoord_type(4));
+		gli::texture2d Texture(gli::FORMAT_RGBA8_UNORM_PACK8, gli::texture2d::texelcoord_type(4));
 		Texture.clear(gli::u8vec4(255, 127, 0, 255));
 
 		gli::save(Texture, "orange_rgba8_unorm.dds");
-		gli::texture2D TextureRGBA8unormDDS(gli::load("orange_rgba8_unorm.dds"));
+		gli::texture2d TextureRGBA8unormDDS(gli::load("orange_rgba8_unorm.dds"));
 
 		gli::save(Texture, "orange_rgba8_unorm.ktx");
-		gli::texture2D TextureRGBA8unormKTX(gli::load("orange_rgba8_unorm.ktx"));
+		gli::texture2d TextureRGBA8unormKTX(gli::load("orange_rgba8_unorm.ktx"));
 
 		Error += Texture == TextureRGBA8unormDDS ? 0 : 1;
 		Error += Texture == TextureRGBA8unormKTX ? 0 : 1;

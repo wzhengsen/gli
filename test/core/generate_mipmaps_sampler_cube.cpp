@@ -13,29 +13,29 @@ namespace generate_mipmaps
 	{
 		int Error = 0;
 
-		gli::textureCube Texture(Format, gli::textureCube::texelcoord_type(static_cast<gli::textureCube::texelcoord_type::value_type>(Size)));
+		gli::texture_cube Texture(Format, gli::texture_cube::texelcoord_type(static_cast<gli::texture_cube::texelcoord_type::value_type>(Size)));
 		Texture.clear(Black);
 		for(std::size_t Face = 0; Face < 6; ++Face)
 			Texture[Face][0].clear(Color);
 
 		for(std::size_t Face = 0; Face < 6; ++Face)
 		{
-			genType const LoadC = Texture.load<genType>(gli::textureCube::texelcoord_type(0), Face, Texture.max_level());
+			genType const LoadC = Texture.load<genType>(gli::texture_cube::texelcoord_type(0), Face, Texture.max_level());
 			if(Texture.levels() > 1)
 				Error += LoadC == Black ? 0 : 1;
 
-			gli::fsamplerCube SamplerA(gli::textureCube(gli::duplicate(Texture)), gli::WRAP_CLAMP_TO_EDGE);
+			gli::fsamplerCube SamplerA(gli::texture_cube(gli::duplicate(Texture)), gli::WRAP_CLAMP_TO_EDGE);
 			SamplerA.generate_mipmaps(gli::FILTER_LINEAR);
 
-			gli::textureCube MipmapsA = SamplerA();
-			genType const LoadA = MipmapsA.load<genType>(gli::textureCube::texelcoord_type(0), Face, MipmapsA.max_level());
+			gli::texture_cube MipmapsA = SamplerA();
+			genType const LoadA = MipmapsA.load<genType>(gli::texture_cube::texelcoord_type(0), Face, MipmapsA.max_level());
 			Error += LoadA == Color ? 0 : 1;
 			if(Texture.levels() > 1)
 				Error += LoadA != LoadC ? 0 : 1;
 
 			// Mipmaps generation using the wrapper function
-			gli::textureCube MipmapsB = gli::generate_mipmaps(gli::textureCube(gli::duplicate(Texture)), Filter);
-			genType const LoadB = MipmapsB.load<genType>(gli::textureCube::texelcoord_type(0), Face, MipmapsB.max_level());
+			gli::texture_cube MipmapsB = gli::generate_mipmaps(gli::texture_cube(gli::duplicate(Texture)), Filter);
+			genType const LoadB = MipmapsB.load<genType>(gli::texture_cube::texelcoord_type(0), Face, MipmapsB.max_level());
 			Error += LoadB == Color ? 0 : 1;
 			if(Texture.levels() > 1)
 				Error += LoadB != LoadC ? 0 : 1;
