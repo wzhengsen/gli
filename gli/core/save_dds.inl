@@ -4,9 +4,9 @@
 namespace gli{
 namespace detail
 {
-	inline D3D10_RESOURCE_DIMENSION get_dimension(gli::target const & Target)
+	inline d3d10_resource_dimension get_dimension(gli::target const& Target)
 	{
-		static D3D10_RESOURCE_DIMENSION Table[] = //TARGET_COUNT
+		static d3d10_resource_dimension Table[] = //TARGET_COUNT
 		{
 			D3D10_RESOURCE_DIMENSION_TEXTURE1D,		//TARGET_1D,
 			D3D10_RESOURCE_DIMENSION_TEXTURE1D,		//TARGET_1D_ARRAY,
@@ -23,7 +23,7 @@ namespace detail
 		return Table[Target];
 	}
 	
-	inline dx::d3dfmt get_fourcc(bool RequireDX10Header, gli::format Format, dx::format const & DXFormat)
+	inline dx::d3dfmt get_fourcc(bool RequireDX10Header, gli::format Format, dx::format const& DXFormat)
 	{
 		if(RequireDX10Header)
 		{
@@ -39,10 +39,9 @@ namespace detail
 			return (DXFormat.DDPixelFormat & dx::DDPF_FOURCC) ? DXFormat.D3DFormat : dx::D3DFMT_UNKNOWN;
 		}
 	}
-	
 }//namespace detail
 
-	inline bool save_dds(texture const & Texture, std::vector<char> & Memory)
+	inline bool save_dds(texture const& Texture, std::vector<char>& Memory)
 	{
 		if(Texture.empty())
 			return false;
@@ -60,7 +59,7 @@ namespace detail
 		detail::dds_header& Header = *reinterpret_cast<detail::dds_header*>(&Memory[0] + Offset);
 		Offset += sizeof(detail::dds_header);
 
-		detail::formatInfo const & Desc = detail::get_format_info(Texture.format());
+		detail::formatInfo const& Desc = detail::get_format_info(Texture.format());
 
 		std::uint32_t Caps = detail::DDSD_CAPS | detail::DDSD_WIDTH | detail::DDSD_PIXELFORMAT | detail::DDSD_MIPMAPCOUNT;
 		Caps |= !is_target_1d(Texture.target()) ? detail::DDSD_HEIGHT : 0;
@@ -77,7 +76,7 @@ namespace detail
 		Header.Pitch = static_cast<std::uint32_t>((Desc.Flags & detail::CAP_COMPRESSED_BIT) ? Texture.size() / Texture.faces() : 32);
 		Header.Depth = static_cast<std::uint32_t>(Texture.extent().z > 1 ? Texture.extent().z : 0);
 		Header.MipMapLevels = static_cast<std::uint32_t>(Texture.levels());
-		Header.Format.size = sizeof(detail::ddsPixelFormat);
+		Header.Format.size = sizeof(detail::dds_pixel_format);
 		Header.Format.flags = RequireDX10Header ? dx::DDPF_FOURCC : DXFormat.DDPixelFormat;
 		Header.Format.fourCC = detail::get_fourcc(RequireDX10Header, Texture.format(), DXFormat);
 		Header.Format.bpp = static_cast<std::uint32_t>(detail::bits_per_pixel(Texture.format()));
@@ -114,7 +113,7 @@ namespace detail
 		return true;
 	}
 
-	inline bool save_dds(texture const & Texture, char const * Filename)
+	inline bool save_dds(texture const& Texture, char const* Filename)
 	{
 		if(Texture.empty())
 			return false;
@@ -132,7 +131,7 @@ namespace detail
 		return Result;
 	}
 
-	inline bool save_dds(texture const & Texture, std::string const & Filename)
+	inline bool save_dds(texture const& Texture, std::string const& Filename)
 	{
 		return save_dds(Texture, Filename.c_str());
 	}

@@ -7,7 +7,7 @@ namespace detail
 {
 	static char const FOURCC_DDS[] = {'D', 'D', 'S', ' '};
 
-	enum ddsCubemapflag
+	enum dds_cubemap_flag
 	{
 		DDSCAPS2_CUBEMAP				= 0x00000200,
 		DDSCAPS2_CUBEMAP_POSITIVEX		= 0x00000400,
@@ -24,7 +24,7 @@ namespace detail
 		DDSCAPS2_CUBEMAP_ALLFACES = DDSCAPS2_CUBEMAP_POSITIVEX | DDSCAPS2_CUBEMAP_NEGATIVEX | DDSCAPS2_CUBEMAP_POSITIVEY | DDSCAPS2_CUBEMAP_NEGATIVEY | DDSCAPS2_CUBEMAP_POSITIVEZ | DDSCAPS2_CUBEMAP_NEGATIVEZ
 	};
 
-	enum ddsFlag
+	enum dds_flag
 	{
 		DDSD_CAPS			= 0x00000001,
 		DDSD_HEIGHT			= 0x00000002,
@@ -36,14 +36,14 @@ namespace detail
 		DDSD_DEPTH			= 0x00800000
 	};
 
-	enum ddsSurfaceflag
+	enum dds_surface_flag
 	{
 		DDSCAPS_COMPLEX				= 0x00000008,
 		DDSCAPS_MIPMAP				= 0x00400000,
 		DDSCAPS_TEXTURE				= 0x00001000
 	};
 
-	struct ddsPixelFormat
+	struct dds_pixel_format
 	{
 		std::uint32_t size; // 32
 		dx::ddpf flags;
@@ -62,7 +62,7 @@ namespace detail
 		std::uint32_t Depth;
 		std::uint32_t MipMapLevels;
 		std::uint32_t Reserved1[11];
-		ddsPixelFormat Format;
+		dds_pixel_format Format;
 		std::uint32_t SurfaceFlags;
 		std::uint32_t CubemapFlags;
 		std::uint32_t Reserved2[3];
@@ -70,7 +70,7 @@ namespace detail
 
 	static_assert(sizeof(dds_header) == 124, "DDS Header size mismatch");
 
-	enum D3D10_RESOURCE_DIMENSION 
+	enum d3d10_resource_dimension
 	{
 		D3D10_RESOURCE_DIMENSION_UNKNOWN     = 0,
 		D3D10_RESOURCE_DIMENSION_BUFFER      = 1,
@@ -79,7 +79,7 @@ namespace detail
 		D3D10_RESOURCE_DIMENSION_TEXTURE3D   = 4 
 	};
 
-	enum D3D10_RESOURCE_MISC_FLAG
+	enum d3d10_resource_misc_flag
 	{
 		D3D10_RESOURCE_MISC_GENERATE_MIPS		= 0x01,
 		D3D10_RESOURCE_MISC_SHARED				= 0x02,
@@ -88,7 +88,7 @@ namespace detail
 		D3D10_RESOURCE_MISC_GDI_COMPATIBLE		= 0x20,
 	};
 
-	enum ddsAlphaMode
+	enum dds_alpha_mode
 	{
 		DDS_ALPHA_MODE_UNKNOWN					= 0x0,
 		DDS_ALPHA_MODE_STRAIGHT					= 0x1,
@@ -108,10 +108,10 @@ namespace detail
 		{}
 
 		dx::dxgiFormat				Format;
-		D3D10_RESOURCE_DIMENSION	ResourceDimension;
+		d3d10_resource_dimension	ResourceDimension;
 		std::uint32_t				MiscFlag; // D3D10_RESOURCE_MISC_GENERATE_MIPS
 		std::uint32_t				ArraySize;
-		ddsAlphaMode				AlphaFlags; // Should be 0 whenever possible to avoid D3D utility library to fail
+		dds_alpha_mode				AlphaFlags; // Should be 0 whenever possible to avoid D3D utility library to fail
 	};
 
 	static_assert(sizeof(dds_header10) == 20, "DDS DX10 Extended Header size mismatch");
