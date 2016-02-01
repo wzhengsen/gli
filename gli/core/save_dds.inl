@@ -4,7 +4,7 @@
 namespace gli{
 namespace detail
 {
-	inline D3D10_RESOURCE_DIMENSION getDimension(gli::target const & Target)
+	inline D3D10_RESOURCE_DIMENSION get_dimension(gli::target const & Target)
 	{
 		static D3D10_RESOURCE_DIMENSION Table[] = //TARGET_COUNT
 		{
@@ -23,7 +23,7 @@ namespace detail
 		return Table[Target];
 	}
 	
-	inline dx::d3dFormat get_fourcc(bool RequireDX10Header, gli::format Format, dx::format const & DXFormat)
+	inline dx::d3dfmt get_fourcc(bool RequireDX10Header, gli::format Format, dx::format const & DXFormat)
 	{
 		if(RequireDX10Header)
 		{
@@ -48,17 +48,17 @@ namespace detail
 			return false;
 
 		dx DX;
-		dx::format const & DXFormat = DX.translate(Texture.format());
+		dx::format const& DXFormat = DX.translate(Texture.format());
 
 		bool const RequireDX10Header = DXFormat.D3DFormat == dx::D3DFMT_GLI1 || DXFormat.D3DFormat == dx::D3DFMT_DX10 || is_target_array(Texture.target()) || is_target_1d(Texture.target());
 
-		Memory.resize(Texture.size() + sizeof(detail::FOURCC_DDS) + sizeof(detail::ddsHeader) + (RequireDX10Header ? sizeof(detail::ddsHeader10) : 0));
+		Memory.resize(Texture.size() + sizeof(detail::FOURCC_DDS) + sizeof(detail::dds_header) + (RequireDX10Header ? sizeof(detail::dds_header10) : 0));
 
 		memcpy(&Memory[0], detail::FOURCC_DDS, sizeof(detail::FOURCC_DDS));
 		std::size_t Offset = sizeof(detail::FOURCC_DDS);
 
-		detail::ddsHeader & Header = *reinterpret_cast<detail::ddsHeader*>(&Memory[0] + Offset);
-		Offset += sizeof(detail::ddsHeader);
+		detail::dds_header& Header = *reinterpret_cast<detail::dds_header*>(&Memory[0] + Offset);
+		Offset += sizeof(detail::dds_header);
 
 		detail::formatInfo const & Desc = detail::get_format_info(Texture.format());
 
@@ -70,7 +70,7 @@ namespace detail
 
 		memset(Header.Reserved1, 0, sizeof(Header.Reserved1));
 		memset(Header.Reserved2, 0, sizeof(Header.Reserved2));
-		Header.Size = sizeof(detail::ddsHeader);
+		Header.Size = sizeof(detail::dds_header);
 		Header.Flags = Caps;
 		Header.Width = static_cast<std::uint32_t>(Texture.extent().x);
 		Header.Height = static_cast<std::uint32_t>(Texture.extent().y);
@@ -99,11 +99,11 @@ namespace detail
 
 		if(RequireDX10Header)
 		{
-			detail::ddsHeader10 & Header10 = *reinterpret_cast<detail::ddsHeader10*>(&Memory[0] + Offset);
-			Offset += sizeof(detail::ddsHeader10);
+			detail::dds_header10& Header10 = *reinterpret_cast<detail::dds_header10*>(&Memory[0] + Offset);
+			Offset += sizeof(detail::dds_header10);
 
 			Header10.ArraySize = static_cast<std::uint32_t>(Texture.layers());
-			Header10.ResourceDimension = detail::getDimension(Texture.target());
+			Header10.ResourceDimension = detail::get_dimension(Texture.target());
 			Header10.MiscFlag = 0;//Storage.levels() > 0 ? detail::D3D10_RESOURCE_MISC_GENERATE_MIPS : 0;
 			Header10.Format = DXFormat.DXGIFormat;
 			Header10.AlphaFlags = detail::DDS_ALPHA_MODE_UNKNOWN;

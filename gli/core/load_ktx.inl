@@ -60,9 +60,9 @@ namespace detail
 
 		gl GL;
 		gli::format const Format = GL.find(
-			static_cast<gli::gl::internalFormat>(Header.GLInternalFormat),
-			static_cast<gli::gl::externalFormat>(Header.GLFormat),
-			static_cast<gli::gl::typeFormat>(Header.GLType));
+			static_cast<gli::gl::internal_format>(Header.GLInternalFormat),
+			static_cast<gli::gl::external_format>(Header.GLFormat),
+			static_cast<gli::gl::type_format>(Header.GLType));
 		GLI_ASSERT(Format != static_cast<format>(gli::FORMAT_INVALID));
 		
 		texture::size_type const BlockSize = block_size(Format);

@@ -47,12 +47,12 @@ namespace detail
 	{
 		std::uint32_t size; // 32
 		dx::ddpf flags;
-		dx::d3dFormat fourCC;
+		dx::d3dfmt fourCC;
 		std::uint32_t bpp;
 		glm::u32vec4 Mask;
 	};
 
-	struct ddsHeader
+	struct dds_header
 	{
 		std::uint32_t Size;
 		std::uint32_t Flags;
@@ -68,7 +68,7 @@ namespace detail
 		std::uint32_t Reserved2[3];
 	};
 
-	static_assert(sizeof(ddsHeader) == 124, "DDS Header size mismatch");
+	static_assert(sizeof(dds_header) == 124, "DDS Header size mismatch");
 
 	enum D3D10_RESOURCE_DIMENSION 
 	{
@@ -97,9 +97,9 @@ namespace detail
 		DDS_ALPHA_MODE_CUSTOM					= 0x4
 	};
 
-	struct ddsHeader10
+	struct dds_header10
 	{
-		ddsHeader10() :
+		dds_header10() :
 			Format(dx::DXGI_FORMAT_UNKNOWN),
 			ResourceDimension(D3D10_RESOURCE_DIMENSION_UNKNOWN),
 			MiscFlag(0),
@@ -114,9 +114,9 @@ namespace detail
 		ddsAlphaMode				AlphaFlags; // Should be 0 whenever possible to avoid D3D utility library to fail
 	};
 
-	static_assert(sizeof(ddsHeader10) == 20, "DDS DX10 Extended Header size mismatch");
+	static_assert(sizeof(dds_header10) == 20, "DDS DX10 Extended Header size mismatch");
 
-	inline target getTarget(ddsHeader const & Header, ddsHeader10 const & Header10)
+	inline target get_target(dds_header const& Header, dds_header10 const& Header10)
 	{
 		if(Header.CubemapFlags & detail::DDSCAPS2_CUBEMAP)
 		{
@@ -149,16 +149,16 @@ namespace detail
 			return texture();
 		std::size_t Offset = sizeof(detail::FOURCC_DDS);
 
-		GLI_ASSERT(Size >= sizeof(detail::ddsHeader));
+		GLI_ASSERT(Size >= sizeof(detail::dds_header));
 
-		detail::ddsHeader const & Header(*reinterpret_cast<detail::ddsHeader const *>(Data + Offset));
-		Offset += sizeof(detail::ddsHeader);
+		detail::dds_header const & Header(*reinterpret_cast<detail::dds_header const *>(Data + Offset));
+		Offset += sizeof(detail::dds_header);
 
-		detail::ddsHeader10 Header10;
+		detail::dds_header10 Header10;
 		if((Header.Format.flags & dx::DDPF_FOURCC) && (Header.Format.fourCC == dx::D3DFMT_DX10 || Header.Format.fourCC == dx::D3DFMT_GLI1))
 		{
 			std::memcpy(&Header10, Data + Offset, sizeof(Header10));
-			Offset += sizeof(detail::ddsHeader10);
+			Offset += sizeof(detail::dds_header10);
 		}
 
 		dx DX;
@@ -264,7 +264,7 @@ namespace detail
 			DepthCount = Header.Depth;
 
 		texture Texture(
-			getTarget(Header, Header10), Format,
+			get_target(Header, Header10), Format,
 			texture::texelcoord_type(Header.Width, Header.Height, DepthCount),
 			std::max<texture::size_type>(Header10.ArraySize, 1), FaceCount, MipMapCount);
 

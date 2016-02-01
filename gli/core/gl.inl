@@ -294,7 +294,7 @@ namespace gli
 		return gl::swizzles(Table[Swizzles.r], Table[Swizzles.g], Table[Swizzles.b], Table[Swizzles.a]);
 	}
 
-	inline gli::format gl::find(gl::internalFormat InternalFormat, gl::externalFormat ExternalFormat, gl::typeFormat Type)
+	inline gli::format gl::find(gl::internal_format InternalFormat, gl::external_format ExternalFormat, gl::type_format Type)
 	{
 		for(int FormatIndex = FORMAT_FIRST; FormatIndex <= FORMAT_LAST; ++FormatIndex)
 		{

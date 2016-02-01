@@ -13,7 +13,7 @@ namespace gli
 	class gl
 	{
 	public:
-		enum internalFormat
+		enum internal_format
 		{
 			// unorm formats
 			INTERNAL_R8_UNORM = 0x8229,			//GL_R8
@@ -229,7 +229,7 @@ namespace gli
 			INTERNAL_RGBA16_SSCALED_GTC,
 		};
 
-		enum externalFormat
+		enum external_format
 		{
 			EXTERNAL_NONE = 0,					//GL_NONE
 			EXTERNAL_RED = 0x1903,				//GL_RED
@@ -253,7 +253,7 @@ namespace gli
 			EXTERNAL_LUMINANCE_ALPHA = 0x190A,			//GL_LUMINANCE_ALPHA
 		};
 
-		enum typeFormat
+		enum type_format
 		{
 			TYPE_NONE = 0,						//GL_NONE
 			TYPE_I8 = 0x1400,					//GL_BYTE
@@ -313,9 +313,9 @@ namespace gli
 
 		struct format
 		{
-			internalFormat Internal;
-			externalFormat External;
-			typeFormat Type;
+			internal_format Internal;
+			external_format External;
+			type_format Type;
 			swizzles Swizzles;
 		};
 
@@ -331,7 +331,7 @@ namespace gli
 		swizzles translate(gli::swizzles const & Swizzle) const;
 
 		/// Convert an OpenGL format into a GLI format
-		gli::format find(internalFormat InternalFormat, externalFormat ExternalFormat, typeFormat Type);
+		gli::format find(internal_format InternalFormat, external_format ExternalFormat, type_format Type);
 
 	private:
 		std::array<format, FORMAT_COUNT> Translation;
