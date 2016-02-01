@@ -309,6 +309,13 @@ namespace gli
 			SWIZZLE_ONE = 0x0001,		//GL_ONE
 		};
 
+		enum profile
+		{
+			PROFILE_ES20,
+			PROFILE_ES3X,
+			PROFILE_CORE
+		};
+
 		typedef glm::tvec4<int> swizzles;
 
 		struct format
@@ -319,7 +326,7 @@ namespace gli
 			swizzles Swizzles;
 		};
 
-		gl();
+		gl(profile Profile = PROFILE_CORE);
 
 		/// Convert GLI targets into OpenGL texture targets
 		target const & translate(gli::target Target) const;

@@ -8,7 +8,7 @@ namespace detail
 	inline texture::size_type compute_ktx_storage_size(texture const & Texture)
 	{
 		texture::size_type const BlockSize = block_size(Texture.format());
-		texture::size_type TotalSize = sizeof(detail::FOURCC_KTX10) + sizeof(detail::ktxHeader10);
+		texture::size_type TotalSize = sizeof(detail::FOURCC_KTX10) + sizeof(detail::ktx_header10);
 
 		for(texture::size_type Level = 0, Levels = Texture.levels(); Level < Levels; ++Level)
 		{
@@ -33,11 +33,11 @@ namespace detail
 		if(Texture.empty())
 			return false;
 
-		gl GL;
-		gl::format const & Format = GL.translate(Texture.format());
+		gl GL(gl::PROFILE_CORE);
+		gl::format const& Format = GL.translate(Texture.format());
 		target const Target = Texture.target();
 
-		detail::formatInfo const & Desc = detail::get_format_info(Texture.format());
+		detail::formatInfo const& Desc = detail::get_format_info(Texture.format());
 
 		Memory.resize(detail::compute_ktx_storage_size(Texture));
 
@@ -45,7 +45,7 @@ namespace detail
 
 		std::size_t Offset = sizeof(detail::FOURCC_KTX10);
 
-		detail::ktxHeader10 & Header = *reinterpret_cast<detail::ktxHeader10*>(&Memory[0] + Offset);
+		detail::ktx_header10& Header = *reinterpret_cast<detail::ktx_header10*>(&Memory[0] + Offset);
 		Header.Endianness = 0x04030201;
 		Header.GLType = Format.Type;
 		Header.GLTypeSize = Format.Type == gl::TYPE_NONE ? 1 : Desc.BlockSize;
@@ -60,7 +60,7 @@ namespace detail
 		Header.NumberOfMipmapLevels = static_cast<std::uint32_t>(Texture.levels());
 		Header.BytesOfKeyValueData = 0;
 
-		Offset += sizeof(detail::ktxHeader10);
+		Offset += sizeof(detail::ktx_header10);
 
 		for(texture::size_type Level = 0, Levels = Texture.levels(); Level < Levels; ++Level)
 		{
@@ -88,7 +88,7 @@ namespace detail
 		return true;
 	}
 
-	inline bool save_ktx(texture const & Texture, char const * Filename)
+	inline bool save_ktx(texture const& Texture, char const* Filename)
 	{
 		if(Texture.empty())
 			return false;
@@ -106,7 +106,7 @@ namespace detail
 		return Result;
 	}
 
-	inline bool save_ktx(texture const & Texture, std::string const & Filename)
+	inline bool save_ktx(texture const& Texture, std::string const& Filename)
 	{
 		return save_ktx(Texture, Filename.c_str());
 	}

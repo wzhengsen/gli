@@ -2,7 +2,7 @@
 
 namespace gli
 {
-	inline gl::gl()
+	inline gl::gl(profile Profile)
 	{
 		static format const Table[] =
 		{
