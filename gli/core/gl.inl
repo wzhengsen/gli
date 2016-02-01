@@ -274,7 +274,7 @@ namespace gli
 
 	inline gl::format const & gl::translate(gli::format Format) const
 	{
-		assert(Format >= FORMAT_FIRST && Format <= FORMAT_LAST);
+		GLI_ASSERT(Format >= FORMAT_FIRST && Format <= FORMAT_LAST);
 		return this->Translation[Format - FORMAT_FIRST];
 	}
 

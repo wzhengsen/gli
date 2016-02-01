@@ -63,7 +63,7 @@ namespace detail
 			static_cast<gli::gl::internalFormat>(Header.GLInternalFormat),
 			static_cast<gli::gl::externalFormat>(Header.GLFormat),
 			static_cast<gli::gl::typeFormat>(Header.GLType));
-		assert(Format != static_cast<format>(gli::FORMAT_INVALID));
+		GLI_ASSERT(Format != static_cast<format>(gli::FORMAT_INVALID));
 		
 		texture::size_type const BlockSize = block_size(Format);
 
@@ -99,7 +99,7 @@ namespace detail
 
 	inline texture load_ktx(char const * Data, std::size_t Size)
 	{
-		assert(Data && (Size >= sizeof(detail::ktxHeader10)));
+		GLI_ASSERT(Data && (Size >= sizeof(detail::ktxHeader10)));
 
 		// KTX10
 		{

@@ -78,7 +78,7 @@ namespace access_map
 
 		{
 			gli::texture2d_array Texture2DArray(gli::FORMAT_RGBA8_UINT_PACK8, gli::texture2d_array::texelcoord_type(2), 2, 1);
-			assert(!Texture2DArray.empty());
+			GLI_ASSERT(!Texture2DArray.empty());
 
 			gli::texture2d Texture0 = Texture2DArray[0];
 			gli::texture2d Texture1 = Texture2DArray[1];
@@ -160,7 +160,7 @@ namespace size
 				gli::texture2d_array::size_type(1));
 
 			Error += Texture2DArray.size() == Tests[i].Size ? 0 : 1;
-			assert(!Error);
+			GLI_ASSERT(!Error);
 		}
 
 		for(std::size_t i = 0; i < Tests.size(); ++i)
@@ -174,7 +174,7 @@ namespace size
 			gli::texture2d Texture2D = Texture2DArray[0];
 
 			Error += Texture2DArray.size() == Tests[i].Size ? 0 : 1;
-			assert(!Error);
+			GLI_ASSERT(!Error);
 		}
 
 		return Error;

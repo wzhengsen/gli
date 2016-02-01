@@ -10,7 +10,7 @@ namespace detail
 	{
 		static void call(textureType & Texture, typename convert<textureType, T, P>::writeFunc Write, tvec4<T, P> const & Color)
 		{
-			assert(Write);
+			GLI_ASSERT(Write);
 
 			texture const ConvertTexel(Texture.target(), Texture.format(), texture::texelcoord_type(1), 1, 1, 1);
 			textureType Texel(ConvertTexel);

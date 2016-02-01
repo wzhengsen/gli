@@ -68,7 +68,7 @@ int test_textureCubeArray_textureCube_access()
 
 	{
 		gli::texture_cube_array TextureCubeArray(gli::FORMAT_RGBA8_UINT_PACK8, gli::texture_cube_array::texelcoord_type(2), 2, 1);
-		assert(!TextureCubeArray.empty());
+		GLI_ASSERT(!TextureCubeArray.empty());
 
 		std::vector<glm::u8vec4> Colors;
 		Colors.push_back(glm::u8vec4(255,   0,   0, 255));
@@ -82,7 +82,7 @@ int test_textureCubeArray_textureCube_access()
 
 	{
 		gli::texture_cube TextureCube(gli::FORMAT_RGBA8_UINT_PACK8, gli::texture_cube::texelcoord_type(2), 2);
-		assert(!TextureCube.empty());
+		GLI_ASSERT(!TextureCube.empty());
 
 		gli::texture2d TextureA = TextureCube[0];
 		gli::texture2d TextureB = TextureCube[1];
@@ -178,7 +178,7 @@ int test_textureCubeArray_textureCube_size()
 
 		gli::texture_cube_array::size_type Size = Texture.size();
 		Error += Size == Tests[i].Size ? 0 : 1;
-		assert(!Error);
+		GLI_ASSERT(!Error);
 	}
 
 	return Error;

@@ -129,7 +129,7 @@ namespace gli
 				*((glm::f32vec4*)DataDst) = *((glm::f32vec4*)DataSrcA) + *((glm::f32vec4*)DataSrcB);
 				break;
 			default:
-				assert(0);
+				GLI_ASSERT(0);
 			}
 		}
 
@@ -151,13 +151,13 @@ namespace gli
 		texture2d const & ImageB
 	)
 	{
-		assert(ImageA.levels() == ImageB.levels());
+		GLI_ASSERT(ImageA.levels() == ImageB.levels());
 		texture2d Result[ImageA.levels()];
 
 		for(texture2d::level_type Level = 0; Level < Result.levels(); ++Level)
 		{
-			assert(ImageA.capacity() == ImageB.capacity());
-			assert(ImageA.format() == ImageB.format());
+			GLI_ASSERT(ImageA.capacity() == ImageB.capacity());
+			GLI_ASSERT(ImageA.format() == ImageB.format());
 
 			Result[Level] = texture2d::image(ImageA[Level].dimensions(), ImageA[Level].format());
 
@@ -184,13 +184,13 @@ namespace gli
 		texture2d const & ImageB
 	)
 	{
-		assert(ImageA.levels() == ImageB.levels());
+		GLI_ASSERT(ImageA.levels() == ImageB.levels());
 		texture2d Result[ImageA.levels()];
 
 		
 		for(texture2d::level_type Level = 0; Level < ImageA.levels(); ++Level)
 		{
-			assert(ImageA.capacity() == ImageB.capacity());
+			GLI_ASSERT(ImageA.capacity() == ImageB.capacity());
 
 			
 		}

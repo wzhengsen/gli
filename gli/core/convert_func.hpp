@@ -50,13 +50,13 @@ namespace detail
 	{
 		static genType load(texture1d const & Texture, texture1d::texelcoord_type const & TexelCoord, texture1d::size_type Layer, texture1d::size_type Face, texture1d::size_type Level)
 		{
-			assert(Layer == 0 && Face == 0);
+			GLI_ASSERT(Layer == 0 && Face == 0);
 			return Texture.load<genType>(TexelCoord, Level);
 		}
 
 		static void store(texture1d & Texture, texture1d::texelcoord_type const & TexelCoord, texture1d::size_type Layer, texture1d::size_type Face, texture1d::size_type Level, genType const & Texel)
 		{
-			assert(Layer == 0 && Face == 0);
+			GLI_ASSERT(Layer == 0 && Face == 0);
 			Texture.store<genType>(TexelCoord, Level, Texel);
 		}
 	};
@@ -66,13 +66,13 @@ namespace detail
 	{
 		static genType load(texture1d_array const & Texture, texture1d_array::texelcoord_type const & TexelCoord, texture1d_array::size_type Layer, texture1d_array::size_type Face, texture1d_array::size_type Level)
 		{
-			assert(Face == 0);
+			GLI_ASSERT(Face == 0);
 			return Texture.load<genType>(TexelCoord, Layer, Level);
 		}
 
 		static void store(texture1d_array & Texture, texture1d_array::texelcoord_type const & TexelCoord, texture1d_array::size_type Layer, texture1d_array::size_type Face, texture1d_array::size_type Level, genType const & Texel)
 		{
-			assert(Face == 0);
+			GLI_ASSERT(Face == 0);
 			Texture.store<genType>(TexelCoord, Layer, Level, Texel);
 		}
 	};
@@ -82,13 +82,13 @@ namespace detail
 	{
 		static genType load(texture2d const & Texture, texture2d::texelcoord_type const & TexelCoord, texture2d::size_type Layer, texture2d::size_type Face, texture2d::size_type Level)
 		{
-			assert(Layer == 0 && Face == 0);
+			GLI_ASSERT(Layer == 0 && Face == 0);
 			return Texture.load<genType>(TexelCoord, Level);
 		}
 
 		static void store(texture2d & Texture, texture2d::texelcoord_type const & TexelCoord, texture2d::size_type Layer, texture2d::size_type Face, texture2d::size_type Level, genType const & Texel)
 		{
-			assert(Layer == 0 && Face == 0);
+			GLI_ASSERT(Layer == 0 && Face == 0);
 			Texture.store<genType>(TexelCoord, Level, Texel);
 		}
 	};
@@ -98,13 +98,13 @@ namespace detail
 	{
 		static genType load(texture2d_array const & Texture, texture2d_array::texelcoord_type const & TexelCoord, texture2d_array::size_type Layer, texture2d_array::size_type Face, texture2d_array::size_type Level)
 		{
-			assert(Face == 0);
+			GLI_ASSERT(Face == 0);
 			return Texture.load<genType>(TexelCoord, Layer, Level);
 		}
 
 		static void store(texture2d_array & Texture, texture2d_array::texelcoord_type const & TexelCoord, texture2d_array::size_type Layer, texture2d_array::size_type Face, texture2d_array::size_type Level, genType const & Texel)
 		{
-			assert(Face == 0);
+			GLI_ASSERT(Face == 0);
 			Texture.store<genType>(TexelCoord, Layer, Level, Texel);
 		}
 	};
@@ -114,13 +114,13 @@ namespace detail
 	{
 		static genType load(texture3d const & Texture, texture3d::texelcoord_type const & TexelCoord, texture3d::size_type Layer, texture3d::size_type Face, texture3d::size_type Level)
 		{
-			assert(Layer == 0 && Face == 0);
+			GLI_ASSERT(Layer == 0 && Face == 0);
 			return Texture.load<genType>(TexelCoord, Level);
 		}
 
 		static void store(texture3d & Texture, texture3d::texelcoord_type const & TexelCoord, texture3d::size_type Layer, texture3d::size_type Face, texture3d::size_type Level, genType const & Texel)
 		{
-			assert(Layer == 0 && Face == 0);
+			GLI_ASSERT(Layer == 0 && Face == 0);
 			Texture.store<genType>(TexelCoord, Level, Texel);
 		}
 	};
@@ -130,13 +130,13 @@ namespace detail
 	{
 		static genType load(texture_cube const& Texture, texture_cube::texelcoord_type const& TexelCoord, texture_cube::size_type Layer, texture_cube::size_type Face, texture_cube::size_type Level)
 		{
-			assert(Layer == 0);
+			GLI_ASSERT(Layer == 0);
 			return Texture.load<genType>(TexelCoord, Face, Level);
 		}
 
 		static void store(texture_cube& Texture, texture_cube::texelcoord_type const& TexelCoord, texture_cube::size_type Layer, texture_cube::size_type Face, texture_cube::size_type Level, genType const& Texel)
 		{
-			assert(Layer == 0);
+			GLI_ASSERT(Layer == 0);
 			Texture.store<genType>(TexelCoord, Face, Level, Texel);
 		}
 	};

@@ -13,7 +13,7 @@ namespace gli
 
 		inline image2D flip(image2D const & Mipmap2D)
 		{
-			assert(!Mipmap2D.is_compressed());
+			GLI_ASSERT(!Mipmap2D.is_compressed());
 
 			image2D Result(Mipmap2D.format(), Mipmap2D.dimensions());
 			
@@ -84,7 +84,7 @@ namespace gli
 			image2D::dimensions_type const & Size
 		)
 		{
-			assert((Position.x + Size.x) <= Image.dimensions().x && (Position.y + Size.y) <= Image.dimensions().y);
+			GLI_ASSERT((Position.x + Size.x) <= Image.dimensions().x && (Position.y + Size.y) <= Image.dimensions().y);
 
 			image2D Result(Image.format(), Size);
 
@@ -110,8 +110,8 @@ namespace gli
 			image2D::dimensions_type const & DstPosition
 		)
 		{
-			assert((SrcPosition.x + SrcSize.x) <= SrcMipmap.dimensions().x && (SrcPosition.y + SrcSize.y) <= SrcMipmap.dimensions().y);
-			assert(SrcMipmap.format() == DstMipmap.format());
+			GLI_ASSERT((SrcPosition.x + SrcSize.x) <= SrcMipmap.dimensions().x && (SrcPosition.y + SrcSize.y) <= SrcMipmap.dimensions().y);
+			GLI_ASSERT(SrcMipmap.format() == DstMipmap.format());
 
 			glm::byte * DstData = reinterpret_cast<glm::byte *>(DstMipmap.data());
 			glm::byte const * const SrcData = reinterpret_cast<glm::byte const * const>(SrcMipmap.data());

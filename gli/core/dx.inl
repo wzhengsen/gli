@@ -254,7 +254,7 @@ namespace gli
 
 	inline dx::format const & dx::translate(gli::format const & Format) const
 	{
-		assert(Format >= FORMAT_FIRST && Format <= FORMAT_LAST);
+		GLI_ASSERT(Format >= FORMAT_FIRST && Format <= FORMAT_LAST);
 		return Translation[Format - FORMAT_FIRST];
 	}
 

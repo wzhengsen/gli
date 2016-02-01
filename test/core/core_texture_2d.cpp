@@ -169,7 +169,7 @@ int test_texture2d_image_access()
 
 	{
 		gli::texture2d Texture(gli::FORMAT_RGBA8_UINT_PACK8, gli::texture2d::texelcoord_type(2), 2);
-		assert(!Texture.empty());
+		GLI_ASSERT(!Texture.empty());
 
 		gli::image Image0 = Texture[0];
 		gli::image Image1 = Texture[1];
@@ -273,7 +273,7 @@ int test_texture2d_image_size()
 		Error += Image.size() == Tests[i].Size ? 0 : 1;
 		Error += Texture.size() == Tests[i].Size ? 0 : 1;
 
-		assert(!Error);
+		GLI_ASSERT(!Error);
 	}
 
 	return Error;
@@ -696,7 +696,7 @@ namespace level
 			gli::image::texelcoord_type const & Extent0 = glm::max(Texture[0].extent() >> gli::image::texelcoord_type(static_cast<gli::image::texelcoord_type::value_type>(Level)), gli::image::texelcoord_type(1));
 
 			Error += ExtentL == Extent0 ? 0 : 1;
-			assert(!Error);
+			GLI_ASSERT(!Error);
 		}
 
 		return Error;
@@ -721,12 +721,12 @@ namespace mipmaps
 
 		{
 			gli::texture2d Texture(gli::load(::path("npot.ktx")));
-			assert(!Texture.empty());
+			GLI_ASSERT(!Texture.empty());
 		}
 
 		{
 			gli::texture2d Texture(gli::FORMAT_RGBA8_UNORM_PACK8, gli::texture2d::texelcoord_type(40, 30));
-			assert(!Texture.empty());
+			GLI_ASSERT(!Texture.empty());
 
 			Error += Texture.extent(0) == gli::texture2d::texelcoord_type(40, 30) ? 0 : 1;
 			Error += Texture.extent(1) == gli::texture2d::texelcoord_type(20, 15) ? 0 : 1;

@@ -47,7 +47,7 @@ namespace gli
 				std::memcpy(&Memory[0] + Offset, Texture.data(Layer, Face, Level), FaceSize);
 
 				Offset += FaceSize;
-				assert(Offset <= Memory.size());
+				GLI_ASSERT(Offset <= Memory.size());
 			}
 		}
 

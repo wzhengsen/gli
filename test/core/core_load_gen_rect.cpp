@@ -50,7 +50,7 @@ namespace gen_rect
 			gli::texture TextureKMG(gli::load("gen_rect_test.kmg"));
 			Error += Texture == TextureKMG ? 0 : 1;
 				
-			assert(!Error);
+			GLI_ASSERT(!Error);
 		}
 		
 		return Error;

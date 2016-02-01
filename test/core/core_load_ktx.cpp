@@ -118,7 +118,7 @@ int main()
 			char const* Filename = Filenames[Index].c_str();
 
 			FILE* File = std::fopen(Filename, "rb");
-			assert(File);
+			GLI_ASSERT(File);
 
 			long Beg = std::ftell(File);
 			std::fseek(File, 0, SEEK_END);

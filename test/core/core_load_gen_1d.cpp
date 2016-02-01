@@ -45,7 +45,7 @@ int main()
 		gli::texture TextureKMG(gli::load("test1d.kmg"));
 		Error += Texture == TextureKMG ? 0 : 1;
 
-		assert(!Error);
+		GLI_ASSERT(!Error);
 	}
 	
 	return Error;

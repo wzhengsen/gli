@@ -143,13 +143,13 @@ namespace detail
 
 	inline texture load_dds(char const * Data, std::size_t Size)
 	{
-		assert(Data && (Size >= sizeof(detail::FOURCC_DDS)));
+		GLI_ASSERT(Data && (Size >= sizeof(detail::FOURCC_DDS)));
 
 		if(strncmp(Data, detail::FOURCC_DDS, 4) != 0)
 			return texture();
 		std::size_t Offset = sizeof(detail::FOURCC_DDS);
 
-		assert(Size >= sizeof(detail::ddsHeader));
+		GLI_ASSERT(Size >= sizeof(detail::ddsHeader));
 
 		detail::ddsHeader const & Header(*reinterpret_cast<detail::ddsHeader const *>(Data + Offset));
 		Offset += sizeof(detail::ddsHeader);
@@ -169,7 +169,7 @@ namespace detail
 			switch(Header.Format.bpp)
 			{
 				default:
-					assert(0);
+					GLI_ASSERT(0);
 					break;
 				case 8:
 				{
@@ -184,7 +184,7 @@ namespace detail
 					else if(glm::all(glm::equal(Header.Format.Mask, DX.translate(FORMAT_RG3B2_UNORM_PACK8).Mask)))
 						Format = FORMAT_RG3B2_UNORM_PACK8;
 					else
-						assert(0);
+						GLI_ASSERT(0);
 					break;
 				}
 				case 16:
@@ -212,7 +212,7 @@ namespace detail
 					else if(glm::all(glm::equal(Header.Format.Mask, DX.translate(FORMAT_R16_UNORM_PACK16).Mask)))
 						Format = FORMAT_R16_UNORM_PACK16;
 					else
-						assert(0);
+						GLI_ASSERT(0);
 					break;
 				}
 				case 24:
@@ -222,7 +222,7 @@ namespace detail
 					else if(glm::all(glm::equal(Header.Format.Mask, DX.translate(FORMAT_BGR8_UNORM_PACK8).Mask)))
 						Format = FORMAT_BGR8_UNORM_PACK8;
 					else
-						assert(0);
+						GLI_ASSERT(0);
 					break;
 				}
 				case 32:
@@ -242,7 +242,7 @@ namespace detail
 					else if(glm::all(glm::equal(Header.Format.Mask, DX.translate(FORMAT_R32_SFLOAT_PACK32).Mask)))
 						Format = FORMAT_R32_SFLOAT_PACK32;
 					else
-						assert(0);
+						GLI_ASSERT(0);
 					break;
 				}
 			}
@@ -252,7 +252,7 @@ namespace detail
 		else if(Header.Format.fourCC == dx::D3DFMT_DX10 || Header.Format.fourCC == dx::D3DFMT_GLI1)
 			Format = DX.find(Header.Format.fourCC, Header10.Format, Header.Format.flags);
 
-		assert(Format != static_cast<format>(gli::FORMAT_INVALID));
+		GLI_ASSERT(Format != static_cast<format>(gli::FORMAT_INVALID));
 
 		size_t const MipMapCount = (Header.Flags & detail::DDSD_MIPMAPCOUNT) ? Header.MipMapLevels : 1;
 		size_t FaceCount = 1;
@@ -269,7 +269,7 @@ namespace detail
 			std::max<texture::size_type>(Header10.ArraySize, 1), FaceCount, MipMapCount);
 
 		std::size_t const SourceSize = Offset + Texture.size();
-		assert(SourceSize == Size);
+		GLI_ASSERT(SourceSize == Size);
 
 		std::memcpy(Texture.data(), Data + Offset, Texture.size());
 

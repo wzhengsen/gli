@@ -85,7 +85,7 @@ namespace tex_access
 
 		{
 			gli::texture1d Texture(gli::FORMAT_RGBA8_UINT_PACK8, gli::texture1d::texelcoord_type(2), 2);
-			assert(!Texture.empty());
+			GLI_ASSERT(!Texture.empty());
 
 			gli::image Image0 = Texture[0];
 			gli::image Image1 = Texture[1];
@@ -176,7 +176,7 @@ namespace size
 				gli::texture::size_type(1));
 
 			Error += Texture.size() == Tests[i].Size ? 0 : 1;
-			assert(!Error);
+			GLI_ASSERT(!Error);
 		}
 
 		return Error;

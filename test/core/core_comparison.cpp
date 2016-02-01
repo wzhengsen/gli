@@ -20,27 +20,27 @@ int test_texture1D()
 		gli::texture1d TextureB(gli::FORMAT_RGBA8_UNORM_PACK8, gli::texture1d::texelcoord_type(32), gli::levels(32));
 
 		Error += TextureA == TextureB ? 0 : 1;
-		assert(!Error);
+		GLI_ASSERT(!Error);
 		Error += TextureA != TextureB ? 1 : 0;
-		assert(!Error);
+		GLI_ASSERT(!Error);
 	}
 
 	{
 		gli::texture1d TextureC(TextureA);
 
 		Error += TextureA == TextureC ? 0 : 1;
-		assert(!Error);
+		GLI_ASSERT(!Error);
 		Error += TextureA != TextureC ? 1 : 0;
-		assert(!Error);
+		GLI_ASSERT(!Error);
 	}
 
 	{
 		gli::texture1d TextureD(TextureA, TextureA.base_level(), TextureA.max_level());
 
 		Error += TextureA == TextureD ? 0 : 1;
-		assert(!Error);
+		GLI_ASSERT(!Error);
 		Error += TextureA != TextureD ? 1 : 0;
-		assert(!Error);
+		GLI_ASSERT(!Error);
 	}
 
 	{
@@ -49,9 +49,9 @@ int test_texture1D()
 		*TextureE[TextureE.levels() - 1].data<glm::u8vec4>() = glm::u8vec4(255, 127, 0, 255);
 
 		Error += TextureA != TextureE ? 0 : 1;
-		assert(!Error);
+		GLI_ASSERT(!Error);
 		Error += TextureA == TextureE ? 1 : 0;
-		assert(!Error);
+		GLI_ASSERT(!Error);
 	}
 
 	{
@@ -60,9 +60,9 @@ int test_texture1D()
 		*TextureB[TextureB.levels() - 1].data<glm::u8vec4>() = glm::u8vec4(255, 127, 0, 255);
 
 		Error += TextureA != TextureB ? 0 : 1;
-		assert(!Error);
+		GLI_ASSERT(!Error);
 		Error += TextureA == TextureB ? 1 : 0;
-		assert(!Error);
+		GLI_ASSERT(!Error);
 	}
 
 	{
@@ -71,9 +71,9 @@ int test_texture1D()
 		*TextureB[TextureB.levels() - 1].data<glm::u8vec4>() = glm::u8vec4(255, 127, 0, 255);
 
 		Error += TextureA != TextureB ? 0 : 1;
-		assert(!Error);
+		GLI_ASSERT(!Error);
 		Error += TextureA == TextureB ? 1 : 0;
-		assert(!Error);
+		GLI_ASSERT(!Error);
 	}
 
 	{
@@ -82,9 +82,9 @@ int test_texture1D()
 		gli::texture1d TextureC(TextureB, TextureB.base_level() + 1, TextureB.max_level());
 
 		Error += TextureA == TextureC ? 0 : 1;
-		assert(!Error);
+		GLI_ASSERT(!Error);
 		Error += TextureA != TextureC ? 1 : 0;
-		assert(!Error);
+		GLI_ASSERT(!Error);
 	}
 
 	return Error;

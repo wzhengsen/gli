@@ -12,7 +12,7 @@ int test_create_texture_storage()
 
 	Error += Levels > 1 ? 0 : 1;
 
-	assert(!Texture.empty());
+	GLI_ASSERT(!Texture.empty());
 
 	void const * Pointer = Texture[0].data();
 

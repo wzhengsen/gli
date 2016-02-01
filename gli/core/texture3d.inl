@@ -84,7 +84,7 @@ namespace gli
 		cache const & Cache = this->Caches[this->index_cache(Level)];
 
 		std::size_t const Index = linear_index(TexelCoord, Cache.Extent);
-		assert(Index < Cache.Size / sizeof(genType));
+		GLI_ASSERT(Index < Cache.Size / sizeof(genType));
 
 		return reinterpret_cast<genType const * const>(Cache.Data)[Index];
 	}

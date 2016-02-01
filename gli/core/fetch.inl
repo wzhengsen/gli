@@ -8,9 +8,9 @@ namespace gli
 		texture2d::size_type const & Level
 	)
 	{
-		assert(!Texture.empty());
-		assert(!is_compressed(Texture.format()));
-		assert(block_size(Texture.format()) == sizeof(genType));
+		GLI_ASSERT(!Texture.empty());
+		GLI_ASSERT(!is_compressed(Texture.format()));
+		GLI_ASSERT(block_size(Texture.format()) == sizeof(genType));
 
 		image::dim_type Dimensions = Texture[Level].dimensions();
 		genType const * const Data = reinterpret_cast<genType const * const >(Texture[Level].data());
@@ -27,15 +27,15 @@ namespace gli
 		genType const & Color
 	)
 	{
-		assert(!Texture.empty());
-		assert(!is_compressed(Texture.format()));
-		assert(block_size(Texture.format()) == sizeof(genType));
+		GLI_ASSERT(!Texture.empty());
+		GLI_ASSERT(!is_compressed(Texture.format()));
+		GLI_ASSERT(block_size(Texture.format()) == sizeof(genType));
 
 		genType * Data = Texture[Level].data<genType>();
 		std::size_t Index = Texcoord.x + Texcoord.y * Texture[Level].dimensions().x;
 		
 		std::size_t Capacity = Texture[Level].size();
-		assert(Index < Capacity);
+		GLI_ASSERT(Index < Capacity);
 
 		*(Data + Index) = Color;
 	}
@@ -48,7 +48,7 @@ namespace gli
 		texture2d::size_type const & Level
 	)
 	{
-		//assert(Texture.format() == R8U || Texture.format() == RG8U || Texture.format() == RGB8U || Texture.format() == RGBA8U);
+		//GLI_ASSERT(Texture.format() == R8U || Texture.format() == RG8U || Texture.format() == RGB8U || Texture.format() == RGBA8U);
 
 		image::dim_type Dimensions = Texture[Level].dimensions();
 		genType const * const Data = reinterpret_cast<genType const * const>(Texture[Level].data());

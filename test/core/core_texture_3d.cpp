@@ -86,7 +86,7 @@ int test_texture3d_access()
 			gli::FORMAT_RGBA8_UINT_PACK8,
 			gli::texture3d::texelcoord_type(2),
 			gli::texture3d::size_type(2));
-		assert(!Texture.empty());
+		GLI_ASSERT(!Texture.empty());
 
 		gli::image Image0 = Texture[0];
 		gli::image Image1 = Texture[1];
@@ -161,7 +161,7 @@ int test_texture3d_size()
 			1);
 
 		Error += Texture.size() == Tests[i].Size ? 0 : 1;
-		assert(!Error);
+		GLI_ASSERT(!Error);
 	}
 
 	for(std::size_t i = 0; i < Tests.size(); ++i)
@@ -174,7 +174,7 @@ int test_texture3d_size()
 		gli::image Image = Texture[0];
 
 		Error += Image.size() == Tests[i].Size ? 0 : 1;
-		assert(!Error);
+		GLI_ASSERT(!Error);
 	}
 
 	return Error;

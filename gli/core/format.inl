@@ -32,7 +32,7 @@ namespace detail
 
 	inline formatInfo const & get_format_info(format Format)
 	{
-		assert(Format >= FORMAT_FIRST && Format <= FORMAT_LAST);
+		GLI_ASSERT(Format >= FORMAT_FIRST && Format <= FORMAT_LAST);
 
 		static formatInfo const Table[] =
 		{
@@ -279,7 +279,7 @@ namespace detail
 		};
 
 		GLM_STATIC_ASSERT(sizeof(Table) / sizeof(Table[0]) == FORMAT_COUNT, "GLI error: format descriptor list doesn't match number of supported formats");
-		assert(Format != static_cast<format>(FORMAT_INVALID));
+		GLI_ASSERT(Format != static_cast<format>(FORMAT_INVALID));
 
 		return Table[Format - FORMAT_FIRST];
 	};

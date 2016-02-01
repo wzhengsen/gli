@@ -160,7 +160,7 @@ int main()
 		for(std::size_t Index = 0; Index < Params.size(); ++Index)
 		{
 			FILE* File = std::fopen(Params[Index].Filename.c_str(), "rb");
-			assert(File);
+			GLI_ASSERT(File);
 
 			long Beg = std::ftell(File);
 			std::fseek(File, 0, SEEK_END);

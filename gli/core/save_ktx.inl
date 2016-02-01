@@ -79,7 +79,7 @@ namespace detail
 				ImageSize += static_cast<std::uint32_t>(PaddedSize);
 				Offset += PaddedSize;
 
-				assert(Offset <= Memory.size());
+				GLI_ASSERT(Offset <= Memory.size());
 			}
 
 			ImageSize = glm::ceilMultiple(ImageSize, static_cast<std::uint32_t>(4));

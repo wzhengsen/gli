@@ -323,7 +323,7 @@ namespace gli
 			genType const TexelSrc = TexelDst;
 			for(typename genType::length_type Component = 0; Component < TexelDst.length(); ++Component)
 			{
-				assert(static_cast<typename genType::length_type>(Swizzles[Component]) < TexelDst.length());
+				GLI_ASSERT(static_cast<typename genType::length_type>(Swizzles[Component]) < TexelDst.length());
 				TexelDst[Component] = TexelSrc[Swizzles[Component]];
 			}
 		}

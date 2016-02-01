@@ -30,7 +30,7 @@ inline image flip(image const & Image)
 template <>
 inline texture2d flip(texture2d const & Texture)
 {
-	assert(!gli::is_compressed(Texture.format()));
+	GLI_ASSERT(!gli::is_compressed(Texture.format()));
 
 	texture2d Flip(Texture.format(), Texture.extent(), Texture.levels());
 
@@ -45,7 +45,7 @@ inline texture2d flip(texture2d const & Texture)
 template <>
 inline texture2d_array flip(texture2d_array const & Texture)
 {
-	assert(!gli::is_compressed(Texture.format()));
+	GLI_ASSERT(!gli::is_compressed(Texture.format()));
 
 	texture2d_array Flip(Texture.format(), Texture.extent(), Texture.layers(), Texture.levels());
 

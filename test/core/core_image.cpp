@@ -24,14 +24,14 @@ int test_image_data()
 
 	gli::image ImageA;
 	Error += ImageA.empty() ? 0 : 1;
-	assert(!Error);
+	GLI_ASSERT(!Error);
 
 	gli::image ImageB(gli::FORMAT_RGBA8_UNORM_PACK8, gli::image::texelcoord_type(1, 1, 1));
 	Error += ImageB.size() == sizeof(glm::u8vec4) ? 0 : 1;
 
 	*ImageB.data<glm::u8vec4>() = glm::u8vec4(255, 127, 0, 255);
 	Error += !ImageB.empty() ? 0 : 1;
-	assert(!Error);
+	GLI_ASSERT(!Error);
 
 	return Error;
 }

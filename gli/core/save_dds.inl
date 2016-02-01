@@ -89,7 +89,7 @@ namespace detail
 		// Cubemap
 		if(Texture.faces() > 1)
 		{
-			assert(Texture.faces() == 6);
+			GLI_ASSERT(Texture.faces() == 6);
 			Header.CubemapFlags |= detail::DDSCAPS2_CUBEMAP_ALLFACES | detail::DDSCAPS2_CUBEMAP;
 		}
 

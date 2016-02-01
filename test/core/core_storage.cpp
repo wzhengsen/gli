@@ -60,7 +60,7 @@ int main()
 	Error += test_storage_layer_size();
 	Error += test_storage_face_size();
 
-	assert(!Error);
+	GLI_ASSERT(!Error);
 
 	return Error;
 }

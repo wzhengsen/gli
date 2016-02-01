@@ -75,7 +75,7 @@ int test_texture1DArray_access()
 
 	{
 		gli::texture1d_array Texture1DArray(gli::FORMAT_RGBA8_UINT_PACK8, gli::texture1d_array::texelcoord_type(2), 2, 1);
-		assert(!Texture1DArray.empty());
+		GLI_ASSERT(!Texture1DArray.empty());
 
 		gli::texture1d Texture0 = Texture1DArray[0];
 		gli::texture1d Texture1 = Texture1DArray[1];
@@ -146,7 +146,7 @@ int test_texture1DArray_size()
 		gli::texture1d_array Texture1DArray(Tests[i].Format, gli::texture1d_array::texelcoord_type(4), 2, 1);
 
 		Error += Texture1DArray.size() == Tests[i].Size ? 0 : 1;
-		assert(!Error);
+		GLI_ASSERT(!Error);
 	}
 
 	for(std::size_t i = 0; i < Tests.size(); ++i)
@@ -156,7 +156,7 @@ int test_texture1DArray_size()
 		gli::texture1d Texture1D = Texture1DArray[0];
 
 		Error += Texture1DArray.size() == Tests[i].Size ? 0 : 1;
-		assert(!Error);
+		GLI_ASSERT(!Error);
 	}
 
 	return Error;

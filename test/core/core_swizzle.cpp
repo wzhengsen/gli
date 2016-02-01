@@ -258,7 +258,7 @@ int main()
 	Error += texture_cube::run();
 	Error += texture_cube_array::run();
 
-	assert(!Error);
+	GLI_ASSERT(!Error);
 
 	return Error;
 }
