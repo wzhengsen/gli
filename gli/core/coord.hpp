@@ -25,7 +25,7 @@ namespace detail
 
 		coord_nearest<extent_type, normalized_type> Coord;
 		Coord.Texel = extent_type(round(SampleCoord * TexelLast));
-		Coord.UseTexel = in_interval(Coord.Texel, extent_type(0), TexelDim - 1);
+		Coord.UseTexel = in_interval(Coord.Texel, extent_type(0), TexelExtent - 1);
 		return Coord;
 	}
 
