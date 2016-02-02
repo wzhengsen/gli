@@ -88,7 +88,7 @@ namespace detail
 	inline image::image
 	(
 		format_type Format,
-		texelcoord_type const & Extent
+		extent_type const& Extent
 	)
 		: Storage(std::make_shared<storage>(Format, Extent, 1, 1, 1))
 		, Format(Format)
@@ -154,24 +154,24 @@ namespace detail
 		return this->Format;
 	}
 
-	inline image::texelcoord_type image::extent() const
+	inline image::extent_type image::extent() const
 	{
 		GLI_ASSERT(!this->empty());
 
-		storage::texelcoord_type const & SrcExtent = this->Storage->extent(this->BaseLevel);
-		storage::texelcoord_type const & DstExtent = SrcExtent * block_extent(this->format()) / this->Storage->block_extent();
+		storage::extent_type const& SrcExtent = this->Storage->extent(this->BaseLevel);
+		storage::extent_type const& DstExtent = SrcExtent * block_extent(this->format()) / this->Storage->block_extent();
 
-		return glm::max(DstExtent, storage::texelcoord_type(1));
+		return glm::max(DstExtent, storage::extent_type(1));
 	}
 
-	inline void * image::data()
+	inline void* image::data()
 	{
 		GLI_ASSERT(!this->empty());
 
 		return this->Data;
 	}
 
-	inline void const * image::data() const
+	inline void const* image::data() const
 	{
 		GLI_ASSERT(!this->empty());
 		
@@ -179,7 +179,7 @@ namespace detail
 	}
 
 	template <typename genType>
-	inline genType * image::data()
+	inline genType* image::data()
 	{
 		GLI_ASSERT(!this->empty());
 		GLI_ASSERT(this->Storage->block_size() >= sizeof(genType));
@@ -188,7 +188,7 @@ namespace detail
 	}
 
 	template <typename genType>
-	inline genType const * image::data() const
+	inline genType const* image::data() const
 	{
 		GLI_ASSERT(!this->empty());
 		GLI_ASSERT(this->Storage->block_size() >= sizeof(genType));
@@ -204,7 +204,7 @@ namespace detail
 	}
 
 	template <typename genType>
-	inline void image::clear(genType const & Texel)
+	inline void image::clear(genType const& Texel)
 	{
 		GLI_ASSERT(!this->empty());
 		GLI_ASSERT(this->Storage->block_size() == sizeof(genType));
@@ -213,7 +213,7 @@ namespace detail
 			*(this->data<genType>() + TexelIndex) = Texel;
 	}
 
-	inline image::data_type * image::compute_data(size_type BaseLayer, size_type BaseFace, size_type BaseLevel)
+	inline image::data_type* image::compute_data(size_type BaseLayer, size_type BaseFace, size_type BaseLevel)
 	{
 		size_type const BaseOffset = this->Storage->base_offset(BaseLayer, BaseFace, BaseLevel);
 
@@ -228,7 +228,7 @@ namespace detail
 	}
 
 	template <typename genType>
-	genType image::load(texelcoord_type const & TexelCoord)
+	genType image::load(extent_type const& TexelCoord)
 	{
 		GLI_ASSERT(!this->empty());
 		GLI_ASSERT(!is_compressed(this->format()));
@@ -239,7 +239,7 @@ namespace detail
 	}
 
 	template <typename genType>
-	void image::store(texelcoord_type const & TexelCoord, genType const & Data)
+	void image::store(extent_type const& TexelCoord, genType const& Data)
 	{
 		GLI_ASSERT(!this->empty());
 		GLI_ASSERT(!is_compressed(this->format()));

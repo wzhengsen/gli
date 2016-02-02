@@ -9,7 +9,7 @@ namespace gli
 		, Texture(Texture)
 		, Convert(detail::convert<texture_cube, T, P>::call(this->Texture.format()))
 		, BorderColor(BorderColor)
-		, Filter(detail::get_filter<filter_type, detail::DIMENSION_2D, texture_type, interpolate_type, samplecoord_type, fetch_type, texel_type, T>(Mip, Min, is_border(Wrap)))
+		, Filter(detail::get_filter<filter_type, detail::DIMENSION_2D, texture_type, interpolate_type, normalized_type, fetch_type, texel_type, T>(Mip, Min, is_border(Wrap)))
 	{
 		GLI_ASSERT(!Texture.empty());
 		GLI_ASSERT(!is_compressed(Texture.format()));
@@ -23,7 +23,7 @@ namespace gli
 	}
 
 	template <typename T, precision P>
-	inline typename samplerCube<T, P>::texel_type samplerCube<T, P>::texel_fetch(texelcoord_type const & TexelCoord, size_type Face, size_type Level) const
+	inline typename samplerCube<T, P>::texel_type samplerCube<T, P>::texel_fetch(extent_type const & TexelCoord, size_type Face, size_type Level) const
 	{
 		GLI_ASSERT(!this->Texture.empty());
 		GLI_ASSERT(this->Convert.Fetch);
@@ -32,7 +32,7 @@ namespace gli
 	}
 
 	template <typename T, precision P>
-	inline void samplerCube<T, P>::texel_write(texelcoord_type const & TexelCoord, size_type Face, size_type Level, texel_type const & Texel)
+	inline void samplerCube<T, P>::texel_write(extent_type const & TexelCoord, size_type Face, size_type Level, texel_type const & Texel)
 	{
 		GLI_ASSERT(!this->Texture.empty());
 		GLI_ASSERT(this->Convert.Write);
@@ -50,13 +50,13 @@ namespace gli
 	}
 
 	template <typename T, precision P>
-	inline typename samplerCube<T, P>::texel_type samplerCube<T, P>::texture_lod(samplecoord_type const & SampleCoord, size_type Face, level_type Level) const
+	inline typename samplerCube<T, P>::texel_type samplerCube<T, P>::texture_lod(normalized_type const & SampleCoord, size_type Face, level_type Level) const
 	{
 		GLI_ASSERT(!this->Texture.empty());
 		GLI_ASSERT(std::numeric_limits<T>::is_iec559);
 		GLI_ASSERT(this->Filter && this->Convert.Fetch);
 
-		samplecoord_type const SampleCoordWrap(this->Wrap(SampleCoord.x), this->Wrap(SampleCoord.y));
+		normalized_type const SampleCoordWrap(this->Wrap(SampleCoord.x), this->Wrap(SampleCoord.y));
 
 		return this->Filter(this->Texture, this->Convert.Fetch, SampleCoordWrap, size_type(0), Face, Level, this->BorderColor);
 	}
@@ -77,7 +77,7 @@ namespace gli
 		GLI_ASSERT(this->Convert.Fetch && this->Convert.Write);
 		GLI_ASSERT(Minification >= FILTER_FIRST && Minification <= FILTER_LAST);
 
-		detail::generate_mipmaps_2d<texture_type, T, fetch_type, write_type, samplecoord_type, texel_type>(
+		detail::generate_mipmaps_2d<texture_type, T, fetch_type, write_type, normalized_type, texel_type>(
 			this->Texture, this->Convert.Fetch, this->Convert.Write, 0, 0, BaseFace, MaxFace, BaseLevel, MaxLevel, Minification);
 	}
 }//namespace gli

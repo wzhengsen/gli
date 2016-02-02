@@ -12,7 +12,7 @@ int test_alloc()
 	Formats.push_back(gli::FORMAT_RGBA_BP_UNORM_BLOCK16);
 	Formats.push_back(gli::FORMAT_RGBA32_SFLOAT_PACK32);
 
-	std::vector<gli::texture_cube::texelcoord_type::value_type> Sizes;
+	std::vector<gli::texture_cube::extent_type::value_type> Sizes;
 	Sizes.push_back(16);
 	Sizes.push_back(32);
 	Sizes.push_back(15);
@@ -22,7 +22,7 @@ int test_alloc()
 	for(std::size_t FormatIndex = 0; FormatIndex < Formats.size(); ++FormatIndex)
 	for(std::size_t SizeIndex = 0; SizeIndex < Sizes.size(); ++SizeIndex)
 	{
-		gli::texture_cube::texelcoord_type Size(Sizes[SizeIndex]);
+		gli::texture_cube::extent_type Size(Sizes[SizeIndex]);
 
 		gli::texture_cube TextureA(Formats[FormatIndex], Size, gli::levels(Size));
 
@@ -38,7 +38,7 @@ int test_textureCube_query()
 {
 	int Error(0);
 
-	gli::texture_cube Texture(gli::FORMAT_RGBA8_UINT_PACK8, gli::texture_cube::texelcoord_type(2), 2);
+	gli::texture_cube Texture(gli::FORMAT_RGBA8_UINT_PACK8, gli::texture_cube::extent_type(2), 2);
 
 	Error += Texture.size() == sizeof(glm::u8vec4) * 5 * 6 ? 0 : 1;
 	Error += Texture.format() == gli::FORMAT_RGBA8_UINT_PACK8 ? 0 : 1;
@@ -55,15 +55,15 @@ int test_textureCube_texture2D_access()
 	int Error(0);
 
 	{
-		gli::texture2d Texture2DA(gli::FORMAT_RGBA8_UINT_PACK8, gli::texture2d::texelcoord_type(2, 2), 1);
+		gli::texture2d Texture2DA(gli::FORMAT_RGBA8_UINT_PACK8, gli::texture2d::extent_type(2, 2), 1);
 		for(std::size_t i = 0; i < Texture2DA.size(); ++i)
 			*(Texture2DA.data<glm::byte>() + i) = glm::byte(i);
 
-		gli::texture2d Texture2DB(gli::FORMAT_RGBA8_UINT_PACK8, gli::texture2d::texelcoord_type(2, 2), 1);
+		gli::texture2d Texture2DB(gli::FORMAT_RGBA8_UINT_PACK8, gli::texture2d::extent_type(2, 2), 1);
 		for(std::size_t i = 0; i < Texture2DB.size(); ++i)
 			*(Texture2DB.data<glm::byte>() + i) = glm::byte(i + 100);
 
-		gli::texture_cube TextureCube(gli::FORMAT_RGBA8_UINT_PACK8, gli::texture_cube::texelcoord_type(2), 2);
+		gli::texture_cube TextureCube(gli::FORMAT_RGBA8_UINT_PACK8, gli::texture_cube::extent_type(2), 2);
 
 		/// Todo
 		/// gli::copy(TextureCube, 0, Texture2DA);
@@ -74,7 +74,7 @@ int test_textureCube_texture2D_access()
 	}
 
 	{
-		gli::texture_cube TextureCube(gli::FORMAT_RGBA8_UINT_PACK8, gli::texture_cube::texelcoord_type(2), 1);
+		gli::texture_cube TextureCube(gli::FORMAT_RGBA8_UINT_PACK8, gli::texture_cube::extent_type(2), 1);
 		GLI_ASSERT(!TextureCube.empty());
 
 		std::vector<glm::u8vec4> Colors;
@@ -100,7 +100,7 @@ int test_textureCube_texture2D_access()
 	}
 
 	{
-		gli::texture_cube TextureCube(gli::FORMAT_RGBA8_UINT_PACK8, gli::texture_cube::texelcoord_type(2), 2);
+		gli::texture_cube TextureCube(gli::FORMAT_RGBA8_UINT_PACK8, gli::texture_cube::extent_type(2), 2);
 		GLI_ASSERT(!TextureCube.empty());
 
 		gli::texture2d TextureA = TextureCube[0];
@@ -138,7 +138,7 @@ int test_textureCube_texture2D_access()
 	}
 
 	{
-		gli::texture_cube TextureCube(gli::FORMAT_RGBA8_UINT_PACK8, gli::texture_cube::texelcoord_type(2), 1);
+		gli::texture_cube TextureCube(gli::FORMAT_RGBA8_UINT_PACK8, gli::texture_cube::extent_type(2), 1);
 
 		std::size_t SizeA = TextureCube.size();
 		Error += SizeA == sizeof(glm::u8vec4) * 4 * 6 ? 0 : 1;
@@ -170,7 +170,7 @@ struct test
 {
 	test(
 		gli::format const & Format,
-		gli::texture_cube::texelcoord_type const & Dimensions,
+		gli::texture_cube::extent_type const & Dimensions,
 		gli::texture_cube::size_type const & Size) :
 		Format(Format),
 		Dimensions(Dimensions),
@@ -178,7 +178,7 @@ struct test
 	{}
 
 	gli::format Format;
-	gli::texture_cube::texelcoord_type Dimensions;
+	gli::texture_cube::extent_type Dimensions;
 	gli::texture_cube::size_type Size;
 };
 
@@ -187,18 +187,18 @@ int test_textureCube_texture2D_size()
 	int Error(0);
 
 	std::vector<test> Tests;
-	Tests.push_back(test(gli::FORMAT_RGBA8_UINT_PACK8, gli::texture_cube::texelcoord_type(4), 384));
-	Tests.push_back(test(gli::FORMAT_R8_UINT_PACK8, gli::texture_cube::texelcoord_type(4), 96));
-	Tests.push_back(test(gli::FORMAT_RGBA_DXT1_UNORM_BLOCK8, gli::texture_cube::texelcoord_type(4), 48));
-	Tests.push_back(test(gli::FORMAT_RGBA_DXT1_UNORM_BLOCK8, gli::texture_cube::texelcoord_type(2), 48));
-	Tests.push_back(test(gli::FORMAT_RGBA_DXT1_UNORM_BLOCK8, gli::texture_cube::texelcoord_type(1), 48));
-	Tests.push_back(test(gli::FORMAT_RGBA_DXT5_UNORM_BLOCK16, gli::texture_cube::texelcoord_type(4), 96));
+	Tests.push_back(test(gli::FORMAT_RGBA8_UINT_PACK8, gli::texture_cube::extent_type(4), 384));
+	Tests.push_back(test(gli::FORMAT_R8_UINT_PACK8, gli::texture_cube::extent_type(4), 96));
+	Tests.push_back(test(gli::FORMAT_RGBA_DXT1_UNORM_BLOCK8, gli::texture_cube::extent_type(4), 48));
+	Tests.push_back(test(gli::FORMAT_RGBA_DXT1_UNORM_BLOCK8, gli::texture_cube::extent_type(2), 48));
+	Tests.push_back(test(gli::FORMAT_RGBA_DXT1_UNORM_BLOCK8, gli::texture_cube::extent_type(1), 48));
+	Tests.push_back(test(gli::FORMAT_RGBA_DXT5_UNORM_BLOCK16, gli::texture_cube::extent_type(4), 96));
 
 	for(std::size_t i = 0; i < Tests.size(); ++i)
 	{
 		gli::texture_cube Texture(
 			Tests[i].Format,
-			gli::texture_cube::texelcoord_type(4),
+			gli::texture_cube::extent_type(4),
 			gli::texture_cube::size_type(1));
 
 		gli::texture_cube::size_type Size = Texture.size();
@@ -215,7 +215,7 @@ namespace loader
 	{
 		int Error(0);
 
-		gli::texture_cube TextureA(gli::FORMAT_RGBA8_UNORM_PACK8, gli::texture_cube::texelcoord_type(8), 1);
+		gli::texture_cube TextureA(gli::FORMAT_RGBA8_UNORM_PACK8, gli::texture_cube::extent_type(8), 1);
 
 		{
 			std::vector<glm::u8vec4> Color;
@@ -254,7 +254,7 @@ namespace load_store
 	{
 		int Error = 0;
 
-		gli::texture_cube::texelcoord_type const Dimensions(2, 2);
+		gli::texture_cube::extent_type const Dimensions(2, 2);
 
 		gli::texture_cube TextureA(Format, Dimensions);
 		TextureA.clear();
@@ -264,15 +264,15 @@ namespace load_store
 		gli::texture_cube TextureB(Format, Dimensions);
 		TextureB.clear();
 		for (std::size_t FaceIndex = 0, FaceCount = 6; FaceIndex < FaceCount; ++FaceIndex)
-			TextureB.store(gli::texture_cube::texelcoord_type(0, 0), FaceIndex, 1, TestSamples[FaceIndex]);
+			TextureB.store(gli::texture_cube::extent_type(0, 0), FaceIndex, 1, TestSamples[FaceIndex]);
 
 		std::array<genType, 6> LoadedSamplesA;
 		for (std::size_t FaceIndex = 0, FaceCount = 6; FaceIndex < FaceCount; ++FaceIndex)
-			LoadedSamplesA[FaceIndex] = TextureA.load<genType>(gli::texture_cube::texelcoord_type(0), FaceIndex, 1);
+			LoadedSamplesA[FaceIndex] = TextureA.load<genType>(gli::texture_cube::extent_type(0), FaceIndex, 1);
 
 		std::array<genType, 6> LoadedSamplesB;
 		for (std::size_t FaceIndex = 0, FaceCount = 6; FaceIndex < FaceCount; ++FaceIndex)
-			LoadedSamplesB[FaceIndex] = TextureB.load<genType>(gli::texture_cube::texelcoord_type(0), FaceIndex, 1);
+			LoadedSamplesB[FaceIndex] = TextureB.load<genType>(gli::texture_cube::extent_type(0), FaceIndex, 1);
 
 		for (std::size_t FaceIndex = 0, FaceCount = 6; FaceIndex < FaceCount; ++FaceIndex)
 			Error += LoadedSamplesA[FaceIndex] == TestSamples[FaceIndex] ? 0 : 1;
@@ -603,12 +603,12 @@ namespace clear
 		glm::u8vec4 const Black(0, 0, 0, 255);
 		glm::u8vec4 const Color(255, 127, 0, 255);
 
-		gli::texture_cube Texture(gli::FORMAT_RGBA8_UNORM_PACK8, gli::texture_cube::texelcoord_type(2));
+		gli::texture_cube Texture(gli::FORMAT_RGBA8_UNORM_PACK8, gli::texture_cube::extent_type(2));
 		Texture.clear(Black);
 
-		glm::u8vec4 const TexelA = Texture.load<glm::u8vec4>(gli::texture_cube::texelcoord_type(0), 0, 0);
-		glm::u8vec4 const TexelB = Texture.load<glm::u8vec4>(gli::texture_cube::texelcoord_type(0), 0, 1);
-		glm::u8vec4 const TexelC = Texture.load<glm::u8vec4>(gli::texture_cube::texelcoord_type(0), 0, 2);
+		glm::u8vec4 const TexelA = Texture.load<glm::u8vec4>(gli::texture_cube::extent_type(0), 0, 0);
+		glm::u8vec4 const TexelB = Texture.load<glm::u8vec4>(gli::texture_cube::extent_type(0), 0, 1);
+		glm::u8vec4 const TexelC = Texture.load<glm::u8vec4>(gli::texture_cube::extent_type(0), 0, 2);
 
 		Error += TexelA == Black ? 0 : 1;
 		Error += TexelB == Black ? 0 : 1;
@@ -617,7 +617,7 @@ namespace clear
 		for(gli::texture_cube::size_type FaceIndex = 0, FaceCount = Texture.faces(); FaceIndex < FaceCount; ++FaceIndex)
 			Texture.clear<glm::u8vec4>(FaceIndex, 1, Color);
 
-		gli::texture_cube::texelcoord_type Coords(0);
+		gli::texture_cube::extent_type Coords(0);
 		for(; Coords.y < Texture.extent(1).y; ++Coords.y)
 		for(; Coords.x < Texture.extent(1).x; ++Coords.x)
 		{
@@ -627,7 +627,7 @@ namespace clear
 
 		gli::texture_cube TextureView(Texture, 0, 5, 1, 1);
 
-		gli::texture_cube TextureImage(gli::FORMAT_RGBA8_UNORM_PACK8, gli::texture_cube::texelcoord_type(1), 1);
+		gli::texture_cube TextureImage(gli::FORMAT_RGBA8_UNORM_PACK8, gli::texture_cube::extent_type(1), 1);
 		TextureImage.clear(Color);
 
 		Error += TextureView == TextureImage ? 0 : 1;

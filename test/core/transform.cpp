@@ -15,11 +15,11 @@ namespace transform
 	{
 		int Error = 0;
 		
-		texture_type TextureA(gli::FORMAT_RGBA8_UNORM_PACK8, typename texture_type::texelcoord_type(4));
+		texture_type TextureA(gli::FORMAT_RGBA8_UNORM_PACK8, typename texture_type::extent_type(4));
 		TextureA.clear(gli::u8vec4(255, 127, 0, 255));
-		texture_type TextureB(gli::FORMAT_RGBA8_UNORM_PACK8, typename texture_type::texelcoord_type(4));
+		texture_type TextureB(gli::FORMAT_RGBA8_UNORM_PACK8, typename texture_type::extent_type(4));
 		TextureB.clear(gli::u8vec4(255, 127, 64, 192));
-		texture_type TextureO(gli::FORMAT_RGBA8_UNORM_PACK8, typename texture_type::texelcoord_type(4));
+		texture_type TextureO(gli::FORMAT_RGBA8_UNORM_PACK8, typename texture_type::extent_type(4));
 		
 		gli::transform<gli::u8vec4>(TextureO, TextureA, TextureB, average);
 		
@@ -41,11 +41,11 @@ namespace transform_array
 	{
 		int Error = 0;
 		
-		texture_type TextureA(gli::FORMAT_RGBA8_UNORM_PACK8, typename texture_type::texelcoord_type(4), 2);
+		texture_type TextureA(gli::FORMAT_RGBA8_UNORM_PACK8, typename texture_type::extent_type(4), 2);
 		TextureA.clear(gli::u8vec4(255, 127, 0, 255));
-		texture_type TextureB(gli::FORMAT_RGBA8_UNORM_PACK8, typename texture_type::texelcoord_type(4), 2);
+		texture_type TextureB(gli::FORMAT_RGBA8_UNORM_PACK8, typename texture_type::extent_type(4), 2);
 		TextureB.clear(gli::u8vec4(255, 127, 64, 192));
-		texture_type TextureO(gli::FORMAT_RGBA8_UNORM_PACK8, typename texture_type::texelcoord_type(4), 2);
+		texture_type TextureO(gli::FORMAT_RGBA8_UNORM_PACK8, typename texture_type::extent_type(4), 2);
 		
 		gli::transform<gli::u8vec4>(TextureO, TextureA, TextureB, average);
 		

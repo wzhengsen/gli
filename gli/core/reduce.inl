@@ -26,19 +26,19 @@ namespace detail
 	{
 		typedef typename binary_func<val_type>::type func_type;
 		typedef texture1d::size_type size_type;
-		typedef texture1d::texelcoord_type texelcoord_type;
+		typedef texture1d::extent_type extent_type;
 
 		static tvec4<val_type> call(texture1d const & A, texture1d const & B, binary_func<val_type> TexelFunc, binary_func<val_type> ReduceFunc)
 		{
 			GLI_ASSERT(are_compatible(A, B));
 
 			sampler1d<val_type> const SamplerA(A, gli::WRAP_CLAMP_TO_EDGE), SamplerB(B, gli::WRAP_CLAMP_TO_EDGE);
-			texelcoord_type TexelIndex(0);
+			extent_type TexelIndex(0);
 			tvec4<val_type> Result(TexelFunc(SamplerA.template fetch(TexelIndex, 0), SamplerB.template fetch(TexelIndex, 0)));
 
 			for(size_type LevelIndex = 0, LevelCount = A.levels(); LevelIndex < LevelCount; ++LevelIndex)
 			{
-				texelcoord_type const TexelCount(A.extent(LevelIndex));
+				extent_type const TexelCount(A.extent(LevelIndex));
 				for(TexelIndex.x = 0; TexelIndex.x < TexelCount.x; ++TexelIndex.x)
 				{
 					Result = ReduceFunc(Result, TexelFunc(
@@ -56,20 +56,20 @@ namespace detail
 	{
 		typedef typename binary_func<val_type>::type func_type;
 		typedef texture1d_array::size_type size_type;
-		typedef texture1d_array::texelcoord_type texelcoord_type;
+		typedef texture1d_array::extent_type extent_type;
 
 		static tvec4<val_type> call(texture1d_array const & A, texture1d_array const & B, binary_func<val_type> TexelFunc, binary_func<val_type> ReduceFunc)
 		{
 			GLI_ASSERT(are_compatible(A, B));
 
 			sampler1d_array<val_type> const SamplerA(A, gli::WRAP_CLAMP_TO_EDGE), SamplerB(B, gli::WRAP_CLAMP_TO_EDGE);
-			texelcoord_type TexelIndex(0);
+			extent_type TexelIndex(0);
 			tvec4<val_type> Result(TexelFunc(SamplerA.template fetch(TexelIndex, 0, 0), SamplerB.template fetch(TexelIndex, 0, 0)));
 
 			for(size_type LayerIndex = 0, LayerCount = A.layers(); LayerIndex < LayerCount; ++LayerIndex)
 			for(size_type LevelIndex = 0, LevelCount = A.levels(); LevelIndex < LevelCount; ++LevelIndex)
 			{
-				texelcoord_type const TexelCount(A.extent(LevelIndex));
+				extent_type const TexelCount(A.extent(LevelIndex));
 				for(TexelIndex.x = 0; TexelIndex.x < TexelCount.x; ++TexelIndex.x)
 				{
 					Result = ReduceFunc(Result, TexelFunc(
@@ -87,19 +87,19 @@ namespace detail
 	{
 		typedef typename binary_func<val_type>::type func_type;
 		typedef texture2d::size_type size_type;
-		typedef texture2d::texelcoord_type texelcoord_type;
+		typedef texture2d::extent_type extent_type;
 
 		static tvec4<val_type> call(texture2d const & A, texture2d const & B, binary_func<val_type> TexelFunc, binary_func<val_type> ReduceFunc)
 		{
 			GLI_ASSERT(are_compatible(A, B));
 
 			sampler2d<val_type> const SamplerA(A, gli::WRAP_CLAMP_TO_EDGE), SamplerB(B, gli::WRAP_CLAMP_TO_EDGE);
-			texelcoord_type TexelIndex(0);
+			extent_type TexelIndex(0);
 			tvec4<val_type> Result(TexelFunc(SamplerA.template fetch(TexelIndex, 0), SamplerB.template fetch(TexelIndex, 0)));
 
 			for(size_type LevelIndex = 0, LevelCount = A.levels(); LevelIndex < LevelCount; ++LevelIndex)
 			{
-				texelcoord_type const TexelCount(A.extent(LevelIndex));
+				extent_type const TexelCount(A.extent(LevelIndex));
 				for(TexelIndex.y = 0; TexelIndex.y < TexelCount.y; ++TexelIndex.y)
 				for(TexelIndex.x = 0; TexelIndex.x < TexelCount.x; ++TexelIndex.x)
 				{
@@ -118,20 +118,20 @@ namespace detail
 	{
 		typedef typename binary_func<val_type>::type func_type;
 		typedef texture2d_array::size_type size_type;
-		typedef texture2d_array::texelcoord_type texelcoord_type;
+		typedef texture2d_array::extent_type extent_type;
 
 		static tvec4<val_type> call(texture2d_array const & A, texture2d_array const & B, binary_func<val_type> TexelFunc, binary_func<val_type> ReduceFunc)
 		{
 			GLI_ASSERT(are_compatible(A, B));
 
 			sampler2d_array<val_type> const SamplerA(A, gli::WRAP_CLAMP_TO_EDGE), SamplerB(B, gli::WRAP_CLAMP_TO_EDGE);
-			texelcoord_type TexelIndex(0);
+			extent_type TexelIndex(0);
 			tvec4<val_type> Result(TexelFunc(SamplerA.template fetch(TexelIndex, 0, 0), SamplerB.template fetch(TexelIndex, 0, 0)));
 
 			for(size_type LayerIndex = 0, LayerCount = A.layers(); LayerIndex < LayerCount; ++LayerIndex)
 			for(size_type LevelIndex = 0, LevelCount = A.levels(); LevelIndex < LevelCount; ++LevelIndex)
 			{
-				texelcoord_type const TexelCount(A.extent(LevelIndex));
+				extent_type const TexelCount(A.extent(LevelIndex));
 				for(TexelIndex.y = 0; TexelIndex.y < TexelCount.y; ++TexelIndex.y)
 				for(TexelIndex.x = 0; TexelIndex.x < TexelCount.x; ++TexelIndex.x)
 				{
@@ -150,19 +150,19 @@ namespace detail
 	{
 		typedef typename binary_func<val_type>::type func_type;
 		typedef texture3d::size_type size_type;
-		typedef texture3d::texelcoord_type texelcoord_type;
+		typedef texture3d::extent_type extent_type;
 
 		static tvec4<val_type> call(texture3d const & A, texture3d const & B, binary_func<val_type> TexelFunc, binary_func<val_type> ReduceFunc)
 		{
 			GLI_ASSERT(are_compatible(A, B));
 
 			sampler3d<val_type> const SamplerA(A, gli::WRAP_CLAMP_TO_EDGE), SamplerB(B, gli::WRAP_CLAMP_TO_EDGE);
-			texelcoord_type TexelIndex(0);
+			extent_type TexelIndex(0);
 			tvec4<val_type> Result(TexelFunc(SamplerA.template fetch(TexelIndex, 0), SamplerB.template fetch(TexelIndex, 0)));
 
 			for(size_type LevelIndex = 0, LevelCount = A.levels(); LevelIndex < LevelCount; ++LevelIndex)
 			{
-				texelcoord_type const TexelCount(A.extent(LevelIndex));
+				extent_type const TexelCount(A.extent(LevelIndex));
 				for(TexelIndex.z = 0; TexelIndex.z < TexelCount.z; ++TexelIndex.z)
 				for(TexelIndex.y = 0; TexelIndex.y < TexelCount.y; ++TexelIndex.y)
 				for(TexelIndex.x = 0; TexelIndex.x < TexelCount.x; ++TexelIndex.x)
@@ -182,20 +182,20 @@ namespace detail
 	{
 		typedef typename binary_func<val_type>::type func_type;
 		typedef texture_cube::size_type size_type;
-		typedef texture_cube::texelcoord_type texelcoord_type;
+		typedef texture_cube::extent_type extent_type;
 
 		static tvec4<val_type> call(texture_cube const& A, texture_cube const & B, binary_func<val_type> TexelFunc, binary_func<val_type> ReduceFunc)
 		{
 			GLI_ASSERT(are_compatible(A, B));
 
 			samplerCube<val_type> const SamplerA(A, gli::WRAP_CLAMP_TO_EDGE), SamplerB(B, gli::WRAP_CLAMP_TO_EDGE);
-			texelcoord_type TexelIndex(0);
+			extent_type TexelIndex(0);
 			tvec4<val_type> Result(TexelFunc(SamplerA.template fetch(TexelIndex, 0, 0), SamplerB.template fetch(TexelIndex, 0, 0)));
 
 			for(size_type FaceIndex = 0, FaceCount = A.faces(); FaceIndex < FaceCount; ++FaceIndex)
 			for(size_type LevelIndex = 0, LevelCount = A.levels(); LevelIndex < LevelCount; ++LevelIndex)
 			{
-				texelcoord_type const TexelCount(A.extent(LevelIndex));
+				extent_type const TexelCount(A.extent(LevelIndex));
 				for(TexelIndex.y = 0; TexelIndex.y < TexelCount.y; ++TexelIndex.y)
 				for(TexelIndex.x = 0; TexelIndex.x < TexelCount.x; ++TexelIndex.x)
 				{
@@ -214,21 +214,21 @@ namespace detail
 	{
 		typedef typename binary_func<val_type>::type func_type;
 		typedef texture_cube_array::size_type size_type;
-		typedef texture_cube_array::texelcoord_type texelcoord_type;
+		typedef texture_cube_array::extent_type extent_type;
 
 		static tvec4<val_type> call(texture_cube_array const & A, texture_cube_array const & B, binary_func<val_type> TexelFunc, binary_func<val_type> ReduceFunc)
 		{
 			GLI_ASSERT(are_compatible(A, B));
 
 			samplerCubeArray<val_type> const SamplerA(A, gli::WRAP_CLAMP_TO_EDGE), SamplerB(B, gli::WRAP_CLAMP_TO_EDGE);
-			texelcoord_type TexelIndex(0);
+			extent_type TexelIndex(0);
 			tvec4<val_type> Result(TexelFunc(SamplerA.template fetch(TexelIndex, 0, 0, 0), SamplerB.template fetch(TexelIndex, 0, 0, 0)));
 
 			for(size_type LayerIndex = 0, LayerCount = A.layers(); LayerIndex < LayerCount; ++LayerIndex)
 			for(size_type FaceIndex = 0, FaceCount = A.faces(); FaceIndex < FaceCount; ++FaceIndex)
 			for(size_type LevelIndex = 0, LevelCount = A.levels(); LevelIndex < LevelCount; ++LevelIndex)
 			{
-				texelcoord_type const TexelCount(A.extent(LevelIndex));
+				extent_type const TexelCount(A.extent(LevelIndex));
 				for(TexelIndex.y = 0; TexelIndex.y < TexelCount.y; ++TexelIndex.y)
 				for(TexelIndex.x = 0; TexelIndex.x < TexelCount.x; ++TexelIndex.x)
 				{
@@ -250,7 +250,7 @@ namespace detail
 	{
 		typedef typename reduce_func<vec_type>::type func_type;
 		typedef texture1d::size_type size_type;
-		typedef texture1d::texelcoord_type texelcoord_type;
+		typedef texture1d::extent_type extent_type;
 		
 		static vec_type call(texture1d const & A, texture1d const & B, func_type TexelFunc, func_type ReduceFunc)
 		{
@@ -258,14 +258,14 @@ namespace detail
 			GLI_ASSERT(A.levels() == B.levels());
 			GLI_ASSERT(A.size() == B.size());
 
-			texelcoord_type TexelIndex(0);
+			extent_type TexelIndex(0);
 			vec_type Result(TexelFunc(
 				A.template load<vec_type>(TexelIndex, 0),
 				B.template load<vec_type>(TexelIndex, 0)));
 			
 			for(size_type LevelIndex = 0, LevelCount = A.levels(); LevelIndex < LevelCount; ++LevelIndex)
 			{
-				texelcoord_type const TexelCount(A.extent(LevelIndex));
+				extent_type const TexelCount(A.extent(LevelIndex));
 				for(TexelIndex.x = 0; TexelIndex.x < TexelCount.x; ++TexelIndex.x)
 				{
 					Result = ReduceFunc(Result, TexelFunc(
@@ -283,7 +283,7 @@ namespace detail
 	{
 		typedef typename reduce_func<vec_type>::type func_type;
 		typedef texture1d_array::size_type size_type;
-		typedef texture1d_array::texelcoord_type texelcoord_type;
+		typedef texture1d_array::extent_type extent_type;
 		
 		static vec_type call(texture1d_array const & A, texture1d_array const & B, func_type TexelFunc, func_type ReduceFunc)
 		{
@@ -291,7 +291,7 @@ namespace detail
 			GLI_ASSERT(A.levels() == B.levels());
 			GLI_ASSERT(A.size() == B.size());
 			
-			texelcoord_type TexelIndex(0);
+			extent_type TexelIndex(0);
 			vec_type Result(TexelFunc(
 				A.template load<vec_type>(TexelIndex, 0),
 				B.template load<vec_type>(TexelIndex, 0)));
@@ -299,7 +299,7 @@ namespace detail
 			for(size_type LayerIndex = 0, LayerCount = A.layers(); LayerIndex < LayerCount; ++LayerIndex)
 			for(size_type LevelIndex = 0, LevelCount = A.levels(); LevelIndex < LevelCount; ++LevelIndex)
 			{
-				texelcoord_type const TexelCount(A.extent(LevelIndex));
+				extent_type const TexelCount(A.extent(LevelIndex));
 				for(TexelIndex.x = 0; TexelIndex.x < TexelCount.x; ++TexelIndex.x)
 				{
 					Result = ReduceFunc(Result, TexelFunc(
@@ -317,7 +317,7 @@ namespace detail
 	{
 		typedef typename reduce_func<vec_type>::type func_type;
 		typedef texture2d::size_type size_type;
-		typedef texture2d::texelcoord_type texelcoord_type;
+		typedef texture2d::extent_type extent_type;
 		
 		static vec_type call(texture2d const & A, texture2d const & B, func_type TexelFunc, func_type ReduceFunc)
 		{
@@ -325,14 +325,14 @@ namespace detail
 			GLI_ASSERT(A.levels() == B.levels());
 			GLI_ASSERT(A.size() == B.size());
 			
-			texelcoord_type TexelIndex(0);
+			extent_type TexelIndex(0);
 			vec_type Result(TexelFunc(
 				A.template load<vec_type>(TexelIndex, 0),
 				B.template load<vec_type>(TexelIndex, 0)));
 			
 			for(size_type LevelIndex = 0, LevelCount = A.levels(); LevelIndex < LevelCount; ++LevelIndex)
 			{
-				texelcoord_type const TexelCount(A.extent(LevelIndex));
+				extent_type const TexelCount(A.extent(LevelIndex));
 				for(TexelIndex.y = 0; TexelIndex.y < TexelCount.y; ++TexelIndex.y)
 				for(TexelIndex.x = 0; TexelIndex.x < TexelCount.x; ++TexelIndex.x)
 				{
@@ -351,7 +351,7 @@ namespace detail
 	{
 		typedef typename reduce_func<vec_type>::type func_type;
 		typedef texture2d_array::size_type size_type;
-		typedef texture2d_array::texelcoord_type texelcoord_type;
+		typedef texture2d_array::extent_type extent_type;
 		
 		static vec_type call(texture2d_array const & A, texture2d_array const & B, func_type TexelFunc, func_type ReduceFunc)
 		{
@@ -359,7 +359,7 @@ namespace detail
 			GLI_ASSERT(A.levels() == B.levels());
 			GLI_ASSERT(A.size() == B.size());
 			
-			texelcoord_type TexelIndex(0);
+			extent_type TexelIndex(0);
 			vec_type Result(TexelFunc(
 				A.template load<vec_type>(TexelIndex, 0, 0),
 				B.template load<vec_type>(TexelIndex, 0, 0)));
@@ -367,7 +367,7 @@ namespace detail
 			for(size_type LayerIndex = 0, LayerCount = A.layers(); LayerIndex < LayerCount; ++LayerIndex)
 			for(size_type LevelIndex = 0, LevelCount = A.levels(); LevelIndex < LevelCount; ++LevelIndex)
 			{
-				texelcoord_type const TexelCount(A.extent(LevelIndex));
+				extent_type const TexelCount(A.extent(LevelIndex));
 				for(TexelIndex.y = 0; TexelIndex.y < TexelCount.y; ++TexelIndex.y)
 				for(TexelIndex.x = 0; TexelIndex.x < TexelCount.x; ++TexelIndex.x)
 				{
@@ -386,7 +386,7 @@ namespace detail
 	{
 		typedef typename reduce_func<vec_type>::type func_type;
 		typedef texture3d::size_type size_type;
-		typedef texture3d::texelcoord_type texelcoord_type;
+		typedef texture3d::extent_type extent_type;
 		
 		static vec_type call(texture3d const & A, texture3d const & B, func_type TexelFunc, func_type ReduceFunc)
 		{
@@ -394,14 +394,14 @@ namespace detail
 			GLI_ASSERT(A.levels() == B.levels());
 			GLI_ASSERT(A.size() == B.size());
 			
-			texelcoord_type TexelIndex(0);
+			extent_type TexelIndex(0);
 			vec_type Result(TexelFunc(
 				A.template load<vec_type>(TexelIndex, 0),
 				B.template load<vec_type>(TexelIndex, 0)));
 			
 			for(size_type LevelIndex = 0, LevelCount = A.levels(); LevelIndex < LevelCount; ++LevelIndex)
 			{
-				texelcoord_type const TexelCount(A.extent(LevelIndex));
+				extent_type const TexelCount(A.extent(LevelIndex));
 				for(TexelIndex.z = 0; TexelIndex.z < TexelCount.z; ++TexelIndex.z)
 				for(TexelIndex.y = 0; TexelIndex.y < TexelCount.y; ++TexelIndex.y)
 				for(TexelIndex.x = 0; TexelIndex.x < TexelCount.x; ++TexelIndex.x)
@@ -421,7 +421,7 @@ namespace detail
 	{
 		typedef typename reduce_func<vec_type>::type func_type;
 		typedef texture_cube::size_type size_type;
-		typedef texture_cube::texelcoord_type texelcoord_type;
+		typedef texture_cube::extent_type extent_type;
 		
 		static vec_type call(texture_cube const & A, texture_cube const & B, func_type TexelFunc, func_type ReduceFunc)
 		{
@@ -429,7 +429,7 @@ namespace detail
 			GLI_ASSERT(A.levels() == B.levels());
 			GLI_ASSERT(A.size() == B.size());
 			
-			texelcoord_type TexelIndex(0);
+			extent_type TexelIndex(0);
 			vec_type Result(TexelFunc(
 				A.load<vec_type>(TexelIndex, 0, 0),
 				B.load<vec_type>(TexelIndex, 0, 0)));
@@ -437,7 +437,7 @@ namespace detail
 			for(size_type FaceIndex = 0, FaceCount = A.faces(); FaceIndex < FaceCount; ++FaceIndex)
 			for(size_type LevelIndex = 0, LevelCount = A.levels(); LevelIndex < LevelCount; ++LevelIndex)
 			{
-				texelcoord_type const TexelCount(A.extent(LevelIndex));
+				extent_type const TexelCount(A.extent(LevelIndex));
 				for(TexelIndex.y = 0; TexelIndex.y < TexelCount.y; ++TexelIndex.y)
 				for(TexelIndex.x = 0; TexelIndex.x < TexelCount.x; ++TexelIndex.x)
 				{
@@ -456,7 +456,7 @@ namespace detail
 	{
 		typedef typename reduce_func<vec_type>::type func_type;
 		typedef texture_cube_array::size_type size_type;
-		typedef texture_cube_array::texelcoord_type texelcoord_type;
+		typedef texture_cube_array::extent_type extent_type;
 		
 		static vec_type call(texture_cube_array const & A, texture_cube_array const & B, func_type TexelFunc, func_type ReduceFunc)
 		{
@@ -464,7 +464,7 @@ namespace detail
 			GLI_ASSERT(A.levels() == B.levels());
 			GLI_ASSERT(A.size() == B.size());
 			
-			texelcoord_type TexelIndex(0);
+			extent_type TexelIndex(0);
 			vec_type Result(TexelFunc(
 				A.load<vec_type>(TexelIndex, 0, 0, 0),
 				B.load<vec_type>(TexelIndex, 0, 0 ,0)));
@@ -473,7 +473,7 @@ namespace detail
 			for(size_type FaceIndex = 0, FaceCount = A.faces(); FaceIndex < FaceCount; ++FaceIndex)
 			for(size_type LevelIndex = 0, LevelCount = A.levels(); LevelIndex < LevelCount; ++LevelIndex)
 			{
-				texelcoord_type const TexelCount(A.extent(LevelIndex));
+				extent_type const TexelCount(A.extent(LevelIndex));
 				for(TexelIndex.y = 0; TexelIndex.y < TexelCount.y; ++TexelIndex.y)
 				for(TexelIndex.x = 0; TexelIndex.x < TexelCount.x; ++TexelIndex.x)
 				{

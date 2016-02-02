@@ -11,7 +11,7 @@ namespace gli
 	class texture2d_array : public texture
 	{
 	public:
-		typedef extent2d texelcoord_type;
+		typedef extent2d extent_type;
 
 	public:
 		/// Create an empty texture 2D array
@@ -20,14 +20,14 @@ namespace gli
 		/// Create a texture2d_array and allocate a new storage
 		explicit texture2d_array(
 			format_type Format,
-			texelcoord_type const & Extent,
+			extent_type const & Extent,
 			size_type Layers,
 			size_type Levels);
 
 		/// Create a texture2d_array and allocate a new storage with a complete mipmap chain
 		explicit texture2d_array(
 			format_type Format,
-			texelcoord_type const & Extent,
+			extent_type const & Extent,
 			size_type Layers);
 
 		/// Create a texture2d_array view with an existing storage
@@ -52,15 +52,15 @@ namespace gli
 		texture2d operator[](size_type Layer) const;
 
 		/// Return the dimensions of a texture instance: width and height 
-		texelcoord_type extent(size_type Level = 0) const;
+		extent_type extent(size_type Level = 0) const;
 
 		/// Fetch a texel from a texture. The texture format must be uncompressed.
 		template <typename genType>
-		genType load(texelcoord_type const & TexelCoord, size_type Layer, size_type Level) const;
+		genType load(extent_type const & TexelCoord, size_type Layer, size_type Level) const;
 
 		/// Write a texel to a texture. The texture format must be uncompressed.
 		template <typename genType>
-		void store(texelcoord_type const & TexelCoord, size_type Layer, size_type Level, genType const & Texel);
+		void store(extent_type const & TexelCoord, size_type Layer, size_type Level, genType const & Texel);
 
 		/// Clear the entire texture storage with zeros
 		void clear();
@@ -78,7 +78,7 @@ namespace gli
 		struct cache
 		{
 			std::uint8_t* Data;
-			texelcoord_type Extent;
+			extent_type Extent;
 #			ifndef NDEBUG
 				size_type Size;
 #			endif

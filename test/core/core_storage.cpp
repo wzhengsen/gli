@@ -6,7 +6,7 @@ int test_storage_layer_size()
 
 	gli::storage Storage(
 		gli::FORMAT_RGBA8_UNORM_PACK8,
-		gli::storage::texelcoord_type(2, 2, 1),
+		gli::storage::extent_type(2, 2, 1),
 		2, 1, 1);
 
 	std::vector<glm::u8vec4> Data(8, glm::u8vec4(0));
@@ -32,7 +32,7 @@ int test_storage_face_size()
 
 	gli::storage Storage(
 		gli::FORMAT_RGBA8_UNORM_PACK8,
-		gli::storage::texelcoord_type(2, 2, 1),
+		gli::storage::extent_type(2, 2, 1),
 		1, 6, 1);
 
 	gli::storage::size_type BlockSize = Storage.block_size();

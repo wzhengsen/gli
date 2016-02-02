@@ -5,19 +5,19 @@ namespace gli
 	inline texture1d_array::texture1d_array()
 	{}
 
-	inline texture1d_array::texture1d_array(format_type Format, texelcoord_type const & Dimensions, size_type Layers)
-		: texture(TARGET_1D_ARRAY, Format, texture::texelcoord_type(Dimensions.x, 1, 1), Layers, 1, gli::levels(Dimensions))
+	inline texture1d_array::texture1d_array(format_type Format, extent_type const& Dimensions, size_type Layers)
+		: texture(TARGET_1D_ARRAY, Format, texture::extent_type(Dimensions.x, 1, 1), Layers, 1, gli::levels(Dimensions))
 	{
 		this->build_cache();
 	}
 
-	inline texture1d_array::texture1d_array(format_type Format, texelcoord_type const & Dimensions, size_type Layers, size_type Levels)
-		: texture(TARGET_1D_ARRAY, Format, texture::texelcoord_type(Dimensions.x, 1, 1), Layers, 1, Levels)
+	inline texture1d_array::texture1d_array(format_type Format, extent_type const& Dimensions, size_type Layers, size_type Levels)
+		: texture(TARGET_1D_ARRAY, Format, texture::extent_type(Dimensions.x, 1, 1), Layers, 1, Levels)
 	{
 		this->build_cache();
 	}
 
-	inline texture1d_array::texture1d_array(texture const & Texture)
+	inline texture1d_array::texture1d_array(texture const& Texture)
 		: texture(Texture, TARGET_1D_ARRAY, Texture.format())
 	{
 		this->build_cache();
@@ -25,7 +25,7 @@ namespace gli
 
 	inline texture1d_array::texture1d_array
 	(
-		texture const & Texture,
+		texture const& Texture,
 		format_type Format,
 		size_type BaseLayer, size_type MaxLayer,
 		size_type BaseFace, size_type MaxFace,
@@ -68,7 +68,7 @@ namespace gli
 			this->base_level(), this->max_level());
 	}
 
-	inline texture1d_array::texelcoord_type texture1d_array::extent(size_type Level) const
+	inline texture1d_array::extent_type texture1d_array::extent(size_type Level) const
 	{
 		GLI_ASSERT(!this->empty());
 
@@ -76,7 +76,7 @@ namespace gli
 	}
 
 	template <typename genType>
-	inline genType texture1d_array::load(texelcoord_type const & TexelCoord, size_type Layer, size_type Level) const
+	inline genType texture1d_array::load(extent_type const& TexelCoord, size_type Layer, size_type Level) const
 	{
 		GLI_ASSERT(!this->empty());
 		GLI_ASSERT(!is_compressed(this->format()));
@@ -91,7 +91,7 @@ namespace gli
 	}
 
 	template <typename genType>
-	inline void texture1d_array::store(texelcoord_type const & TexelCoord, size_type Layer, size_type Level, genType const & Texel)
+	inline void texture1d_array::store(extent_type const& TexelCoord, size_type Layer, size_type Level, genType const& Texel)
 	{
 		GLI_ASSERT(!this->empty());
 		GLI_ASSERT(!is_compressed(this->format()));
@@ -118,7 +118,7 @@ namespace gli
 	}
 
 	template <typename genType>
-	inline void texture1d_array::clear(size_type Layer, size_type Level, genType const & Texel)
+	inline void texture1d_array::clear(size_type Layer, size_type Level, genType const& Texel)
 	{
 		this->texture::clear<genType>(Layer, 0, Level, Texel);
 	}
@@ -137,7 +137,7 @@ namespace gli
 		{
 			cache& Cache = this->Caches[this->index_cache(Layer, Level)];
 			Cache.Data = this->data<std::uint8_t>(Layer, 0, Level);
-			Cache.Extent = glm::max(texelcoord_type(this->texture::extent(Level)), texelcoord_type(1));
+			Cache.Extent = glm::max(extent_type(this->texture::extent(Level)), extent_type(1));
 #			ifndef NDEBUG
 				Cache.Size = this->size(Level);
 #			endif

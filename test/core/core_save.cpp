@@ -28,7 +28,7 @@ namespace l8_unorm
 	{
 		int Error = 0;
 
-		gli::texture2d Texture(gli::FORMAT_L8_UNORM_PACK8, gli::texture2d::texelcoord_type(4));
+		gli::texture2d Texture(gli::FORMAT_L8_UNORM_PACK8, gli::texture2d::extent_type(4));
 		Texture.clear(gli::u8vec1(127));
 
 		gli::save(Texture, "orange_l8_unorm.dds");
@@ -51,7 +51,7 @@ namespace la8_unorm
 	{
 		int Error = 0;
 
-		gli::texture2d Texture(gli::FORMAT_LA8_UNORM_PACK8, gli::texture2d::texelcoord_type(4));
+		gli::texture2d Texture(gli::FORMAT_LA8_UNORM_PACK8, gli::texture2d::extent_type(4));
 		Texture.clear(gli::u8vec2(255, 127));
 
 		gli::save(Texture, "orange_la8_unorm.dds");
@@ -74,7 +74,7 @@ namespace rgba8_unorm
 	{
 		int Error = 0;
 
-		gli::texture2d Texture(gli::FORMAT_RGBA8_UNORM_PACK8, gli::texture2d::texelcoord_type(4));
+		gli::texture2d Texture(gli::FORMAT_RGBA8_UNORM_PACK8, gli::texture2d::extent_type(4));
 		Texture.clear(gli::u8vec4(255, 127, 0, 255));
 
 		gli::save(Texture, "orange_rgba8_unorm.dds");

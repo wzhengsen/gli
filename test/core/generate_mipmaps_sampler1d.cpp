@@ -13,11 +13,11 @@ namespace generate_mipmaps
 	{
 		int Error = 0;
 
-		gli::texture1d Texture(Format, gli::texture1d::texelcoord_type(static_cast<gli::texture1d::texelcoord_type::value_type>(Size)));
+		gli::texture1d Texture(Format, gli::texture1d::extent_type(static_cast<gli::texture1d::extent_type::value_type>(Size)));
 		Texture.clear(Black);
 		Texture[0].clear(Color);
 
-		genType const LoadC = Texture.load<genType>(gli::texture1d::texelcoord_type(0), Texture.max_level());
+		genType const LoadC = Texture.load<genType>(gli::texture1d::extent_type(0), Texture.max_level());
 		if(Texture.levels() > 1)
 			Error += LoadC == Black ? 0 : 1;
 
@@ -26,7 +26,7 @@ namespace generate_mipmaps
 		SamplerA.generate_mipmaps(gli::FILTER_LINEAR);
 
 		gli::texture1d MipmapsA = SamplerA();
-		genType const LoadA = MipmapsA.load<genType>(gli::texture1d::texelcoord_type(0), MipmapsA.max_level());
+		genType const LoadA = MipmapsA.load<genType>(gli::texture1d::extent_type(0), MipmapsA.max_level());
 		Error += LoadA == Color ? 0 : 1;
 		if(Texture.levels() > 1)
 			Error += LoadA != LoadC ? 0 : 1;
@@ -36,7 +36,7 @@ namespace generate_mipmaps
 
 		// Mipmaps generation using the wrapper function
 		gli::texture1d MipmapsB = gli::generate_mipmaps(gli::texture1d(gli::duplicate(Texture)), Filter);
-		genType const LoadB = MipmapsB.load<genType>(gli::texture1d::texelcoord_type(0), MipmapsB.max_level());
+		genType const LoadB = MipmapsB.load<genType>(gli::texture1d::extent_type(0), MipmapsB.max_level());
 		Error += LoadB == Color ? 0 : 1;
 		if(Texture.levels() > 1)
 			Error += LoadB != LoadC ? 0 : 1;

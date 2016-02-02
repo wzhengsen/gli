@@ -6,7 +6,7 @@ namespace detail
 	{
 		typedef typename transform_func<vec_type>::type func_type;
 		typedef texture1d::size_type size_type;
-		typedef texture1d::texelcoord_type texelcoord_type;
+		typedef texture1d::extent_type extent_type;
 		
 		static void call(texture1d& Output, texture1d const& A, texture1d const& B, func_type Func)
 		{
@@ -16,8 +16,8 @@ namespace detail
 			
 			for(size_type LevelIndex = 0, LevelCount = A.levels(); LevelIndex < LevelCount; ++LevelIndex)
 			{
-				texelcoord_type const TexelCount(A.extent(LevelIndex));
-				texelcoord_type TexelIndex(0);
+				extent_type const TexelCount(A.extent(LevelIndex));
+				extent_type TexelIndex(0);
 				
 				for(TexelIndex.x = 0; TexelIndex.x < TexelCount.x; ++TexelIndex.x)
 				{
@@ -34,7 +34,7 @@ namespace detail
 	{
 		typedef typename transform_func<vec_type>::type func_type;
 		typedef texture1d_array::size_type size_type;
-		typedef texture1d_array::texelcoord_type texelcoord_type;
+		typedef texture1d_array::extent_type extent_type;
 		
 		static void call(texture1d_array& Output, texture1d_array const& A, texture1d_array const& B, func_type Func)
 		{
@@ -46,8 +46,8 @@ namespace detail
 			for(size_type LayerIndex = 0, LayerCount = A.layers(); LayerIndex < LayerCount; ++LayerIndex)
 			for(size_type LevelIndex = 0, LevelCount = A.levels(); LevelIndex < LevelCount; ++LevelIndex)
 			{
-				texelcoord_type const TexelCount(A.extent(LevelIndex));
-				texelcoord_type TexelIndex(0);
+				extent_type const TexelCount(A.extent(LevelIndex));
+				extent_type TexelIndex(0);
 				
 				for(TexelIndex.x = 0; TexelIndex.x < TexelCount.x; ++TexelIndex.x)
 				{
@@ -64,7 +64,7 @@ namespace detail
 	{
 		typedef typename transform_func<vec_type>::type func_type;
 		typedef texture2d::size_type size_type;
-		typedef texture2d::texelcoord_type texelcoord_type;
+		typedef texture2d::extent_type extent_type;
 			
 		static void call(texture2d& Output, texture2d const& A, texture2d const& B, func_type Func)
 		{
@@ -74,8 +74,8 @@ namespace detail
 				
 			for(size_type LevelIndex = 0, LevelCount = A.levels(); LevelIndex < LevelCount; ++LevelIndex)
 			{
-				texelcoord_type const TexelCount(A.extent(LevelIndex));
-				texelcoord_type TexelIndex(0);
+				extent_type const TexelCount(A.extent(LevelIndex));
+				extent_type TexelIndex(0);
 				
 				for(TexelIndex.y = 0; TexelIndex.y < TexelCount.y; ++TexelIndex.y)
 				for(TexelIndex.x = 0; TexelIndex.x < TexelCount.x; ++TexelIndex.x)
@@ -93,7 +93,7 @@ namespace detail
 	{
 		typedef typename transform_func<vec_type>::type func_type;
 		typedef texture2d_array::size_type size_type;
-		typedef texture2d_array::texelcoord_type texelcoord_type;
+		typedef texture2d_array::extent_type extent_type;
 		
 		static void call(texture2d_array& Output, texture2d_array const& A, texture2d_array const& B, func_type Func)
 		{
@@ -105,8 +105,8 @@ namespace detail
 			for(size_type LayerIndex = 0, LayerCount = A.layers(); LayerIndex < LayerCount; ++LayerIndex)
 			for(size_type LevelIndex = 0, LevelCount = A.levels(); LevelIndex < LevelCount; ++LevelIndex)
 			{
-				texelcoord_type const TexelCount(A.extent(LevelIndex));
-				texelcoord_type TexelIndex(0);
+				extent_type const TexelCount(A.extent(LevelIndex));
+				extent_type TexelIndex(0);
 				
 				for(TexelIndex.y = 0; TexelIndex.y < TexelCount.y; ++TexelIndex.y)
 				for(TexelIndex.x = 0; TexelIndex.x < TexelCount.x; ++TexelIndex.x)
@@ -124,7 +124,7 @@ namespace detail
 	{
 		typedef typename transform_func<vec_type>::type func_type;
 		typedef texture3d::size_type size_type;
-		typedef texture3d::texelcoord_type texelcoord_type;
+		typedef texture3d::extent_type extent_type;
 	
 		static void call(texture3d& Output, texture3d const& A, texture3d const& B, func_type Func)
 		{
@@ -134,8 +134,8 @@ namespace detail
 		
 			for(size_type LevelIndex = 0, LevelCount = A.levels(); LevelIndex < LevelCount; ++LevelIndex)
 			{
-				texelcoord_type const TexelCount(A.extent(LevelIndex));
-				texelcoord_type TexelIndex(0);
+				extent_type const TexelCount(A.extent(LevelIndex));
+				extent_type TexelIndex(0);
 				
 				for(TexelIndex.z = 0; TexelIndex.z < TexelCount.z; ++TexelIndex.z)
 				for(TexelIndex.y = 0; TexelIndex.y < TexelCount.y; ++TexelIndex.y)
@@ -154,7 +154,7 @@ namespace detail
 	{
 		typedef typename transform_func<vec_type>::type func_type;
 		typedef texture_cube::size_type size_type;
-		typedef texture_cube::texelcoord_type texelcoord_type;
+		typedef texture_cube::extent_type extent_type;
 			
 		static void call(texture_cube& Output, texture_cube const& A, texture_cube const& B, func_type Func)
 		{
@@ -166,8 +166,8 @@ namespace detail
 			for(size_type FaceIndex = 0, FaceCount = A.faces(); FaceIndex < FaceCount; ++FaceIndex)
 			for(size_type LevelIndex = 0, LevelCount = A.levels(); LevelIndex < LevelCount; ++LevelIndex)
 			{
-				texelcoord_type const TexelCount(A.extent(LevelIndex));
-				texelcoord_type TexelIndex(0);
+				extent_type const TexelCount(A.extent(LevelIndex));
+				extent_type TexelIndex(0);
 				
 				for(TexelIndex.y = 0; TexelIndex.y < TexelCount.y; ++TexelIndex.y)
 				for(TexelIndex.x = 0; TexelIndex.x < TexelCount.x; ++TexelIndex.x)
@@ -185,7 +185,7 @@ namespace detail
 	{
 		typedef typename transform_func<vec_type>::type func_type;
 		typedef texture_cube_array::size_type size_type;
-		typedef texture_cube_array::texelcoord_type texelcoord_type;
+		typedef texture_cube_array::extent_type extent_type;
 			
 		static void call(texture_cube_array& Output, texture_cube_array const& A, texture_cube_array const& B, func_type Func)
 		{
@@ -198,8 +198,8 @@ namespace detail
 			for(size_type FaceIndex = 0, FaceCount = A.faces(); FaceIndex < FaceCount; ++FaceIndex)
 			for(size_type LevelIndex = 0, LevelCount = A.levels(); LevelIndex < LevelCount; ++LevelIndex)
 			{
-				texelcoord_type const TexelCount(A.extent(LevelIndex));
-				texelcoord_type TexelIndex(0);
+				extent_type const TexelCount(A.extent(LevelIndex));
+				extent_type TexelIndex(0);
 				
 				for(TexelIndex.y = 0; TexelIndex.y < TexelCount.y; ++TexelIndex.y)
 				for(TexelIndex.x = 0; TexelIndex.x < TexelCount.x; ++TexelIndex.x)

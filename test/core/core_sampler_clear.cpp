@@ -10,7 +10,7 @@ namespace rgba8unorm
 
 		glm::vec4 const Orange(1.0f, 0.5f, 0.0f, 1.0f);
 
-		gli::texture2d Texture(gli::FORMAT_RGBA8_UNORM_PACK8, gli::texture2d::texelcoord_type(32), 1);
+		gli::texture2d Texture(gli::FORMAT_RGBA8_UNORM_PACK8, gli::texture2d::extent_type(32), 1);
 		gli::fsampler2D Sampler(Texture, gli::WRAP_CLAMP_TO_EDGE, gli::FILTER_LINEAR, gli::FILTER_LINEAR);
 		Sampler.clear(Orange);
 
@@ -30,7 +30,7 @@ namespace rgba32sf
 
 		glm::f32vec4 const Orange(1.0f, 0.5f, 0.0f, 1.0f);
 
-		gli::texture2d Texture(gli::FORMAT_RGBA32_SFLOAT_PACK32, gli::texture2d::texelcoord_type(4), 1);
+		gli::texture2d Texture(gli::FORMAT_RGBA32_SFLOAT_PACK32, gli::texture2d::extent_type(4), 1);
 		gli::fsampler2D Sampler(Texture, gli::WRAP_CLAMP_TO_EDGE, gli::FILTER_LINEAR, gli::FILTER_LINEAR);
 		Sampler.clear(Orange);
 

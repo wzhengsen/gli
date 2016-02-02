@@ -265,7 +265,7 @@ namespace detail
 
 		texture Texture(
 			get_target(Header, Header10), Format,
-			texture::texelcoord_type(Header.Width, Header.Height, DepthCount),
+			texture::extent_type(Header.Width, Header.Height, DepthCount),
 			std::max<texture::size_type>(Header10.ArraySize, 1), FaceCount, MipMapCount);
 
 		std::size_t const SourceSize = Offset + Texture.size();

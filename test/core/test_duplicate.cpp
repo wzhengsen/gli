@@ -5,7 +5,7 @@
 int test_texture1D
 (
 	std::vector<gli::format> const & Formats, 
-	gli::texture1d::texelcoord_type const & TextureSize
+	gli::texture1d::extent_type const & TextureSize
 )
 {
 	int Error(0);
@@ -47,7 +47,7 @@ int test_texture1D
 int test_texture1DArray
 (
 	std::vector<gli::format> const & Formats,
-	gli::texture1d::texelcoord_type const & TextureSize
+	gli::texture1d::extent_type const & TextureSize
 )
 {
 	int Error(0);
@@ -117,7 +117,7 @@ int test_texture1DArray
 int test_texture2D
 (
 	std::vector<gli::format> const & Formats, 
-	gli::texture2d::texelcoord_type const & TextureSize
+	gli::texture2d::extent_type const & TextureSize
 )
 {
 	int Error(0);
@@ -157,7 +157,7 @@ int test_texture2D
 int test_texture2DArray
 (
 	std::vector<gli::format> const & Formats,
-	gli::texture2d_array::texelcoord_type const & TextureSize
+	gli::texture2d_array::extent_type const & TextureSize
 )
 {
 	int Error(0);
@@ -226,7 +226,7 @@ int test_texture2DArray
 int test_texture3D
 (
 	std::vector<gli::format> const & Formats, 
-	gli::texture3d::texelcoord_type const & TextureSize
+	gli::texture3d::extent_type const & TextureSize
 )
 {
 	int Error(0);
@@ -265,7 +265,7 @@ int test_texture3D
 int test_textureCube
 (
 	std::vector<gli::format> const & Formats,
-	gli::texture_cube::texelcoord_type const & TextureSize
+	gli::texture_cube::extent_type const & TextureSize
 )
 {
 	int Error(0);
@@ -274,7 +274,7 @@ int test_textureCube
 	{
 		gli::texture_cube TextureA(
 			Formats[i],
-			gli::texture_cube::texelcoord_type(TextureSize));
+			gli::texture_cube::extent_type(TextureSize));
 
 		gli::texture_cube TextureB(gli::duplicate(TextureA));
 
@@ -332,7 +332,7 @@ int test_textureCube
 int test_textureCubeArray
 (
 	std::vector<gli::format> const & Formats,
-	gli::texture_cube_array::texelcoord_type const & TextureSize
+	gli::texture_cube_array::extent_type const & TextureSize
 )
 {
 	int Error(0);
@@ -405,13 +405,13 @@ int main()
 
 	std::size_t const TextureSize = 32;
 
-	Error += test_texture1D(FormatsB, gli::texture1d::texelcoord_type(TextureSize));
-	Error += test_texture1DArray(FormatsB, gli::texture1d_array::texelcoord_type(TextureSize));
-	Error += test_texture2D(FormatsA, gli::texture2d::texelcoord_type(TextureSize));
-	Error += test_texture2DArray(FormatsA, gli::texture2d_array::texelcoord_type(TextureSize));
-	Error += test_texture3D(FormatsA, gli::texture3d::texelcoord_type(TextureSize));
-	Error += test_textureCube(FormatsA, gli::texture_cube::texelcoord_type(TextureSize));
-	Error += test_textureCubeArray(FormatsA, gli::texture_cube_array::texelcoord_type(TextureSize));
+	Error += test_texture1D(FormatsB, gli::texture1d::extent_type(TextureSize));
+	Error += test_texture1DArray(FormatsB, gli::texture1d_array::extent_type(TextureSize));
+	Error += test_texture2D(FormatsA, gli::texture2d::extent_type(TextureSize));
+	Error += test_texture2DArray(FormatsA, gli::texture2d_array::extent_type(TextureSize));
+	Error += test_texture3D(FormatsA, gli::texture3d::extent_type(TextureSize));
+	Error += test_textureCube(FormatsA, gli::texture_cube::extent_type(TextureSize));
+	Error += test_textureCubeArray(FormatsA, gli::texture_cube_array::extent_type(TextureSize));
 
 	return Error;
 }

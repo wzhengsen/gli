@@ -27,7 +27,7 @@ int main()
 {
 	int Error(0);
 
-	gli::texture2d::texelcoord_type const TextureSize(32);
+	gli::texture2d::extent_type const TextureSize(32);
 	gli::size_t const Levels = gli::levels(TextureSize);
 
 	Error += test_texture(

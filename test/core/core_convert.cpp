@@ -58,7 +58,7 @@ namespace rgb10a2norm
 		int Error = 0;
 
 		{
-			gli::texture1d TextureSrc(gli::FORMAT_RGB10A2_UNORM_PACK32, gli::texture1d::texelcoord_type(4));
+			gli::texture1d TextureSrc(gli::FORMAT_RGB10A2_UNORM_PACK32, gli::texture1d::extent_type(4));
 			TextureSrc.clear(glm::u8vec4(255, 127, 0, 255));
 
 			gli::texture1d TextureDst = gli::convert(TextureSrc, gli::FORMAT_RGB10A2_UNORM_PACK32);
@@ -67,7 +67,7 @@ namespace rgb10a2norm
 		}
 
 		{
-			gli::texture1d_array TextureSrc(gli::FORMAT_RGB10A2_UNORM_PACK32, gli::texture1d_array::texelcoord_type(4), 2);
+			gli::texture1d_array TextureSrc(gli::FORMAT_RGB10A2_UNORM_PACK32, gli::texture1d_array::extent_type(4), 2);
 			TextureSrc.clear(glm::u8vec4(255, 127, 0, 255));
 
 			gli::texture1d_array TextureDst = gli::convert(TextureSrc, gli::FORMAT_RGB10A2_UNORM_PACK32);
@@ -76,7 +76,7 @@ namespace rgb10a2norm
 		}
 
 		{
-			gli::texture2d TextureSrc(gli::FORMAT_RGB10A2_UNORM_PACK32, gli::texture2d::texelcoord_type(4));
+			gli::texture2d TextureSrc(gli::FORMAT_RGB10A2_UNORM_PACK32, gli::texture2d::extent_type(4));
 			TextureSrc.clear(glm::u8vec4(255, 127, 0, 255));
 
 			gli::texture2d TextureDst = gli::convert(TextureSrc, gli::FORMAT_RGB10A2_UNORM_PACK32);
@@ -85,7 +85,7 @@ namespace rgb10a2norm
 		}
 
 		{
-			gli::texture2d_array TextureSrc(gli::FORMAT_RGB10A2_UNORM_PACK32, gli::texture2d_array::texelcoord_type(4), 2);
+			gli::texture2d_array TextureSrc(gli::FORMAT_RGB10A2_UNORM_PACK32, gli::texture2d_array::extent_type(4), 2);
 			TextureSrc.clear(glm::u8vec4(255, 127, 0, 255));
 
 			gli::texture2d_array TextureDst = gli::convert(TextureSrc, gli::FORMAT_RGB10A2_UNORM_PACK32);
@@ -94,7 +94,7 @@ namespace rgb10a2norm
 		}
 
 		{
-			gli::texture3d TextureSrc(gli::FORMAT_RGB10A2_UNORM_PACK32, gli::texture3d::texelcoord_type(4));
+			gli::texture3d TextureSrc(gli::FORMAT_RGB10A2_UNORM_PACK32, gli::texture3d::extent_type(4));
 			TextureSrc.clear(glm::u8vec4(255, 127, 0, 255));
 
 			gli::texture3d TextureDst = gli::convert(TextureSrc, gli::FORMAT_RGB10A2_UNORM_PACK32);
@@ -103,7 +103,7 @@ namespace rgb10a2norm
 		}
 
 		{
-			gli::texture_cube TextureSrc(gli::FORMAT_RGB10A2_UNORM_PACK32, gli::texture_cube::texelcoord_type(4), 2);
+			gli::texture_cube TextureSrc(gli::FORMAT_RGB10A2_UNORM_PACK32, gli::texture_cube::extent_type(4), 2);
 			TextureSrc.clear(glm::u8vec4(255, 127, 0, 255));
 
 			gli::texture_cube TextureDst = gli::convert(TextureSrc, gli::FORMAT_RGB10A2_UNORM_PACK32);
@@ -112,7 +112,7 @@ namespace rgb10a2norm
 		}
 
 		{
-			gli::texture_cube_array TextureSrc(gli::FORMAT_RGB10A2_UNORM_PACK32, gli::texture_cube_array::texelcoord_type(4), 2);
+			gli::texture_cube_array TextureSrc(gli::FORMAT_RGB10A2_UNORM_PACK32, gli::texture_cube_array::extent_type(4), 2);
 			TextureSrc.clear(glm::u8vec4(255, 127, 0, 255));
 
 			gli::texture_cube_array TextureDst = gli::convert(TextureSrc, gli::FORMAT_RGB10A2_UNORM_PACK32);

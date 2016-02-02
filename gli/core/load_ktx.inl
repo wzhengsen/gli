@@ -70,7 +70,7 @@ namespace detail
 		texture Texture(
 			detail::get_target(Header),
 			Format,
-			texture::texelcoord_type(
+			texture::extent_type(
 				Header.PixelWidth,
 				std::max<texture::size_type>(Header.PixelHeight, 1),
 				std::max<texture::size_type>(Header.PixelDepth, 1)),

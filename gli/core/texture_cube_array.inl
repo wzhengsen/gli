@@ -3,14 +3,14 @@ namespace gli
 	inline texture_cube_array::texture_cube_array()
 	{}
 
-	inline texture_cube_array::texture_cube_array(format_type Format, texelcoord_type const & Dimensions, size_type Layers)
-		: texture(TARGET_CUBE_ARRAY, Format, texture::texelcoord_type(Dimensions, 1), Layers, 6, gli::levels(Dimensions))
+	inline texture_cube_array::texture_cube_array(format_type Format, extent_type const & Dimensions, size_type Layers)
+		: texture(TARGET_CUBE_ARRAY, Format, texture::extent_type(Dimensions, 1), Layers, 6, gli::levels(Dimensions))
 	{
 		this->build_cache();
 	}
 
-	inline texture_cube_array::texture_cube_array(format_type Format, texelcoord_type const & Dimensions, size_type Layers, size_type Levels)
-		: texture(TARGET_CUBE_ARRAY, Format, texture::texelcoord_type(Dimensions, 1), Layers, 6, Levels)
+	inline texture_cube_array::texture_cube_array(format_type Format, extent_type const & Dimensions, size_type Layers, size_type Levels)
+		: texture(TARGET_CUBE_ARRAY, Format, texture::extent_type(Dimensions, 1), Layers, 6, Levels)
 	{
 		this->build_cache();
 	}
@@ -66,7 +66,7 @@ namespace gli
 			this->base_level(), this->max_level());
 	}
 
-	inline texture_cube_array::texelcoord_type texture_cube_array::extent(size_type Level) const
+	inline texture_cube_array::extent_type texture_cube_array::extent(size_type Level) const
 	{
 		GLI_ASSERT(!this->empty());
 
@@ -74,7 +74,7 @@ namespace gli
 	}
 
 	template <typename genType>
-	inline genType texture_cube_array::load(texelcoord_type const & TexelCoord, size_type Layer,  size_type Face, size_type Level) const
+	inline genType texture_cube_array::load(extent_type const & TexelCoord, size_type Layer,  size_type Face, size_type Level) const
 	{
 		GLI_ASSERT(!this->empty());
 		GLI_ASSERT(!is_compressed(this->format()));
@@ -89,7 +89,7 @@ namespace gli
 	}
 
 	template <typename genType>
-	inline void texture_cube_array::store(texelcoord_type const & TexelCoord, size_type Layer,  size_type Face, size_type Level, genType const & Texel)
+	inline void texture_cube_array::store(extent_type const & TexelCoord, size_type Layer,  size_type Face, size_type Level, genType const & Texel)
 	{
 		GLI_ASSERT(!this->empty());
 		GLI_ASSERT(!is_compressed(this->format()));
@@ -136,7 +136,7 @@ namespace gli
 		{
 			cache& Cache = this->Caches[this->index_cache(Layer, Face, Level)];
 			Cache.Data = this->data<std::uint8_t>(Layer, Face, Level);
-			Cache.Extent = glm::max(texture2d::texelcoord_type(this->texture::extent(Level)), texture2d::texelcoord_type(1));
+			Cache.Extent = glm::max(texture2d::extent_type(this->texture::extent(Level)), texture2d::extent_type(1));
 #			ifndef NDEBUG
 				Cache.Size = this->size(Level);
 #			endif

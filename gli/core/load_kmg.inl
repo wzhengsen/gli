@@ -35,7 +35,7 @@ namespace detail
 		texture Texture(
 			static_cast<target>(Header.Target),
 			static_cast<format>(Header.Format),
-			texture::texelcoord_type(Header.PixelWidth, Header.PixelHeight, Header.PixelDepth),
+			texture::extent_type(Header.PixelWidth, Header.PixelHeight, Header.PixelDepth),
 			Header.Layers,
 			Header.Faces,
 			Header.Levels,

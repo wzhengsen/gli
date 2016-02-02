@@ -13,7 +13,7 @@ namespace generate_mipmaps
 	{
 		int Error = 0;
 
-		gli::texture_cube_array Texture(Format, gli::texture_cube_array::texelcoord_type(static_cast<gli::texture_cube_array::texelcoord_type::value_type>(Size)), Layers);
+		gli::texture_cube_array Texture(Format, gli::texture_cube_array::extent_type(static_cast<gli::texture_cube_array::extent_type::value_type>(Size)), Layers);
 		Texture.clear(Black);
 		for(std::size_t Layer = 0; Layer < Layers; ++Layer)
 		for(std::size_t Face = 0; Face < 6; ++Face)
@@ -22,7 +22,7 @@ namespace generate_mipmaps
 		for(std::size_t Layer = 0; Layer < Layers; ++Layer)
 		for(std::size_t Face = 0; Face < 6; ++Face)
 		{
-			genType const LoadC = Texture.load<genType>(gli::texture_cube_array::texelcoord_type(0), Layer, Face, Texture.max_level());
+			genType const LoadC = Texture.load<genType>(gli::texture_cube_array::extent_type(0), Layer, Face, Texture.max_level());
 			if(Texture.levels() > 1)
 				Error += LoadC == Black ? 0 : 1;
 
@@ -30,14 +30,14 @@ namespace generate_mipmaps
 			SamplerA.generate_mipmaps(gli::FILTER_LINEAR);
 
 			gli::texture_cube_array MipmapsA = SamplerA();
-			genType const LoadA = MipmapsA.load<genType>(gli::texture_cube_array::texelcoord_type(0), Layer, Face, MipmapsA.max_level());
+			genType const LoadA = MipmapsA.load<genType>(gli::texture_cube_array::extent_type(0), Layer, Face, MipmapsA.max_level());
 			Error += LoadA == Color ? 0 : 1;
 			if(Texture.levels() > 1)
 				Error += LoadA != LoadC ? 0 : 1;
 
 			// Mipmaps generation using the wrapper function
 			gli::texture_cube_array MipmapsB = gli::generate_mipmaps(gli::texture_cube_array(gli::duplicate(Texture)), Filter);
-			genType const LoadB = MipmapsB.load<genType>(gli::texture_cube_array::texelcoord_type(0), Layer, Face, MipmapsB.max_level());
+			genType const LoadB = MipmapsB.load<genType>(gli::texture_cube_array::extent_type(0), Layer, Face, MipmapsB.max_level());
 			Error += LoadB == Color ? 0 : 1;
 			if(Texture.levels() > 1)
 				Error += LoadB != LoadC ? 0 : 1;

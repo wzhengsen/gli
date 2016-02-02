@@ -13,7 +13,7 @@ namespace gli
 	class texture1d : public texture
 	{
 	public:
-		typedef extent1d texelcoord_type;
+		typedef extent1d extent_type;
 
 		/// Create an empty texture 1D
 		texture1d();
@@ -21,13 +21,13 @@ namespace gli
 		/// Create a texture1d and allocate a new storage
 		explicit texture1d(
 			format_type Format,
-			texelcoord_type const & Extent,
+			extent_type const & Extent,
 			size_type Levels);
 
 		/// Create a texture1d and allocate a new storage with a complete mipmap chain
 		explicit texture1d(
 			format_type Format,
-			texelcoord_type const & Extent);
+			extent_type const & Extent);
 
 		/// Create a texture1d view with an existing storage
 		explicit texture1d(
@@ -50,15 +50,15 @@ namespace gli
 		image operator[](size_type Level) const;
 
 		/// Return the width of a texture instance 
-		texelcoord_type extent(size_type Level = 0) const;
+		extent_type extent(size_type Level = 0) const;
 
 		/// Fetch a texel from a texture. The texture format must be uncompressed.
 		template <typename genType>
-		genType load(texelcoord_type const & TexelCoord, size_type Level) const;
+		genType load(extent_type const & TexelCoord, size_type Level) const;
 
 		/// Write a texel to a texture. The texture format must be uncompressed.
 		template <typename genType>
-		void store(texelcoord_type const & TexelCoord, size_type Level, genType const & Texel);
+		void store(extent_type const & TexelCoord, size_type Level, genType const & Texel);
 
 		/// Clear the entire texture storage with zeros
 		void clear();
@@ -76,7 +76,7 @@ namespace gli
 		struct cache
 		{
 			std::uint8_t* Data;
-			texelcoord_type Extent;
+			extent_type Extent;
 #			ifndef NDEBUG
 				size_type Size;
 #			endif

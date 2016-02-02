@@ -7,7 +7,7 @@ namespace layers
 	{
 		test
 		(
-			gli::storage::texelcoord_type const & Dimensions,
+			gli::storage::extent_type const & Dimensions,
 			gli::format const & Format,
 			std::size_t const & BaseOffset,
 			std::size_t const & Size
@@ -18,7 +18,7 @@ namespace layers
 			Size(Size)
 		{}
 
-		gli::storage::texelcoord_type Dimensions;
+		gli::storage::extent_type Dimensions;
 		gli::format Format;
 		std::size_t BaseOffset;
 		std::size_t Size;
@@ -29,12 +29,12 @@ namespace layers
 		int Error(0);
 
 		std::vector<test> Tests;
-		Tests.push_back(test(gli::storage::texelcoord_type(4, 4, 1), gli::FORMAT_RGBA8_UINT_PACK8, 64, 128));
-		Tests.push_back(test(gli::storage::texelcoord_type(4, 4, 1), gli::FORMAT_RGB16_SFLOAT_PACK16, 96, 192));
-		Tests.push_back(test(gli::storage::texelcoord_type(4, 4, 1), gli::FORMAT_RGBA32_SFLOAT_PACK32, 256, 512));
-		Tests.push_back(test(gli::storage::texelcoord_type(4, 4, 1), gli::FORMAT_RGBA_DXT1_UNORM_BLOCK8, 8, 16));
-		Tests.push_back(test(gli::storage::texelcoord_type(8, 8, 1), gli::FORMAT_RGBA_DXT1_UNORM_BLOCK8, 32, 64));
-		Tests.push_back(test(gli::storage::texelcoord_type(4, 4, 1), gli::FORMAT_R_ATI1N_SNORM_BLOCK8, 8, 16));
+		Tests.push_back(test(gli::storage::extent_type(4, 4, 1), gli::FORMAT_RGBA8_UINT_PACK8, 64, 128));
+		Tests.push_back(test(gli::storage::extent_type(4, 4, 1), gli::FORMAT_RGB16_SFLOAT_PACK16, 96, 192));
+		Tests.push_back(test(gli::storage::extent_type(4, 4, 1), gli::FORMAT_RGBA32_SFLOAT_PACK32, 256, 512));
+		Tests.push_back(test(gli::storage::extent_type(4, 4, 1), gli::FORMAT_RGBA_DXT1_UNORM_BLOCK8, 8, 16));
+		Tests.push_back(test(gli::storage::extent_type(8, 8, 1), gli::FORMAT_RGBA_DXT1_UNORM_BLOCK8, 32, 64));
+		Tests.push_back(test(gli::storage::extent_type(4, 4, 1), gli::FORMAT_R_ATI1N_SNORM_BLOCK8, 8, 16));
 
 		for(std::size_t i = 0; i < Tests.size(); ++i)
 		{
@@ -96,7 +96,7 @@ namespace faces
 
 		for(std::size_t i = 0; i < Tests.size(); ++i)
 		{
-			gli::storage Storage(Tests[i].Format, gli::storage::texelcoord_type(8, 8, 1), 1, 1, 4);
+			gli::storage Storage(Tests[i].Format, gli::storage::extent_type(8, 8, 1), 1, 1, 4);
 			gli::storage::size_type BaseOffset = Storage.base_offset(0, 0, Tests[i].Level);
 			gli::storage::size_type Size = Storage.size();
 
@@ -148,7 +148,7 @@ namespace levels
 		{
 			gli::storage Storage(
 				Tests[i].Format,
-				gli::storage::texelcoord_type(8, 8, 1),
+				gli::storage::extent_type(8, 8, 1),
 				1,
 				1,
 				4);

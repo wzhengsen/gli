@@ -5,14 +5,14 @@ namespace gli
 	inline texture2d::texture2d()
 	{}
 
-	inline texture2d::texture2d(format_type Format, texelcoord_type const& Extent)
-		: texture(TARGET_2D, Format, texture::texelcoord_type(Extent, 1), 1, 1, gli::levels(Extent))
+	inline texture2d::texture2d(format_type Format, extent_type const& Extent)
+		: texture(TARGET_2D, Format, texture::extent_type(Extent, 1), 1, 1, gli::levels(Extent))
 	{
 		this->build_cache();
 	}
 
-	inline texture2d::texture2d(format_type Format, texelcoord_type const& Extent, size_type Levels)
-		: texture(TARGET_2D, Format, texture::texelcoord_type(Extent, 1), 1, 1, Levels)
+	inline texture2d::texture2d(format_type Format, extent_type const& Extent, size_type Levels)
+		: texture(TARGET_2D, Format, texture::extent_type(Extent, 1), 1, 1, Levels)
 	{
 		this->build_cache();
 	}
@@ -66,7 +66,7 @@ namespace gli
 			this->base_level() + Level);
 	}
 
-	inline texture2d::texelcoord_type texture2d::extent(size_type Level) const
+	inline texture2d::extent_type texture2d::extent(size_type Level) const
 	{
 		GLI_ASSERT(!this->empty());
 
@@ -74,7 +74,7 @@ namespace gli
 	}
 
 	template <typename genType>
-	inline genType texture2d::load(texelcoord_type const & TexelCoord, size_type Level) const
+	inline genType texture2d::load(extent_type const & TexelCoord, size_type Level) const
 	{
 		GLI_ASSERT(!this->empty());
 		GLI_ASSERT(!is_compressed(this->format()));
@@ -89,7 +89,7 @@ namespace gli
 	}
 
 	template <typename genType>
-	inline void texture2d::store(texelcoord_type const & TexelCoord, size_type Level, genType const & Texel)
+	inline void texture2d::store(extent_type const & TexelCoord, size_type Level, genType const & Texel)
 	{
 		GLI_ASSERT(!this->empty());
 		GLI_ASSERT(!is_compressed(this->format()));
@@ -134,7 +134,7 @@ namespace gli
 		{
 			cache& Cache = this->Caches[this->index_cache(LevelIndex)];
 			Cache.Data = this->data<std::uint8_t>(0, 0, LevelIndex);
-			Cache.Extent = glm::max(texelcoord_type(this->texture::extent(LevelIndex)), texelcoord_type(1));
+			Cache.Extent = glm::max(extent_type(this->texture::extent(LevelIndex)), extent_type(1));
 #			ifndef NDEBUG
 				Cache.Size = this->size(LevelIndex);
 #			endif

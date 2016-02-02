@@ -15,7 +15,7 @@ namespace gli
 	/// #include <gli/texture2d.hpp>
 	/// #include <gli/levels.hpp>
 	/// ...
-	/// gli::texture2d::texelcoord_type Extent(32, 10);
+	/// gli::texture2d::extent_type Extent(32, 10);
 	/// gli::texture2d Texture(gli::levels(Extent));
 	/// @endcode
 	template <typename T, precision P, template <typename, precision> class vecType>

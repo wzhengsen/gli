@@ -27,7 +27,7 @@ namespace gli
 	class storage
 	{
 	public:
-		typedef extent3d texelcoord_type;
+		typedef extent3d extent_type;
 		typedef size_t size_type;
 		typedef gli::format format_type;
 		typedef glm::byte data_type;
@@ -37,7 +37,7 @@ namespace gli
 
 		storage(
 			format_type Format,
-			texelcoord_type const & Extent,
+			extent_type const & Extent,
 			size_type Layers,
 			size_type Faces,
 			size_type Levels);
@@ -49,9 +49,9 @@ namespace gli
 		size_type faces() const;
 
 		size_type block_size() const;
-		texelcoord_type block_extent() const;
-		texelcoord_type block_count(size_type Level) const;
-		texelcoord_type extent(size_type Level) const;
+		extent_type block_extent() const;
+		extent_type block_count(size_type Level) const;
+		extent_type extent(size_type Level) const;
 
 		data_type * data();
 
@@ -74,58 +74,11 @@ namespace gli
 		size_type const Faces;
 		size_type const Levels;
 		size_type const BlockSize;
-		texelcoord_type const BlockCount;
-		texelcoord_type const BlockExtent;
-		texelcoord_type const Extent;
+		extent_type const BlockCount;
+		extent_type const BlockExtent;
+		extent_type const Extent;
 		std::vector<data_type> Data;
 	};
-
-/*
-	storage extractLayers(
-		storage const & Storage, 
-		storage::size_type const & Offset, 
-		storage::size_type const & Size);
-*/
-/*
-	storage extractFace(
-		storage const & Storage, 
-		face const & Face);
-*/
-/*
-	storage extractLevels(
-		storage const & Storage, 
-		storage::size_type const & Offset, 
-		storage::size_type const & Size);
-*/
-/*
-	void copy_layers(
-		storage const & SourceStorage, 
-		storage::size_type const & SourceLayerOffset,
-		storage::size_type const & SourceLayerSize,
-		storage & DestinationStorage, 
-		storage::size_type const & DestinationLayerOffset);
-
-	void copy_faces(
-		storage const & SourceStorage, 
-		storage::size_type const & SourceLayerOffset,
-		storage::size_type const & SourceFaceOffset,
-		storage::size_type const & SourceLayerSize,
-		storage & DestinationStorage, 
-		storage::size_type const & DestinationLayerOffset,
-		storage::size_type const & DestinationFaceOffset);
-
-	void copy_levels(
-		storage const & SourceStorage, 
-		storage::size_type const & SourceLayerOffset,
-		storage::size_type const & SourceFaceOffset,
-		storage::size_type const & SourceLevelOffset,
-		storage::size_type const & SourceLayerSize,
-		storage & DestinationStorage, 
-		storage::size_type const & DestinationLayerOffset,
-		storage::size_type const & DestinationFaceOffset,
-		storage::size_type const & DestinationlevelOffset);
-*/
-
 }//namespace gli
 
 #include "storage.inl"
