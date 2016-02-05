@@ -6,7 +6,7 @@ namespace gli
 	{
 		static format const Table[] =
 		{
-			{INTERNAL_RG4_EXT, EXTERNAL_RGBA, TYPE_UINT8_RG4_REV_GTC},		//FORMAT_R4G4_UNORM,
+			{INTERNAL_RG4_EXT, EXTERNAL_RG, TYPE_UINT8_RG4_REV_GTC},		//FORMAT_R4G4_UNORM,
 			{INTERNAL_RGBA4, EXTERNAL_RGBA, TYPE_UINT16_RGBA4_REV},			//FORMAT_RGBA4_UNORM,
 			{INTERNAL_RGBA4, EXTERNAL_RGBA, TYPE_UINT16_RGBA4},				//FORMAT_BGRA4_UNORM,
 			{INTERNAL_R5G6B5, EXTERNAL_RGB, TYPE_UINT16_R5G6B5_REV},		//FORMAT_R5G6B5_UNORM,
@@ -253,7 +253,7 @@ namespace gli
 		std::copy(&Table[0], &Table[0] + FORMAT_COUNT, this->Translation.begin());
 	}
 
-	inline gl::target const & gl::translate(gli::target Target) const
+	inline gl::target const& gl::translate(gli::target Target) const
 	{
 		static gl::target const Table[] =
 		{
@@ -272,13 +272,13 @@ namespace gli
 		return Table[Target];
 	}
 
-	inline gl::format const & gl::translate(gli::format Format) const
+	inline gl::format const& gl::translate(gli::format Format) const
 	{
 		GLI_ASSERT(Format >= FORMAT_FIRST && Format <= FORMAT_LAST);
 		return this->Translation[Format - FORMAT_FIRST];
 	}
 
-	inline gl::swizzles gl::translate(gli::swizzles const & Swizzles) const
+	inline gl::swizzles gl::translate(gli::swizzles const& Swizzles) const
 	{
 		static gl::swizzle const Table[] =
 		{

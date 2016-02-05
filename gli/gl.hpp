@@ -323,19 +323,18 @@ namespace gli
 			internal_format Internal;
 			external_format External;
 			type_format Type;
-			swizzles Swizzles;
 		};
 
 		gl(profile Profile = PROFILE_CORE);
 
 		/// Convert GLI targets into OpenGL texture targets
-		target const & translate(gli::target Target) const;
+		target const& translate(gli::target Target) const;
 
 		/// Convert GLI formats into OpenGL texture formats
-		format const & translate(gli::format Format) const;
+		format const& translate(gli::format Format) const;
 
 		/// Convert GLI swizzles into OpenGL swizzles
-		swizzles translate(gli::swizzles const & Swizzle) const;
+		swizzles translate(gli::swizzles const& Swizzle) const;
 
 		/// Convert an OpenGL format into a GLI format
 		gli::format find(internal_format InternalFormat, external_format ExternalFormat, type_format Type);
