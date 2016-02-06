@@ -110,11 +110,13 @@ namespace gli
 	{
 		swizzles_type const FormatSwizzle = detail::get_format_info(this->format()).Swizzles;
 		swizzles_type const CustomSwizzle = this->Swizzles;
-		return swizzles_type(
-			is_channel(CustomSwizzle.r) ? FormatSwizzle[CustomSwizzle.r] : CustomSwizzle.r,
-			is_channel(CustomSwizzle.g) ? FormatSwizzle[CustomSwizzle.g] : CustomSwizzle.g,
-			is_channel(CustomSwizzle.b) ? FormatSwizzle[CustomSwizzle.b] : CustomSwizzle.b,
-			is_channel(CustomSwizzle.a) ? FormatSwizzle[CustomSwizzle.a] : CustomSwizzle.a);
+
+		swizzles_type ResultSwizzle(SWIZZLE_ZERO);
+		ResultSwizzle.r = is_channel(CustomSwizzle.r) ? FormatSwizzle[CustomSwizzle.r] : CustomSwizzle.r;
+		ResultSwizzle.g = is_channel(CustomSwizzle.g) ? FormatSwizzle[CustomSwizzle.g] : CustomSwizzle.g;
+		ResultSwizzle.b = is_channel(CustomSwizzle.b) ? FormatSwizzle[CustomSwizzle.b] : CustomSwizzle.b;
+		ResultSwizzle.a = is_channel(CustomSwizzle.a) ? FormatSwizzle[CustomSwizzle.a] : CustomSwizzle.a;
+		return ResultSwizzle;
 	}
 
 	inline texture::size_type texture::base_layer() const
