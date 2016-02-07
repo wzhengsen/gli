@@ -338,7 +338,7 @@ namespace gli
 			swizzles Swizzles;
 		};
 
-		gl(profile Profile = PROFILE_KTX);
+		gl(profile Profile);
 
 		/// Convert GLI targets into OpenGL texture targets
 		target const& translate(gli::target Target) const;
