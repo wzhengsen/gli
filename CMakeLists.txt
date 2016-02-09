@@ -1,14 +1,20 @@
 cmake_minimum_required(VERSION 2.6 FATAL_ERROR)
 cmake_policy(VERSION 2.6)
+cmake_policy(SET CMP0054 NEW)
 
 project(gli)
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
+
+include(GNUInstallDirs)
+include(CMakePackageConfigHelpers)
+
 enable_testing()
 
 add_definitions(-D_CRT_SECURE_NO_WARNINGS)
 add_definitions(-DSOURCE_DIR="${CMAKE_CURRENT_SOURCE_DIR}")
 include_directories(".")
 
-if(MSVC)
+if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
 	add_definitions(/Za)
 endif()
 
@@ -69,3 +75,6 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/external/${GLM_DIRECTORY})
 add_subdirectory(gli)
 add_subdirectory(test)
 #add_subdirectory(doc)
+
+################################
+# Add installer
