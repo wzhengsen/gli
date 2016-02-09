@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 2.6 FATAL_ERROR)
 cmake_policy(VERSION 2.6)
-cmake_policy(SET CMP0054 NEW)
+if (NOT CMAKE_VERSION VERSION_LESS "3.1")
+	cmake_policy(SET CMP0054 NEW)
+endif()
 
 project(gli)
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
