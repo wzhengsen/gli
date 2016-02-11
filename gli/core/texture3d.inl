@@ -77,7 +77,7 @@ namespace gli
 	}
 
 	template <typename genType>
-	inline genType texture3d::load(extent_type const & TexelCoord, size_type Level) const
+	inline genType texture3d::load(extent_type const& TexelCoord, size_type Level) const
 	{
 		GLI_ASSERT(!this->empty());
 		GLI_ASSERT(!is_compressed(this->format()));
@@ -92,7 +92,7 @@ namespace gli
 	}
 
 	template <typename genType>
-	inline void texture3d::store(extent_type const & TexelCoord, size_type Level, genType const & Texel)
+	inline void texture3d::store(extent_type const& TexelCoord, size_type Level, genType const& Texel)
 	{
 		GLI_ASSERT(!this->empty());
 		GLI_ASSERT(!is_compressed(this->format()));
@@ -113,13 +113,13 @@ namespace gli
 	}
 
 	template <typename genType>
-	inline void texture3d::clear(genType const & Texel)
+	inline void texture3d::clear(genType const& Texel)
 	{
 		this->texture::clear<genType>(Texel);
 	}
 
 	template <typename genType>
-	inline void texture3d::clear(size_type Level, genType const & Texel)
+	inline void texture3d::clear(size_type Level, genType const& Texel)
 	{
 		this->texture::clear<genType>(0, 0, Level, Texel);
 	}

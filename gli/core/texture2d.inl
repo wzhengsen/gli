@@ -76,7 +76,7 @@ namespace gli
 	}
 
 	template <typename genType>
-	inline genType texture2d::load(extent_type const & TexelCoord, size_type Level) const
+	inline genType texture2d::load(extent_type const& TexelCoord, size_type Level) const
 	{
 		GLI_ASSERT(!this->empty());
 		GLI_ASSERT(!is_compressed(this->format()));
@@ -87,11 +87,11 @@ namespace gli
 		std::size_t const Index = linear_index(TexelCoord, Cache.Extent);
 		GLI_ASSERT(Index < Cache.Size / sizeof(genType));
 
-		return reinterpret_cast<genType const * const>(Cache.Data)[Index];
+		return reinterpret_cast<genType const* const>(Cache.Data)[Index];
 	}
 
 	template <typename genType>
-	inline void texture2d::store(extent_type const & TexelCoord, size_type Level, genType const & Texel)
+	inline void texture2d::store(extent_type const& TexelCoord, size_type Level, genType const& Texel)
 	{
 		GLI_ASSERT(!this->empty());
 		GLI_ASSERT(!is_compressed(this->format()));
@@ -112,13 +112,13 @@ namespace gli
 	}
 
 	template <typename genType>
-	inline void texture2d::clear(genType const & Texel)
+	inline void texture2d::clear(genType const& Texel)
 	{
 		this->texture::clear<genType>(Texel);
 	}
 
 	template <typename genType>
-	inline void texture2d::clear(size_type Level, genType const & Texel)
+	inline void texture2d::clear(size_type Level, genType const& Texel)
 	{
 		this->texture::clear<genType>(0, 0, Level, Texel);
 	}
