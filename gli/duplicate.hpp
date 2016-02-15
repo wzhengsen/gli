@@ -1,5 +1,5 @@
-/// @brief Include to copy textures, images or a subset of either textures or an images. These operations will cause memory allocations.
-/// @file gli/copy.hpp
+/// @brief Include to duplicate textures, images or a subset of either textures or an image. These operations will cause memory allocations.
+/// @file gli/duplicate.hpp
 
 #pragma once
 

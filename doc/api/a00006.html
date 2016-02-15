@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.10"/>
-<title>0.8.0: sampler1DArray&lt; T, P &gt; Class Template Reference</title>
+<title>0.8.0 API documentation: Code sample: Generating mipmaps and converting float textures to rgb9e5</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -24,7 +24,7 @@
  <tr style="height: 56px;">
   <td id="projectlogo"><img alt="Logo" src="logo.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">0.8.0
+   <div id="projectname">0.8.0 API documentation
    </div>
   </td>
  </tr>
@@ -39,8 +39,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li class="current"><a href="pages.html"><span>Related&#160;Pages</span></a></li>
       <li><a href="namespaces.html"><span>Namespaces</span></a></li>
-      <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
+      <li><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
         <div id="MSearchBox" class="MSearchBoxInactive">
@@ -60,13 +61,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       </li>
     </ul>
   </div>
-  <div id="navrow2" class="tabs2">
-    <ul class="tablist">
-      <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
-      <li><a href="hierarchy.html"><span>Class&#160;Hierarchy</span></a></li>
-      <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
-    </ul>
-  </div>
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -81,78 +75,39 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="a00060.html">gli</a></li><li class="navelem"><a class="el" href="a00006.html">sampler1DArray</a></li>  </ul>
-</div>
 </div><!-- top -->
 <div class="header">
-  <div class="summary">
-<a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="a00068.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">sampler1DArray&lt; T, P &gt; Class Template Reference</div>  </div>
+<div class="title">Code sample: Generating mipmaps and converting float textures to rgb9e5 </div>  </div>
 </div><!--header-->
 <div class="contents">
-
-<p>1d array texture sampler  
- <a href="a00006.html#details">More...</a></p>
-<div class="dynheader">
-Inheritance diagram for sampler1DArray&lt; T, P &gt;:</div>
-<div class="dyncontent">
- <div class="center">
-  <img src="a00006.png" usemap="#sampler1DArray&lt; T, P &gt;_map" alt=""/>
-  <map id="sampler1DArray&lt; T, P &gt;_map" name="sampler1DArray&lt; T, P &gt;_map">
-<area href="a00004.html" title="Genetic sampler class. " alt="sampler" shape="rect" coords="0,0,153,24"/>
-</map>
- </div></div>
-<table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
-Public Member Functions</h2></td></tr>
-<tr class="memitem:abad905c32fb058626def900ff40695a3"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abad905c32fb058626def900ff40695a3"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00006.html#abad905c32fb058626def900ff40695a3">clear</a> (texel_type const &amp;Texel)</td></tr>
-<tr class="memdesc:abad905c32fb058626def900ff40695a3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clear the sampler texture with a uniform texel. <br /></td></tr>
-<tr class="separator:abad905c32fb058626def900ff40695a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6b4699a70473cc6e74524f7cf9919c83"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6b4699a70473cc6e74524f7cf9919c83"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00006.html#a6b4699a70473cc6e74524f7cf9919c83">generate_mipmaps</a> (<a class="el" href="a00060.html#a610876e02cee64e29fe4376ffeb6b9b9">filter</a> Minification)</td></tr>
-<tr class="memdesc:a6b4699a70473cc6e74524f7cf9919c83"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generate all the mipmaps of the sampler texture from the texture base level. <br /></td></tr>
-<tr class="separator:a6b4699a70473cc6e74524f7cf9919c83"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a58597eecdc5f6962ae99da719303d289"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a58597eecdc5f6962ae99da719303d289"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00006.html#a58597eecdc5f6962ae99da719303d289">generate_mipmaps</a> (size_type BaseLayer, size_type MaxLayer, size_type BaseLevel, size_type MaxLevel, <a class="el" href="a00060.html#a610876e02cee64e29fe4376ffeb6b9b9">filter</a> Minification)</td></tr>
-<tr class="memdesc:a58597eecdc5f6962ae99da719303d289"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generate the mipmaps of the sampler texture from the texture base level to the texture max level included. <br /></td></tr>
-<tr class="separator:a58597eecdc5f6962ae99da719303d289"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4b3f71f5e36f1319450875779976ad9f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4b3f71f5e36f1319450875779976ad9f"></a>
-<a class="el" href="a00014.html">texture_type</a> const &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00006.html#a4b3f71f5e36f1319450875779976ad9f">operator()</a> () const </td></tr>
-<tr class="memdesc:a4b3f71f5e36f1319450875779976ad9f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Access the sampler texture object. <br /></td></tr>
-<tr class="separator:a4b3f71f5e36f1319450875779976ad9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7976da2a6f68d697d0509dff69ec2d09"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7976da2a6f68d697d0509dff69ec2d09"></a>
-texel_type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00006.html#a7976da2a6f68d697d0509dff69ec2d09">texel_fetch</a> (texelcoord_type const &amp;TexelCoord, size_type layer, size_type Level) const </td></tr>
-<tr class="memdesc:a7976da2a6f68d697d0509dff69ec2d09"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fetch a texel from the sampler texture. <br /></td></tr>
-<tr class="separator:a7976da2a6f68d697d0509dff69ec2d09"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad71b813780a136d75422008e1512d328"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad71b813780a136d75422008e1512d328"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00006.html#ad71b813780a136d75422008e1512d328">texel_write</a> (texelcoord_type const &amp;TexelCoord, size_type layer, size_type Level, texel_type const &amp;Texel)</td></tr>
-<tr class="memdesc:ad71b813780a136d75422008e1512d328"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write a texel in the sampler texture. <br /></td></tr>
-<tr class="separator:ad71b813780a136d75422008e1512d328"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa92f20f794a9d664bed97fcef8d443fe"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa92f20f794a9d664bed97fcef8d443fe"></a>
-texel_type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="a00006.html#aa92f20f794a9d664bed97fcef8d443fe">texture_lod</a> (samplecoord_type const &amp;SampleCoord, size_type layer, level_type Level) const </td></tr>
-<tr class="memdesc:aa92f20f794a9d664bed97fcef8d443fe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sample the sampler texture at a specific level. <br /></td></tr>
-<tr class="separator:aa92f20f794a9d664bed97fcef8d443fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><h3>template&lt;typename T, precision P = defaultp&gt;<br />
-class gli::sampler1DArray&lt; T, P &gt;</h3>
-
-<p>1d array texture sampler </p>
-<dl class="tparams"><dt>Template Parameters</dt><dd>
-  <table class="tparams">
-    <tr><td class="paramname">T</td><td>Sampler can fetch, write and interpret any texture format but will expose and process the data through type T conversions. </td></tr>
-    <tr><td class="paramname">P</td><td>Precision in term of ULPs </td></tr>
-  </table>
-  </dd>
-</dl>
-
-<p>Definition at line <a class="el" href="a00038_source.html#l00017">17</a> of file <a class="el" href="a00038_source.html">sampler1d_array.hpp</a>.</p>
-</div></div><!-- contents -->
+<div class="textblock"><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;{c++}</div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;#include &lt;gli/texture2d.hpp&gt;</div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;#include &lt;gli/convert.hpp&gt;</div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;#include &lt;gli/generate_mipmaps.hpp&gt;</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;bool convert_rgb32f_rgb9e5(const char* FilenameSrc, const char* FilenameDst)</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;{</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;        if(FilenameDst == NULL)</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;                return false;</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;        if(std::strstr(FilenameDst, &quot;.dds&quot;) &gt; 0 || std::strstr(FilenameDst, &quot;.ktx&quot;) &gt; 0)</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;                return false;</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;        gli::texture2D TextureSource(gli::load(FilenameSrc));</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;        if(TextureSource.empty())</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;                return false;</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;        if(TextureSource.format() != gli::FORMAT_RGB16_SFLOAT_PACK16 &amp;&amp; TextureSource.format() != gli::FORMAT_RGB32_SFLOAT_PACK32)</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;                return false;</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        gli::texture2D TextureMipmaped = gli::generate_mipmaps(TextureSource, gli::FILTER_LINEAR);</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        gli::texture2D TextureConverted = gli::convert(TextureMipmaped, gli::FORMAT_RGB9E5_UFLOAT_PACK32);</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        gli::save(TextureConverted, FilenameDst);</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        return true;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;}</div>
+</div><!-- fragment --> </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by &#160;<a href="http://www.doxygen.org/index.html">

@@ -304,7 +304,7 @@ namespace gli
 	}
 
 	template <typename genType>
-	inline void texture::clear(size_type Layer, size_type Face, size_type Level, genType const & Texel)
+	inline void texture::clear(size_type Layer, size_type Face, size_type Level, genType const& Texel)
 	{
 		GLI_ASSERT(!this->empty());
 		GLI_ASSERT(block_size(this->format()) == sizeof(genType));
@@ -317,7 +317,7 @@ namespace gli
 	}
 
 	template <typename genType>
-	void texture::swizzle(gli::swizzles const & Swizzles)
+	void texture::swizzle(gli::swizzles const& Swizzles)
 	{
 		for(size_type TexelIndex = 0, TexelCount = this->size<genType>(); TexelIndex < TexelCount; ++TexelIndex)
 		{
