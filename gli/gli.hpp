@@ -6,7 +6,7 @@
 /// (*GLI*) provides classes and functions to load image files ([KTX](https://www.khronos.org/opengles/sdk/tools/KTX/) and [DDS](https://msdn.microsoft.com/en-us/library/windows/desktop/bb943990%28v=vs.85%29.aspx)),
 /// facilitate graphics APIs texture creation, compare textures, access texture texels, sample textures, convert textures, generate mipmaps, etc.
 ///
-/// This library works perfectly with [OpenGL](https://www.opengl.org) but it also ensures interoperability with other third party libraries and SDK.
+/// This library works perfectly with [OpenGL](https://www.opengl.org) or [Vulkan](https://www.khronos.org/vulkan) but it also ensures interoperability with other third party libraries and SDK.
 /// It is a good candidate for software rendering (raytracing / rasterisation), image processing, image based software testing or any development context that requires a simple and convenient image library.
 ///
 /// *GLI* is written in C++11. It is a platform independent library with no dependence and it supports the following compilers:
