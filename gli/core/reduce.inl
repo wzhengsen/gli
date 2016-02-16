@@ -188,7 +188,7 @@ namespace detail
 		{
 			GLI_ASSERT(are_compatible(A, B));
 
-			samplerCube<val_type> const SamplerA(A, gli::WRAP_CLAMP_TO_EDGE), SamplerB(B, gli::WRAP_CLAMP_TO_EDGE);
+			sampler_cube<val_type> const SamplerA(A, gli::WRAP_CLAMP_TO_EDGE), SamplerB(B, gli::WRAP_CLAMP_TO_EDGE);
 			extent_type TexelIndex(0);
 			tvec4<val_type> Result(TexelFunc(SamplerA.template fetch(TexelIndex, 0, 0), SamplerB.template fetch(TexelIndex, 0, 0)));
 
@@ -220,7 +220,7 @@ namespace detail
 		{
 			GLI_ASSERT(are_compatible(A, B));
 
-			samplerCubeArray<val_type> const SamplerA(A, gli::WRAP_CLAMP_TO_EDGE), SamplerB(B, gli::WRAP_CLAMP_TO_EDGE);
+			sampler_cube_array<val_type> const SamplerA(A, gli::WRAP_CLAMP_TO_EDGE), SamplerB(B, gli::WRAP_CLAMP_TO_EDGE);
 			extent_type TexelIndex(0);
 			tvec4<val_type> Result(TexelFunc(SamplerA.template fetch(TexelIndex, 0, 0, 0), SamplerB.template fetch(TexelIndex, 0, 0, 0)));
 
