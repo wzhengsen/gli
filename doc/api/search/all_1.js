@@ -5,6 +5,6 @@ var searchData=
   ['component_5fcount',['component_count',['../a00076.html#a55700a60464d27ea9d2f03d80c8b76d8',1,'gli']]],
   ['convert',['convert',['../a00076.html#a57dd9012c7e2ba938d1db54a3a7869b5',1,'gli']]],
   ['convert_2ehpp',['convert.hpp',['../a00031.html',1,'']]],
-  ['code_20sample_3a_20generating_20mipmaps_20and_20converting_20float_20textures_20to_20rgb9e5',['Code sample: Generating mipmaps and converting float textures to rgb9e5',['../a00006.html',1,'']]],
-  ['code_20sample_3a_20creating_20an_20opengl_20texture_20object_20from_20file',['Code sample: Creating an OpenGL texture object from file',['../a00008.html',1,'']]]
+  ['code_20sample_3a_20generating_20mipmaps_20and_20converting_20float_20textures_20to_20rgb9e5',['Code sample: Generating mipmaps and converting float textures to rgb9e5',['../a00004.html',1,'']]],
+  ['code_20sample_3a_20creating_20an_20opengl_20texture_20object_20from_20file',['Code sample: Creating an OpenGL texture object from file',['../a00006.html',1,'']]]
 ];
