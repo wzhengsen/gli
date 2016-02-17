@@ -5,7 +5,7 @@ if (NOT CMAKE_VERSION VERSION_LESS "3.1")
 endif()
 
 project(gli)
-set(GLI_VERSION "0.8.0")
+set(GLI_VERSION "0.8.1")
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
@@ -34,7 +34,7 @@ file(GLOB ROOT_SOURCE ./gli/*.cpp)
 file(GLOB ROOT_INLINE ./gli/*.inl)
 file(GLOB ROOT_HEADER ./gli/*.hpp)
 file(GLOB ROOT_TEXT ./*.txt)
-file(GLOB ROOT_MD ./*.md)
+file(GLOB ROOT_MD ../*.md)
 file(GLOB ROOT_KMG ./doc/spec/*.html)
 
 file(GLOB_RECURSE CORE_SOURCE ./gli/core/*.cpp)

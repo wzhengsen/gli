@@ -1,6 +1,10 @@
 # Release notes
 
-## [GLI 0.8.0.0](https://github.com/g-truc/gli/releases/latest) - 2016-02-16
+## [GLI 0.8.1.0](https://github.com/g-truc/gli/releases/latest) - 2016-0X-XX
+#### Features:
+- Added texture copy, no allocation involved only transfer.
+
+## [GLI 0.8.0.0](https://github.com/g-truc/gli/releases/tag/0.8.0.0) - 2016-02-16
 #### Features:
 - Added texture swizzle support #79
 - Added texture memory swizzle support
