@@ -8,17 +8,30 @@ namespace texture1d
 	{
 		int Error = 0;
 
-		gli::texture1d TextureSrc(gli::FORMAT_RGBA8_UNORM_PACK8, gli::texture1d::extent_type(2));
-		TextureSrc.clear(glm::u8vec4(193, 127, 0, 255));
+		{
+			gli::texture1d TextureSrc(gli::FORMAT_RGBA8_UNORM_PACK8, gli::texture1d::extent_type(2));
+			TextureSrc.clear(glm::u8vec4(193, 127, 0, 255));
 
-		gli::texture1d TextureDst(gli::FORMAT_RGBA8_UNORM_PACK8, gli::texture1d::extent_type(2));
-		TextureDst.clear(glm::u8vec4(4, 3, 2, 1));
+			gli::texture1d TextureDst(gli::FORMAT_RGBA8_UNORM_PACK8, gli::texture1d::extent_type(2));
+			TextureDst.clear(glm::u8vec4(4, 3, 2, 1));
 
-		gli::copy(TextureSrc, 0, TextureDst, 0, 0);
-		gli::generate_mipmaps(TextureDst, gli::FILTER_LINEAR);
+			gli::copy(TextureSrc, 0, TextureDst, 0, 1);
+			gli::generate_mipmaps(TextureDst, gli::FILTER_LINEAR);
 
-		Error += TextureDst == TextureSrc ? 0 : 1;
-
+			Error += TextureDst == TextureSrc ? 0 : 1;
+		}
+		{
+			gli::texture TextureSrc(gli::TARGET_1D, gli::FORMAT_RGBA8_UNORM_PACK8, gli::texture::extent_type(2, 1, 1), 1, 2, 1);
+			TextureSrc.clear(glm::u8vec4(193, 127, 0, 255));
+			
+			gli::texture TextureDst(gli::TARGET_1D, gli::FORMAT_RGBA8_UNORM_PACK8, gli::texture::extent_type(2, 1, 1), 1, 2, 1);
+			TextureDst.clear(glm::u8vec4(4, 3, 2, 1));
+			
+			gli::copy(TextureSrc, 0, TextureDst, 0, 1);
+			
+			Error += TextureDst == TextureSrc ? 0 : 1;
+		}
+		
 		return Error;
 	}
 
@@ -38,17 +51,30 @@ namespace texture1d_array
 	{
 		int Error = 0;
 
-		gli::texture1d_array TextureSrc(gli::FORMAT_RGBA8_UNORM_PACK8, gli::texture1d_array::extent_type(2), 2);
-		TextureSrc.clear(glm::u8vec4(193, 127, 0, 255));
+		{
+			gli::texture1d_array TextureSrc(gli::FORMAT_RGBA8_UNORM_PACK8, gli::texture1d_array::extent_type(2), 2);
+			TextureSrc.clear(glm::u8vec4(193, 127, 0, 255));
 
-		gli::texture1d_array TextureDst(gli::FORMAT_RGBA8_UNORM_PACK8, gli::texture1d_array::extent_type(2), 2);
-		TextureDst.clear(glm::u8vec4(4, 3, 2, 1));
+			gli::texture1d_array TextureDst(gli::FORMAT_RGBA8_UNORM_PACK8, gli::texture1d_array::extent_type(2), 2);
+			TextureDst.clear(glm::u8vec4(4, 3, 2, 1));
 
-		gli::copy(TextureSrc, 0, TextureDst, 0, 0);
-		gli::generate_mipmaps(TextureDst, gli::FILTER_LINEAR);
+			gli::copy(TextureSrc, 0, TextureDst, 0, 1);
+			gli::generate_mipmaps(TextureDst, gli::FILTER_LINEAR);
 
-		Error += TextureDst == TextureSrc ? 0 : 1;
-
+			Error += TextureDst == TextureSrc ? 0 : 1;
+		}
+		{
+			gli::texture TextureSrc(gli::TARGET_1D_ARRAY, gli::FORMAT_RGBA8_UNORM_PACK8, gli::texture::extent_type(2, 1, 1), 2, 2, 1);
+			TextureSrc.clear(glm::u8vec4(193, 127, 0, 255));
+			
+			gli::texture TextureDst(gli::TARGET_1D_ARRAY, gli::FORMAT_RGBA8_UNORM_PACK8, gli::texture::extent_type(2, 1, 1), 2, 2, 1);
+			TextureDst.clear(glm::u8vec4(4, 3, 2, 1));
+			
+			gli::copy(TextureSrc, 0, TextureDst, 0, 1);
+			
+			Error += TextureDst == TextureSrc ? 0 : 1;
+		}
+		
 		return Error;
 	}
 
@@ -93,7 +119,7 @@ namespace texture2d
 			gli::texture2d TextureDst(gli::FORMAT_RGBA8_UNORM_PACK8, gli::texture2d::extent_type(2));
 			TextureDst.clear(glm::u8vec4(4, 3, 2, 1));
 
-			gli::copy(TextureSrc, 0, TextureDst, 0, 0);
+			gli::copy(TextureSrc, 0, TextureDst, 0, 1);
 			gli::generate_mipmaps(TextureDst, gli::FILTER_LINEAR);
 
 			Error += TextureDst == TextureSrc ? 0 : 1;
@@ -105,7 +131,7 @@ namespace texture2d
 			gli::texture TextureDst(gli::TARGET_2D, gli::FORMAT_RGBA8_UNORM_PACK8, gli::texture::extent_type(2, 2, 1), 1, 2, 1);
 			TextureDst.clear(glm::u8vec4(4, 3, 2, 1));
 
-			gli::copy(TextureSrc, 0, TextureDst, 0, 0);
+			gli::copy(TextureSrc, 0, TextureDst, 0, 1);
 
 			Error += TextureDst == TextureSrc ? 0 : 1;
 		}
@@ -137,7 +163,7 @@ namespace texture2d_array
 			gli::texture2d_array TextureDst(gli::FORMAT_RGBA8_UNORM_PACK8, gli::texture2d_array::extent_type(2), 2);
 			TextureDst.clear(glm::u8vec4(4, 3, 2, 1));
 
-			gli::copy(TextureSrc, 0, TextureDst, 0, 0);
+			gli::copy(TextureSrc, 0, TextureDst, 0, 1);
 			gli::generate_mipmaps(TextureDst, gli::FILTER_LINEAR);
 
 			Error += TextureDst == TextureSrc ? 0 : 1;
@@ -149,7 +175,7 @@ namespace texture2d_array
 			gli::texture TextureDst(gli::TARGET_2D_ARRAY, gli::FORMAT_RGBA8_UNORM_PACK8, gli::texture::extent_type(2, 2, 1), 2, 2, 1);
 			TextureDst.clear(glm::u8vec4(4, 3, 2, 1));
 
-			gli::copy(TextureSrc, 0, TextureDst, 0, 0);
+			gli::copy(TextureSrc, 0, TextureDst, 0, 1);
 
 			Error += TextureDst == TextureSrc ? 0 : 1;
 		}
@@ -179,7 +205,7 @@ namespace texture3d
 		gli::texture3d TextureDst(gli::FORMAT_RGBA8_UNORM_PACK8, gli::texture3d::extent_type(2));
 		TextureDst.clear(glm::u8vec4(4, 3, 2, 1));
 
-		gli::copy(TextureSrc, 0, TextureDst, 0, 0);
+		gli::copy(TextureSrc, 0, TextureDst, 0, 1);
 		gli::generate_mipmaps(TextureDst, gli::FILTER_LINEAR);
 
 		Error += TextureDst == TextureSrc ? 0 : 1;
@@ -210,7 +236,7 @@ namespace texture_cube
 		gli::texture_cube TextureDst(gli::FORMAT_RGBA8_UNORM_PACK8, gli::texture_cube::extent_type(2));
 		TextureDst.clear(glm::u8vec4(4, 3, 2, 1));
 
-		gli::copy(TextureSrc, 0, TextureDst, 0, 0);
+		gli::copy(TextureSrc, 0, TextureDst, 0, 1);
 		gli::generate_mipmaps(TextureDst, gli::FILTER_LINEAR);
 
 		Error += TextureDst == TextureSrc ? 0 : 1;
@@ -240,7 +266,7 @@ namespace texture_cube_array
 		gli::texture_cube_array TextureDst(gli::FORMAT_RGBA8_UNORM_PACK8, gli::texture_cube_array::extent_type(2), 2);
 		TextureDst.clear(glm::u8vec4(4, 3, 2, 1));
 
-		gli::copy(TextureSrc, 0, TextureDst, 0, 0);
+		gli::copy(TextureSrc, 0, TextureDst, 0, 1);
 		gli::generate_mipmaps(TextureDst, gli::FILTER_LINEAR);
 
 		Error += TextureDst == TextureSrc ? 0 : 1;
