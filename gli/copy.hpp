@@ -5,6 +5,11 @@
 
 namespace gli
 {
+	// Copy a single texture image
+	template <typename texture_type>
+	bool copy(texture_type const& TextureSrc, typename texture_type::size_type BaseLevelSrc, texture_type& TextureDst, typename texture_type::size_type BaseLevelDst);
+
+	// Copy multiple texture images
 	template <typename texture_type>
 	bool copy(texture_type const& TextureSrc, typename texture_type::size_type BaseLevelSrc, texture_type& TextureDst, typename texture_type::size_type BaseLevelDst, typename texture_type::size_type MaxLevelDst);
 }//namespace gli

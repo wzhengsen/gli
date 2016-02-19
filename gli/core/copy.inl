@@ -38,6 +38,16 @@ namespace detail
 	bool copy
 	(
 		texture_type const& TextureSrc, typename texture_type::size_type BaseLevelSrc,
+		texture_type& TextureDst, typename texture_type::size_type BaseLevelDst
+	)
+	{
+		return detail::compute_copy_texture_level::call(TextureSrc, BaseLevelSrc, TextureDst, BaseLevelDst, BaseLevelDst);
+	}
+
+	template <typename texture_type>
+	bool copy
+	(
+		texture_type const& TextureSrc, typename texture_type::size_type BaseLevelSrc,
 		texture_type& TextureDst, typename texture_type::size_type BaseLevelDst, typename texture_type::size_type MaxLevelDst
 	)
 	{

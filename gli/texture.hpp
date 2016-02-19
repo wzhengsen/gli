@@ -155,7 +155,7 @@ namespace gli
 		/// Clear the entire texture storage with Texel which type must match the texture storage format block size
 		/// If the type of genType doesn't match the type of the texture format, no conversion is performed and the data will be reinterpreted as if is was of the texture format. 
 		template <typename genType>
-		void clear(genType const & Texel);
+		void clear(genType const& Texel);
 
 		/// Clear a specific image of a texture.
 		template <typename genType>
@@ -163,7 +163,7 @@ namespace gli
 
 		/// Reorder the component in texture memory.
 		template <typename genType>
-		void swizzle(gli::swizzles const & Swizzles);
+		void swizzle(gli::swizzles const& Swizzles);
 
 	protected:
 		/// Compute the relative memory offset to access the data for a specific layer, face and level
