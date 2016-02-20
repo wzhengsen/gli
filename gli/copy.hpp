@@ -9,7 +9,7 @@ namespace gli
 {
 	/// Copy a specific image of a texture
 	template <typename texture_src_type, typename texture_dst_type>
-	void copy_image(
+	void copy(
 		texture_src_type const& TextureSrc, size_t LayerSrc, size_t FaceSrc, size_t LevelSrc,
 		texture_dst_type& TextureDst, size_t LayerDst, size_t FaceDst, size_t LevelDst);
 
