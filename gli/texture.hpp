@@ -161,6 +161,12 @@ namespace gli
 		template <typename genType>
 		void clear(size_type Layer, size_type Face, size_type Level, genType const & Texel);
 
+		/// Copy a specific image of a texture 
+		void copy(
+			texture const& TextureSrc,
+			size_t LayerSrc, size_t FaceSrc, size_t LevelSrc,
+			size_t LayerDst, size_t FaceDst, size_t LevelDst);
+
 		/// Reorder the component in texture memory.
 		template <typename genType>
 		void swizzle(gli::swizzles const& Swizzles);

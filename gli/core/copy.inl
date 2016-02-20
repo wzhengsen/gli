@@ -3,92 +3,100 @@
 
 namespace gli
 {
-	template <typename texture_type>
-	void copy
+	template <typename texture_src_type, typename texture_dst_type>
+	void copy_image
 	(
-		texture_type const& TextureSrc,
-		typename texture_type::size_type LayerSrc,
-		typename texture_type::size_type FaceSrc,
-		typename texture_type::size_type LevelSrc,
-		texture_type& TextureDst,
-		typename texture_type::size_type LayerDst,
-		typename texture_type::size_type FaceDst,
-		typename texture_type::size_type LevelDst
+		texture_src_type const& TextureSrc, size_t LayerSrc, size_t FaceSrc, size_t LevelSrc,
+		texture_dst_type& TextureDst, size_t LayerDst, size_t FaceDst, size_t LevelDst
 	)
 	{
-		GLI_ASSERT(TextureDst.size(LevelDst) == TextureSrc.size(LevelSrc));
-		GLI_ASSERT(LayerSrc < TextureSrc.layers());
-		GLI_ASSERT(LayerDst < TextureDst.layers());
-		GLI_ASSERT(FaceSrc < TextureSrc.faces());
-		GLI_ASSERT(FaceDst < TextureDst.faces());
-		GLI_ASSERT(LevelSrc < TextureSrc.levels());
-		GLI_ASSERT(LevelDst < TextureDst.levels());
-		
-		memcpy(
-			TextureDst.data(LayerDst, FaceDst, LevelDst),
-			TextureSrc.data(LayerSrc, FaceSrc, LevelSrc),
-			TextureDst.size(LevelDst));
+		TextureDst.copy(TextureSrc, LayerSrc, FaceSrc, LevelSrc, LayerDst, FaceDst, LevelDst);
 	}
 
-	template <typename texture_type>
-	void copy
+	template <typename texture_src_type, typename texture_dst_type>
+	void copy_level
 	(
-		texture_type const& TextureSrc, typename texture_type::size_type BaseLevelSrc,
-		texture_type& TextureDst, typename texture_type::size_type BaseLevelDst,
-		typename texture_type::size_type LevelCount
+		texture_src_type const& TextureSrc, size_t BaseLevelSrc,
+		texture_dst_type& TextureDst, size_t BaseLevelDst,
+		size_t LevelCount
 	)
 	{
-		GLI_ASSERT(TextureDst.size(BaseLevelSrc) == TextureSrc.size(BaseLevelDst));
-		GLI_ASSERT(BaseLevelSrc < TextureSrc.levels());
-		GLI_ASSERT(BaseLevelSrc + LevelCount <= TextureSrc.levels());
-		GLI_ASSERT(BaseLevelDst < TextureDst.levels());
-		GLI_ASSERT(BaseLevelDst + LevelCount <= TextureDst.levels());
-		
-		for(typename texture_type::size_type LayerIndex = 0, LayerCount = TextureSrc.layers(); LayerIndex < LayerCount; ++LayerIndex)
-		for(typename texture_type::size_type FaceIndex = 0, FaceCount = TextureSrc.faces(); FaceIndex < FaceCount; ++FaceIndex)
-		for(typename texture_type::size_type LevelIndex = 0; LevelIndex < LevelCount; ++LevelIndex)
+		for(size_t LayerIndex = 0, LayerCount = TextureSrc.layers(); LayerIndex < LayerCount; ++LayerIndex)
+		for(size_t FaceIndex = 0, FaceCount = TextureSrc.faces(); FaceIndex < FaceCount; ++FaceIndex)
+		for(size_t LevelIndex = 0; LevelIndex < LevelCount; ++LevelIndex)
 		{
-			memcpy(
-				TextureDst.data(LayerIndex, FaceIndex, BaseLevelDst + LevelIndex),
-				TextureSrc.data(LayerIndex, FaceIndex, BaseLevelSrc + LevelIndex),
-				TextureDst.size(BaseLevelDst + LevelIndex));
+			TextureDst.copy(
+				TextureSrc,
+				LayerIndex, FaceIndex, BaseLevelSrc + LevelIndex,
+				LayerIndex, FaceIndex, BaseLevelDst + LevelIndex);
 		}
 	}
 	
-	template <typename texture_type>
-	void copy
+	template <typename texture_src_type, typename texture_dst_type>
+	void copy_level
 	(
-		texture_type const& TextureSrc, typename texture_type::size_type BaseLevelSrc,
-		texture_type& TextureDst, typename texture_type::size_type BaseLevelDst
+		texture_src_type const& TextureSrc, size_t BaseLevelSrc,
+		texture_dst_type& TextureDst, size_t BaseLevelDst
 	)
 	{
-		copy(TextureSrc, BaseLevelSrc, TextureDst, BaseLevelDst, 1);
+		copy_level(TextureSrc, BaseLevelSrc, TextureDst, BaseLevelDst, 1);
 	}
 
-	template <typename texture_type>
-	void copy_layer
+	template <typename texture_src_type, typename texture_dst_type>
+	void copy_face
 	(
-		texture_type const& TextureSrc, typename texture_type::size_type BaseLayerSrc,
-		texture_type& TextureDst, typename texture_type::size_type BaseLayerDst,
-		typename texture_type::size_type LayerCount
+		texture_src_type const& TextureSrc, size_t BaseFaceSrc,
+		texture_dst_type& TextureDst, size_t BaseFaceDst,
+		size_t FaceCount
 	)
 	{
-		GLI_ASSERT(TextureSrc.extent() == TextureDst.extent());
-		GLI_ASSERT(TextureSrc.faces() == TextureDst.faces());
-		GLI_ASSERT(TextureSrc.levels() == TextureDst.levels());
-		GLI_ASSERT(BaseLayerSrc < TextureSrc.layers());
-		GLI_ASSERT(BaseLayerSrc + LayerCount <= TextureSrc.layers());
-		GLI_ASSERT(BaseLayerDst < TextureDst.layers());
-		GLI_ASSERT(BaseLayerDst + LayerCount <= TextureDst.layers());
-		
-		for(typename texture_type::size_type LayerIndex = 0; LayerIndex < LayerCount; ++LayerIndex)
-		for(typename texture_type::size_type FaceIndex = 0, FaceCount = TextureSrc.faces(); FaceIndex < FaceCount; ++FaceIndex)
-		for(typename texture_type::size_type LevelIndex = 0, LevelCount = TextureSrc.levels(); LevelIndex < LevelCount; ++LevelIndex)
+		for(size_t LayerIndex = 0, LayerCount = TextureSrc.layers(); LayerIndex < LayerCount; ++LayerIndex)
+		for(size_t FaceIndex = 0; FaceIndex < FaceCount; ++FaceIndex)
+		for(size_t LevelIndex = 0, LevelCount = TextureSrc.levels(); LevelIndex < LevelCount; ++LevelIndex)
 		{
-			memcpy(
-				TextureDst.data(BaseLayerDst + LayerIndex, FaceIndex, LevelIndex),
-				TextureSrc.data(BaseLayerSrc + LayerIndex, FaceIndex, LevelIndex),
-				TextureDst.size(LevelIndex));
+			TextureDst.copy(
+				TextureSrc,
+				LayerIndex, BaseFaceSrc + FaceIndex, LevelIndex,
+				LayerIndex, BaseFaceDst + FaceIndex, LevelIndex);
 		}
+	}
+
+	template <typename texture_src_type, typename texture_dst_type>
+	void copy_face
+	(
+		texture_src_type const& TextureSrc, size_t BaseFaceSrc,
+		texture_dst_type& TextureDst, size_t BaseFaceDst
+	)
+	{
+		copy_face(TextureSrc, BaseFaceSrc, TextureDst, BaseFaceDst, 1);
+	}
+
+	template <typename texture_src_type, typename texture_dst_type>
+	void copy_layer
+	(
+		texture_src_type const& TextureSrc, size_t BaseLayerSrc,
+		texture_dst_type& TextureDst, size_t BaseLayerDst,
+		size_t LayerCount
+	)
+	{
+		for(size_t LayerIndex = 0; LayerIndex < LayerCount; ++LayerIndex)
+		for(size_t FaceIndex = 0, FaceCount = TextureSrc.faces(); FaceIndex < FaceCount; ++FaceIndex)
+		for(size_t LevelIndex = 0, LevelCount = TextureSrc.levels(); LevelIndex < LevelCount; ++LevelIndex)
+		{
+			TextureDst.copy(
+				TextureSrc,
+				BaseLayerSrc + LayerIndex, FaceIndex, LevelIndex,
+				BaseLayerDst + LayerIndex, FaceIndex, LevelIndex);
+		}
+	}
+
+	template <typename texture_src_type, typename texture_dst_type>
+	void copy_layer
+	(
+		texture_src_type const& TextureSrc, size_t BaseLayerSrc,
+		texture_dst_type& TextureDst, size_t BaseLayerDst
+	)
+	{
+		copy_layer(TextureSrc, BaseLayerSrc, TextureDst, BaseLayerDst, 1);
 	}
 }//namespace gli

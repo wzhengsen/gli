@@ -1,3 +1,5 @@
+#include <cstring>
+
 namespace gli
 {
 	inline texture::texture()
@@ -316,8 +318,29 @@ namespace gli
 			*(Data + TexelIndex) = Texel;
 	}
 
+	inline void texture::copy
+	(
+		texture const& TextureSrc,
+		size_t LayerSrc, size_t FaceSrc, size_t LevelSrc,
+		size_t LayerDst, size_t FaceDst, size_t LevelDst
+	)
+	{
+		GLI_ASSERT(this->size(LevelDst) == TextureSrc.size(LevelSrc));
+		GLI_ASSERT(LayerSrc < TextureSrc.layers());
+		GLI_ASSERT(LayerDst < this->layers());
+		GLI_ASSERT(FaceSrc < TextureSrc.faces());
+		GLI_ASSERT(FaceDst < this->faces());
+		GLI_ASSERT(LevelSrc < TextureSrc.levels());
+		GLI_ASSERT(LevelDst < this->levels());
+		
+		memcpy(
+			this->data(LayerDst, FaceDst, LevelDst),
+			TextureSrc.data(LayerSrc, FaceSrc, LevelSrc),
+			this->size(LevelDst));
+	}
+
 	template <typename genType>
-	void texture::swizzle(gli::swizzles const& Swizzles)
+	inline void texture::swizzle(gli::swizzles const& Swizzles)
 	{
 		for(size_type TexelIndex = 0, TexelCount = this->size<genType>(); TexelIndex < TexelCount; ++TexelIndex)
 		{

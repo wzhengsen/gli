@@ -3,20 +3,54 @@
 
 #pragma once
 
+#include "type.hpp"
+
 namespace gli
 {
-	// Copy a single texture image
-	template <typename texture_type>
-	void copy(
-		texture_type const& TextureSrc, typename texture_type::size_type BaseLevelSrc,
-		texture_type& TextureDst, typename texture_type::size_type BaseLevelDst);
+	/// Copy a specific image of a texture
+	template <typename texture_src_type, typename texture_dst_type>
+	void copy_image(
+		texture_src_type const& TextureSrc, size_t LayerSrc, size_t FaceSrc, size_t LevelSrc,
+		texture_dst_type& TextureDst, size_t LayerDst, size_t FaceDst, size_t LevelDst);
 
-	// Copy multiple texture images
-	template <typename texture_type>
-	void copy(
-		texture_type const& TextureSrc, typename texture_type::size_type BaseLevelSrc,
-		texture_type& TextureDst, typename texture_type::size_type BaseLevelDst,
-		typename texture_type::size_type LevelCount);
+	// Copy an entire level of a texture
+	template <typename texture_src_type, typename texture_dst_type>
+	void copy_level(
+		texture_src_type const& TextureSrc, size_t BaseLevelSrc,
+		texture_dst_type& TextureDst, size_t BaseLevelDst);
+
+	// Copy multiple levels of a texture
+	template <typename texture_src_type, typename texture_dst_type>
+	void copy_level(
+		texture_src_type const& TextureSrc, size_t BaseLevelSrc,
+		texture_dst_type& TextureDst, size_t BaseLevelDst,
+		size_t LevelCount);
+
+	// Copy an entire face of a texture
+	template <typename texture_src_type, typename texture_dst_type>
+	void copy_face(
+		texture_src_type const& TextureSrc, size_t BaseFaceSrc,
+		texture_dst_type& TextureDst, size_t BaseFaceDst);
+
+	// Copy multiple faces of a texture
+	template <typename texture_src_type, typename texture_dst_type>
+	void copy_face(
+		texture_src_type const& TextureSrc, size_t BaseFaceSrc,
+		texture_dst_type& TextureDst, size_t BaseFaceDst,
+		size_t FaceCount);
+
+	// Copy an entire layer of a texture
+	template <typename texture_src_type, typename texture_dst_type>
+	void copy_layer(
+		texture_src_type const& TextureSrc, size_t BaseLayerSrc,
+		texture_dst_type& TextureDst, size_t BaseLayerDst);
+
+	// Copy multiple layers of a texture
+	template <typename texture_src_type, typename texture_dst_type>
+	void copy_layer(
+		texture_src_type const& TextureSrc, size_t BaseLayerSrc,
+		texture_dst_type& TextureDst, size_t BaseLayerDst,
+		size_t LayerCount);
 }//namespace gli
 
 #include "./core/copy.inl"

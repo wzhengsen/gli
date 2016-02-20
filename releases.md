@@ -2,7 +2,7 @@
 
 ## [GLI 0.8.1.0](https://github.com/g-truc/gli/releases/latest) - 2016-0X-XX
 #### Features:
-- Added texture copy, no allocation involved only transfer.
+- Added texture copy, no allocation involved, only transfer.
 
 ## [GLI 0.8.0.0](https://github.com/g-truc/gli/releases/tag/0.8.0.0) - 2016-02-16
 #### Features:
