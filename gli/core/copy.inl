@@ -14,6 +14,16 @@ namespace gli
 	}
 
 	template <typename texture_src_type, typename texture_dst_type>
+	void copy
+	(
+		texture_src_type const& TextureSrc,
+		texture_dst_type& TextureDst
+	)
+	{
+		copy_layer(TextureSrc, 0, TextureDst, 0, TextureDst.layers());
+	}
+
+	template <typename texture_src_type, typename texture_dst_type>
 	void copy_level
 	(
 		texture_src_type const& TextureSrc, size_t BaseLevelSrc,
