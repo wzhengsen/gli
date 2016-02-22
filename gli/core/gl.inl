@@ -19,7 +19,7 @@ namespace detail
 		return gl::swizzles(Table[Swizzles.r], Table[Swizzles.g], Table[Swizzles.b], Table[Swizzles.a]);
 	}
 
-	enum formatProperty
+	enum format_property
 	{
 		FORMAT_PROPERTY_BGRA_FORMAT_BIT = (1 << 0),
 		FORMAT_PROPERTY_BGRA_TYPE_BIT = (1 << 1)
