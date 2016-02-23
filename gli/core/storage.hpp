@@ -53,13 +53,21 @@ namespace gli
 		extent_type block_count(size_type Level) const;
 		extent_type extent(size_type Level) const;
 
-		data_type * data();
+		data_type* data();
+		data_type const* const data() const;
 
 		/// Compute the relative memory offset to access the data for a specific layer, face and level
 		size_type base_offset(
 			size_type Layer,
 			size_type Face,
 			size_type Level) const;
+
+		/// Copy a subset of a specific image of a texture 
+		void copy(
+			storage const& StorageSrc,
+			size_t LayerSrc, size_t FaceSrc, size_t LevelSrc, extent_type const& BlockIndexSrc,
+			size_t LayerDst, size_t FaceDst, size_t LevelDst, extent_type const& BlockIndexDst,
+			extent_type const& BlockCount);
 
 		size_type level_size(
 			size_type Level) const;

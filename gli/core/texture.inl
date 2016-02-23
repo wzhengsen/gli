@@ -339,6 +339,22 @@ namespace gli
 			this->size(LevelDst));
 	}
 
+	inline void texture::copy
+	(
+		texture const& TextureSrc,
+		size_t LayerSrc, size_t FaceSrc, size_t LevelSrc, texture::extent_type const& OffsetSrc,
+		size_t LayerDst, size_t FaceDst, size_t LevelDst, texture::extent_type const& OffsetDst,
+		texture::extent_type const& Extent
+	)
+	{
+		storage::extent_type const BlockExtent = this->Storage->block_extent();
+		this->Storage->copy(
+			*TextureSrc.Storage,
+			LayerSrc, FaceSrc, LevelSrc, OffsetSrc / BlockExtent,
+			LayerSrc, FaceSrc, LevelSrc, OffsetSrc / BlockExtent,
+			Extent / BlockExtent);
+	}
+
 	template <typename genType>
 	inline void texture::swizzle(gli::swizzles const& Swizzles)
 	{

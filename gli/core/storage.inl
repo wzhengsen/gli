@@ -1,3 +1,5 @@
+#include "../index.hpp"
+
 namespace gli
 {
 	inline storage::storage()
@@ -78,7 +80,14 @@ namespace gli
 		return static_cast<size_type>(this->Data.size());
 	}
 
-	inline storage::data_type * storage::data()
+	inline storage::data_type* storage::data()
+	{
+		GLI_ASSERT(!this->empty());
+
+		return &this->Data[0];
+	}
+
+	inline storage::data_type const* const storage::data() const
 	{
 		GLI_ASSERT(!this->empty());
 
@@ -98,6 +107,27 @@ namespace gli
 			BaseOffset += this->level_size(LevelIndex);
 
 		return BaseOffset;
+	}
+
+	inline void storage::copy(
+		storage const& StorageSrc,
+		size_t LayerSrc, size_t FaceSrc, size_t LevelSrc, extent_type const& BlockIndexSrc,
+		size_t LayerDst, size_t FaceDst, size_t LevelDst, extent_type const& BlockIndexDst,
+		extent_type const& BlockCount)
+	{
+		storage::size_type const BaseOffsetSrc = StorageSrc.base_offset(LayerSrc, FaceSrc, LevelSrc);
+		storage::size_type const BaseOffsetDst = this->base_offset(LayerDst, FaceDst, LevelDst);
+		storage::data_type const* const ImageSrc = StorageSrc.data() + BaseOffsetSrc;
+		storage::data_type* ImageDst = this->data() + BaseOffsetDst;
+
+		for(size_t BlockIndexZ = 0, BlockCountZ = BlockCount.z; BlockIndexZ < BlockCountZ; ++BlockIndexZ)
+		for(size_t BlockIndexY = 0, BlockCountY = BlockCount.y; BlockIndexY < BlockCountY; ++BlockIndexY)
+		{
+			extent_type const BlockIndex(0, BlockIndexY, BlockIndexZ);
+			storage::data_type const* const DataSrc = ImageSrc + linear_index(BlockIndexSrc + BlockIndex, this->extent(LevelSrc));
+			storage::data_type* DataDst = ImageDst + linear_index(BlockIndexDst + BlockIndex, this->extent(LevelDst));
+			memcpy(DataDst, DataSrc, this->block_size() * BlockCount.x);
+		}
 	}
 
 	inline storage::size_type storage::level_size(size_type Level) const
