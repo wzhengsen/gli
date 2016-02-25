@@ -405,15 +405,5 @@ namespace gli
 		this->Cache.Data = this->Storage->data() + BaseOffset;
 		this->Cache.Size = Size;
 	}
-
-	inline texture::size_type texture::base_offset(size_type Layer, size_type Face, size_type Level) const
-	{
-		GLI_ASSERT(Layer >= 0 && Layer < this->layers() && Face >= 0 && Face < this->faces() && Level >= 0 && Level < this->levels());
-
-		return this->Storage->base_offset(
-			this->base_layer() + Layer,
-			this->base_face() + Face,
-			this->base_level() + Level);
-	}
 }//namespace gli
 
