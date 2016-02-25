@@ -299,23 +299,46 @@ namespace gli
 		GLI_ASSERT(block_size(this->format()) == sizeof(genType));
 
 		genType* Data = this->data<genType>();
-		size_type const TexelCount = this->size<genType>();
+		size_type const BlockCount = this->size<genType>();
 
-		for(size_type TexelIndex = 0; TexelIndex < TexelCount; ++TexelIndex)
-			*(Data + TexelIndex) = Texel;
+		for(size_type BlockIndex = 0; BlockIndex < BlockCount; ++BlockIndex)
+			*(Data + BlockIndex) = Texel;
 	}
 
 	template <typename genType>
-	inline void texture::clear(size_type Layer, size_type Face, size_type Level, genType const& Texel)
+	inline void texture::clear(size_type Layer, size_type Face, size_type Level, genType const& BlockData)
 	{
 		GLI_ASSERT(!this->empty());
 		GLI_ASSERT(block_size(this->format()) == sizeof(genType));
 		GLI_ASSERT(Layer >= 0 && Layer < this->layers() && Face >= 0 && Face < this->faces() && Level >= 0 && Level < this->levels());
 
-		size_type const TexelCount = this->Storage->level_size(Level) / sizeof(genType);
+		size_type const BlockCount = this->Storage->level_size(Level) / sizeof(genType);
 		genType* Data = this->data<genType>(Layer, Face, Level);
-		for(size_type TexelIndex = 0; TexelIndex < TexelCount; ++TexelIndex)
-			*(Data + TexelIndex) = Texel;
+		for(size_type BlockIndex = 0; BlockIndex < BlockCount; ++BlockIndex)
+			*(Data + BlockIndex) = BlockData;
+	}
+
+	template <typename genType>
+	inline void texture::clear
+	(
+		size_type Layer, size_type Face, size_type Level,
+		extent_type const& TexelOffset, extent_type const& TexelExtent,
+		genType const& BlockData
+	)
+	{
+		storage_linear::size_type const BaseOffset = this->Storage->base_offset(Layer, Face, Level);
+		storage_linear::data_type const* const BaseAddress = this->Storage->data() + BaseOffset;
+
+		extent_type BlockIndex(TexelOffset / this->Storage->block_extent());
+		extent_type const BlockCount(TexelExtent / this->Storage->block_extent());
+		for(; BlockIndex.z < BlockCount.z; ++BlockIndex.z)
+		for(; BlockIndex.y < BlockCount.y; ++BlockIndex.y)
+		for(; BlockIndex.x < BlockCount.x; ++BlockIndex.x)
+		{
+			gli::size_t const Offset = linear_index(BlockIndex, this->extent(Level)) * this->block_size();
+			storage_linear::data_type* const BlockAddress = BaseAddress + Offset;
+			*BlockAddress = BlockData;
+		}
 	}
 
 	inline void texture::copy

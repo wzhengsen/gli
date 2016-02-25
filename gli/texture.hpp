@@ -159,7 +159,11 @@ namespace gli
 
 		/// Clear a specific image of a texture.
 		template <typename genType>
-		void clear(size_type Layer, size_type Face, size_type Level, genType const& Texel);
+		void clear(size_type Layer, size_type Face, size_type Level, genType const& BlockData);
+
+		/// Clear a subset of a specific image of a texture.
+		template <typename genType>
+		void clear(size_type Layer, size_type Face, size_type Level, extent_type const& TexelOffset, extent_type const& TexelExtent, genType const& BlockData);
 
 		/// Copy a specific image of a texture 
 		void copy(
