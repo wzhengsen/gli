@@ -185,8 +185,8 @@ namespace gli
 	protected:
 		struct cache
 		{
-			data_type* Data;
-			size_type Size;
+			data_type* BaseAddress;
+			size_type MemorySize;
 		};
 
 		std::shared_ptr<storage_linear> Storage;

@@ -72,38 +72,38 @@ namespace gli
 	{
 		GLI_ASSERT(!this->empty());
 
-		return this->Caches[this->index_cache(0, 0, Level)].Extent;
+		return this->Caches[this->index_cache(0, 0, Level)].ImageExtent;
 	}
 
-	template <typename genType>
-	inline genType texture_cube_array::load(extent_type const & TexelCoord, size_type Layer,  size_type Face, size_type Level) const
+	template <typename gen_type>
+	inline gen_type texture_cube_array::load(extent_type const& TexelCoord, size_type Layer,  size_type Face, size_type Level) const
 	{
 		GLI_ASSERT(!this->empty());
 		GLI_ASSERT(!is_compressed(this->format()));
-		GLI_ASSERT(block_size(this->format()) == sizeof(genType));
+		GLI_ASSERT(block_size(this->format()) == sizeof(gen_type));
 
-		cache const & Cache = this->Caches[this->index_cache(Layer, Face, Level)];
+		cache const& Cache = this->Caches[this->index_cache(Layer, Face, Level)];
 
-		size_type const Index = this->Storage->image_offset(TexelCoord, Cache.Extent);
-		GLI_ASSERT(Index < Cache.Size / sizeof(genType));
+		size_type const ImageOffset = this->Storage->image_offset(TexelCoord, Cache.ImageExtent);
+		GLI_ASSERT(ImageOffset < Cache.ImageMemorySize / sizeof(gen_type));
 
-		return reinterpret_cast<genType const * const>(Cache.Data)[Index];
+		return *(reinterpret_cast<gen_type const* const>(Cache.ImageBaseAddress) + ImageOffset);
 	}
 
-	template <typename genType>
-	inline void texture_cube_array::store(extent_type const & TexelCoord, size_type Layer,  size_type Face, size_type Level, genType const & Texel)
+	template <typename gen_type>
+	inline void texture_cube_array::store(extent_type const& TexelCoord, size_type Layer,  size_type Face, size_type Level, gen_type const& Texel)
 	{
 		GLI_ASSERT(!this->empty());
 		GLI_ASSERT(!is_compressed(this->format()));
-		GLI_ASSERT(block_size(this->format()) == sizeof(genType));
+		GLI_ASSERT(block_size(this->format()) == sizeof(gen_type));
 
-		cache const & Cache = this->Caches[this->index_cache(Layer, Face, Level)];
-		GLI_ASSERT(glm::all(glm::lessThan(TexelCoord, Cache.Extent)));
+		cache const& Cache = this->Caches[this->index_cache(Layer, Face, Level)];
+		GLI_ASSERT(glm::all(glm::lessThan(TexelCoord, Cache.ImageExtent)));
 
-		size_type const Index = this->Storage->image_offset(TexelCoord, Cache.Extent);
-		GLI_ASSERT(Index < Cache.Size / sizeof(genType));
+		size_type const ImageOffset = this->Storage->image_offset(TexelCoord, Cache.ImageExtent);
+		GLI_ASSERT(ImageOffset < Cache.ImageMemorySize / sizeof(gen_type));
 
-		reinterpret_cast<genType*>(Cache.Data)[Index] = Texel;
+		*(reinterpret_cast<gen_type*>(Cache.ImageBaseAddress) + ImageOffset) = Texel;
 	}
 
 	inline void texture_cube_array::clear()
@@ -111,16 +111,16 @@ namespace gli
 		this->texture::clear();
 	}
 
-	template <typename genType>
-	inline void texture_cube_array::clear(genType const & Texel)
+	template <typename gen_type>
+	inline void texture_cube_array::clear(gen_type const& Texel)
 	{
-		this->texture::clear<genType>(Texel);
+		this->texture::clear<gen_type>(Texel);
 	}
 
-	template <typename genType>
-	inline void texture_cube_array::clear(size_type Layer, size_type Face, size_type Level, genType const & Texel)
+	template <typename gen_type>
+	inline void texture_cube_array::clear(size_type Layer, size_type Face, size_type Level, gen_type const& Texel)
 	{
-		this->texture::clear<genType>(Layer, Face, Level, Texel);
+		this->texture::clear<gen_type>(Layer, Face, Level, Texel);
 	}
 
 	inline texture_cube_array::size_type texture_cube_array::index_cache(size_type Layer, size_type Face, size_type Level) const
@@ -137,10 +137,10 @@ namespace gli
 		for(size_type Level = 0, Levels = this->levels(); Level < Levels; ++Level)
 		{
 			cache& Cache = this->Caches[this->index_cache(Layer, Face, Level)];
-			Cache.Data = this->data<std::uint8_t>(Layer, Face, Level);
-			Cache.Extent = glm::max(texture2d::extent_type(this->texture::extent(Level)), texture2d::extent_type(1));
+			Cache.ImageBaseAddress = this->data<std::uint8_t>(Layer, Face, Level);
+			Cache.ImageExtent = glm::max(texture2d::extent_type(this->texture::extent(Level)), texture2d::extent_type(1));
 #			ifndef NDEBUG
-				Cache.Size = this->size(Level);
+				Cache.ImageMemorySize = this->size(Level);
 #			endif
 		}
 	}

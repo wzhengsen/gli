@@ -28,7 +28,7 @@ namespace gli
 		/// Create a texture2d_array and allocate a new storage_linear with a complete mipmap chain
 		explicit texture2d_array(
 			format_type Format,
-			extent_type const & Extent,
+			extent_type const& Extent,
 			size_type Layers,
 			swizzles_type const& Swizzles = swizzles_type(SWIZZLE_RED, SWIZZLE_GREEN, SWIZZLE_BLUE, SWIZZLE_ALPHA));
 
@@ -58,32 +58,32 @@ namespace gli
 		extent_type extent(size_type Level = 0) const;
 
 		/// Fetch a texel from a texture. The texture format must be uncompressed.
-		template <typename genType>
-		genType load(extent_type const& TexelCoord, size_type Layer, size_type Level) const;
+		template <typename gen_type>
+		gen_type load(extent_type const& TexelCoord, size_type Layer, size_type Level) const;
 
 		/// Write a texel to a texture. The texture format must be uncompressed.
-		template <typename genType>
-		void store(extent_type const& TexelCoord, size_type Layer, size_type Level, genType const& Texel);
+		template <typename gen_type>
+		void store(extent_type const& TexelCoord, size_type Layer, size_type Level, gen_type const& Texel);
 
 		/// Clear the entire texture storage_linear with zeros
 		void clear();
 
 		/// Clear the entire texture storage_linear with Texel which type must match the texture storage_linear format block size
 		/// If the type of genType doesn't match the type of the texture format, no conversion is performed and the data will be reinterpreted as if is was of the texture format. 
-		template <typename genType>
-		void clear(genType const& Texel);
+		template <typename gen_type>
+		void clear(gen_type const& Texel);
 
 		/// Clear a specific image of a texture.
-		template <typename genType>
-		void clear(size_type Layer, size_type Level, genType const & Texel);
+		template <typename gen_type>
+		void clear(size_type Layer, size_type Level, gen_type const & Texel);
 
 	private:
 		struct cache
 		{
-			std::uint8_t* Data;
-			extent_type Extent;
+			std::uint8_t* ImageBaseAddress;
+			extent_type ImageExtent;
 #			ifndef NDEBUG
-				size_type Size;
+				size_type ImageMemorySize;
 #			endif
 		};
 

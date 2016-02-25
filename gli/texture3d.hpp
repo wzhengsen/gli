@@ -21,14 +21,14 @@ namespace gli
 		/// Create a texture3d and allocate a new storage_linear
 		explicit texture3d(
 			format_type Format,
-			extent_type const & Extent,
+			extent_type const& Extent,
 			size_type Levels,
 			swizzles_type const& Swizzles = swizzles_type(SWIZZLE_RED, SWIZZLE_GREEN, SWIZZLE_BLUE, SWIZZLE_ALPHA));
 
 		/// Create a texture3d and allocate a new storage_linear with a complete mipmap chain
 		explicit texture3d(
 			format_type Format,
-			extent_type const & Extent,
+			extent_type const& Extent,
 			swizzles_type const& Swizzles = swizzles_type(SWIZZLE_RED, SWIZZLE_GREEN, SWIZZLE_BLUE, SWIZZLE_ALPHA));
 
 		/// Create a texture3d view with an existing storage_linear
@@ -37,7 +37,7 @@ namespace gli
 
 		/// Create a texture3d view with an existing storage_linear
 		explicit texture3d(
-			texture const & Texture,
+			texture const& Texture,
 			format_type Format,
 			size_type BaseLayer, size_type MaxLayer,
 			size_type BaseFace, size_type MaxFace,
@@ -56,32 +56,32 @@ namespace gli
 		extent_type extent(size_type Level = 0) const;
 
 		/// Fetch a texel from a texture. The texture format must be uncompressed.
-		template <typename genType>
-		genType load(extent_type const & TexelCoord, size_type Level) const;
+		template <typename gen_type>
+		gen_type load(extent_type const& TexelCoord, size_type Level) const;
 
 		/// Write a texel to a texture. The texture format must be uncompressed.
-		template <typename genType>
-		void store(extent_type const & TexelCoord, size_type Level, genType const & Texel);
+		template <typename gen_type>
+		void store(extent_type const& TexelCoord, size_type Level, gen_type const& Texel);
 
 		/// Clear the entire texture storage_linear with zeros
 		void clear();
 
 		/// Clear the entire texture storage_linear with Texel which type must match the texture storage_linear format block size
-		/// If the type of genType doesn't match the type of the texture format, no conversion is performed and the data will be reinterpreted as if is was of the texture format. 
-		template <typename genType>
-		void clear(genType const & Texel);
+		/// If the type of gen_type doesn't match the type of the texture format, no conversion is performed and the data will be reinterpreted as if is was of the texture format. 
+		template <typename gen_type>
+		void clear(gen_type const& Texel);
 
 		/// Clear a specific image of a texture.
-		template <typename genType>
-		void clear(size_type Level, genType const & Texel);
+		template <typename gen_type>
+		void clear(size_type Level, gen_type const& Texel);
 
 	private:
 		struct cache
 		{
-			std::uint8_t* Data;
-			extent_type Extent;
+			std::uint8_t* ImageBaseAddress;
+			extent_type ImageExtent;
 #			ifndef NDEBUG
-				size_type Size;
+				size_type ImageMemorySize;
 #			endif
 		};
 

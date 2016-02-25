@@ -74,38 +74,38 @@ namespace gli
 	{
 		GLI_ASSERT(!this->empty());
 
-		return this->Caches[this->index_cache(0, Level)].Extent;
+		return this->Caches[this->index_cache(0, Level)].ImageExtent;
 	}
 
-	template <typename genType>
-	inline genType texture1d_array::load(extent_type const& TexelCoord, size_type Layer, size_type Level) const
+	template <typename gen_type>
+	inline gen_type texture1d_array::load(extent_type const& TexelCoord, size_type Layer, size_type Level) const
 	{
 		GLI_ASSERT(!this->empty());
 		GLI_ASSERT(!is_compressed(this->format()));
-		GLI_ASSERT(block_size(this->format()) == sizeof(genType));
+		GLI_ASSERT(block_size(this->format()) == sizeof(gen_type));
 
 		cache const& Cache = this->Caches[this->index_cache(Layer, Level)];
 
-		size_type const Index = this->Storage->image_offset(TexelCoord, Cache.Extent);
-		GLI_ASSERT(Index < Cache.Size / sizeof(genType));
+		size_type const ImageOffset = this->Storage->image_offset(TexelCoord, Cache.ImageExtent);
+		GLI_ASSERT(ImageOffset < Cache.ImageMemorySize / sizeof(gen_type));
 
-		return reinterpret_cast<genType const * const>(Cache.Data)[Index];
+		return *(reinterpret_cast<gen_type const* const>(Cache.ImageBaseAddress) + ImageOffset);
 	}
 
-	template <typename genType>
-	inline void texture1d_array::store(extent_type const& TexelCoord, size_type Layer, size_type Level, genType const& Texel)
+	template <typename gen_type>
+	inline void texture1d_array::store(extent_type const& TexelCoord, size_type Layer, size_type Level, gen_type const& Texel)
 	{
 		GLI_ASSERT(!this->empty());
 		GLI_ASSERT(!is_compressed(this->format()));
-		GLI_ASSERT(block_size(this->format()) == sizeof(genType));
+		GLI_ASSERT(block_size(this->format()) == sizeof(gen_type));
 
 		cache& Cache = this->Caches[this->index_cache(Layer, Level)];
-		GLI_ASSERT(glm::all(glm::lessThan(TexelCoord, Cache.Extent)));
+		GLI_ASSERT(glm::all(glm::lessThan(TexelCoord, Cache.ImageExtent)));
 
-		size_type const Index = this->Storage->image_offset(TexelCoord, Cache.Extent);
-		GLI_ASSERT(Index < Cache.Size / sizeof(genType));
+		size_type const ImageOffset = this->Storage->image_offset(TexelCoord, Cache.ImageExtent);
+		GLI_ASSERT(ImageOffset < Cache.ImageMemorySize / sizeof(gen_type));
 
-		reinterpret_cast<genType*>(Cache.Data)[Index] = Texel;
+		*(reinterpret_cast<gen_type*>(Cache.ImageBaseAddress) + ImageOffset) = Texel;
 	}
 
 	inline void texture1d_array::clear()
@@ -113,16 +113,16 @@ namespace gli
 		this->texture::clear();
 	}
 
-	template <typename genType>
-	inline void texture1d_array::clear(genType const & Texel)
+	template <typename gen_type>
+	inline void texture1d_array::clear(gen_type const & Texel)
 	{
-		this->texture::clear<genType>(Texel);
+		this->texture::clear<gen_type>(Texel);
 	}
 
-	template <typename genType>
-	inline void texture1d_array::clear(size_type Layer, size_type Level, genType const& Texel)
+	template <typename gen_type>
+	inline void texture1d_array::clear(size_type Layer, size_type Level, gen_type const& Texel)
 	{
-		this->texture::clear<genType>(Layer, 0, Level, Texel);
+		this->texture::clear<gen_type>(Layer, 0, Level, Texel);
 	}
 
 	inline texture1d_array::size_type texture1d_array::index_cache(size_type Layer, size_type Level) const
@@ -135,13 +135,13 @@ namespace gli
 		this->Caches.resize(this->layers() * this->levels());
 
 		for(size_type Layer = 0; Layer < this->layers(); ++Layer)
-		for(size_type Level = 0; Level < this->levels(); ++Level)
+		for(size_type Level = 0, Levels = this->levels(); Level < Levels; ++Level)
 		{
 			cache& Cache = this->Caches[this->index_cache(Layer, Level)];
-			Cache.Data = this->data<std::uint8_t>(Layer, 0, Level);
-			Cache.Extent = glm::max(extent_type(this->texture::extent(Level)), extent_type(1));
+			Cache.ImageBaseAddress = this->data<std::uint8_t>(Layer, 0, Level);
+			Cache.ImageExtent = glm::max(extent_type(this->texture::extent(Level)), extent_type(1));
 #			ifndef NDEBUG
-				Cache.Size = this->size(Level);
+				Cache.ImageMemorySize = this->size(Level);
 #			endif
 		}
 	}
