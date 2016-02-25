@@ -111,16 +111,16 @@ namespace gli
 		this->texture::clear();
 	}
 
-	template <typename genType>
-	inline void texture3d::clear(genType const& Texel)
+	template <typename gen_type>
+	inline void texture3d::clear(gen_type const& Texel)
 	{
-		this->texture::clear<genType>(Texel);
+		this->texture::clear<gen_type>(Texel);
 	}
 
-	template <typename genType>
-	inline void texture3d::clear(size_type Level, genType const& Texel)
+	template <typename gen_type>
+	inline void texture3d::clear(size_type Level, gen_type const& Texel)
 	{
-		this->texture::clear<genType>(0, 0, Level, Texel);
+		this->texture::clear<gen_type>(0, 0, Level, Texel);
 	}
 
 	inline texture3d::size_type texture3d::index_cache(size_type Level) const
