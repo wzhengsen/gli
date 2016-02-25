@@ -154,16 +154,16 @@ namespace gli
 
 		/// Clear the entire texture storage_linear with Texel which type must match the texture storage_linear format block size
 		/// If the type of genType doesn't match the type of the texture format, no conversion is performed and the data will be reinterpreted as if is was of the texture format. 
-		template <typename genType>
-		void clear(genType const& Texel);
+		template <typename gen_type>
+		void clear(gen_type const& Texel);
 
 		/// Clear a specific image of a texture.
-		template <typename genType>
-		void clear(size_type Layer, size_type Face, size_type Level, genType const& BlockData);
+		template <typename gen_type>
+		void clear(size_type Layer, size_type Face, size_type Level, gen_type const& BlockData);
 
 		/// Clear a subset of a specific image of a texture.
-		template <typename genType>
-		void clear(size_type Layer, size_type Face, size_type Level, extent_type const& TexelOffset, extent_type const& TexelExtent, genType const& BlockData);
+		template <typename gen_type>
+		void clear(size_type Layer, size_type Face, size_type Level, extent_type const& TexelOffset, extent_type const& TexelExtent, gen_type const& BlockData);
 
 		/// Copy a specific image of a texture 
 		void copy(

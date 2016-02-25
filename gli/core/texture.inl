@@ -254,24 +254,24 @@ namespace gli
 		return this->Storage->data() + BaseOffset;
 	}
 
-	template <typename genType>
-	inline genType* texture::data(size_type Layer, size_type Face, size_type Level)
+	template <typename gen_type>
+	inline gen_type* texture::data(size_type Layer, size_type Face, size_type Level)
 	{
 		GLI_ASSERT(!this->empty());
-		GLI_ASSERT(block_size(this->format()) >= sizeof(genType));
+		GLI_ASSERT(block_size(this->format()) >= sizeof(gen_type));
 		GLI_ASSERT(Layer >= 0 && Layer < this->layers() && Face >= 0 && Face < this->faces() && Level >= 0 && Level < this->levels());
 
-		return reinterpret_cast<genType*>(this->data(Layer, Face, Level));
+		return reinterpret_cast<gen_type*>(this->data(Layer, Face, Level));
 	}
 
-	template <typename genType>
-	inline genType const* const texture::data(size_type Layer, size_type Face, size_type Level) const
+	template <typename gen_type>
+	inline gen_type const* const texture::data(size_type Layer, size_type Face, size_type Level) const
 	{
 		GLI_ASSERT(!this->empty());
-		GLI_ASSERT(block_size(this->format()) >= sizeof(genType));
+		GLI_ASSERT(block_size(this->format()) >= sizeof(gen_type));
 		GLI_ASSERT(Layer >= 0 && Layer < this->layers() && Face >= 0 && Face < this->faces() && Level >= 0 && Level < this->levels());
 
-		return reinterpret_cast<genType const* const>(this->data(Layer, Face, Level));
+		return reinterpret_cast<gen_type const* const>(this->data(Layer, Face, Level));
 	}
 
 	inline texture::extent_type texture::extent(size_type Level) const
