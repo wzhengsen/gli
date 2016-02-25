@@ -118,14 +118,16 @@ namespace gli
 		storage::size_type const BaseOffsetSrc = StorageSrc.base_offset(LayerSrc, FaceSrc, LevelSrc);
 		storage::size_type const BaseOffsetDst = this->base_offset(LayerDst, FaceDst, LevelDst);
 		storage::data_type const* const ImageSrc = StorageSrc.data() + BaseOffsetSrc;
-		storage::data_type* ImageDst = this->data() + BaseOffsetDst;
+		storage::data_type* const ImageDst = this->data() + BaseOffsetDst;
 
 		for(size_t BlockIndexZ = 0, BlockCountZ = BlockCount.z; BlockIndexZ < BlockCountZ; ++BlockIndexZ)
 		for(size_t BlockIndexY = 0, BlockCountY = BlockCount.y; BlockIndexY < BlockCountY; ++BlockIndexY)
 		{
 			extent_type const BlockIndex(0, BlockIndexY, BlockIndexZ);
-			storage::data_type const* const DataSrc = ImageSrc + linear_index(BlockIndexSrc + BlockIndex, this->extent(LevelSrc));
-			storage::data_type* DataDst = ImageDst + linear_index(BlockIndexDst + BlockIndex, this->extent(LevelDst));
+			gli::size_t const OffsetSrc = linear_index(BlockIndexSrc + BlockIndex, this->extent(LevelSrc)) * this->block_size();
+			gli::size_t const OffsetDst = linear_index(BlockIndexDst + BlockIndex, this->extent(LevelDst)) * this->block_size();
+			storage::data_type const* const DataSrc = ImageSrc + OffsetSrc;
+			storage::data_type* DataDst = ImageDst + OffsetDst;
 			memcpy(DataDst, DataSrc, this->block_size() * BlockCount.x);
 		}
 	}
