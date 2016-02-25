@@ -102,7 +102,7 @@ namespace gli
 		size_type const ImageOffset = this->Storage->image_offset(TexelCoord, Cache.ImageExtent);
 		GLI_ASSERT(ImageOffset < Cache.ImageMemorySize / sizeof(gen_type));
 
-		*(reinterpret_cast<gen_type*>(Cache.ImageBaseAddress) + ImageOffset) = Texel;
+		*(reinterpret_cast<gen_type* const>(Cache.ImageBaseAddress) + ImageOffset) = Texel;
 	}
 
 	inline void texture_cube::clear()
