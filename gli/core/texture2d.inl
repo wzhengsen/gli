@@ -82,9 +82,9 @@ namespace gli
 		GLI_ASSERT(!is_compressed(this->format()));
 		GLI_ASSERT(block_size(this->format()) == sizeof(genType));
 
-		cache const & Cache = this->Caches[this->index_cache(Level)];
+		cache const& Cache = this->Caches[this->index_cache(Level)];
 
-		std::size_t const Index = linear_index(TexelCoord, Cache.Extent);
+		size_type const Index = this->Storage->image_offset(TexelCoord, Cache.Extent);
 		GLI_ASSERT(Index < Cache.Size / sizeof(genType));
 
 		return reinterpret_cast<genType const* const>(Cache.Data)[Index];
@@ -97,10 +97,10 @@ namespace gli
 		GLI_ASSERT(!is_compressed(this->format()));
 		GLI_ASSERT(block_size(this->format()) == sizeof(genType));
 
-		cache const & Cache = this->Caches[this->index_cache(Level)];
+		cache const& Cache = this->Caches[this->index_cache(Level)];
 		GLI_ASSERT(glm::all(glm::lessThan(TexelCoord, Cache.Extent)));
 
-		size_type const Index = linear_index(TexelCoord, Cache.Extent);
+		size_type const Index = this->Storage->image_offset(TexelCoord, Cache.Extent);
 		GLI_ASSERT(Index < Cache.Size / sizeof(genType));
 
 		reinterpret_cast<genType*>(Cache.Data)[Index] = Texel;

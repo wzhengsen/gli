@@ -5,7 +5,6 @@
 
 #include "texture.hpp"
 #include "image.hpp"
-#include "index.hpp"
 
 namespace gli
 {

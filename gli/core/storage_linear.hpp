@@ -62,6 +62,12 @@ namespace gli
 			size_type Face,
 			size_type Level) const;
 
+		size_type image_offset(extent1d const& Coord, extent1d const& Extent) const;
+
+		size_type image_offset(extent2d const& Coord, extent2d const& Extent) const;
+
+		size_type image_offset(extent3d const& Coord, extent3d const& Extent) const;
+
 		/// Copy a subset of a specific image of a texture 
 		void copy(
 			storage_linear const& StorageSrc,

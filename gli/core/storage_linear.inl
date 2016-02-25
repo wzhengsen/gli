@@ -1,5 +1,3 @@
-#include "../index.hpp"
-
 namespace gli
 {
 	inline storage_linear::storage_linear()
@@ -109,6 +107,24 @@ namespace gli
 		return BaseOffset;
 	}
 
+	inline storage_linear::size_type storage_linear::image_offset(extent1d const& Coord, extent1d const& Extent) const
+	{
+		GLI_ASSERT(glm::all(glm::lessThan(Coord, Extent)));
+		return static_cast<size_t>(Coord.x);
+	}
+
+	inline storage_linear::size_type storage_linear::image_offset(extent2d const& Coord, extent2d const& Extent) const
+	{
+		GLI_ASSERT(glm::all(glm::lessThan(Coord, Extent)));
+		return static_cast<size_t>(Coord.x + Coord.y * Extent.x);
+	}
+
+	inline storage_linear::size_type storage_linear::image_offset(extent3d const& Coord, extent3d const& Extent) const
+	{
+		GLI_ASSERT(glm::all(glm::lessThan(Coord, Extent)));
+		return static_cast<storage_linear::size_type>(Coord.x + Coord.y * Extent.x + Coord.z * Extent.x * Extent.y);
+	}
+
 	inline void storage_linear::copy(
 		storage_linear const& StorageSrc,
 		size_t LayerSrc, size_t FaceSrc, size_t LevelSrc, extent_type const& BlockIndexSrc,
@@ -124,8 +140,8 @@ namespace gli
 		for(size_t BlockIndexY = 0, BlockCountY = BlockCount.y; BlockIndexY < BlockCountY; ++BlockIndexY)
 		{
 			extent_type const BlockIndex(0, BlockIndexY, BlockIndexZ);
-			gli::size_t const OffsetSrc = linear_index(BlockIndexSrc + BlockIndex, this->extent(LevelSrc)) * this->block_size();
-			gli::size_t const OffsetDst = linear_index(BlockIndexDst + BlockIndex, this->extent(LevelDst)) * this->block_size();
+			gli::size_t const OffsetSrc = this->image_offset(BlockIndexSrc + BlockIndex, this->extent(LevelSrc)) * this->block_size();
+			gli::size_t const OffsetDst = this->image_offset(BlockIndexDst + BlockIndex, this->extent(LevelDst)) * this->block_size();
 			storage_linear::data_type const* const DataSrc = ImageSrc + OffsetSrc;
 			storage_linear::data_type* DataDst = ImageDst + OffsetDst;
 			memcpy(DataDst, DataSrc, this->block_size() * BlockCount.x);

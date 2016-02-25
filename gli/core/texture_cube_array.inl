@@ -84,7 +84,7 @@ namespace gli
 
 		cache const & Cache = this->Caches[this->index_cache(Layer, Face, Level)];
 
-		std::size_t const Index = linear_index(TexelCoord, Cache.Extent);
+		size_type const Index = this->Storage->image_offset(TexelCoord, Cache.Extent);
 		GLI_ASSERT(Index < Cache.Size / sizeof(genType));
 
 		return reinterpret_cast<genType const * const>(Cache.Data)[Index];
@@ -100,7 +100,7 @@ namespace gli
 		cache const & Cache = this->Caches[this->index_cache(Layer, Face, Level)];
 		GLI_ASSERT(glm::all(glm::lessThan(TexelCoord, Cache.Extent)));
 
-		std::size_t const Index = linear_index(TexelCoord, Cache.Extent);
+		size_type const Index = this->Storage->image_offset(TexelCoord, Cache.Extent);
 		GLI_ASSERT(Index < Cache.Size / sizeof(genType));
 
 		reinterpret_cast<genType*>(Cache.Data)[Index] = Texel;

@@ -335,7 +335,7 @@ namespace gli
 		for(; BlockIndex.y < BlockCount.y; ++BlockIndex.y)
 		for(; BlockIndex.x < BlockCount.x; ++BlockIndex.x)
 		{
-			gli::size_t const Offset = linear_index(BlockIndex, this->extent(Level)) * this->Storage->block_size();
+			gli::size_t const Offset = this->Storage->image_offset(BlockIndex, this->extent(Level)) * this->Storage->block_size();
 			storage_linear::data_type* const BlockAddress = BaseAddress + Offset;
 			*BlockAddress = BlockData;
 		}
