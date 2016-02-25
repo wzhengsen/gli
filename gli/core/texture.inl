@@ -22,7 +22,7 @@ namespace gli
 		size_type Levels,
 		swizzles_type const& Swizzles
 	)
-		: Storage(std::make_shared<storage>(Format, Extent, Layers, Faces, Levels))
+		: Storage(std::make_shared<storage_linear>(Format, Extent, Layers, Faces, Levels))
 		, Target(Target)
 		, Format(Format)
 		, BaseLayer(0), MaxLayer(Layers - 1)
@@ -279,8 +279,8 @@ namespace gli
 		GLI_ASSERT(!this->empty());
 		GLI_ASSERT(Level >= 0 && Level < this->levels());
 
-		storage::extent_type const& SrcExtent = this->Storage->extent(this->base_level() + Level);
-		storage::extent_type const& DstExtent = SrcExtent * block_extent(this->format()) / this->Storage->block_extent();
+		storage_linear::extent_type const& SrcExtent = this->Storage->extent(this->base_level() + Level);
+		storage_linear::extent_type const& DstExtent = SrcExtent * block_extent(this->format()) / this->Storage->block_extent();
 
 		return glm::max(DstExtent, texture::extent_type(1));
 	}
@@ -347,7 +347,7 @@ namespace gli
 		texture::extent_type const& Extent
 	)
 	{
-		storage::extent_type const BlockExtent = this->Storage->block_extent();
+		storage_linear::extent_type const BlockExtent = this->Storage->block_extent();
 		this->Storage->copy(
 			*TextureSrc.Storage,
 			LayerSrc, FaceSrc, LevelSrc, OffsetSrc / BlockExtent,

@@ -17,24 +17,24 @@ namespace gli
 		/// Create an empty texture cube
 		texture_cube();
 
-		/// Create a texture_cube and allocate a new storage
+		/// Create a texture_cube and allocate a new storage_linear
 		explicit texture_cube(
 			format_type Format,
 			extent_type const & Extent,
 			size_type Levels,
 			swizzles_type const& Swizzles = swizzles_type(SWIZZLE_RED, SWIZZLE_GREEN, SWIZZLE_BLUE, SWIZZLE_ALPHA));
 
-		/// Create a texture_cube and allocate a new storage with a complete mipmap chain
+		/// Create a texture_cube and allocate a new storage_linear with a complete mipmap chain
 		explicit texture_cube(
 			format_type Format,
 			extent_type const & Extent,
 			swizzles_type const& Swizzles = swizzles_type(SWIZZLE_RED, SWIZZLE_GREEN, SWIZZLE_BLUE, SWIZZLE_ALPHA));
 
-		/// Create a texture_cube view with an existing storage
+		/// Create a texture_cube view with an existing storage_linear
 		explicit texture_cube(
 			texture const & Texture);
 
-		/// Create a texture_cube view with an existing storage
+		/// Create a texture_cube view with an existing storage_linear
 		explicit texture_cube(
 			texture const & Texture,
 			format_type Format,
@@ -63,10 +63,10 @@ namespace gli
 		template <typename genType>
 		void store(extent_type const & TexelCoord, size_type Face, size_type Level, genType const & Texel);
 
-		/// Clear the entire texture storage with zeros
+		/// Clear the entire texture storage_linear with zeros
 		void clear();
 
-		/// Clear the entire texture storage with Texel which type must match the texture storage format block size
+		/// Clear the entire texture storage_linear with Texel which type must match the texture storage_linear format block size
 		/// If the type of genType doesn't match the type of the texture format, no conversion is performed and the data will be reinterpreted as if is was of the texture format. 
 		template <typename genType>
 		void clear(genType const & Texel);

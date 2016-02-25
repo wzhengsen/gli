@@ -16,14 +16,14 @@ namespace gli
 		typedef gli::target target_type;
 		typedef gli::format format_type;
 		typedef gli::swizzles swizzles_type;
-		typedef storage::data_type data_type;
-		typedef storage::extent_type extent_type;
+		typedef storage_linear::data_type data_type;
+		typedef storage_linear::extent_type extent_type;
 
 		/// Create an empty texture instance
 		texture();
 
 		/// Create a texture object and allocate a texture storoge for it
-		/// @param Target Type/Shape of the texture storage
+		/// @param Target Type/Shape of the texture storage_linear
 		/// @param Format Texel format
 		/// @param Extent Size of the texture: width, height and depth.
 		/// @param Layers Number of one-dimensional or two-dimensional images of identical size and format
@@ -39,9 +39,9 @@ namespace gli
 			size_type Levels,
 			swizzles_type const& Swizzles = swizzles_type(SWIZZLE_RED, SWIZZLE_GREEN, SWIZZLE_BLUE, SWIZZLE_ALPHA));
 
-		/// Create a texture object by sharing an existing texture storage from another texture instance.
+		/// Create a texture object by sharing an existing texture storage_linear from another texture instance.
 		/// This texture object is effectively a texture view where the layer, the face and the level allows identifying
-		/// a specific subset of the texture storage source. 
+		/// a specific subset of the texture storage_linear source. 
 		/// This texture object is effectively a texture view where the target and format can be reinterpreted
 		/// with a different compatible texture target and texture format.
 		texture(
@@ -53,7 +53,7 @@ namespace gli
 			size_type BaseLevel, size_type MaxLevel,
 			swizzles_type const& Swizzles = swizzles_type(SWIZZLE_RED, SWIZZLE_GREEN, SWIZZLE_BLUE, SWIZZLE_ALPHA));
 
-		/// Create a texture object by sharing an existing texture storage from another texture instance.
+		/// Create a texture object by sharing an existing texture storage_linear from another texture instance.
 		/// This texture object is effectively a texture view where the target and format can be reinterpreted
 		/// with a different compatible texture target and texture format.
 		texture(
@@ -64,7 +64,7 @@ namespace gli
 
 		virtual ~texture(){}
 
-		/// Return whether the texture instance is empty, no storage or description have been assigned to the instance.
+		/// Return whether the texture instance is empty, no storage_linear or description have been assigned to the instance.
 		bool empty() const;
 
 		/// Return the target of a texture instance. 
@@ -75,28 +75,28 @@ namespace gli
 
 		swizzles_type swizzles() const;
 
-		/// Return the base layer of the texture instance, effectively a memory offset in the actual texture storage to identify where to start reading the layers. 
+		/// Return the base layer of the texture instance, effectively a memory offset in the actual texture storage_linear to identify where to start reading the layers. 
 		size_type base_layer() const;
 
-		/// Return the max layer of the texture instance, effectively a memory offset to the beginning of the last layer in the actual texture storage that the texture instance can access. 
+		/// Return the max layer of the texture instance, effectively a memory offset to the beginning of the last layer in the actual texture storage_linear that the texture instance can access. 
 		size_type max_layer() const;
 
 		/// Return max_layer() - base_layer() + 1
 		size_type layers() const;
 
-		/// Return the base face of the texture instance, effectively a memory offset in the actual texture storage to identify where to start reading the faces. 
+		/// Return the base face of the texture instance, effectively a memory offset in the actual texture storage_linear to identify where to start reading the faces. 
 		size_type base_face() const;
 
-		/// Return the max face of the texture instance, effectively a memory offset to the beginning of the last face in the actual texture storage that the texture instance can access. 
+		/// Return the max face of the texture instance, effectively a memory offset to the beginning of the last face in the actual texture storage_linear that the texture instance can access. 
 		size_type max_face() const;
 
 		/// Return max_face() - base_face() + 1
 		size_type faces() const;
 
-		/// Return the base level of the texture instance, effectively a memory offset in the actual texture storage to identify where to start reading the levels. 
+		/// Return the base level of the texture instance, effectively a memory offset in the actual texture storage_linear to identify where to start reading the levels. 
 		size_type base_level() const;
 
-		/// Return the max level of the texture instance, effectively a memory offset to the beginning of the last level in the actual texture storage that the texture instance can access. 
+		/// Return the max level of the texture instance, effectively a memory offset to the beginning of the last level in the actual texture storage_linear that the texture instance can access. 
 		size_type max_level() const;
 
 		/// Return max_level() - base_level() + 1.
@@ -105,10 +105,10 @@ namespace gli
 		/// Return the size of a texture instance: width, height and depth.
 		extent_type extent(size_type Level = 0) const;
 
-		/// Return the memory size of a texture instance storage in bytes.
+		/// Return the memory size of a texture instance storage_linear in bytes.
 		size_type size() const;
 
-		/// Return the number of blocks contained in a texture instance storage.
+		/// Return the number of blocks contained in a texture instance storage_linear.
 		/// genType size must match the block size conresponding to the texture format.
 		template <typename genType>
 		size_type size() const;
@@ -149,10 +149,10 @@ namespace gli
 		template <typename genType>
 		genType const* data(size_type Layer, size_type Face, size_type Level) const;
 
-		/// Clear the entire texture storage with zeros
+		/// Clear the entire texture storage_linear with zeros
 		void clear();
 
-		/// Clear the entire texture storage with Texel which type must match the texture storage format block size
+		/// Clear the entire texture storage_linear with Texel which type must match the texture storage_linear format block size
 		/// If the type of genType doesn't match the type of the texture format, no conversion is performed and the data will be reinterpreted as if is was of the texture format. 
 		template <typename genType>
 		void clear(genType const& Texel);
@@ -188,7 +188,7 @@ namespace gli
 			size_type Size;
 		};
 
-		std::shared_ptr<storage> Storage;
+		std::shared_ptr<storage_linear> Storage;
 		target_type const Target;
 		format_type const Format;
 		size_type const BaseLayer;

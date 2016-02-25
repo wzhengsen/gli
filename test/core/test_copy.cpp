@@ -11,7 +11,7 @@ namespace can_copy_level_all_levels
 		return Texture;
 	}
 
-	// Can copy all levels from a source 2d texture to a destination texture of equivalent storage shape
+	// Can copy all levels from a source 2d texture to a destination texture of equivalent storage_linear shape
 	static int main()
 	{
 		int Error = 0;
@@ -104,7 +104,7 @@ namespace can_copy_level_all_levels
 
 namespace can_copy_level_single_level
 {
-	// Can copy a single level from a source texture to a destination texture of equivalent storage shape
+	// Can copy a single level from a source texture to a destination texture of equivalent storage_linear shape
 	static int main()
 	{
 		int Error = 0;
@@ -128,7 +128,7 @@ namespace can_copy_level_single_level
 			Error += TextureExpected == TextureScenario ? 0 : 1;
 		}
 
-		// Scenario: copying levels from storage of different shape.
+		// Scenario: copying levels from storage_linear of different shape.
 		{
 			gli::texture_cube_array TextureSource(gli::FORMAT_RGBA8_UNORM_PACK8, TextureExpected.extent() >> 1, TextureExpected.layers(), 1);
 			TextureSource.clear(LightOrange);
@@ -168,7 +168,7 @@ namespace can_copy_level_texture_targets
 		return Texture;
 	}
 
-	// Can copy all levels from various source texture target to a destination texture target of equivalent storage shape
+	// Can copy all levels from various source texture target to a destination texture target of equivalent storage_linear shape
 	static int main()
 	{
 		int Error = 0;

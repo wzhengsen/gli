@@ -24,7 +24,7 @@ static_assert(GLM_VERSION >= 97, "GLI requires at least GLM 0.9.7");
 
 namespace gli
 {
-	class storage
+	class storage_linear
 	{
 	public:
 		typedef extent3d extent_type;
@@ -33,9 +33,9 @@ namespace gli
 		typedef glm::byte data_type;
 
 	public:
-		storage();
+		storage_linear();
 
-		storage(
+		storage_linear(
 			format_type Format,
 			extent_type const & Extent,
 			size_type Layers,
@@ -64,7 +64,7 @@ namespace gli
 
 		/// Copy a subset of a specific image of a texture 
 		void copy(
-			storage const& StorageSrc,
+			storage_linear const& StorageSrc,
 			size_t LayerSrc, size_t FaceSrc, size_t LevelSrc, extent_type const& BlockIndexSrc,
 			size_t LayerDst, size_t FaceDst, size_t LevelDst, extent_type const& BlockIndexDst,
 			extent_type const& BlockCount);
@@ -89,4 +89,4 @@ namespace gli
 	};
 }//namespace gli
 
-#include "storage.inl"
+#include "storage_linear.inl"

@@ -17,7 +17,7 @@ namespace gli
 		/// Create an empty texture 1D array
 		texture1d_array();
 
-		/// Create a texture1d_array and allocate a new storage
+		/// Create a texture1d_array and allocate a new storage_linear
 		explicit texture1d_array(
 			format_type Format,
 			extent_type const& Extent,
@@ -25,18 +25,18 @@ namespace gli
 			size_type Levels,
 			swizzles_type const& Swizzles = swizzles_type(SWIZZLE_RED, SWIZZLE_GREEN, SWIZZLE_BLUE, SWIZZLE_ALPHA));
 
-		/// Create a texture1d_array and allocate a new storage with a complete mipmap chain
+		/// Create a texture1d_array and allocate a new storage_linear with a complete mipmap chain
 		explicit texture1d_array(
 			format_type Format,
 			extent_type const& Extent,
 			size_type Layers,
 			swizzles_type const& Swizzles = swizzles_type(SWIZZLE_RED, SWIZZLE_GREEN, SWIZZLE_BLUE, SWIZZLE_ALPHA));
 
-		/// Create a texture1d_array view with an existing storage
+		/// Create a texture1d_array view with an existing storage_linear
 		explicit texture1d_array(
 			texture const& Texture);
 
-		/// Create a texture1d_array view with an existing storage
+		/// Create a texture1d_array view with an existing storage_linear
 		explicit texture1d_array(
 			texture const& Texture,
 			format_type Format,
@@ -45,7 +45,7 @@ namespace gli
 			size_type BaseLevel, size_type MaxLevel,
 			swizzles_type const& Swizzles = swizzles_type(SWIZZLE_RED, SWIZZLE_GREEN, SWIZZLE_BLUE, SWIZZLE_ALPHA));
 
-		/// Create a texture view, reference a subset of an exiting storage
+		/// Create a texture view, reference a subset of an exiting storage_linear
 		explicit texture1d_array(
 			texture1d_array const& Texture,
 			size_type BaseLayer, size_type MaxLayer,
@@ -65,10 +65,10 @@ namespace gli
 		template <typename genType>
 		void store(extent_type const& TexelCoord, size_type Layer, size_type Level, genType const& Texel);
 
-		/// Clear the entire texture storage with zeros
+		/// Clear the entire texture storage_linear with zeros
 		void clear();
 
-		/// Clear the entire texture storage with Texel which type must match the texture storage format block size
+		/// Clear the entire texture storage_linear with Texel which type must match the texture storage_linear format block size
 		/// If the type of genType doesn't match the type of the texture format, no conversion is performed and the data will be reinterpreted as if is was of the texture format. 
 		template <typename genType>
 		void clear(genType const& Texel);
