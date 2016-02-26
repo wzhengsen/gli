@@ -1,5 +1,6 @@
 #include <gli/copy.hpp>
 #include <gli/texture2d.hpp>
+#include <gli/comparison.hpp>
 
 int test_sub_copy()
 {
@@ -98,10 +99,35 @@ int test_sub_copy_rgba8()
 	return Error;
 }
 
+int test_sub_clear_rgba8()
+{
+	int Error = 0;
+
+	gli::texture2d Clear(gli::FORMAT_RGBA8_UNORM_PACK8, gli::extent2d(4, 2), 1);
+	Clear.clear(gli::u8vec4(0));
+
+	gli::texture2d Source(gli::FORMAT_RGBA8_UNORM_PACK8, gli::extent2d(4, 2), 1);
+	Source.clear(gli::u8vec4(0));
+	Source.texture::clear(0, 0, 0, gli::texture::extent_type(1, 1, 0), gli::texture::extent_type(2, 1, 1), gli::u8vec4(255));
+
+	Error += Source != Clear ? 0 : 1;
+
+	gli::texture2d Destination(Source.format(), Source.extent(), Source.levels());
+	Destination.clear(gli::u8vec4(0));
+	Destination.copy(Source, 0, 0, 0, gli::texture::extent_type(1, 1, 0), 0, 0, 0, gli::texture::extent_type(1, 1, 0), gli::texture::extent_type(2, 1, 1));
+
+	Error += Destination != Clear ? 0 : 1;
+
+	Error += Source == Destination ? 0 : 1;
+
+	return Error;
+}
+
 int main()
 {
 	int Error = 0;
 
+	//Error += test_sub_clear_rgba8();
 	Error += test_sub_copy_rgb32f();
 	Error += test_sub_copy_rgba8();
 	Error += test_sub_copy();

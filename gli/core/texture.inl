@@ -318,16 +318,16 @@ namespace gli
 			*(Data + BlockIndex) = BlockData;
 	}
 
-	template <typename genType>
+	template <typename gen_type>
 	inline void texture::clear
 	(
 		size_type Layer, size_type Face, size_type Level,
 		extent_type const& TexelOffset, extent_type const& TexelExtent,
-		genType const& BlockData
+		gen_type const& BlockData
 	)
 	{
 		storage_linear::size_type const BaseOffset = this->Storage->base_offset(Layer, Face, Level);
-		storage_linear::data_type const* const BaseAddress = this->Storage->data() + BaseOffset;
+		storage_linear::data_type* const BaseAddress = this->Storage->data() + BaseOffset;
 
 		extent_type BlockIndex(TexelOffset / this->Storage->block_extent());
 		extent_type const BlockCount(TexelExtent / this->Storage->block_extent());
@@ -336,7 +336,7 @@ namespace gli
 		for(; BlockIndex.x < BlockCount.x; ++BlockIndex.x)
 		{
 			gli::size_t const Offset = this->Storage->image_offset(BlockIndex, this->extent(Level)) * this->Storage->block_size();
-			storage_linear::data_type* const BlockAddress = BaseAddress + Offset;
+			gen_type* const BlockAddress = reinterpret_cast<gen_type* const>(BaseAddress + Offset);
 			*BlockAddress = BlockData;
 		}
 	}
