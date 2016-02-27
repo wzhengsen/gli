@@ -329,13 +329,13 @@ namespace gli
 		storage_linear::size_type const BaseOffset = this->Storage->base_offset(Layer, Face, Level);
 		storage_linear::data_type* const BaseAddress = this->Storage->data() + BaseOffset;
 
-		extent_type BlockIndex(TexelOffset / this->Storage->block_extent());
-		extent_type const BlockCount(TexelExtent / this->Storage->block_extent());
-		for(; BlockIndex.z < BlockCount.z; ++BlockIndex.z)
-		for(; BlockIndex.y < BlockCount.y; ++BlockIndex.y)
-		for(; BlockIndex.x < BlockCount.x; ++BlockIndex.x)
+		extent_type BlockOffset(TexelOffset / this->Storage->block_extent());
+		extent_type const BlockExtent(TexelExtent / this->Storage->block_extent() + BlockOffset);
+		for(; BlockOffset.z < BlockExtent.z; ++BlockOffset.z)
+		for(; BlockOffset.y < BlockExtent.y; ++BlockOffset.y)
+		for(; BlockOffset.x < BlockExtent.x; ++BlockOffset.x)
 		{
-			gli::size_t const Offset = this->Storage->image_offset(BlockIndex, this->extent(Level)) * this->Storage->block_size();
+			gli::size_t const Offset = this->Storage->image_offset(BlockOffset, this->extent(Level)) * this->Storage->block_size();
 			gen_type* const BlockAddress = reinterpret_cast<gen_type* const>(BaseAddress + Offset);
 			*BlockAddress = BlockData;
 		}

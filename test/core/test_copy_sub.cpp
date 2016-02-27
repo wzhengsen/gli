@@ -127,7 +127,7 @@ int main()
 {
 	int Error = 0;
 
-	//Error += test_sub_clear_rgba8();
+	Error += test_sub_clear_rgba8();
 	Error += test_sub_copy_rgb32f();
 	Error += test_sub_copy_rgba8();
 	Error += test_sub_copy();
