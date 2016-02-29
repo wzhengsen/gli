@@ -305,15 +305,15 @@ namespace gli
 			*(Data + BlockIndex) = Texel;
 	}
 
-	template <typename genType>
-	inline void texture::clear(size_type Layer, size_type Face, size_type Level, genType const& BlockData)
+	template <typename gen_type>
+	inline void texture::clear(size_type Layer, size_type Face, size_type Level, gen_type const& BlockData)
 	{
 		GLI_ASSERT(!this->empty());
-		GLI_ASSERT(block_size(this->format()) == sizeof(genType));
+		GLI_ASSERT(block_size(this->format()) == sizeof(gen_type));
 		GLI_ASSERT(Layer >= 0 && Layer < this->layers() && Face >= 0 && Face < this->faces() && Level >= 0 && Level < this->levels());
 
-		size_type const BlockCount = this->Storage->level_size(Level) / sizeof(genType);
-		genType* Data = this->data<genType>(Layer, Face, Level);
+		size_type const BlockCount = this->Storage->level_size(Level) / sizeof(gen_type);
+		gen_type* Data = this->data<gen_type>(Layer, Face, Level);
 		for(size_type BlockIndex = 0; BlockIndex < BlockCount; ++BlockIndex)
 			*(Data + BlockIndex) = BlockData;
 	}

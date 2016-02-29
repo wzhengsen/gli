@@ -615,7 +615,7 @@ namespace clear
 		Error += TexelC == Black ? 0 : 1;
 
 		for(gli::texture_cube::size_type FaceIndex = 0, FaceCount = Texture.faces(); FaceIndex < FaceCount; ++FaceIndex)
-			Texture.clear<glm::u8vec4>(FaceIndex, 1, Color);
+			Texture.clear<glm::u8vec4>(0, FaceIndex, 1, Color);
 
 		gli::texture_cube::extent_type Coords(0);
 		for(; Coords.y < Texture.extent(1).y; ++Coords.y)
