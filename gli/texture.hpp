@@ -154,7 +154,7 @@ namespace gli
 		void clear();
 
 		/// Clear the entire texture storage_linear with Texel which type must match the texture storage_linear format block size
-		/// If the type of genType doesn't match the type of the texture format, no conversion is performed and the data will be reinterpreted as if is was of the texture format. 
+		/// If the type of gen_type doesn't match the type of the texture format, no conversion is performed and the data will be reinterpreted as if is was of the texture format. 
 		template <typename gen_type>
 		void clear(gen_type const& Texel);
 

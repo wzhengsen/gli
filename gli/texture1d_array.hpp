@@ -65,18 +65,6 @@ namespace gli
 		template <typename gen_type>
 		void store(extent_type const& TexelCoord, size_type Layer, size_type Level, gen_type const& Texel);
 
-		/// Clear the entire texture storage_linear with zeros
-		void clear();
-
-		/// Clear the entire texture storage_linear with Texel which type must match the texture storage_linear format block size
-		/// If the type of gen_type doesn't match the type of the texture format, no conversion is performed and the data will be reinterpreted as if is was of the texture format. 
-		template <typename gen_type>
-		void clear(gen_type const& Texel);
-
-		/// Clear a specific image of a texture.
-		template <typename gen_type>
-		void clear(size_type Layer, size_type Level, gen_type const& Texel);
-
 	private:
 		struct cache
 		{

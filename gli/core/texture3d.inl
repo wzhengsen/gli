@@ -106,23 +106,6 @@ namespace gli
 		*(reinterpret_cast<gen_type* const>(Cache.ImageBaseAddress) + ImageOffset) = Texel;
 	}
 
-	inline void texture3d::clear()
-	{
-		this->texture::clear();
-	}
-
-	template <typename gen_type>
-	inline void texture3d::clear(gen_type const& Texel)
-	{
-		this->texture::clear<gen_type>(Texel);
-	}
-
-	template <typename gen_type>
-	inline void texture3d::clear(size_type Level, gen_type const& Texel)
-	{
-		this->texture::clear<gen_type>(0, 0, Level, Texel);
-	}
-
 	inline texture3d::size_type texture3d::index_cache(size_type Level) const
 	{
 		return Level;
