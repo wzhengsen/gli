@@ -234,29 +234,19 @@ namespace gli
 
 	inline void* texture::data(size_type Layer, size_type Face, size_type Level)
 	{
-		GLI_ASSERT(Layer >= 0 && Layer < this->layers() && Face >= 0 && Face < this->faces() && Level >= 0 && Level < this->levels());
-
-		size_type const BaseOffset = this->Storage->base_offset(
-			this->base_layer() + Layer, this->base_face() + Face, this->base_level() + Level);
-
-		return this->Storage->data() + BaseOffset;
+		return this->compute_base_address(Layer, Face, Level);
 	}
 
 	inline void const* const texture::data(size_type Layer, size_type Face, size_type Level) const
 	{
-		GLI_ASSERT(Layer >= 0 && Layer < this->layers() && Face >= 0 && Face < this->faces() && Level >= 0 && Level < this->levels());
-
-		size_type const BaseOffset = this->Storage->base_offset(
-			this->base_layer() + Layer, this->base_face() + Face, this->base_level() + Level);
-
-		return this->Storage->data() + BaseOffset;
+		return this->compute_base_address(Layer, Face, Level);
 	}
 
 	template <typename gen_type>
 	inline gen_type* texture::data(size_type Layer, size_type Face, size_type Level)
 	{
-		GLI_ASSERT(!this->empty());
 		GLI_ASSERT(block_size(this->format()) >= sizeof(gen_type));
+		GLI_ASSERT(!this->empty());
 		GLI_ASSERT(Layer >= 0 && Layer < this->layers() && Face >= 0 && Face < this->faces() && Level >= 0 && Level < this->levels());
 
 		return reinterpret_cast<gen_type*>(this->data(Layer, Face, Level));
@@ -389,6 +379,16 @@ namespace gli
 				TexelDst[Component] = TexelSrc[Swizzles[Component]];
 			}
 		}
+	}
+
+	texture::data_type* texture::compute_base_address(size_type Layer, size_type Face, size_type Level) const
+	{
+		GLI_ASSERT(Layer >= 0 && Layer < this->layers() && Face >= 0 && Face < this->faces() && Level >= 0 && Level < this->levels());
+
+		size_type const BaseOffset = this->Storage->base_offset(
+			this->base_layer() + Layer, this->base_face() + Face, this->base_level() + Level);
+
+		return this->Storage->data() + BaseOffset;
 	}
 }//namespace gli
 
