@@ -184,12 +184,6 @@ namespace gli
 		void swizzle(gli::swizzles const& Swizzles);
 
 	protected:
-		struct cache
-		{
-			data_type* BaseAddress;
-			size_type MemorySize;
-		};
-
 		std::shared_ptr<storage_type> Storage;
 		target_type const Target;
 		format_type const Format;
@@ -200,10 +194,33 @@ namespace gli
 		size_type const BaseLevel;
 		size_type const MaxLevel;
 		swizzles_type const Swizzles;
-		cache Cache;
 
-	private:
-		void build_cache();
+		struct cache
+		{
+			enum ctor
+			{
+				DEFAULT
+			};
+
+			explicit cache(ctor)
+				: BaseAddress(nullptr)
+				, MemorySize(0)
+			{}
+
+			cache
+			(
+				storage_type& Storage,
+				size_type BaseLayer, size_type Layers,
+				size_type BaseFace, size_type MaxFace,
+				size_type BaseLevel, size_type MaxLevel
+			)
+				: BaseAddress(Storage.data() + Storage.base_offset(BaseLayer, BaseFace, BaseLevel))
+				, MemorySize(Storage.layer_size(BaseFace, MaxFace, BaseLevel, MaxLevel) * Layers)
+			{}
+
+			data_type* BaseAddress;
+			size_type MemorySize;
+		} Cache;
 	};
 
 }//namespace gli

@@ -10,6 +10,7 @@ namespace gli
 		, BaseFace(0), MaxFace(0)
 		, BaseLevel(0), MaxLevel(0)
 		, Swizzles(SWIZZLE_ZERO)
+		, Cache(cache::DEFAULT)
 	{}
 
 	inline texture::texture
@@ -29,11 +30,10 @@ namespace gli
 		, BaseFace(0), MaxFace(Faces - 1)
 		, BaseLevel(0), MaxLevel(Levels - 1)
 		, Swizzles(Swizzles)
+		, Cache(*Storage, this->base_layer(), this->layers(), this->base_face(), this->max_face(), this->base_level(), this->max_level())
 	{
 		GLI_ASSERT(Target != TARGET_CUBE || (Target == TARGET_CUBE && Extent.x == Extent.y));
 		GLI_ASSERT(Target != TARGET_CUBE_ARRAY || (Target == TARGET_CUBE_ARRAY && Extent.x == Extent.y));
-
-		this->build_cache();
 	}
 
 	inline texture::texture
@@ -53,6 +53,7 @@ namespace gli
 		, BaseFace(BaseFace), MaxFace(MaxFace)
 		, BaseLevel(BaseLevel), MaxLevel(MaxLevel)
 		, Swizzles(Swizzles)
+		, Cache(*Storage, this->base_layer(), this->layers(), this->base_face(), this->max_face(), this->base_level(), this->max_level())
 	{
 		GLI_ASSERT(block_size(Format) == block_size(Texture.format()));
 		GLI_ASSERT(Target != TARGET_1D || (Target == TARGET_1D && this->layers() == 1 && this->faces() == 1 && this->extent().y == 1 && this->extent().z == 1));
@@ -62,8 +63,6 @@ namespace gli
 		GLI_ASSERT(Target != TARGET_3D || (Target == TARGET_3D && this->layers() == 1 && this->faces() == 1 && this->extent().y >= 1 && this->extent().z >= 1));
 		GLI_ASSERT(Target != TARGET_CUBE || (Target == TARGET_CUBE && this->layers() == 1 && this->faces() >= 1 && this->extent().y >= 1 && this->extent().z == 1));
 		GLI_ASSERT(Target != TARGET_CUBE_ARRAY || (Target == TARGET_CUBE_ARRAY && this->layers() >= 1 && this->faces() >= 1 && this->extent().y >= 1 && this->extent().z == 1));
-
-		this->build_cache();
 	}
 
 	inline texture::texture
@@ -80,6 +79,7 @@ namespace gli
 		, BaseFace(Texture.base_face()), MaxFace(Texture.max_face())
 		, BaseLevel(Texture.base_level()), MaxLevel(Texture.max_level())
 		, Swizzles(Swizzles)
+		, Cache(*Storage, this->base_layer(), this->layers(), this->base_face(), this->max_face(), this->base_level(), this->max_level())
 	{
 		if(this->empty())
 			return;
@@ -91,8 +91,6 @@ namespace gli
 		GLI_ASSERT(Target != TARGET_3D || (Target == TARGET_3D && this->layers() == 1 && this->faces() == 1 && this->extent().y >= 1 && this->extent().z >= 1));
 		GLI_ASSERT(Target != TARGET_CUBE || (Target == TARGET_CUBE && this->layers() == 1 && this->faces() >= 1 && this->extent().y >= 1 && this->extent().z == 1));
 		GLI_ASSERT(Target != TARGET_CUBE_ARRAY || (Target == TARGET_CUBE_ARRAY && this->layers() >= 1 && this->faces() >= 1 && this->extent().y >= 1 && this->extent().z == 1));
-
-		this->build_cache();
 	}
 
 	inline bool texture::empty() const
@@ -391,19 +389,6 @@ namespace gli
 				TexelDst[Component] = TexelSrc[Swizzles[Component]];
 			}
 		}
-	}
-
-	inline void texture::build_cache()
-	{
-		size_type const BaseOffset = this->Storage->base_offset(
-			this->base_layer(), this->base_face(), this->base_level());
-
-		size_type const Size = this->Storage->layer_size(
-			this->base_face(), this->max_face(),
-			this->base_level(), this->max_level()) * this->layers();
-
-		this->Cache.BaseAddress = this->Storage->data() + BaseOffset;
-		this->Cache.MemorySize = Size;
 	}
 }//namespace gli
 
