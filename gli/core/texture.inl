@@ -203,7 +203,7 @@ namespace gli
 		GLI_ASSERT(Level >= 0 && Level < this->levels());
 		GLI_ASSERT(block_size(this->format()) == sizeof(genType));
 
-		return this->Storage->level_size(Level) / sizeof(genType);
+		return this->Storage->level_size(this->BaseLevel + Level) / sizeof(genType);
 	}
 
 	inline void* texture::data()
