@@ -16,8 +16,9 @@ namespace gli
 		typedef gli::target target_type;
 		typedef gli::format format_type;
 		typedef gli::swizzles swizzles_type;
-		typedef storage_linear::data_type data_type;
-		typedef storage_linear::extent_type extent_type;
+		typedef storage_linear storage_type;
+		typedef storage_type::data_type data_type;
+		typedef storage_type::extent_type extent_type;
 
 		/// Create an empty texture instance
 		texture();
@@ -39,7 +40,7 @@ namespace gli
 			size_type Levels,
 			swizzles_type const& Swizzles = swizzles_type(SWIZZLE_RED, SWIZZLE_GREEN, SWIZZLE_BLUE, SWIZZLE_ALPHA));
 
-		/// Create a texture object by sharing an existing texture storage_linear from another texture instance.
+		/// Create a texture object by sharing an existing texture storage_type from another texture instance.
 		/// This texture object is effectively a texture view where the layer, the face and the level allows identifying
 		/// a specific subset of the texture storage_linear source. 
 		/// This texture object is effectively a texture view where the target and format can be reinterpreted
@@ -53,7 +54,7 @@ namespace gli
 			size_type BaseLevel, size_type MaxLevel,
 			swizzles_type const& Swizzles = swizzles_type(SWIZZLE_RED, SWIZZLE_GREEN, SWIZZLE_BLUE, SWIZZLE_ALPHA));
 
-		/// Create a texture object by sharing an existing texture storage_linear from another texture instance.
+		/// Create a texture object by sharing an existing texture storage_type from another texture instance.
 		/// This texture object is effectively a texture view where the target and format can be reinterpreted
 		/// with a different compatible texture target and texture format.
 		texture(
@@ -64,10 +65,10 @@ namespace gli
 
 		virtual ~texture(){}
 
-		/// Return whether the texture instance is empty, no storage_linear or description have been assigned to the instance.
+		/// Return whether the texture instance is empty, no storage_type or description have been assigned to the instance.
 		bool empty() const;
 
-		/// Return the target of a texture instance. 
+		/// Return the target of a texture instance.
 		target_type target() const{return this->Target;}
 
 		/// Return the texture instance format
@@ -75,28 +76,28 @@ namespace gli
 
 		swizzles_type swizzles() const;
 
-		/// Return the base layer of the texture instance, effectively a memory offset in the actual texture storage_linear to identify where to start reading the layers. 
+		/// Return the base layer of the texture instance, effectively a memory offset in the actual texture storage_type to identify where to start reading the layers. 
 		size_type base_layer() const;
 
-		/// Return the max layer of the texture instance, effectively a memory offset to the beginning of the last layer in the actual texture storage_linear that the texture instance can access. 
+		/// Return the max layer of the texture instance, effectively a memory offset to the beginning of the last layer in the actual texture storage_type that the texture instance can access. 
 		size_type max_layer() const;
 
 		/// Return max_layer() - base_layer() + 1
 		size_type layers() const;
 
-		/// Return the base face of the texture instance, effectively a memory offset in the actual texture storage_linear to identify where to start reading the faces. 
+		/// Return the base face of the texture instance, effectively a memory offset in the actual texture storage_type to identify where to start reading the faces. 
 		size_type base_face() const;
 
-		/// Return the max face of the texture instance, effectively a memory offset to the beginning of the last face in the actual texture storage_linear that the texture instance can access. 
+		/// Return the max face of the texture instance, effectively a memory offset to the beginning of the last face in the actual texture storage_type that the texture instance can access. 
 		size_type max_face() const;
 
 		/// Return max_face() - base_face() + 1
 		size_type faces() const;
 
-		/// Return the base level of the texture instance, effectively a memory offset in the actual texture storage_linear to identify where to start reading the levels. 
+		/// Return the base level of the texture instance, effectively a memory offset in the actual texture storage_type to identify where to start reading the levels. 
 		size_type base_level() const;
 
-		/// Return the max level of the texture instance, effectively a memory offset to the beginning of the last level in the actual texture storage_linear that the texture instance can access. 
+		/// Return the max level of the texture instance, effectively a memory offset to the beginning of the last level in the actual texture storage_type that the texture instance can access. 
 		size_type max_level() const;
 
 		/// Return max_level() - base_level() + 1.
@@ -105,10 +106,10 @@ namespace gli
 		/// Return the size of a texture instance: width, height and depth.
 		extent_type extent(size_type Level = 0) const;
 
-		/// Return the memory size of a texture instance storage_linear in bytes.
+		/// Return the memory size of a texture instance storage_type in bytes.
 		size_type size() const;
 
-		/// Return the number of blocks contained in a texture instance storage_linear.
+		/// Return the number of blocks contained in a texture instance storage_type.
 		/// genType size must match the block size conresponding to the texture format.
 		template <typename genType>
 		size_type size() const;
@@ -118,22 +119,22 @@ namespace gli
 
 		/// Return the memory size of a specific level identified by Level.
 		/// genType size must match the block size conresponding to the texture format.
-		template <typename genType>
+		template <typename gen_type>
 		size_type size(size_type Level) const;
 
 		/// Return a pointer to the beginning of the texture instance data.
 		void* data();
 
 		/// Return a pointer of type genType which size must match the texture format block size
-		template <typename genType>
-		genType* data();
+		template <typename gen_type>
+		gen_type* data();
 
 		/// Return a pointer to the beginning of the texture instance data.
 		void const* data() const;
 
 		/// Return a pointer of type genType which size must match the texture format block size
-		template <typename genType>
-		genType const* data() const;
+		template <typename gen_type>
+		gen_type const* data() const;
 
 		/// Return a pointer to the beginning of the texture instance data.
 		void* data(size_type Layer, size_type Face, size_type Level);
@@ -142,12 +143,12 @@ namespace gli
 		void const* const data(size_type Layer, size_type Face, size_type Level) const;
 
 		/// Return a pointer of type genType which size must match the texture format block size
-		template <typename genType>
-		genType* data(size_type Layer, size_type Face, size_type Level);
+		template <typename gen_type>
+		gen_type* data(size_type Layer, size_type Face, size_type Level);
 
 		/// Return a pointer of type genType which size must match the texture format block size
-		template <typename genType>
-		genType const* const data(size_type Layer, size_type Face, size_type Level) const;
+		template <typename gen_type>
+		gen_type const* const data(size_type Layer, size_type Face, size_type Level) const;
 
 		/// Clear the entire texture storage_linear with zeros
 		void clear();
@@ -179,7 +180,7 @@ namespace gli
 			extent_type const& Extent);
 
 		/// Reorder the component in texture memory.
-		template <typename genType>
+		template <typename gen_type>
 		void swizzle(gli::swizzles const& Swizzles);
 
 	protected:
@@ -189,7 +190,7 @@ namespace gli
 			size_type MemorySize;
 		};
 
-		std::shared_ptr<storage_linear> Storage;
+		std::shared_ptr<storage_type> Storage;
 		target_type const Target;
 		format_type const Format;
 		size_type const BaseLayer;
