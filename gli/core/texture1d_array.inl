@@ -7,21 +7,15 @@ namespace gli
 
 	inline texture1d_array::texture1d_array(format_type Format, extent_type const& Extent, size_type Layers, swizzles_type const& Swizzles)
 		: texture(TARGET_1D_ARRAY, Format, texture::extent_type(Extent.x, 1, 1), Layers, 1, gli::levels(Extent), Swizzles)
-	{
-		this->build_cache();
-	}
+	{}
 
 	inline texture1d_array::texture1d_array(format_type Format, extent_type const& Extent, size_type Layers, size_type Levels, swizzles_type const& Swizzles)
 		: texture(TARGET_1D_ARRAY, Format, texture::extent_type(Extent.x, 1, 1), Layers, 1, Levels, Swizzles)
-	{
-		this->build_cache();
-	}
+	{}
 
 	inline texture1d_array::texture1d_array(texture const& Texture)
 		: texture(Texture, TARGET_1D_ARRAY, Texture.format())
-	{
-		this->build_cache();
-	}
+	{}
 
 	inline texture1d_array::texture1d_array
 	(
@@ -38,9 +32,7 @@ namespace gli
 			BaseFace, MaxFace,
 			BaseLevel, MaxLevel,
 			Swizzles)
-	{
-		this->build_cache();
-	}
+	{}
 
 	inline texture1d_array::texture1d_array
 	(
@@ -54,9 +46,7 @@ namespace gli
 			Texture.base_layer() + BaseLayer, Texture.base_layer() + MaxLayer,
 			Texture.base_face(), Texture.max_face(),
 			Texture.base_level() + BaseLevel, Texture.base_level() + MaxLevel)
-	{
-		this->build_cache();
-	}
+	{}
 
 	inline texture1d texture1d_array::operator[](size_type Layer) const
 	{
@@ -100,23 +90,6 @@ namespace gli
 		GLI_ASSERT(ImageOffset < this->size<gen_type>(Level));
 
 		*(this->data<gen_type>(Layer, 0, Level) + ImageOffset) = Texel;
-	}
-
-	inline texture1d_array::size_type texture1d_array::index_cache(size_type Layer, size_type Level) const
-	{
-		return Layer * this->levels() + Level;
-	}
-
-	inline void texture1d_array::build_cache()
-	{
-		this->Caches.resize(this->layers() * this->levels());
-
-		for(size_type Layer = 0; Layer < this->layers(); ++Layer)
-		for(size_type Level = 0, Levels = this->levels(); Level < Levels; ++Level)
-		{
-			cache& Cache = this->Caches[this->index_cache(Layer, Level)];
-			Cache.ImageExtent = glm::max(extent_type(this->texture::extent(Level)), extent_type(1));
-		}
 	}
 }//namespace gli
 

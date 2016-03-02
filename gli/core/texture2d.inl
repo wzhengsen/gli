@@ -7,21 +7,15 @@ namespace gli
 
 	inline texture2d::texture2d(format_type Format, extent_type const& Extent, swizzles_type const& Swizzles)
 		: texture(TARGET_2D, Format, texture::extent_type(Extent, 1), 1, 1, gli::levels(Extent), Swizzles)
-	{
-		this->build_cache();
-	}
+	{}
 
 	inline texture2d::texture2d(format_type Format, extent_type const& Extent, size_type Levels, swizzles_type const& Swizzles)
 		: texture(TARGET_2D, Format, texture::extent_type(Extent, 1), 1, 1, Levels, Swizzles)
-	{
-		this->build_cache();
-	}
+	{}
 
 	inline texture2d::texture2d(texture const& Texture)
 		: texture(Texture, TARGET_2D, Texture.format())
-	{
-		this->build_cache();
-	}
+	{}
 
 	inline texture2d::texture2d
 	(
@@ -38,9 +32,7 @@ namespace gli
 			BaseFace, MaxFace,
 			BaseLevel, MaxLevel,
 			Swizzles)
-	{
-		this->build_cache();
-	}
+	{}
 
 	inline texture2d::texture2d
 	(
@@ -52,9 +44,7 @@ namespace gli
 			Texture.base_layer(), Texture.max_layer(),
 			Texture.base_face(), Texture.max_face(),
 			Texture.base_level() + BaseLevel, Texture.base_level() + MaxLevel)
-	{
-		this->build_cache();
-	}
+	{}
 
 	inline image texture2d::operator[](size_type Level) const
 	{
@@ -99,21 +89,5 @@ namespace gli
 		GLI_ASSERT(ImageOffset < this->size<gen_type>(Level));
 
 		*(this->data<gen_type>(0, 0, Level) + ImageOffset) = Texel;
-	}
-
-	inline texture2d::size_type texture2d::index_cache(size_type Level) const
-	{
-		return Level;
-	}
-
-	inline void texture2d::build_cache()
-	{
-		this->Caches.resize(this->levels());
-
-		for(size_type Level = 0, Levels = this->levels(); Level < Levels; ++Level)
-		{
-			cache& Cache = this->Caches[this->index_cache(Level)];
-			Cache.ImageExtent = glm::max(extent_type(this->texture::extent(Level)), extent_type(1));
-		}
 	}
 }//namespace gli

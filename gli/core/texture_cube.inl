@@ -5,21 +5,15 @@ namespace gli
 
 	inline texture_cube::texture_cube(format_type Format, extent_type const& Extent, swizzles_type const& Swizzles)
 		: texture(TARGET_CUBE, Format, texture::extent_type(Extent, 1), 1, 6, gli::levels(Extent), Swizzles)
-	{
-		this->build_cache();
-	}
+	{}
 
 	inline texture_cube::texture_cube(format_type Format, extent_type const& Extent, size_type Levels, swizzles_type const& Swizzles)
 		: texture(TARGET_CUBE, Format, texture::extent_type(Extent, 1), 1, 6, Levels, Swizzles)
-	{
-		this->build_cache();
-	}
+	{}
 
 	inline texture_cube::texture_cube(texture const& Texture)
 		: texture(Texture, TARGET_CUBE, Texture.format())
-	{
-		this->build_cache();
-	}
+	{}
 
 	inline texture_cube::texture_cube
 	(
@@ -36,9 +30,7 @@ namespace gli
 			BaseFace, MaxFace,
 			BaseLevel, MaxLevel,
 			Swizzles)
-	{
-		this->build_cache();
-	}
+	{}
 
 	inline texture_cube::texture_cube
 	(
@@ -51,9 +43,7 @@ namespace gli
 			Texture.base_layer(), Texture.max_layer(),
 			Texture.base_face() + BaseFace, Texture.base_face() + MaxFace,
 			Texture.base_level() + BaseLevel, Texture.base_level() + MaxLevel)
-	{
-		this->build_cache();
-	}
+	{}
 
 	inline texture2d texture_cube::operator[](size_type Face) const
 	{
@@ -98,22 +88,5 @@ namespace gli
 		GLI_ASSERT(ImageOffset < this->size<gen_type>(Level));
 
 		*(this->data<gen_type>(0, Face, Level) + ImageOffset) = Texel;
-	}
-
-	inline texture_cube::size_type texture_cube::index_cache(size_type Face, size_type Level) const
-	{
-		return Face * this->levels() + Level;
-	}
-
-	inline void texture_cube::build_cache()
-	{
-		this->Caches.resize(this->faces() * this->levels());
-
-		for(size_type Face = 0; Face < this->faces(); ++Face)
-		for(size_type Level = 0; Level < this->levels(); ++Level)
-		{
-			cache& Cache = this->Caches[this->index_cache(Face, Level)];
-			Cache.ImageExtent = glm::max(extent_type(this->texture::extent(Level)), extent_type(1));
-		}
 	}
 }//namespace gli

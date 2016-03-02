@@ -64,17 +64,6 @@ namespace gli
 		/// Write a texel to a texture. The texture format must be uncompressed.
 		template <typename gen_type>
 		void store(extent_type const& TexelCoord, size_type Layer, size_type Level, gen_type const& Texel);
-
-	private:
-		struct cache
-		{
-			extent_type ImageExtent;
-		};
-
-		void build_cache();
-		size_type index_cache(size_type Layer, size_type Level) const;
-
-		std::vector<cache> Caches;
 	};
 }//namespace gli
 

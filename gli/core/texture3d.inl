@@ -7,21 +7,15 @@ namespace gli
 
 	inline texture3d::texture3d(format_type Format, extent_type const& Extent, swizzles_type const& Swizzles)
 		: texture(TARGET_3D, Format, Extent, 1, 1, gli::levels(Extent), Swizzles)
-	{
-		this->build_cache();
-	}
+	{}
 
 	inline texture3d::texture3d(format_type Format, extent_type const& Extent, size_type Levels, swizzles_type const& Swizzles)
 		: texture(TARGET_3D, Format, Extent, 1, 1, Levels, Swizzles)
-	{
-		this->build_cache();
-	}
+	{}
 
 	inline texture3d::texture3d(texture const& Texture)
 		: texture(Texture, TARGET_3D, Texture.format())
-	{
-		this->build_cache();
-	}
+	{}
 
 	inline texture3d::texture3d
 	(
@@ -38,9 +32,7 @@ namespace gli
 			BaseFace, MaxFace,
 			BaseLevel, MaxLevel,
 			Swizzles)
-	{
-		this->build_cache();
-	}
+	{}
  
 	inline texture3d::texture3d
 	(
@@ -52,9 +44,7 @@ namespace gli
 			Texture.base_layer(), Texture.max_layer(),
 			Texture.base_face(), Texture.max_face(),
 			Texture.base_level() + BaseLevel, Texture.base_level() + MaxLevel)
-	{
-		this->build_cache();
-	}
+	{}
 
 	inline image texture3d::operator[](size_type Level) const
 	{
@@ -98,21 +88,5 @@ namespace gli
 		GLI_ASSERT(ImageOffset < this->size<gen_type>(Level));
 
 		*(this->data<gen_type>(0, 0, Level) + ImageOffset) = Texel;
-	}
-
-	inline texture3d::size_type texture3d::index_cache(size_type Level) const
-	{
-		return Level;
-	}
-
-	inline void texture3d::build_cache()
-	{
-		this->Caches.resize(this->levels());
-
-		for(size_type Level = 0, Levels = this->levels(); Level < Levels; ++Level)
-		{
-			cache& Cache = this->Caches[this->index_cache(Level)];
-			Cache.ImageExtent = glm::max(texture3d::extent_type(this->texture::extent(Level)), texture3d::extent_type(1));
-		}
 	}
 }//namespace gli
