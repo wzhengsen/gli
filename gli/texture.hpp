@@ -197,16 +197,17 @@ namespace gli
 		size_type const MaxLevel;
 		swizzles_type const Swizzles;
 
+		// Pre compute at texture instance creation some information for faster access to texels
 		struct cache
 		{
+		public:
 			enum ctor
 			{
 				DEFAULT
 			};
 
 			explicit cache(ctor)
-				: BaseAddress(nullptr)
-				, MemorySize(0)
+				: MemorySize(0)
 			{}
 
 			cache
@@ -216,11 +217,44 @@ namespace gli
 				size_type BaseFace, size_type MaxFace,
 				size_type BaseLevel, size_type MaxLevel
 			)
-				: BaseAddress(Storage.data() + Storage.base_offset(BaseLayer, BaseFace, BaseLevel))
+				: Faces(MaxFace - BaseFace + 1)
+				, Levels(MaxLevel - BaseLevel + 1)
 				, MemorySize(Storage.layer_size(BaseFace, MaxFace, BaseLevel, MaxLevel) * Layers)
-			{}
+			{
+				this->BaseAddresses.resize(Layers * this->Faces * this->Levels);
 
-			data_type* BaseAddress;
+				for(size_type Layer = 0; Layer < Layers; ++Layer)
+				for(size_type Face = 0; Face < this->Faces; ++Face)
+				for(size_type Level = 0; Level < this->Levels; ++Level)
+				{
+					size_type const Index = index_cache(Layer, Face, Level);
+					this->BaseAddresses[Index] = Storage.data() + Storage.base_offset(
+						BaseLayer + Layer, BaseFace + Face, BaseLevel + Level);
+				}
+			}
+
+			// Base addresses of each images of a texture.
+			data_type* get_base_address(size_type Layer, size_type Face, size_type Level) const
+			{
+				return this->BaseAddresses[index_cache(Layer, Face, Level)];
+			}
+
+			// In bytes
+			size_type get_memory_size() const
+			{
+				return this->MemorySize;
+			};
+
+		private:
+			size_type index_cache(size_type Layer, size_type Face, size_type Level) const
+			{
+				return ((Layer * this->Faces) + Face) * this->Levels + Level;
+			}
+
+			size_type Faces;
+			size_type Levels;
+			std::vector<data_type*> BaseAddresses;
+
 			size_type MemorySize;
 		} Cache;
 	};

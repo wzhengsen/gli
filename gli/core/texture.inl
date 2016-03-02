@@ -174,7 +174,7 @@ namespace gli
 	{
 		GLI_ASSERT(!this->empty());
 
-		return this->Cache.MemorySize;
+		return this->Cache.get_memory_size();
 	}
 
 	template <typename gen_type>
@@ -206,12 +206,12 @@ namespace gli
 
 	inline void* texture::data()
 	{
-		return this->Cache.BaseAddress;
+		return this->Cache.get_base_address(0, 0, 0);
 	}
 
 	inline void const* texture::data() const
 	{
-		return this->Cache.BaseAddress;
+		return this->Cache.get_base_address(0, 0, 0);
 	}
 
 	template <typename gen_type>
@@ -234,12 +234,12 @@ namespace gli
 
 	inline void* texture::data(size_type Layer, size_type Face, size_type Level)
 	{
-		return this->compute_base_address(Layer, Face, Level);
+		return this->Cache.get_base_address(Layer, Face, Level);
 	}
 
 	inline void const* const texture::data(size_type Layer, size_type Face, size_type Level) const
 	{
-		return this->compute_base_address(Layer, Face, Level);
+		return this->Cache.get_base_address(Layer, Face, Level);
 	}
 
 	template <typename gen_type>
