@@ -186,8 +186,6 @@ namespace gli
 		void swizzle(gli::swizzles const& Swizzles);
 
 	protected:
-		data_type* compute_base_address(size_type Layer, size_type Face, size_type Level) const;
-
 		std::shared_ptr<storage_type> Storage;
 		target_type const Target;
 		format_type const Format;

@@ -379,15 +379,5 @@ namespace gli
 			}
 		}
 	}
-
-	texture::data_type* texture::compute_base_address(size_type Layer, size_type Face, size_type Level) const
-	{
-		GLI_ASSERT(Layer >= 0 && Layer < this->layers() && Face >= 0 && Face < this->faces() && Level >= 0 && Level < this->levels());
-
-		size_type const BaseOffset = this->Storage->base_offset(
-			this->base_layer() + Layer, this->base_face() + Face, this->base_level() + Level);
-
-		return this->Storage->data() + BaseOffset;
-	}
 }//namespace gli
 
