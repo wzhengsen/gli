@@ -269,10 +269,7 @@ namespace gli
 		GLI_ASSERT(!this->empty());
 		GLI_ASSERT(Level >= 0 && Level < this->levels());
 
-		storage_type::extent_type const& SrcExtent = this->Storage->extent(this->base_level() + Level);
-		storage_type::extent_type const& DstExtent = SrcExtent * block_extent(this->format()) / this->Storage->block_extent();
-
-		return glm::max(DstExtent, texture::extent_type(1));
+		return this->Cache.get_extent(Level);
 	}
 
 	inline void texture::clear()
