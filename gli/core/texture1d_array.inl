@@ -87,7 +87,7 @@ namespace gli
 		cache const& Cache = this->Caches[this->index_cache(Layer, Level)];
 
 		size_type const ImageOffset = this->Storage->image_offset(TexelCoord, Cache.ImageExtent);
-		GLI_ASSERT(ImageOffset < Cache.ImageMemorySize / sizeof(gen_type));
+		GLI_ASSERT(ImageOffset < this->size<gen_type>(Level));
 
 		return *(this->data<gen_type>(Layer, 0, Level) + ImageOffset);
 	}
@@ -103,7 +103,7 @@ namespace gli
 		GLI_ASSERT(glm::all(glm::lessThan(TexelCoord, Cache.ImageExtent)));
 
 		size_type const ImageOffset = this->Storage->image_offset(TexelCoord, Cache.ImageExtent);
-		GLI_ASSERT(ImageOffset < Cache.ImageMemorySize / sizeof(gen_type));
+		GLI_ASSERT(ImageOffset < this->size<gen_type>(Level));
 
 		*(this->data<gen_type>(Layer, 0, Level) + ImageOffset) = Texel;
 	}
@@ -122,9 +122,6 @@ namespace gli
 		{
 			cache& Cache = this->Caches[this->index_cache(Layer, Level)];
 			Cache.ImageExtent = glm::max(extent_type(this->texture::extent(Level)), extent_type(1));
-#			ifndef NDEBUG
-				Cache.ImageMemorySize = this->size(Level);
-#			endif
 		}
 	}
 }//namespace gli

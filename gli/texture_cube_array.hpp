@@ -70,9 +70,6 @@ namespace gli
 		struct cache
 		{
 			extent_type ImageExtent;
-#			ifndef NDEBUG
-				size_type ImageMemorySize;
-#			endif
 		};
 
 		void build_cache();
