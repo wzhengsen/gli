@@ -214,6 +214,7 @@ namespace gli
 			cache
 			(
 				storage_type& Storage,
+				format_type Format,
 				size_type BaseLayer, size_type Layers,
 				size_type BaseFace, size_type MaxFace,
 				size_type BaseLevel, size_type MaxLevel
@@ -235,7 +236,13 @@ namespace gli
 				}
 
 				for(size_type Level = 0; Level < this->Levels; ++Level)
+				{
+					extent_type const& SrcExtent = Storage.extent(BaseLevel + Level);
+					extent_type const& DstExtent = SrcExtent * block_extent(Format) / Storage.block_extent();
+
+					this->ImageExtent[Level] = glm::max(DstExtent, extent_type(1));
 					this->ImageMemorySize[Level] = Storage.level_size(BaseLevel + Level);
+				}
 				
 				this->GlobalMemorySize = Storage.layer_size(BaseFace, MaxFace, BaseLevel, MaxLevel) * Layers;
 			}
@@ -245,6 +252,12 @@ namespace gli
 			{
 				return this->BaseAddresses[index_cache(Layer, Face, Level)];
 			}
+
+			// In texels
+			extent_type get_extent(size_type Level) const
+			{
+				return this->ImageExtent[Level];
+			};
 
 			// In bytes
 			size_type get_memory_size(size_type Level) const
@@ -267,6 +280,7 @@ namespace gli
 			size_type Faces;
 			size_type Levels;
 			std::vector<data_type*> BaseAddresses;
+			std::array<extent_type, 16> ImageExtent;
 			std::array<size_type, 16> ImageMemorySize;
 			size_type GlobalMemorySize;
 		} Cache;

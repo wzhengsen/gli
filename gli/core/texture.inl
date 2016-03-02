@@ -30,7 +30,7 @@ namespace gli
 		, BaseFace(0), MaxFace(Faces - 1)
 		, BaseLevel(0), MaxLevel(Levels - 1)
 		, Swizzles(Swizzles)
-		, Cache(*Storage, this->base_layer(), this->layers(), this->base_face(), this->max_face(), this->base_level(), this->max_level())
+		, Cache(*Storage, Format, this->base_layer(), this->layers(), this->base_face(), this->max_face(), this->base_level(), this->max_level())
 	{
 		GLI_ASSERT(Target != TARGET_CUBE || (Target == TARGET_CUBE && Extent.x == Extent.y));
 		GLI_ASSERT(Target != TARGET_CUBE_ARRAY || (Target == TARGET_CUBE_ARRAY && Extent.x == Extent.y));
@@ -53,7 +53,7 @@ namespace gli
 		, BaseFace(BaseFace), MaxFace(MaxFace)
 		, BaseLevel(BaseLevel), MaxLevel(MaxLevel)
 		, Swizzles(Swizzles)
-		, Cache(*Storage, this->base_layer(), this->layers(), this->base_face(), this->max_face(), this->base_level(), this->max_level())
+		, Cache(*Storage, Format, this->base_layer(), this->layers(), this->base_face(), this->max_face(), this->base_level(), this->max_level())
 	{
 		GLI_ASSERT(block_size(Format) == block_size(Texture.format()));
 		GLI_ASSERT(Target != TARGET_1D || (Target == TARGET_1D && this->layers() == 1 && this->faces() == 1 && this->extent().y == 1 && this->extent().z == 1));
@@ -79,7 +79,7 @@ namespace gli
 		, BaseFace(Texture.base_face()), MaxFace(Texture.max_face())
 		, BaseLevel(Texture.base_level()), MaxLevel(Texture.max_level())
 		, Swizzles(Swizzles)
-		, Cache(*Storage, this->base_layer(), this->layers(), this->base_face(), this->max_face(), this->base_level(), this->max_level())
+		, Cache(*Storage, Format, this->base_layer(), this->layers(), this->base_face(), this->max_face(), this->base_level(), this->max_level())
 	{
 		if(this->empty())
 			return;
