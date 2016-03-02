@@ -80,9 +80,7 @@ namespace gli
 		GLI_ASSERT(!is_compressed(this->format()));
 		GLI_ASSERT(block_size(this->format()) == sizeof(gen_type));
 
-		cache const& Cache = this->Caches[this->index_cache(Level)];
-
-		size_type const ImageOffset = this->Storage->image_offset(TexelCoord, Cache.ImageExtent);
+		size_type const ImageOffset = this->Storage->image_offset(TexelCoord, this->extent(Level));
 		GLI_ASSERT(ImageOffset < this->size<gen_type>(Level));
 
 		return *(this->data<gen_type>(0, 0, Level) + ImageOffset);
@@ -95,10 +93,9 @@ namespace gli
 		GLI_ASSERT(!is_compressed(this->format()));
 		GLI_ASSERT(block_size(this->format()) == sizeof(gen_type));
 
-		cache const& Cache = this->Caches[this->index_cache(Level)];
-		GLI_ASSERT(glm::all(glm::lessThan(TexelCoord, Cache.ImageExtent)));
+		GLI_ASSERT(glm::all(glm::lessThan(TexelCoord, this->extent(Level))));
 
-		size_type const ImageOffset = this->Storage->image_offset(TexelCoord, Cache.ImageExtent);
+		size_type const ImageOffset = this->Storage->image_offset(TexelCoord, this->extent(Level));
 		GLI_ASSERT(ImageOffset < this->size<gen_type>(Level));
 
 		*(this->data<gen_type>(0, 0, Level) + ImageOffset) = Texel;
