@@ -70,9 +70,7 @@ namespace gli
 
 	inline texture2d::extent_type texture2d::extent(size_type Level) const
 	{
-		GLI_ASSERT(!this->empty());
-
-		return this->Caches[this->index_cache(Level)].ImageExtent;
+		return extent_type(this->texture::extent(Level));
 	}
 
 	template <typename gen_type>

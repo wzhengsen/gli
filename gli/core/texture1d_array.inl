@@ -72,9 +72,7 @@ namespace gli
 
 	inline texture1d_array::extent_type texture1d_array::extent(size_type Level) const
 	{
-		GLI_ASSERT(!this->empty());
-
-		return this->Caches[this->index_cache(0, Level)].ImageExtent;
+		return extent_type(this->texture::extent(Level));
 	}
 
 	template <typename gen_type>

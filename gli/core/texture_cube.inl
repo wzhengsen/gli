@@ -68,9 +68,7 @@ namespace gli
 
 	inline texture_cube::extent_type texture_cube::extent(size_type Level) const
 	{
-		GLI_ASSERT(!this->empty());
-
-		return this->Caches[this->index_cache(0, Level)].ImageExtent;
+		return extent_type(this->texture::extent(Level));
 	}
 
 	template <typename gen_type>
