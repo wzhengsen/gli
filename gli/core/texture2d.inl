@@ -66,28 +66,12 @@ namespace gli
 	template <typename gen_type>
 	inline gen_type texture2d::load(extent_type const& TexelCoord, size_type Level) const
 	{
-		GLI_ASSERT(!this->empty());
-		GLI_ASSERT(!is_compressed(this->format()));
-		GLI_ASSERT(block_size(this->format()) == sizeof(gen_type));
-
-		size_type const ImageOffset = this->Storage->image_offset(TexelCoord, this->extent(Level));
-		GLI_ASSERT(ImageOffset < this->size<gen_type>(Level));
-
-		return *(this->data<gen_type>(0, 0, Level) + ImageOffset);
+		return this->texture::load<gen_type>(texture::extent_type(TexelCoord, 0), 0, 0, Level);
 	}
 
 	template <typename gen_type>
 	inline void texture2d::store(extent_type const& TexelCoord, size_type Level, gen_type const& Texel)
 	{
-		GLI_ASSERT(!this->empty());
-		GLI_ASSERT(!is_compressed(this->format()));
-		GLI_ASSERT(block_size(this->format()) == sizeof(gen_type));
-
-		GLI_ASSERT(glm::all(glm::lessThan(TexelCoord, this->extent(Level))));
-
-		size_type const ImageOffset = this->Storage->image_offset(TexelCoord, this->extent(Level));
-		GLI_ASSERT(ImageOffset < this->size<gen_type>(Level));
-
-		*(this->data<gen_type>(0, 0, Level) + ImageOffset) = Texel;
+		this->texture::store<gen_type>(texture::extent_type(TexelCoord, 0), 0, 0, Level, Texel);
 	}
 }//namespace gli

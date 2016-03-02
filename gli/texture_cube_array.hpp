@@ -60,7 +60,7 @@ namespace gli
 
 		/// Fetch a texel from a texture. The texture format must be uncompressed.
 		template <typename gen_type>
-		gen_type load(extent_type const & TexelCoord, size_type Layer, texture_cube_array::size_type Face, size_type Level) const;
+		gen_type load(extent_type const & TexelCoord, size_type Layer, size_type Face, size_type Level) const;
 
 		/// Write a texel to a texture. The texture format must be uncompressed.
 		template <typename gen_type>

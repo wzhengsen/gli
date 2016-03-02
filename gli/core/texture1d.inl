@@ -13,18 +13,18 @@ namespace gli
 		: texture(TARGET_1D, Format, texture::extent_type(Extent.x, 1, 1), 1, 1, Levels, Swizzles)
 	{}
 
-	inline texture1d::texture1d(texture const & Texture)
+	inline texture1d::texture1d(texture const& Texture)
 		: texture(Texture, TARGET_1D, Texture.format())
 	{}
 
 	inline texture1d::texture1d
 	(
-		texture const & Texture,
+		texture const& Texture,
 		format_type Format,
 		size_type BaseLayer, size_type MaxLayer,
 		size_type BaseFace, size_type MaxFace,
 		size_type BaseLevel, size_type MaxLevel,
-		swizzles_type const & Swizzles
+		swizzles_type const& Swizzles
 	)
 		: texture(
 			Texture, TARGET_1D,
@@ -37,7 +37,7 @@ namespace gli
  
 	inline texture1d::texture1d
 	(
-		texture1d const & Texture,
+		texture1d const& Texture,
 		size_type BaseLevel, size_type MaxLevel
 	)
 		: texture(
@@ -68,27 +68,12 @@ namespace gli
 	template <typename gen_type>
 	inline gen_type texture1d::load(extent_type const& TexelCoord, size_type Level) const
 	{
-		GLI_ASSERT(!this->empty());
-		GLI_ASSERT(!is_compressed(this->format()));
-		GLI_ASSERT(block_size(this->format()) == sizeof(gen_type));
-
-		size_type const ImageOffset = this->Storage->image_offset(TexelCoord, this->extent(Level));
-		GLI_ASSERT(ImageOffset < this->size<gen_type>(Level));
-
-		return *(this->data<gen_type>(0, 0, Level) + ImageOffset);
+		return this->texture::load<gen_type>(texture::extent_type(TexelCoord.x, 0, 0), 0, 0, Level);
 	}
 
 	template <typename gen_type>
 	inline void texture1d::store(extent_type const& TexelCoord, size_type Level, gen_type const& Texel)
 	{
-		GLI_ASSERT(!this->empty());
-		GLI_ASSERT(!is_compressed(this->format()));
-		GLI_ASSERT(block_size(this->format()) == sizeof(gen_type));
-		GLI_ASSERT(glm::all(glm::lessThan(TexelCoord, this->extent(Level))));
-
-		size_type const ImageOffset = this->Storage->image_offset(TexelCoord, this->extent(Level));
-		GLI_ASSERT(ImageOffset < this->size<gen_type>(Level));
-
-		*(this->data<gen_type>(0, 0, Level) + ImageOffset) = Texel;
+		this->texture::store<gen_type>(texture::extent_type(TexelCoord.x, 0, 0), 0, 0, Level, Texel);
 	}
 }//namespace gli

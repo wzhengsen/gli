@@ -379,5 +379,32 @@ namespace gli
 			}
 		}
 	}
+
+	template <typename gen_type>
+	inline gen_type texture::load(extent_type const& TexelCoord, size_type Layer,  size_type Face, size_type Level) const
+	{
+		GLI_ASSERT(!this->empty());
+		GLI_ASSERT(!is_compressed(this->format()));
+		GLI_ASSERT(block_size(this->format()) == sizeof(gen_type));
+
+		size_type const ImageOffset = this->Storage->image_offset(TexelCoord, this->extent(Level));
+		GLI_ASSERT(ImageOffset < this->size<gen_type>(Level));
+
+		return *(this->data<gen_type>(Layer, Face, Level) + ImageOffset);
+	}
+
+	template <typename gen_type>
+	inline void texture::store(extent_type const& TexelCoord, size_type Layer,  size_type Face, size_type Level, gen_type const& Texel)
+	{
+		GLI_ASSERT(!this->empty());
+		GLI_ASSERT(!is_compressed(this->format()));
+		GLI_ASSERT(block_size(this->format()) == sizeof(gen_type));
+		GLI_ASSERT(glm::all(glm::lessThan(TexelCoord, this->extent(Level))));
+
+		size_type const ImageOffset = this->Storage->image_offset(TexelCoord, this->extent(Level));
+		GLI_ASSERT(ImageOffset < this->size<gen_type>(Level));
+
+		*(this->data<gen_type>(Layer, Face, Level) + ImageOffset) = Texel;
+	}
 }//namespace gli
 
