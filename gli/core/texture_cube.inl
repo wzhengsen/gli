@@ -79,13 +79,14 @@ namespace gli
 		GLI_ASSERT(!this->empty());
 		GLI_ASSERT(!is_compressed(this->format()));
 		GLI_ASSERT(block_size(this->format()) == sizeof(gen_type));
+		GLI_ASSERT(Level < this->levels());
 
 		cache const& Cache = this->Caches[this->index_cache(Face, Level)];
 
 		size_type const ImageOffset = this->Storage->image_offset(TexelCoord, Cache.ImageExtent);
 		GLI_ASSERT(ImageOffset < Cache.ImageMemorySize / sizeof(gen_type));
 
-		return *(reinterpret_cast<gen_type const* const>(Cache.ImageBaseAddress) + ImageOffset);
+		return *(this->data<gen_type>(0, Face, Level) + ImageOffset);
 	}
 
 	template <typename gen_type>
@@ -102,7 +103,7 @@ namespace gli
 		size_type const ImageOffset = this->Storage->image_offset(TexelCoord, Cache.ImageExtent);
 		GLI_ASSERT(ImageOffset < Cache.ImageMemorySize / sizeof(gen_type));
 
-		*(reinterpret_cast<gen_type* const>(Cache.ImageBaseAddress) + ImageOffset) = Texel;
+		*(this->data<gen_type>(0, Face, Level) + ImageOffset) = Texel;
 	}
 
 	inline texture_cube::size_type texture_cube::index_cache(size_type Face, size_type Level) const
@@ -118,7 +119,6 @@ namespace gli
 		for(size_type Level = 0; Level < this->levels(); ++Level)
 		{
 			cache& Cache = this->Caches[this->index_cache(Face, Level)];
-			Cache.ImageBaseAddress = this->data<std::uint8_t>(0, Face, Level);
 			Cache.ImageExtent = glm::max(extent_type(this->texture::extent(Level)), extent_type(1));
 #			ifndef NDEBUG
 				Cache.ImageMemorySize = this->size(Level);

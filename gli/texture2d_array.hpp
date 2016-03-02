@@ -68,7 +68,6 @@ namespace gli
 	private:
 		struct cache
 		{
-			std::uint8_t* ImageBaseAddress;
 			extent_type ImageExtent;
 #			ifndef NDEBUG
 				size_type ImageMemorySize;

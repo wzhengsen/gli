@@ -87,7 +87,7 @@ namespace gli
 		size_type const ImageOffset = this->Storage->image_offset(TexelCoord, Cache.ImageExtent);
 		GLI_ASSERT(ImageOffset < Cache.ImageMemorySize / sizeof(gen_type));
 
-		return *(reinterpret_cast<gen_type const* const>(Cache.ImageBaseAddress) + ImageOffset);
+		return *(this->data<gen_type>(Layer, Face, Level) + ImageOffset);
 	}
 
 	template <typename gen_type>
@@ -103,7 +103,7 @@ namespace gli
 		size_type const ImageOffset = this->Storage->image_offset(TexelCoord, Cache.ImageExtent);
 		GLI_ASSERT(ImageOffset < Cache.ImageMemorySize / sizeof(gen_type));
 
-		*(reinterpret_cast<gen_type* const>(Cache.ImageBaseAddress) + ImageOffset) = Texel;
+		*(this->data<gen_type>(Layer, Face, Level) + ImageOffset) = Texel;
 	}
 
 	inline texture_cube_array::size_type texture_cube_array::index_cache(size_type Layer, size_type Face, size_type Level) const
@@ -120,7 +120,6 @@ namespace gli
 		for(size_type Level = 0, Levels = this->levels(); Level < Levels; ++Level)
 		{
 			cache& Cache = this->Caches[this->index_cache(Layer, Face, Level)];
-			Cache.ImageBaseAddress = this->data<std::uint8_t>(Layer, Face, Level);
 			Cache.ImageExtent = glm::max(texture2d::extent_type(this->texture::extent(Level)), texture2d::extent_type(1));
 #			ifndef NDEBUG
 				Cache.ImageMemorySize = this->size(Level);
