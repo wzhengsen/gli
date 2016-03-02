@@ -232,7 +232,9 @@ namespace gli
 				}
 
 				for(size_type Level = 0; Level < this->Levels; ++Level)
-					this->MemorySize[Level] = Storage.layer_size(BaseFace, MaxFace, BaseLevel + Level, MaxLevel) * Layers;
+					this->ImageMemorySize[Level] = Storage.level_size(BaseLevel + Level);
+				
+				this->GlobalMemorySize = Storage.layer_size(BaseFace, MaxFace, BaseLevel, MaxLevel) * Layers;
 			}
 
 			// Base addresses of each images of a texture.
@@ -244,7 +246,13 @@ namespace gli
 			// In bytes
 			size_type get_memory_size(size_type Level) const
 			{
-				return this->MemorySize[Level];
+				return this->ImageMemorySize[Level];
+			};
+
+			// In bytes
+			size_type get_memory_size() const
+			{
+				return this->GlobalMemorySize;
 			};
 
 		private:
@@ -256,7 +264,8 @@ namespace gli
 			size_type Faces;
 			size_type Levels;
 			std::vector<data_type*> BaseAddresses;
-			std::array<size_type, 16> MemorySize;
+			std::array<size_type, 16> ImageMemorySize;
+			size_type GlobalMemorySize;
 		} Cache;
 	};
 
