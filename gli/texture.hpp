@@ -5,6 +5,7 @@
 
 #include "image.hpp"
 #include "target.hpp"
+#include <array>
 
 namespace gli
 {
@@ -207,7 +208,6 @@ namespace gli
 			};
 
 			explicit cache(ctor)
-				: MemorySize(0)
 			{}
 
 			cache
@@ -219,7 +219,6 @@ namespace gli
 			)
 				: Faces(MaxFace - BaseFace + 1)
 				, Levels(MaxLevel - BaseLevel + 1)
-				, MemorySize(Storage.layer_size(BaseFace, MaxFace, BaseLevel, MaxLevel) * Layers)
 			{
 				this->BaseAddresses.resize(Layers * this->Faces * this->Levels);
 
@@ -231,6 +230,9 @@ namespace gli
 					this->BaseAddresses[Index] = Storage.data() + Storage.base_offset(
 						BaseLayer + Layer, BaseFace + Face, BaseLevel + Level);
 				}
+
+				for(size_type Level = 0; Level < this->Levels; ++Level)
+					this->MemorySize[Level] = Storage.layer_size(BaseFace, MaxFace, BaseLevel + Level, MaxLevel) * Layers;
 			}
 
 			// Base addresses of each images of a texture.
@@ -240,9 +242,9 @@ namespace gli
 			}
 
 			// In bytes
-			size_type get_memory_size() const
+			size_type get_memory_size(size_type Level) const
 			{
-				return this->MemorySize;
+				return this->MemorySize[Level];
 			};
 
 		private:
@@ -254,8 +256,7 @@ namespace gli
 			size_type Faces;
 			size_type Levels;
 			std::vector<data_type*> BaseAddresses;
-
-			size_type MemorySize;
+			std::array<size_type, 16> MemorySize;
 		} Cache;
 	};
 

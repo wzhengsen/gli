@@ -174,7 +174,7 @@ namespace gli
 	{
 		GLI_ASSERT(!this->empty());
 
-		return this->Cache.get_memory_size();
+		return this->Cache.get_memory_size(0);
 	}
 
 	template <typename gen_type>
