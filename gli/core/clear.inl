@@ -42,7 +42,7 @@ namespace gli
 		for(size_t FaceIndex = 0; FaceIndex < FaceCount; ++FaceIndex)
 		for(size_t LevelIndex = 0, LevelCount = Texture.levels(); LevelIndex < LevelCount; ++LevelIndex)
 		{
-			Texture.clear<gen_type>(LayerIndex, BaseFace + FaceIndex, LevelIndex, BlockData)
+			Texture.clear<gen_type>(LayerIndex, BaseFace + FaceIndex, LevelIndex, BlockData);
 		}
 	}
 
