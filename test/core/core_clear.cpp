@@ -89,11 +89,11 @@ namespace clear
 		ColorRGBA32F.push_back(glm::vec4(1.0,   0, 1.0, 1.0));
 
 		std::vector<int> Sizes;
+		Sizes.push_back(12);
 		Sizes.push_back(32);
 		Sizes.push_back(16);
 		Sizes.push_back(17);
 		Sizes.push_back(15);
-		Sizes.push_back(12);
 		Sizes.push_back(5);
 
 		int Error(0);

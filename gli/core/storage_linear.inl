@@ -10,12 +10,12 @@ namespace gli
 		, Extent(0)
 	{}
 
-	inline storage_linear::storage_linear(format_type Format, extent_type const & Extent, size_type Layers, size_type Faces, size_type Levels)
+	inline storage_linear::storage_linear(format_type Format, extent_type const& Extent, size_type Layers, size_type Faces, size_type Levels)
 		: Layers(Layers)
 		, Faces(Faces)
 		, Levels(Levels)
 		, BlockSize(gli::block_size(Format))
-		, BlockCount(glm::max(Extent / gli::block_extent(Format), extent_type(1)))
+		, BlockCount(glm::ceilMultiple(Extent, gli::block_extent(Format)) / gli::block_extent(Format))
 		, BlockExtent(gli::block_extent(Format))
 		, Extent(Extent)
 	{
@@ -61,7 +61,7 @@ namespace gli
 	{
 		GLI_ASSERT(Level >= 0 && Level < this->Levels);
 
-		return glm::max(this->BlockCount >> storage_linear::extent_type(static_cast<storage_linear::extent_type::value_type>(Level)), storage_linear::extent_type(1));
+		return glm::ceilMultiple(this->extent(Level), BlockExtent) / BlockExtent;
 	}
 
 	inline storage_linear::extent_type storage_linear::extent(size_type Level) const
