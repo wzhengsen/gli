@@ -65,5 +65,6 @@ glmCreateTestGTC(test_copy_sub)
 glmCreateTestGTC(test_duplicate)
 glmCreateTestGTC(test_view)
 glmCreateTestGTC(test_size)
+glmCreateTestGTC(test_make_texture)
 glmCreateTestGTC(transform)
 

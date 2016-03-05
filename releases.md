@@ -5,6 +5,7 @@
 - Added texture copy, no allocation involved, only transfer
 - Added sub-image copy
 - Added non-member clear
+- Added make_texture* helper functions
 
 #### Improvements:
 - Added compressed npot textures support #73

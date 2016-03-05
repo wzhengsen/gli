@@ -291,7 +291,6 @@ namespace gli
 			size_type GlobalMemorySize;
 		} Cache;
 	};
-
 }//namespace gli
 
 #include "./core/texture.inl"
