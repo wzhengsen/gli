@@ -18,14 +18,14 @@ namespace gli
 		texture_cube();
 
 		/// Create a texture_cube and allocate a new storage_linear
-		explicit texture_cube(
+		texture_cube(
 			format_type Format,
 			extent_type const & Extent,
 			size_type Levels,
 			swizzles_type const& Swizzles = swizzles_type(SWIZZLE_RED, SWIZZLE_GREEN, SWIZZLE_BLUE, SWIZZLE_ALPHA));
 
 		/// Create a texture_cube and allocate a new storage_linear with a complete mipmap chain
-		explicit texture_cube(
+		texture_cube(
 			format_type Format,
 			extent_type const & Extent,
 			swizzles_type const& Swizzles = swizzles_type(SWIZZLE_RED, SWIZZLE_GREEN, SWIZZLE_BLUE, SWIZZLE_ALPHA));
@@ -35,7 +35,7 @@ namespace gli
 			texture const& Texture);
 
 		/// Create a texture_cube view with an existing storage_linear
-		explicit texture_cube(
+		texture_cube(
 			texture const& Texture,
 			format_type Format,
 			size_type BaseLayer, size_type MaxLayer,
@@ -44,7 +44,7 @@ namespace gli
 			swizzles_type const& Swizzles = swizzles_type(SWIZZLE_RED, SWIZZLE_GREEN, SWIZZLE_BLUE, SWIZZLE_ALPHA));
 
 		/// Create a texture_cube view, reference a subset of an existing texture_cube instance
-		explicit texture_cube(
+		texture_cube(
 			texture_cube const& Texture,
 			size_type BaseFace, size_type MaxFace,
 			size_type BaseLevel, size_type MaxLevel);

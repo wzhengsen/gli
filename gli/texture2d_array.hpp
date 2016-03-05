@@ -18,7 +18,7 @@ namespace gli
 		texture2d_array();
 
 		/// Create a texture2d_array and allocate a new storage_linear
-		explicit texture2d_array(
+		texture2d_array(
 			format_type Format,
 			extent_type const& Extent,
 			size_type Layers,
@@ -26,7 +26,7 @@ namespace gli
 			swizzles_type const& Swizzles = swizzles_type(SWIZZLE_RED, SWIZZLE_GREEN, SWIZZLE_BLUE, SWIZZLE_ALPHA));
 
 		/// Create a texture2d_array and allocate a new storage_linear with a complete mipmap chain
-		explicit texture2d_array(
+		texture2d_array(
 			format_type Format,
 			extent_type const& Extent,
 			size_type Layers,
@@ -37,7 +37,7 @@ namespace gli
 			texture const& Texture);
 
 		/// Create a texture2d_array view with an existing storage_linear
-		explicit texture2d_array(
+		texture2d_array(
 			texture const& Texture,
 			format_type Format,
 			size_type BaseLayer, size_type MaxLayer,
@@ -46,7 +46,7 @@ namespace gli
 			swizzles_type const& Swizzles = swizzles_type(SWIZZLE_RED, SWIZZLE_GREEN, SWIZZLE_BLUE, SWIZZLE_ALPHA));
 
 		/// Create a texture view, reference a subset of an exiting texture2d_array instance
-		explicit texture2d_array(
+		texture2d_array(
 			texture2d_array const& Texture,
 			size_type BaseLayer, size_type MaxLayer,
 			size_type BaseLevel, size_type MaxLevel);
