@@ -3,7 +3,9 @@
 #include <gli/comparison.hpp>
 #include <gli/save.hpp>
 #include <gli/load.hpp>
-
+#include <gli/copy.hpp>
+#include <ctime>
+#include <memory>
 namespace alloc
 {
 	int run()
@@ -350,10 +352,350 @@ namespace data
 	}
 }//namespace data
 
+namespace perf_generic_creation
+{
+	int main()
+	{
+		int Error = 0;
+
+		std::clock_t TimeBegin = std::clock();
+
+		for(std::size_t Index = 0, Count = 10000; Index < Count; ++Index)
+		for(std::size_t FormatIndex = gli::FORMAT_FIRST, FormatCount = gli::FORMAT_COUNT; FormatIndex < FormatCount; ++FormatIndex)
+		{
+			gli::texture Texture(gli::TARGET_2D_ARRAY, static_cast<gli::format>(FormatIndex), gli::texture::extent_type(4, 4, 1), 1, 1, 3);
+			Error += Texture.empty() ? 1 : 0;
+		}
+
+		std::clock_t TimeEnd = std::clock();
+		printf("Generic texture creation performance test: %d\n", TimeEnd - TimeBegin);
+
+		return Error;
+	}
+}//namespace perf_generic_creation
+
+namespace perf_2d_array_creation
+{
+	int main()
+	{
+		int Error = 0;
+
+		std::clock_t TimeBegin = std::clock();
+
+		for(std::size_t Index = 0, Count = 10000; Index < Count; ++Index)
+		for(std::size_t FormatIndex = gli::FORMAT_FIRST, FormatCount = gli::FORMAT_COUNT; FormatIndex < FormatCount; ++FormatIndex)
+		{
+			gli::texture2d_array Texture(static_cast<gli::format>(FormatIndex), gli::texture2d_array::extent_type(4), 1, 3);
+			Error += Texture.empty() ? 1 : 0;
+		}
+
+		std::clock_t TimeEnd = std::clock();
+		printf("2D array texture creation performance test: %d\n", TimeEnd - TimeBegin);
+
+		return Error;
+	}
+}//namespace perf_2d_array_creation
+
+namespace perf_2d_creation
+{
+	int main()
+	{
+		int Error = 0;
+
+		std::clock_t TimeBegin = std::clock();
+
+		for(std::size_t Index = 0, Count = 10000; Index < Count; ++Index)
+		for(std::size_t FormatIndex = gli::FORMAT_FIRST, FormatCount = gli::FORMAT_COUNT; FormatIndex < FormatCount; ++FormatIndex)
+		{
+			gli::texture2d Texture(static_cast<gli::format>(FormatIndex), gli::texture2d::extent_type(4), 3);
+			Error += Texture.empty() ? 1 : 0;
+		}
+
+		std::clock_t TimeEnd = std::clock();
+		printf("2D texture creation performance test: %d\n", TimeEnd - TimeBegin);
+
+		return Error;
+	}
+}//namespace perf_2d_creation
+
+namespace perf_cube_array_creation
+{
+	int main()
+	{
+		int Error = 0;
+
+		std::clock_t TimeBegin = std::clock();
+
+		for(std::size_t Index = 0, Count = 10000; Index < Count; ++Index)
+		for(std::size_t FormatIndex = gli::FORMAT_FIRST, FormatCount = gli::FORMAT_COUNT; FormatIndex < FormatCount; ++FormatIndex)
+		{
+			gli::texture_cube_array Texture(static_cast<gli::format>(FormatIndex), gli::texture2d_array::extent_type(4), 1, 3);
+			Error += Texture.empty() ? 1 : 0;
+		}
+
+		std::clock_t TimeEnd = std::clock();
+		printf("Cube array texture creation performance test: %d\n", TimeEnd - TimeBegin);
+
+		return Error;
+	}
+}//namespace perf_cube_array_creation
+
+namespace perf_cube_array_access
+{
+	int main()
+	{
+		int Error = 0;
+
+		std::size_t const ACCESS_ITERATION = 100000;
+
+		std::vector<std::shared_ptr<gli::texture_cube_array> > Textures(gli::FORMAT_COUNT);
+		for(std::size_t FormatIndex = gli::FORMAT_FIRST, FormatCount = gli::FORMAT_COUNT; FormatIndex < FormatCount; ++FormatIndex)
+		{
+			Textures[FormatIndex].reset(new gli::texture_cube_array(static_cast<gli::format>(FormatIndex), gli::texture2d_array::extent_type(4), 3, 3));
+			Error += Textures[FormatIndex]->empty() ? 1 : 0;
+		}
+
+		{
+			std::clock_t TimeBegin = std::clock();
+
+			for(gli::size_t Index = 0, Count = ACCESS_ITERATION; Index < Count; ++Index)
+			for(std::size_t FormatIndex = gli::FORMAT_FIRST, FormatCount = gli::FORMAT_COUNT; FormatIndex < FormatCount; ++FormatIndex)
+			{
+				for(gli::size_t LayerIndex = 0, LayerCount = Textures[FormatIndex]->layers(); LayerIndex < LayerCount; ++LayerIndex)
+				for(gli::size_t LevelIndex = 0, LevelCount = Textures[FormatIndex]->levels(); LevelIndex < LevelCount; ++LevelIndex)
+				{
+					void* BaseAddress = Textures[FormatIndex]->data(LayerIndex, 0, LevelIndex);
+					Error += BaseAddress != nullptr ? 0 : 1;
+				}
+			}
+
+			std::clock_t TimeEnd = std::clock();
+
+			printf("Cube array texture data access performance test: %d\n", TimeEnd - TimeBegin);
+		}
+
+		{
+			std::clock_t TimeBegin = std::clock();
+
+			for(gli::size_t Index = 0, Count = ACCESS_ITERATION; Index < Count; ++Index)
+			for(std::size_t FormatIndex = gli::FORMAT_FIRST, FormatCount = gli::FORMAT_COUNT; FormatIndex < FormatCount; ++FormatIndex)
+			{
+				for(gli::size_t LayerIndex = 0, LayerCount = Textures[FormatIndex]->layers(); LayerIndex < LayerCount; ++LayerIndex)
+				for(gli::size_t LevelIndex = 0, LevelCount = Textures[FormatIndex]->levels(); LevelIndex < LevelCount; ++LevelIndex)
+				{
+					gli::size_t Size = Textures[FormatIndex]->size(LevelIndex);
+					Error += Size != 0 ? 0 : 1;
+				}
+			}
+
+			std::clock_t TimeEnd = std::clock();
+
+			printf("Cube array texture size performance test: %d\n", TimeEnd - TimeBegin);
+		}
+
+		{
+			std::clock_t TimeBegin = std::clock();
+
+			for(gli::size_t Index = 0, Count = ACCESS_ITERATION; Index < Count; ++Index)
+			for(std::size_t FormatIndex = gli::FORMAT_FIRST, FormatCount = gli::FORMAT_COUNT; FormatIndex < FormatCount; ++FormatIndex)
+			{
+				for(gli::size_t LayerIndex = 0, LayerCount = Textures[FormatIndex]->layers(); LayerIndex < LayerCount; ++LayerIndex)
+				for(gli::size_t LevelIndex = 0, LevelCount = Textures[FormatIndex]->levels(); LevelIndex < LevelCount; ++LevelIndex)
+				{
+					gli::texture_cube_array::extent_type Extent = Textures[FormatIndex]->extent(LevelIndex);
+					Error += Extent.x != 0 ? 0 : 1;
+					Error += Extent.y != 0 ? 0 : 1;
+				}
+			}
+
+			std::clock_t TimeEnd = std::clock();
+
+			printf("Cube array texture extent access performance test: %d\n", TimeEnd - TimeBegin);
+		}
+
+		{
+			std::clock_t TimeBegin = std::clock();
+
+			for(gli::size_t Index = 0, Count = ACCESS_ITERATION; Index < Count; ++Index)
+			for(std::size_t FormatIndex = gli::FORMAT_FIRST, FormatCount = gli::FORMAT_COUNT; FormatIndex < FormatCount; ++FormatIndex)
+			{
+				for(gli::size_t LayerIndex = 0, LayerCount = Textures[FormatIndex]->layers(); LayerIndex < LayerCount; ++LayerIndex)
+				for(gli::size_t LevelIndex = 0, LevelCount = Textures[FormatIndex]->levels(); LevelIndex < LevelCount; ++LevelIndex)
+				{
+					gli::texture_cube_array::extent_type Extent = Textures[FormatIndex]->extent(LevelIndex);
+					gli::size_t Size = Textures[FormatIndex]->size(LevelIndex);
+
+					Error += Extent.x != 0 ? 0 : 1;
+					Error += Extent.y != 0 ? 0 : 1;
+					Error += Size != 0 ? 0 : 1;
+				}
+			}
+
+			std::clock_t TimeEnd = std::clock();
+
+			printf("Cube array texture extent and size access performance test: %d\n", TimeEnd - TimeBegin);
+		}
+
+		{
+			std::clock_t TimeBegin = std::clock();
+
+			for(gli::size_t Index = 0, Count = ACCESS_ITERATION; Index < Count; ++Index)
+			for(std::size_t FormatIndex = gli::FORMAT_FIRST, FormatCount = gli::FORMAT_COUNT; FormatIndex < FormatCount; ++FormatIndex)
+			{
+				for(gli::size_t LayerIndex = 0, LayerCount = Textures[FormatIndex]->layers(); LayerIndex < LayerCount; ++LayerIndex)
+				for(gli::size_t LevelIndex = 0, LevelCount = Textures[FormatIndex]->levels(); LevelIndex < LevelCount; ++LevelIndex)
+				{
+					gli::texture_cube_array::extent_type Extent = Textures[FormatIndex]->extent(LevelIndex);
+					gli::size_t Size = Textures[FormatIndex]->size(LevelIndex);
+					void* BaseAddress = Textures[FormatIndex]->data(LayerIndex, 0, LevelIndex);
+
+					Error += Extent.x != 0 ? 0 : 1;
+					Error += Extent.y != 0 ? 0 : 1;
+					Error += Size != 0 ? 0 : 1;
+					Error += BaseAddress != nullptr ? 0 : 1;
+				}
+			}
+
+			std::clock_t TimeEnd = std::clock();
+
+			printf("Cube array texture all access performance test: %d\n", TimeEnd - TimeBegin);
+		}
+
+		return Error;
+	}
+}//namespace perf_cube_array_access
+
+namespace perf_texture2d_access
+{
+	int main()
+	{
+		int Error = 0;
+
+		std::size_t const ACCESS_ITERATION = 100000;
+
+		std::vector<std::shared_ptr<gli::texture2d> > Textures(gli::FORMAT_COUNT);
+		for(std::size_t FormatIndex = gli::FORMAT_FIRST, FormatCount = gli::FORMAT_COUNT; FormatIndex < FormatCount; ++FormatIndex)
+		{
+			Textures[FormatIndex].reset(new gli::texture2d(static_cast<gli::format>(FormatIndex), gli::texture2d::extent_type(4), 9));
+			Error += Textures[FormatIndex]->empty() ? 1 : 0;
+		}
+
+		{
+			std::clock_t TimeBegin = std::clock();
+
+			for(gli::size_t Index = 0, Count = ACCESS_ITERATION; Index < Count; ++Index)
+			for(std::size_t FormatIndex = gli::FORMAT_FIRST, FormatCount = gli::FORMAT_COUNT; FormatIndex < FormatCount; ++FormatIndex)
+			{
+				for(gli::size_t LayerIndex = 0, LayerCount = Textures[FormatIndex]->layers(); LayerIndex < LayerCount; ++LayerIndex)
+				for(gli::size_t LevelIndex = 0, LevelCount = Textures[FormatIndex]->levels(); LevelIndex < LevelCount; ++LevelIndex)
+				{
+					void* BaseAddress = Textures[FormatIndex]->data(LayerIndex, 0, LevelIndex);
+					Error += BaseAddress != nullptr ? 0 : 1;
+				}
+			}
+
+			std::clock_t TimeEnd = std::clock();
+
+			printf("2d texture data access performance test: %d\n", TimeEnd - TimeBegin);
+		}
+
+		{
+			std::clock_t TimeBegin = std::clock();
+
+			for(gli::size_t Index = 0, Count = ACCESS_ITERATION; Index < Count; ++Index)
+			for(std::size_t FormatIndex = gli::FORMAT_FIRST, FormatCount = gli::FORMAT_COUNT; FormatIndex < FormatCount; ++FormatIndex)
+			{
+				for(gli::size_t LayerIndex = 0, LayerCount = Textures[FormatIndex]->layers(); LayerIndex < LayerCount; ++LayerIndex)
+				for(gli::size_t LevelIndex = 0, LevelCount = Textures[FormatIndex]->levels(); LevelIndex < LevelCount; ++LevelIndex)
+				{
+					gli::size_t Size = Textures[FormatIndex]->size(LevelIndex);
+					Error += Size != 0 ? 0 : 1;
+				}
+			}
+
+			std::clock_t TimeEnd = std::clock();
+
+			printf("2d texture size performance test: %d\n", TimeEnd - TimeBegin);
+		}
+
+		{
+			std::clock_t TimeBegin = std::clock();
+
+			for(gli::size_t Index = 0, Count = ACCESS_ITERATION; Index < Count; ++Index)
+			for(std::size_t FormatIndex = gli::FORMAT_FIRST, FormatCount = gli::FORMAT_COUNT; FormatIndex < FormatCount; ++FormatIndex)
+			{
+				for(gli::size_t LayerIndex = 0, LayerCount = Textures[FormatIndex]->layers(); LayerIndex < LayerCount; ++LayerIndex)
+				for(gli::size_t LevelIndex = 0, LevelCount = Textures[FormatIndex]->levels(); LevelIndex < LevelCount; ++LevelIndex)
+				{
+					gli::texture2d::extent_type Extent = Textures[FormatIndex]->extent(LevelIndex);
+					Error += Extent.x != 0 ? 0 : 1;
+					Error += Extent.y != 0 ? 0 : 1;
+				}
+			}
+
+			std::clock_t TimeEnd = std::clock();
+
+			printf("2d texture extent access performance test: %d\n", TimeEnd - TimeBegin);
+		}
+
+		{
+			std::clock_t TimeBegin = std::clock();
+
+			for(gli::size_t Index = 0, Count = ACCESS_ITERATION; Index < Count; ++Index)
+			for(std::size_t FormatIndex = gli::FORMAT_FIRST, FormatCount = gli::FORMAT_COUNT; FormatIndex < FormatCount; ++FormatIndex)
+			{
+				for(gli::size_t LayerIndex = 0, LayerCount = Textures[FormatIndex]->layers(); LayerIndex < LayerCount; ++LayerIndex)
+				for(gli::size_t LevelIndex = 0, LevelCount = Textures[FormatIndex]->levels(); LevelIndex < LevelCount; ++LevelIndex)
+				{
+					gli::texture2d::extent_type Extent = Textures[FormatIndex]->extent(LevelIndex);
+					gli::size_t Size = Textures[FormatIndex]->size(LevelIndex);
+
+					Error += Extent.x != 0 ? 0 : 1;
+					Error += Extent.y != 0 ? 0 : 1;
+					Error += Size != 0 ? 0 : 1;
+				}
+			}
+
+			std::clock_t TimeEnd = std::clock();
+
+			printf("2d texture extent and size access performance test: %d\n", TimeEnd - TimeBegin);
+		}
+
+		{
+			std::clock_t TimeBegin = std::clock();
+
+			for(gli::size_t Index = 0, Count = ACCESS_ITERATION; Index < Count; ++Index)
+			for(std::size_t FormatIndex = gli::FORMAT_FIRST, FormatCount = gli::FORMAT_COUNT; FormatIndex < FormatCount; ++FormatIndex)
+			{
+				for(gli::size_t LayerIndex = 0, LayerCount = Textures[FormatIndex]->layers(); LayerIndex < LayerCount; ++LayerIndex)
+				for(gli::size_t LevelIndex = 0, LevelCount = Textures[FormatIndex]->levels(); LevelIndex < LevelCount; ++LevelIndex)
+				{
+					gli::texture2d::extent_type Extent = Textures[FormatIndex]->extent(LevelIndex);
+					gli::size_t Size = Textures[FormatIndex]->size(LevelIndex);
+					void* BaseAddress = Textures[FormatIndex]->data(LayerIndex, 0, LevelIndex);
+
+					Error += Extent.x != 0 ? 0 : 1;
+					Error += Extent.y != 0 ? 0 : 1;
+					Error += Size != 0 ? 0 : 1;
+					Error += BaseAddress != nullptr ? 0 : 1;
+				}
+			}
+
+			std::clock_t TimeEnd = std::clock();
+
+			printf("2d texture all access performance test: %d\n", TimeEnd - TimeBegin);
+		}
+
+		return Error;
+	}
+}//namespace perf_texture2d_access
+
 int main()
 {
-	int Error(0);
+	int Error = 0;
 
+	Error += perf_texture2d_access::main();
+	Error += perf_cube_array_access::main();
 	Error += alloc::run();
 	Error += size::run();
 	Error += query::run();
@@ -362,6 +704,10 @@ int main()
 	Error += specialize::run();
 	Error += load::run();
 	Error += data::run();
+	Error += perf_generic_creation::main();
+	Error += perf_2d_array_creation::main();
+	Error += perf_2d_creation::main();
+	Error += perf_cube_array_creation::main();
 
 	return Error;
 }
