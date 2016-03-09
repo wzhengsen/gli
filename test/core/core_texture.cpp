@@ -1,11 +1,14 @@
 #include <gli/texture.hpp>
+#include <gli/sampler2d.hpp>
 #include <gli/levels.hpp>
 #include <gli/comparison.hpp>
 #include <gli/save.hpp>
 #include <gli/load.hpp>
 #include <gli/copy.hpp>
+#include <glm/gtc/epsilon.hpp>
 #include <ctime>
 #include <memory>
+
 namespace alloc
 {
 	int run()
@@ -686,11 +689,114 @@ namespace perf_texture2d_access
 	}
 }//namespace perf_texture2d_access
 
+namespace perf_texture_load
+{
+	int main(int Extent)
+	{
+		int Error = 0;
+
+		gli::texture2d Texture(gli::FORMAT_R8_UNORM_PACK8, gli::texture2d::extent_type(Extent));
+		Texture.clear(gli::u8(255));
+
+		std::clock_t TimeBegin = std::clock();
+
+		for(gli::texture2d::size_type LevelIndex = 0, LevelCount = Texture.levels(); LevelIndex < LevelCount; ++LevelIndex)
+		{
+			gli::texture2d::extent_type const Extent = Texture.extent(LevelIndex);
+			for(gli::size_t y = 0; y < Extent.y; ++y)
+			for(gli::size_t x = 0; x < Extent.x; ++x)
+			{
+				gli::u8 Texel = Texture.load<gli::u8>(gli::texture2d::extent_type(x, y), LevelIndex);
+				Error += Texel == gli::u8(255) ? 0 : 1;
+			}
+		}
+
+		std::clock_t TimeEnd = std::clock();
+		printf("2D texture load performance test: %d\n", TimeEnd - TimeBegin);
+
+		return Error;
+	}
+}//namespace perf_texture_load
+
+namespace perf_texture_fetch
+{
+	int main(int Extent)
+	{
+		int Error = 0;
+
+		gli::texture2d Texture(gli::FORMAT_R8_UNORM_PACK8, gli::texture2d::extent_type(Extent));
+		Texture.clear(gli::u8(255));
+
+		gli::sampler2d<float> Sampler(Texture, gli::WRAP_CLAMP_TO_EDGE);
+
+		std::clock_t TimeBegin = std::clock();
+
+		for(gli::texture2d::size_type LevelIndex = 0, LevelCount = Texture.levels(); LevelIndex < LevelCount; ++LevelIndex)
+		{
+			gli::texture2d::extent_type const Extent = Texture.extent(LevelIndex);
+			for(gli::size_t y = 0; y < Extent.y; ++y)
+			for(gli::size_t x = 0; x < Extent.x; ++x)
+			{
+				gli::vec4 const& Texel = Sampler.texel_fetch(gli::texture2d::extent_type(x, y), LevelIndex);
+				Error += gli::all(gli::epsilonEqual(Texel, gli::vec4(0, 0, 0, 1), 0.001f)) ? 0 : 1;
+			}
+		}
+
+		std::clock_t TimeEnd = std::clock();
+		printf("2D texture fetch performance test: %d\n", TimeEnd - TimeBegin);
+
+		return Error;
+	}
+}//namespace perf_texture_fetch
+
+namespace perf_texture_lod
+{
+	int main(int Extent)
+	{
+		int Error = 0;
+
+		gli::texture2d Texture(gli::FORMAT_R8_UNORM_PACK8, gli::texture2d::extent_type(Extent));
+		Texture.clear(gli::u8(255));
+
+		gli::sampler2d<float> Sampler(Texture, gli::WRAP_CLAMP_TO_EDGE, gli::FILTER_NEAREST, gli::FILTER_NEAREST);
+
+		std::clock_t TimeBegin = std::clock();
+
+		for(gli::texture2d::size_type LevelIndex = 0, LevelCount = Texture.levels(); LevelIndex < LevelCount; ++LevelIndex)
+		{
+			gli::texture2d::extent_type const Extent = Texture.extent(LevelIndex);
+			for(gli::size_t y = 0; y < Extent.y; ++y)
+			for(gli::size_t x = 0; x < Extent.x; ++x)
+			{
+				gli::vec4 const& Texel = Sampler.texture_lod(glm::vec2(x, y) / glm::vec2(Extent), LevelIndex);
+				Error += gli::all(gli::epsilonEqual(Texel, gli::vec4(0, 0, 0, 1), 0.001f)) ? 0 : 1;
+			}
+		}
+
+		std::clock_t TimeEnd = std::clock();
+		printf("2D texture lod performance test: %d\n", TimeEnd - TimeBegin);
+
+		return Error;
+	}
+}//namespace perf_texture_lod
+
 int main()
 {
 	int Error = 0;
 
-	std::size_t const PERF_TEST_ITERATION = 1;
+	std::size_t const PERF_TEST_ACCESS_ITERATION = 100000;
+	std::size_t const PERF_TEST_CREATION_ITERATION = 1000;
+
+	Error += perf_texture_load::main(8192);
+	Error += perf_texture_fetch::main(8192);
+	Error += perf_texture_lod::main(8192);
+/*
+	Error += perf_texture2d_access::main(PERF_TEST_ACCESS_ITERATION);
+	Error += perf_cube_array_access::main(PERF_TEST_ACCESS_ITERATION);
+	Error += perf_generic_creation::main(PERF_TEST_CREATION_ITERATION);
+	Error += perf_2d_array_creation::main(PERF_TEST_CREATION_ITERATION);
+	Error += perf_2d_creation::main(PERF_TEST_CREATION_ITERATION);
+	Error += perf_cube_array_creation::main(PERF_TEST_CREATION_ITERATION);
 
 	Error += alloc::run();
 	Error += size::run();
@@ -700,13 +806,7 @@ int main()
 	Error += specialize::run();
 	Error += load::run();
 	Error += data::run();
-	Error += perf_texture2d_access::main(PERF_TEST_ITERATION);
-	Error += perf_cube_array_access::main(PERF_TEST_ITERATION);
-	Error += perf_generic_creation::main(PERF_TEST_ITERATION);
-	Error += perf_2d_array_creation::main(PERF_TEST_ITERATION);
-	Error += perf_2d_creation::main(PERF_TEST_ITERATION);
-	Error += perf_cube_array_creation::main(PERF_TEST_ITERATION);
-
+*/
 	return Error;
 }
 
