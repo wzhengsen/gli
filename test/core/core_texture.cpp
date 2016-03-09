@@ -354,13 +354,13 @@ namespace data
 
 namespace perf_generic_creation
 {
-	int main()
+	int main(std::size_t Iterations)
 	{
 		int Error = 0;
 
 		std::clock_t TimeBegin = std::clock();
 
-		for(std::size_t Index = 0, Count = 10000; Index < Count; ++Index)
+		for(std::size_t Index = 0, Count = Iterations; Index < Count; ++Index)
 		for(std::size_t FormatIndex = gli::FORMAT_FIRST, FormatCount = gli::FORMAT_COUNT; FormatIndex < FormatCount; ++FormatIndex)
 		{
 			gli::texture Texture(gli::TARGET_2D_ARRAY, static_cast<gli::format>(FormatIndex), gli::texture::extent_type(4, 4, 1), 1, 1, 3);
@@ -376,13 +376,13 @@ namespace perf_generic_creation
 
 namespace perf_2d_array_creation
 {
-	int main()
+	int main(std::size_t Iterations)
 	{
 		int Error = 0;
 
 		std::clock_t TimeBegin = std::clock();
 
-		for(std::size_t Index = 0, Count = 10000; Index < Count; ++Index)
+		for(std::size_t Index = 0, Count = Iterations; Index < Count; ++Index)
 		for(std::size_t FormatIndex = gli::FORMAT_FIRST, FormatCount = gli::FORMAT_COUNT; FormatIndex < FormatCount; ++FormatIndex)
 		{
 			gli::texture2d_array Texture(static_cast<gli::format>(FormatIndex), gli::texture2d_array::extent_type(4), 1, 3);
@@ -398,13 +398,13 @@ namespace perf_2d_array_creation
 
 namespace perf_2d_creation
 {
-	int main()
+	int main(std::size_t Iterations)
 	{
 		int Error = 0;
 
 		std::clock_t TimeBegin = std::clock();
 
-		for(std::size_t Index = 0, Count = 10000; Index < Count; ++Index)
+		for(std::size_t Index = 0, Count = Iterations; Index < Count; ++Index)
 		for(std::size_t FormatIndex = gli::FORMAT_FIRST, FormatCount = gli::FORMAT_COUNT; FormatIndex < FormatCount; ++FormatIndex)
 		{
 			gli::texture2d Texture(static_cast<gli::format>(FormatIndex), gli::texture2d::extent_type(4), 3);
@@ -420,13 +420,13 @@ namespace perf_2d_creation
 
 namespace perf_cube_array_creation
 {
-	int main()
+	int main(std::size_t Iterations)
 	{
 		int Error = 0;
 
 		std::clock_t TimeBegin = std::clock();
 
-		for(std::size_t Index = 0, Count = 10000; Index < Count; ++Index)
+		for(std::size_t Index = 0, Count = Iterations; Index < Count; ++Index)
 		for(std::size_t FormatIndex = gli::FORMAT_FIRST, FormatCount = gli::FORMAT_COUNT; FormatIndex < FormatCount; ++FormatIndex)
 		{
 			gli::texture_cube_array Texture(static_cast<gli::format>(FormatIndex), gli::texture2d_array::extent_type(4), 1, 3);
@@ -442,11 +442,9 @@ namespace perf_cube_array_creation
 
 namespace perf_cube_array_access
 {
-	int main()
+	int main(std::size_t Iterations)
 	{
 		int Error = 0;
-
-		std::size_t const ACCESS_ITERATION = 100000;
 
 		std::vector<std::shared_ptr<gli::texture_cube_array> > Textures(gli::FORMAT_COUNT);
 		for(std::size_t FormatIndex = gli::FORMAT_FIRST, FormatCount = gli::FORMAT_COUNT; FormatIndex < FormatCount; ++FormatIndex)
@@ -458,7 +456,7 @@ namespace perf_cube_array_access
 		{
 			std::clock_t TimeBegin = std::clock();
 
-			for(gli::size_t Index = 0, Count = ACCESS_ITERATION; Index < Count; ++Index)
+			for(gli::size_t Index = 0, Count = Iterations; Index < Count; ++Index)
 			for(std::size_t FormatIndex = gli::FORMAT_FIRST, FormatCount = gli::FORMAT_COUNT; FormatIndex < FormatCount; ++FormatIndex)
 			{
 				for(gli::size_t LayerIndex = 0, LayerCount = Textures[FormatIndex]->layers(); LayerIndex < LayerCount; ++LayerIndex)
@@ -477,7 +475,7 @@ namespace perf_cube_array_access
 		{
 			std::clock_t TimeBegin = std::clock();
 
-			for(gli::size_t Index = 0, Count = ACCESS_ITERATION; Index < Count; ++Index)
+			for(gli::size_t Index = 0, Count = Iterations; Index < Count; ++Index)
 			for(std::size_t FormatIndex = gli::FORMAT_FIRST, FormatCount = gli::FORMAT_COUNT; FormatIndex < FormatCount; ++FormatIndex)
 			{
 				for(gli::size_t LayerIndex = 0, LayerCount = Textures[FormatIndex]->layers(); LayerIndex < LayerCount; ++LayerIndex)
@@ -496,7 +494,7 @@ namespace perf_cube_array_access
 		{
 			std::clock_t TimeBegin = std::clock();
 
-			for(gli::size_t Index = 0, Count = ACCESS_ITERATION; Index < Count; ++Index)
+			for(gli::size_t Index = 0, Count = Iterations; Index < Count; ++Index)
 			for(std::size_t FormatIndex = gli::FORMAT_FIRST, FormatCount = gli::FORMAT_COUNT; FormatIndex < FormatCount; ++FormatIndex)
 			{
 				for(gli::size_t LayerIndex = 0, LayerCount = Textures[FormatIndex]->layers(); LayerIndex < LayerCount; ++LayerIndex)
@@ -516,7 +514,7 @@ namespace perf_cube_array_access
 		{
 			std::clock_t TimeBegin = std::clock();
 
-			for(gli::size_t Index = 0, Count = ACCESS_ITERATION; Index < Count; ++Index)
+			for(gli::size_t Index = 0, Count = Iterations; Index < Count; ++Index)
 			for(std::size_t FormatIndex = gli::FORMAT_FIRST, FormatCount = gli::FORMAT_COUNT; FormatIndex < FormatCount; ++FormatIndex)
 			{
 				for(gli::size_t LayerIndex = 0, LayerCount = Textures[FormatIndex]->layers(); LayerIndex < LayerCount; ++LayerIndex)
@@ -539,7 +537,7 @@ namespace perf_cube_array_access
 		{
 			std::clock_t TimeBegin = std::clock();
 
-			for(gli::size_t Index = 0, Count = ACCESS_ITERATION; Index < Count; ++Index)
+			for(gli::size_t Index = 0, Count = Iterations; Index < Count; ++Index)
 			for(std::size_t FormatIndex = gli::FORMAT_FIRST, FormatCount = gli::FORMAT_COUNT; FormatIndex < FormatCount; ++FormatIndex)
 			{
 				for(gli::size_t LayerIndex = 0, LayerCount = Textures[FormatIndex]->layers(); LayerIndex < LayerCount; ++LayerIndex)
@@ -567,11 +565,9 @@ namespace perf_cube_array_access
 
 namespace perf_texture2d_access
 {
-	int main()
+	int main(std::size_t Iterations)
 	{
 		int Error = 0;
-
-		std::size_t const ACCESS_ITERATION = 100000;
 
 		std::vector<std::shared_ptr<gli::texture2d> > Textures(gli::FORMAT_COUNT);
 		for(std::size_t FormatIndex = gli::FORMAT_FIRST, FormatCount = gli::FORMAT_COUNT; FormatIndex < FormatCount; ++FormatIndex)
@@ -583,7 +579,7 @@ namespace perf_texture2d_access
 		{
 			std::clock_t TimeBegin = std::clock();
 
-			for(gli::size_t Index = 0, Count = ACCESS_ITERATION; Index < Count; ++Index)
+			for(gli::size_t Index = 0, Count = Iterations; Index < Count; ++Index)
 			for(std::size_t FormatIndex = gli::FORMAT_FIRST, FormatCount = gli::FORMAT_COUNT; FormatIndex < FormatCount; ++FormatIndex)
 			{
 				for(gli::size_t LayerIndex = 0, LayerCount = Textures[FormatIndex]->layers(); LayerIndex < LayerCount; ++LayerIndex)
@@ -602,7 +598,7 @@ namespace perf_texture2d_access
 		{
 			std::clock_t TimeBegin = std::clock();
 
-			for(gli::size_t Index = 0, Count = ACCESS_ITERATION; Index < Count; ++Index)
+			for(gli::size_t Index = 0, Count = Iterations; Index < Count; ++Index)
 			for(std::size_t FormatIndex = gli::FORMAT_FIRST, FormatCount = gli::FORMAT_COUNT; FormatIndex < FormatCount; ++FormatIndex)
 			{
 				for(gli::size_t LayerIndex = 0, LayerCount = Textures[FormatIndex]->layers(); LayerIndex < LayerCount; ++LayerIndex)
@@ -621,7 +617,7 @@ namespace perf_texture2d_access
 		{
 			std::clock_t TimeBegin = std::clock();
 
-			for(gli::size_t Index = 0, Count = ACCESS_ITERATION; Index < Count; ++Index)
+			for(gli::size_t Index = 0, Count = Iterations; Index < Count; ++Index)
 			for(std::size_t FormatIndex = gli::FORMAT_FIRST, FormatCount = gli::FORMAT_COUNT; FormatIndex < FormatCount; ++FormatIndex)
 			{
 				for(gli::size_t LayerIndex = 0, LayerCount = Textures[FormatIndex]->layers(); LayerIndex < LayerCount; ++LayerIndex)
@@ -641,7 +637,7 @@ namespace perf_texture2d_access
 		{
 			std::clock_t TimeBegin = std::clock();
 
-			for(gli::size_t Index = 0, Count = ACCESS_ITERATION; Index < Count; ++Index)
+			for(gli::size_t Index = 0, Count = Iterations; Index < Count; ++Index)
 			for(std::size_t FormatIndex = gli::FORMAT_FIRST, FormatCount = gli::FORMAT_COUNT; FormatIndex < FormatCount; ++FormatIndex)
 			{
 				for(gli::size_t LayerIndex = 0, LayerCount = Textures[FormatIndex]->layers(); LayerIndex < LayerCount; ++LayerIndex)
@@ -664,7 +660,7 @@ namespace perf_texture2d_access
 		{
 			std::clock_t TimeBegin = std::clock();
 
-			for(gli::size_t Index = 0, Count = ACCESS_ITERATION; Index < Count; ++Index)
+			for(gli::size_t Index = 0, Count = Iterations; Index < Count; ++Index)
 			for(std::size_t FormatIndex = gli::FORMAT_FIRST, FormatCount = gli::FORMAT_COUNT; FormatIndex < FormatCount; ++FormatIndex)
 			{
 				for(gli::size_t LayerIndex = 0, LayerCount = Textures[FormatIndex]->layers(); LayerIndex < LayerCount; ++LayerIndex)
@@ -694,8 +690,8 @@ int main()
 {
 	int Error = 0;
 
-	Error += perf_texture2d_access::main();
-	Error += perf_cube_array_access::main();
+	std::size_t const PERF_TEST_ITERATION = 1;
+
 	Error += alloc::run();
 	Error += size::run();
 	Error += query::run();
@@ -704,10 +700,12 @@ int main()
 	Error += specialize::run();
 	Error += load::run();
 	Error += data::run();
-	Error += perf_generic_creation::main();
-	Error += perf_2d_array_creation::main();
-	Error += perf_2d_creation::main();
-	Error += perf_cube_array_creation::main();
+	Error += perf_texture2d_access::main(PERF_TEST_ITERATION);
+	Error += perf_cube_array_access::main(PERF_TEST_ITERATION);
+	Error += perf_generic_creation::main(PERF_TEST_ITERATION);
+	Error += perf_2d_array_creation::main(PERF_TEST_ITERATION);
+	Error += perf_2d_creation::main(PERF_TEST_ITERATION);
+	Error += perf_cube_array_creation::main(PERF_TEST_ITERATION);
 
 	return Error;
 }

@@ -4,7 +4,7 @@
 namespace gli{
 namespace detail
 {
-	inline d3d10_resource_dimension get_dimension(gli::target const& Target)
+	inline d3d10_resource_dimension get_dimension(gli::target Target)
 	{
 		static d3d10_resource_dimension Table[] = //TARGET_COUNT
 		{
