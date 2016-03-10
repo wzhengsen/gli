@@ -53,6 +53,7 @@ glm::mat4 camera(float Translate, glm::vec2 const & Rotate)
 
 #### [GLM 0.9.8.0](https://github.com/g-truc/glm/releases/latest) - 2016-XX-XX
 ##### Features:
+- Added right and left handed projection and clip control support #447 #415 #119
 - Added compNormalize and compScale functions to GTX_component_wise
 - Added packF3x9_E1x5 and unpackF3x9_E1x5 to GTC_packing for RGB9E5 #416
 - Added (un)packHalf to GTC_packing
@@ -60,18 +61,24 @@ glm::mat4 camera(float Translate, glm::vec2 const & Rotate)
 - Added 16bit pack and unpack to GTC_packing
 - Added 8bit pack and unpack to GTC_packing
 - Added missing bvec* && and || operators
+- Added uround to GTC_integer, fast round on positive values
 
 ##### Improvements:
 - Improved GTC_random linearRand documentation
 - Improved GTC_reciprocal documentation
+- Improved GLM_FORCE_EXPLICIT_CTOR coverage #481
 
 ##### Fixes:
 - Fixed GTX_extended_min_max filename typo #386
 - Fixed intersectRayTriangle to not do any unintentional backface culling
+- Fixed long long warnings when using C++98 on GCC and Clang #482
 
 #### [GLM 0.9.7.4](https://github.com/g-truc/glm/tree/0.9.7) - 2016-XX-XX
 ##### Fixes:
 - Fixed asinh and atanh warning with C++98 STL #484
+- Fixed polar coordinates function latitude #485
+- Fixed outerProduct defintions and operator signatures for mat2x4 and vec4 #475
+- Fixed eulerAngles precision error, returns NaN  #451
 
 #### [GLM 0.9.7.3](https://github.com/g-truc/glm/releases/tag/0.9.7.3) - 2016-02-21
 ##### Improvements:
@@ -422,7 +429,7 @@ glm::mat4 camera(float Translate, glm::vec2 const & Rotate)
 - Fixed isnan and isinf for CUDA compiler
 - Fixed GLM_FORCE_RADIANS on glm::perspective
 - Fixed GCC warnings
-- Fixed packDouble2x32 on XCode
+- Fixed packDouble2x32 on Xcode
 - Fixed mix for vec4 SSE implementation
 - Fixed 0x2013 dash character in comments that cause issue in Windows 
   Japanese mode
