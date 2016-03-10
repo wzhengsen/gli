@@ -785,7 +785,7 @@ int main()
 {
 	int Error = 0;
 
-	bool const DO_PERF_TEST = true;
+	bool const DO_PERF_TEST = false;
 
 	std::size_t const PERF_TEST_ACCESS_ITERATION = DO_PERF_TEST ? 100000 : 0;
 	std::size_t const PERF_TEST_CREATION_ITERATION = DO_PERF_TEST ? 1000 : 0;

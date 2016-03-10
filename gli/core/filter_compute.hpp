@@ -73,8 +73,8 @@ namespace detail
 		static texel_type call(texture_type const & Texture, fetch_type Fetch, normalized_type const & SampleCoordWrap, size_type Layer, size_type Face, size_type Level, texel_type const & BorderColor)
 		{
 			normalized_type const TexelLast(normalized_type(Texture.extent(Level)) - normalized_type(1));
-			//extent_type const TexelCoord(SampleCoordWrap * TexelLast + interpolate_type(0.5));
-			extent_type const TexelCoord = extent_type(round(SampleCoordWrap * TexelLast));
+			extent_type const TexelCoord(SampleCoordWrap * TexelLast + interpolate_type(0.5));
+			//extent_type const TexelCoord = extent_type(round(SampleCoordWrap * TexelLast));
 
 			return Fetch(Texture, TexelCoord, Layer, Face, Level);
 		}
