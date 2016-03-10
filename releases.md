@@ -10,6 +10,10 @@
 #### Improvements:
 - Added compressed npot textures support #73
 - Added image access cache to generic textures
+- Improved texture_lod performance (21% faster with texture2d)
+- Improved texture::data() (~18x with cube array, ~68x with 2D)
+- Improved texture::size() (3.1x with cube array, ~3.9x with 2D)
+- Improved simultanous texture::size() and texture::extent() calls (2.1x with cube array, ~2.3x with 2D)
 
 #### Fixes:
 - Fixed DX10 DDS saving of 3D textures #91
