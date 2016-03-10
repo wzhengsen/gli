@@ -49,6 +49,8 @@ namespace detail
 			size_type const LevelIndex = static_cast<size_type>(Level);
 			extent_type const TexelDim(Texture.extent(LevelIndex));
 			normalized_type const TexelLast(normalized_type(TexelDim) - normalized_type(1));
+
+			//extent_type const TexelCoord(SampleCoordWrap * TexelLast + interpolate_type(0.5));
 			extent_type const TexelCoord = extent_type(round(SampleCoordWrap * TexelLast));
 			typename extent_type::bool_type const UseTexelCoord = in_interval(TexelCoord, extent_type(0), TexelDim - 1);
 
@@ -72,6 +74,7 @@ namespace detail
 		{
 			size_type const LevelIndex = static_cast<size_type>(Level);
 			normalized_type const TexelLast(normalized_type(Texture.extent(LevelIndex)) - normalized_type(1));
+			//extent_type const TexelCoord(SampleCoordWrap * TexelLast + interpolate_type(0.5));
 			extent_type const TexelCoord = extent_type(round(SampleCoordWrap * TexelLast));
 
 			return Fetch(Texture, TexelCoord, Layer, Face, LevelIndex);
@@ -147,7 +150,7 @@ namespace detail
 		static texel_type call(texture_type const & Texture, fetch_type Fetch, normalized_type const & SampleCoordWrap, size_type Layer, size_type Face, interpolate_type Level, texel_type const & BorderColor)
 		{
 			size_type const LevelIndex = static_cast<typename texture_type::size_type>(Level);
-			coord_type const & Coord = make_coord_linear_border(Texture.extent(LevelIndex), SampleCoordWrap);
+			coord_type const& Coord = make_coord_linear_border(Texture.extent(LevelIndex), SampleCoordWrap);
 
 			texel_type Texel00(BorderColor);
 			if(Coord.UseTexelFloor.s && Coord.UseTexelFloor.t)
@@ -303,6 +306,7 @@ namespace detail
 
 		static texel_type call(texture_type const & Texture, fetch_type Fetch, normalized_type const & SampleCoordWrap, size_type Layer, size_type Face, interpolate_type Level, texel_type const & BorderColor)
 		{
+			//interpolate_type const FastRoundLevel = static_cast<interpolate_type>(static_cast<size_type>(Level + interpolate_type(0.5)));
 			return nearest<Dimension, texture_type, interpolate_type, normalized_type, fetch_type, texel_type, is_float, support_border>::call(Texture, Fetch, SampleCoordWrap, Layer, Face, round(Level), BorderColor);
 		}
 	};

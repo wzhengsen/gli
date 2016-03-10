@@ -738,7 +738,8 @@ namespace perf_texture_fetch
 			for(gli::size_t x = 0; x < Extent.x; ++x)
 			{
 				gli::vec4 const& Texel = Sampler.texel_fetch(gli::texture2d::extent_type(x, y), LevelIndex);
-				Error += gli::all(gli::epsilonEqual(Texel, gli::vec4(0, 0, 0, 1), 0.001f)) ? 0 : 1;
+				Error += gli::all(gli::epsilonEqual(Texel, gli::vec4(1, 0, 0, 1), 0.001f)) ? 0 : 1;
+				assert(!Error);
 			}
 		}
 
@@ -769,7 +770,7 @@ namespace perf_texture_lod
 			for(gli::size_t x = 0; x < Extent.x; ++x)
 			{
 				gli::vec4 const& Texel = Sampler.texture_lod(glm::vec2(x, y) / glm::vec2(Extent), LevelIndex);
-				Error += gli::all(gli::epsilonEqual(Texel, gli::vec4(0, 0, 0, 1), 0.001f)) ? 0 : 1;
+				Error += gli::all(gli::epsilonEqual(Texel, gli::vec4(1, 0, 0, 1), 0.001f)) ? 0 : 1;
 			}
 		}
 
@@ -784,13 +785,13 @@ int main()
 {
 	int Error = 0;
 
-	std::size_t const PERF_TEST_ACCESS_ITERATION = 100000;
-	std::size_t const PERF_TEST_CREATION_ITERATION = 1000;
+	std::size_t const PERF_TEST_ACCESS_ITERATION = 1;
+	std::size_t const PERF_TEST_CREATION_ITERATION = 1;
 
-	Error += perf_texture_load::main(8192);
-	Error += perf_texture_fetch::main(8192);
-	Error += perf_texture_lod::main(8192);
-/*
+	Error += perf_texture_load::main(8192 >> 4);
+	Error += perf_texture_fetch::main(8192 >> 4);
+	Error += perf_texture_lod::main(8192 >> 4);
+
 	Error += perf_texture2d_access::main(PERF_TEST_ACCESS_ITERATION);
 	Error += perf_cube_array_access::main(PERF_TEST_ACCESS_ITERATION);
 	Error += perf_generic_creation::main(PERF_TEST_CREATION_ITERATION);
@@ -806,7 +807,7 @@ int main()
 	Error += specialize::run();
 	Error += load::run();
 	Error += data::run();
-*/
+
 	return Error;
 }
 
