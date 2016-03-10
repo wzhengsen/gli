@@ -83,13 +83,13 @@ namespace filter1d
 			Error += gli::all(gli::epsilonEqual(TexelB, ColorFill, 0.01f)) ? 0 : 1;
 
 			gli::vec4 const TexelC = Sampler.texture_lod(gli::fsampler1D::normalized_type(-0.5f), 0.0f);
-			Error += gli::all(gli::epsilonEqual(TexelC, ColorBorder, 0.01f)) ? 0 : 1;
+			Error += gli::all(gli::epsilonEqual(TexelC, ColorFill, 0.01f)) ? 0 : 1;
 
 			gli::vec4 const TexelD = Sampler.texture_lod(gli::fsampler1D::normalized_type(-0.6f), 0.0f);
-			Error += gli::all(gli::epsilonEqual(TexelD, ColorBorder, 0.01f)) ? 0 : 1;
+			Error += gli::all(gli::epsilonEqual(TexelD, ColorFill, 0.01f)) ? 0 : 1;
 
 			gli::vec4 const TexelE = Sampler.texture_lod(gli::fsampler1D::normalized_type(1.5f), 0.0f);
-			Error += gli::all(gli::epsilonEqual(TexelE, ColorBorder, 0.01f)) ? 0 : 1;
+			Error += gli::all(gli::epsilonEqual(TexelE, ColorFill, 0.01f)) ? 0 : 1;
 		}
 
 		return Error;
