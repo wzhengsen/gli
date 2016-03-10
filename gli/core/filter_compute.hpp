@@ -103,7 +103,7 @@ namespace detail
 
 		static texel_type call(texture_type const & Texture, fetch_type Fetch, normalized_type const & SampleCoordWrap, size_type Layer, size_type Face, size_type Level, texel_type const & BorderColor)
 		{
-			coord_type const & Coord = make_coord_linear_border(Texture.extent(Level), SampleCoordWrap);
+			coord_type const& Coord = make_coord_linear_border(Texture.extent(Level), SampleCoordWrap);
 
 			texel_type Texel0(BorderColor);
 			if(Coord.UseTexelFloor.s)
@@ -127,7 +127,7 @@ namespace detail
 
 		static texel_type call(texture_type const & Texture, fetch_type Fetch, normalized_type const & SampleCoordWrap, size_type Layer, size_type Face, size_type Level, texel_type const & BorderColor)
 		{
-			coord_type const & Coord = make_coord_linear(Texture.extent(Level), SampleCoordWrap);
+			coord_type const& Coord = make_coord_linear(Texture.extent(Level), SampleCoordWrap);
 
 			texel_type const Texel0 = Fetch(Texture, extent_type(Coord.TexelFloor.s), Layer, Face, Level);
 			texel_type const Texel1 = Fetch(Texture, extent_type(Coord.TexelCeil.s), Layer, Face, Level);
