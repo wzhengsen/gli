@@ -19,7 +19,8 @@ add_definitions(-DSOURCE_DIR="${CMAKE_CURRENT_SOURCE_DIR}")
 include_directories(".")
 
 if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
-	add_definitions(/Za /FAs)
+	# To generate .asm files: /FAs
+	add_definitions(/Za)
 endif()
 
 if(("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang") OR ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU") OR (("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Intel") AND UNIX))

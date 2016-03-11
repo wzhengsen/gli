@@ -872,7 +872,6 @@ int main()
 	Error += perf_texture_lod_linear::main(DO_PERF_TEST ? 8192 : 1024);
 	Error += perf_generate_mipmaps_nearest::main(DO_PERF_TEST ? 8192 : 1024);
 	Error += perf_generate_mipmaps_linear::main(DO_PERF_TEST ? 8192 : 1024);
-
 	Error += perf_texture2d_access::main(PERF_TEST_ACCESS_ITERATION);
 	Error += perf_cube_array_access::main(PERF_TEST_ACCESS_ITERATION);
 	Error += perf_generic_creation::main(PERF_TEST_CREATION_ITERATION);
