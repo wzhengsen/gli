@@ -751,7 +751,7 @@ namespace perf_texture_fetch
 	}
 }//namespace perf_texture_fetch
 
-namespace perf_texture_lod
+namespace perf_texture_lod_nearest
 {
 	int main(int Extent)
 	{
@@ -776,11 +776,42 @@ namespace perf_texture_lod
 		}
 
 		std::clock_t TimeEnd = std::clock();
-		printf("2D texture lod performance test: %d\n", TimeEnd - TimeBegin);
+		printf("2D texture lod nearest performance test: %d\n", TimeEnd - TimeBegin);
 
 		return Error;
 	}
-}//namespace perf_texture_lod
+}//namespace perf_texture_lod_nearest
+
+namespace perf_texture_lod_linear
+{
+	int main(int Extent)
+	{
+		int Error = 0;
+
+		gli::texture2d Texture(gli::FORMAT_R8_UNORM_PACK8, gli::texture2d::extent_type(Extent));
+		Texture.clear(gli::u8(255));
+
+		gli::sampler2d<float> Sampler(Texture, gli::WRAP_CLAMP_TO_EDGE, gli::FILTER_NEAREST, gli::FILTER_LINEAR);
+
+		std::clock_t TimeBegin = std::clock();
+
+		for(gli::texture2d::size_type LevelIndex = 0, LevelCount = Texture.levels(); LevelIndex < LevelCount; ++LevelIndex)
+		{
+			gli::texture2d::extent_type const Extent = Texture.extent(LevelIndex);
+			for(gli::size_t y = 0; y < Extent.y; ++y)
+			for(gli::size_t x = 0; x < Extent.x; ++x)
+			{
+				gli::vec4 const& Texel = Sampler.texture_lod(glm::vec2(x, y) / glm::vec2(Extent), static_cast<float>(LevelIndex));
+				Error += gli::all(gli::epsilonEqual(Texel, gli::vec4(1, 0, 0, 1), 0.001f)) ? 0 : 1;
+			}
+		}
+
+		std::clock_t TimeEnd = std::clock();
+		printf("2D texture lod linear performance test: %d\n", TimeEnd - TimeBegin);
+
+		return Error;
+	}
+}//namespace perf_texture_lod_linear
 
 namespace perf_generate_mipmaps_nearest
 {
@@ -837,7 +868,8 @@ int main()
 
 	Error += perf_texture_load::main(DO_PERF_TEST ? 8192 : 1024);
 	Error += perf_texture_fetch::main(DO_PERF_TEST ? 8192 : 1024);
-	Error += perf_texture_lod::main(DO_PERF_TEST ? 8192 : 1024);
+	Error += perf_texture_lod_nearest::main(DO_PERF_TEST ? 8192 : 1024);
+	Error += perf_texture_lod_linear::main(DO_PERF_TEST ? 8192 : 1024);
 	Error += perf_generate_mipmaps_nearest::main(DO_PERF_TEST ? 8192 : 1024);
 	Error += perf_generate_mipmaps_linear::main(DO_PERF_TEST ? 8192 : 1024);
 
