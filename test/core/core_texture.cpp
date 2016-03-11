@@ -5,6 +5,7 @@
 #include <gli/save.hpp>
 #include <gli/load.hpp>
 #include <gli/copy.hpp>
+#include <gli/generate_mipmaps.hpp>
 #include <glm/gtc/epsilon.hpp>
 #include <ctime>
 #include <memory>
@@ -781,6 +782,50 @@ namespace perf_texture_lod
 	}
 }//namespace perf_texture_lod
 
+namespace perf_generate_mipmaps_nearest
+{
+	int main(int Extent)
+	{
+		int Error = 0;
+
+		gli::texture2d TextureSource(gli::FORMAT_R8_UNORM_PACK8, gli::texture2d::extent_type(Extent));
+		TextureSource.clear(gli::u8(255));
+
+		std::clock_t TimeBegin = std::clock();
+
+		gli::texture2d TextureMipmaps = gli::generate_mipmaps(TextureSource, gli::FILTER_NEAREST);
+		Error = *TextureMipmaps.data<glm::u8>(0, 0, TextureMipmaps.max_level()) == gli::u8(255) ? 0 : 1;
+
+		std::clock_t TimeEnd = std::clock();
+
+		printf("2D texture generate mipmaps nearest performance test: %d\n", TimeEnd - TimeBegin);
+
+		return Error;
+	}
+}//namespace perf_generate_mipmaps_nearest
+
+namespace perf_generate_mipmaps_linear
+{
+	int main(int Extent)
+	{
+		int Error = 0;
+
+		gli::texture2d TextureSource(gli::FORMAT_R8_UNORM_PACK8, gli::texture2d::extent_type(Extent));
+		TextureSource.clear(gli::u8(255));
+
+		std::clock_t TimeBegin = std::clock();
+
+		gli::texture2d TextureMipmaps = gli::generate_mipmaps(TextureSource, gli::FILTER_LINEAR);
+		Error = *TextureMipmaps.data<glm::u8>(0, 0, TextureMipmaps.max_level()) == gli::u8(255) ? 0 : 1;
+
+		std::clock_t TimeEnd = std::clock();
+
+		printf("2D texture generate mipmaps linear performance test: %d\n", TimeEnd - TimeBegin);
+
+		return Error;
+	}
+}//namespace perf_generate_mipmaps_linear
+
 int main()
 {
 	int Error = 0;
@@ -793,6 +838,8 @@ int main()
 	Error += perf_texture_load::main(DO_PERF_TEST ? 8192 : 1024);
 	Error += perf_texture_fetch::main(DO_PERF_TEST ? 8192 : 1024);
 	Error += perf_texture_lod::main(DO_PERF_TEST ? 8192 : 1024);
+	Error += perf_generate_mipmaps_nearest::main(DO_PERF_TEST ? 8192 : 1024);
+	Error += perf_generate_mipmaps_linear::main(DO_PERF_TEST ? 8192 : 1024);
 
 	Error += perf_texture2d_access::main(PERF_TEST_ACCESS_ITERATION);
 	Error += perf_cube_array_access::main(PERF_TEST_ACCESS_ITERATION);
