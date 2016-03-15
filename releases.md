@@ -18,6 +18,7 @@
 
 #### Fixes:
 - Fixed DX10 DDS saving of 3D textures #91
+- Fixed DDS9 loading of 3D texture detected as 2D texture #93
 
 ## [GLI 0.8.0.0](https://github.com/g-truc/gli/releases/tag/0.8.0.0) - 2016-02-16
 #### Features:
