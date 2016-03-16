@@ -350,9 +350,9 @@ namespace gli
 		gli::format find(internal_format InternalFormat, external_format ExternalFormat, type_format Type);
 
 	private:
-		bool use_external_bgra(profile Profile) const
+		bool has_swizzle(profile Profile) const
 		{
-			return Profile == PROFILE_ES20 || Profile == PROFILE_GL32 || Profile == PROFILE_KTX;
+			return Profile == PROFILE_ES30 || Profile == PROFILE_GL33;
 		}
 
 		struct format_desc

@@ -10,6 +10,7 @@
 #### Improvements:
 - Added compressed npot textures support #73
 - Added image access cache to generic textures
+- Added luminance alpha format translation to OpenGL 3.3+ through RG swizzling. #93
 - Improved performance when sampling using mipmaps
 - Improved nearest filter without border using texture_lod performance (~2.5x faster with texture2d)
 - Improved texture::data() (~18x with cube array, ~68x with 2D)
