@@ -137,6 +137,26 @@ namespace gl33
 			Error += FormatD2 == TextureD.format() ? 0 : 1;
 		}
 
+		{
+			gli::texture2d Texture(gli::FORMAT_LA8_UNORM_PACK8, gli::texture2d::extent_type(2), 1, gli::texture2d::swizzles_type(gli::SWIZZLE_RED, gli::SWIZZLE_GREEN, gli::SWIZZLE_BLUE, gli::SWIZZLE_ALPHA));
+			gli::gl::format Format = GL.translate(Texture.format(), Texture.swizzles());
+
+			Error += Format.Internal == gli::gl::INTERNAL_RG8_UNORM ? 0 : 1;
+			Error += Format.External == gli::gl::EXTERNAL_RG ? 0 : 1;
+			Error += Format.Type == gli::gl::TYPE_U8 ? 0 : 1;
+			Error += Format.Swizzles == gli::gl::swizzles(gli::gl::SWIZZLE_RED, gli::gl::SWIZZLE_RED, gli::gl::SWIZZLE_RED, gli::gl::SWIZZLE_GREEN) ? 0 : 1;
+		}
+
+		{
+			gli::texture2d Texture(gli::FORMAT_LA8_UNORM_PACK8, gli::texture2d::extent_type(2), 1, gli::texture2d::swizzles_type(gli::SWIZZLE_RED, gli::SWIZZLE_GREEN, gli::SWIZZLE_BLUE, gli::SWIZZLE_ONE));
+			gli::gl::format Format = GL.translate(Texture.format(), Texture.swizzles());
+
+			Error += Format.Internal == gli::gl::INTERNAL_RG8_UNORM ? 0 : 1;
+			Error += Format.External == gli::gl::EXTERNAL_RG ? 0 : 1;
+			Error += Format.Type == gli::gl::TYPE_U8 ? 0 : 1;
+			Error += Format.Swizzles == gli::gl::swizzles(gli::gl::SWIZZLE_RED, gli::gl::SWIZZLE_RED, gli::gl::SWIZZLE_RED, gli::gl::SWIZZLE_ONE) ? 0 : 1;
+		}
+
 		return Error;
 	}
 }//namespace gl33
@@ -157,7 +177,6 @@ namespace es20
 			Error += FormatA.Internal == gli::gl::INTERNAL_RGBA16F ? 0 : 1;
 			Error += FormatA.External == gli::gl::EXTERNAL_RGBA ? 0 : 1;
 			Error += FormatA.Type == gli::gl::TYPE_F16_OES ? 0 : 1;
-			Error += FormatA.Swizzles == gli::gl::swizzles(gli::gl::SWIZZLE_RED, gli::gl::SWIZZLE_GREEN, gli::gl::SWIZZLE_BLUE, gli::gl::SWIZZLE_ALPHA) ? 0 : 1;
 		}
 
 		{
@@ -167,7 +186,24 @@ namespace es20
 			Error += FormatB.Internal == gli::gl::INTERNAL_BGRA8_UNORM ? 0 : 1;
 			Error += FormatB.External == gli::gl::EXTERNAL_BGRA ? 0 : 1;
 			Error += FormatB.Type == gli::gl::TYPE_U8 ? 0 : 1;
-			Error += FormatB.Swizzles == gli::gl::swizzles(gli::gl::SWIZZLE_RED, gli::gl::SWIZZLE_GREEN, gli::gl::SWIZZLE_BLUE, gli::gl::SWIZZLE_ALPHA) ? 0 : 1;
+		}
+
+		{
+			gli::texture2d Texture(gli::FORMAT_LA8_UNORM_PACK8, gli::texture2d::extent_type(2), 1, gli::texture2d::swizzles_type(gli::SWIZZLE_RED, gli::SWIZZLE_GREEN, gli::SWIZZLE_BLUE, gli::SWIZZLE_ALPHA));
+			gli::gl::format Format = GL.translate(Texture.format(), Texture.swizzles());
+
+			Error += Format.Internal == gli::gl::INTERNAL_LUMINANCE8_ALPHA8 ? 0 : 1;
+			Error += Format.External == gli::gl::EXTERNAL_LUMINANCE_ALPHA ? 0 : 1;
+			Error += Format.Type == gli::gl::TYPE_U8 ? 0 : 1;
+		}
+
+		{
+			gli::texture2d Texture(gli::FORMAT_LA8_UNORM_PACK8, gli::texture2d::extent_type(2), 1, gli::texture2d::swizzles_type(gli::SWIZZLE_RED, gli::SWIZZLE_GREEN, gli::SWIZZLE_BLUE, gli::SWIZZLE_ONE));
+			gli::gl::format Format = GL.translate(Texture.format(), Texture.swizzles());
+
+			Error += Format.Internal == gli::gl::INTERNAL_LUMINANCE8_ALPHA8 ? 0 : 1;
+			Error += Format.External == gli::gl::EXTERNAL_LUMINANCE_ALPHA ? 0 : 1;
+			Error += Format.Type == gli::gl::TYPE_U8 ? 0 : 1;
 		}
 
 		return Error;
@@ -230,6 +266,26 @@ namespace es30
 			Error += FormatB.External == gli::gl::EXTERNAL_RGBA ? 0 : 1;
 			Error += FormatB.Type == gli::gl::TYPE_U8 ? 0 : 1;
 			Error += FormatB.Swizzles == gli::gl::swizzles(gli::gl::SWIZZLE_RED, gli::gl::SWIZZLE_GREEN, gli::gl::SWIZZLE_BLUE, gli::gl::SWIZZLE_ALPHA) ? 0 : 1;
+		}
+
+		{
+			gli::texture2d Texture(gli::FORMAT_LA8_UNORM_PACK8, gli::texture2d::extent_type(2), 1, gli::texture2d::swizzles_type(gli::SWIZZLE_RED, gli::SWIZZLE_GREEN, gli::SWIZZLE_BLUE, gli::SWIZZLE_ALPHA));
+			gli::gl::format Format = GL.translate(Texture.format(), Texture.swizzles());
+
+			Error += Format.Internal == gli::gl::INTERNAL_RG8_UNORM ? 0 : 1;
+			Error += Format.External == gli::gl::EXTERNAL_RG ? 0 : 1;
+			Error += Format.Type == gli::gl::TYPE_U8 ? 0 : 1;
+			Error += Format.Swizzles == gli::gl::swizzles(gli::gl::SWIZZLE_RED, gli::gl::SWIZZLE_RED, gli::gl::SWIZZLE_RED, gli::gl::SWIZZLE_GREEN) ? 0 : 1;
+		}
+
+		{
+			gli::texture2d Texture(gli::FORMAT_LA8_UNORM_PACK8, gli::texture2d::extent_type(2), 1, gli::texture2d::swizzles_type(gli::SWIZZLE_RED, gli::SWIZZLE_GREEN, gli::SWIZZLE_BLUE, gli::SWIZZLE_ONE));
+			gli::gl::format Format = GL.translate(Texture.format(), Texture.swizzles());
+
+			Error += Format.Internal == gli::gl::INTERNAL_RG8_UNORM ? 0 : 1;
+			Error += Format.External == gli::gl::EXTERNAL_RG ? 0 : 1;
+			Error += Format.Type == gli::gl::TYPE_U8 ? 0 : 1;
+			Error += Format.Swizzles == gli::gl::swizzles(gli::gl::SWIZZLE_RED, gli::gl::SWIZZLE_RED, gli::gl::SWIZZLE_RED, gli::gl::SWIZZLE_ONE) ? 0 : 1;
 		}
 
 		return Error;
