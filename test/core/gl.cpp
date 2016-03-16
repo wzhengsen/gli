@@ -15,7 +15,8 @@ namespace ktx
 		Error += FormatA.Internal == gli::gl::INTERNAL_RGB8_UNORM ? 0 : 1;
 		Error += FormatA.External == gli::gl::EXTERNAL_RGB ? 0 : 1;
 		Error += FormatA.Type == gli::gl::TYPE_U8 ? 0 : 1;
-		Error += FormatA.Swizzles == gli::gl::swizzles(gli::gl::SWIZZLE_RED, gli::gl::SWIZZLE_GREEN, gli::gl::SWIZZLE_BLUE, gli::gl::SWIZZLE_ONE) ? 0 : 1;
+		// Swizzle is not supported by KTX, so we always return the constant default swizzle
+		Error += FormatA.Swizzles == gli::gl::swizzles(gli::gl::SWIZZLE_RED, gli::gl::SWIZZLE_GREEN, gli::gl::SWIZZLE_BLUE, gli::gl::SWIZZLE_ALPHA) ? 0 : 1;
 
 		gli::texture2d TextureB(gli::FORMAT_BGR8_UNORM_PACK8, gli::texture2d::extent_type(2), 1, gli::texture2d::swizzles_type(gli::SWIZZLE_RED, gli::SWIZZLE_GREEN, gli::SWIZZLE_BLUE, gli::SWIZZLE_ALPHA));
 		gli::gl::format FormatB = GL.translate(TextureB.format(), TextureB.swizzles());
@@ -23,7 +24,8 @@ namespace ktx
 		Error += FormatB.Internal == gli::gl::INTERNAL_RGB8_UNORM ? 0 : 1;
 		Error += FormatB.External == gli::gl::EXTERNAL_BGR ? 0 : 1;
 		Error += FormatB.Type == gli::gl::TYPE_U8 ? 0 : 1;
-		Error += FormatB.Swizzles == gli::gl::swizzles(gli::gl::SWIZZLE_RED, gli::gl::SWIZZLE_GREEN, gli::gl::SWIZZLE_BLUE, gli::gl::SWIZZLE_ONE) ? 0 : 1;
+		// Swizzle is not supported by KTX, so we always return the constant default swizzle
+		Error += FormatB.Swizzles == gli::gl::swizzles(gli::gl::SWIZZLE_RED, gli::gl::SWIZZLE_GREEN, gli::gl::SWIZZLE_BLUE, gli::gl::SWIZZLE_ALPHA) ? 0 : 1;
 
 		return Error;
 	}
@@ -43,7 +45,8 @@ namespace gl32
 		Error += FormatA.Internal == gli::gl::INTERNAL_RGB8_UNORM ? 0 : 1;
 		Error += FormatA.External == gli::gl::EXTERNAL_RGB ? 0 : 1;
 		Error += FormatA.Type == gli::gl::TYPE_U8 ? 0 : 1;
-		Error += FormatA.Swizzles == gli::gl::swizzles(gli::gl::SWIZZLE_RED, gli::gl::SWIZZLE_GREEN, gli::gl::SWIZZLE_BLUE, gli::gl::SWIZZLE_ONE) ? 0 : 1;
+		// Swizzle is not supported by OpenGL 3.2, so we always return the constant default swizzle
+		Error += FormatA.Swizzles == gli::gl::swizzles(gli::gl::SWIZZLE_RED, gli::gl::SWIZZLE_GREEN, gli::gl::SWIZZLE_BLUE, gli::gl::SWIZZLE_ALPHA) ? 0 : 1;
 
 		gli::texture2d TextureB(gli::FORMAT_BGR8_UNORM_PACK8, gli::texture2d::extent_type(2), 1, gli::texture2d::swizzles_type(gli::SWIZZLE_RED, gli::SWIZZLE_GREEN, gli::SWIZZLE_BLUE, gli::SWIZZLE_ALPHA));
 		gli::gl::format FormatB = GL.translate(TextureB.format(), TextureB.swizzles());
@@ -51,7 +54,8 @@ namespace gl32
 		Error += FormatB.Internal == gli::gl::INTERNAL_RGB8_UNORM ? 0 : 1;
 		Error += FormatB.External == gli::gl::EXTERNAL_BGR ? 0 : 1;
 		Error += FormatB.Type == gli::gl::TYPE_U8 ? 0 : 1;
-		Error += FormatB.Swizzles == gli::gl::swizzles(gli::gl::SWIZZLE_RED, gli::gl::SWIZZLE_GREEN, gli::gl::SWIZZLE_BLUE, gli::gl::SWIZZLE_ONE) ? 0 : 1;
+		// Swizzle is not supported by OpenGL 3.2, so we always return the constant default swizzle
+		Error += FormatB.Swizzles == gli::gl::swizzles(gli::gl::SWIZZLE_RED, gli::gl::SWIZZLE_GREEN, gli::gl::SWIZZLE_BLUE, gli::gl::SWIZZLE_ALPHA) ? 0 : 1;
 
 		{
 			gli::texture2d TextureC(gli::FORMAT_R5G6B5_UNORM_PACK16, gli::texture2d::extent_type(2), 1, gli::texture2d::swizzles_type(gli::SWIZZLE_RED, gli::SWIZZLE_GREEN, gli::SWIZZLE_BLUE, gli::SWIZZLE_ALPHA));
@@ -60,7 +64,8 @@ namespace gl32
 			Error += FormatC.Internal == gli::gl::INTERNAL_R5G6B5 ? 0 : 1;
 			Error += FormatC.External == gli::gl::EXTERNAL_RGB ? 0 : 1;
 			Error += FormatC.Type == gli::gl::TYPE_UINT16_R5G6B5_REV ? 0 : 1;
-			Error += FormatC.Swizzles == gli::gl::swizzles(gli::gl::SWIZZLE_RED, gli::gl::SWIZZLE_GREEN, gli::gl::SWIZZLE_BLUE, gli::gl::SWIZZLE_ONE) ? 0 : 1;
+			// Swizzle is not supported by OpenGL 3.2, so we always return the constant default swizzle
+			Error += FormatC.Swizzles == gli::gl::swizzles(gli::gl::SWIZZLE_RED, gli::gl::SWIZZLE_GREEN, gli::gl::SWIZZLE_BLUE, gli::gl::SWIZZLE_ALPHA) ? 0 : 1;
 
 			gli::format FormatD2 = GL.find(FormatC.Internal, FormatC.External, FormatC.Type);
 			Error += FormatD2 == TextureC.format() ? 0 : 1;
@@ -73,7 +78,8 @@ namespace gl32
 			Error += FormatD.Internal == gli::gl::INTERNAL_R5G6B5 ? 0 : 1;
 			Error += FormatD.External == gli::gl::EXTERNAL_RGB ? 0 : 1;
 			Error += FormatD.Type == gli::gl::TYPE_UINT16_R5G6B5 ? 0 : 1;
-			Error += FormatD.Swizzles == gli::gl::swizzles(gli::gl::SWIZZLE_RED, gli::gl::SWIZZLE_GREEN, gli::gl::SWIZZLE_BLUE, gli::gl::SWIZZLE_ONE) ? 0 : 1;
+			// Swizzle is not supported by OpenGL 3.2, so we always return the constant default swizzle
+			Error += FormatD.Swizzles == gli::gl::swizzles(gli::gl::SWIZZLE_RED, gli::gl::SWIZZLE_GREEN, gli::gl::SWIZZLE_BLUE, gli::gl::SWIZZLE_ALPHA) ? 0 : 1;
 
 			gli::format FormatD2 = GL.find(FormatD.Internal, FormatD.External, FormatD.Type);
 			Error += FormatD2 == TextureD.format() ? 0 : 1;
