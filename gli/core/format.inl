@@ -297,6 +297,11 @@ namespace detail
 		return detail::get_format_info(Format).Flags & detail::CAP_COMPRESSED_BIT ? true : false;
 	}
 
+	inline bool is_s3tc_compressed(format Format)
+	{
+		return Format >= FORMAT_RGB_DXT1_UNORM_BLOCK8 && Format <= FORMAT_RGBA_DXT5_SRGB_BLOCK16;
+	}
+
 	inline bool is_srgb(format Format)
 	{
 		return detail::get_format_info(Format).Flags & detail::CAP_COLORSPACE_SRGB_BIT ? true : false;
