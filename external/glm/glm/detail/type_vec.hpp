@@ -6,8 +6,68 @@
 #include "precision.hpp"
 #include "type_int.hpp"
 
-namespace glm
+namespace glm{
+namespace detail
 {
+	template <typename T, std::size_t size, bool aligned>
+	struct storage
+	{
+		typedef struct type {
+			uint8 data[size];
+		} type;
+	};
+
+	template <typename T, std::size_t size>
+	struct storage<T, size, true>
+	{
+		typedef GLM_ALIGNED_STRUCT(size) type {
+			uint8 data[size];
+		} type;
+	};
+
+#	if GLM_ARCH & GLM_ARCH_SSE2_BIT
+		template <>
+		struct storage<float, 16, true>
+		{
+			typedef glm_vec4 type;
+		};
+
+		template <>
+		struct storage<int, 16, true>
+		{
+			typedef glm_ivec4 type;
+		};
+
+		template <>
+		struct storage<unsigned int, 16, true>
+		{
+			typedef glm_uvec4 type;
+		};
+#	endif
+
+#	if (GLM_ARCH & GLM_ARCH_AVX_BIT)
+		template <>
+		struct storage<double, 32, true>
+		{
+			typedef glm_dvec4 type;
+		};
+#	endif
+
+#	if (GLM_ARCH & GLM_ARCH_AVX2_BIT)
+		template <>
+		struct storage<int64, 32, true>
+		{
+			typedef glm_i64vec4 type;
+		};
+
+		template <>
+		struct storage<uint64, 32, true>
+		{
+			typedef glm_u64vec4 type;
+		};
+#	endif
+}//namespace detail
+
 	template <typename T, precision P> struct tvec1;
 	template <typename T, precision P> struct tvec2;
 	template <typename T, precision P> struct tvec3;

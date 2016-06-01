@@ -14,64 +14,8 @@
 #endif //GLM_SWIZZLE
 #include <cstddef>
 
-namespace glm{
-namespace detail
+namespace glm
 {
-	template <int Value>
-	struct shuffle_mask
-	{
-		enum{value = Value};
-	};
-
-	template <typename T>
-	struct simd_data
-	{
-		typedef T type[4];
-	};
-
-#	if (GLM_ARCH & GLM_ARCH_SSE2_BIT)
-		template <>
-		struct simd_data<float>
-		{
-			typedef glm_vec4 type;
-		};
-
-		template <>
-		struct simd_data<int>
-		{
-			typedef glm_ivec4 type;
-		};
-
-		template <>
-		struct simd_data<unsigned int>
-		{
-			typedef glm_uvec4 type;
-		};
-#	endif
-
-#	if (GLM_ARCH & GLM_ARCH_AVX_BIT)
-		template <>
-		struct simd_data<double>
-		{
-			typedef glm_dvec4 type;
-		};
-#	endif
-
-#	if (GLM_ARCH & GLM_ARCH_AVX2_BIT)
-		template <>
-		struct simd_data<int64>
-		{
-			typedef glm_i64vec4 type;
-		};
-
-		template <>
-		struct simd_data<uint64>
-		{
-			typedef glm_u64vec4 type;
-		};
-#	endif
-}//namespace detail
-
 	template <typename T, precision P = defaultp>
 	struct tvec4
 	{
@@ -90,7 +34,7 @@ namespace detail
 				struct { T r, g, b, a; };
 				struct { T s, t, p, q; };
 
-				typename detail::simd_data<T>::type data;
+				typename detail::storage<T, sizeof(T) * 4, detail::is_aligned<P>::value>::type data;
 
 #				ifdef GLM_SWIZZLE
 					_GLM_SWIZZLE4_2_MEMBERS(T, P, glm::tvec2, x, y, z, w)

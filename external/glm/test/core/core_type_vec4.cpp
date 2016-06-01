@@ -29,6 +29,7 @@
 /// @author Christophe Riccio
 ///////////////////////////////////////////////////////////////////////////////////
 
+#define GLM_FORCE_ALIGNED
 #define GLM_SWIZZLE
 #include <glm/vector_relational.hpp>
 #include <glm/vec2.hpp>
@@ -334,7 +335,7 @@ int test_vec4_equal()
 int test_vec4_size()
 {
 	int Error = 0;
-	
+
 	Error += sizeof(glm::vec4) == sizeof(glm::lowp_vec4) ? 0 : 1;
 	Error += sizeof(glm::vec4) == sizeof(glm::mediump_vec4) ? 0 : 1;
 	Error += sizeof(glm::vec4) == sizeof(glm::highp_vec4) ? 0 : 1;
@@ -345,7 +346,7 @@ int test_vec4_size()
 	Error += 32 == sizeof(glm::highp_dvec4) ? 0 : 1;
 	Error += glm::vec4().length() == 4 ? 0 : 1;
 	Error += glm::dvec4().length() == 4 ? 0 : 1;
-	
+
 	return Error;
 }
 
