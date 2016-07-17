@@ -51,7 +51,7 @@ glm::mat4 camera(float Translate, glm::vec2 const & Rotate)
 
 ## Release notes
 
-#### [GLM 0.9.8.0](https://github.com/g-truc/glm/releases/latest) - 2016-XX-XX
+#### [GLM 0.9.8.0](https://github.com/g-truc/glm/tree/0.9.8) - 2016-XX-XX
 ##### Features:
 - Added right and left handed projection and clip control support #447 #415 #119
 - Added compNormalize and compScale functions to GTX_component_wise
@@ -65,6 +65,8 @@ glm::mat4 camera(float Translate, glm::vec2 const & Rotate)
 - Added raw SIMD API
 - Added 'aligned' qualifiers
 - Added GTC_type_aligned with aligned *vec* types
+- Added GTC_functions extension
+- Added quaternion version of isnan and isinf #521
 
 ##### Improvements:
 - Improved SIMD and swizzle operators interactions with GCC and Clang #474
@@ -77,12 +79,17 @@ glm::mat4 camera(float Translate, glm::vec2 const & Rotate)
 - Added MIPS CPUs detection
 - Added PowerPC CPUs detection
 - Use Cuda built-in function for abs function implementation with Cuda compiler
+- Factorized GLM_COMPILER_LLVM and GLM_COMPILER_APPLE_CLANG into GLM_COMPILER_CLANG
+- No more warnings for use of long long
 
 ##### Fixes:
 - Fixed GTX_extended_min_max filename typo #386
 - Fixed intersectRayTriangle to not do any unintentional backface culling
 - Fixed long long warnings when using C++98 on GCC and Clang #482
 - Fixed sign with signed integer function on non-x86 architecture
+- Fixed strict aliasing warnings #473
+- Fixed missing vec1 overload to length2 and distance2 functions #431
+- Fixed GLM test '/fp:fast' and '/Za' command-line options are incompatible
 
 ##### Deprecation:
 - Removed GLM_FORCE_SIZE_FUNC define
@@ -90,10 +97,20 @@ glm::mat4 camera(float Translate, glm::vec2 const & Rotate)
 - Deprecated GLM_GTX_simd_mat4 extension
 - Deprecated GLM_GTX_simd_quat extension
 
-#### [GLM 0.9.7.6](https://github.com/g-truc/glm/tree/0.9.7) - 2016-0X-XX
+--------------------------------------------------------------------------------
+#### [GLM 0.9.7.6](https://github.com/g-truc/glm/releases/tag/0.9.7.6) - 2016-07-16
 ##### Improvements:
 - Added pkg-config file #509
+- Updated list of compiler versions detected
+- Improved C++ 11 STL detection #523
 
+##### Fixes:
+- Fixed STL for C++11 detection on ICC #510
+- Fixed missing vec1 overload to length2 and distance2 functions #431
+- Fixed long long warnings when using C++98 on GCC and Clang #482
+- Fixed scalar reciprocal functions (GTC_reciprocal) #520
+
+--------------------------------------------------------------------------------
 #### [GLM 0.9.7.5](https://github.com/g-truc/glm/releases/tag/0.9.7.5) - 2016-05-24
 ##### Improvements:
 - Added Visual C++ Clang toolset detection
@@ -104,7 +121,10 @@ glm::mat4 camera(float Translate, glm::vec2 const & Rotate)
 - Fixed Visual C++ SIMD instruction set automatic detection in 64 bits
 - Fixed to_string when used with GLM_FORCE_INLINE #506
 - Fixed GLM_FORCE_INLINE with binary vec4 operators
+- Fixed GTX_extended_min_max filename typo #386
+- Fixed intersectRayTriangle to not do any unintentional backface culling
 
+--------------------------------------------------------------------------------
 #### [GLM 0.9.7.4](https://github.com/g-truc/glm/releases/tag/0.9.7.4) - 2016-03-19
 ##### Fixes:
 - Fixed asinh and atanh warning with C++98 STL #484
@@ -115,6 +135,7 @@ glm::mat4 camera(float Translate, glm::vec2 const & Rotate)
 - Fixed missing GLM_PLATFORM_CYGWIN declaration #495
 - Fixed various undefined reference errors #490
 
+--------------------------------------------------------------------------------
 #### [GLM 0.9.7.3](https://github.com/g-truc/glm/releases/tag/0.9.7.3) - 2016-02-21
 ##### Improvements:
 - Added AVX512 detection
@@ -125,6 +146,7 @@ glm::mat4 camera(float Translate, glm::vec2 const & Rotate)
 - Fixed Clang build on Windows #479
 - Fixed 64 bits constants warnings on GCC #463
 
+--------------------------------------------------------------------------------
 #### [GLM 0.9.7.2](https://github.com/g-truc/glm/releases/tag/0.9.7.2) - 2016-01-03
 ##### Fixes:
 - Fixed GTC_round floorMultiple/ceilMultiple #412
@@ -138,6 +160,7 @@ glm::mat4 camera(float Translate, glm::vec2 const & Rotate)
 - Fixed missing unary + operator #435
 - Fixed Cygwin build errors when using C++11 #405
 
+--------------------------------------------------------------------------------
 #### [GLM 0.9.7.1](https://github.com/g-truc/glm/releases/tag/0.9.7.1) - 2015-09-07
 ##### Improvements:
 - Improved constexpr for constant functions coverage #198
@@ -154,6 +177,7 @@ glm::mat4 camera(float Translate, glm::vec2 const & Rotate)
 - Fixed builtin bitscan never being used #392
 - Removed unused func_noise.* files #398
 
+--------------------------------------------------------------------------------
 #### [GLM 0.9.7.0](https://github.com/g-truc/glm/releases/tag/0.9.7.0) - 2015-08-02
 ##### Features:
 - Added GTC_color_space: convertLinearToSRGB and convertSRGBToLinear functions

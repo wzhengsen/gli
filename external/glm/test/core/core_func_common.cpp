@@ -1,34 +1,3 @@
-///////////////////////////////////////////////////////////////////////////////////
-/// OpenGL Mathematics (glm.g-truc.net)
-///
-/// Copyright (c) 2005 - 2015 G-Truc Creation (www.g-truc.net)
-/// Permission is hereby granted, free of charge, to any person obtaining a copy
-/// of this software and associated documentation files (the "Software"), to deal
-/// in the Software without restriction, including without limitation the rights
-/// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-/// copies of the Software, and to permit persons to whom the Software is
-/// furnished to do so, subject to the following conditions:
-/// 
-/// The above copyright notice and this permission notice shall be included in
-/// all copies or substantial portions of the Software.
-/// 
-/// Restrictions:
-///		By making use of the Software for military purposes, you choose to make
-///		a Bunny unhappy.
-/// 
-/// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-/// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-/// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-/// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-/// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-/// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-/// THE SOFTWARE.
-///
-/// @file test/core/func_common.cpp
-/// @date 2011-01-15 / 2011-09-13
-/// @author Christophe Riccio
-///////////////////////////////////////////////////////////////////////////////////
-
 #define GLM_FORCE_EXPLICIT_CTOR
 #include <glm/common.hpp>
 #include <glm/gtc/constants.hpp>
@@ -1243,7 +1212,7 @@ int main()
 	glm::int32 const c(1);
 	glm::int32 const d = ~c;
 
-#	if GLM_ARCH & GLM_ARCH_AVX_BIT
+#	if GLM_ARCH & GLM_ARCH_AVX_BIT && GLM_HAS_UNRESTRICTED_UNIONS
 	glm_vec4 const A = _mm_set_ps(4, 3, 2, 1);
 	glm_vec4 const B = glm_vec4_swizzle_xyzw(A);
 	glm_vec4 const C = _mm_permute_ps(A, _MM_SHUFFLE(3, 2, 1, 0));
