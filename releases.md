@@ -5,6 +5,9 @@
 - Extend flip() for S3TC compressed textures #94
 - Added format property queries #102
 
+#### Fixes:
+- Fixed DDS9 BC5U: A2XY is BC5U, not ATI2 #101
+
 ## [GLI 0.8.1.1](https://github.com/g-truc/gli/releases/tag/0.8.1.1) - 2016-09-11
 #### Improvements:
 - Updated GLM to 0.9.8.0 release
