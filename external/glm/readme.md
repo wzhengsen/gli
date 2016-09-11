@@ -51,7 +51,7 @@ glm::mat4 camera(float Translate, glm::vec2 const & Rotate)
 
 ## Release notes
 
-#### [GLM 0.9.8.0](https://github.com/g-truc/glm/tree/0.9.8) - 2016-XX-XX
+#### [GLM 0.9.8.0](https://github.com/g-truc/glm/tree/0.9.8) - 2016-09-11
 ##### Features:
 - Added right and left handed projection and clip control support #447 #415 #119
 - Added compNormalize and compScale functions to GTX_component_wise
@@ -67,6 +67,8 @@ glm::mat4 camera(float Translate, glm::vec2 const & Rotate)
 - Added GTC_type_aligned with aligned *vec* types
 - Added GTC_functions extension
 - Added quaternion version of isnan and isinf #521
+- Added lowestBitValue to GTX_bit #536
+- Added GLM_FORCE_UNRESTRICTED_GENTYPE allowing non basic genType #543
 
 ##### Improvements:
 - Improved SIMD and swizzle operators interactions with GCC and Clang #474
@@ -74,6 +76,7 @@ glm::mat4 camera(float Translate, glm::vec2 const & Rotate)
 - Improved GTC_reciprocal documentation
 - Improved GLM_FORCE_EXPLICIT_CTOR coverage #481
 - Improved OpenMP support detection for Clang, GCC, ICC and VC
+- Improved GTX_wrap for SIMD friendliness
 - Added constexpr for *vec*, *mat*, *quat* and *dual_quat* types #493
 - Added NEON instruction set detection
 - Added MIPS CPUs detection
@@ -81,6 +84,7 @@ glm::mat4 camera(float Translate, glm::vec2 const & Rotate)
 - Use Cuda built-in function for abs function implementation with Cuda compiler
 - Factorized GLM_COMPILER_LLVM and GLM_COMPILER_APPLE_CLANG into GLM_COMPILER_CLANG
 - No more warnings for use of long long
+- Added more information to build messages
 
 ##### Fixes:
 - Fixed GTX_extended_min_max filename typo #386
@@ -90,12 +94,16 @@ glm::mat4 camera(float Translate, glm::vec2 const & Rotate)
 - Fixed strict aliasing warnings #473
 - Fixed missing vec1 overload to length2 and distance2 functions #431
 - Fixed GLM test '/fp:fast' and '/Za' command-line options are incompatible
+- Fixed quaterion to mat3 cast function mat3_cast from GTC_quaternion #542
+- Fixed GLM_GTX_io for Cuda #547 #546
 
 ##### Deprecation:
 - Removed GLM_FORCE_SIZE_FUNC define
 - Deprecated GLM_GTX_simd_vec4 extension
 - Deprecated GLM_GTX_simd_mat4 extension
 - Deprecated GLM_GTX_simd_quat extension
+- Deprecated GLM_SWIZZLE, use GLM_FORCE_SWIZZLE instead
+- Deprecated GLM_MESSAGES, use GLM_FORCE_MESSAGES instead
 
 --------------------------------------------------------------------------------
 #### [GLM 0.9.7.6](https://github.com/g-truc/glm/releases/tag/0.9.7.6) - 2016-07-16
