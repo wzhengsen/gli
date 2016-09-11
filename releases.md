@@ -1,6 +1,10 @@
 # Release notes
 
-## [GLI 0.8.1.0](https://github.com/g-truc/gli/releases/latest) - 2016-03-16
+## [GLI 0.8.1.1](https://github.com/g-truc/gli/releases/tag/0.8.1.1) - 2016-09-11
+#### Fixes:
+- Updated GLM to 0.9.8.0
+
+## [GLI 0.8.1.0](https://github.com/g-truc/gli/releases/tag/0.8.1.0) - 2016-03-16
 #### Features:
 - Added texture copy, no allocation involved, only transfer
 - Added sub-image copy
