@@ -290,6 +290,9 @@ namespace gli
 	/// Evaluate whether a format is compressed
 	bool is_compressed(format Format);
 
+	/// Evaluate whether a format is compressed with an S3TC algorithm.
+	bool is_s3tc_compressed(format Format);
+
 	/// Evaluate whether a format stores sRGB color space values
 	bool is_srgb(format Format);
 
