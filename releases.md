@@ -1,5 +1,9 @@
 # Release notes
 
+## [GLI 0.8.2.0](https://github.com/g-truc/gli/releases/latest) - 201X-XX-XX
+#### Features:
+- Extend flip() for S3TC compressed textures #94
+
 ## [GLI 0.8.1.1](https://github.com/g-truc/gli/releases/tag/0.8.1.1) - 2016-09-11
 #### Improvements:
 - Updated GLM to 0.9.8.0 release
