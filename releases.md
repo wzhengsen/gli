@@ -1,8 +1,12 @@
 # Release notes
 
 ## [GLI 0.8.1.1](https://github.com/g-truc/gli/releases/tag/0.8.1.1) - 2016-09-11
+#### Improvements:
+- Updated GLM to 0.9.8.0 release
+
 #### Fixes:
-- Updated GLM to 0.9.8.0
+- Fixed KTX cube maps saving
+- Fixed texture::clear build
 
 ## [GLI 0.8.1.0](https://github.com/g-truc/gli/releases/tag/0.8.1.0) - 2016-03-16
 #### Features:
