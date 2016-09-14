@@ -75,8 +75,8 @@ int main()
 
 	Error += test_texture(
 		gli::texture2d(gli::FORMAT_RGBA_DXT5_UNORM_BLOCK16, TextureSize, Levels),
-		gli::detail::dxt5_block{255, 0, 0b01000000, 0b00011110, 0b00110010, 0b00101101, 0b11110010, 0b01000100, 63712, 255, 228, 144, 64, 0},
-		gli::detail::dxt5_block{0, 255, 0b00111110, 0b10010000, 0b11100100, 0b11010110, 0b00111011, 0b11001000, 2516, 215, 152, 173, 215, 106});
+		gli::detail::dxt5_block{255, 0, 64, 30, 50, 45, 242, 68, 63712, 255, 228, 144, 64, 0},
+		gli::detail::dxt5_block{0, 255, 62, 144, 228, 214, 59, 200, 2516, 215, 152, 173, 215, 106});
 
 	return Error;
 }
