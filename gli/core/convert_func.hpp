@@ -280,7 +280,7 @@ namespace detail
 	template <typename textureType, typename retType, typename T, precision P, template <typename, precision> class vecType>
 	struct convertFunc<textureType, retType, T, P, vecType, CONVERT_MODE_44UNORM, true>
 	{
-		typedef accessFunc<textureType, glm::uint8> access;
+		typedef accessFunc<textureType, uint8> access;
 
 		static tvec4<retType, P> fetch(textureType const & Texture, typename textureType::extent_type const & TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level)
 		{
@@ -298,7 +298,7 @@ namespace detail
 	template <typename textureType, typename retType, typename T, precision P, template <typename, precision> class vecType>
 	struct convertFunc<textureType, retType, T, P, vecType, CONVERT_MODE_4444UNORM, true>
 	{
-		typedef accessFunc<textureType, glm::uint16> access;
+		typedef accessFunc<textureType, uint16> access;
 
 		static tvec4<retType, P> fetch(textureType const & Texture, typename textureType::extent_type const & TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level)
 		{
@@ -316,7 +316,7 @@ namespace detail
 	template <typename textureType, typename retType, typename T, precision P, template <typename, precision> class vecType>
 	struct convertFunc<textureType, retType, T, P, vecType, CONVERT_MODE_565UNORM, true>
 	{
-		typedef accessFunc<textureType, glm::uint16> access;
+		typedef accessFunc<textureType, uint16> access;
 
 		static tvec4<retType, P> fetch(textureType const & Texture, typename textureType::extent_type const & TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level)
 		{
@@ -334,7 +334,7 @@ namespace detail
 	template <typename textureType, typename retType, typename T, precision P, template <typename, precision> class vecType>
 	struct convertFunc<textureType, retType, T, P, vecType, CONVERT_MODE_5551UNORM, true>
 	{
-		typedef accessFunc<textureType, glm::uint16> access;
+		typedef accessFunc<textureType, uint16> access;
 
 		static tvec4<retType, P> fetch(textureType const & Texture, typename textureType::extent_type const & TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level)
 		{
@@ -352,7 +352,7 @@ namespace detail
 	template <typename textureType, typename retType, typename T, precision P, template <typename, precision> class vecType>
 	struct convertFunc<textureType, retType, T, P, vecType, CONVERT_MODE_332UNORM, true>
 	{
-		typedef accessFunc<textureType, glm::uint8> access;
+		typedef accessFunc<textureType, uint8> access;
 
 		static tvec4<retType, P> fetch(textureType const & Texture, typename textureType::extent_type const & TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level)
 		{
