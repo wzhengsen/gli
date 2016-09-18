@@ -1,3 +1,5 @@
+#include "./s3tc.hpp"
+
 namespace gli{
 namespace detail
 {
@@ -17,47 +19,7 @@ namespace detail
 		}
 	}
 
-	struct dxt1_block
-	{
-		uint16_t Color0;
-		uint16_t Color1;
-		uint8_t Row0;
-		uint8_t Row1;
-		uint8_t Row2;
-		uint8_t Row3;
-	};
-
-	struct dxt3_block
-	{
-		uint16_t AlphaRow0;
-		uint16_t AlphaRow1;
-		uint16_t AlphaRow2;
-		uint16_t AlphaRow3;
-		uint16_t Color0;
-		uint16_t Color1;
-		uint8_t Row0;
-		uint8_t Row1;
-		uint8_t Row2;
-		uint8_t Row3;
-	};
-
-	struct dxt5_block
-	{
-		uint8_t Alpha0;
-		uint8_t Alpha1;
-		uint8_t AlphaR0;
-		uint8_t AlphaR1;
-		uint8_t AlphaR2;
-		uint8_t AlphaR3;
-		uint8_t AlphaR4;
-		uint8_t AlphaR5;
-		uint16_t Color0;
-		uint16_t Color1;
-		uint8_t Row0;
-		uint8_t Row1;
-		uint8_t Row2;
-		uint8_t Row3;
-	};
+	
 
 	inline void flip_block_s3tc(uint8_t* BlockDst, uint8_t* BlockSrc, format Format, bool HeightTwo)
 	{
@@ -77,20 +39,20 @@ namespace detail
 			{
 				Dst->Color0 = Src->Color0;
 				Dst->Color1 = Src->Color1;
-				Dst->Row0 = Src->Row1;
-				Dst->Row1 = Src->Row0;
-				Dst->Row2 = Src->Row2;
-				Dst->Row3 = Src->Row3;
+				Dst->Row[0] = Src->Row[1];
+				Dst->Row[1] = Src->Row[0];
+				Dst->Row[2] = Src->Row[2];
+				Dst->Row[3] = Src->Row[3];
 
 				return;
 			}
 
 			Dst->Color0 = Src->Color0;
 			Dst->Color1 = Src->Color1;
-			Dst->Row0 = Src->Row3;
-			Dst->Row1 = Src->Row2;
-			Dst->Row2 = Src->Row1;
-			Dst->Row3 = Src->Row0;
+			Dst->Row[0] = Src->Row[3];
+			Dst->Row[1] = Src->Row[2];
+			Dst->Row[2] = Src->Row[1];
+			Dst->Row[3] = Src->Row[0];
 
 			return;
 		}
@@ -103,30 +65,30 @@ namespace detail
 
 			if(HeightTwo)
 			{
-				Dst->AlphaRow0 = Src->AlphaRow1;
-				Dst->AlphaRow1 = Src->AlphaRow0;
-				Dst->AlphaRow2 = Src->AlphaRow2;
-				Dst->AlphaRow3 = Src->AlphaRow3;
+				Dst->AlphaRow[0] = Src->AlphaRow[1];
+				Dst->AlphaRow[1] = Src->AlphaRow[0];
+				Dst->AlphaRow[2] = Src->AlphaRow[2];
+				Dst->AlphaRow[3] = Src->AlphaRow[3];
 				Dst->Color0 = Src->Color0;
 				Dst->Color1 = Src->Color1;
-				Dst->Row0 = Src->Row1;
-				Dst->Row1 = Src->Row0;
-				Dst->Row2 = Src->Row2;
-				Dst->Row3 = Src->Row3;
+				Dst->Row[0] = Src->Row[1];
+				Dst->Row[1] = Src->Row[0];
+				Dst->Row[2] = Src->Row[2];
+				Dst->Row[3] = Src->Row[3];
 
 				return;
 			}
 
-			Dst->AlphaRow0 = Src->AlphaRow3;
-			Dst->AlphaRow1 = Src->AlphaRow2;
-			Dst->AlphaRow2 = Src->AlphaRow1;
-			Dst->AlphaRow3 = Src->AlphaRow0;
+			Dst->AlphaRow[0] = Src->AlphaRow[3];
+			Dst->AlphaRow[1] = Src->AlphaRow[2];
+			Dst->AlphaRow[2] = Src->AlphaRow[1];
+			Dst->AlphaRow[3] = Src->AlphaRow[0];
 			Dst->Color0 = Src->Color0;
 			Dst->Color1 = Src->Color1;
-			Dst->Row0 = Src->Row3;
-			Dst->Row1 = Src->Row2;
-			Dst->Row2 = Src->Row1;
-			Dst->Row3 = Src->Row0;
+			Dst->Row[0] = Src->Row[3];
+			Dst->Row[1] = Src->Row[2];
+			Dst->Row[2] = Src->Row[1];
+			Dst->Row[3] = Src->Row[0];
 
 			return;
 		}
@@ -190,8 +152,8 @@ namespace detail
 		if(ImageSrc.extent().y == 1)
 		{
 			memcpy(ImageDst.data(),
-			       ImageSrc.data(),
-			       ImageSrc.size());
+				   ImageSrc.data(),
+				   ImageSrc.size());
 			return;
 		}
 
