@@ -19,8 +19,6 @@ namespace detail
 		}
 	}
 
-	
-
 	inline void flip_block_s3tc(uint8_t* BlockDst, uint8_t* BlockSrc, format Format, bool HeightTwo)
 	{
 		// There is no distinction between RGB and RGBA in DXT-compressed textures,

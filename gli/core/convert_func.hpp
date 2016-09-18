@@ -201,7 +201,7 @@ namespace detail
 		static void write(textureType & Texture, typename textureType::extent_type const & TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level, tvec4<retType, P> const & Texel)
 		{
 			static_assert(std::numeric_limits<retType>::is_iec559, "CONVERT_MODE_NORM requires a float sampler");
-			access::store(Texture, TexelCoord, Layer, Face, Level, compScale<T>(vecType<retType, P>(Texel)));
+			access::store(Texture, TexelCoord, Layer, Face, Level, gli::compScale<T>(vecType<retType, P>(Texel)));
 		}
 	};
 
@@ -219,14 +219,14 @@ namespace detail
 		static void write(textureType & Texture, typename textureType::extent_type const & TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level, tvec4<retType, P> const & Texel)
 		{
 			static_assert(std::numeric_limits<retType>::is_iec559, "CONVERT_MODE_SRGB requires a float sampler");
-			access::store(Texture, TexelCoord, Layer, Face, Level, compScale<T>(convertLinearToSRGB(vecType<retType, P>(Texel))));
+			access::store(Texture, TexelCoord, Layer, Face, Level, gli::compScale<T>(convertLinearToSRGB(vecType<retType, P>(Texel))));
 		}
 	};
 
 	template <typename textureType, typename retType, typename T, precision P, template <typename, precision> class vecType>
 	struct convertFunc<textureType, retType, T, P, vecType, CONVERT_MODE_RGB9E5, true>
 	{
-		typedef accessFunc<textureType, glm::uint32> access;
+		typedef accessFunc<textureType, uint32> access;
 
 		static tvec4<retType, P> fetch(textureType const & Texture, typename textureType::extent_type const & TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level)
 		{
@@ -244,7 +244,7 @@ namespace detail
 	template <typename textureType, typename retType, typename T, precision P, template <typename, precision> class vecType>
 	struct convertFunc<textureType, retType, T, P, vecType, CONVERT_MODE_RG11B10F, true>
 	{
-		typedef accessFunc<textureType, glm::uint32> access;
+		typedef accessFunc<textureType, uint32> access;
 
 		static tvec4<retType, P> fetch(textureType const & Texture, typename textureType::extent_type const & TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level)
 		{
@@ -370,7 +370,7 @@ namespace detail
 	template <typename textureType, typename retType, typename T, precision P, template <typename, precision> class vecType>
 	struct convertFunc<textureType, retType, T, P, vecType, CONVERT_MODE_RGB10A2UNORM, true>
 	{
-		typedef accessFunc<textureType, glm::uint32> access;
+		typedef accessFunc<textureType, uint32> access;
 
 		static tvec4<retType, P> fetch(textureType const & Texture, typename textureType::extent_type const & TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level)
 		{
@@ -388,7 +388,7 @@ namespace detail
 	template <typename textureType, typename retType, typename T, precision P, template <typename, precision> class vecType>
 	struct convertFunc<textureType, retType, T, P, vecType, CONVERT_MODE_RGB10A2SNORM, true>
 	{
-		typedef accessFunc<textureType, glm::uint32> access;
+		typedef accessFunc<textureType, uint32> access;
 
 		static tvec4<retType, P> fetch(textureType const & Texture, typename textureType::extent_type const & TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level)
 		{
@@ -406,7 +406,7 @@ namespace detail
 	template <typename textureType, typename retType, typename T, precision P, template <typename, precision> class vecType>
 	struct convertFunc<textureType, retType, T, P, vecType, CONVERT_MODE_RGB10A2USCALE, true>
 	{
-		typedef accessFunc<textureType, glm::uint32> access;
+		typedef accessFunc<textureType, uint32> access;
 
 		static tvec4<retType, P> fetch(textureType const & Texture, typename textureType::extent_type const & TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level)
 		{
@@ -431,7 +431,7 @@ namespace detail
 	template <typename textureType, typename retType, typename T, precision P, template <typename, precision> class vecType>
 	struct convertFunc<textureType, retType, T, P, vecType, CONVERT_MODE_RGB10A2SSCALE, true>
 	{
-		typedef accessFunc<textureType, glm::uint32> access;
+		typedef accessFunc<textureType, uint32> access;
 
 		static tvec4<retType, P> fetch(textureType const & Texture, typename textureType::extent_type const & TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level)
 		{
@@ -456,7 +456,7 @@ namespace detail
 	template <typename textureType, typename retType, typename T, precision P, template <typename, precision> class vecType>
 	struct convertFunc<textureType, retType, T, P, vecType, CONVERT_MODE_RGB10A2UINT, false>
 	{
-		typedef accessFunc<textureType, glm::uint32> access;
+		typedef accessFunc<textureType, uint32> access;
 
 		static tvec4<retType, P> fetch(textureType const & Texture, typename textureType::extent_type const & TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level)
 		{
@@ -474,7 +474,7 @@ namespace detail
 	template <typename textureType, typename retType, typename T, precision P, template <typename, precision> class vecType>
 	struct convertFunc<textureType, retType, T, P, vecType, CONVERT_MODE_RGB10A2SINT, false>
 	{
-		typedef accessFunc<textureType, glm::uint32> access;
+		typedef accessFunc<textureType, uint32> access;
 
 		static tvec4<retType, P> fetch(textureType const & Texture, typename textureType::extent_type const & TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level)
 		{
@@ -492,7 +492,7 @@ namespace detail
 	template <typename textureType, typename retType, typename T, precision P, template <typename, precision> class vecType>
 	struct convertFunc<textureType, retType, T, P, vecType, CONVERT_MODE_DXT1UNORM, true>
 	{
-		typedef accessFunc<gli::texture2d, glm::uint32> access;
+		typedef accessFunc<gli::texture2d, uint32> access;
 
 		static tvec4<retType, P> fetch(typename textureType const & Texture, typename glm::ivec1 const & TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level)
 		{
