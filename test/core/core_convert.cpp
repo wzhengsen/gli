@@ -2,6 +2,7 @@
 #include <gli/save.hpp>
 #include <gli/convert.hpp>
 #include <gli/comparison.hpp>
+#include <gli/core/s3tc.hpp>
 #include <glm/gtc/epsilon.hpp>
 #include <ctime>
 
@@ -123,6 +124,54 @@ namespace rgb10a2norm
 	}
 }//namespace rgb10a2norm
 
+namespace rgbadxt1unorm
+{
+	int test()
+	{
+		gli::texture2d TextureCompressed(gli::load(path("kueken7_rgba_dxt1_unorm.dds")));
+		GLI_ASSERT(!TextureCompressed.empty());
+
+		gli::texture2d TextureDecompressed(gli::load(path("kueken7_rgba_dxt1_unorm_decompressed.dds")));
+		GLI_ASSERT(!TextureDecompressed.empty());
+
+		GLI_ASSERT(TextureCompressed.extent() == TextureDecompressed.extent());
+		GLI_ASSERT(TextureCompressed.levels() == TextureDecompressed.levels());
+
+		gli::texture2d TextureLocalDecompressed(TextureDecompressed.format(), TextureDecompressed.extent(), TextureDecompressed.levels(), TextureDecompressed.swizzles());
+
+		GLI_ASSERT(sizeof(gli::detail::dxt1_block) == gli::block_size(gli::FORMAT_RGBA_DXT1_UNORM_BLOCK8));
+
+		// decompress
+		gli::extent3d BlockExtent = gli::block_extent(gli::FORMAT_RGBA_DXT1_UNORM_BLOCK8);
+		for(size_t Level = 0; Level < TextureCompressed.levels(); ++Level)
+		{
+			gli::extent2d TexelCoord;
+			gli::extent2d BlockCoord;
+			gli::extent2d LevelExtent = TextureCompressed.extent(Level);
+			for(BlockCoord.y = 0, TexelCoord.y = 0; BlockCoord.y < LevelExtent.y / BlockExtent.y; ++BlockCoord.y, TexelCoord.y += BlockExtent.y)
+			{
+				for(BlockCoord.x = 0, TexelCoord.x = 0; BlockCoord.x < LevelExtent.x / BlockExtent.x; ++BlockCoord.x, TexelCoord.x += BlockExtent.x)
+				{
+					const gli::detail::dxt1_block *DXT1Block = TextureCompressed.data<gli::detail::dxt1_block>(0, 0, Level) + (BlockCoord.y * BlockExtent.x + BlockCoord.x);
+					const gli::detail::texel_block4x4 DecompressedBlock = gli::detail::decompress_dxt1_block(*DXT1Block);
+
+					gli::extent2d DecompressedBlockCoord;
+					for(DecompressedBlockCoord.y = 0; DecompressedBlockCoord.y < 4; ++DecompressedBlockCoord.y)
+					{
+						for(DecompressedBlockCoord.x = 0; DecompressedBlockCoord.x < 4; ++DecompressedBlockCoord.x)
+						{
+							TextureLocalDecompressed.store(TexelCoord + DecompressedBlockCoord, 0, glm::u8vec4(DecompressedBlock.Texel[DecompressedBlockCoord.y][DecompressedBlockCoord.x] * 255.0f));
+						}
+					}
+				}
+			}
+		}
+
+		// compare
+		return (TextureDecompressed == TextureLocalDecompressed) ? 0 : 1;
+	}
+}
+
 namespace load_file
 {
 	int test()
@@ -157,6 +206,7 @@ int main()
 
 	Error += rgb10a2norm::test();
 	Error += load_file::test();
+	Error += rgbadxt1unorm::test();
 
 	return Error;
 }
