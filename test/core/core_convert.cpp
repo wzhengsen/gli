@@ -142,33 +142,61 @@ namespace rgbadxt1unorm
 		GLI_ASSERT(sizeof(gli::detail::dxt1_block) == gli::block_size(gli::FORMAT_RGBA_DXT1_UNORM_BLOCK8));
 
 		// decompress
-		gli::extent3d BlockExtent = gli::block_extent(gli::FORMAT_RGBA_DXT1_UNORM_BLOCK8);
+		gli::extent2d BlockExtent;
+		{
+			gli::extent3d TempExtent = gli::block_extent(gli::FORMAT_RGBA_DXT1_UNORM_BLOCK8);
+			BlockExtent.x = TempExtent.x;
+			BlockExtent.y = TempExtent.y;
+		}
+
 		for(size_t Level = 0; Level < TextureCompressed.levels(); ++Level)
 		{
 			gli::extent2d TexelCoord;
 			gli::extent2d BlockCoord;
 			gli::extent2d LevelExtent = TextureCompressed.extent(Level);
-			for(BlockCoord.y = 0, TexelCoord.y = 0; BlockCoord.y < LevelExtent.y / BlockExtent.y; ++BlockCoord.y, TexelCoord.y += BlockExtent.y)
+			gli::extent2d LevelExtentInBlocks = glm::max(gli::extent2d(1, 1), LevelExtent / BlockExtent);
+			for(BlockCoord.y = 0, TexelCoord.y = 0; BlockCoord.y < LevelExtentInBlocks.y; ++BlockCoord.y, TexelCoord.y += BlockExtent.y)
 			{
-				for(BlockCoord.x = 0, TexelCoord.x = 0; BlockCoord.x < LevelExtent.x / BlockExtent.x; ++BlockCoord.x, TexelCoord.x += BlockExtent.x)
+				for(BlockCoord.x = 0, TexelCoord.x = 0; BlockCoord.x < LevelExtentInBlocks.x; ++BlockCoord.x, TexelCoord.x += BlockExtent.x)
 				{
-					const gli::detail::dxt1_block *DXT1Block = TextureCompressed.data<gli::detail::dxt1_block>(0, 0, Level) + (BlockCoord.y * BlockExtent.x + BlockCoord.x);
+					const gli::detail::dxt1_block *DXT1Block = TextureCompressed.data<gli::detail::dxt1_block>(0, 0, Level) + (BlockCoord.y * LevelExtentInBlocks.x + BlockCoord.x);
 					const gli::detail::texel_block4x4 DecompressedBlock = gli::detail::decompress_dxt1_block(*DXT1Block);
 
 					gli::extent2d DecompressedBlockCoord;
-					for(DecompressedBlockCoord.y = 0; DecompressedBlockCoord.y < 4; ++DecompressedBlockCoord.y)
+					for(DecompressedBlockCoord.y = 0; DecompressedBlockCoord.y < glm::min(4, LevelExtent.y); ++DecompressedBlockCoord.y)
 					{
-						for(DecompressedBlockCoord.x = 0; DecompressedBlockCoord.x < 4; ++DecompressedBlockCoord.x)
+						for(DecompressedBlockCoord.x = 0; DecompressedBlockCoord.x < glm::min(4, LevelExtent.x); ++DecompressedBlockCoord.x)
 						{
-							TextureLocalDecompressed.store(TexelCoord + DecompressedBlockCoord, 0, glm::u8vec4(DecompressedBlock.Texel[DecompressedBlockCoord.y][DecompressedBlockCoord.x] * 255.0f));
+							TextureLocalDecompressed.store(TexelCoord + DecompressedBlockCoord, Level, glm::u8vec4(glm::round(DecompressedBlock.Texel[DecompressedBlockCoord.y][DecompressedBlockCoord.x] * 255.0f)));
 						}
 					}
 				}
 			}
 		}
 
-		// compare
-		return (TextureDecompressed == TextureLocalDecompressed) ? 0 : 1;
+		int Error(0);
+
+		Error += (TextureDecompressed == TextureLocalDecompressed) ? 0 : 1;
+		
+		// Test converting through the convertFunc interface
+		// sampling at the corners of each level
+		for(int Level = 0; Level < TextureDecompressed.levels(); ++Level)
+		{
+			gli::extent2d TexelCoord;
+			gli::extent2d LevelExtent = TextureDecompressed.extent(Level);
+			for(TexelCoord.y = 0; TexelCoord.y < LevelExtent.y; TexelCoord.y += glm::max(1, LevelExtent.y - 1))
+			{
+				for(TexelCoord.x = 0; TexelCoord.x < LevelExtent.x; TexelCoord.x += glm::max(1, LevelExtent.x - 1))
+				{
+					glm::u8vec4 ColorFromCompressed = glm::u8vec4(glm::round(gli::detail::convertFunc<gli::texture2d, float, std::uint8_t, glm::defaultp, glm::tvec4, gli::detail::CONVERT_MODE_DXT1UNORM, true>::fetch(TextureCompressed, TexelCoord, 0, 0, Level) * 255.0f));
+					glm::u8vec4 ColorFromDecompressed = TextureDecompressed.load<glm::u8vec4>(TexelCoord, Level);
+
+					Error += (ColorFromCompressed == ColorFromDecompressed) ? 0 : 1;
+				}
+			}
+		}
+
+		return Error;
 	}
 }
 

@@ -494,33 +494,34 @@ namespace detail
 	{
 		typedef accessFunc<gli::texture2d, uint32> access;
 
-		static tvec4<retType, P> fetch(typename textureType const & Texture, typename glm::ivec1 const & TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level)
+		static tvec4<retType, P> fetch(typename textureType const & Texture, gli::extent1d const & TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level)
 		{
 			return glm::tvec4<retType, P>(0, 0, 0, 1);
 		}
 
-		static tvec4<retType, P> fetch(typename textureType const & Texture, typename glm::ivec3 const & TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level)
+		static tvec4<retType, P> fetch(typename textureType const & Texture, gli::extent2d const & TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level)
 		{
-			return glm::tvec4<retType, P>(0, 0, 0, 1);
+			gli::extent3d TexelCoord3d(TexelCoord, 0);
+			return fetch(Texture, TexelCoord3d, Layer, Face, Level);
 		}
 
-		static tvec4<retType, P> fetch(typename textureType const & Texture, glm::ivec2 const & TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level)
+		static tvec4<retType, P> fetch(typename textureType const & Texture, gli::extent3d const & TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level)
 		{
 			static_assert(std::numeric_limits<retType>::is_iec559, "CONVERT_MODE_DXT1UNORM requires an float sampler");
 			
-			if(Texture.target() != gli::TARGET_2D && Texture.target() != gli::TARGET_2D_ARRAY &&
-			   Texture.target() != gli::TARGET_CUBE && Texture.target() != gli::TARGET_CUBE_ARRAY)
+			if(Texture.target() == gli::TARGET_1D || Texture.target() == gli::TARGET_1D_ARRAY)
 			{
 				return glm::tvec4<retType, P>(0, 0, 0, 1);
 			}
 			
 			const dxt1_block *Data = Texture.data<dxt1_block>(Layer, Face, Level);
-			const gli::ivec3 &BlockExtent = block_extent(Texture.format());
-			int WidthInBlocks = Texture.extent(Level).x / BlockExtent.x;
-			glm::ivec2 BlockCoord(TexelCoord.x / BlockExtent.x, TexelCoord.y / BlockExtent.y);
+			const gli::extent3d &BlockExtent = block_extent(Texture.format());
+			int WidthInBlocks = glm::max(1, Texture.extent(Level).x / BlockExtent.x);
+			int BlocksInSlice = glm::max(1, Texture.extent(Level).y / BlockExtent.y) * WidthInBlocks;
+			gli::extent3d BlockCoord(TexelCoord / BlockExtent);
 			glm::ivec2 TexelCoordInBlock(TexelCoord.x - (BlockCoord.x * BlockExtent.x), TexelCoord.y - (BlockCoord.y * BlockExtent.y));
 			
-			const dxt1_block &Block = Data[BlockCoord.y * WidthInBlocks + BlockCoord.x];
+			const dxt1_block &Block = Data[BlockCoord.z * BlocksInSlice + (BlockCoord.y * WidthInBlocks + BlockCoord.x)];
 
 			return decompress_dxt1(Block, TexelCoordInBlock);
 		}

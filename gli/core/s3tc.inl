@@ -17,7 +17,8 @@ namespace gli
 			{
 				Color[2] = (2.0f / 3.0f) * Color[0] + (1.0f / 3.0f) * Color[1];
 				Color[3] = (1.0f / 3.0f) * Color[0] + (2.0f / 3.0f) * Color[1];
-			} else
+			}
+			else
 			{
 				Color[2] = (Color[0] + Color[1]) / 2.0f;
 				Color[3] = glm::vec4(0.0f);
@@ -40,7 +41,8 @@ namespace gli
 			{
 				Color[2] = (2.0f / 3.0f) * Color[0] + (1.0f / 3.0f) * Color[1];
 				Color[3] = (1.0f / 3.0f) * Color[0] + (2.0f / 3.0f) * Color[1];
-			} else
+			}
+			else
 			{
 				Color[2] = (Color[0] + Color[1]) / 2.0f;
 				Color[3] = glm::vec4(0.0f);
