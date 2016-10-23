@@ -25,7 +25,7 @@ namespace gli
 		/// Create an empty texture instance
 		texture();
 
-		/// Create a texture object and allocate a texture storoge for it
+		/// Create a texture object and allocate a texture storage for it
 		/// @param Target Type/Shape of the texture storage_linear
 		/// @param Format Texel format
 		/// @param Extent Size of the texture: width, height and depth.
