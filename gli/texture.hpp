@@ -195,15 +195,15 @@ namespace gli
 
 	protected:
 		std::shared_ptr<storage_type> Storage;
-		target_type const Target;
-		format_type const Format;
-		size_type const BaseLayer;
-		size_type const MaxLayer;
-		size_type const BaseFace;
-		size_type const MaxFace;
-		size_type const BaseLevel;
-		size_type const MaxLevel;
-		swizzles_type const Swizzles;
+		target_type Target;
+		format_type Format;
+		size_type BaseLayer;
+		size_type MaxLayer;
+		size_type BaseFace;
+		size_type MaxFace;
+		size_type BaseLevel;
+		size_type MaxLevel;
+		swizzles_type Swizzles;
 
 		// Pre compute at texture instance creation some information for faster access to texels
 		struct cache
