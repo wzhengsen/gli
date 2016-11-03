@@ -31,7 +31,6 @@ Thanks for contributing to the project by [submitting issues](https://github.com
 ## [Lastest release](https://github.com/g-truc/gli/releases/latest)
 
 ## Links
-
 - [Release notes](releases.md)
 - [Code sample: Creating an OpenGL texture object from file](sample-creating-texture-object.md)
 - [Code sample: Generating mipmaps and converting float textures to rgb9e5](sample-convert.md)
