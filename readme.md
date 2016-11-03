@@ -20,6 +20,8 @@ The source code and the documentation are licensed under the [Happy Bunny Licens
 
 Thanks for contributing to the project by [submitting issues](https://github.com/g-truc/gli/issues) for bug reports and feature requests. Any feedback is welcome at [gli@g-truc.net](mailto://gli@g-truc.net).
 
+## [Lastest release](https://github.com/g-truc/gli/releases/latest)
+
 ## Project Health
 
 | Service | System | Compiler | Status |
@@ -27,8 +29,6 @@ Thanks for contributing to the project by [submitting issues](https://github.com
 | [Drone](https://drone.io/github.com/g-truc/gli) | Linux 64 bits | GCC 4.6.3 | [![Build Status](https://drone.io/github.com/g-truc/gli/status.png)](https://drone.io/github.com/g-truc/gli/latest) |
 
 ## Release notes
-
-### [Lastest release](https://github.com/g-truc/gli/releases/latest)
 
 ### [GLI 0.8.2.0](https://github.com/g-truc/gli/releases/latest) - 201X-XX-XX
 #### Features:
