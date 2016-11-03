@@ -5,17 +5,6 @@
 
 namespace gli
 {
-/*
-namespace detail
-{
-	enum dimension
-	{
-		DIMENSION_1D,
-		DIMENSION_2D,
-		DIMENSION_3D
-	};
-}//namespace detail
-*/
 	/// Texture filtring modes
 	enum filter
 	{
