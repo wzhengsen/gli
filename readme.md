@@ -22,14 +22,12 @@ Thanks for contributing to the project by [submitting issues](https://github.com
 
 ## [Lastest release](https://github.com/g-truc/gli/releases/latest)
 
----
 ## Project Health
 
 | Service | System | Compiler | Status |
 | ------- | ------ | -------- | ------ |
 | [Drone](https://drone.io/github.com/g-truc/gli) | Linux 64 bits | GCC 4.6.3 | [![Build Status](https://drone.io/github.com/g-truc/gli/status.png)](https://drone.io/github.com/g-truc/gli/latest) |
 
----
 ## Release notes
 
 ### [GLI 0.8.2.0](https://github.com/g-truc/gli/releases/latest) - 201X-XX-XX
