@@ -3,7 +3,9 @@
 
 #pragma once
 
-namespace gli{
+namespace gli
+{
+/*
 namespace detail
 {
 	enum dimension
@@ -13,7 +15,7 @@ namespace detail
 		DIMENSION_3D
 	};
 }//namespace detail
-
+*/
 	/// Texture filtring modes
 	enum filter
 	{
