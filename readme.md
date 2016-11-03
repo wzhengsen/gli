@@ -32,7 +32,6 @@ Thanks for contributing to the project by [submitting issues](https://github.com
 ---
 ## Release notes
 
----
 ### [GLI 0.8.2.0](https://github.com/g-truc/gli/releases/latest) - 201X-XX-XX
 #### Features:
 - Extend flip() for S3TC compressed textures #94
