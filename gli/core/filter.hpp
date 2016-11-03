@@ -31,4 +31,4 @@ namespace detail
 	};
 }//namespace gli
 
-#include "./core/filter.inl"
+#include "filter.inl"
