@@ -20,6 +20,39 @@ The source code and the documentation are licensed under the [Happy Bunny Licens
 
 Thanks for contributing to the project by [submitting issues](https://github.com/g-truc/gli/issues) for bug reports and feature requests. Any feedback is welcome at [gli@g-truc.net](mailto://gli@g-truc.net).
 
+```cpp
+#include <gli/gli.hpp>
+
+gli::texture Texture = gli::load(Filename);
+if(Texture.empty())
+	return 0;
+assert(gli::is_compressed(Texture.format()));
+
+gli::gl GL(gli::gl::PROFILE_GL33);
+gli::gl::format const Format = GL.translate(Texture.format(), Texture.swizzles());
+GLenum Target = GL.translate(Texture.target());
+assert(Target == gli::TARGET_2D);
+
+GLuint TextureName = 0;
+glGenTextures(1, &TextureName);
+glBindTexture(Target, TextureName);
+glTexParameteri(Target, GL_TEXTURE_BASE_LEVEL, 0);
+glTexParameteri(Target, GL_TEXTURE_MAX_LEVEL, static_cast<GLint>(Texture.levels() - 1));
+glTexParameteri(Target, GL_TEXTURE_SWIZZLE_R, Format.Swizzles[0]);
+glTexParameteri(Target, GL_TEXTURE_SWIZZLE_G, Format.Swizzles[1]);
+glTexParameteri(Target, GL_TEXTURE_SWIZZLE_B, Format.Swizzles[2]);
+glTexParameteri(Target, GL_TEXTURE_SWIZZLE_A, Format.Swizzles[3]);
+
+glTexStorage2D(Target, static_cast<GLint>(Texture.levels()), Format.Internal, Extent.x, Extent.y);
+for(std::size_t Level = 0; Level < Texture.levels(); ++Level)
+{
+	glm::tvec3<GLsizei> Extent(Texture.extent(Level));
+	glCompressedTexSubImage2D(Target, static_cast<GLint>(Level),
+		0, 0, Extent.x, Extent.y,
+		Format.Internal, static_cast<GLsizei>(Texture.size(Level)), Texture.data(0, 0, Level));
+}
+```
+
 ## [Lastest release](https://github.com/g-truc/gli/releases/latest)
 
 ## Project Health

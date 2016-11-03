@@ -1,6 +1,6 @@
 # Code sample: Creating an OpenGL texture object from file
 
-```c++
+```cpp
 #include <gli/gli.hpp>
 
 /// Filename can be KTX or DDS files

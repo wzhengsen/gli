@@ -1,6 +1,6 @@
 # Code sample: Generating mipmaps and converting float textures to rgb9e5
 
-```c++
+```cpp
 #include <gli/texture2d.hpp>
 #include <gli/convert.hpp>
 #include <gli/generate_mipmaps.hpp>
