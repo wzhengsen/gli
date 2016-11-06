@@ -16,7 +16,7 @@ It is a good candidate for software rendering (raytracing / rasterisation), imag
 - Any conform C++11 compiler
 
 For more information about *GLI*, please have a look at the [manual](manual.md) and the [API reference documentation](http://gli.g-truc.net/0.8.0/api/index.html).
-The source code and the documentation are licensed under the [Happy Bunny License (Modified MIT) or the MIT License](manual.md).
+The source code and the documentation are licensed under the [Happy Bunny License (Modified MIT) or the MIT License](manual.md#section0).
 
 Thanks for contributing to the project by [submitting issues](https://github.com/g-truc/gli/issues) for bug reports and feature requests. Any feedback is welcome at [gli@g-truc.net](mailto://gli@g-truc.net).
 
