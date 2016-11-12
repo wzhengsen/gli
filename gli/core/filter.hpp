@@ -1,5 +1,5 @@
 /// @brief Include to use filter enum, to select filtering methods.
-/// @file gli/filter.hpp
+/// @file gli/core/filter.hpp
 
 #pragma once
 
