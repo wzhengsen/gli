@@ -1,4 +1,4 @@
-![Alt](/doc/logo.png "GLI Logo")
+![Alt](/doc/manual/logo-mini.png "GLI Logo")
 
 # GLI 0.8.2 Manual
 
