@@ -1,4 +1,4 @@
-![gli](doc/logo.png)
+![gli](/doc/manual/logo-mini.png)
 
 [OpenGL Image](http://gli.g-truc.net/) (*GLI*) is a header only C++ image library for graphics software.
 
