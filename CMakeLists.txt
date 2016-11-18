@@ -5,7 +5,7 @@ if (NOT CMAKE_VERSION VERSION_LESS "3.1")
 endif()
 
 project(gli)
-set(GLI_VERSION "0.8.1")
+set(GLI_VERSION "0.8.2")
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
