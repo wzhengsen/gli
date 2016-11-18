@@ -28,7 +28,7 @@
 #define GLI_VERSION_MAJOR			0
 #define GLI_VERSION_MINOR			8
 #define GLI_VERSION_PATCH			2
-#define GLI_VERSION_REVISION		0
+#define GLI_VERSION_REVISION		1
 
 /// Namespace where all the classes and functions provided by GLI are exposed
 namespace gli
