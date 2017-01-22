@@ -8,6 +8,7 @@
 #include "../texture3d.hpp"
 #include "../texture_cube.hpp"
 #include "../texture_cube_array.hpp"
+#include "./s3tc.hpp"
 #include <glm/gtc/packing.hpp>
 #include <glm/gtc/color_space.hpp>
 #include <limits>
@@ -38,7 +39,8 @@ namespace detail
 		CONVERT_MODE_565SCALED,
 		CONVERT_MODE_5551UNORM,
 		CONVERT_MODE_5551SCALED,
-		CONVERT_MODE_332UNORM
+		CONVERT_MODE_332UNORM,
+		CONVERT_MODE_DXT1UNORM
 	};
 
 	template <typename textureType, typename genType>
@@ -487,21 +489,66 @@ namespace detail
 		}
 	};
 
+	template <typename textureType, typename retType, length_t L, typename T, precision P>
+	struct convertFunc<textureType, retType, L, T, P, CONVERT_MODE_DXT1UNORM, true>
+	{
+		typedef accessFunc<gli::texture2d, uint32> access;
+
+		static vec<4, retType, P> fetch(typename textureType const& Texture, gli::extent1d const& TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level)
+		{
+			return glm::vec<4, retType, P>(0, 0, 0, 1);
+		}
+
+		static vec<4, retType, P> fetch(typename textureType const& Texture, gli::extent2d const& TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level)
+		{
+			gli::extent3d TexelCoord3d(TexelCoord, 0);
+			return fetch(Texture, TexelCoord3d, Layer, Face, Level);
+		}
+
+		static vec<4, retType, P> fetch(typename textureType const& Texture, gli::extent3d const& TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level)
+		{
+			static_assert(std::numeric_limits<retType>::is_iec559, "CONVERT_MODE_DXT1UNORM requires an float sampler");
+			
+			if(Texture.target() == gli::TARGET_1D || Texture.target() == gli::TARGET_1D_ARRAY)
+			{
+				return glm::vec<4, retType, P>(0, 0, 0, 1);
+			}
+			
+			const dxt1_block *Data = Texture.data<dxt1_block>(Layer, Face, Level);
+			const gli::extent3d &BlockExtent = block_extent(Texture.format());
+			int WidthInBlocks = glm::max(1, Texture.extent(Level).x / BlockExtent.x);
+			int BlocksInSlice = glm::max(1, Texture.extent(Level).y / BlockExtent.y) * WidthInBlocks;
+			gli::extent3d BlockCoord(TexelCoord / BlockExtent);
+			glm::ivec2 TexelCoordInBlock(TexelCoord.x - (BlockCoord.x * BlockExtent.x), TexelCoord.y - (BlockCoord.y * BlockExtent.y));
+			
+			const dxt1_block &Block = Data[BlockCoord.z * BlocksInSlice + (BlockCoord.y * WidthInBlocks + BlockCoord.x)];
+
+			return decompress_dxt1(Block, TexelCoordInBlock);
+		}
+
+		static void write(textureType& Texture, typename textureType::extent_type const& TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level, vec<4, retType, P> const & Texel)
+		{
+			static_assert(std::numeric_limits<retType>::is_iec559, "CONVERT_MODE_DXT1UNORM requires an float sampler");
+
+			GLI_ASSERT("Writing to single texel of a DXT1 compressed image is not supported");
+		}
+	};
+
 	template <typename textureType, typename samplerValType, precision P>
 	struct convert
 	{
-		typedef vec<4, samplerValType, P>(*fetchFunc)(textureType const & Texture, typename textureType::extent_type const & TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level);
-		typedef void(*writeFunc)(textureType & Texture, typename textureType::extent_type const & TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level, vec<4, samplerValType, P> const & Texel);
+		typedef vec<4, samplerValType, P>(*fetchFunc)(textureType const& Texture, typename textureType::extent_type const& TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level);
+		typedef void(*writeFunc)(textureType & Texture, typename textureType::extent_type const& TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level, vec<4, samplerValType, P> const & Texel);
 
 		template <length_t L, typename T, convertMode mode>
 		struct conv
 		{
-			static vec<4, samplerValType, P> fetch(textureType const & Texture, typename textureType::extent_type const & TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level)
+			static vec<4, samplerValType, P> fetch(textureType const& Texture, typename textureType::extent_type const& TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level)
 			{
 				return convertFunc<textureType, samplerValType, L, T, P, mode, std::numeric_limits<samplerValType>::is_iec559>::fetch(Texture, TexelCoord, Layer, Face, Level);
 			}
 
-			static void write(textureType & Texture, typename textureType::extent_type const & TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level, vec<4, samplerValType, P> const & Texel)
+			static void write(textureType& Texture, typename textureType::extent_type const& TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level, vec<4, samplerValType, P> const & Texel)
 			{
 				convertFunc<textureType, samplerValType, L, T, P, mode, std::numeric_limits<samplerValType>::is_iec559>::write(Texture, TexelCoord, Layer, Face, Level, Texel);
 			}
