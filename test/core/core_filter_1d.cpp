@@ -11,7 +11,7 @@ namespace filter1d
 		gli::vec4 const ColorBorder(0.0f, 0.5f, 1.0f, 1.0f);
 
 		gli::texture1d Texture(gli::FORMAT_RGBA8_UNORM_PACK8, gli::texture1d::extent_type(2), 1);
-		Texture.clear(glm::packUnorm<4, gli::u8>(ColorFill));
+		Texture.clear(glm::packUnorm<gli::u8>(ColorFill));
 
 		{
 			gli::fsampler1D Sampler(Texture, gli::WRAP_CLAMP_TO_EDGE, gli::FILTER_LINEAR, gli::FILTER_LINEAR, ColorBorder);

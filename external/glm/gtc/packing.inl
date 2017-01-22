@@ -667,7 +667,7 @@ namespace detail
 		return detail::compute_half<L, P, vecType>::unpack(v);
 	}
 
-	template<length_t L, typename uintType, typename floatType, precision P>
+	template<typename uintType, length_t L, typename floatType, precision P>
 	GLM_FUNC_QUALIFIER vec<L, uintType, P> packUnorm(vec<L, floatType, P> const& v)
 	{
 		GLM_STATIC_ASSERT(std::numeric_limits<uintType>::is_integer, "uintType must be an integer type");
@@ -676,7 +676,7 @@ namespace detail
 		return vec<L, uintType, P>(round(clamp(v, static_cast<floatType>(0), static_cast<floatType>(1)) * static_cast<floatType>(std::numeric_limits<uintType>::max())));
 	}
 
-	template<length_t L, typename uintType, typename floatType, precision P>
+	template<typename uintType, length_t L, typename floatType, precision P>
 	GLM_FUNC_QUALIFIER vec<L, floatType, P> unpackUnorm(vec<L, uintType, P> const& v)
 	{
 		GLM_STATIC_ASSERT(std::numeric_limits<uintType>::is_integer, "uintType must be an integer type");
@@ -685,7 +685,7 @@ namespace detail
 		return vec<L, float, P>(v) * (static_cast<floatType>(1) / static_cast<floatType>(std::numeric_limits<uintType>::max()));
 	}
 
-	template<length_t L, typename intType, typename floatType, precision P>
+	template<typename intType, length_t L, typename floatType, precision P>
 	GLM_FUNC_QUALIFIER vec<L, intType, P> packSnorm(vec<L, floatType, P> const & v)
 	{
 		GLM_STATIC_ASSERT(std::numeric_limits<intType>::is_integer, "uintType must be an integer type");
@@ -694,7 +694,7 @@ namespace detail
 		return vec<L, intType, P>(round(clamp(v , static_cast<floatType>(-1), static_cast<floatType>(1)) * static_cast<floatType>(std::numeric_limits<intType>::max())));
 	}
 
-	template<length_t L, typename intType, typename floatType, precision P>
+	template<typename intType, length_t L, typename floatType, precision P>
 	GLM_FUNC_QUALIFIER vec<L, floatType, P> unpackSnorm(vec<L, intType, P> const & v)
 	{
 		GLM_STATIC_ASSERT(std::numeric_limits<intType>::is_integer, "uintType must be an integer type");
