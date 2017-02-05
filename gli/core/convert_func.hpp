@@ -504,18 +504,18 @@ namespace detail
 	{
 		typedef accessFunc<gli::texture2d, uint32> access;
 
-		static vec<4, retType, P> fetch(typename textureType const& Texture, gli::extent1d const& TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level)
+		static vec<4, retType, P> fetch(textureType const& Texture, gli::extent1d const& TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level)
 		{
 			return glm::vec<4, retType, P>(0, 0, 0, 1);
 		}
 
-		static vec<4, retType, P> fetch(typename textureType const& Texture, gli::extent2d const& TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level)
+		static vec<4, retType, P> fetch(textureType const& Texture, gli::extent2d const& TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level)
 		{
 			gli::extent3d TexelCoord3d(TexelCoord, 0);
 			return fetch(Texture, TexelCoord3d, Layer, Face, Level);
 		}
 
-		static vec<4, retType, P> fetch(typename textureType const& Texture, gli::extent3d const& TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level)
+		static vec<4, retType, P> fetch(textureType const& Texture, gli::extent3d const& TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level)
 		{
 			static_assert(std::numeric_limits<retType>::is_iec559, "CONVERT_MODE_DXT1UNORM requires an float sampler");
 			
@@ -524,7 +524,7 @@ namespace detail
 				return glm::vec<4, retType, P>(0, 0, 0, 1);
 			}
 			
-			const dxt1_block *Data = Texture.data<dxt1_block>(Layer, Face, Level);
+			const dxt1_block *Data = Texture.template data<dxt1_block>(Layer, Face, Level);
 			const gli::extent3d &BlockExtent = block_extent(Texture.format());
 			int WidthInBlocks = glm::max(1, Texture.extent(Level).x / BlockExtent.x);
 			int BlocksInSlice = glm::max(1, Texture.extent(Level).y / BlockExtent.y) * WidthInBlocks;
@@ -548,18 +548,18 @@ namespace detail
 	struct convertFunc<textureType, retType, L, T, P, CONVERT_MODE_DXT3UNORM, true> {
 		typedef accessFunc<gli::texture2d, uint32> access;
 
-		static vec<4, retType, P> fetch(typename textureType const& Texture, gli::extent1d const& TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level)
+		static vec<4, retType, P> fetch(textureType const& Texture, gli::extent1d const& TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level)
 		{
 			return glm::vec<4, retType, P>(0, 0, 0, 1);
 		}
 
-		static vec<4, retType, P> fetch(typename textureType const& Texture, gli::extent2d const& TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level)
+		static vec<4, retType, P> fetch(textureType const& Texture, gli::extent2d const& TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level)
 		{
 			gli::extent3d TexelCoord3d(TexelCoord, 0);
 			return fetch(Texture, TexelCoord3d, Layer, Face, Level);
 		}
 
-		static vec<4, retType, P> fetch(typename textureType const& Texture, gli::extent3d const& TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level)
+		static vec<4, retType, P> fetch(textureType const& Texture, gli::extent3d const& TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level)
 		{
 			static_assert(std::numeric_limits<retType>::is_iec559, "CONVERT_MODE_DXT3UNORM requires an float sampler");
 
@@ -568,7 +568,7 @@ namespace detail
 				return glm::vec<4, retType, P>(0, 0, 0, 1);
 			}
 
-			const dxt3_block *Data = Texture.data<dxt3_block>(Layer, Face, Level);
+			const dxt3_block *Data = Texture.template data<dxt3_block>(Layer, Face, Level);
 			const gli::extent3d &BlockExtent = block_extent(Texture.format());
 			int WidthInBlocks = glm::max(1, Texture.extent(Level).x / BlockExtent.x);
 			int BlocksInSlice = glm::max(1, Texture.extent(Level).y / BlockExtent.y) * WidthInBlocks;
@@ -592,18 +592,18 @@ namespace detail
 	struct convertFunc<textureType, retType, L, T, P, CONVERT_MODE_DXT5UNORM, true> {
 		typedef accessFunc<gli::texture2d, uint32> access;
 
-		static vec<4, retType, P> fetch(typename textureType const& Texture, gli::extent1d const& TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level)
+		static vec<4, retType, P> fetch(textureType const& Texture, gli::extent1d const& TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level)
 		{
 			return glm::vec<4, retType, P>(0, 0, 0, 1);
 		}
 
-		static vec<4, retType, P> fetch(typename textureType const& Texture, gli::extent2d const& TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level)
+		static vec<4, retType, P> fetch(textureType const& Texture, gli::extent2d const& TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level)
 		{
 			gli::extent3d TexelCoord3d(TexelCoord, 0);
 			return fetch(Texture, TexelCoord3d, Layer, Face, Level);
 		}
 
-		static vec<4, retType, P> fetch(typename textureType const& Texture, gli::extent3d const& TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level)
+		static vec<4, retType, P> fetch(textureType const& Texture, gli::extent3d const& TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level)
 		{
 			static_assert(std::numeric_limits<retType>::is_iec559, "CONVERT_MODE_DXT5UNORM requires an float sampler");
 
@@ -612,7 +612,7 @@ namespace detail
 				return glm::vec<4, retType, P>(0, 0, 0, 1);
 			}
 
-			const dxt5_block *Data = Texture.data<dxt5_block>(Layer, Face, Level);
+			const dxt5_block *Data = Texture.template data<dxt5_block>(Layer, Face, Level);
 			const gli::extent3d &BlockExtent = block_extent(Texture.format());
 			int WidthInBlocks = glm::max(1, Texture.extent(Level).x / BlockExtent.x);
 			int BlocksInSlice = glm::max(1, Texture.extent(Level).y / BlockExtent.y) * WidthInBlocks;
@@ -636,18 +636,18 @@ namespace detail
 	struct convertFunc<textureType, retType, L, T, P, CONVERT_MODE_BC4UNORM, true> {
 		typedef accessFunc<gli::texture2d, uint32> access;
 
-		static vec<4, retType, P> fetch(typename textureType const& Texture, gli::extent1d const& TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level)
+		static vec<4, retType, P> fetch(textureType const& Texture, gli::extent1d const& TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level)
 		{
 			return glm::vec<4, retType, P>(0, 0, 0, 1);
 		}
 
-		static vec<4, retType, P> fetch(typename textureType const& Texture, gli::extent2d const& TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level)
+		static vec<4, retType, P> fetch(textureType const& Texture, gli::extent2d const& TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level)
 		{
 			gli::extent3d TexelCoord3d(TexelCoord, 0);
 			return fetch(Texture, TexelCoord3d, Layer, Face, Level);
 		}
 
-		static vec<4, retType, P> fetch(typename textureType const& Texture, gli::extent3d const& TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level)
+		static vec<4, retType, P> fetch(textureType const& Texture, gli::extent3d const& TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level)
 		{
 			static_assert(std::numeric_limits<retType>::is_iec559, "CONVERT_MODE_BC4UNORM requires an float sampler");
 
@@ -656,7 +656,7 @@ namespace detail
 				return glm::vec<4, retType, P>(0, 0, 0, 1);
 			}
 
-			const bc4_block *Data = Texture.data<bc4_block>(Layer, Face, Level);
+			const bc4_block *Data = Texture.template data<bc4_block>(Layer, Face, Level);
 			const gli::extent3d &BlockExtent = block_extent(Texture.format());
 			int WidthInBlocks = glm::max(1, Texture.extent(Level).x / BlockExtent.x);
 			int BlocksInSlice = glm::max(1, Texture.extent(Level).y / BlockExtent.y) * WidthInBlocks;
@@ -680,18 +680,18 @@ namespace detail
 	struct convertFunc<textureType, retType, L, T, P, CONVERT_MODE_BC4SNORM, true> {
 		typedef accessFunc<gli::texture2d, uint32> access;
 
-		static vec<4, retType, P> fetch(typename textureType const& Texture, gli::extent1d const& TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level)
+		static vec<4, retType, P> fetch(textureType const& Texture, gli::extent1d const& TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level)
 		{
 			return glm::vec<4, retType, P>(0, 0, 0, 1);
 		}
 
-		static vec<4, retType, P> fetch(typename textureType const& Texture, gli::extent2d const& TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level)
+		static vec<4, retType, P> fetch(textureType const& Texture, gli::extent2d const& TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level)
 		{
 			gli::extent3d TexelCoord3d(TexelCoord, 0);
 			return fetch(Texture, TexelCoord3d, Layer, Face, Level);
 		}
 
-		static vec<4, retType, P> fetch(typename textureType const& Texture, gli::extent3d const& TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level)
+		static vec<4, retType, P> fetch(textureType const& Texture, gli::extent3d const& TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level)
 		{
 			static_assert(std::numeric_limits<retType>::is_iec559, "CONVERT_MODE_BC4SNORM requires an float sampler");
 
@@ -700,7 +700,7 @@ namespace detail
 				return glm::vec<4, retType, P>(0, 0, 0, 1);
 			}
 
-			const bc4_block *Data = Texture.data<bc4_block>(Layer, Face, Level);
+			const bc4_block *Data = Texture.template data<bc4_block>(Layer, Face, Level);
 			const gli::extent3d &BlockExtent = block_extent(Texture.format());
 			int WidthInBlocks = glm::max(1, Texture.extent(Level).x / BlockExtent.x);
 			int BlocksInSlice = glm::max(1, Texture.extent(Level).y / BlockExtent.y) * WidthInBlocks;
@@ -724,18 +724,18 @@ namespace detail
 	struct convertFunc<textureType, retType, L, T, P, CONVERT_MODE_BC5UNORM, true> {
 		typedef accessFunc<gli::texture2d, uint32> access;
 
-		static vec<4, retType, P> fetch(typename textureType const& Texture, gli::extent1d const& TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level)
+		static vec<4, retType, P> fetch(textureType const& Texture, gli::extent1d const& TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level)
 		{
 			return glm::vec<4, retType, P>(0, 0, 0, 1);
 		}
 
-		static vec<4, retType, P> fetch(typename textureType const& Texture, gli::extent2d const& TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level)
+		static vec<4, retType, P> fetch(textureType const& Texture, gli::extent2d const& TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level)
 		{
 			gli::extent3d TexelCoord3d(TexelCoord, 0);
 			return fetch(Texture, TexelCoord3d, Layer, Face, Level);
 		}
 
-		static vec<4, retType, P> fetch(typename textureType const& Texture, gli::extent3d const& TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level)
+		static vec<4, retType, P> fetch(textureType const& Texture, gli::extent3d const& TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level)
 		{
 			static_assert(std::numeric_limits<retType>::is_iec559, "CONVERT_MODE_BC5UNORM requires an float sampler");
 
@@ -744,7 +744,7 @@ namespace detail
 				return glm::vec<4, retType, P>(0, 0, 0, 1);
 			}
 
-			const bc5_block *Data = Texture.data<bc5_block>(Layer, Face, Level);
+			const bc5_block *Data = Texture.template data<bc5_block>(Layer, Face, Level);
 			const gli::extent3d &BlockExtent = block_extent(Texture.format());
 			int WidthInBlocks = glm::max(1, Texture.extent(Level).x / BlockExtent.x);
 			int BlocksInSlice = glm::max(1, Texture.extent(Level).y / BlockExtent.y) * WidthInBlocks;
@@ -768,18 +768,18 @@ namespace detail
 	struct convertFunc<textureType, retType, L, T, P, CONVERT_MODE_BC5SNORM, true> {
 		typedef accessFunc<gli::texture2d, uint32> access;
 
-		static vec<4, retType, P> fetch(typename textureType const& Texture, gli::extent1d const& TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level)
+		static vec<4, retType, P> fetch(textureType const& Texture, gli::extent1d const& TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level)
 		{
 			return glm::vec<4, retType, P>(0, 0, 0, 1);
 		}
 
-		static vec<4, retType, P> fetch(typename textureType const& Texture, gli::extent2d const& TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level)
+		static vec<4, retType, P> fetch(textureType const& Texture, gli::extent2d const& TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level)
 		{
 			gli::extent3d TexelCoord3d(TexelCoord, 0);
 			return fetch(Texture, TexelCoord3d, Layer, Face, Level);
 		}
 
-		static vec<4, retType, P> fetch(typename textureType const& Texture, gli::extent3d const& TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level)
+		static vec<4, retType, P> fetch(textureType const& Texture, gli::extent3d const& TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level)
 		{
 			static_assert(std::numeric_limits<retType>::is_iec559, "CONVERT_MODE_BC5SNORM requires an float sampler");
 
@@ -788,7 +788,7 @@ namespace detail
 				return glm::vec<4, retType, P>(0, 0, 0, 1);
 			}
 
-			const bc5_block *Data = Texture.data<bc5_block>(Layer, Face, Level);
+			const bc5_block *Data = Texture.template data<bc5_block>(Layer, Face, Level);
 			const gli::extent3d &BlockExtent = block_extent(Texture.format());
 			int WidthInBlocks = glm::max(1, Texture.extent(Level).x / BlockExtent.x);
 			int BlocksInSlice = glm::max(1, Texture.extent(Level).y / BlockExtent.y) * WidthInBlocks;
