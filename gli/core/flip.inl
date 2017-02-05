@@ -99,44 +99,44 @@ namespace detail
 
 			if(HeightTwo)
 			{
-				Dst->Alpha0 = Src->Alpha0;
-				Dst->Alpha1 = Src->Alpha1;
+				Dst->Alpha[0] = Src->Alpha[0];
+				Dst->Alpha[1] = Src->Alpha[1];
 				// operator+ has precedence over operator>> and operator<<, hence the parentheses. very important!
 				// the values below are bitmasks used to retrieve alpha values according to the DXT specification
 				// 0xF0 == 0b11110000 and 0xF == 0b1111
-				Dst->AlphaR0 = ((Src->AlphaR1 & 0xF0) >> 4) + ((Src->AlphaR2 & 0xF) << 4);
-				Dst->AlphaR1 = ((Src->AlphaR2 & 0xF0) >> 4) + ((Src->AlphaR0 & 0xF) << 4);
-				Dst->AlphaR2 = ((Src->AlphaR0 & 0xF0) >> 4) + ((Src->AlphaR1 & 0xF) << 4);
-				Dst->AlphaR3 = Src->AlphaR3;
-				Dst->AlphaR4 = Src->AlphaR4;
-				Dst->AlphaR5 = Src->AlphaR5;
+				Dst->AlphaBitmap[0] = ((Src->AlphaBitmap[1] & 0xF0) >> 4) + ((Src->AlphaBitmap[2] & 0xF) << 4);
+				Dst->AlphaBitmap[1] = ((Src->AlphaBitmap[2] & 0xF0) >> 4) + ((Src->AlphaBitmap[0] & 0xF) << 4);
+				Dst->AlphaBitmap[2] = ((Src->AlphaBitmap[0] & 0xF0) >> 4) + ((Src->AlphaBitmap[1] & 0xF) << 4);
+				Dst->AlphaBitmap[3] = Src->AlphaBitmap[3];
+				Dst->AlphaBitmap[4] = Src->AlphaBitmap[4];
+				Dst->AlphaBitmap[5] = Src->AlphaBitmap[5];
 				Dst->Color0 = Src->Color0;
 				Dst->Color1 = Src->Color1;
-				Dst->Row0 = Src->Row1;
-				Dst->Row1 = Src->Row0;
-				Dst->Row2 = Src->Row2;
-				Dst->Row3 = Src->Row3;
+				Dst->Row[0] = Src->Row[1];
+				Dst->Row[1] = Src->Row[0];
+				Dst->Row[2] = Src->Row[2];
+				Dst->Row[3] = Src->Row[3];
 
 				return;
 			}
 
-			Dst->Alpha0 = Src->Alpha0;
-			Dst->Alpha1 = Src->Alpha1;
+			Dst->Alpha[0] = Src->Alpha[0];
+			Dst->Alpha[1] = Src->Alpha[1];
 			// operator+ has precedence over operator>> and operator<<, hence the parentheses. very important!
 			// the values below are bitmasks used to retrieve alpha values according to the DXT specification
 			// 0xF0 == 0b11110000 and 0xF == 0b1111
-			Dst->AlphaR0 = ((Src->AlphaR4 & 0xF0) >> 4) + ((Src->AlphaR5 & 0xF) << 4);
-			Dst->AlphaR1 = ((Src->AlphaR5 & 0xF0) >> 4) + ((Src->AlphaR3 & 0xF) << 4);
-			Dst->AlphaR2 = ((Src->AlphaR3 & 0xF0) >> 4) + ((Src->AlphaR4 & 0xF) << 4);
-			Dst->AlphaR3 = ((Src->AlphaR1 & 0xF0) >> 4) + ((Src->AlphaR2 & 0xF) << 4);
-			Dst->AlphaR4 = ((Src->AlphaR2 & 0xF0) >> 4) + ((Src->AlphaR0 & 0xF) << 4);
-			Dst->AlphaR5 = ((Src->AlphaR0 & 0xF0) >> 4) + ((Src->AlphaR1 & 0xF) << 4);
+			Dst->AlphaBitmap[0] = ((Src->AlphaBitmap[4] & 0xF0) >> 4) + ((Src->AlphaBitmap[5] & 0xF) << 4);
+			Dst->AlphaBitmap[1] = ((Src->AlphaBitmap[5] & 0xF0) >> 4) + ((Src->AlphaBitmap[3] & 0xF) << 4);
+			Dst->AlphaBitmap[2] = ((Src->AlphaBitmap[3] & 0xF0) >> 4) + ((Src->AlphaBitmap[4] & 0xF) << 4);
+			Dst->AlphaBitmap[3] = ((Src->AlphaBitmap[1] & 0xF0) >> 4) + ((Src->AlphaBitmap[2] & 0xF) << 4);
+			Dst->AlphaBitmap[4] = ((Src->AlphaBitmap[2] & 0xF0) >> 4) + ((Src->AlphaBitmap[0] & 0xF) << 4);
+			Dst->AlphaBitmap[5] = ((Src->AlphaBitmap[0] & 0xF0) >> 4) + ((Src->AlphaBitmap[1] & 0xF) << 4);
 			Dst->Color0 = Src->Color0;
 			Dst->Color1 = Src->Color1;
-			Dst->Row0 = Src->Row3;
-			Dst->Row1 = Src->Row2;
-			Dst->Row2 = Src->Row1;
-			Dst->Row3 = Src->Row0;
+			Dst->Row[0] = Src->Row[3];
+			Dst->Row[1] = Src->Row[2];
+			Dst->Row[2] = Src->Row[1];
+			Dst->Row[3] = Src->Row[0];
 
 			return;
 		}

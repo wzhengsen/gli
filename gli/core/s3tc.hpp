@@ -21,20 +21,11 @@ namespace gli
 		};
 
 		struct dxt5_block {
-			uint8_t Alpha0;
-			uint8_t Alpha1;
-			uint8_t AlphaR0;
-			uint8_t AlphaR1;
-			uint8_t AlphaR2;
-			uint8_t AlphaR3;
-			uint8_t AlphaR4;
-			uint8_t AlphaR5;
+			uint8_t Alpha[2];
+			uint8_t AlphaBitmap[6];
 			uint16_t Color0;
 			uint16_t Color1;
-			uint8_t Row0;
-			uint8_t Row1;
-			uint8_t Row2;
-			uint8_t Row3;
+			uint8_t Row[4];
 		};
 
 		struct texel_block4x4 {
@@ -43,8 +34,13 @@ namespace gli
 		};
 		
 		glm::vec4 decompress_dxt1(const dxt1_block &Block, const extent2d &BlockTexelCoord);
-		
 		texel_block4x4 decompress_dxt1_block(const dxt1_block &Block);
+
+		glm::vec4 decompress_dxt3(const dxt3_block &Block, const extent2d &BlockTexelCoord);
+		texel_block4x4 decompress_dxt3_block(const dxt3_block &Block);
+
+		glm::vec4 decompress_dxt5(const dxt5_block &Block, const extent2d &BlockTexelCoord);
+		texel_block4x4 decompress_dxt5_block(const dxt5_block &Block);
 
 	}//namespace detail
 }//namespace gli

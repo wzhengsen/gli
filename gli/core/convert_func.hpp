@@ -9,6 +9,7 @@
 #include "../texture_cube.hpp"
 #include "../texture_cube_array.hpp"
 #include "./s3tc.hpp"
+#include "./bc.hpp"
 #include <glm/gtc/packing.hpp>
 #include <glm/gtc/color_space.hpp>
 #include <limits>
@@ -40,7 +41,16 @@ namespace detail
 		CONVERT_MODE_5551UNORM,
 		CONVERT_MODE_5551SCALED,
 		CONVERT_MODE_332UNORM,
-		CONVERT_MODE_DXT1UNORM
+		CONVERT_MODE_DXT1UNORM,
+		CONVERT_MODE_DXT3UNORM,
+		CONVERT_MODE_DXT5UNORM,
+		CONVERT_MODE_BC1UNORM = CONVERT_MODE_DXT1UNORM,
+		CONVERT_MODE_BC2UNORM = CONVERT_MODE_DXT3UNORM,
+		CONVERT_MODE_BC3UNORM = CONVERT_MODE_DXT5UNORM,
+		CONVERT_MODE_BC4UNORM,
+		CONVERT_MODE_BC4SNORM,
+		CONVERT_MODE_BC5UNORM,
+		CONVERT_MODE_BC5SNORM
 	};
 
 	template <typename textureType, typename genType>
@@ -494,18 +504,18 @@ namespace detail
 	{
 		typedef accessFunc<gli::texture2d, uint32> access;
 
-		static vec<4, retType, P> fetch(typename textureType const& Texture, gli::extent1d const& TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level)
+		static vec<4, retType, P> fetch(textureType const& Texture, gli::extent1d const& TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level)
 		{
 			return glm::vec<4, retType, P>(0, 0, 0, 1);
 		}
 
-		static vec<4, retType, P> fetch(typename textureType const& Texture, gli::extent2d const& TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level)
+		static vec<4, retType, P> fetch(textureType const& Texture, gli::extent2d const& TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level)
 		{
 			gli::extent3d TexelCoord3d(TexelCoord, 0);
 			return fetch(Texture, TexelCoord3d, Layer, Face, Level);
 		}
 
-		static vec<4, retType, P> fetch(typename textureType const& Texture, gli::extent3d const& TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level)
+		static vec<4, retType, P> fetch(textureType const& Texture, gli::extent3d const& TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level)
 		{
 			static_assert(std::numeric_limits<retType>::is_iec559, "CONVERT_MODE_DXT1UNORM requires an float sampler");
 			
@@ -514,7 +524,7 @@ namespace detail
 				return glm::vec<4, retType, P>(0, 0, 0, 1);
 			}
 			
-			const dxt1_block *Data = Texture.data<dxt1_block>(Layer, Face, Level);
+			const dxt1_block *Data = Texture.template data<dxt1_block>(Layer, Face, Level);
 			const gli::extent3d &BlockExtent = block_extent(Texture.format());
 			int WidthInBlocks = glm::max(1, Texture.extent(Level).x / BlockExtent.x);
 			int BlocksInSlice = glm::max(1, Texture.extent(Level).y / BlockExtent.y) * WidthInBlocks;
@@ -531,6 +541,270 @@ namespace detail
 			static_assert(std::numeric_limits<retType>::is_iec559, "CONVERT_MODE_DXT1UNORM requires an float sampler");
 
 			GLI_ASSERT("Writing to single texel of a DXT1 compressed image is not supported");
+		}
+	};
+
+	template <typename textureType, typename retType, length_t L, typename T, precision P>
+	struct convertFunc<textureType, retType, L, T, P, CONVERT_MODE_DXT3UNORM, true> {
+		typedef accessFunc<gli::texture2d, uint32> access;
+
+		static vec<4, retType, P> fetch(textureType const& Texture, gli::extent1d const& TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level)
+		{
+			return glm::vec<4, retType, P>(0, 0, 0, 1);
+		}
+
+		static vec<4, retType, P> fetch(textureType const& Texture, gli::extent2d const& TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level)
+		{
+			gli::extent3d TexelCoord3d(TexelCoord, 0);
+			return fetch(Texture, TexelCoord3d, Layer, Face, Level);
+		}
+
+		static vec<4, retType, P> fetch(textureType const& Texture, gli::extent3d const& TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level)
+		{
+			static_assert(std::numeric_limits<retType>::is_iec559, "CONVERT_MODE_DXT3UNORM requires an float sampler");
+
+			if(Texture.target() == gli::TARGET_1D || Texture.target() == gli::TARGET_1D_ARRAY)
+			{
+				return glm::vec<4, retType, P>(0, 0, 0, 1);
+			}
+
+			const dxt3_block *Data = Texture.template data<dxt3_block>(Layer, Face, Level);
+			const gli::extent3d &BlockExtent = block_extent(Texture.format());
+			int WidthInBlocks = glm::max(1, Texture.extent(Level).x / BlockExtent.x);
+			int BlocksInSlice = glm::max(1, Texture.extent(Level).y / BlockExtent.y) * WidthInBlocks;
+			gli::extent3d BlockCoord(TexelCoord / BlockExtent);
+			glm::ivec2 TexelCoordInBlock(TexelCoord.x - (BlockCoord.x * BlockExtent.x), TexelCoord.y - (BlockCoord.y * BlockExtent.y));
+
+			const dxt3_block &Block = Data[BlockCoord.z * BlocksInSlice + (BlockCoord.y * WidthInBlocks + BlockCoord.x)];
+
+			return decompress_dxt3(Block, TexelCoordInBlock);
+		}
+
+		static void write(textureType& Texture, typename textureType::extent_type const& TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level, vec<4, retType, P> const & Texel)
+		{
+			static_assert(std::numeric_limits<retType>::is_iec559, "CONVERT_MODE_DXT3UNORM requires an float sampler");
+
+			GLI_ASSERT("Writing to single texel of a DXT3 compressed image is not supported");
+		}
+	};
+
+	template <typename textureType, typename retType, length_t L, typename T, precision P>
+	struct convertFunc<textureType, retType, L, T, P, CONVERT_MODE_DXT5UNORM, true> {
+		typedef accessFunc<gli::texture2d, uint32> access;
+
+		static vec<4, retType, P> fetch(textureType const& Texture, gli::extent1d const& TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level)
+		{
+			return glm::vec<4, retType, P>(0, 0, 0, 1);
+		}
+
+		static vec<4, retType, P> fetch(textureType const& Texture, gli::extent2d const& TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level)
+		{
+			gli::extent3d TexelCoord3d(TexelCoord, 0);
+			return fetch(Texture, TexelCoord3d, Layer, Face, Level);
+		}
+
+		static vec<4, retType, P> fetch(textureType const& Texture, gli::extent3d const& TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level)
+		{
+			static_assert(std::numeric_limits<retType>::is_iec559, "CONVERT_MODE_DXT5UNORM requires an float sampler");
+
+			if(Texture.target() == gli::TARGET_1D || Texture.target() == gli::TARGET_1D_ARRAY)
+			{
+				return glm::vec<4, retType, P>(0, 0, 0, 1);
+			}
+
+			const dxt5_block *Data = Texture.template data<dxt5_block>(Layer, Face, Level);
+			const gli::extent3d &BlockExtent = block_extent(Texture.format());
+			int WidthInBlocks = glm::max(1, Texture.extent(Level).x / BlockExtent.x);
+			int BlocksInSlice = glm::max(1, Texture.extent(Level).y / BlockExtent.y) * WidthInBlocks;
+			gli::extent3d BlockCoord(TexelCoord / BlockExtent);
+			glm::ivec2 TexelCoordInBlock(TexelCoord.x - (BlockCoord.x * BlockExtent.x), TexelCoord.y - (BlockCoord.y * BlockExtent.y));
+
+			const dxt5_block &Block = Data[BlockCoord.z * BlocksInSlice + (BlockCoord.y * WidthInBlocks + BlockCoord.x)];
+
+			return decompress_dxt5(Block, TexelCoordInBlock);
+		}
+
+		static void write(textureType& Texture, typename textureType::extent_type const& TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level, vec<4, retType, P> const & Texel)
+		{
+			static_assert(std::numeric_limits<retType>::is_iec559, "CONVERT_MODE_DXT5UNORM requires an float sampler");
+
+			GLI_ASSERT("Writing to single texel of a DXT5 compressed image is not supported");
+		}
+	};
+
+	template <typename textureType, typename retType, length_t L, typename T, precision P>
+	struct convertFunc<textureType, retType, L, T, P, CONVERT_MODE_BC4UNORM, true> {
+		typedef accessFunc<gli::texture2d, uint32> access;
+
+		static vec<4, retType, P> fetch(textureType const& Texture, gli::extent1d const& TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level)
+		{
+			return glm::vec<4, retType, P>(0, 0, 0, 1);
+		}
+
+		static vec<4, retType, P> fetch(textureType const& Texture, gli::extent2d const& TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level)
+		{
+			gli::extent3d TexelCoord3d(TexelCoord, 0);
+			return fetch(Texture, TexelCoord3d, Layer, Face, Level);
+		}
+
+		static vec<4, retType, P> fetch(textureType const& Texture, gli::extent3d const& TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level)
+		{
+			static_assert(std::numeric_limits<retType>::is_iec559, "CONVERT_MODE_BC4UNORM requires an float sampler");
+
+			if(Texture.target() == gli::TARGET_1D || Texture.target() == gli::TARGET_1D_ARRAY)
+			{
+				return glm::vec<4, retType, P>(0, 0, 0, 1);
+			}
+
+			const bc4_block *Data = Texture.template data<bc4_block>(Layer, Face, Level);
+			const gli::extent3d &BlockExtent = block_extent(Texture.format());
+			int WidthInBlocks = glm::max(1, Texture.extent(Level).x / BlockExtent.x);
+			int BlocksInSlice = glm::max(1, Texture.extent(Level).y / BlockExtent.y) * WidthInBlocks;
+			gli::extent3d BlockCoord(TexelCoord / BlockExtent);
+			glm::ivec2 TexelCoordInBlock(TexelCoord.x - (BlockCoord.x * BlockExtent.x), TexelCoord.y - (BlockCoord.y * BlockExtent.y));
+
+			const bc4_block &Block = Data[BlockCoord.z * BlocksInSlice + (BlockCoord.y * WidthInBlocks + BlockCoord.x)];
+			
+			return decompress_bc4unorm(Block, TexelCoordInBlock);
+		}
+
+		static void write(textureType& Texture, typename textureType::extent_type const& TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level, vec<4, retType, P> const & Texel)
+		{
+			static_assert(std::numeric_limits<retType>::is_iec559, "CONVERT_MODE_BC4UNORM requires an float sampler");
+
+			GLI_ASSERT("Writing to single texel of a BC4 compressed image is not supported");
+		}
+	};
+
+	template <typename textureType, typename retType, length_t L, typename T, precision P>
+	struct convertFunc<textureType, retType, L, T, P, CONVERT_MODE_BC4SNORM, true> {
+		typedef accessFunc<gli::texture2d, uint32> access;
+
+		static vec<4, retType, P> fetch(textureType const& Texture, gli::extent1d const& TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level)
+		{
+			return glm::vec<4, retType, P>(0, 0, 0, 1);
+		}
+
+		static vec<4, retType, P> fetch(textureType const& Texture, gli::extent2d const& TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level)
+		{
+			gli::extent3d TexelCoord3d(TexelCoord, 0);
+			return fetch(Texture, TexelCoord3d, Layer, Face, Level);
+		}
+
+		static vec<4, retType, P> fetch(textureType const& Texture, gli::extent3d const& TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level)
+		{
+			static_assert(std::numeric_limits<retType>::is_iec559, "CONVERT_MODE_BC4SNORM requires an float sampler");
+
+			if(Texture.target() == gli::TARGET_1D || Texture.target() == gli::TARGET_1D_ARRAY)
+			{
+				return glm::vec<4, retType, P>(0, 0, 0, 1);
+			}
+
+			const bc4_block *Data = Texture.template data<bc4_block>(Layer, Face, Level);
+			const gli::extent3d &BlockExtent = block_extent(Texture.format());
+			int WidthInBlocks = glm::max(1, Texture.extent(Level).x / BlockExtent.x);
+			int BlocksInSlice = glm::max(1, Texture.extent(Level).y / BlockExtent.y) * WidthInBlocks;
+			gli::extent3d BlockCoord(TexelCoord / BlockExtent);
+			glm::ivec2 TexelCoordInBlock(TexelCoord.x - (BlockCoord.x * BlockExtent.x), TexelCoord.y - (BlockCoord.y * BlockExtent.y));
+
+			const bc4_block &Block = Data[BlockCoord.z * BlocksInSlice + (BlockCoord.y * WidthInBlocks + BlockCoord.x)];
+
+			return decompress_bc4snorm(Block, TexelCoordInBlock);
+		}
+
+		static void write(textureType& Texture, typename textureType::extent_type const& TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level, vec<4, retType, P> const & Texel)
+		{
+			static_assert(std::numeric_limits<retType>::is_iec559, "CONVERT_MODE_BC4SNORM requires an float sampler");
+
+			GLI_ASSERT("Writing to single texel of a BC4 compressed image is not supported");
+		}
+	};
+
+	template <typename textureType, typename retType, length_t L, typename T, precision P>
+	struct convertFunc<textureType, retType, L, T, P, CONVERT_MODE_BC5UNORM, true> {
+		typedef accessFunc<gli::texture2d, uint32> access;
+
+		static vec<4, retType, P> fetch(textureType const& Texture, gli::extent1d const& TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level)
+		{
+			return glm::vec<4, retType, P>(0, 0, 0, 1);
+		}
+
+		static vec<4, retType, P> fetch(textureType const& Texture, gli::extent2d const& TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level)
+		{
+			gli::extent3d TexelCoord3d(TexelCoord, 0);
+			return fetch(Texture, TexelCoord3d, Layer, Face, Level);
+		}
+
+		static vec<4, retType, P> fetch(textureType const& Texture, gli::extent3d const& TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level)
+		{
+			static_assert(std::numeric_limits<retType>::is_iec559, "CONVERT_MODE_BC5UNORM requires an float sampler");
+
+			if(Texture.target() == gli::TARGET_1D || Texture.target() == gli::TARGET_1D_ARRAY)
+			{
+				return glm::vec<4, retType, P>(0, 0, 0, 1);
+			}
+
+			const bc5_block *Data = Texture.template data<bc5_block>(Layer, Face, Level);
+			const gli::extent3d &BlockExtent = block_extent(Texture.format());
+			int WidthInBlocks = glm::max(1, Texture.extent(Level).x / BlockExtent.x);
+			int BlocksInSlice = glm::max(1, Texture.extent(Level).y / BlockExtent.y) * WidthInBlocks;
+			gli::extent3d BlockCoord(TexelCoord / BlockExtent);
+			glm::ivec2 TexelCoordInBlock(TexelCoord.x - (BlockCoord.x * BlockExtent.x), TexelCoord.y - (BlockCoord.y * BlockExtent.y));
+
+			const bc5_block &Block = Data[BlockCoord.z * BlocksInSlice + (BlockCoord.y * WidthInBlocks + BlockCoord.x)];
+
+			return decompress_bc5unorm(Block, TexelCoordInBlock);
+		}
+
+		static void write(textureType& Texture, typename textureType::extent_type const& TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level, vec<4, retType, P> const & Texel)
+		{
+			static_assert(std::numeric_limits<retType>::is_iec559, "CONVERT_MODE_BC5UNORM requires an float sampler");
+
+			GLI_ASSERT("Writing to single texel of a BC5 compressed image is not supported");
+		}
+	};
+
+	template <typename textureType, typename retType, length_t L, typename T, precision P>
+	struct convertFunc<textureType, retType, L, T, P, CONVERT_MODE_BC5SNORM, true> {
+		typedef accessFunc<gli::texture2d, uint32> access;
+
+		static vec<4, retType, P> fetch(textureType const& Texture, gli::extent1d const& TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level)
+		{
+			return glm::vec<4, retType, P>(0, 0, 0, 1);
+		}
+
+		static vec<4, retType, P> fetch(textureType const& Texture, gli::extent2d const& TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level)
+		{
+			gli::extent3d TexelCoord3d(TexelCoord, 0);
+			return fetch(Texture, TexelCoord3d, Layer, Face, Level);
+		}
+
+		static vec<4, retType, P> fetch(textureType const& Texture, gli::extent3d const& TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level)
+		{
+			static_assert(std::numeric_limits<retType>::is_iec559, "CONVERT_MODE_BC5SNORM requires an float sampler");
+
+			if(Texture.target() == gli::TARGET_1D || Texture.target() == gli::TARGET_1D_ARRAY)
+			{
+				return glm::vec<4, retType, P>(0, 0, 0, 1);
+			}
+
+			const bc5_block *Data = Texture.template data<bc5_block>(Layer, Face, Level);
+			const gli::extent3d &BlockExtent = block_extent(Texture.format());
+			int WidthInBlocks = glm::max(1, Texture.extent(Level).x / BlockExtent.x);
+			int BlocksInSlice = glm::max(1, Texture.extent(Level).y / BlockExtent.y) * WidthInBlocks;
+			gli::extent3d BlockCoord(TexelCoord / BlockExtent);
+			glm::ivec2 TexelCoordInBlock(TexelCoord.x - (BlockCoord.x * BlockExtent.x), TexelCoord.y - (BlockCoord.y * BlockExtent.y));
+
+			const bc5_block &Block = Data[BlockCoord.z * BlocksInSlice + (BlockCoord.y * WidthInBlocks + BlockCoord.x)];
+
+			return decompress_bc5snorm(Block, TexelCoordInBlock);
+		}
+
+		static void write(textureType& Texture, typename textureType::extent_type const& TexelCoord, typename textureType::size_type Layer, typename textureType::size_type Face, typename textureType::size_type Level, vec<4, retType, P> const & Texel)
+		{
+			static_assert(std::numeric_limits<retType>::is_iec559, "CONVERT_MODE_BC5SNORM requires an float sampler");
+
+			GLI_ASSERT("Writing to single texel of a BC5 compressed image is not supported");
 		}
 	};
 
@@ -718,18 +992,18 @@ namespace detail
 				{conv<2, u32, CONVERT_MODE_DEFAULT>::fetch, conv<2, u32, CONVERT_MODE_DEFAULT>::write},				// FORMAT_D24_UNORM_S8_UINT_PACK32
 				{conv<2, u32, CONVERT_MODE_DEFAULT>::fetch, conv<2, u32, CONVERT_MODE_DEFAULT>::write},				// FORMAT_D32_SFLOAT_S8_UINT_PACK64
 
-				{conv<3, u8, CONVERT_MODE_DEFAULT>::fetch, conv<3, u8, CONVERT_MODE_DEFAULT>::write},				// FORMAT_RGB_DXT1_UNORM_BLOCK8
-				{conv<3, u8, CONVERT_MODE_DEFAULT>::fetch, conv<3, u8, CONVERT_MODE_DEFAULT>::write},				// FORMAT_RGB_DXT1_SRGB_BLOCK8
-				{conv<4, u8, CONVERT_MODE_DEFAULT>::fetch, conv<4, u8, CONVERT_MODE_DEFAULT>::write},				// FORMAT_RGBA_DXT1_UNORM_BLOCK8
-				{conv<4, u8, CONVERT_MODE_DEFAULT>::fetch, conv<4, u8, CONVERT_MODE_DEFAULT>::write},				// FORMAT_RGBA_DXT1_SRGB_BLOCK8
-				{conv<4, u8, CONVERT_MODE_DEFAULT>::fetch, conv<4, u8, CONVERT_MODE_DEFAULT>::write},				// FORMAT_RGBA_DXT3_UNORM_BLOCK16
-				{conv<4, u8, CONVERT_MODE_DEFAULT>::fetch, conv<4, u8, CONVERT_MODE_DEFAULT>::write},				// FORMAT_RGBA_DXT3_SRGB_BLOCK16
-				{conv<4, u8, CONVERT_MODE_DEFAULT>::fetch, conv<4, u8, CONVERT_MODE_DEFAULT>::write},				// FORMAT_RGBA_DXT5_UNORM_BLOCK16
-				{conv<4, u8, CONVERT_MODE_DEFAULT>::fetch, conv<4, u8, CONVERT_MODE_DEFAULT>::write},				// FORMAT_RGBA_DXT5_SRGB_BLOCK16
-				{conv<1, u8, CONVERT_MODE_DEFAULT>::fetch, conv<1, u8, CONVERT_MODE_DEFAULT>::write},				// FORMAT_R_ATI1N_UNORM_BLOCK8
-				{conv<1, u8, CONVERT_MODE_DEFAULT>::fetch, conv<1, i8, CONVERT_MODE_DEFAULT>::write},				// FORMAT_R_ATI1N_SNORM_BLOCK8
-				{conv<2, u8, CONVERT_MODE_DEFAULT>::fetch, conv<2, u8, CONVERT_MODE_DEFAULT>::write},				// FORMAT_RG_ATI2N_UNORM_BLOCK16
-				{conv<2, u8, CONVERT_MODE_DEFAULT>::fetch, conv<2, i8, CONVERT_MODE_DEFAULT>::write},				// FORMAT_RG_ATI2N_SNORM_BLOCK16
+				{conv<3, u8, CONVERT_MODE_DXT1UNORM>::fetch, conv<3, u8, CONVERT_MODE_DXT1UNORM>::write},			// FORMAT_RGB_DXT1_UNORM_BLOCK8
+				{conv<3, u8, CONVERT_MODE_DXT1UNORM>::fetch, conv<3, u8, CONVERT_MODE_DXT1UNORM>::write},			// FORMAT_RGB_DXT1_SRGB_BLOCK8
+				{conv<4, u8, CONVERT_MODE_DXT1UNORM>::fetch, conv<4, u8, CONVERT_MODE_DXT1UNORM>::write},			// FORMAT_RGBA_DXT1_UNORM_BLOCK8
+				{conv<4, u8, CONVERT_MODE_DXT1UNORM>::fetch, conv<4, u8, CONVERT_MODE_DXT1UNORM>::write},			// FORMAT_RGBA_DXT1_SRGB_BLOCK8
+				{conv<4, u8, CONVERT_MODE_DXT3UNORM>::fetch, conv<4, u8, CONVERT_MODE_DXT3UNORM>::write},			// FORMAT_RGBA_DXT3_UNORM_BLOCK16
+				{conv<4, u8, CONVERT_MODE_DXT3UNORM>::fetch, conv<4, u8, CONVERT_MODE_DXT3UNORM>::write},			// FORMAT_RGBA_DXT3_SRGB_BLOCK16
+				{conv<4, u8, CONVERT_MODE_DXT5UNORM>::fetch, conv<4, u8, CONVERT_MODE_DXT5UNORM>::write},			// FORMAT_RGBA_DXT5_UNORM_BLOCK16
+				{conv<4, u8, CONVERT_MODE_DXT5UNORM>::fetch, conv<4, u8, CONVERT_MODE_DXT5UNORM>::write},			// FORMAT_RGBA_DXT5_SRGB_BLOCK16
+				{conv<1, u8, CONVERT_MODE_BC4UNORM>::fetch, conv<1, u8, CONVERT_MODE_BC4UNORM>::write},				// FORMAT_R_ATI1N_UNORM_BLOCK8
+				{conv<1, u8, CONVERT_MODE_BC4SNORM>::fetch, conv<1, i8, CONVERT_MODE_BC4SNORM>::write},				// FORMAT_R_ATI1N_SNORM_BLOCK8
+				{conv<2, u8, CONVERT_MODE_BC5UNORM>::fetch, conv<2, u8, CONVERT_MODE_BC5UNORM>::write},				// FORMAT_RG_ATI2N_UNORM_BLOCK16
+				{conv<2, u8, CONVERT_MODE_BC5SNORM>::fetch, conv<2, i8, CONVERT_MODE_BC5SNORM>::write},				// FORMAT_RG_ATI2N_SNORM_BLOCK16
 				{conv<3, f32, CONVERT_MODE_DEFAULT>::fetch, conv<3, f32, CONVERT_MODE_DEFAULT>::write},				// FORMAT_RGB_BP_UFLOAT_BLOCK16
 				{conv<3, f32, CONVERT_MODE_DEFAULT>::fetch, conv<3, f32, CONVERT_MODE_DEFAULT>::write},				// FORMAT_RGB_BP_SFLOAT_BLOCK16
 				{conv<4, u8, CONVERT_MODE_DEFAULT>::fetch, conv<4, u8, CONVERT_MODE_DEFAULT>::write},				// FORMAT_RGBA_BP_UNORM_BLOCK16
