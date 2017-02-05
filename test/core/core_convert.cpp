@@ -358,7 +358,7 @@ namespace r_bc4unorm {
 		gli::texture2d TextureCompressed(gli::load(path("kueken7_r_ati1n_unorm.dds")));
 		GLI_ASSERT(!TextureCompressed.empty());
 
-		gli::texture2d TextureDecompressed(gli::load(path("kueken7_r_ati1n_unorm_decompressed.DDS")));
+		gli::texture2d TextureDecompressed(gli::load(path("kueken7_r_ati1n_unorm_decompressed.dds")));
 		GLI_ASSERT(!TextureDecompressed.empty());
 
 		GLI_ASSERT(TextureCompressed.extent() == TextureDecompressed.extent());
