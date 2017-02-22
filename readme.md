@@ -74,6 +74,9 @@ GLuint CreateTexture(char const* Filename)
 - Fixed texture operator=
 - Added initial manual
 
+#### Fixes:
+- Fixed ATI2N swizzle parameters #121
+
 ---
 ### [GLI 0.8.1.1](https://github.com/g-truc/gli/releases/tag/0.8.1.1) - 2016-09-11
 #### Improvements:
