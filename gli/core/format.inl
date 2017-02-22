@@ -51,7 +51,7 @@ namespace detail
 			{  1, glm::u8vec3(1, 1, 1), 1, swizzles(SWIZZLE_RED, SWIZZLE_ZERO, SWIZZLE_ZERO, SWIZZLE_ONE), CAP_SCALED_BIT | CAP_SIGNED_BIT | CAP_DDS_GLI_EXT_BIT},										//FORMAT_R8_SSCALED,
 			{  1, glm::u8vec3(1, 1, 1), 1, swizzles(SWIZZLE_RED, SWIZZLE_ZERO, SWIZZLE_ZERO, SWIZZLE_ONE), CAP_INTEGER_BIT | CAP_UNSIGNED_BIT},															//FORMAT_R8_UINT,
 			{  1, glm::u8vec3(1, 1, 1), 1, swizzles(SWIZZLE_RED, SWIZZLE_ZERO, SWIZZLE_ZERO, SWIZZLE_ONE), CAP_INTEGER_BIT | CAP_SIGNED_BIT},															//FORMAT_R8_SINT,
-			{  1, glm::u8vec3(1, 1, 1), 3, swizzles(SWIZZLE_RED, SWIZZLE_ZERO, SWIZZLE_ZERO, SWIZZLE_ONE), CAP_NORMALIZED_BIT | CAP_UNSIGNED_BIT | CAP_COLORSPACE_SRGB_BIT | CAP_DDS_GLI_EXT_BIT},		//FORMAT_R8_SRGB,
+			{  1, glm::u8vec3(1, 1, 1), 1, swizzles(SWIZZLE_RED, SWIZZLE_ZERO, SWIZZLE_ZERO, SWIZZLE_ONE), CAP_NORMALIZED_BIT | CAP_UNSIGNED_BIT | CAP_COLORSPACE_SRGB_BIT | CAP_DDS_GLI_EXT_BIT},		//FORMAT_R8_SRGB,
 
 			{  2, glm::u8vec3(1, 1, 1), 2, swizzles(SWIZZLE_RED, SWIZZLE_GREEN, SWIZZLE_ZERO, SWIZZLE_ONE), CAP_NORMALIZED_BIT | CAP_UNSIGNED_BIT},														//FORMAT_RG8_UNORM,
 			{  2, glm::u8vec3(1, 1, 1), 2, swizzles(SWIZZLE_RED, SWIZZLE_GREEN, SWIZZLE_ZERO, SWIZZLE_ONE), CAP_NORMALIZED_BIT | CAP_SIGNED_BIT},														//FORMAT_RG8_SNORM,
@@ -373,4 +373,20 @@ namespace detail
 		
 		return (flags & detail::CAP_PACKED8_BIT) != 0 || (flags & detail::CAP_PACKED16_BIT) != 0 || (flags & detail::CAP_PACKED32_BIT) != 0;
 	}
+
+	inline bool is_depth(format Format)
+	{
+		return (detail::get_format_info(Format).Flags & detail::CAP_DEPTH_BIT) ? true : false;
+	}
+
+	inline bool is_stencil(format Format)
+	{
+		return (detail::get_format_info(Format).Flags & detail::CAP_STENCIL_BIT) ? true : false;
+	}
+
+	inline bool is_depth_stencil(format Format)
+	{
+		return is_depth(Format) && is_stencil(Format);
+	}
+
 }//namespace gli
