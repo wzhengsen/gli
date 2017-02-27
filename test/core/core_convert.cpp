@@ -4,6 +4,8 @@
 #include <gli/comparison.hpp>
 #include <gli/core/bc.hpp>
 #include <gli/core/s3tc.hpp>
+#include <gli/texture2d.hpp>
+#include <gli/generate_mipmaps.hpp>
 #include <glm/gtc/epsilon.hpp>
 #include <glm/gtx/vec_swizzle.hpp>
 #include <ctime>
@@ -27,10 +29,6 @@ namespace
 	};
 }//namespace
 
-#include <gli/texture2d.hpp>
-#include <gli/convert.hpp>
-#include <gli/generate_mipmaps.hpp>
-
 bool convert_rgb32f_rgb9e5(const char* FilenameSrc, const char* FilenameDst)
 {
 	if(FilenameDst == NULL)
@@ -52,6 +50,141 @@ bool convert_rgb32f_rgb9e5(const char* FilenameSrc, const char* FilenameDst)
 	return true;
 }
 
+namespace r8unorm
+{
+	int test()
+	{
+		int Error(0);
+
+		gli::texture2d A(gli::FORMAT_R8_UNORM_PACK8, gli::extent2d(2), 1);
+		A.store(gli::extent2d(0, 0), 0, glm::u8vec1(192));
+		A.store(gli::extent2d(1, 0), 0, glm::u8vec1(255));
+		A.store(gli::extent2d(1, 1), 0, glm::u8vec1(0));
+		A.store(gli::extent2d(0, 1), 0, glm::u8vec1(16));
+
+		gli::texture2d const B = gli::convert(A, gli::FORMAT_RGBA8_UNORM_PACK8);
+		gli::texture2d const C = gli::convert(B, gli::FORMAT_R8_UNORM_PACK8);
+		Error += A == C ? 0 : 1;
+
+		gli::texture2d const D = gli::convert(A, gli::FORMAT_RGB8_UNORM_PACK8);
+		gli::texture2d const E = gli::convert(D, gli::FORMAT_R8_UNORM_PACK8);
+		Error += A == E ? 0 : 1;
+
+		gli::texture2d const F = gli::convert(A, gli::FORMAT_RG8_UNORM_PACK8);
+		gli::texture2d const G = gli::convert(F, gli::FORMAT_R8_UNORM_PACK8);
+		Error += A == G ? 0 : 1;
+
+		return Error;
+	}
+}//namespace r8unorm
+
+namespace rg8unorm
+{
+	int test()
+	{
+		int Error(0);
+
+		gli::texture2d A(gli::FORMAT_RG8_UNORM_PACK8, gli::extent2d(2), 1);
+		A.store(gli::extent2d(0, 0), 0, glm::u8vec2(192, 48));
+		A.store(gli::extent2d(1, 0), 0, glm::u8vec2(255, 128));
+		A.store(gli::extent2d(1, 1), 0, glm::u8vec2(0, 128));
+		A.store(gli::extent2d(0, 1), 0, glm::u8vec2(16, 48));
+
+		gli::texture2d const B = gli::convert(A, gli::FORMAT_RGBA8_UNORM_PACK8);
+		gli::texture2d const C = gli::convert(B, gli::FORMAT_RG8_UNORM_PACK8);
+		Error += A == C ? 0 : 1;
+
+		gli::texture2d const D = gli::convert(A, gli::FORMAT_RGB8_UNORM_PACK8);
+		gli::texture2d const E = gli::convert(D, gli::FORMAT_RG8_UNORM_PACK8);
+		Error += A == E ? 0 : 1;
+
+		return Error;
+	}
+}//namespace rg8unorm
+
+namespace rgb8unorm
+{
+	int test()
+	{
+		int Error(0);
+
+		gli::texture2d A(gli::FORMAT_RGB8_UNORM_PACK8, gli::extent2d(2), 1);
+		A.store(gli::extent2d(0, 0), 0, glm::u8vec3(192, 48, 16));
+		A.store(gli::extent2d(1, 0), 0, glm::u8vec3(255, 128, 0));
+		A.store(gli::extent2d(1, 1), 0, glm::u8vec3(0, 128, 255));
+		A.store(gli::extent2d(0, 1), 0, glm::u8vec3(16, 48, 192));
+
+		gli::texture2d const B = gli::convert(A, gli::FORMAT_RGBA8_UNORM_PACK8);
+		gli::texture2d const C = gli::convert(B, gli::FORMAT_RGB8_UNORM_PACK8);
+
+		Error += A == C ? 0 : 1;
+
+		return Error;
+	}
+}//namespace rgb8unorm
+
+namespace r16unorm
+{
+	int test()
+	{
+		int Error(0);
+
+		gli::texture2d A(gli::FORMAT_R16_UNORM_PACK16, gli::extent2d(2), 1);
+		A.store(gli::extent2d(0, 0), 0, glm::u16vec1(0x7777));
+		A.store(gli::extent2d(1, 0), 0, glm::u16vec1(0x1111));
+		A.store(gli::extent2d(1, 1), 0, glm::u16vec1(0x5555));
+		A.store(gli::extent2d(0, 1), 0, glm::u16vec1(0x3333));
+
+		gli::texture2d const B = gli::convert(A, gli::FORMAT_RGBA16_UNORM_PACK16);
+		gli::texture2d const C = gli::convert(B, gli::FORMAT_R16_UNORM_PACK16);
+
+		Error += A == C ? 0 : 1;
+
+		return Error;
+	}
+}//namespace r16unorm
+
+namespace rg16unorm
+{
+	int test()
+	{
+		int Error(0);
+
+		gli::texture2d A(gli::FORMAT_RG16_UNORM_PACK16, gli::extent2d(2), 1);
+		A.store(gli::extent2d(0, 0), 0, glm::u16vec2(0x7777, 0x5555));
+		A.store(gli::extent2d(1, 0), 0, glm::u16vec2(0x1111, 0x3333));
+		A.store(gli::extent2d(1, 1), 0, glm::u16vec2(0x5555, 0x2222));
+		A.store(gli::extent2d(0, 1), 0, glm::u16vec2(0xaaaa, 0xcccc));
+
+		gli::texture2d const B = gli::convert(A, gli::FORMAT_RGBA16_UNORM_PACK16);
+		gli::texture2d const C = gli::convert(B, gli::FORMAT_RG16_UNORM_PACK16);
+
+		Error += A == C ? 0 : 1;
+
+		return Error;
+	}
+}//namespace rg16unorm
+
+namespace rgb16unorm
+{
+	int test()
+	{
+		int Error(0);
+
+		gli::texture2d A(gli::FORMAT_RGB16_UNORM_PACK16, gli::extent2d(2), 1);
+		A.store(gli::extent2d(0, 0), 0, glm::u16vec3(0x7777, 0x5555, 0x3333));
+		A.store(gli::extent2d(1, 0), 0, glm::u16vec3(0x1111, 0x3333, 0x5555));
+		A.store(gli::extent2d(1, 1), 0, glm::u16vec3(0x5555, 0x2222, 0xbbbb));
+		A.store(gli::extent2d(0, 1), 0, glm::u16vec3(0xaaaa, 0xcccc, 0xeeee));
+
+		gli::texture2d const B = gli::convert(A, gli::FORMAT_RGBA16_UNORM_PACK16);
+		gli::texture2d const C = gli::convert(B, gli::FORMAT_RGB16_UNORM_PACK16);
+
+		Error += A == C ? 0 : 1;
+
+		return Error;
+	}
+}//namespace rgb16unorm
 
 namespace rgb10a2norm
 {
@@ -200,9 +333,10 @@ namespace rgba_dxt1unorm
 
 		return Error;
 	}
-}
+}//namespace rgba_dxt1unorm
 
-namespace rgba_dxt3unorm {
+namespace rgba_dxt3unorm
+{
 	int test()
 	{
 		gli::texture2d TextureCompressed(gli::load(path("kueken7_rgba_dxt3_unorm.dds")));
@@ -275,9 +409,10 @@ namespace rgba_dxt3unorm {
 
 		return Error;
 	}
-}
+}//namespace rgba_dxt3unorm
 
-namespace rgba_dxt5unorm {
+namespace rgba_dxt5unorm
+{
 	int test()
 	{
 		gli::texture2d TextureCompressed(gli::load(path("kueken7_rgba_dxt5_unorm.dds")));
@@ -350,9 +485,10 @@ namespace rgba_dxt5unorm {
 
 		return Error;
 	}
-}
+}//namespace rgba_dxt5unorm
 
-namespace r_bc4unorm {
+namespace r_bc4unorm
+{
 	int test()
 	{
 		gli::texture2d TextureCompressed(gli::load(path("kueken7_r_ati1n_unorm.dds")));
@@ -426,9 +562,10 @@ namespace r_bc4unorm {
 
 		return Error;
 	}
-}
+}//namespace r_bc4unorm
 
-namespace rg_bc5unorm {
+namespace rg_bc5unorm
+{
 	int test()
 	{
 		gli::texture2d TextureCompressed(gli::load(path("kueken7_rg_ati2n_unorm.dds")));
@@ -520,7 +657,7 @@ namespace rg_bc5unorm {
 
 		return Error;
 	}
-}
+}//namespace rg_bc5unorm
 
 namespace load_file
 {
@@ -554,8 +691,14 @@ int main()
 {
 	int Error = 0;
 
-	Error += rgb10a2norm::test();
 	Error += load_file::test();
+	Error += r8unorm::test();
+	Error += rg8unorm::test();
+	Error += rgb8unorm::test();
+	Error += r16unorm::test();
+	Error += rg16unorm::test();
+	Error += rgb16unorm::test();
+	Error += rgb10a2norm::test();
 	Error += rgba_dxt1unorm::test();
 	Error += rgba_dxt3unorm::test();
 	Error += rgba_dxt5unorm::test();

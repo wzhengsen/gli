@@ -64,8 +64,16 @@ GLuint CreateTexture(char const* Filename)
 | [AppVeyor](https://ci.appveyor.com/project/Groovounet/gli)| Windows 32 and 64 | Visual Studio 2013 | [![AppVeyor](https://ci.appveyor.com/api/projects/status/32r7s2skrgm9ubva?svg=true)](https://ci.appveyor.com/project/Groovounet/gli)
 
 ## Release notes
+### [GLI 0.8.3.0](https://github.com/g-truc/gli/releases/latest) - 2017-XX-XX
+#### Features:
+- Added decompression and sampling of DXT1, DXT3, DXT5, ATI1N and ATI2N #110 #119
+- Added depth and stencil format queries #119
 
-### [GLI 0.8.2.0](https://github.com/g-truc/gli/releases/latest) - 2016-11-13
+#### Fixes:
+- Fixed R8 SRGB #120
+
+---
+### [GLI 0.8.2.0](https://github.com/g-truc/gli/releases/tag/0.8.2.0) - 2016-11-13
 #### Features:
 - Extend flip() for S3TC compressed textures #94
 - Added format property queries #102
