@@ -69,11 +69,6 @@ macro(addExternalPackageGTC NAME DIRECTORY)
 endmacro(addExternalPackageGTC)
 
 ################################
-# Add External
-
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/external)
-
-################################
 # Add subdirectory
 
 add_subdirectory(gli)
