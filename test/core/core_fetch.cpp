@@ -268,7 +268,7 @@ namespace fetch_bgr8_unorm
 	{
 		int Error(0);
 
-		gli::texture2d TextureA(gli::FORMAT_RGB8_UNORM_PACK8, gli::texture2d::extent_type(2, 2));
+		gli::texture2d TextureA(gli::FORMAT_BGR8_UNORM_PACK8, gli::texture2d::extent_type(2, 2));
 		{
 			TextureA.store<glm::u8vec3>(gli::texture2d::extent_type(0, 0), 0, glm::u8vec3(0, 0, 255));
 			TextureA.store<glm::u8vec3>(gli::texture2d::extent_type(1, 0), 0, glm::u8vec3(0, 255, 255));
