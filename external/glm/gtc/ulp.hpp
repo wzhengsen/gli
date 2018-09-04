@@ -8,19 +8,17 @@
 ///
 /// Include <glm/gtc/ulp.hpp> to use the features of this extension.
 ///
-/// Allow the measurement of the accuracy of a function against a reference 
-/// implementation. This extension works on floating-point data and provide results 
+/// Allow the measurement of the accuracy of a function against a reference
+/// implementation. This extension works on floating-point data and provide results
 /// in ULP.
 
 #pragma once
 
 // Dependencies
-#include "../detail/setup.hpp"
-#include "../detail/qualifier.hpp"
-#include "../detail/type_int.hpp"
-#include "../detail/compute_vector_relational.hpp"
+#include "../gtc/constants.hpp"
+#include "../ext/vector_relational.hpp"
 
-#if GLM_MESSAGES == GLM_MESSAGES_ENABLED && !defined(GLM_EXT_INCLUDED)
+#if GLM_MESSAGES == GLM_ENABLE && !defined(GLM_EXT_INCLUDED)
 #	pragma message("GLM: GLM_GTC_ulp extension included")
 #endif
 
@@ -48,7 +46,7 @@ namespace glm
 	/// @see gtc_ulp
 	template<typename genType>
 	GLM_FUNC_DECL genType prev_float(genType const& x, uint const& Distance);
-	
+
 	/// Return the distance in the number of ULP between 2 scalars.
 	/// @see gtc_ulp
 	template<typename T>
@@ -58,7 +56,7 @@ namespace glm
 	/// @see gtc_ulp
 	template<typename T, qualifier Q>
 	GLM_FUNC_DECL vec<2, uint, Q> float_distance(vec<2, T, Q> const& x, vec<2, T, Q> const& y);
-	
+
 	/// @}
 }// namespace glm
 

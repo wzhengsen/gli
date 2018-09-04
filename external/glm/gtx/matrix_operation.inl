@@ -1,5 +1,4 @@
 /// @ref gtx_matrix_operation
-/// @file glm/gtx/matrix_operation.inl
 
 namespace glm
 {
@@ -88,7 +87,7 @@ namespace glm
 		Result[1][1] = v[1];
 		Result[2][2] = v[2];
 		Result[3][3] = v[3];
-		return Result;		
+		return Result;
 	}
 
 	template<typename T, qualifier Q>
@@ -101,7 +100,7 @@ namespace glm
 		Result[0][0] = v[0];
 		Result[1][1] = v[1];
 		Result[2][2] = v[2];
-		return Result;		
+		return Result;
 	}
 
 	template<typename T, qualifier Q>
@@ -113,6 +112,6 @@ namespace glm
 		mat<4, 2, T, Q> Result(static_cast<T>(1));
 		Result[0][0] = v[0];
 		Result[1][1] = v[1];
-		return Result;		
+		return Result;
 	}
 }//namespace glm
