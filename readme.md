@@ -68,6 +68,7 @@ GLuint CreateTexture(char const* Filename)
 #### Features:
 - Added decompression and sampling of DXT1, DXT3, DXT5, ATI1N and ATI2N #110 #119
 - Added depth and stencil format queries #119
+- Added texture_grad to samplers
 
 #### Fixes:
 - Fixed R8 SRGB #120
