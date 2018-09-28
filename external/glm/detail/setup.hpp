@@ -6,9 +6,9 @@
 #define GLM_VERSION_MAJOR			0
 #define GLM_VERSION_MINOR			9
 #define GLM_VERSION_PATCH			9
-#define GLM_VERSION_REVISION		1
-#define GLM_VERSION					991
-#define GLM_VERSION_MESSAGE			"GLM: version 0.9.9.1"
+#define GLM_VERSION_REVISION		3
+#define GLM_VERSION					993
+#define GLM_VERSION_MESSAGE			"GLM: version 0.9.9.3"
 
 #define GLM_SETUP_INCLUDED			GLM_VERSION
 
@@ -710,21 +710,22 @@ namespace detail
 ///////////////////////////////////////////////////////////////////////////////////
 // Configure the use of defaulted initialized types
 
-#define GLM_CTOR_INITIALIZER_LIST	(1 << 1)
-#define GLM_CTOR_INITIALISATION		(1 << 2)
+#define GLM_CTOR_INIT_DISABLE		0
+#define GLM_CTOR_INITIALIZER_LIST	1
+#define GLM_CTOR_INITIALISATION		2
 
 #if defined(GLM_FORCE_CTOR_INIT) && GLM_HAS_INITIALIZER_LISTS
 #	define GLM_CONFIG_CTOR_INIT GLM_CTOR_INITIALIZER_LIST
 #elif defined(GLM_FORCE_CTOR_INIT) && !GLM_HAS_INITIALIZER_LISTS
 #	define GLM_CONFIG_CTOR_INIT GLM_CTOR_INITIALISATION
 #else
-#	define GLM_CONFIG_CTOR_INIT GLM_DISABLE
+#	define GLM_CONFIG_CTOR_INIT GLM_CTOR_INIT_DISABLE
 #endif
 
 ///////////////////////////////////////////////////////////////////////////////////
 // Configure the use of defaulted function
 
-#if GLM_HAS_DEFAULTED_FUNCTIONS && GLM_CONFIG_CTOR_INIT == GLM_DISABLE
+#if GLM_HAS_DEFAULTED_FUNCTIONS && GLM_CONFIG_CTOR_INIT == GLM_CTOR_INIT_DISABLE
 #	define GLM_CONFIG_DEFAULTED_FUNCTIONS GLM_ENABLE
 #	define GLM_DEFAULT = default
 #else
@@ -761,6 +762,15 @@ namespace detail
 #	define GLM_CONFIG_ANONYMOUS_STRUCT GLM_ENABLE
 #else
 #	define GLM_CONFIG_ANONYMOUS_STRUCT GLM_DISABLE
+#endif
+
+///////////////////////////////////////////////////////////////////////////////////
+// Silent warnings
+
+#ifdef GLM_FORCE_SILENT_WARNINGS
+#	define GLM_SILENT_WARNINGS GLM_ENABLE
+#else
+#	define GLM_SILENT_WARNINGS GLM_DISABLE
 #endif
 
 ///////////////////////////////////////////////////////////////////////////////////
@@ -1000,6 +1010,12 @@ namespace detail
 #		pragma message("GLM: GLM_FORCE_UNRESTRICTED_GENTYPE is defined. Removes GLSL restrictions on valid function genTypes.")
 #	else
 #		pragma message("GLM: GLM_FORCE_UNRESTRICTED_GENTYPE is undefined. Follows strictly GLSL on valid function genTypes.")
+#	endif
+
+#	if GLM_SILENT_WARNINGS == GLM_ENABLE
+#		pragma message("GLM: GLM_FORCE_SILENT_WARNINGS is defined. Ignores C++ warnings from using C++ language extensions.")
+#	else
+#		pragma message("GLM: GLM_FORCE_SILENT_WARNINGS is undefined. Shows C++ warnings from using C++ language extensions.")
 #	endif
 
 #	ifdef GLM_FORCE_SINGLE_ONLY

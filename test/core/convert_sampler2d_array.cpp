@@ -713,8 +713,8 @@ namespace rgb10a2int
 		{
 			gli::ivec4 const Color(127, 63, 0, 1);
 			gli::texture2d_array Texture(gli::FORMAT_RGB10A2_SINT_PACK32, gli::texture2d_array::extent_type(1), 1, 1);
-			gli::detail::convertFunc<gli::texture2d_array, gli::sint, 4, glm::u8, gli::defaultp, gli::detail::CONVERT_MODE_RGB10A2SINT, false>::write(Texture, gli::texture2d_array::extent_type(0), 0, 0, 0, Color);
-			glm::ivec4 Texel = gli::detail::convertFunc<gli::texture2d_array, gli::sint, 4, glm::u8, gli::defaultp, gli::detail::CONVERT_MODE_RGB10A2SINT, false>::fetch(Texture, gli::texture2d_array::extent_type(0), 0, 0, 0);
+			gli::detail::convertFunc<gli::texture2d_array, int, 4, glm::u8, gli::defaultp, gli::detail::CONVERT_MODE_RGB10A2SINT, false>::write(Texture, gli::texture2d_array::extent_type(0), 0, 0, 0, Color);
+			glm::ivec4 Texel = gli::detail::convertFunc<gli::texture2d_array, int, 4, glm::u8, gli::defaultp, gli::detail::CONVERT_MODE_RGB10A2SINT, false>::fetch(Texture, gli::texture2d_array::extent_type(0), 0, 0, 0);
 
 			Error += Texel == Color ? 0 : 1;
 		}

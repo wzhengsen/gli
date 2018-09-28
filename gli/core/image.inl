@@ -200,7 +200,7 @@ namespace detail
 	{
 		GLI_ASSERT(!this->empty());
 
-		memset(this->data<glm::byte>(), 0, this->size<glm::byte>());
+		memset(this->data<gli::byte>(), 0, this->size<gli::byte>());
 	}
 
 	template <typename genType>

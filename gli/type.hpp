@@ -33,6 +33,7 @@ namespace gli
 	using namespace glm;
 
 	using std::size_t;
+	typedef glm::uint8 byte;
 
 	typedef ivec1 extent1d;
 	typedef ivec2 extent2d;
