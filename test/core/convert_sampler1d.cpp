@@ -13,7 +13,7 @@ namespace rgba16sf
 			gli::detail::convertFunc<gli::texture2d, float, 1, gli::u16, gli::defaultp, gli::detail::CONVERT_MODE_HALF, true>::write(Texture, gli::texture2d::extent_type(0), 0, 0, 0, Color);
 			gli::vec4 Texel = gli::detail::convertFunc<gli::texture2d, float, 1, gli::u16, gli::defaultp, gli::detail::CONVERT_MODE_HALF, true>::fetch(Texture, gli::texture2d::extent_type(0), 0, 0, 0);
 
-			Error += gli::epsilonEqual(Texel.x, Color.x, 0.01f) ? 0 : 1;
+			Error += glm::equal(Texel.x, Color.x, 0.01f) ? 0 : 1;
 		}
 
 		{
@@ -22,8 +22,8 @@ namespace rgba16sf
 			gli::detail::convertFunc<gli::texture2d, float, 2, gli::u16, gli::defaultp, gli::detail::CONVERT_MODE_HALF, true>::write(Texture, gli::texture2d::extent_type(0), 0, 0, 0, Color);
 			gli::vec4 Texel = gli::detail::convertFunc<gli::texture2d, float, 2, gli::u16, gli::defaultp, gli::detail::CONVERT_MODE_HALF, true>::fetch(Texture, gli::texture2d::extent_type(0), 0, 0, 0);
 
-			Error += gli::epsilonEqual(Texel.x, Color.x, 0.01f) ? 0 : 1;
-			Error += gli::epsilonEqual(Texel.y, Color.y, 0.01f) ? 0 : 1;
+			Error += glm::equal(Texel.x, Color.x, 0.01f) ? 0 : 1;
+			Error += glm::equal(Texel.y, Color.y, 0.01f) ? 0 : 1;
 		}
 
 		{
@@ -32,9 +32,9 @@ namespace rgba16sf
 			gli::detail::convertFunc<gli::texture2d, float, 3, gli::u16, gli::defaultp, gli::detail::CONVERT_MODE_HALF, true>::write(Texture, gli::texture2d::extent_type(0), 0, 0, 0, Color);
 			gli::vec4 Texel = gli::detail::convertFunc<gli::texture2d, float, 3, gli::u16, gli::defaultp, gli::detail::CONVERT_MODE_HALF, true>::fetch(Texture, gli::texture2d::extent_type(0), 0, 0, 0);
 
-			Error += gli::epsilonEqual(Texel.x, Color.x, 0.01f) ? 0 : 1;
-			Error += gli::epsilonEqual(Texel.y, Color.y, 0.01f) ? 0 : 1;
-			Error += gli::epsilonEqual(Texel.z, Color.z, 0.01f) ? 0 : 1;
+			Error += glm::equal(Texel.x, Color.x, 0.01f) ? 0 : 1;
+			Error += glm::equal(Texel.y, Color.y, 0.01f) ? 0 : 1;
+			Error += glm::equal(Texel.z, Color.z, 0.01f) ? 0 : 1;
 		}
 
 		{
@@ -43,9 +43,9 @@ namespace rgba16sf
 			gli::detail::convertFunc<gli::texture2d, float, 4, gli::u16, gli::defaultp, gli::detail::CONVERT_MODE_HALF, true>::write(Texture, gli::texture2d::extent_type(0), 0, 0, 0, Color);
 			gli::vec4 Texel = gli::detail::convertFunc<gli::texture2d, float, 4, gli::u16, gli::defaultp, gli::detail::CONVERT_MODE_HALF, true>::fetch(Texture, gli::texture2d::extent_type(0), 0, 0, 0);
 
-			Error += gli::epsilonEqual(Texel.x, Color.x, 0.01f) ? 0 : 1;
-			Error += gli::epsilonEqual(Texel.y, Color.y, 0.01f) ? 0 : 1;
-			Error += gli::epsilonEqual(Texel.z, Color.z, 0.01f) ? 0 : 1;
+			Error += glm::equal(Texel.x, Color.x, 0.01f) ? 0 : 1;
+			Error += glm::equal(Texel.y, Color.y, 0.01f) ? 0 : 1;
+			Error += glm::equal(Texel.z, Color.z, 0.01f) ? 0 : 1;
 		}
 
 		return Error;
@@ -64,7 +64,7 @@ namespace rgba32sf
 			gli::detail::convertFunc<gli::texture2d, float, 1, float, gli::defaultp, gli::detail::CONVERT_MODE_CAST, true>::write(Texture, gli::texture2d::extent_type(0), 0, 0, 0, Color);
 			gli::vec4 Texel = gli::detail::convertFunc<gli::texture2d, float, 1, float, gli::defaultp, gli::detail::CONVERT_MODE_CAST, true>::fetch(Texture, gli::texture2d::extent_type(0), 0, 0, 0);
 
-			Error += gli::epsilonEqual(Texel.x, Color.x, 0.01f) ? 0 : 1;
+			Error += glm::equal(Texel.x, Color.x, 0.01f) ? 0 : 1;
 		}
 
 		{
@@ -73,7 +73,7 @@ namespace rgba32sf
 			gli::detail::convertFunc<gli::texture2d, double, 1, float, gli::defaultp, gli::detail::CONVERT_MODE_CAST, true>::write(Texture, gli::texture2d::extent_type(0), 0, 0, 0, Color);
 			gli::dvec4 Texel = gli::detail::convertFunc<gli::texture2d, double, 1, float, gli::defaultp, gli::detail::CONVERT_MODE_CAST, true>::fetch(Texture, gli::texture2d::extent_type(0), 0, 0, 0);
 
-			Error += gli::epsilonEqual(Texel.x, Color.x, 0.01) ? 0 : 1;
+			Error += glm::equal(Texel.x, Color.x, 0.01) ? 0 : 1;
 		}
 
 		{
@@ -82,8 +82,8 @@ namespace rgba32sf
 			gli::detail::convertFunc<gli::texture2d, float, 2, float, gli::defaultp, gli::detail::CONVERT_MODE_CAST, true>::write(Texture, gli::texture2d::extent_type(0), 0, 0, 0, Color);
 			gli::vec4 Texel = gli::detail::convertFunc<gli::texture2d, float, 2, float, gli::defaultp, gli::detail::CONVERT_MODE_CAST, true>::fetch(Texture, gli::texture2d::extent_type(0), 0, 0, 0);
 
-			Error += gli::epsilonEqual(Texel.x, Color.x, 0.01f) ? 0 : 1;
-			Error += gli::epsilonEqual(Texel.y, Color.y, 0.01f) ? 0 : 1;
+			Error += glm::equal(Texel.x, Color.x, 0.01f) ? 0 : 1;
+			Error += glm::equal(Texel.y, Color.y, 0.01f) ? 0 : 1;
 		}
 
 		{
@@ -92,8 +92,8 @@ namespace rgba32sf
 			gli::detail::convertFunc<gli::texture2d, double, 2, float, gli::defaultp, gli::detail::CONVERT_MODE_CAST, true>::write(Texture, gli::texture2d::extent_type(0), 0, 0, 0, Color);
 			gli::dvec4 Texel = gli::detail::convertFunc<gli::texture2d, double, 2, float, gli::defaultp, gli::detail::CONVERT_MODE_CAST, true>::fetch(Texture, gli::texture2d::extent_type(0), 0, 0, 0);
 
-			Error += gli::epsilonEqual(Texel.x, Color.x, 0.01) ? 0 : 1;
-			Error += gli::epsilonEqual(Texel.y, Color.y, 0.01) ? 0 : 1;
+			Error += glm::equal(Texel.x, Color.x, 0.01) ? 0 : 1;
+			Error += glm::equal(Texel.y, Color.y, 0.01) ? 0 : 1;
 		}
 
 		{
@@ -102,9 +102,9 @@ namespace rgba32sf
 			gli::detail::convertFunc<gli::texture2d, float, 3, float, gli::defaultp, gli::detail::CONVERT_MODE_CAST, true>::write(Texture, gli::texture2d::extent_type(0), 0, 0, 0, Color);
 			gli::vec4 Texel = gli::detail::convertFunc<gli::texture2d, float, 3, float, gli::defaultp, gli::detail::CONVERT_MODE_CAST, true>::fetch(Texture, gli::texture2d::extent_type(0), 0, 0, 0);
 
-			Error += gli::epsilonEqual(Texel.x, Color.x, 0.01f) ? 0 : 1;
-			Error += gli::epsilonEqual(Texel.y, Color.y, 0.01f) ? 0 : 1;
-			Error += gli::epsilonEqual(Texel.z, Color.z, 0.01f) ? 0 : 1;
+			Error += glm::equal(Texel.x, Color.x, 0.01f) ? 0 : 1;
+			Error += glm::equal(Texel.y, Color.y, 0.01f) ? 0 : 1;
+			Error += glm::equal(Texel.z, Color.z, 0.01f) ? 0 : 1;
 		}
 
 		{
@@ -113,9 +113,9 @@ namespace rgba32sf
 			gli::detail::convertFunc<gli::texture2d, double, 3, float, gli::defaultp, gli::detail::CONVERT_MODE_CAST, true>::write(Texture, gli::texture2d::extent_type(0), 0, 0, 0, Color);
 			gli::dvec4 Texel = gli::detail::convertFunc<gli::texture2d, double, 3, float, gli::defaultp, gli::detail::CONVERT_MODE_CAST, true>::fetch(Texture, gli::texture2d::extent_type(0), 0, 0, 0);
 
-			Error += gli::epsilonEqual(Texel.x, Color.x, 0.01) ? 0 : 1;
-			Error += gli::epsilonEqual(Texel.y, Color.y, 0.01) ? 0 : 1;
-			Error += gli::epsilonEqual(Texel.z, Color.z, 0.01) ? 0 : 1;
+			Error += glm::equal(Texel.x, Color.x, 0.01) ? 0 : 1;
+			Error += glm::equal(Texel.y, Color.y, 0.01) ? 0 : 1;
+			Error += glm::equal(Texel.z, Color.z, 0.01) ? 0 : 1;
 		}
 
 		{
@@ -124,10 +124,10 @@ namespace rgba32sf
 			gli::detail::convertFunc<gli::texture2d, float, 4, float, gli::defaultp, gli::detail::CONVERT_MODE_CAST, true>::write(Texture, gli::texture2d::extent_type(0), 0, 0, 0, Color);
 			gli::vec4 Texel = gli::detail::convertFunc<gli::texture2d, float, 4, float, gli::defaultp, gli::detail::CONVERT_MODE_CAST, true>::fetch(Texture, gli::texture2d::extent_type(0), 0, 0, 0);
 
-			Error += gli::epsilonEqual(Texel.x, Color.x, 0.01f) ? 0 : 1;
-			Error += gli::epsilonEqual(Texel.y, Color.y, 0.01f) ? 0 : 1;
-			Error += gli::epsilonEqual(Texel.z, Color.z, 0.01f) ? 0 : 1;
-			Error += gli::epsilonEqual(Texel.w, Color.w, 0.01f) ? 0 : 1;
+			Error += glm::equal(Texel.x, Color.x, 0.01f) ? 0 : 1;
+			Error += glm::equal(Texel.y, Color.y, 0.01f) ? 0 : 1;
+			Error += glm::equal(Texel.z, Color.z, 0.01f) ? 0 : 1;
+			Error += glm::equal(Texel.w, Color.w, 0.01f) ? 0 : 1;
 		}
 
 		{
@@ -136,10 +136,10 @@ namespace rgba32sf
 			gli::detail::convertFunc<gli::texture2d, double, 4, float, gli::defaultp, gli::detail::CONVERT_MODE_CAST, true>::write(Texture, gli::texture2d::extent_type(0), 0, 0, 0, Color);
 			gli::dvec4 Texel = gli::detail::convertFunc<gli::texture2d, double, 4, float, gli::defaultp, gli::detail::CONVERT_MODE_CAST, true>::fetch(Texture, gli::texture2d::extent_type(0), 0, 0, 0);
 
-			Error += gli::epsilonEqual(Texel.x, Color.x, 0.01) ? 0 : 1;
-			Error += gli::epsilonEqual(Texel.y, Color.y, 0.01) ? 0 : 1;
-			Error += gli::epsilonEqual(Texel.z, Color.z, 0.01) ? 0 : 1;
-			Error += gli::epsilonEqual(Texel.w, Color.w, 0.01) ? 0 : 1;
+			Error += glm::equal(Texel.x, Color.x, 0.01) ? 0 : 1;
+			Error += glm::equal(Texel.y, Color.y, 0.01) ? 0 : 1;
+			Error += glm::equal(Texel.z, Color.z, 0.01) ? 0 : 1;
+			Error += glm::equal(Texel.w, Color.w, 0.01) ? 0 : 1;
 		}
 
 		return Error;
@@ -158,7 +158,7 @@ namespace rgba64sf
 			gli::detail::convertFunc<gli::texture2d, float, 1, double, gli::defaultp, gli::detail::CONVERT_MODE_CAST, true>::write(Texture, gli::texture2d::extent_type(0), 0, 0, 0, Color);
 			gli::vec4 Texel = gli::detail::convertFunc<gli::texture2d, float, 1, double, gli::defaultp, gli::detail::CONVERT_MODE_CAST, true>::fetch(Texture, gli::texture2d::extent_type(0), 0, 0, 0);
 
-			Error += gli::epsilonEqual(Texel.x, Color.x, 0.01f) ? 0 : 1;
+			Error += glm::equal(Texel.x, Color.x, 0.01f) ? 0 : 1;
 		}
 
 		{
@@ -167,7 +167,7 @@ namespace rgba64sf
 			gli::detail::convertFunc<gli::texture2d, double, 1, double, gli::defaultp, gli::detail::CONVERT_MODE_CAST, true>::write(Texture, gli::texture2d::extent_type(0), 0, 0, 0, Color);
 			gli::dvec4 Texel = gli::detail::convertFunc<gli::texture2d, double, 1, double, gli::defaultp, gli::detail::CONVERT_MODE_CAST, true>::fetch(Texture, gli::texture2d::extent_type(0), 0, 0, 0);
 
-			Error += gli::epsilonEqual(Texel.x, Color.x, 0.01) ? 0 : 1;
+			Error += glm::equal(Texel.x, Color.x, 0.01) ? 0 : 1;
 		}
 
 		{
@@ -176,8 +176,8 @@ namespace rgba64sf
 			gli::detail::convertFunc<gli::texture2d, float, 2, double, gli::defaultp, gli::detail::CONVERT_MODE_CAST, true>::write(Texture, gli::texture2d::extent_type(0), 0, 0, 0, Color);
 			gli::vec4 Texel = gli::detail::convertFunc<gli::texture2d, float, 2, double, gli::defaultp, gli::detail::CONVERT_MODE_CAST, true>::fetch(Texture, gli::texture2d::extent_type(0), 0, 0, 0);
 
-			Error += gli::epsilonEqual(Texel.x, Color.x, 0.01f) ? 0 : 1;
-			Error += gli::epsilonEqual(Texel.y, Color.y, 0.01f) ? 0 : 1;
+			Error += glm::equal(Texel.x, Color.x, 0.01f) ? 0 : 1;
+			Error += glm::equal(Texel.y, Color.y, 0.01f) ? 0 : 1;
 		}
 
 		{
@@ -186,8 +186,8 @@ namespace rgba64sf
 			gli::detail::convertFunc<gli::texture2d, double, 2, double, gli::defaultp, gli::detail::CONVERT_MODE_CAST, true>::write(Texture, gli::texture2d::extent_type(0), 0, 0, 0, Color);
 			gli::dvec4 Texel = gli::detail::convertFunc<gli::texture2d, double, 2, double, gli::defaultp, gli::detail::CONVERT_MODE_CAST, true>::fetch(Texture, gli::texture2d::extent_type(0), 0, 0, 0);
 
-			Error += gli::epsilonEqual(Texel.x, Color.x, 0.01) ? 0 : 1;
-			Error += gli::epsilonEqual(Texel.y, Color.y, 0.01) ? 0 : 1;
+			Error += glm::equal(Texel.x, Color.x, 0.01) ? 0 : 1;
+			Error += glm::equal(Texel.y, Color.y, 0.01) ? 0 : 1;
 		}
 
 		{
@@ -196,9 +196,9 @@ namespace rgba64sf
 			gli::detail::convertFunc<gli::texture2d, float, 3, double, gli::defaultp, gli::detail::CONVERT_MODE_CAST, true>::write(Texture, gli::texture2d::extent_type(0), 0, 0, 0, Color);
 			gli::vec4 Texel = gli::detail::convertFunc<gli::texture2d, float, 3, double, gli::defaultp, gli::detail::CONVERT_MODE_CAST, true>::fetch(Texture, gli::texture2d::extent_type(0), 0, 0, 0);
 
-			Error += gli::epsilonEqual(Texel.x, Color.x, 0.01f) ? 0 : 1;
-			Error += gli::epsilonEqual(Texel.y, Color.y, 0.01f) ? 0 : 1;
-			Error += gli::epsilonEqual(Texel.z, Color.z, 0.01f) ? 0 : 1;
+			Error += glm::equal(Texel.x, Color.x, 0.01f) ? 0 : 1;
+			Error += glm::equal(Texel.y, Color.y, 0.01f) ? 0 : 1;
+			Error += glm::equal(Texel.z, Color.z, 0.01f) ? 0 : 1;
 		}
 
 		{
@@ -207,9 +207,9 @@ namespace rgba64sf
 			gli::detail::convertFunc<gli::texture2d, double, 3, double, gli::defaultp, gli::detail::CONVERT_MODE_CAST, true>::write(Texture, gli::texture2d::extent_type(0), 0, 0, 0, Color);
 			gli::dvec4 Texel = gli::detail::convertFunc<gli::texture2d, double, 3, double, gli::defaultp, gli::detail::CONVERT_MODE_CAST, true>::fetch(Texture, gli::texture2d::extent_type(0), 0, 0, 0);
 
-			Error += gli::epsilonEqual(Texel.x, Color.x, 0.01) ? 0 : 1;
-			Error += gli::epsilonEqual(Texel.y, Color.y, 0.01) ? 0 : 1;
-			Error += gli::epsilonEqual(Texel.z, Color.z, 0.01) ? 0 : 1;
+			Error += glm::equal(Texel.x, Color.x, 0.01) ? 0 : 1;
+			Error += glm::equal(Texel.y, Color.y, 0.01) ? 0 : 1;
+			Error += glm::equal(Texel.z, Color.z, 0.01) ? 0 : 1;
 		}
 
 		{
@@ -218,10 +218,10 @@ namespace rgba64sf
 			gli::detail::convertFunc<gli::texture2d, float, 4, double, gli::defaultp, gli::detail::CONVERT_MODE_CAST, true>::write(Texture, gli::texture2d::extent_type(0), 0, 0, 0, Color);
 			gli::vec4 Texel = gli::detail::convertFunc<gli::texture2d, float, 4, double, gli::defaultp, gli::detail::CONVERT_MODE_CAST, true>::fetch(Texture, gli::texture2d::extent_type(0), 0, 0, 0);
 
-			Error += gli::epsilonEqual(Texel.x, Color.x, 0.01f) ? 0 : 1;
-			Error += gli::epsilonEqual(Texel.y, Color.y, 0.01f) ? 0 : 1;
-			Error += gli::epsilonEqual(Texel.z, Color.z, 0.01f) ? 0 : 1;
-			Error += gli::epsilonEqual(Texel.w, Color.w, 0.01f) ? 0 : 1;
+			Error += glm::equal(Texel.x, Color.x, 0.01f) ? 0 : 1;
+			Error += glm::equal(Texel.y, Color.y, 0.01f) ? 0 : 1;
+			Error += glm::equal(Texel.z, Color.z, 0.01f) ? 0 : 1;
+			Error += glm::equal(Texel.w, Color.w, 0.01f) ? 0 : 1;
 		}
 
 		{
@@ -230,10 +230,10 @@ namespace rgba64sf
 			gli::detail::convertFunc<gli::texture2d, double, 4, double, gli::defaultp, gli::detail::CONVERT_MODE_CAST, true>::write(Texture, gli::texture2d::extent_type(0), 0, 0, 0, Color);
 			gli::dvec4 Texel = gli::detail::convertFunc<gli::texture2d, double, 4, double, gli::defaultp, gli::detail::CONVERT_MODE_CAST, true>::fetch(Texture, gli::texture2d::extent_type(0), 0, 0, 0);
 
-			Error += gli::epsilonEqual(Texel.x, Color.x, 0.01) ? 0 : 1;
-			Error += gli::epsilonEqual(Texel.y, Color.y, 0.01) ? 0 : 1;
-			Error += gli::epsilonEqual(Texel.z, Color.z, 0.01) ? 0 : 1;
-			Error += gli::epsilonEqual(Texel.w, Color.w, 0.01) ? 0 : 1;
+			Error += glm::equal(Texel.x, Color.x, 0.01) ? 0 : 1;
+			Error += glm::equal(Texel.y, Color.y, 0.01) ? 0 : 1;
+			Error += glm::equal(Texel.z, Color.z, 0.01) ? 0 : 1;
+			Error += glm::equal(Texel.w, Color.w, 0.01) ? 0 : 1;
 		}
 
 		return Error;
@@ -346,9 +346,9 @@ namespace rgba_16packed
 			gli::detail::convertFunc<gli::texture2d, float, 3, glm::u8, gli::defaultp, gli::detail::CONVERT_MODE_332UNORM, true>::write(Texture, gli::texture2d::extent_type(0), 0, 0, 0, Color);
 			gli::vec4 Texel = gli::detail::convertFunc<gli::texture2d, float, 3, glm::u8, gli::defaultp, gli::detail::CONVERT_MODE_332UNORM, true>::fetch(Texture, gli::texture2d::extent_type(0), 0, 0, 0);
 
-			Error += gli::epsilonEqual(Texel.x, Color.x, 1.f / 7.f) ? 0 : 1;
-			Error += gli::epsilonEqual(Texel.y, Color.y, 1.f / 7.f) ? 0 : 1;
-			Error += gli::epsilonEqual(Texel.z, Color.z, 1.f / 3.f) ? 0 : 1;
+			Error += glm::equal(Texel.x, Color.x, 1.f / 7.f) ? 0 : 1;
+			Error += glm::equal(Texel.y, Color.y, 1.f / 7.f) ? 0 : 1;
+			Error += glm::equal(Texel.z, Color.z, 1.f / 3.f) ? 0 : 1;
 		}
 
 		{
@@ -357,8 +357,8 @@ namespace rgba_16packed
 			gli::detail::convertFunc<gli::texture2d, float, 2, glm::u8, gli::defaultp, gli::detail::CONVERT_MODE_44UNORM, true>::write(Texture, gli::texture2d::extent_type(0), 0, 0, 0, Color);
 			gli::vec4 Texel = gli::detail::convertFunc<gli::texture2d, float, 2, glm::u8, gli::defaultp, gli::detail::CONVERT_MODE_44UNORM, true>::fetch(Texture, gli::texture2d::extent_type(0), 0, 0, 0);
 
-			Error += gli::epsilonEqual(Texel.x, Color.x, 1.f / 15.f) ? 0 : 1;
-			Error += gli::epsilonEqual(Texel.y, Color.y, 1.f / 15.f) ? 0 : 1;
+			Error += glm::equal(Texel.x, Color.x, 1.f / 15.f) ? 0 : 1;
+			Error += glm::equal(Texel.y, Color.y, 1.f / 15.f) ? 0 : 1;
 		}
 
 		{
@@ -367,10 +367,10 @@ namespace rgba_16packed
 			gli::detail::convertFunc<gli::texture2d, float, 4, glm::u8, gli::defaultp, gli::detail::CONVERT_MODE_4444UNORM, true>::write(Texture, gli::texture2d::extent_type(0), 0, 0, 0, Color);
 			gli::vec4 Texel = gli::detail::convertFunc<gli::texture2d, float, 4, glm::u8, gli::defaultp, gli::detail::CONVERT_MODE_4444UNORM, true>::fetch(Texture, gli::texture2d::extent_type(0), 0, 0, 0);
 
-			Error += gli::epsilonEqual(Texel.x, Color.x, 1.f / 15.f) ? 0 : 1;
-			Error += gli::epsilonEqual(Texel.y, Color.y, 1.f / 15.f) ? 0 : 1;
-			Error += gli::epsilonEqual(Texel.z, Color.z, 1.f / 15.f) ? 0 : 1;
-			Error += gli::epsilonEqual(Texel.w, Color.w, 1.f / 15.f) ? 0 : 1;
+			Error += glm::equal(Texel.x, Color.x, 1.f / 15.f) ? 0 : 1;
+			Error += glm::equal(Texel.y, Color.y, 1.f / 15.f) ? 0 : 1;
+			Error += glm::equal(Texel.z, Color.z, 1.f / 15.f) ? 0 : 1;
+			Error += glm::equal(Texel.w, Color.w, 1.f / 15.f) ? 0 : 1;
 		}
 
 		{
@@ -379,9 +379,9 @@ namespace rgba_16packed
 			gli::detail::convertFunc<gli::texture2d, float, 3, glm::u8, gli::defaultp, gli::detail::CONVERT_MODE_565UNORM, true>::write(Texture, gli::texture2d::extent_type(0), 0, 0, 0, Color);
 			gli::vec4 Texel = gli::detail::convertFunc<gli::texture2d, float, 3, glm::u8, gli::defaultp, gli::detail::CONVERT_MODE_565UNORM, true>::fetch(Texture, gli::texture2d::extent_type(0), 0, 0, 0);
 
-			Error += gli::epsilonEqual(Texel.x, Color.x, 1.f / 31.f) ? 0 : 1;
-			Error += gli::epsilonEqual(Texel.y, Color.y, 1.f / 31.f) ? 0 : 1;
-			Error += gli::epsilonEqual(Texel.z, Color.z, 1.f / 31.f) ? 0 : 1;
+			Error += glm::equal(Texel.x, Color.x, 1.f / 31.f) ? 0 : 1;
+			Error += glm::equal(Texel.y, Color.y, 1.f / 31.f) ? 0 : 1;
+			Error += glm::equal(Texel.z, Color.z, 1.f / 31.f) ? 0 : 1;
 		}
 
 		{
@@ -390,10 +390,10 @@ namespace rgba_16packed
 			gli::detail::convertFunc<gli::texture2d, float, 4, glm::u8, gli::defaultp, gli::detail::CONVERT_MODE_5551UNORM, true>::write(Texture, gli::texture2d::extent_type(0), 0, 0, 0, Color);
 			gli::vec4 Texel = gli::detail::convertFunc<gli::texture2d, float, 4, glm::u8, gli::defaultp, gli::detail::CONVERT_MODE_5551UNORM, true>::fetch(Texture, gli::texture2d::extent_type(0), 0, 0, 0);
 
-			Error += gli::epsilonEqual(Texel.x, Color.x, 1.f / 15.f) ? 0 : 1;
-			Error += gli::epsilonEqual(Texel.y, Color.y, 1.f / 15.f) ? 0 : 1;
-			Error += gli::epsilonEqual(Texel.z, Color.z, 1.f / 15.f) ? 0 : 1;
-			Error += gli::epsilonEqual(Texel.w, Color.w, 0.01f) ? 0 : 1;
+			Error += glm::equal(Texel.x, Color.x, 1.f / 15.f) ? 0 : 1;
+			Error += glm::equal(Texel.y, Color.y, 1.f / 15.f) ? 0 : 1;
+			Error += glm::equal(Texel.z, Color.z, 1.f / 15.f) ? 0 : 1;
+			Error += glm::equal(Texel.w, Color.w, 0.01f) ? 0 : 1;
 		}
 
 		return Error;
@@ -412,7 +412,7 @@ namespace rgba8_norm
 			gli::detail::convertFunc<gli::texture2d, float, 1, glm::u8, gli::defaultp, gli::detail::CONVERT_MODE_NORM, true>::write(Texture, gli::texture2d::extent_type(0), 0, 0, 0, Color);
 			gli::vec4 Texel = gli::detail::convertFunc<gli::texture2d, float, 1, glm::u8, gli::defaultp, gli::detail::CONVERT_MODE_NORM, true>::fetch(Texture, gli::texture2d::extent_type(0), 0, 0, 0);
 
-			Error += gli::epsilonEqual(Texel.x, Color.x, 0.01f) ? 0 : 1;
+			Error += glm::equal(Texel.x, Color.x, 0.01f) ? 0 : 1;
 		}
 
 		{
@@ -421,7 +421,7 @@ namespace rgba8_norm
 			gli::detail::convertFunc<gli::texture2d, float, 1, glm::u8, gli::defaultp, gli::detail::CONVERT_MODE_CAST>::write(Texture, gli::texture2d::extent_type(0), 0, 0, 0, Color);
 			gli::vec4 Texel = gli::detail::convertFunc<gli::texture2d, float, 1, glm::u8, gli::defaultp, gli::detail::CONVERT_MODE_CAST>::fetch(Texture, gli::texture2d::extent_type(0), 0, 0, 0);
 
-			Error += gli::epsilonEqual(Texel.x, Color.x, 0.01f) ? 0 : 1;
+			Error += glm::equal(Texel.x, Color.x, 0.01f) ? 0 : 1;
 		}
 
 		{
@@ -430,7 +430,7 @@ namespace rgba8_norm
 			gli::detail::convertFunc<gli::texture2d, double, 1, glm::u8, gli::defaultp, gli::detail::CONVERT_MODE_NORM, true>::write(Texture, gli::texture2d::extent_type(0), 0, 0, 0, Color);
 			gli::dvec4 Texel = gli::detail::convertFunc<gli::texture2d, double, 1, glm::u8, gli::defaultp, gli::detail::CONVERT_MODE_NORM, true>::fetch(Texture, gli::texture2d::extent_type(0), 0, 0, 0);
 
-			Error += gli::epsilonEqual(Texel.x, Color.x, 0.01) ? 0 : 1;
+			Error += glm::equal(Texel.x, Color.x, 0.01) ? 0 : 1;
 		}
 
 		{
@@ -439,7 +439,7 @@ namespace rgba8_norm
 			gli::detail::convertFunc<gli::texture2d, double, 1, glm::u8, gli::defaultp, gli::detail::CONVERT_MODE_CAST, true>::write(Texture, gli::texture2d::extent_type(0), 0, 0, 0, Color);
 			gli::dvec4 Texel = gli::detail::convertFunc<gli::texture2d, double, 1, glm::u8, gli::defaultp, gli::detail::CONVERT_MODE_CAST, true>::fetch(Texture, gli::texture2d::extent_type(0), 0, 0, 0);
 
-			Error += gli::epsilonEqual(Texel.x, Color.x, 0.01) ? 0 : 1;
+			Error += glm::equal(Texel.x, Color.x, 0.01) ? 0 : 1;
 		}
 
 		{
@@ -448,7 +448,7 @@ namespace rgba8_norm
 			gli::detail::convertFunc<gli::texture2d, float, 1, glm::i8, gli::defaultp, gli::detail::CONVERT_MODE_NORM, true>::write(Texture, gli::texture2d::extent_type(0), 0, 0, 0, Color);
 			gli::vec4 Texel = gli::detail::convertFunc<gli::texture2d, float, 1, glm::i8, gli::defaultp, gli::detail::CONVERT_MODE_NORM, true>::fetch(Texture, gli::texture2d::extent_type(0), 0, 0, 0);
 
-			Error += gli::epsilonEqual(Texel.x, Color.x, 0.01f) ? 0 : 1;
+			Error += glm::equal(Texel.x, Color.x, 0.01f) ? 0 : 1;
 		}
 
 		{
@@ -457,7 +457,7 @@ namespace rgba8_norm
 			gli::detail::convertFunc<gli::texture2d, double, 1, glm::i8, gli::defaultp, gli::detail::CONVERT_MODE_NORM, true>::write(Texture, gli::texture2d::extent_type(0), 0, 0, 0, Color);
 			gli::dvec4 Texel = gli::detail::convertFunc<gli::texture2d, double, 1, glm::i8, gli::defaultp, gli::detail::CONVERT_MODE_NORM, true>::fetch(Texture, gli::texture2d::extent_type(0), 0, 0, 0);
 
-			Error += gli::epsilonEqual(Texel.x, Color.x, 0.01) ? 0 : 1;
+			Error += glm::equal(Texel.x, Color.x, 0.01) ? 0 : 1;
 		}
 
 		{
@@ -466,8 +466,8 @@ namespace rgba8_norm
 			gli::detail::convertFunc<gli::texture2d, float, 2, glm::u8, gli::defaultp, gli::detail::CONVERT_MODE_NORM, true>::write(Texture, gli::texture2d::extent_type(0), 0, 0, 0, Color);
 			gli::vec4 Texel = gli::detail::convertFunc<gli::texture2d, float, 2, glm::u8, gli::defaultp, gli::detail::CONVERT_MODE_NORM, true>::fetch(Texture, gli::texture2d::extent_type(0), 0, 0, 0);
 
-			Error += gli::epsilonEqual(Texel.x, Color.x, 0.01f) ? 0 : 1;
-			Error += gli::epsilonEqual(Texel.y, Color.y, 0.01f) ? 0 : 1;
+			Error += glm::equal(Texel.x, Color.x, 0.01f) ? 0 : 1;
+			Error += glm::equal(Texel.y, Color.y, 0.01f) ? 0 : 1;
 		}
 
 		{
@@ -476,8 +476,8 @@ namespace rgba8_norm
 			gli::detail::convertFunc<gli::texture2d, float, 2, glm::i8, gli::defaultp, gli::detail::CONVERT_MODE_NORM, true>::write(Texture, gli::texture2d::extent_type(0), 0, 0, 0, Color);
 			gli::vec4 Texel = gli::detail::convertFunc<gli::texture2d, float, 2, glm::i8, gli::defaultp, gli::detail::CONVERT_MODE_NORM, true>::fetch(Texture, gli::texture2d::extent_type(0), 0, 0, 0);
 
-			Error += gli::epsilonEqual(Texel.x, Color.x, 0.01f) ? 0 : 1;
-			Error += gli::epsilonEqual(Texel.y, Color.y, 0.01f) ? 0 : 1;
+			Error += glm::equal(Texel.x, Color.x, 0.01f) ? 0 : 1;
+			Error += glm::equal(Texel.y, Color.y, 0.01f) ? 0 : 1;
 		}
 
 		{
@@ -486,9 +486,9 @@ namespace rgba8_norm
 			gli::detail::convertFunc<gli::texture2d, float, 3, glm::u8, gli::defaultp, gli::detail::CONVERT_MODE_NORM, true>::write(Texture, gli::texture2d::extent_type(0), 0, 0, 0, Color);
 			gli::vec4 Texel = gli::detail::convertFunc<gli::texture2d, float, 3, glm::u8, gli::defaultp, gli::detail::CONVERT_MODE_NORM, true>::fetch(Texture, gli::texture2d::extent_type(0), 0, 0, 0);
 
-			Error += gli::epsilonEqual(Texel.x, Color.x, 0.01f) ? 0 : 1;
-			Error += gli::epsilonEqual(Texel.y, Color.y, 0.01f) ? 0 : 1;
-			Error += gli::epsilonEqual(Texel.z, Color.z, 0.01f) ? 0 : 1;
+			Error += glm::equal(Texel.x, Color.x, 0.01f) ? 0 : 1;
+			Error += glm::equal(Texel.y, Color.y, 0.01f) ? 0 : 1;
+			Error += glm::equal(Texel.z, Color.z, 0.01f) ? 0 : 1;
 		}
 
 		{
@@ -497,9 +497,9 @@ namespace rgba8_norm
 			gli::detail::convertFunc<gli::texture2d, float, 3, glm::i8, gli::defaultp, gli::detail::CONVERT_MODE_NORM, true>::write(Texture, gli::texture2d::extent_type(0), 0, 0, 0, Color);
 			gli::vec4 Texel = gli::detail::convertFunc<gli::texture2d, float, 3, glm::i8, gli::defaultp, gli::detail::CONVERT_MODE_NORM, true>::fetch(Texture, gli::texture2d::extent_type(0), 0, 0, 0);
 
-			Error += gli::epsilonEqual(Texel.x, Color.x, 0.01f) ? 0 : 1;
-			Error += gli::epsilonEqual(Texel.y, Color.y, 0.01f) ? 0 : 1;
-			Error += gli::epsilonEqual(Texel.z, Color.z, 0.01f) ? 0 : 1;
+			Error += glm::equal(Texel.x, Color.x, 0.01f) ? 0 : 1;
+			Error += glm::equal(Texel.y, Color.y, 0.01f) ? 0 : 1;
+			Error += glm::equal(Texel.z, Color.z, 0.01f) ? 0 : 1;
 		}
 
 		{
@@ -508,10 +508,10 @@ namespace rgba8_norm
 			gli::detail::convertFunc<gli::texture2d, float, 4, glm::u8, gli::defaultp, gli::detail::CONVERT_MODE_NORM, true>::write(Texture, gli::texture2d::extent_type(0), 0, 0, 0, Color);
 			gli::vec4 Texel = gli::detail::convertFunc<gli::texture2d, float, 4, glm::u8, gli::defaultp, gli::detail::CONVERT_MODE_NORM, true>::fetch(Texture, gli::texture2d::extent_type(0), 0, 0, 0);
 
-			Error += gli::epsilonEqual(Texel.x, Color.x, 0.01f) ? 0 : 1;
-			Error += gli::epsilonEqual(Texel.y, Color.y, 0.01f) ? 0 : 1;
-			Error += gli::epsilonEqual(Texel.z, Color.z, 0.01f) ? 0 : 1;
-			Error += gli::epsilonEqual(Texel.w, Color.w, 0.01f) ? 0 : 1;
+			Error += glm::equal(Texel.x, Color.x, 0.01f) ? 0 : 1;
+			Error += glm::equal(Texel.y, Color.y, 0.01f) ? 0 : 1;
+			Error += glm::equal(Texel.z, Color.z, 0.01f) ? 0 : 1;
+			Error += glm::equal(Texel.w, Color.w, 0.01f) ? 0 : 1;
 		}
 
 		{
@@ -520,10 +520,10 @@ namespace rgba8_norm
 			gli::detail::convertFunc<gli::texture2d, float, 4, glm::i8, gli::defaultp, gli::detail::CONVERT_MODE_NORM, true>::write(Texture, gli::texture2d::extent_type(0), 0, 0, 0, Color);
 			gli::vec4 Texel = gli::detail::convertFunc<gli::texture2d, float, 4, glm::i8, gli::defaultp, gli::detail::CONVERT_MODE_NORM, true>::fetch(Texture, gli::texture2d::extent_type(0), 0, 0, 0);
 
-			Error += gli::epsilonEqual(Texel.x, Color.x, 0.01f) ? 0 : 1;
-			Error += gli::epsilonEqual(Texel.y, Color.y, 0.01f) ? 0 : 1;
-			Error += gli::epsilonEqual(Texel.z, Color.z, 0.01f) ? 0 : 1;
-			Error += gli::epsilonEqual(Texel.w, Color.w, 0.01f) ? 0 : 1;
+			Error += glm::equal(Texel.x, Color.x, 0.01f) ? 0 : 1;
+			Error += glm::equal(Texel.y, Color.y, 0.01f) ? 0 : 1;
+			Error += glm::equal(Texel.z, Color.z, 0.01f) ? 0 : 1;
+			Error += glm::equal(Texel.w, Color.w, 0.01f) ? 0 : 1;
 		}
 
 		return Error;
@@ -542,7 +542,7 @@ namespace rgba8_srgb
 			gli::detail::convertFunc<gli::texture2d, float, 1, glm::u8, gli::defaultp, gli::detail::CONVERT_MODE_SRGB, true>::write(Texture, gli::texture2d::extent_type(0), 0, 0, 0, Color);
 			glm::vec4 Texel = gli::detail::convertFunc<gli::texture2d, float, 1, glm::u8, gli::defaultp, gli::detail::CONVERT_MODE_SRGB, true>::fetch(Texture, gli::texture2d::extent_type(0), 0, 0, 0);
 
-			Error += gli::epsilonEqual(Texel.x, Color.x, 0.01f) ? 0 : 1;
+			Error += glm::equal(Texel.x, Color.x, 0.01f) ? 0 : 1;
 		}
 
 		{
@@ -551,7 +551,7 @@ namespace rgba8_srgb
 			gli::detail::convertFunc<gli::texture2d, double, 1, glm::u8, gli::defaultp, gli::detail::CONVERT_MODE_SRGB, true>::write(Texture, gli::texture2d::extent_type(0), 0, 0, 0, Color);
 			glm::dvec4 Texel = gli::detail::convertFunc<gli::texture2d, double, 1, glm::u8, gli::defaultp, gli::detail::CONVERT_MODE_SRGB, true>::fetch(Texture, gli::texture2d::extent_type(0), 0, 0, 0);
 
-			Error += gli::epsilonEqual(Texel.x, Color.x, 0.01) ? 0 : 1;
+			Error += glm::equal(Texel.x, Color.x, 0.01) ? 0 : 1;
 		}
 
 		{
@@ -560,8 +560,8 @@ namespace rgba8_srgb
 			gli::detail::convertFunc<gli::texture2d, float, 2, glm::u8, gli::defaultp, gli::detail::CONVERT_MODE_SRGB, true>::write(Texture, gli::texture2d::extent_type(0), 0, 0, 0, Color);
 			glm::vec4 Texel = gli::detail::convertFunc<gli::texture2d, float, 2, glm::u8, gli::defaultp, gli::detail::CONVERT_MODE_SRGB, true>::fetch(Texture, gli::texture2d::extent_type(0), 0, 0, 0);
 
-			Error += gli::epsilonEqual(Texel.x, Color.x, 0.01f) ? 0 : 1;
-			Error += gli::epsilonEqual(Texel.y, Color.y, 0.01f) ? 0 : 1;
+			Error += glm::equal(Texel.x, Color.x, 0.01f) ? 0 : 1;
+			Error += glm::equal(Texel.y, Color.y, 0.01f) ? 0 : 1;
 		}
 
 		{
@@ -570,8 +570,8 @@ namespace rgba8_srgb
 			gli::detail::convertFunc<gli::texture2d, double, 2, glm::u8, gli::defaultp, gli::detail::CONVERT_MODE_SRGB, true>::write(Texture, gli::texture2d::extent_type(0), 0, 0, 0, Color);
 			glm::dvec4 Texel = gli::detail::convertFunc<gli::texture2d, double, 2, glm::u8, gli::defaultp, gli::detail::CONVERT_MODE_SRGB, true>::fetch(Texture, gli::texture2d::extent_type(0), 0, 0, 0);
 
-			Error += gli::epsilonEqual(Texel.x, Color.x, 0.01) ? 0 : 1;
-			Error += gli::epsilonEqual(Texel.y, Color.y, 0.01) ? 0 : 1;
+			Error += glm::equal(Texel.x, Color.x, 0.01) ? 0 : 1;
+			Error += glm::equal(Texel.y, Color.y, 0.01) ? 0 : 1;
 		}
 
 		{
@@ -580,9 +580,9 @@ namespace rgba8_srgb
 			gli::detail::convertFunc<gli::texture2d, float, 3, glm::u8, gli::defaultp, gli::detail::CONVERT_MODE_SRGB, true>::write(Texture, gli::texture2d::extent_type(0), 0, 0, 0, Color);
 			glm::vec4 Texel = gli::detail::convertFunc<gli::texture2d, float, 3, glm::u8, gli::defaultp, gli::detail::CONVERT_MODE_SRGB, true>::fetch(Texture, gli::texture2d::extent_type(0), 0, 0, 0);
 
-			Error += gli::epsilonEqual(Texel.x, Color.x, 0.01f) ? 0 : 1;
-			Error += gli::epsilonEqual(Texel.y, Color.y, 0.01f) ? 0 : 1;
-			Error += gli::epsilonEqual(Texel.z, Color.z, 0.01f) ? 0 : 1;
+			Error += glm::equal(Texel.x, Color.x, 0.01f) ? 0 : 1;
+			Error += glm::equal(Texel.y, Color.y, 0.01f) ? 0 : 1;
+			Error += glm::equal(Texel.z, Color.z, 0.01f) ? 0 : 1;
 		}
 
 		{
@@ -591,9 +591,9 @@ namespace rgba8_srgb
 			gli::detail::convertFunc<gli::texture2d, double, 3, glm::u8, gli::defaultp, gli::detail::CONVERT_MODE_SRGB, true>::write(Texture, gli::texture2d::extent_type(0), 0, 0, 0, Color);
 			glm::dvec4 Texel = gli::detail::convertFunc<gli::texture2d, double, 3, glm::u8, gli::defaultp, gli::detail::CONVERT_MODE_SRGB, true>::fetch(Texture, gli::texture2d::extent_type(0), 0, 0, 0);
 
-			Error += gli::epsilonEqual(Texel.x, Color.x, 0.01) ? 0 : 1;
-			Error += gli::epsilonEqual(Texel.y, Color.y, 0.01) ? 0 : 1;
-			Error += gli::epsilonEqual(Texel.z, Color.z, 0.01) ? 0 : 1;
+			Error += glm::equal(Texel.x, Color.x, 0.01) ? 0 : 1;
+			Error += glm::equal(Texel.y, Color.y, 0.01) ? 0 : 1;
+			Error += glm::equal(Texel.z, Color.z, 0.01) ? 0 : 1;
 		}
 
 		{
@@ -602,10 +602,10 @@ namespace rgba8_srgb
 			gli::detail::convertFunc<gli::texture2d, float, 4, glm::u8, gli::defaultp, gli::detail::CONVERT_MODE_SRGB, true>::write(Texture, gli::texture2d::extent_type(0), 0, 0, 0, Color);
 			glm::vec4 Texel = gli::detail::convertFunc<gli::texture2d, float, 4, glm::u8, gli::defaultp, gli::detail::CONVERT_MODE_SRGB, true>::fetch(Texture, gli::texture2d::extent_type(0), 0, 0, 0);
 
-			Error += gli::epsilonEqual(Texel.x, Color.x, 0.01f) ? 0 : 1;
-			Error += gli::epsilonEqual(Texel.y, Color.y, 0.01f) ? 0 : 1;
-			Error += gli::epsilonEqual(Texel.z, Color.z, 0.01f) ? 0 : 1;
-			Error += gli::epsilonEqual(Texel.w, Color.w, 0.01f) ? 0 : 1;
+			Error += glm::equal(Texel.x, Color.x, 0.01f) ? 0 : 1;
+			Error += glm::equal(Texel.y, Color.y, 0.01f) ? 0 : 1;
+			Error += glm::equal(Texel.z, Color.z, 0.01f) ? 0 : 1;
+			Error += glm::equal(Texel.w, Color.w, 0.01f) ? 0 : 1;
 		}
 
 		{
@@ -614,10 +614,10 @@ namespace rgba8_srgb
 			gli::detail::convertFunc<gli::texture2d, double, 4, glm::u8, gli::defaultp, gli::detail::CONVERT_MODE_SRGB, true>::write(Texture, gli::texture2d::extent_type(0), 0, 0, 0, Color);
 			glm::dvec4 Texel = gli::detail::convertFunc<gli::texture2d, double, 4, glm::u8, gli::defaultp, gli::detail::CONVERT_MODE_SRGB, true>::fetch(Texture, gli::texture2d::extent_type(0), 0, 0, 0);
 
-			Error += gli::epsilonEqual(Texel.x, Color.x, 0.01) ? 0 : 1;
-			Error += gli::epsilonEqual(Texel.y, Color.y, 0.01) ? 0 : 1;
-			Error += gli::epsilonEqual(Texel.z, Color.z, 0.01) ? 0 : 1;
-			Error += gli::epsilonEqual(Texel.w, Color.w, 0.01) ? 0 : 1;
+			Error += glm::equal(Texel.x, Color.x, 0.01) ? 0 : 1;
+			Error += glm::equal(Texel.y, Color.y, 0.01) ? 0 : 1;
+			Error += glm::equal(Texel.z, Color.z, 0.01) ? 0 : 1;
+			Error += glm::equal(Texel.w, Color.w, 0.01) ? 0 : 1;
 		}
 
 		return Error;
@@ -636,9 +636,9 @@ namespace rgb9e5
 			gli::detail::convertFunc<gli::texture2d, float, 3, glm::u8, gli::defaultp, gli::detail::CONVERT_MODE_RGB9E5, true>::write(Texture, gli::texture2d::extent_type(0), 0, 0, 0, Color);
 			glm::vec4 Texel = gli::detail::convertFunc<gli::texture2d, float, 3, glm::u8, gli::defaultp, gli::detail::CONVERT_MODE_RGB9E5, true>::fetch(Texture, gli::texture2d::extent_type(0), 0, 0, 0);
 
-			Error += gli::epsilonEqual(Texel.x, Color.x, 0.01f) ? 0 : 1;
-			Error += gli::epsilonEqual(Texel.y, Color.y, 0.01f) ? 0 : 1;
-			Error += gli::epsilonEqual(Texel.z, Color.z, 0.01f) ? 0 : 1;
+			Error += glm::equal(Texel.x, Color.x, 0.01f) ? 0 : 1;
+			Error += glm::equal(Texel.y, Color.y, 0.01f) ? 0 : 1;
+			Error += glm::equal(Texel.z, Color.z, 0.01f) ? 0 : 1;
 		}
 
 		{
@@ -647,9 +647,9 @@ namespace rgb9e5
 			gli::detail::convertFunc<gli::texture2d, double, 3, glm::u8, gli::defaultp, gli::detail::CONVERT_MODE_RGB9E5, true>::write(Texture, gli::texture2d::extent_type(0), 0, 0, 0, Color);
 			glm::dvec4 Texel = gli::detail::convertFunc<gli::texture2d, double, 3, glm::u8, gli::defaultp, gli::detail::CONVERT_MODE_RGB9E5, true>::fetch(Texture, gli::texture2d::extent_type(0), 0, 0, 0);
 
-			Error += gli::epsilonEqual(Texel.x, Color.x, 0.01) ? 0 : 1;
-			Error += gli::epsilonEqual(Texel.y, Color.y, 0.01) ? 0 : 1;
-			Error += gli::epsilonEqual(Texel.z, Color.z, 0.01) ? 0 : 1;
+			Error += glm::equal(Texel.x, Color.x, 0.01) ? 0 : 1;
+			Error += glm::equal(Texel.y, Color.y, 0.01) ? 0 : 1;
+			Error += glm::equal(Texel.z, Color.z, 0.01) ? 0 : 1;
 		}
 
 		return Error;
@@ -668,9 +668,9 @@ namespace rg11b10f
 			gli::detail::convertFunc<gli::texture2d, float, 3, glm::u32, gli::defaultp, gli::detail::CONVERT_MODE_RG11B10F, true>::write(Texture, gli::texture2d::extent_type(0), 0, 0, 0, Color);
 			glm::vec4 Texel = gli::detail::convertFunc<gli::texture2d, float, 3, glm::u32, gli::defaultp, gli::detail::CONVERT_MODE_RG11B10F, true>::fetch(Texture, gli::texture2d::extent_type(0), 0, 0, 0);
 
-			Error += gli::epsilonEqual(Texel.x, Color.x, 0.01f) ? 0 : 1;
-			Error += gli::epsilonEqual(Texel.y, Color.y, 0.01f) ? 0 : 1;
-			Error += gli::epsilonEqual(Texel.z, Color.z, 0.01f) ? 0 : 1;
+			Error += glm::equal(Texel.x, Color.x, 0.01f) ? 0 : 1;
+			Error += glm::equal(Texel.y, Color.y, 0.01f) ? 0 : 1;
+			Error += glm::equal(Texel.z, Color.z, 0.01f) ? 0 : 1;
 		}
 
 		{
@@ -679,9 +679,9 @@ namespace rg11b10f
 			gli::detail::convertFunc<gli::texture2d, double, 3, glm::u32, gli::defaultp, gli::detail::CONVERT_MODE_RG11B10F, true>::write(Texture, gli::texture2d::extent_type(0), 0, 0, 0, Color);
 			glm::dvec4 Texel = gli::detail::convertFunc<gli::texture2d, double, 3, glm::u32, gli::defaultp, gli::detail::CONVERT_MODE_RG11B10F, true>::fetch(Texture, gli::texture2d::extent_type(0), 0, 0, 0);
 
-			Error += gli::epsilonEqual(Texel.x, Color.x, 0.01) ? 0 : 1;
-			Error += gli::epsilonEqual(Texel.y, Color.y, 0.01) ? 0 : 1;
-			Error += gli::epsilonEqual(Texel.z, Color.z, 0.01) ? 0 : 1;
+			Error += glm::equal(Texel.x, Color.x, 0.01) ? 0 : 1;
+			Error += glm::equal(Texel.y, Color.y, 0.01) ? 0 : 1;
+			Error += glm::equal(Texel.z, Color.z, 0.01) ? 0 : 1;
 		}
 
 		return Error;
@@ -699,7 +699,7 @@ namespace rgb10a2norm
 			gli::detail::convertFunc<gli::texture2d, float, 4, glm::u8, gli::defaultp, gli::detail::CONVERT_MODE_RGB10A2UNORM, true>::write(Texture, gli::texture2d::extent_type(0), 0, 0, 0, gli::vec4(1.0f, 0.5f, 0.0f, 1.0f));
 			glm::vec4 Texel = gli::detail::convertFunc<gli::texture2d, float, 4, glm::u8, gli::defaultp, gli::detail::CONVERT_MODE_RGB10A2UNORM, true>::fetch(Texture, gli::texture2d::extent_type(0), 0, 0, 0);
 
-			Error += gli::all(gli::epsilonEqual(Texel, gli::vec4(1.0f, 0.5f, 0.0f, 1.0f), 0.01f)) ? 0 : 1;
+			Error += gli::all(glm::equal(Texel, gli::vec4(1.0f, 0.5f, 0.0f, 1.0f), 0.01f)) ? 0 : 1;
 		}
 
 		{
@@ -707,7 +707,7 @@ namespace rgb10a2norm
 			gli::detail::convertFunc<gli::texture2d, float, 4, glm::i8, gli::defaultp, gli::detail::CONVERT_MODE_RGB10A2SNORM, true>::write(Texture, gli::texture2d::extent_type(0), 0, 0, 0, gli::vec4(1.0f, 0.5f, 0.0f, 1.0f));
 			glm::vec4 Texel = gli::detail::convertFunc<gli::texture2d, float, 4, glm::i8, gli::defaultp, gli::detail::CONVERT_MODE_RGB10A2SNORM, true>::fetch(Texture, gli::texture2d::extent_type(0), 0, 0, 0);
 
-			Error += gli::all(gli::epsilonEqual(Texel, gli::vec4(1.0f, 0.5f, 0.0f, 1.0f), 0.01f)) ? 0 : 1;
+			Error += gli::all(glm::equal(Texel, gli::vec4(1.0f, 0.5f, 0.0f, 1.0f), 0.01f)) ? 0 : 1;
 		}
 
 		{
@@ -716,7 +716,7 @@ namespace rgb10a2norm
 			gli::detail::convertFunc<gli::texture2d, float, 4, glm::u8, gli::defaultp, gli::detail::CONVERT_MODE_RGB10A2USCALE, true>::write(Texture, gli::texture2d::extent_type(0), 0, 0, 0, Color);
 			glm::vec4 Texel = gli::detail::convertFunc<gli::texture2d, float, 4, glm::u8, gli::defaultp, gli::detail::CONVERT_MODE_RGB10A2USCALE, true>::fetch(Texture, gli::texture2d::extent_type(0), 0, 0, 0);
 
-			Error += gli::all(gli::epsilonEqual(Texel, Color, 0.01f)) ? 0 : 1;
+			Error += gli::all(glm::equal(Texel, Color, 0.01f)) ? 0 : 1;
 		}
 
 		{
@@ -725,7 +725,7 @@ namespace rgb10a2norm
 			gli::detail::convertFunc<gli::texture2d, float, 4, glm::i8, gli::defaultp, gli::detail::CONVERT_MODE_RGB10A2SSCALE, true>::write(Texture, gli::texture2d::extent_type(0), 0, 0, 0, Color);
 			glm::vec4 Texel = gli::detail::convertFunc<gli::texture2d, float, 4, glm::i8, gli::defaultp, gli::detail::CONVERT_MODE_RGB10A2SSCALE, true>::fetch(Texture, gli::texture2d::extent_type(0), 0, 0, 0);
 
-			Error += gli::all(gli::epsilonEqual(Texel, Color, 0.01f)) ? 0 : 1;
+			Error += gli::all(glm::equal(Texel, Color, 0.01f)) ? 0 : 1;
 		}
 
 		return Error;
