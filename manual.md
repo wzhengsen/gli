@@ -21,7 +21,7 @@
 
 ### The Happy Bunny License (Modified MIT License)
 
-Copyright (c) 2010 - 2017 G-Truc Creation
+Copyright (c) 2010 - 2020 G-Truc Creation
 
 Permission is hereby granted, free of charge, to any person obtaining a
 copy of this software and associated documentation files (the
@@ -49,7 +49,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ### The MIT License
 
-Copyright (c) 2010 - 2017 G-Truc Creation
+Copyright (c) 2010 - 2020 G-Truc Creation
 
 Permission is hereby granted, free of charge, to any person obtaining a
 copy of this software and associated documentation files (the
