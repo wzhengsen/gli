@@ -4,8 +4,6 @@
 #include <gli/duplicate.hpp>
 #include <gli/generate_mipmaps.hpp>
 
-#include <glm/gtc/epsilon.hpp>
-
 namespace generate_mipmaps
 {
 	template <typename genType>

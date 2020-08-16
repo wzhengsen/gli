@@ -1,4 +1,4 @@
-#include <glm/gtc/packing.hpp>
+#include <glm/ext/vector_packing.hpp>
 
 namespace gli
 {

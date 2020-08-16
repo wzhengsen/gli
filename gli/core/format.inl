@@ -23,11 +23,11 @@ namespace detail
 
 	struct formatInfo
 	{
-		std::uint8_t BlockSize;
+		glm::uint8 BlockSize;
 		glm::u8vec3 BlockExtent;
-		std::uint8_t Component;
+		glm::uint8 Component;
 		swizzles Swizzles;
-		std::uint16_t Flags;
+		glm::uint16 Flags;
 	};
 
 	inline formatInfo const & get_format_info(format Format)
@@ -369,7 +369,7 @@ namespace detail
 
 	inline bool is_packed(format Format)
 	{
-		uint16_t flags = detail::get_format_info(Format).Flags;
+		gli::uint16 flags = detail::get_format_info(Format).Flags;
 
 		return (flags & detail::CAP_PACKED8_BIT) != 0 || (flags & detail::CAP_PACKED16_BIT) != 0 || (flags & detail::CAP_PACKED32_BIT) != 0;
 	}
