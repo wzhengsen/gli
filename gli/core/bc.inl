@@ -79,7 +79,7 @@ namespace gli
 			ContiguousBitmap |= uint64_t(ChannelBitmap[3] | (ChannelBitmap[4] << 8) | (ChannelBitmap[5] << 16)) << 24;
 		}
 
-		inline void single_channel_bitmap_data_snorm(glm::uint8 Channel0, uint32_t Channel1, bool Interpolate6, const glm::uint8 *ChannelBitmap, float *LookupTable, glm::uint64 &ContiguousBitmap)
+		inline void single_channel_bitmap_data_snorm(glm::uint8 Channel0, glm::uint32 Channel1, bool Interpolate6, const glm::uint8 *ChannelBitmap, float *LookupTable, glm::uint64 &ContiguousBitmap)
 		{
 			LookupTable[0] = (Channel0 / 255.0f) * 2.0f - 1.0f;
 			LookupTable[1] = (Channel1 / 255.0f) * 2.0f - 1.0f;
