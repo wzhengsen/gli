@@ -93,11 +93,11 @@ namespace gli
 		inline glm::vec4 decompress_bc4unorm(const bc4_block &Block, const extent2d &BlockTexelCoord)
 		{
 			float RedLUT[8];
-			uint64_t Bitmap;
+			glm::uint64 Bitmap;
 
 			single_channel_bitmap_data_unorm(Block.Red0, Block.Red1, Block.Bitmap, RedLUT, Bitmap);
 
-			uint8_t RedIndex = (Bitmap >> ((BlockTexelCoord.y * 4 + BlockTexelCoord.x) * 3)) & 0x7;
+			glm::uint8 RedIndex = (Bitmap >> ((BlockTexelCoord.y * 4 + BlockTexelCoord.x) * 3)) & 0x7;
 			return glm::vec4(RedLUT[RedIndex], 0.0f, 0.0f, 1.0f);
 		}
 
