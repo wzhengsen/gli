@@ -65,7 +65,7 @@ namespace gli
 			create_single_channel_lookup_table(Channel0 > Channel1, 0.0f, LookupTable);
 
 			ContiguousBitmap = ChannelBitmap[0] | (ChannelBitmap[1] << 8) | (ChannelBitmap[2] << 16);
-			ContiguousBitmap |= uint64_t(ChannelBitmap[3] | (ChannelBitmap[4] << 8) | (ChannelBitmap[5] << 16)) << 24;
+			ContiguousBitmap |= glm::uint64(ChannelBitmap[3] | (ChannelBitmap[4] << 8) | (ChannelBitmap[5] << 16)) << 24;
 		}
 
 		inline void single_channel_bitmap_data_snorm(glm::uint8 Channel0, glm::uint8 Channel1, const glm::uint8 *ChannelBitmap, float *LookupTable, glm::uint64 &ContiguousBitmap)
@@ -76,7 +76,7 @@ namespace gli
 			create_single_channel_lookup_table(Channel0 > Channel1, -1.0f, LookupTable);
 
 			ContiguousBitmap = ChannelBitmap[0] | (ChannelBitmap[1] << 8) | (ChannelBitmap[2] << 16);
-			ContiguousBitmap |= uint64_t(ChannelBitmap[3] | (ChannelBitmap[4] << 8) | (ChannelBitmap[5] << 16)) << 24;
+			ContiguousBitmap |= glm::uint64(ChannelBitmap[3] | (ChannelBitmap[4] << 8) | (ChannelBitmap[5] << 16)) << 24;
 		}
 
 		inline void single_channel_bitmap_data_snorm(glm::uint8 Channel0, glm::uint32 Channel1, bool Interpolate6, const glm::uint8 *ChannelBitmap, float *LookupTable, glm::uint64 &ContiguousBitmap)
@@ -87,7 +87,7 @@ namespace gli
 			create_single_channel_lookup_table(Interpolate6, -1.0f, LookupTable);
 
 			ContiguousBitmap = ChannelBitmap[0] | (ChannelBitmap[1] << 8) | (ChannelBitmap[2] << 16);
-			ContiguousBitmap |= uint64_t(ChannelBitmap[3] | (ChannelBitmap[4] << 8) | (ChannelBitmap[5] << 16)) << 24;
+			ContiguousBitmap |= glm::uint64(ChannelBitmap[3] | (ChannelBitmap[4] << 8) | (ChannelBitmap[5] << 16)) << 24;
 		}
 
 		inline glm::vec4 decompress_bc4unorm(const bc4_block &Block, const extent2d &BlockTexelCoord)
