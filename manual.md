@@ -13,6 +13,8 @@
 + [2. Code samples](#section2)
 + [2.1. Generating mipmaps and converting float textures to rgb9e5](#section2_1)
 + [2.2. Creating an OpenGL texture object from file](#section2_2)
++ [3. References](#section3)
++ [3.1. Equivalent for other languages](#section3_1)
 
 ---
 ## Licenses <a name="section0"></a>
@@ -284,3 +286,10 @@ GLuint create_texture(char const* Filename)
 	return TextureName;
 }
 ```
+
+---
+## <a name="section3"></a> 3. References
+
+### <a name="section3_1"></a> 3.1. Equivalent for other languages
+
+* [JVM OpenGL Image (GLI)](https://github.com/kotlin-graphics/gli)
