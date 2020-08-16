@@ -1,4 +1,5 @@
 #include <glm/ext/vector_packing.hpp>
+#include <glm/ext/scalar_uint_sized.hpp>
 
 namespace gli
 {
@@ -103,27 +104,27 @@ namespace gli
 		inline glm::vec4 decompress_bc4snorm(const bc4_block &Block, const extent2d &BlockTexelCoord)
 		{
 			float RedLUT[8];
-			uint64_t Bitmap;
+			glm::uint64 Bitmap;
 
 			single_channel_bitmap_data_snorm(Block.Red0, Block.Red1, Block.Bitmap, RedLUT, Bitmap);
 
-			uint8_t RedIndex = (Bitmap >> ((BlockTexelCoord.y * 4 + BlockTexelCoord.x) * 3)) & 0x7;
+			glm::uint8 RedIndex = (Bitmap >> ((BlockTexelCoord.y * 4 + BlockTexelCoord.x) * 3)) & 0x7;
 			return glm::vec4(RedLUT[RedIndex], 0.0f, 0.0f, 1.0f);
 		}
 
 		inline texel_block4x4 decompress_bc4unorm_block(const bc4_block &Block)
 		{
 			float RedLUT[8];
-			uint64_t Bitmap;
+			glm::uint64 Bitmap;
 
 			single_channel_bitmap_data_unorm(Block.Red0, Block.Red1, Block.Bitmap, RedLUT, Bitmap);
 
 			texel_block4x4 TexelBlock;
-			for(uint8_t Row = 0; Row < 4; ++Row)
+			for(glm::uint8 Row = 0; Row < 4; ++Row)
 			{
-				for(uint8_t Col = 0; Col < 4; ++Col)
+				for(glm::uint8 Col = 0; Col < 4; ++Col)
 				{
-					uint8_t RedIndex = (Bitmap >> ((Row * 4 + Col) * 3)) & 0x7;
+					glm::uint8 RedIndex = (Bitmap >> ((Row * 4 + Col) * 3)) & 0x7;
 					TexelBlock.Texel[Row][Col] = glm::vec4(RedLUT[RedIndex], 0.0f, 0.0f, 1.0f);
 				}
 			}
@@ -134,16 +135,16 @@ namespace gli
 		inline texel_block4x4 decompress_bc4snorm_block(const bc4_block &Block)
 		{
 			float RedLUT[8];
-			uint64_t Bitmap;
+			glm::uint64 Bitmap;
 
 			single_channel_bitmap_data_snorm(Block.Red0, Block.Red1, Block.Bitmap, RedLUT, Bitmap);
 
 			texel_block4x4 TexelBlock;
-			for(uint8_t Row = 0; Row < 4; ++Row)
+			for(glm::uint8 Row = 0; Row < 4; ++Row)
 			{
-				for(uint8_t Col = 0; Col < 4; ++Col)
+				for(glm::uint8 Col = 0; Col < 4; ++Col)
 				{
-					uint8_t RedIndex = (Bitmap >> ((Row * 4 + Col) * 3)) & 0x7;
+					glm::uint8 RedIndex = (Bitmap >> ((Row * 4 + Col) * 3)) & 0x7;
 					TexelBlock.Texel[Row][Col] = glm::vec4(RedLUT[RedIndex], 0.0f, 0.0f, 1.0f);
 				}
 			}
@@ -154,16 +155,16 @@ namespace gli
 		inline glm::vec4 decompress_bc5unorm(const bc5_block &Block, const extent2d &BlockTexelCoord)
 		{
 			float RedLUT[8];
-			uint64_t RedBitmap;
+			glm::uint64 RedBitmap;
 
 			single_channel_bitmap_data_unorm(Block.Red0, Block.Red1, Block.RedBitmap, RedLUT, RedBitmap);
-			uint8_t RedIndex = (RedBitmap >> ((BlockTexelCoord.y * 4 + BlockTexelCoord.x) * 3)) & 0x7;
+			glm::uint8 RedIndex = (RedBitmap >> ((BlockTexelCoord.y * 4 + BlockTexelCoord.x) * 3)) & 0x7;
 			
 			float GreenLUT[8];
-			uint64_t GreenBitmap;
+			glm::uint64 GreenBitmap;
 
 			single_channel_bitmap_data_unorm(Block.Green0, Block.Green1, Block.GreenBitmap, GreenLUT, GreenBitmap);
-			uint8_t GreenIndex = (GreenBitmap >> ((BlockTexelCoord.y * 4 + BlockTexelCoord.x) * 3)) & 0x7;
+			glm::uint8 GreenIndex = (GreenBitmap >> ((BlockTexelCoord.y * 4 + BlockTexelCoord.x) * 3)) & 0x7;
 
 			return glm::vec4(RedLUT[RedIndex], GreenLUT[GreenIndex], 0.0f, 1.0f);
 		}
@@ -171,16 +172,16 @@ namespace gli
 		inline glm::vec4 decompress_bc5snorm(const bc5_block &Block, const extent2d &BlockTexelCoord)
 		{
 			float RedLUT[8];
-			uint64_t RedBitmap;
+			glm::uint64 RedBitmap;
 
 			single_channel_bitmap_data_snorm(Block.Red0, Block.Red1, Block.RedBitmap, RedLUT, RedBitmap);
-			uint8_t RedIndex = (RedBitmap >> ((BlockTexelCoord.y * 4 + BlockTexelCoord.x) * 3)) & 0x7;
+			glm::uint8 RedIndex = (RedBitmap >> ((BlockTexelCoord.y * 4 + BlockTexelCoord.x) * 3)) & 0x7;
 
 			float GreenLUT[8];
-			uint64_t GreenBitmap;
+			glm::uint64 GreenBitmap;
 
 			single_channel_bitmap_data_snorm(Block.Green0, Block.Green1, Block.GreenBitmap, GreenLUT, GreenBitmap);
-			uint8_t GreenIndex = (GreenBitmap >> ((BlockTexelCoord.y * 4 + BlockTexelCoord.x) * 3)) & 0x7;
+			glm::uint8 GreenIndex = (GreenBitmap >> ((BlockTexelCoord.y * 4 + BlockTexelCoord.x) * 3)) & 0x7;
 
 			return glm::vec4(RedLUT[RedIndex], GreenLUT[GreenIndex], 0.0f, 1.0f);
 		}
@@ -188,22 +189,22 @@ namespace gli
 		inline texel_block4x4 decompress_bc5unorm_block(const bc5_block &Block)
 		{
 			float RedLUT[8];
-			uint64_t RedBitmap;
+			glm::uint64 RedBitmap;
 
 			single_channel_bitmap_data_unorm(Block.Red0, Block.Red1, Block.RedBitmap, RedLUT, RedBitmap);
 			
 			float GreenLUT[8];
-			uint64_t GreenBitmap;
+			glm::uint64 GreenBitmap;
 
 			single_channel_bitmap_data_unorm(Block.Green0, Block.Green1, Block.GreenBitmap, GreenLUT, GreenBitmap);
 
 			texel_block4x4 TexelBlock;
-			for(uint8_t Row = 0; Row < 4; ++Row)
+			for(glm::uint8 Row = 0; Row < 4; ++Row)
 			{
-				for(uint8_t Col = 0; Col < 4; ++Col)
+				for(glm::uint8 Col = 0; Col < 4; ++Col)
 				{
-					uint8_t RedIndex = (RedBitmap >> ((Row * 4 + Col) * 3)) & 0x7;
-					uint8_t GreenIndex = (GreenBitmap >> ((Row * 4 + Col) * 3)) & 0x7;
+					glm::uint8 RedIndex = (RedBitmap >> ((Row * 4 + Col) * 3)) & 0x7;
+					glm::uint8 GreenIndex = (GreenBitmap >> ((Row * 4 + Col) * 3)) & 0x7;
 					TexelBlock.Texel[Row][Col] = glm::vec4(RedLUT[RedIndex], GreenLUT[GreenIndex], 0.0f, 1.0f);
 				}
 			}
@@ -214,22 +215,22 @@ namespace gli
 		inline texel_block4x4 decompress_bc5snorm_block(const bc5_block &Block)
 		{
 			float RedLUT[8];
-			uint64_t RedBitmap;
+			glm::uint64 RedBitmap;
 
 			single_channel_bitmap_data_snorm(Block.Red0, Block.Red1, Block.RedBitmap, RedLUT, RedBitmap);
 
 			float GreenLUT[8];
-			uint64_t GreenBitmap;
+			glm::uint64 GreenBitmap;
 
 			single_channel_bitmap_data_snorm(Block.Green0, Block.Green1, Block.Red0 > Block.Red1, Block.GreenBitmap, GreenLUT, GreenBitmap);
 
 			texel_block4x4 TexelBlock;
-			for(uint8_t Row = 0; Row < 4; ++Row)
+			for(glm::uint8 Row = 0; Row < 4; ++Row)
 			{
-				for(uint8_t Col = 0; Col < 4; ++Col)
+				for(glm::uint8 Col = 0; Col < 4; ++Col)
 				{
-					uint8_t RedIndex = (RedBitmap >> ((Row * 4 + Col) * 3)) & 0x7;
-					uint8_t GreenIndex = (GreenBitmap >> ((Row * 4 + Col) * 3)) & 0x7;
+					glm::uint8 RedIndex = (RedBitmap >> ((Row * 4 + Col) * 3)) & 0x7;
+					glm::uint8 GreenIndex = (GreenBitmap >> ((Row * 4 + Col) * 3)) & 0x7;
 					TexelBlock.Texel[Row][Col] = glm::vec4(RedLUT[RedIndex], GreenLUT[GreenIndex], 0.0f, 1.0f);
 				}
 			}

@@ -74,7 +74,7 @@ namespace gli
 			Color[2] = (2.0f / 3.0f) * Color[0] + (1.0f / 3.0f) * Color[1];
 			Color[3] = (1.0f / 3.0f) * Color[0] + (2.0f / 3.0f) * Color[1];
 
-			uint8_t ColorIndex = (Block.Row[BlockTexelCoord.y] >> (BlockTexelCoord.x * 2)) & 0x3;
+			glm::uint8 ColorIndex = (Block.Row[BlockTexelCoord.y] >> (BlockTexelCoord.x * 2)) & 0x3;
 			float Alpha = ((Block.AlphaRow[BlockTexelCoord.y] >> (BlockTexelCoord.x * 4)) & 0xF) / 15.0f;
 
 			return glm::vec4(Color[ColorIndex], Alpha);
@@ -93,9 +93,9 @@ namespace gli
 			Color[3] = (1.0f / 3.0f) * Color[0] + (2.0f / 3.0f) * Color[1];
 
 			texel_block4x4 TexelBlock;
-			for(uint8_t Row = 0; Row < 4; ++Row)
+			for(glm::uint8 Row = 0; Row < 4; ++Row)
 			{
-				for(uint8_t Col = 0; Col < 4; ++Col)
+				for(glm::uint8 Col = 0; Col < 4; ++Col)
 				{
 					glm::uint8 ColorIndex = (Block.Row[Row] >> (Col * 2)) & 0x3;
 					float Alpha = ((Block.AlphaRow[Row] >> (Col * 4)) & 0xF) / 15.0f;
@@ -187,17 +187,17 @@ namespace gli
 				Alpha[7] = 1.0f;
 			}
 
-			uint64_t Bitmap;
+			glm::uint64 Bitmap;
 			Bitmap = Block.AlphaBitmap[0] | (Block.AlphaBitmap[1] << 8) | (Block.AlphaBitmap[2] << 16);
-			Bitmap |= uint64_t(Block.AlphaBitmap[3] | (Block.AlphaBitmap[4] << 8) | (Block.AlphaBitmap[5] << 16)) << 24;
+			Bitmap |= glm::uint64(Block.AlphaBitmap[3] | (Block.AlphaBitmap[4] << 8) | (Block.AlphaBitmap[5] << 16)) << 24;
 
 			texel_block4x4 TexelBlock;
-			for(uint8_t Row = 0; Row < 4; ++Row)
+			for(glm::uint8 Row = 0; Row < 4; ++Row)
 			{
-				for(uint8_t Col = 0; Col < 4; ++Col)
+				for(glm::uint8 Col = 0; Col < 4; ++Col)
 				{
-					uint8_t ColorIndex = (Block.Row[Row] >> (Col * 2)) & 0x3;
-					uint8_t AlphaIndex = (Bitmap >> ((Row * 4 + Col) * 3)) & 0x7;
+					glm::uint8 ColorIndex = (Block.Row[Row] >> (Col * 2)) & 0x3;
+					glm::uint8 AlphaIndex = (Bitmap >> ((Row * 4 + Col) * 3)) & 0x7;
 					TexelBlock.Texel[Row][Col] = glm::vec4(Color[ColorIndex], Alpha[AlphaIndex]);
 				}
 			}
