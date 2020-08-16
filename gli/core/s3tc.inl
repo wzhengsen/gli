@@ -119,7 +119,7 @@ namespace gli
 			Color[2] = (2.0f / 3.0f) * Color[0] + (1.0f / 3.0f) * Color[1];
 			Color[3] = (1.0f / 3.0f) * Color[0] + (2.0f / 3.0f) * Color[1];
 
-			uint8_t ColorIndex = (Block.Row[BlockTexelCoord.y] >> (BlockTexelCoord.x * 2)) & 0x3;
+			glm::uint8 ColorIndex = (Block.Row[BlockTexelCoord.y] >> (BlockTexelCoord.x * 2)) & 0x3;
 
 			Alpha[0] = Block.Alpha[0] / 255.0f;
 			Alpha[1] = Block.Alpha[1] / 255.0f;
@@ -143,11 +143,11 @@ namespace gli
 				Alpha[7] = 1.0f;
 			}
 
-			uint64_t Bitmap;
+			glm::uint64 Bitmap;
 			Bitmap = Block.AlphaBitmap[0] | (Block.AlphaBitmap[1] << 8) | (Block.AlphaBitmap[2] << 16);
-			Bitmap |= uint64_t(Block.AlphaBitmap[3] | (Block.AlphaBitmap[4] << 8) | (Block.AlphaBitmap[5] << 16)) << 24;
+			Bitmap |= glm::uint64(Block.AlphaBitmap[3] | (Block.AlphaBitmap[4] << 8) | (Block.AlphaBitmap[5] << 16)) << 24;
 
-			uint8_t AlphaIndex = (Bitmap >> ((BlockTexelCoord.y * 4 + BlockTexelCoord.x) * 3)) & 0x7;
+			glm::uint8 AlphaIndex = (Bitmap >> ((BlockTexelCoord.y * 4 + BlockTexelCoord.x) * 3)) & 0x7;
 
 			return glm::vec4(Color[ColorIndex], Alpha[AlphaIndex]);
 		}
