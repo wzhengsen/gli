@@ -13,8 +13,6 @@ It is a good candidate for software rendering (raytracing / rasterisation), imag
 - [Intel C++ Composer](https://software.intel.com/en-us/intel-compilers) XE 2013 and higher
 - [LLVM](http://llvm.org/) 3.4 and higher
 - [Visual C++](http://www.visualstudio.com/) 2013 and higher
-- [CUDA](https://developer.nvidia.com/about-cuda) 9.0 and higher (experimental)
-- [SYCL](https://www.khronos.org/sycl/) (experimental: only [ComputeCpp](https://codeplay.com/products/computesuite/computecpp) implementation has been tested).
 - Any C++11 compiler
 
 For more information about *GLI*, please have a look at the [manual](manual.md) and the [API reference documentation](http://gli.g-truc.net/0.8.2/api/index.html).
