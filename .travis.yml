@@ -4,14 +4,13 @@ language: cpp
 branches:
   only:
     - master
-    - development
 
 compiler:
   - clang-3.9
   - clang   # clang 7
   - clang-9
   - clang-10
-  - gcc-4.9
+  - gcc-4.8
   - gcc     # gcc 7.4
   - gcc-9
   - gcc-10
@@ -53,17 +52,15 @@ jobs:
       env:
       - MATRIX_EVAL="CC=clang-10 CXX=clang++-10"
 
-    - compiler: gcc-4.9
-    - name: "Build with GCC 4.9"
+    - compiler: gcc-4.8
+    - name: "Build with GCC 4.8"
       addons:
         apt:
-          sources:
-          - ubuntu-toolchain-r-test
           packages:
-          - gcc-4.9
-          - g++-4.9
+          - gcc-4.8
+          - g++-4.8
       env:
-      - MATRIX_EVAL="CC=gcc-4.9 CXX=g++-4.9"
+      - MATRIX_EVAL="CC=gcc-4.8 CXX=g++-4.8"
 
     - compiler: gcc
     - name: "Build with GCC 7.4"
