@@ -5,19 +5,8 @@ branches:
   only:
     - master
 
-compiler:
-  - clang-3.9
-  - clang   # clang 7
-  - clang-9
-  - clang-10
-  - gcc-4.8
-  - gcc     # gcc 7.4
-  - gcc-9
-  - gcc-10
-
 jobs:
   include:
-    - compiler: clang-3.9
     - name: "Build with LLVM/Clang 3.9"
       addons:
         apt:
@@ -26,12 +15,10 @@ jobs:
       env:
       - MATRIX_EVAL="CC=clang-3.9 CXX=clang++-3.9"
 
-    - compiler: clang
     - name: "Build with LLVM/Clang 7"
       env:
       - MATRIX_EVAL="CC=clang CXX=clang++"
 
-    - compiler: clang-9
     - name: "Build with LLVM/Clang 9"
       addons:
         apt:
@@ -40,7 +27,6 @@ jobs:
       env:
       - MATRIX_EVAL="CC=clang-9 CXX=clang++-9"
 
-    - compiler: clang-10
     - name: "Build with LLVM/Clang 10"
       addons:
         apt:
@@ -52,7 +38,6 @@ jobs:
       env:
       - MATRIX_EVAL="CC=clang-10 CXX=clang++-10"
 
-    - compiler: gcc-4.8
     - name: "Build with GCC 4.8"
       addons:
         apt:
@@ -62,12 +47,10 @@ jobs:
       env:
       - MATRIX_EVAL="CC=gcc-4.8 CXX=g++-4.8"
 
-    - compiler: gcc
     - name: "Build with GCC 7.4"
       env:
       - MATRIX_EVAL="CC=gcc CXX=g++"
 
-    - compiler: gcc-9
     - name: "Build with GCC 9"
       addons:
         apt:
