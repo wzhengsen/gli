@@ -62,7 +62,6 @@ jobs:
       env:
       - MATRIX_EVAL="CC=gcc-9 CXX=g++-9"
 
-    - compiler: gcc-10
     - name: "Build with GCC 10"
       addons:
         apt:
