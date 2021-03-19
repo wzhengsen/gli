@@ -68,16 +68,16 @@ namespace detail
 		//Caps |= Storage.levels() > 1 ? detail::DDSD_MIPMAPCOUNT : 0;
 		Caps |= (Desc.Flags & detail::CAP_COMPRESSED_BIT) ? detail::DDSD_LINEARSIZE : detail::DDSD_PITCH;
 
-		std::uint32_t Pitch = 0u;
+		std::uint32_t PitchInBytes = 0u;
 		if( ( Desc.Flags & detail::CAP_COMPRESSED_BIT ) )
 		{
-			Pitch = static_cast<std::uint32_t>(Texture.size() / Texture.faces());
+			PitchInBytes = static_cast<std::uint32_t>(Texture.size() / Texture.faces());
 		}
 		else
 		{
 			const texture::extent_type& TextureExtent = Texture.extent();
-			const std::uint32_t PixelSizeInBytes = detail::bits_per_pixel( Texture.format() ) / 8u;
-			Pitch = TextureExtent.x * PixelSizeInBytes;
+			const std::uint32_t BitsPerPixel = detail::bits_per_pixel( Texture.format() );
+			PitchInBytes = ( TextureExtent.x * BitsPerPixel ) / 8u;
 		}
 
 		memset(Header.Reserved1, 0, sizeof(Header.Reserved1));
@@ -86,7 +86,7 @@ namespace detail
 		Header.Flags = Caps;
 		Header.Width = static_cast<std::uint32_t>(Texture.extent().x);
 		Header.Height = static_cast<std::uint32_t>(Texture.extent().y);
-		Header.Pitch = Pitch;
+		Header.Pitch = PitchInBytes;
 		Header.Depth = static_cast<std::uint32_t>(Texture.extent().z > 1 ? Texture.extent().z : 0);
 		Header.MipMapLevels = static_cast<std::uint32_t>(Texture.levels());
 		Header.Format.size = sizeof(detail::dds_pixel_format);
