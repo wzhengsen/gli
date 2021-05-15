@@ -59,7 +59,7 @@ GLuint CreateTexture(char const* Filename)
 
 | Service | System | Compiler | Status |
 | ------- | ------ | -------- | ------ |
-| [Travis CI](https://travis-ci.org/g-truc/gli)| Linux 64 bits | Clang 3.4, Clang 3.8, GCC 4.9 | [![Travis CI](https://travis-ci.org/g-truc/gli.svg?branch=master)](https://travis-ci.org/g-truc/gli)
+| [Travis CI](https://travis-ci.org/g-truc/gli)| Linux 64 bits | Clang 3.9, Clang 7, Clang 9, Clang 10, GCC 4.8, GCC 7.4, GCC 9, GCC 10 | [![Travis CI](https://travis-ci.org/g-truc/gli.svg?branch=master)](https://travis-ci.org/g-truc/gli)
 | [AppVeyor](https://ci.appveyor.com/project/Groovounet/gli)| Windows 32 and 64 | Visual Studio 2013 | [![AppVeyor](https://ci.appveyor.com/api/projects/status/32r7s2skrgm9ubva?svg=true)](https://ci.appveyor.com/project/Groovounet/gli)
 
 ## Release notes
