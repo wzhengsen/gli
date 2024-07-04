@@ -23,13 +23,13 @@ namespace detail
 
 		return Table[Target];
 	}
-	
+
 	inline dx::d3dfmt get_fourcc(bool RequireDX10Header, gli::format Format, dx::format const& DXFormat)
 	{
 		if(RequireDX10Header)
 		{
 			detail::formatInfo const & FormatInfo = detail::get_format_info(Format);
-			
+
 			if(FormatInfo.Flags & detail::CAP_DDS_GLI_EXT_BIT)
 				return dx::D3DFMT_GLI1;
 			else
@@ -102,7 +102,7 @@ namespace detail
 		if(Texture.faces() > 1)
 		{
 			GLI_ASSERT(Texture.faces() == 6);
-			Header.CubemapFlags |= detail::DDSCAPS2_CUBEMAP_ALLFACES | detail::DDSCAPS2_CUBEMAP;
+			Header.CubemapFlags |= static_cast<detail::dds_cubemap_flag>(detail::DDSCAPS2_CUBEMAP_ALLFACES) | detail::DDSCAPS2_CUBEMAP;
 		}
 
 		// Texture3D
